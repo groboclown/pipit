@@ -31,3 +31,24 @@ node_modules
 
 # Optional REPL history
 .node_repl_history
+
+# Compiled sources
+__pycache__/
+*.py[cod]
+
+# Distribution / packaging
+.Python
+eggs/
+.eggs/
+*.egg
+*.egg-info/
+# it's better to unpack these files and commit the raw source
+# git has its own built in compression methods
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
