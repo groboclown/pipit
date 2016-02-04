@@ -72,7 +72,7 @@ To use with the `aws` CLI tool, you will need to use special arguments to
 tell it to connect to the mock server.
 
 ```
-aws --endpoint-url http://localhost:3000/(servicename)/ --no-verify-ssl true --no-sign-request true
+aws --endpoint-url http://localhost:3000/(servicename)/ --region mock-region (servicename) (args)
 ```
 
 You may also find it useful to enable debugging.
@@ -86,6 +86,7 @@ If you want to add more services, you can add them there.
 Additionally, you can change the behavior of Pipit's API responses by registering
 _api injections_.
 
+_TODO describe adding and changing injections._
 
 ## License
 

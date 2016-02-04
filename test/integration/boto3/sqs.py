@@ -5,7 +5,7 @@ from .aws_common import create_service
 import uuid
 
 
-class SqsTestCase(unittest.TestCase):
+class Boto3SqsTestCase(unittest.TestCase):
     """
     Integration tests for an SQS message server.
     """
@@ -21,9 +21,12 @@ class SqsTestCase(unittest.TestCase):
         new_queue = sqs.create_queue(QueueName=new_name, Attributes={'DelaySeconds': '5'})
 
         # ListQueues
+        found = False
         for queue in sqs.queues.all():
             self.assertTrue(queue in known_queues or queue == new_queue,
                 'Found unexpected queue {0}'.format(queue.url))
+            found = True
+        self.assertTrue(found, 'Did not find new queue')
 
         # DeleteQueue
         new_queue.delete()
