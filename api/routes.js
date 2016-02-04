@@ -1,7 +1,8 @@
 var express = require('express');
 
 module.exports = {
-    '/sqs': require('./sqs')
+    '/sqs': require('./sqs'),
+    '/admin/injections': require('./admin/injections')
 };
 
 /* TODO add special "connector" services
@@ -11,4 +12,3 @@ module.exports = {
  * an SQS queue to SNS messages:
  * http://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqssubscribe.html
  */
- 
