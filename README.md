@@ -24,6 +24,7 @@ Currently supported Amazon Web Services:
 Pipit can either be run in a local node.js server:
 
 ```
+npm install
 npm start
 ```
 
@@ -36,8 +37,8 @@ provided port forwarder:
 ```
 python test/integration/port_forward.py 3001 localhost 3000
 ```
-Here, `3001` is the listening port, `localhost` is the Pipit server, and
-`3000` is the Pipit listening port.
+Here, `3001` is the listening port for the port forwarder, `localhost` is
+the Pipit server host, and `3000` is the Pipit server listening port.
 
 
 ## Connecting to Pipit
@@ -45,7 +46,7 @@ Here, `3001` is the listening port, `localhost` is the Pipit server, and
 To connect to Pipit, you'll need to tell the AWS apis the server endpoint
 of the Pipit server.  The endpoint will be the server address plus the
 service name as the path.  For example, if you're connecting to the SQS
-service on the localhost on port 3001, the url would be `http://localhost:3001/sqs/`.
+service on localhost, port 3001, the url would be `http://localhost:3001/sqs/`.
 
 Details on how to setup specific AWS APIs are covered in the
 [docs/WorkingWithAwsApis.md](Working With AWS API Packages) document.
@@ -56,9 +57,8 @@ Each service is registered under the [api/routes.js](api/routes.js) file.
 If you want to add more services, you can add them there.
 
 Additionally, you can change the behavior of Pipit's API responses by registering
-_api injections_.
+[api injections](docs/injections.md).
 
-_TODO describe adding and changing injections._
 
 ## License
 
