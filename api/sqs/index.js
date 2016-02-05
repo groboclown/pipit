@@ -1,4 +1,3 @@
-
 'use strict';
 
 var express = require('express');
@@ -218,6 +217,28 @@ router.post('/', aws_common.do({
     },
 
 
+    DeleteMessageBatch: function(req) {
+        var url = req.aws.params.QueueUrl;
+        var queue = queueStore.getByUrl(req, url);
+        if (! queue) {
+            return [400, 'Sender', 'AWS.SimpleQueueService.NonExistentQueue', 'Queue does not exist ' + url];
+        }
+        var entries = psplit.mapAsArray(
+            psplit.split(req.aws.params).DeleteMessageBatchRequestEntry);
+        var ret = {DeleteMessageBatchResultEntry: [], BatchResultErrorEntry: []};
+        for (var i = 0; i < entries.length; i++) {
+            var id = entries[i].Id;
+            var receiptHandle = entries[i].ReceiptHandle;
+            queue.deleteMessageByReceiptHandle(receiptHandle);
+            ret.DeleteMessageBatchResultEntry.push({Id: id});
+        }
+        return [200, ret];
+    },
+
+
+
+
+
 
     // Long poll: returns a promise
     ReceiveMessage: {
@@ -314,6 +335,12 @@ router.post('/:userid/:queueid', aws_common.do({
     },
 
 
+    ChangeMessageVisibilityBatch: {
+        // FIXME implement correctly
+        return [200, {}];
+    },
+
+
     DeleteMessage: function(req) {
         var queue = queueStore.get(req.params.userid, req.params.queueid);
         if (! queue) {
@@ -406,6 +433,7 @@ var sendMessageBatch = function(queue, req) {
                     Message: res[3]
                 })
             } else {
+                res[1].Id = id;
                 results.SendMessageBatchResultEntry.push(res[1]);
             }
         });
@@ -423,7 +451,6 @@ var sendOneMessage = function(queue, req, messageMap) {
     }
     var attributes = {};
     psplit.mapAsArrayForEach(messageMap.MessageAttribute, function(m) {
-        // FIXME validate Name text values
         if (! isValidMessageAttributeName(m.Name)) {
             // FIXME check error name
             return [400, 'Sender', 'InvalidMessageAttributeContents', 'Incorrect message attribute name: ' + m.Name];
@@ -447,9 +474,12 @@ var isValidMessageBodyText = function(text) {
     if (text === null || text === undefined) {
         return false;
     }
-    // FIXME valid message character ranges:
+    // valid message character ranges:
     // #x9 | #xA | #xD | [#x20 to #xD7FF] | [#xE000 to #xFFFD] | [#x10000 to #x10FFFF]
-    return true;
+    if (/^([\u0009]|[\u000a]|[\u000d]|[\u0020-\ud7ff]|[\ue000-\ufffd]|[\u10000-\u10ffff])*$/.test(text)) {
+        return true;
+    }
+    return false;
 };
 
 
@@ -457,10 +487,16 @@ var isValidMessageAttributeName = function(name) {
     if (name === null || name === undefined || name.length <= 0) {
         return false;
     }
-    // FIXME valid message character ranges:
+    // valid message character ranges:
     // #x9 | #xA | #xD | [#x20 to #xD7FF] | [#xE000 to #xFFFD] | [#x10000 to #x10FFFF]
     // Also, cannot include a '.'
-    return true;
+    if (name.indexOf('.') >= 0) {
+        return false;
+    }
+    if (/^([\u0009]|[\u000a]|[\u000d]|[\u0020-\ud7ff]|[\ue000-\ufffd]|[\u10000-\u10ffff])*$/.test(text)) {
+        return true;
+    }
+    return false;
 };
 
 

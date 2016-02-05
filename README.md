@@ -7,9 +7,16 @@ testing.  It allows you to run disconnected from the Internet, run tests
 without worrying about network failures or service disruptions, and to
 explicitly simulate those kinds of conditions for environmental testing.
 
-Currently supported AWS apis:
+In order to start using Pipit, your production code only needs to
+modify the parameters used to setup the connection to AWS.  There is
+no additional library that needs to be swapped into place.
 
-* SQS
+Pipit is not meant to be a production replacement for AWS services.
+It doesn't scale, and doesn't persist data.
+
+Currently supported Amazon Web Services:
+
+* [SQS](docs/sqs.md)
 
 
 ## Running Pipit
@@ -40,43 +47,8 @@ of the Pipit server.  The endpoint will be the server address plus the
 service name as the path.  For example, if you're connecting to the SQS
 service on the localhost on port 3001, the url would be `http://localhost:3001/sqs/`.
 
-### Python boto3 usage
-
-To connect to the local Pipit server using the boto3 API calls, this code will
-do the trick:
-
-```
-import os
-from boto3.session import Session
-
-def create_service(service_id, api_version=None, user='USER_ACCESS_KEY'):
-    def env(key, default_value):
-        return key in os.environ and os.environ[key] or default_value
-    session = Session(
-        aws_access_key_id=user,
-        aws_secret_access_key='SUPER_SECRET_KEY')
-    endpoint = env('AWS_ENDPOINT', 'http://localhost:3000/')
-    return session.resource(
-        service_name=service_id,
-        api_version=api_version,
-        use_ssl=False,
-        verify=False,
-        region_name='moon-base-alpha',
-        endpoint_url=endpoint + service_id + '/'
-    )
-```
-
-### `aws` CLI usage
-
-To use with the `aws` CLI tool, you will need to use special arguments to
-tell it to connect to the mock server.
-
-```
-aws --endpoint-url http://localhost:3000/(servicename)/ --region mock-region (servicename) (args)
-```
-
-You may also find it useful to enable debugging.
-
+Details on how to setup specific AWS APIs are covered in the
+[docs/WorkingWithAwsApis.md](Working With AWS API Packages) document.
 
 ## Extending Pipit
 
