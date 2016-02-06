@@ -68,7 +68,11 @@ If a json file is removed or changed, it is de-registered from the injectors
 
 Likewise, if the JavaScript file that the json file references changes, it is
 reloaded automatically.  This allows for faster mock testing and interactive
-testing with a service.
+testing with a service.  This means that the endpoints won't be able to share
+data from within their own module.  To share data between endpoints, or to
+persist it between reloads, you should have the javascript file `require`
+another file from within the same directory that isn't referenced as an
+injection javascript file.
 
 Note that you can easily disable an injection by changing the "type"
 in the json file to be a value that isn't "Before" or "After".

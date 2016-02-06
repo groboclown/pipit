@@ -13,6 +13,36 @@ particular usage may need to take care with this.
 
 Also note that the endpoint _must_ be configured per service.
 
+
+## Java
+
+```
+client = new AmazonDynamoDBClient(credentials);
+client.setEndpoint("http://localhost:3000/dynamodb");
+```
+
+
+## .NET
+
+```
+var config = new AmazonDynamoDBConfig();
+config.ServiceURL = "http://localhost:3000/dynamodb";
+client = new AmazonDynamoDBClient(config);
+```
+
+
+## PHP
+
+```
+$sdk = new Aws\Sdk([
+    'region'   => 'us-west-2',
+    'version'  => 'latest',
+    'endpoint' => 'http://localhost:3000/dynamodb'
+]);
+$dynamodb = $sdk->createDynamoDb();
+```
+
+
 ## Python boto3 usage
 
 To connect to the local Pipit server using the boto3 API calls, this code will
@@ -38,6 +68,7 @@ def create_service(service_id, api_version=None, user='USER_ACCESS_KEY'):
         endpoint_url=endpoint + service_id + '/'
     )
 ```
+
 
 ## `aws` CLI usage
 
