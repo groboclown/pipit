@@ -1,0 +1,17 @@
+version: '2'
+
+services:
+    pipit:
+        build:
+            context: .
+        ports:
+            - 3000:3000
+        volumes:
+            - ./test/extensions:/var/pipit
+        links:
+            - dynamodb
+    dynamodb:
+        build:
+            context: docker-dependencies/DynamoDb
+        volumes:
+            - ./.tmp/dynamodb:/var/dynamodb

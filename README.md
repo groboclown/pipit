@@ -45,8 +45,12 @@ the Pipit server host, and `3000` is the Pipit server listening port.
 For DynamoDB support, Pipit acts as a pass-through for a
 [local DynamoDB server](http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tools.DynamoDBLocal.html).
 You will need to deploy the server locally and set the `DYNAMODB_ENDPOINT`
-environment variable.
+environment variable.  You can use the supplied [docker-dependencies](docker-dependences)
+to create a DynamoDB image, and launch it with the Pipit docker container
+via `docker-compose up`.
 
+If you want to make configurable extension points, or pre-built setup, you
+should specify the environment variable `$PIPIT_EXTENSIONS`.
 
 ## Connecting to Pipit
 
@@ -56,7 +60,7 @@ service name as the path.  For example, if you're connecting to the SQS
 service on localhost, port 3001, the url would be `http://localhost:3001/sqs/`.
 
 Details on how to setup specific AWS APIs are covered in the
-[docs/WorkingWithAwsApis.md](Working With AWS API Packages) document.
+[Working With AWS API Packages](docs/WorkingWithAwsApis.md) document.
 
 ## Extending Pipit
 
