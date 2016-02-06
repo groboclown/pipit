@@ -41,6 +41,39 @@ short-circuited the api call, the *after* injectors will still operate on the
 response from the *before* injector.
 
 
+## Injection Monitor Directory
+
+The Pipit server will start by monitoring the directory specified by
+the environment variable `$INJECTION_PATH`.  That directory is scanned
+constantly for new or updated `.json` files.  These are expected to be in the
+form:
+
+```
+{
+    "injections": [
+        {
+            "type": "(Before or After)",
+            "service": "(service name)",
+            "api": "(api name)",
+            "path": "(path to the js file, relative to the json file)",
+            "name": "(function name in the js file's module to call)"
+        },
+        ...
+    ]
+}
+```
+
+If a json file is removed or changed, it is de-registered from the injectors
+(changed json files are then re-registered).
+
+Likewise, if the JavaScript file that the json file references changes, it is
+reloaded automatically.  This allows for faster mock testing and interactive
+testing with a service.
+
+Note that you can easily disable an injection by changing the "type"
+in the json file to be a value that isn't "Before" or "After".
+
+
 ## Writing an Injection
 
 Injections are named functions registered to a javascript file.  They conform
@@ -220,6 +253,8 @@ would translate to:
 </SendMessageBatchResponse>
 ```
 
+
+
 ## Injection REST service
 
 The injections can be manipulated at runtime by use of the `/admin/injections`
@@ -268,8 +303,10 @@ Remove all registered injections of a specific type.
 ### Create New Injection
 
 Add a new injection to the mock server.  The JS file will be `require()`d
-into scope, which means that if it was previously registered, then updated,
-then the file is registered again, it will not be reloaded.
+into scope, but each time a file is added, it is completely reloaded, so you
+won't be able to use shared data between two injections.  However, it does
+mean that you can change a js file and reload it without needing to restart
+the server.
 
 `POST /(type)/(service)/(api)/(name)`
 

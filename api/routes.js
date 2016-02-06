@@ -2,6 +2,7 @@ var express = require('express');
 
 module.exports = {
     '/sqs': require('./sqs'),
+    '/sns': require('./sns'),
     '/admin/injections': require('./admin/injections')
 };
 

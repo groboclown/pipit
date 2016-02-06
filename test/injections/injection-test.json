@@ -1,0 +1,11 @@
+{
+    "injections": [
+        {
+            "type": "Before-inactive",
+            "service": "sqs",
+            "api": "DeleteQueue",
+            "path": "./internal-error.js",
+            "name": "alwaysFail_before"
+        }
+    ]
+}

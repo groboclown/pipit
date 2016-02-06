@@ -21,6 +21,8 @@ Currently supported Amazon Web Services:
 
 ## Running Pipit
 
+First, you'll need to download Pipit from Github.  Go ahead.  I'll wait.
+
 Pipit can either be run in a local node.js server:
 
 ```
