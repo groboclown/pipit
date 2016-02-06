@@ -44,9 +44,9 @@ response from the *before* injector.
 ## Injection Monitor Directory
 
 The Pipit server will start by monitoring the directory specified by
-the environment variable `$INJECTION_PATH`.  That directory is scanned
-constantly for new or updated `.json` files.  These are expected to be in the
-form:
+the environment variable `$PIPIT_EXTENSIONS`.  That directory is scanned
+constantly for new or updated `.json` files.  Any json file that contains an
+`injections` key will be used.  The injections value looks like:
 
 ```
 {
@@ -358,8 +358,7 @@ None
 
 Remove from registration a single injection.
 
-
-`GET /(type)/(service)/(api)/(name)`
+`DELETE /(type)/(service)/(api)/(name)`
 
 **URL parameters**
 * `type`: either "Before" or "After"
