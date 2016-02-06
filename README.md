@@ -42,6 +42,11 @@ python test/integration/port_forward.py 3001 localhost 3000
 Here, `3001` is the listening port for the port forwarder, `localhost` is
 the Pipit server host, and `3000` is the Pipit server listening port.
 
+For DynamoDB support, Pipit acts as a pass-through for a
+[local DynamoDB server](http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tools.DynamoDBLocal.html).
+You will need to deploy the server locally and set the `DYNAMODB_ENDPOINT`
+environment variable.
+
 
 ## Connecting to Pipit
 
@@ -64,4 +69,4 @@ Additionally, you can change the behavior of Pipit's API responses by registerin
 
 ## License
 
-Pipit is under the MIT license.
+Pipit is under the [MIT license](LICENSE).

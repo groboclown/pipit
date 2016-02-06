@@ -86,7 +86,7 @@ handle these situations.  We would define the file as:
 ```
 module.exports = {
     InternalError: function(service, api, req) {
-        return [400, 'Service', 'InternalError', 'There was an unexpected internal error'];
+        return [500, 'Service', 'InternalFailure', 'There was an unexpected internal error'];
     }
 };
 ```
