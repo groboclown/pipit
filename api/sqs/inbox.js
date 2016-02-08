@@ -33,6 +33,8 @@ var Inbox = function(userId, queueId) {
     };
     this.policy = {};
 };
+module.exports = Inbox;
+
 
 // Listening API
 // Returns at most maxCount messages in a promise.
@@ -122,8 +124,8 @@ Inbox.prototype.addPermission = function(label, action, accountId) {
     /* just ignore this for now */
     this.attributes.LastModifiedTimestamp = aws_common.timestamp();
 };
-Inbox.prototype.url = function(req) {
-    return req.aws.baseUrl + this.userId + '/' + this.queueId;
+Inbox.prototype.url = function(aws) {
+    return aws.baseUrl + this.userId + '/' + this.queueId;
 };
 Inbox.prototype.setAttribute = function(name, value) {
     if (this.attributes.hasOwnProperty(name)) {
@@ -275,6 +277,3 @@ AwsMessage.prototype.receive = function() {
 
     return ret;
 };
-
-
-module.exports = Inbox;

@@ -5,8 +5,8 @@
  */
  var express = require('express');
  var router = express.Router();
- var requestedUrl = require('../../lib/requested-url');
- var injections = require('../../lib/aws-common/injections');
+ var requestedUrl = require('../lib/requested-url');
+ var injections = require('../lib/aws-common/injections');
 
 /**
  * Get the list of before injections

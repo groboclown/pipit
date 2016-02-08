@@ -16,8 +16,7 @@ def gen_service_runner(service_id, api_version=None, user='USER_ACCESS_KEY', tim
         cmd.extend(args)
         print(">>> {0}".format(repr(cmd)))
         with subprocess.Popen(
-                    cmd, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-                    close_fds=True
+                    cmd, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
                 ) as proc:
             retcode = proc.wait(timeout=timeout)
             if retcode is None:

@@ -1,15 +1,9 @@
 var express = require('express');
 
+/**
+ * Maps the route from the URL path to the service's ActionMap.
+ */
 module.exports = {
     '/sqs': require('./sqs'),
-    '/sns': require('./sns'),
-    '/admin/injections': require('./admin/injections')
+    '/sns': require('./sns')
 };
-
-/* TODO add special "connector" services
- * that connect different AWS services together.
- * These would be representative of what you can
- * do through the AWS console, such as substribing
- * an SQS queue to SNS messages:
- * http://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqssubscribe.html
- */

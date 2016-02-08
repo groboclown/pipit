@@ -3,6 +3,8 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const xmlBodyParser = require('express-xml-bodyparser');
+const aws_common = require('./lib/aws-common');
+const admin = require('./admin');
 
 var routes = require('./api/routes');
 
@@ -16,7 +18,12 @@ app.use(cookieParser());
 
 for (var key in routes) {
     if (routes.hasOwnProperty(key)) {
-        app.use(key, routes[key]);
+        app.use(key, aws_common.route(routes[key]));
+    }
+}
+for (var key in admin) {
+    if (admin.hasOwnProperty(key)) {
+        app.use(key, admin[key]);
     }
 }
 

@@ -1,7 +1,5 @@
 'use strict';
 
-var express = require('express');
-var router = express.Router();
 var aws_common = require('../../lib/aws-common');
 var uuid = require('uuid'); // FIXME eliminate this extra dependency
 var psplit = require('../../lib/psplit');
@@ -21,9 +19,9 @@ var queueStore = {
         }
         return null;
     },
-    getByUrl: function(req, url) {
-        if (url.startsWith(req.aws.baseUrl)) {
-            return this._data[url.substr(req.aws.baseUrl.length)];
+    getByUrl: function(aws, url) {
+        if (url.startsWith(aws.baseUrl)) {
+            return this._data[url.substr(aws.baseUrl.length)];
         }
         return null;
     },
@@ -50,10 +48,10 @@ var queueStore = {
         delete this._data[userId + '/' + queueId];
         return true;
     },
-    deleteByUrl: function(req, url) {
-        if (url.startsWith(req.aws.baseUrl)) {
-            if (!! this._data[url.substr(req.aws.baseUrl.length)]) {
-                delete this._data[url.substr(req.aws.baseUrl.length)];
+    deleteByUrl: function(aws, url) {
+        if (url.startsWith(aws.baseUrl)) {
+            if (!! this._data[url.substr(aws.baseUrl.length)]) {
+                delete this._data[url.substr(aws.baseUrl.length)];
                 return true;
             }
         }
@@ -64,208 +62,201 @@ var queueStore = {
 };
 
 
-router.post('/', aws_common.do({
-    GetQueueUrl: function(req) {
-        var queueName = req.aws.params.QueueName;
-        var accountOwner = psplit(req.aws.params, 'QueueOwnerAWSAccountId', req.aws.accessKey);
-        var queue = queueStore.get(accountOwner, queueName);
-        if (queue !== null) {
-            return [200, { 'QueueUrl': queue.url(req) }];
-        }
-        return [400, 'Sender', 'AWS.SimpleQueueService.NonExistentQueue',
-            'Could not find queue ' + accountOwner + '/' + queueName];
-    },
-
-
-    ListQueues: function(req) {
-        var prefix = psplit.with(req.aws.params, 'QueueNamePrefix', '');
-        var ret = [];
-        queueStore.list().forEach(function(queue) {
-            if (queue.queueId.startsWith(prefix)) {
-                ret.push(queue.url(req));
-            }
-        });
-        return [200, { 'QueueUrl': ret }];
-    },
-
-
-    CreateQueue: function(req) {
-        var name = req.aws.params.QueueName;
-        if (queueStore.has(req.aws.accessKey, name)) {
-            return [400, 'Sender', 'QueueAlreadyExists', 'Queue already exists ' +
-                req.aws.accessKey + "/" + name];
-        }
-        // No check for "queue deleted recently": "You must wait 60 seconds after
-        // deleting a queue before you can create another with the same name."
-
-        var queue = queueStore.create(req.aws.accessKey, name);
-        psplit.keyMapForEach(req.aws.params, 'Attribute', function(key, value) {
-            queue.setAttribute(key, value);
-        });
-        return [200, { 'QueueUrl': queue.url(req) }];
-    },
-
-
-    DeleteQueue: function(req) {
-        // New API that passes the queue URL as a query string.
-        var url = req.aws.params.QueueUrl;
-        if (queueStore.deleteByUrl(req, url)) {
-            return [200, {}];
-        } else {
-            return [400, 'Sender', 'AWS.SimpleQueueService.NonExistentQueue', 'Queue does not exist ' + url];
-        }
-    },
-
-
-    AddPermission: function(req) {
-        // ignore permissions
-        return [200, {}];
-    },
-
-
-    RemovePermission: function(req) {
-        // ignore permissions
-        return [200, {}];
-    },
-
-
-    GetQueueAttributes: function(req) {
-        // New API that passes the queue URL as a query string.
-        var url = req.aws.params.QueueUrl;
-        var queue = queueStore.getByUrl(req, url);
-        if (!! queue) {
-            return [200, { Attribute: queue.reqGetAttributes() }];
-        }
-        return [400, 'Sender', 'AWS.SimpleQueueService.NonExistentQueue', 'Queue does not exist ' + url];
-    },
-
-
-    SetQueueAttributes: function(req) {
-        // New API that passes the queue URL as a query string.
-        var url = req.aws.params.QueueUrl;
-        var queue = queueStore.getByUrl(req, url);
-        if (!! queue) {
-            // old api only allows one attribute to be set.
-            var name = req.aws.params['Attribute.Name'];
-            var value = req.aws.params['Attribute.Value'];
-            var invalid = null;
-            if (!! name && !! value) {
-                if (! queue.setAttribute(name, value)) {
-                    invalid = name;
-                }
-            }
-            psplit.keyMapForEach(req.aws.params, 'Attribute', function(k, v) {
-                if (! queue.setAttribute(k, v)) {
-                    invalid = k;
-                }
-            });
-            if (! invalid) {
-                return [200, {}];
-            }
-            return [400, 'Sender', 'InvalidAttributeName', 'Unknown attribute name ' + invalid];
-        }
-        return [400, 'Sender', 'AWS.SimpleQueueService.NonExistentQueue', 'Queue does not exist ' + url];
-    },
-
-    SendMessage: function(req) {
-        var url = req.aws.params.QueueUrl;
-        var queue = queueStore.getByUrl(req, url);
-        return sendMessage(queue, req);
-    },
-
-
-    SendMessageBatch: function(req) {
-        var url = req.aws.params.QueueUrl;
-        var queue = queueStore.getByUrl(req, url);
-        return sendMessageBatch(queue, req);
-    },
-
-
-    ChangeMessageVisibility: function(req) {
-        var url = req.aws.params.QueueUrl;
-        var queue = queueStore.getByUrl(req, url);
-        if (! queue) {
-            return [400, 'Sender', 'AWS.SimpleQueueService.NonExistentQueue', 'Queue does not exist ' + url];
-        }
-        var receiptHandle = req.aws.params.ReceiptHandle;
-        var visibilityTimeout = req.aws.params.VisibilityTimeout;
-        if (visibilityTimeout === null || visibilityTimeout === undefined ||
-                visibilityTimeout < 0 || visibilityTimeout > 43200) {
-            return [400, 'Sender', 'InvalidParameterValue', 'Invalid visibility timeout ' + visibilityTimeout];
-        }
-        var message = queue.getMessageByReceiptHandle(receiptHandle);
-        if (! message) {
-            return [400, 'Sender', 'AWS.SimpleQueueService.NonExistentMessage', 'Message does not exist ' + receiptHandle];
-        }
-        message.setVisibilityTimeout(visibilityTimeout);
-        return [200, {}];
-    },
-
-
-    DeleteMessage: function(req) {
-        var url = req.aws.params.QueueUrl;
-        var queue = queueStore.getByUrl(req, url);
-        if (! queue) {
-            return [400, 'Sender', 'AWS.SimpleQueueService.NonExistentQueue', 'Queue does not exist ' + url];
-        }
-        var receiptHandle = req.aws.params.ReceiptHandle;
-        // "The request doesn't fail unless the  ReceiptHandle is malformed. Even if the specified
-        // ReceiptHandle doesn't exist or isn't the most recently returned receipt handle for that
-        // message, the action returns Success."
-        queue.deleteMessageByReceiptHandle(receiptHandle);
-        return [200, {}];
-    },
-
-
-    DeleteMessageBatch: function(req) {
-        var url = req.aws.params.QueueUrl;
-        var queue = queueStore.getByUrl(req, url);
-        if (! queue) {
-            return [400, 'Sender', 'AWS.SimpleQueueService.NonExistentQueue', 'Queue does not exist ' + url];
-        }
-        var entries = psplit.mapAsArray(
-            psplit.split(req.aws.params).DeleteMessageBatchRequestEntry);
-        var ret = {DeleteMessageBatchResultEntry: [], BatchResultErrorEntry: []};
-        for (var i = 0; i < entries.length; i++) {
-            var id = entries[i].Id;
-            var receiptHandle = entries[i].ReceiptHandle;
-            queue.deleteMessageByReceiptHandle(receiptHandle);
-            ret.DeleteMessageBatchResultEntry.push({Id: id});
-        }
-        return [200, ret];
-    },
-
-
-
-
-
-
-    // Long poll: returns a promise
-    ReceiveMessage: {
-        LongPoll: function(req) {
-            var url = req.aws.params.QueueUrl;
-            var queue = queueStore.getByUrl(req, url);
-            return receiveMessages(queue, req);
-        }
+module.exports.GetQueueUrl = function(aws) {
+    var queueName = aws.params.QueueName;
+    var accountOwner = psplit(aws.params, 'QueueOwnerAWSAccountId', aws.accessKey);
+    var queue = queueStore.get(accountOwner, queueName);
+    if (queue !== null) {
+        return [200, { 'QueueUrl': queue.url(aws) }];
     }
+    return [400, 'Sender', 'AWS.SimpleQueueService.NonExistentQueue',
+        'Could not find queue ' + accountOwner + '/' + queueName];
+};
 
-}));
+module.exports.ListQueues = function(aws) {
+    var prefix = psplit.with(aws.params, 'QueueNamePrefix', '');
+    var ret = [];
+    queueStore.list().forEach(function(queue) {
+        if (queue.queueId.startsWith(prefix)) {
+            ret.push(queue.url(aws));
+        }
+    });
+    return [200, { 'QueueUrl': ret }];
+};
+
+module.exports.CreateQueue = function(aws) {
+    var name = aws.params.QueueName;
+    if (queueStore.has(aws.accessKey, name)) {
+        return [400, 'Sender', 'QueueAlreadyExists', 'Queue already exists ' +
+            aws.accessKey + "/" + name];
+    }
+    // No check for "queue deleted recently": "You must wait 60 seconds after
+    // deleting a queue before you can create another with the same name."
+
+    var queue = queueStore.create(aws.accessKey, name);
+    psplit.keyMapForEach(aws.params, 'Attribute', function(key, value) {
+        queue.setAttribute(key, value);
+    });
+    return [200, { 'QueueUrl': queue.url(aws) }];
+};
 
 
+module.exports.DeleteQueue = function(aws) {
+    // New API that passes the queue URL as a query string.
+    var url = aws.params.QueueUrl;
+    if (queueStore.deleteByUrl(aws, url)) {
+        return [200, {}];
+    } else {
+        return [400, 'Sender', 'AWS.SimpleQueueService.NonExistentQueue', 'Queue does not exist ' + url];
+    }
+};
 
 
+module.exports.AddPermission = function(aws) {
+    // ignore permissions
+    return [200, {}];
+};
 
-var sendMessage = function(queue, req) {
+
+module.exports.RemovePermission = function(aws) {
+    // ignore permissions
+    return [200, {}];
+};
+
+
+module.exports.GetQueueAttributes = function(aws) {
+    // New API that passes the queue URL as a query string.
+    var url = aws.params.QueueUrl;
+    var queue = queueStore.getByUrl(aws, url);
     if (!! queue) {
-        return sendOneMessage(queue, req, psplit.split(req.aws.params));
+        return [200, { Attribute: queue.reqGetAttributes() }];
+    }
+    return [400, 'Sender', 'AWS.SimpleQueueService.NonExistentQueue', 'Queue does not exist ' + url];
+};
+
+
+module.exports.SetQueueAttributes = function(aws) {
+    // New API that passes the queue URL as a query string.
+    var url = aws.params.QueueUrl;
+    var queue = queueStore.getByUrl(aws, url);
+    if (!! queue) {
+        // old api only allows one attribute to be set.
+        var name = aws.params['Attribute.Name'];
+        var value = aws.params['Attribute.Value'];
+        var invalid = null;
+        if (!! name && !! value) {
+            if (! queue.setAttribute(name, value)) {
+                invalid = name;
+            }
+        }
+        psplit.keyMapForEach(aws.params, 'Attribute', function(k, v) {
+            if (! queue.setAttribute(k, v)) {
+                invalid = k;
+            }
+        });
+        if (! invalid) {
+            return [200, {}];
+        }
+        return [400, 'Sender', 'InvalidAttributeName', 'Unknown attribute name ' + invalid];
+    }
+    return [400, 'Sender', 'AWS.SimpleQueueService.NonExistentQueue', 'Queue does not exist ' + url];
+};
+
+module.exports.SendMessage = function(aws) {
+    var url = aws.params.QueueUrl;
+    var queue = queueStore.getByUrl(aws, url);
+    return sendMessage(queue, aws);
+};
+
+
+module.exports.SendMessageBatch = function(aws) {
+    var url = aws.params.QueueUrl;
+    var queue = queueStore.getByUrl(aws, url);
+    return sendMessageBatch(queue, aws);
+};
+
+
+module.exports.ChangeMessageVisibility = function(aws) {
+    var url = aws.params.QueueUrl;
+    var queue = queueStore.getByUrl(aws, url);
+    if (! queue) {
+        return [400, 'Sender', 'AWS.SimpleQueueService.NonExistentQueue', 'Queue does not exist ' + url];
+    }
+    var receiptHandle = aws.params.ReceiptHandle;
+    var visibilityTimeout = aws.params.VisibilityTimeout;
+    if (visibilityTimeout === null || visibilityTimeout === undefined ||
+            visibilityTimeout < 0 || visibilityTimeout > 43200) {
+        return [400, 'Sender', 'InvalidParameterValue', 'Invalid visibility timeout ' + visibilityTimeout];
+    }
+    var message = queue.getMessageByReceiptHandle(receiptHandle);
+    if (! message) {
+        return [400, 'Sender', 'AWS.SimpleQueueService.NonExistentMessage', 'Message does not exist ' + receiptHandle];
+    }
+    message.setVisibilityTimeout(visibilityTimeout);
+    return [200, {}];
+};
+
+
+module.exports.DeleteMessage = function(aws) {
+    var url = aws.params.QueueUrl;
+    var queue = queueStore.getByUrl(aws, url);
+    if (! queue) {
+        return [400, 'Sender', 'AWS.SimpleQueueService.NonExistentQueue', 'Queue does not exist ' + url];
+    }
+    var receiptHandle = aws.params.ReceiptHandle;
+    // "The request doesn't fail unless the  ReceiptHandle is malformed. Even if the specified
+    // ReceiptHandle doesn't exist or isn't the most recently returned receipt handle for that
+    // message, the action returns Success."
+    queue.deleteMessageByReceiptHandle(receiptHandle);
+    return [200, {}];
+};
+
+
+module.exports.DeleteMessageBatch = function(aws) {
+    var url = aws.params.QueueUrl;
+    var queue = queueStore.getByUrl(aws, url);
+    if (! queue) {
+        return [400, 'Sender', 'AWS.SimpleQueueService.NonExistentQueue', 'Queue does not exist ' + url];
+    }
+    var entries = psplit.mapAsArray(
+        psplit.split(aws.params).DeleteMessageBatchRequestEntry);
+    var ret = {DeleteMessageBatchResultEntry: [], BatchResultErrorEntry: []};
+    for (var i = 0; i < entries.length; i++) {
+        var id = entries[i].Id;
+        var receiptHandle = entries[i].ReceiptHandle;
+        queue.deleteMessageByReceiptHandle(receiptHandle);
+        ret.DeleteMessageBatchResultEntry.push({Id: id});
+    }
+    return [200, ret];
+};
+
+
+
+
+
+
+// Long poll: returns a promise
+module.exports.ReceiveMessage = {
+    LongPoll: function(aws) {
+        var url = aws.params.QueueUrl;
+        var queue = queueStore.getByUrl(aws, url);
+        return receiveMessages(queue, aws);
+    }
+}
+
+
+
+var sendMessage = function(queue, aws) {
+    if (!! queue) {
+        return sendOneMessage(queue, aws, psplit.split(aws.params));
     }
     return [400, 'Sender', 'AWS.SimpleQueueService.NonExistentQueue', 'Queue does not exist'];
 };
 
 
-var sendMessageBatch = function(queue, req) {
+var sendMessageBatch = function(queue, aws) {
     if (!! queue) {
-        var messages = psplit.split(req.aws.params).SendMessageBatchRequestEntry;
+        var messages = psplit.split(aws.params).SendMessageBatchRequestEntry;
         var results = { SendMessageBatchResultEntry: [], BatchResultErrorEntry: [] };
 
         // Basic setup checks.
@@ -310,7 +301,7 @@ var sendMessageBatch = function(queue, req) {
                 return;
             }
 
-            var res = sendOneMessage(queue, req, m);
+            var res = sendOneMessage(queue, aws, m);
             if (res[0] >= 400) {
                 results.BatchResultErrorEntry.push({
                     Id: id,
@@ -330,7 +321,7 @@ var sendMessageBatch = function(queue, req) {
 
 
 
-var sendOneMessage = function(queue, req, messageMap) {
+var sendOneMessage = function(queue, aws, messageMap) {
     var body = messageMap.MessageBody;
     if (! isValidMessageBodyText(body)) {
         return [400, 'Sender', 'InvalidMessageContents', 'Invalid character range'];
@@ -348,7 +339,7 @@ var sendOneMessage = function(queue, req, messageMap) {
         attributes[m.Name] = m.Value;
     });
     var delaySeconds = messageMap.DelaySeconds;
-    var msg = queue.push(body, attributes, req.aws.accessKey, delaySeconds);
+    var msg = queue.push(body, attributes, aws.accessKey, delaySeconds);
     if (!! msg) {
         return [200, msg.sentReceipt()];
     }
@@ -398,12 +389,12 @@ var isValidBatchId = function(id) {
 
 
 // A Long Poll method, so must return a promise.
-var receiveMessages = function(queue, req) {
+var receiveMessages = function(queue, aws) {
     if (!! queue) {
-        var fetchedAttributes = psplit.asKeyArray(req.aws.params, 'AttributeName');
-        var maxMessageCount = psplit.with(req.aws.params, 'MaxNumberOfMessages', 1);
-        var visibilityTimeout = req.aws.params.VisibilityTimeout;
-        var waitTimeSeconds = req.aws.params.WaitTimeSeconds;
+        var fetchedAttributes = psplit.asKeyArray(aws.params, 'AttributeName');
+        var maxMessageCount = psplit.with(aws.params, 'MaxNumberOfMessages', 1);
+        var visibilityTimeout = aws.params.VisibilityTimeout;
+        var waitTimeSeconds = aws.params.WaitTimeSeconds;
         if (maxMessageCount <= 0 || maxMessageCount > 10) {
             return Q([400, 'Sender', 'ReadCountOutOfRange', 'Bad MaxNumberOfMessages value']);
         }
@@ -418,8 +409,3 @@ var receiveMessages = function(queue, req) {
     }
     return Q([400, 'Sender', 'AWS.SimpleQueueService.NonExistentQueue', 'Queue does not exist']);
 };
-
-
-
-
-module.exports = router;

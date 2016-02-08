@@ -5,112 +5,106 @@ var router = express.Router();
 var aws_common = require('../../lib/aws-common');
 var psplit = require('../../lib/psplit');
 
-router.post('/', aws_common.do({
-    // --------------------------------------------------------------
-    // The power
-    
-    Publish: function(req) {},
+// --------------------------------------------------------------
+// The power
 
-    // --------------------------------------------------------------
-    // Topic management
+module.exports.Publish = function(aws) {};
 
-    CreateTopic: function(req) {},
+// --------------------------------------------------------------
+// Topic management
 
-    DeleteTopic: function(req) {},
+module.exports.CreateTopic = function(aws) {};
 
-    GetTopicAttributes: function(req) {},
+module.exports.DeleteTopic = function(aws) {};
 
-    ListTopics: function(req) {},
+module.exports.GetTopicAttributes = function(aws) {};
 
-    SetTopicAttributes: function(req) {},
+module.exports.ListTopics = function(aws) {};
 
-    // --------------------------------------------------------------
-    // Topic subscriptions
+module.exports.SetTopicAttributes = function(aws) {};
 
-    Subscribe: function(req) {},
+// --------------------------------------------------------------
+// Topic subscriptions
 
-    ConfirmSubscription: function(req) {},
+module.exports.Subscribe = function(aws) {};
 
-    Unsubscribe: function(req) {},
+module.exports.ConfirmSubscription = function(aws) {};
 
-    SetSubscriptionAttributes: function(req) {},
+module.exports.Unsubscribe = function(aws) {};
 
-    GetSubscriptionAttributes: function(req) {},
+module.exports.SetSubscriptionAttributes = function(aws) {};
 
-    ListSubscriptions: function(req) {},
+module.exports.GetSubscriptionAttributes = function(aws) {};
 
-    ListSubscriptionsByTopic: function(req) {},
+module.exports.ListSubscriptions = function(aws) {};
 
-    // --------------------------------------------------------------
-    // Permissions: ignored
+module.exports.ListSubscriptionsByTopic = function(aws) {};
 
-    AddPermission: function(req) {
-        // ignored
-        return [200, {}];
-    },
+// --------------------------------------------------------------
+// Permissions: ignored
 
-    RemovePermission: function(req) {
-        // Ignore permissions
-        return [200, {}];
-    },
+module.exports.AddPermission = function(aws) {
+    // ignored
+    return [200, {}];
+};
 
-    // ------------------------------------------------------------
-    // Platform Application support
-    // Summary: not supported
-    // TODO: allow for mock support, with injectible behavior per protocol type.
+module.exports.RemovePermission = function(aws) {
+    // Ignore permissions
+    return [200, {}];
+};
 
-    CreatePlatformApplication: function(req) {
-        // Platform applications are not supported
-        return [500, 'Service', 'InternalFailure', 'applications not supported'];
-    },
+// ------------------------------------------------------------
+// Platform Application support
+// Summary: not supported
+// TODO: allow for mock support, with injectible behavior per protocol type.
 
-    CreatePlatformEndpoint: function(req) {
-        // Platform applications are not supported
-        return [500, 'Service', 'InternalFailure', 'applications not supported'];
-    },
+module.exports.CreatePlatformApplication = function(aws) {
+    // Platform applications are not supported
+    return [500, 'Service', 'InternalFailure', 'applications not supported'];
+};
 
-    GetPlatformApplicationAttributes: function(req) {
-        // Platform applications are not supported.
-        return [404, 'Sender', 'NotFound', 'applications not supported'];
-    },
+module.exports.CreatePlatformEndpoint = function(aws) {
+    // Platform applications are not supported
+    return [500, 'Service', 'InternalFailure', 'applications not supported'];
+};
 
-    ListEndpointsByPlatformApplication: function(req) {
-        // Platform applications are not supported.
-        return [404, 'Sender', 'NotFound', 'applications not supported'];
-    },
+module.exports.GetPlatformApplicationAttributes = function(aws) {
+    // Platform applications are not supported.
+    return [404, 'Sender', 'NotFound', 'applications not supported'];
+};
 
-    ListPlatformApplications: function(req) {
-        // Platform applications are not supported.
-        return [200, { PlatformApplications: null }];
-    },
+module.exports.ListEndpointsByPlatformApplication = function(aws) {
+    // Platform applications are not supported.
+    return [404, 'Sender', 'NotFound', 'applications not supported'];
+};
 
-    SetPlatformApplicationAttributes: function(req) {
-        // Platform applications are not supported.
-        return [404, 'Sender', 'NotFound', 'applications not supported'];
-    },
+module.exports.ListPlatformApplications = function(aws) {
+    // Platform applications are not supported.
+    return [200, { PlatformApplications: null }];
+};
 
-    DeleteEndpoint: function(req) {
-        // Platform applications are not supported
-        return [500, 'Service', 'InternalFailure', 'applications not supported'];
-    },
+module.exports.SetPlatformApplicationAttributes = function(aws) {
+    // Platform applications are not supported.
+    return [404, 'Sender', 'NotFound', 'applications not supported'];
+};
 
-    DeletePlatformApplication: function(req) {
-        // Platform applications are not supported
-        return [500, 'Service', 'InternalFailure', 'applications not supported'];
-    },
+module.exports.DeleteEndpoint = function(aws) {
+    // Platform applications are not supported
+    return [500, 'Service', 'InternalFailure', 'applications not supported'];
+};
 
-
-    GetEndpointAttributes: function(req) {
-        // Platform applications are not supported.
-        return [404, 'Sender', 'NotFound', 'applications not supported'];
-    },
-
-    SetEndpointAttributes: function(req) {
-        // Platform applications are not supported.
-        return [404, 'Sender', 'NotFound', 'applications not supported'];
-    }
-}));
+module.exports.DeletePlatformApplication = function(aws) {
+    // Platform applications are not supported
+    return [500, 'Service', 'InternalFailure', 'applications not supported'];
+};
 
 
+module.exports.GetEndpointAttributes = function(aws) {
+    // Platform applications are not supported.
+    return [404, 'Sender', 'NotFound', 'applications not supported'];
+};
 
-module.exports = router;
+module.exports.SetEndpointAttributes = function(aws) {
+    // Platform applications are not supported.
+    return [404, 'Sender', 'NotFound', 'applications not supported'];
+};
