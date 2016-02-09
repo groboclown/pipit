@@ -2,3 +2,4 @@ test/
 docs/
 docker-dependencies/
 *.md
+bin/build-api.py

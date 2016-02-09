@@ -4,7 +4,6 @@ var aws_common = require('../../lib/aws-common');
 var uuid = require('uuid'); // FIXME eliminate this extra dependency
 var psplit = require('../../lib/psplit');
 var AWSQueue = require('./inbox');
-var Q = require('q');
 
 const DEFAULT_SQS_VERSION = '';
 
@@ -235,14 +234,29 @@ module.exports.DeleteMessageBatch = function(aws) {
 
 
 
-// Long poll: returns a promise
-module.exports.ReceiveMessage = {
-    LongPoll: function(aws) {
-        var url = aws.params.QueueUrl;
-        var queue = queueStore.getByUrl(aws, url);
-        return receiveMessages(queue, aws);
+// Long poll: returns a promise on long poll
+module.exports.ReceiveMessage = function(aws) {
+    var url = aws.params.QueueUrl;
+    var queue = queueStore.getByUrl(aws, url);
+    if (!! queue) {
+        var fetchedAttributes = psplit.asKeyArray(aws.params, 'AttributeName');
+        var maxMessageCount = psplit.with(aws.params, 'MaxNumberOfMessages', 1);
+        var visibilityTimeout = aws.params.VisibilityTimeout;
+        var waitTimeSeconds = aws.params.WaitTimeSeconds;
+        if (maxMessageCount <= 0 || maxMessageCount > 10) {
+            return [400, 'Sender', 'ReadCountOutOfRange', 'Bad MaxNumberOfMessages value'];
+        }
+        return queue.pull(maxMessageCount, waitTimeSeconds, visibilityTimeout)
+            .then(function (msgs) {
+                return [200, {Message: msgs}];
+            })
+            .catch(function (err) {
+                // Generally a timeout
+                return [200, {}];
+            });
     }
-}
+    return [400, 'Sender', 'AWS.SimpleQueueService.NonExistentQueue', 'Queue does not exist'];
+};
 
 
 
@@ -385,27 +399,4 @@ var isValidBatchId = function(id) {
     // FIXME better validation
 
     return true;
-};
-
-
-// A Long Poll method, so must return a promise.
-var receiveMessages = function(queue, aws) {
-    if (!! queue) {
-        var fetchedAttributes = psplit.asKeyArray(aws.params, 'AttributeName');
-        var maxMessageCount = psplit.with(aws.params, 'MaxNumberOfMessages', 1);
-        var visibilityTimeout = aws.params.VisibilityTimeout;
-        var waitTimeSeconds = aws.params.WaitTimeSeconds;
-        if (maxMessageCount <= 0 || maxMessageCount > 10) {
-            return Q([400, 'Sender', 'ReadCountOutOfRange', 'Bad MaxNumberOfMessages value']);
-        }
-        return queue.pull(maxMessageCount, waitTimeSeconds, visibilityTimeout)
-            .then(function (msgs) {
-                return [200, {Message: msgs}];
-            })
-            .catch(function (err) {
-                // Generally a timeout
-                return [200, {}];
-            });
-    }
-    return Q([400, 'Sender', 'AWS.SimpleQueueService.NonExistentQueue', 'Queue does not exist']);
 };

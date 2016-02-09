@@ -16,3 +16,18 @@ with an alias.  It's better just to use injections.
 
 *TODO include description on how to write a long poll service.  For now,
 reference the sqs ReceiveMessage call.*
+
+## Creating Boilerplate Code
+
+The tool [build-api.py](../bin/build-api.py) can auto-generate each
+of the AWS api basic code framework to get you started in creating a
+real implementation.  Simply run it as:
+
+```
+$ python bin/build-api.py node_modules/aws-sdk/apis api
+```
+
+and the framework files are put into the `api` directory.  This can be safely
+run as the AWS service interfaces get updated.  You can transfer new files
+from the generated `api/boilerplate-routes.js` file into the `routes.js`
+file.
