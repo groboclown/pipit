@@ -11,9 +11,9 @@ const aws_common = require('../../lib/aws-common');
 module.exports.PutEvents = aws_common.as(
     "/2014-06-05/events",
     function PutEvents(aws) {
-        var events = aws.params.events /* list */;
-        var clientContextEncoding = aws.params.clientContextEncoding;
-        var clientContext = aws.params.clientContext;
+        var events = aws.params['events'] /* list */;
+        var clientContextEncoding = aws.params['clientContextEncoding'];
+        var clientContext = aws.params['clientContext'];
         if (! events) {
             return [400, "Sender", "MissingParameter", "Did not specify parameter events"];
         }        if (! clientContext) {

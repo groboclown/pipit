@@ -82,16 +82,17 @@ def build_arguments(operation_name, api):
     if "input" in api["operations"][operation_name]:
         if "members" in api["operations"][operation_name]["input"]:
             for k, v in api["operations"][operation_name]["input"]["members"].items():
+                vname = asJsVariable(k)
                 if "location" in v and v["location"] == 'uri':
                     # It's in the actual url path
-                    ret += indent + 'var ' + k + " = aws.reqParams." + v["locationName"]
+                    ret += indent + 'var ' + vname + " = aws.reqParams." + v["locationName"]
                 elif "location" in v and v["location"] == 'querystring':
                     # in the query string; should be the "params" due to some smarts
                     if "http" in api and "method" in api["http"] and api["http"]["method"] != 'GET':
                         raise Exception(operation_name + ' has non-GET with querystring parameters')
-                    ret += indent + 'var ' + k + " = aws.params." + k
+                    ret += indent + 'var ' + vname + " = aws.params['" + k + "']"
                 else:
-                    ret += indent + 'var ' + k + " = aws.params." + k
+                    ret += indent + 'var ' + vname + " = aws.params['" + k + "']"
                 if "type" in v:
                     ret += ' /* ' + v["type"] + ' */'
                 ret += ';\n'
@@ -102,6 +103,12 @@ def build_arguments(operation_name, api):
                     indent + '}')
     return ret
 
+
+def asJsVariable(key):
+    if key in ['return', 'switch', 'case', 'if', 'else', 'for'] or not key[0].isidentifier():
+        return '_' + key
+
+    return key
 
 
 def build_return(operation_name, api):
@@ -226,7 +233,7 @@ def build_requires_list(api_name, version_entries):
                 highest_version = version
             elif highest_version < version:
                 highest_version = version
-        ret = ["'/{0}': normalize(requires('./{0}/boilerplate-{1}.js'))".format(
+        ret = ["'/{0}': normalize(require('./{0}/boilerplate-{1}.js'))".format(
             api_name, version)]
     else:
         # Each version is its own path
@@ -245,7 +252,7 @@ def build_requires_list(api_name, version_entries):
                 for v in real_version_list:
                     req_list.append("require('./{0}/boilerplate-{1}.js')".format(
                         api_name, v))
-                ret.append("'/{0}/{1}': normalizeVersions({1}, [{2}])".format(
+                ret.append("'/{0}/{1}': normalizeVersions('{1}', [{2}])".format(
                     api_name, path_version, ", ".join(req_list)))
     if len(ret) <= 0:
         raise Exception("no urls registered for " + api_name)
