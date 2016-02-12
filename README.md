@@ -14,10 +14,12 @@ no additional library that needs to be swapped into place.
 Pipit is not meant to be a production replacement for AWS services.
 It doesn't scale, and doesn't persist data.
 
-Currently supported Amazon Web Services:
+Currently supported emulated Amazon Web Services:
 
 * [SQS](docs/sqs.md)
+* [Lambda](docs/lambda.md) (in progress)
 
+Most of all the other services are mocked out and perform no-ops.
 
 ## Running Pipit
 
