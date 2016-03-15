@@ -7,6 +7,10 @@ const normalizeVersions = normalize.normalizeVersions;
  */
 module.exports = {
     '/sqs': normalize(require('./sqs')),
+    '/swf': normalize(require('./swf/index-2012-01-25.js')),
+    '/lambda/2014-11-13': normalizeVersions('2014-11-13', [require('./lambda/index-2015-03-31.js')]),
+    '/lambda/2015-03-31': normalizeVersions('2015-03-31', [require('./lambda/index-2015-03-31.js')]),
+    
     // '/sns': normalize(require('./sns')),
 
     '/acm': normalize(require('./acm/boilerplate-2015-12-08.js')),
@@ -47,8 +51,8 @@ module.exports = {
     '/iot': normalize(require('./iot/boilerplate-2015-05-28.js')),
     '/kinesis': normalize(require('./kinesis/boilerplate-2013-12-02.js')),
     '/kms': normalize(require('./kms/boilerplate-2014-11-01.js')),
-    '/lambda/2014-11-13': normalizeVersions('2014-11-13', [require('./lambda/boilerplate-2014-11-11.js'), require('./lambda/boilerplate-2015-03-31.js')]),
-    '/lambda/2015-03-31': normalizeVersions('2015-03-31', [require('./lambda/boilerplate-2015-03-31.js')]),
+    // '/lambda/2014-11-13': normalizeVersions('2014-11-13', [require('./lambda/boilerplate-2014-11-11.js'), require('./lambda/boilerplate-2015-03-31.js')]),
+    // '/lambda/2015-03-31': normalizeVersions('2015-03-31', [require('./lambda/boilerplate-2015-03-31.js')]),
     '/logs': normalize(require('./logs/boilerplate-2014-03-28.js')),
     '/machinelearning': normalize(require('./machinelearning/boilerplate-2014-12-12.js')),
     '/marketplacecommerceanalytics': normalize(require('./marketplacecommerceanalytics/boilerplate-2015-07-01.js')),
@@ -68,7 +72,7 @@ module.exports = {
     '/streams.dynamodb': normalize(require('./streams.dynamodb/boilerplate-2012-08-10.js')),
     '/sts': normalize(require('./sts/boilerplate-2011-06-15.js')),
     '/support': normalize(require('./support/boilerplate-2013-04-15.js')),
-    '/swf': normalize(require('./swf/boilerplate-2012-01-25.js')),
+    // '/swf': normalize(require('./swf/boilerplate-2012-01-25.js')),
     '/waf': normalize(require('./waf/boilerplate-2015-08-24.js')),
     '/workspaces': normalize(require('./workspaces/boilerplate-2015-04-08.js'))
 

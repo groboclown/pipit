@@ -31,3 +31,13 @@ and the framework files are put into the `api` directory.  This can be safely
 run as the AWS service interfaces get updated.  You can transfer new files
 from the generated `api/boilerplate-routes.js` file into the `routes.js`
 file.
+
+## Auto-loading setup
+
+The setup for each service should load from the `lib/json-watch` library
+to read the configuration that should allow for loading the initial state.
+
+## S3
+
+Many of the APIs require references to S3.  To simplify this, the S3 emulation
+for the back end is just a reference to a local file directory.

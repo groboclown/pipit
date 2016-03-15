@@ -6,6 +6,29 @@ const lambdaRepo = require('../../lib/lambdas');
  * AWS Lambda version 2015-03-31
  */
 
+/*
+Primary use case flow.  These are the functions that need to be implemented
+first.
+
+    create-function (upload the lambda)
+        - to implement the "code" argument, rather than the "zip" argument,
+          the S3 api emulation will need to be created.
+          Optionally, the S3 references could be just a directory that the
+          Pipit server looks at.
+
+    invoke (test the lambda by manually running it)
+
+    create-event-source-mapping
+        - used for kinesis and dynamodb (stream APIs).
+
+    create-alias
+
+
+All the update, list, get, delete function are lower priority.
+
+Permissions are just not implemented.
+*/
+
 
 // ------------------------------------------------------------------------
 // Invoke the lambda - the big kahoona.
@@ -217,6 +240,10 @@ module.exports.CreateFunction = aws_common.as(
         if (! Code) {
             return [400, "Sender", "MissingParameter", "Did not specify parameter Code"];
         }
+
+        // Role: IAM role ARN.
+
+        //lambdaRepo.
 
         // TODO implement code
 
@@ -647,7 +674,7 @@ module.exports.GetPolicy = aws_common.as(
         }
 
         // policies / permissions are ignored
-        
+
         var ret = {
             Policy: "{}"
         };

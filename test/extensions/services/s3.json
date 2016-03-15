@@ -1,0 +1,8 @@
+{
+    "s3": [
+        {
+            "name": "default",
+            "path": "test/extensions/s3-files.d"
+        }
+    ]
+}
