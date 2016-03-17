@@ -1,7 +1,8 @@
 'use strict';
 
-var Q = require('q');
-var aws_common = require('../../lib/aws-common');
+const Q = require('q');
+const aws_common = require('../../lib/aws-common');
+const common_inbox = require('../../lib/inbox');
 
 // ===========================================================
 
@@ -11,8 +12,7 @@ Messages are retained until explicitly removed.
 */
 
 var Inbox = function(userId, queueId) {
-    this.listeners = [];
-    this.messages = [];
+    this.inbox = new common_inbox();
 
     this.permissionLabels = {};
     this.userId = userId;
@@ -54,27 +54,14 @@ Inbox.prototype.pull = function(maxCount, waitTimeout, visibilityTimeout) {
         return ReadCountOutOfRange error
     }
     */
-
-    // First, find if there are any existing messages for this listener
-    // that have not yet been delivered.
-    var ret = [];
-    for (var i = 0; i < this.messages.length; i++) {
-        var message = this.messages[i];
-        if (message.canReceive()) {
-            ret.push(message.receive());
-            if (ret.length >= maxCount) {
-                return Q(ret);
+    return this.inbox.pull(maxCount, waitTimeout, visibilityTimeout)
+        .then(function (messages) {
+            var ret = [];
+            for (var i = 0; i < messages.length; i++) {
+                ret.push(messages[i].value.toReceiveForm(messages[i]));
             }
-        }
-    }
-    if (ret.length > 0 || waitTimeout <= 0) {
-        return Q(ret);
-    }
-
-    // Put ourself into a wait queue.  Long poll!
-    var q = Q.defer().timeout(waitTimeout * 1000);
-    this.listeners.push(q);
-    return q;
+            return ret;
+        });
 };
 
 /** returns false if the message body size is too big */
@@ -86,35 +73,14 @@ Inbox.prototype.push = function(body, attributes, senderId, delaySeconds) {
         // MessageTooLong
         return null;
     }
-
-    var msg = new AwsMessage(body, attributes, senderId, this.attributes.VisibilityTimeout);
-    var t = this;
-    var doPush = function() {
-        t.messages.push(msg);
-
-        // check if there are any polling promises.  Always use the first
-        // listener (it's been waiting the longest).  If the first one is
-        // expired, remove it.  It should, really, search the whole list
-        // and remove all expired promises to prevent memory leaks.
-        while (t.listeners.length > 0) {
-            if (t.listeners[i].promise.isPending()) {
-                t.listeners[i].resolve(msg.receive());
-                t.listeners.splice(0, 1);
-                break;
-            } else {
-                t.listeners.splice(0, 1);
-            }
-        }
-    };
-
-    if (delaySeconds > 0) {
-        setTimeout(function() {
-            doPush();
-        }, delaySeconds * 1000);
-    } else {
-        doPush();
+    var messageObj = new AwsMessage(body, attributes, senderId);
+    var ret = this.inbox.push(messageObj, delaySeconds,
+        this.attributes.VisibilityTimeout);
+    if (!! ret) {
+        console.log("::: inbox push: returning value");
+        return ret.value;
     }
-    return msg;
+    return null;
 };
 
 
@@ -154,23 +120,18 @@ Inbox.prototype.reqGetAttributes = function() {
     });
     return attributes;
 };
-Inbox.prototype.getMessageByReceiptHandle = function(receiptHandle) {
-    for (var i = 0; i < this.messages.length; i++) {
-        if (!! this.messages[i] && this.messages[i].isReceiptHandle(receiptHandle)) {
-            return this.messages[i];
-        }
-    }
-    return null;
-};
-Inbox.prototype.deleteMessageByReceiptHandle = function(receiptHandle) {
-    for (var i = 0; i < this.messages.length; i++) {
-        if (!! this.messages[i] && this.messages[i].isReceiptHandle(receiptHandle)) {
-            this.messages.splice(i, 1);
-            return true;
-        }
+Inbox.prototype.changeMessageVisibilityByReceiptHandle = function(receiptHandle, visibilityTimeout) {
+    var ret = this.inbox.matchBy(false, function(msg) { return msg.value.isReceiptHandle(receiptHandle) });
+    if (!! ret) {
+        ret.setVisibilityTimeout(visibilityTimeout);
+        return true;
     }
     return false;
 };
+Inbox.prototype.deleteMessageByReceiptHandle = function(receiptHandle) {
+    return this.inbox.deleteBy(false, function(msg) { return msg.value.isReceiptHandle(receiptHandle) });
+};
+
 
 // ===========================================================
 /*
@@ -182,24 +143,18 @@ After a message is received, it will be invisible for the visibility timeout
 period (future requests for messages will not return this message); after
 the timeout period, if it is not deleted, then the message will be visible
 to future pull requests.
-*/
-var AwsMessage = function(body, attributes, senderId, visibilityTimeout) {
-    this.messageId = aws_common.gen_request_id();
 
+Straight-up SQS messages.
+*/
+var AwsMessage = function(body, attributes, senderId) {
+    this.messageId = aws_common.gen_request_id();
     this.body = body;
     this.attributes = (!! attributes ? attributes : {});
     this.senderId = senderId;
-    this.visibilityTimeout = visibilityTimeout;
     this.bodyMd5 = aws_common.md5(body);
     // need to figure out the right way to encode the attributes
     this.attributesMd5 = aws_common.md5('1234'); // ???
-    this.sentTime = aws_common.timestamp();
     this.receiptHandles = [];
-
-    this.lastReceivedTime = 0;
-    this.visibleAgainAt = 0;
-    this.firstReceivedTime = 0;
-    this.receivedCount = 0;
 };
 AwsMessage.prototype.sentReceipt = function() {
     return {
@@ -207,17 +162,6 @@ AwsMessage.prototype.sentReceipt = function() {
         MD5OfMessageAttributes: this.attributesMd5,
         MessageId: this.messageId
     };
-};
-AwsMessage.prototype.setVisibilityTimeout = function(timeout) {
-    // extends the timeout to timeout + right now, not additional time
-    // for the original expiration time.
-    var now = aws_common.timestamp();
-    if (this.firstReceivedTime !== 0 && this.visibleAgainAt <= now) {
-        this.visibleAgainAt = now + timeout;
-    }
-};
-AwsMessage.prototype.canReceive = function() {
-    return this.firstReceivedTime === 0 || this.visibleAgainAt < aws_common.timestamp();
 };
 AwsMessage.prototype.isReceiptHandle = function(handle) {
     for (var i = 0; i < this.receiptHandles.length; i++) {
@@ -227,23 +171,16 @@ AwsMessage.prototype.isReceiptHandle = function(handle) {
     }
     return false;
 };
-AwsMessage.prototype.getActiveReceiptHandle = function() {
-    return aws_common.encodeBase64(this.messageId + '-' + this.lastReceivedTime);
+AwsMessage.prototype.getActiveReceiptHandle = function(parentMsg) {
+    return aws_common.encodeBase64(this.messageId + '-' + parentMsg.lastReceivedTime);
 };
-AwsMessage.prototype.createReceiptHandle = function() {
-    var ret = this.getActiveReceiptHandle();
+AwsMessage.prototype.createReceiptHandle = function(parentMsg) {
+    var ret = this.getActiveReceiptHandle(parentMsg);
     this.receiptHandles.push(ret);
     return ret;
 };
 /** canReceive MUST always be called before this function. */
-AwsMessage.prototype.receive = function() {
-    var now = aws_common.timestamp();
-    if (this.firstReceivedTime === 0) {
-        this.firstReceivedTime = now;
-    }
-    this.lastReceivedTime = now;
-    this.visibleAgainAt = this.visibilityTimeout + now;
-    this.receivedCount++;
+AwsMessage.prototype.toReceiveForm = function(parentMsg) {
     var messageAttributes = [];
     var tattr = this.attributes;
     Object.keys(tattr).forEach(function (p) {
@@ -259,21 +196,25 @@ AwsMessage.prototype.receive = function() {
 
     var ret = {
         MessageId: this.messageId,
-        ReceiptHandle: this.createReceiptHandle(),
+        ReceiptHandle: this.createReceiptHandle(parentMsg),
         MD5OfBody: this.bodyMd5,
         Body: this.body,
         Attribute: [
             { Name: 'SenderId', Value: this.senderId },
-            { Name: 'SentTimestamp', Value: this.sentTime },
-            { Name: 'ApproximateReceiveCount', Value: this.receivedCount },
-            { Name: 'ApproximateFirstReceiveTimestamp', Value: this.firstReceivedTime }
+            { Name: 'SentTimestamp', Value: parentMsg.sentTime },
+            { Name: 'ApproximateReceiveCount', Value: parentMsg.receivedCount },
+            { Name: 'ApproximateFirstReceiveTimestamp', Value: parentMsg.firstReceivedTime }
         ],
         MD5OfMessageAttributes: this.attributesMd5,
         MessageAttributes: messageAttributes
     };
 
-    // FIXME if no attributes are provided, then don't include
+    // if no attributes are provided, then don't include
     // MessageAttributes or MD5OfMD5OfMessageAttributes
+    if (! this.attributesMd5) {
+        delete ret['MD5OfMessageAttributes'];
+        delete ret['MessageAttributes'];
+    }
 
     return ret;
 };

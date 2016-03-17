@@ -187,12 +187,10 @@ module.exports.ChangeMessageVisibility = function(aws) {
             visibilityTimeout < 0 || visibilityTimeout > 43200) {
         return [400, 'Sender', 'InvalidParameterValue', 'Invalid visibility timeout ' + visibilityTimeout];
     }
-    var message = queue.getMessageByReceiptHandle(receiptHandle);
-    if (! message) {
-        return [400, 'Sender', 'AWS.SimpleQueueService.NonExistentMessage', 'Message does not exist ' + receiptHandle];
+    if (queue.changeMessageVisibilityByReceiptHandle(receiptHandle, visibilityTimeout)) {
+        return [200, {}];
     }
-    message.setVisibilityTimeout(visibilityTimeout);
-    return [200, {}];
+    return [400, 'Sender', 'AWS.SimpleQueueService.NonExistentMessage', 'Message does not exist ' + receiptHandle];
 };
 
 
@@ -355,6 +353,7 @@ var sendOneMessage = function(queue, aws, messageMap) {
     var delaySeconds = messageMap.DelaySeconds;
     var msg = queue.push(body, attributes, aws.accessKey, delaySeconds);
     if (!! msg) {
+        console.log("::: push returned " + typeof(msg));
         return [200, msg.sentReceipt()];
     }
     return [400, 'Sender', 'MessageTooLong', 'Message too long'];
