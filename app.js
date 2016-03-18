@@ -5,12 +5,17 @@ const bodyParser = require('body-parser');
 const xmlBodyParser = require('express-xml-bodyparser');
 const aws_common = require('./lib/aws-common');
 const admin = require('./admin');
+const typeis = require('type-is')
 
 var routes = require('./api/routes');
 
 var app = express();
 
-app.use(bodyParser.json());
+app.use(bodyParser.json({ type: function(req) {
+    return Boolean(
+        typeis(req, 'application/json') ||
+        typeis(req, 'application/x-amz-json-1.0'));
+} }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(xmlBodyParser())
 app.use(cookieParser());

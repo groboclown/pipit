@@ -36,6 +36,7 @@
     "express-xml-bodyparser": "~0.2.2",
     "mkdirp": "~0.5.1",
     "q": "~1.4.1",
+    "type-is": "~1.6.11",
     "uuid": "~2.0.1",
     "xml2js": "~0.4.16",
     "yauzl": "~2.4.1"
