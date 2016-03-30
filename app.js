@@ -11,10 +11,24 @@ var routes = require('./api/routes');
 
 var app = express();
 
+app.use(function (req, res, next) {
+    // Fix the content type if it uses strange AWS names.
+    if (req.accepts('application/x-amz-json-1.0')) {
+        req.headers['content-type'] = 'application/json';
+    }
+
+    // Many times, the "Accept" parameter is not passed in.
+    // When this happens, duplicate the Content-Type.
+    if (! req.headers['accept']) {
+        req.headers['accept'] = req.headers['content-type'];
+    }
+
+    // carry on to the next middleware chain.
+    next();
+});
 app.use(bodyParser.json({ type: function(req) {
-    return Boolean(
-        typeis(req, 'application/json') ||
-        typeis(req, 'application/x-amz-json-1.0'));
+    return !! req.accepts('application/json') ||
+        !! req.accepts('application/x-amz-json-1.0');
 } }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(xmlBodyParser())

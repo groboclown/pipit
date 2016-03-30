@@ -65,6 +65,7 @@ module.exports.ListDomains = function ListDomains(aws) {
                     description: domain.description,
                     status: domain.status
                 });
+                console.log("Adding domain " + domain.name);
             }
         }
     }
@@ -73,7 +74,7 @@ module.exports.ListDomains = function ListDomains(aws) {
         reverseOrder: reverseOrder,
         maximumPageSize: maximumPageSize,
         nextPageToken: nextPageToken,
-        key: domainInfos
+        key: 'domainInfos'
     })];
 };
 module.exports.DescribeDomain = function DescribeDomain(aws) {
