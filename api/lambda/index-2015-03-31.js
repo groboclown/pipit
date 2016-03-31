@@ -6,6 +6,9 @@ const lambdaRepo = require('../../lib/lambdas');
  * AWS Lambda version 2015-03-31
  */
 
+// Setup input and output to use AWS protocol rest-json
+require('../../lib/aws-common/shape_http')('rest-json', module.exports, null)
+
 /*
 Primary use case flow.  These are the functions that need to be implemented
 first.

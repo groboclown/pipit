@@ -1,6 +1,5 @@
 const express = require('express');
 const path = require('path');
-const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const xmlBodyParser = require('express-xml-bodyparser');
 const aws_common = require('./lib/aws-common');
@@ -10,30 +9,6 @@ const typeis = require('type-is')
 var routes = require('./api/routes');
 
 var app = express();
-
-app.use(function (req, res, next) {
-    // Fix the content type if it uses strange AWS names.
-    if (req.accepts('application/x-amz-json-1.0')) {
-        req.headers['content-type'] = 'application/json';
-    }
-
-    // Many times, the "Accept" parameter is not passed in.
-    // When this happens, duplicate the Content-Type.
-    if (! req.headers['accept']) {
-        req.headers['accept'] = req.headers['content-type'];
-    }
-
-    // carry on to the next middleware chain.
-    next();
-});
-app.use(bodyParser.json({ type: function(req) {
-    return !! req.accepts('application/json') ||
-        !! req.accepts('application/x-amz-json-1.0');
-} }));
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(xmlBodyParser())
-app.use(cookieParser());
-//app.use(express.static(path.join(__dirname, 'public')));
 
 for (var key in routes) {
     if (routes.hasOwnProperty(key)) {
@@ -46,14 +21,14 @@ for (var key in admin) {
     }
 }
 
+// Generic error handlers
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
-
-// error handlers
 
 // development error handler
 // will print stacktrace

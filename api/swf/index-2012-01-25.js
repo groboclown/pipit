@@ -8,6 +8,8 @@ const common_inbox = require('../../lib/inbox');
  * Amazon Simple Workflow Service version 2012-01-25
  */
 
+// Setup input and output to use AWS protocol json
+require('../../lib/aws-common/shape_http')('json', module.exports, null)
 
 // ------------------------------------------------------------------------
 // Domain API
@@ -149,50 +151,6 @@ module.exports.RegisterWorkflowType = function RegisterWorkflowType(aws) {
     var ret = {};
     return [200, ret];
 };
-module.exports.RegisterActivityType = function RegisterActivityType(aws) {
-    var defaultTaskScheduleToStartTimeout = aws.params['defaultTaskScheduleToStartTimeout'];
-    var defaultTaskPriority = aws.params['defaultTaskPriority'];
-    var defaultTaskScheduleToCloseTimeout = aws.params['defaultTaskScheduleToCloseTimeout'];
-    var defaultTaskStartToCloseTimeout = aws.params['defaultTaskStartToCloseTimeout'];
-    var defaultTaskHeartbeatTimeout = aws.params['defaultTaskHeartbeatTimeout'];
-    var version = aws.params['version'];
-    var name = aws.params['name'];
-    var domain = aws.params['domain'];
-    var description = aws.params['description'];
-    var defaultTaskList = aws.params['defaultTaskList'];
-    if (! domain) {
-        return [400, "Sender", "MissingParameter", "Did not specify parameter domain"];
-    }
-    if (! name) {
-        return [400, "Sender", "MissingParameter", "Did not specify parameter name"];
-    }
-    if (! version) {
-        return [400, "Sender", "MissingParameter", "Did not specify parameter version"];
-    }
-    if (! domainWorkflows[domain]) {
-        return [400, "Sender", "UnknownResourceFault", "Unknown domain " + domain];
-    }
-    for (var i = 0; i < domainWorkflows[domain].activityTypes.length; i++) {
-        if (domainWorkflows[domain].activityTypes[i].matches(name, version)) {
-            return [400, "Sender", "TypeAlreadyExistsFault", "Workflow type already exists " +
-                name + " version " + version];
-        }
-    }
-
-    var activityType = workflow_def.createActivityType(name, version);
-    activityType.description = description;
-    activityType.configuration.defaultChildPolicy = defaultChildPolicy;
-    activityType.configuration.defaultTaskStartToCloseTimeout = defaultTaskStartToCloseTimeout;
-    activityType.configuration.defaultExecutionStartToCloseTimeout = defaultExecutionStartToCloseTimeout;
-    activityType.configuration.defaultLambdaRole = defaultLambdaRole;
-    activityType.configuration.defaultTaskList = defaultTaskList;
-    activityType.configuration.defaultTaskPriority = defaultTaskPriority;
-    activityType.configuration.defaultTaskStartToCloseTimeout = defaultTaskStartToCloseTimeout;
-    domainWorkflows[domain].activityTypes.push(activityType);
-
-    var ret = {};
-    return [200, ret];
-};
 module.exports.DescribeWorkflowType = function DescribeWorkflowType(aws) {
     var workflowType = aws.params['workflowType'];
     var domain = aws.params['domain'];
@@ -268,6 +226,50 @@ module.exports.ListWorkflowTypes = function ListWorkflowTypes(aws) {
         nextPageToken: null,
         typeInfos: infos
     };
+    return [200, ret];
+};
+module.exports.RegisterActivityType = function RegisterActivityType(aws) {
+    var defaultTaskScheduleToStartTimeout = aws.params['defaultTaskScheduleToStartTimeout'];
+    var defaultTaskPriority = aws.params['defaultTaskPriority'];
+    var defaultTaskScheduleToCloseTimeout = aws.params['defaultTaskScheduleToCloseTimeout'];
+    var defaultTaskStartToCloseTimeout = aws.params['defaultTaskStartToCloseTimeout'];
+    var defaultTaskHeartbeatTimeout = aws.params['defaultTaskHeartbeatTimeout'];
+    var version = aws.params['version'];
+    var name = aws.params['name'];
+    var domain = aws.params['domain'];
+    var description = aws.params['description'];
+    var defaultTaskList = aws.params['defaultTaskList'];
+    if (! domain) {
+        return [400, "Sender", "MissingParameter", "Did not specify parameter domain"];
+    }
+    if (! name) {
+        return [400, "Sender", "MissingParameter", "Did not specify parameter name"];
+    }
+    if (! version) {
+        return [400, "Sender", "MissingParameter", "Did not specify parameter version"];
+    }
+    if (! domainWorkflows[domain]) {
+        return [400, "Sender", "UnknownResourceFault", "Unknown domain " + domain];
+    }
+    for (var i = 0; i < domainWorkflows[domain].activityTypes.length; i++) {
+        if (domainWorkflows[domain].activityTypes[i].matches(name, version)) {
+            return [400, "Sender", "TypeAlreadyExistsFault", "Workflow type already exists " +
+                name + " version " + version];
+        }
+    }
+
+    var activityType = workflow_def.createActivityType(name, version);
+    activityType.description = description;
+    activityType.configuration.defaultChildPolicy = defaultChildPolicy;
+    activityType.configuration.defaultTaskStartToCloseTimeout = defaultTaskStartToCloseTimeout;
+    activityType.configuration.defaultExecutionStartToCloseTimeout = defaultExecutionStartToCloseTimeout;
+    activityType.configuration.defaultLambdaRole = defaultLambdaRole;
+    activityType.configuration.defaultTaskList = defaultTaskList;
+    activityType.configuration.defaultTaskPriority = defaultTaskPriority;
+    activityType.configuration.defaultTaskStartToCloseTimeout = defaultTaskStartToCloseTimeout;
+    domainWorkflows[domain].activityTypes.push(activityType);
+
+    var ret = {};
     return [200, ret];
 };
 module.exports.DescribeActivityType = function DescribeActivityType(aws) {

@@ -14,7 +14,7 @@ module.exports = {
     '/cloudformation': normalize(require('./cloudformation/boilerplate-2010-05-15.js')),
     '/cloudfront/2016-01-28': normalizeVersions('2016-01-28', [require('./cloudfront/boilerplate-2016-01-28.js')]),
     '/cloudhsm': normalize(require('./cloudhsm/boilerplate-2014-05-30.js')),
-    '/cloudsearch': normalize(require('./cloudsearch/boilerplate-2011-02-01.js')),
+    '/cloudsearch': normalize(require('./cloudsearch/boilerplate-2013-01-01.js')),
     '/cloudsearchdomain/2013-01-01': normalizeVersions('2013-01-01', [require('./cloudsearchdomain/boilerplate-2013-01-01.js')]),
     '/cloudtrail': normalize(require('./cloudtrail/boilerplate-2013-11-01.js')),
     '/codecommit': normalize(require('./codecommit/boilerplate-2015-04-13.js')),

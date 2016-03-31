@@ -1,11 +1,15 @@
 'use strict';
 
-var aws_common = require('../../lib/aws-common');
-var uuid = require('uuid'); // FIXME eliminate this extra dependency
-var psplit = require('../../lib/psplit');
-var AWSQueue = require('./inbox');
+const aws_common = require('../../lib/aws-common');
+const uuid = require('uuid'); // FIXME eliminate this extra dependency
+const psplit = require('../../lib/psplit');
+const AWSQueue = require('./inbox');
 
 const DEFAULT_SQS_VERSION = '';
+
+// Setup input and output to use AWS protocol query
+require('../../lib/aws-common/shape_http')('query', module.exports, 'http://queue.amazonaws.com/doc/2012-11-05/')
+
 
 var queueStore = {
     // Really, the "user id" for the queue should be a new value
