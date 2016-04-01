@@ -6,7 +6,7 @@ module.exports.createWorkflowType = function createWorkflowType(name, version, d
     return new WorkflowType(name, version, domain);
 };
 module.exports.createActivityType = function createActivityType(name, version) {
-    return new ActivityType(name, version, domain);
+    return new ActivityType(name, version);
 };
 
 var WorkflowType = function(name, version, domain) {
@@ -16,6 +16,7 @@ var WorkflowType = function(name, version, domain) {
     this.domain = domain;
     this.status = 'REGISTERED';
     this.creationDate = aws_common.timestamp();
+    this.deprecationDate = null;
     this.configuration = {};
     this.configuration.defaultChildPolicy = "";
     this.configuration.defaultTaskStartToCloseTimeout = "";
@@ -23,8 +24,6 @@ var WorkflowType = function(name, version, domain) {
     this.configuration.defaultLambdaRole = "";
     this.configuration.defaultTaskList = null;
     this.configuration.defaultTaskPriority = "";
-
-    this.activities = [];
 };
 WorkflowType.prototype.describe = function describe() {
     return {
@@ -56,7 +55,7 @@ var ActivityType = function(name, version) {
         defaultTaskStartToCloseTimeout: "",
         defaultTaskHeartbeatTimeout: "",
         defaultTaskList: null,
-        defaultTaskPriority: ""
+        defaultTaskPriority: "",
     };
     this.status = 'REGISTERED';
     this.deprecationDate = null;
@@ -117,7 +116,11 @@ var WorkflowRun = function(workflowType, workflowId) {
         };
     }
 
+    // creation-time settings
     this.tagList = [];
+    this.executionContext = "";
+    this.parent = null;
+    
     this.openDecisionTasks = [];
     this.openTimers = [];
     this.openLambdaFunctions = [];
@@ -128,8 +131,6 @@ var WorkflowRun = function(workflowType, workflowId) {
     this.closeTimestamp = null;
     this.runState = RUN_STATE_RUNNING;
     this.latestActivityTaskTimestamp = aws_common.timestamp(),
-    this.executionContext = "";
-    this.parent = null;
 };
 WorkflowRun.prototype.getMissingDefault = function getMissingDefault() {
     var defaultParams = [ "lambdaRole", "taskStartToCloseTimeout",
@@ -271,4 +272,31 @@ WorkflowRun.prototype.matchesFilter = function matchesFilter(filterMap) {
     }
 
     return otherFilterPass && timeFilterPass;
+};
+WorkflowRun.prototype.addEvent = function addEvent(name, details) {
+    var event = new WorkflowEvent();
+    this.eventHistory.push(event);
+    return event;
+};
+
+
+
+function WorkflowEvent(name, details) {
+    if (name.endsWith("Event") || name.endsWith("Attributes")) {
+        throw new Exception("bad event name: " + name);
+    }
+    this.id = aws_common.gen_request_id();
+    this.created = aws_common.timestamp();
+    this.name = name;
+    this.details = details;
+}
+WorkflowEvent.prototype.describe = function describe() {
+    var ret = {
+        eventType: this.name,
+        eventId: this.id,
+        eventTimestamp: "" + this.created
+    };
+    var attrName = this.name.charAt(0).toLowerCase() + this.name.substr(1) + "EventAttributes";
+    ret[attrName] = details;
+    return ret;
 };

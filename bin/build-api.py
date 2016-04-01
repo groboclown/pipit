@@ -70,7 +70,7 @@ def build_action(operation_name, api):
                 operation["http"]["requestUri"] = '/'
         # the {asdf} translates into :asdf
         ret += '    "' + operation["http"]["requestUri"].replace("{", ":").replace("}", "") + '",\n    '
-        end += ');'
+        end += ')'
     ret += 'function ' + operation_name + '(aws) {\n'
     ret += build_arguments(operation_name, api)
     ret += '\n\n        // TODO implement code\n\n'
@@ -80,7 +80,7 @@ def build_action(operation_name, api):
         retcode = operation["http"]["responseCode"]
     # retcode may have been parsed as a number
     ret += '        return [{0}, ret];\n'.format(retcode)
-    ret += '    ' + end + '\n'
+    ret += '    ' + end + ';\n'
     return ret
 
 

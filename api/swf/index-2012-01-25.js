@@ -2,7 +2,7 @@
 const aws_common = require('../../lib/aws-common');
 const workflow_def = require('./workflow');
 const textParse = require('../../lib/test-parse');
-const common_inbox = require('../../lib/inbox');
+const tasklist = require('./tasklist.js');
 
 /**
  * Amazon Simple Workflow Service version 2012-01-25
@@ -67,7 +67,7 @@ module.exports.ListDomains = function ListDomains(aws) {
                     description: domain.description,
                     status: domain.status
                 });
-                console.log("Adding domain " + domain.name);
+                // console.log("Adding domain " + domain.name);
             }
         }
     }
@@ -134,6 +134,7 @@ module.exports.RegisterWorkflowType = function RegisterWorkflowType(aws) {
             name + " version " + version];
     }
     if (!! defaultTaskList && ! isValidTaskListName(defaultTaskList.name)) {
+        console.log("Invalid default task list name [" + defaultTaskList.name + "]: " + (!! defaultTaskList) + " && " + (! isValidTaskListName(defaultTaskList.name)) + " = " + (!! defaultTaskList && ! isValidTaskListName(defaultTaskList.name)));
         return [400, "Sender", "InvalidParameterValue", "Invalid task list name " + defaultTaskList.name];
     }
 
@@ -208,7 +209,7 @@ module.exports.ListWorkflowTypes = function ListWorkflowTypes(aws) {
                 },
                 creationDate: "" + workflowType.creationDate,
                 description: workflowType.description,
-                deprecationDate:"" +  workflowType.deprecationDate
+                deprecationDate: (! workflowType.deprecationDate) ? null : ("" + workflowType.deprecationDate)
             });
         }
     }
@@ -260,13 +261,20 @@ module.exports.RegisterActivityType = function RegisterActivityType(aws) {
 
     var activityType = workflow_def.createActivityType(name, version);
     activityType.description = description;
-    activityType.configuration.defaultChildPolicy = defaultChildPolicy;
+
+    var defaultTaskScheduleToStartTimeout = aws.params['defaultTaskScheduleToStartTimeout'];
+    var defaultTaskPriority = aws.params['defaultTaskPriority'];
+    var defaultTaskScheduleToCloseTimeout = aws.params['defaultTaskScheduleToCloseTimeout'];
+    var defaultTaskStartToCloseTimeout = aws.params['defaultTaskStartToCloseTimeout'];
+    var defaultTaskHeartbeatTimeout = aws.params['defaultTaskHeartbeatTimeout'];
+    var defaultTaskList = aws.params['defaultTaskList'];
+
+    activityType.configuration.defaultTaskScheduleToStartTimeout = defaultTaskScheduleToStartTimeout;
+    activityType.configuration.defaultTaskScheduleToCloseTimeout = defaultTaskScheduleToCloseTimeout;
     activityType.configuration.defaultTaskStartToCloseTimeout = defaultTaskStartToCloseTimeout;
-    activityType.configuration.defaultExecutionStartToCloseTimeout = defaultExecutionStartToCloseTimeout;
-    activityType.configuration.defaultLambdaRole = defaultLambdaRole;
+    activityType.configuration.defaultTaskHeartbeatTimeout = defaultTaskHeartbeatTimeout;
     activityType.configuration.defaultTaskList = defaultTaskList;
     activityType.configuration.defaultTaskPriority = defaultTaskPriority;
-    activityType.configuration.defaultTaskStartToCloseTimeout = defaultTaskStartToCloseTimeout;
     domainWorkflows[domain].activityTypes.push(activityType);
 
     var ret = {};
@@ -322,7 +330,7 @@ module.exports.ListActivityTypes = function ListActivityTypes(aws) {
         if (activityType.status === registrationStatus) {
             infos.push({
                 status: activityType.status,
-                deprecationDate: "" + activityType.deprecationDate,
+                deprecationDate: (! activityType.deprecationDate) ? null : ("" + activityType.deprecationDate),
                 activityType: {
                     version: activityType.version,
                     name: activityType.name
@@ -676,19 +684,38 @@ module.exports.StartWorkflowExecution = function StartWorkflowExecution(aws) {
             missingDefault];
     }
 
+    // other creation-time settings, loaded from
+    run.executionContext = input;
+    run.tagList = tagList;
+
     var inbox = getDecisionTaskList(domain, run.executionConfiguration.taskList.name);
 
     // insert into the message the history up to this point.
+    var event = run.addEvent('WorkflowExecutionStarted', {
+        taskList: {
+            name: run.executionConfiguration.taskList.name
+        },
+        // This is initiated explicitly as a first workflow, so no parent.
+        parentInitiatedEventId: 0,
+        taskStartToCloseTimeout: str(run.executionConfiguration.taskStartToCloseTimeout),
+        childPolicy: run.executionConfiguration.childPolicy,
+        executionStartToCloseTimeout: str(run.executionConfiguration.executionStartToCloseTimeout),
+        input: run.executionContext,
+        workflowType: {
+            version: wtype.version,
+            name: wtype.name
+        },
+        tagList: tagList
+    });
 
-
-
-    // TODO implement code
+    // TODO write code
+    // inbox.
 
     var ret = {
         runId: run.runId
     };
     return [200, ret];
-}
+};
 module.exports.TerminateWorkflowExecution = function TerminateWorkflowExecution(aws) {
     var workflowId = aws.params['workflowId'];
     var reason = aws.params['reason'];
@@ -706,7 +733,7 @@ module.exports.TerminateWorkflowExecution = function TerminateWorkflowExecution(
 
     var ret = {};
     return [200, ret];
-}
+};
 module.exports.RequestCancelWorkflowExecution = function RequestCancelWorkflowExecution(aws) {
     var workflowId = aws.params['workflowId'];
     var domain = aws.params['domain'];
@@ -721,7 +748,7 @@ module.exports.RequestCancelWorkflowExecution = function RequestCancelWorkflowEx
 
     var ret = {};
     return [200, ret];
-}
+};
 
 
 
@@ -751,16 +778,20 @@ var isValidTaskListName = function isValidTaskListName(name) {
     // | (vertical bar), or any control characters (\u0000-\u001f | \u007f - \u009f). Also, it must not contain
     // the literal string "arn".
 
-    return
+    // Note: this return value must be wrapped in parenthesis, otherwise
+    // order of operations says that the return is returning an object that evaluates to false.
+
+    return (
         // must be non-null
-        !! name &&
+        (!! name) &&
 
         // must not start or end with whitespace
-        name.trim() === name &&
+        (name.trim() === name) &&
 
         // must not contain a colon, slash, vertical bar, or any
         // control characters, or the literal string "arn"
-        ! name.match(/:|\/|\||[\u0000-\u001f]|[\u007f-\u009f]|arn/);
+        (! name.match(/:|\/|\||[\u0000-\u001f]|[\u007f-\u009f]|arn/))
+    );
 };
 
 var getWorkflowType = function getWorkflowType(domain, name, version) {
@@ -775,14 +806,14 @@ var getWorkflowType = function getWorkflowType(domain, name, version) {
 
 var getDecisionTaskList = function getDecisionTaskList(domain, name) {
     if (! domainWorkflows[domain].decisionsTaskLists[name]) {
-        domainWorkflows[domain].decisionsTaskLists[name] = new common_inbox();
+        domainWorkflows[domain].decisionsTaskLists[name] = new tasklist.Decider(domain, name);
     }
     return domainWorkflows[domain].decisionsTaskLists[name];
 };
 
 var getActivityTaskList = function getActivityTaskList(domain, name) {
     if (! domainWorkflows[domain].activityTaskLists[name]) {
-        domainWorkflows[domain].activityTaskLists[name] = new common_inbox();
+        domainWorkflows[domain].activityTaskLists[name] = new tasklist.Activity(domain, name);
     }
     return domainWorkflows[domain].activityTaskLists[name];
 };
