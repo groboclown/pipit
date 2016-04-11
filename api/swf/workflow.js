@@ -120,7 +120,9 @@ var WorkflowRun = function(workflowType, workflowId) {
     this.tagList = [];
     this.executionContext = "";
     this.parent = null;
-    
+    this.startChildWorkflowEvent = null;
+    this.childWorkflowExecutionStartedEvent = null;
+
     this.openDecisionTasks = [];
     this.openTimers = [];
     this.openLambdaFunctions = [];
@@ -130,7 +132,10 @@ var WorkflowRun = function(workflowType, workflowId) {
     this.startTimestamp = aws_common.timestamp();
     this.closeTimestamp = null;
     this.runState = RUN_STATE_RUNNING;
-    this.latestActivityTaskTimestamp = aws_common.timestamp(),
+    this.latestActivityTaskTimestamp = aws_common.timestamp();
+    this.previousStartedEventId = null;
+
+    this.nextEventId = 0;
 };
 WorkflowRun.prototype.getMissingDefault = function getMissingDefault() {
     var defaultParams = [ "lambdaRole", "taskStartToCloseTimeout",
@@ -273,19 +278,135 @@ WorkflowRun.prototype.matchesFilter = function matchesFilter(filterMap) {
 
     return otherFilterPass && timeFilterPass;
 };
+/**
+ * Call after initializing the workflow execution in order to
+ * add the history and start timers.
+ * It is up to the caller to add the decision task to the inbox.
+ */
+WorkflowRun.prototype.start = function start() {
+    // Create the workflow start event.
+    this.addEvent('WorkflowExecutionStarted', {
+        taskList: {
+            name: this.executionConfiguration.taskList.name
+        },
+        // This is initiated explicitly as a first workflow, so no parent.
+        parentInitiatedEventId: 0,
+        taskStartToCloseTimeout: str(this.executionConfiguration.taskStartToCloseTimeout),
+        childPolicy: this.executionConfiguration.childPolicy,
+        executionStartToCloseTimeout: str(this.executionConfiguration.executionStartToCloseTimeout),
+        input: this.executionContext,
+        workflowType: {
+            version: this.workflowType.version,
+            name: this.workflowType.name
+        },
+        tagList: this.tagList
+    });
+
+    // Expire the workflow run after a certain period of time.
+    var t = this;
+    setTimeout(
+        function() {
+            t.timeOut();
+        },
+        // AWS timeout property is in seconds, setTimeout is in ms.
+        this.executionConfiguration.executionStartToCloseTimeout * 1000);
+};
+WorkflowRun.prototype.timeOut = function timeOut() {
+    // FIXME check if the workflow has actually completed or not before
+    // marking it as timed out.
+    // FIXME complete
+};
 WorkflowRun.prototype.addEvent = function addEvent(name, details) {
-    var event = new WorkflowEvent();
+    var id = this.nextEventId;
+    this.nextEventId++;
+    var event = new WorkflowEvent(id, name, details);
     this.eventHistory.push(event);
     return event;
 };
+WorkflowRun.prototype.terminate = function terminate(reason, details, requestedChildPolicy, cause) {
+    if (this.isClosed()) {
+        // don't change the actual state.
+        return;
+    }
+    var childPolicy = requestedChildPolicy || this.executionConfiguration.childPolicy;
+
+    // Set our state.
+    this.runState = RUN_STATE_TERMINATED;
+    this.closeTimestamp = aws_common.timestamp();
+
+    // Deal with the children.
+    if (childPolicy === 'REQUEST_CANCEL') {
+        for (var i = 0; i < this.openChildWorkflowExecutions.length; i++) {
+            var cwRun = this.openChildWorkflowExecutions[i];
+            if (! cwRun.isClosed()) {
+                cwRun.requestCancel();
+            }
+        }
+    } else if (childPolicy === 'ABANDON') {
+        // do nothing; they keep running
+    } else { // default to 'TERMINATE'
+        for (var i = 0; i < this.openChildWorkflowExecutions.length; i++) {
+            var cwRun = this.openChildWorkflowExecutions[i];
+            if (! cwRun.isClosed()) {
+                cwRun.terminate(reason, details, requestedChildPolicy);
+            }
+        }
+    }
+
+    // Clear out all open stuff
+    this.openDecisionTasks = [];
+    this.openTimers = [];
+    this.openLambdaFunctions = [];
+    this.openActivityTasks = [];
+    this.openChildWorkflowExecutions = [];
+
+    // Record the history event.
+    this.addEvent("WorkflowExecutionTerminated", {
+        details: details,
+        cause: cause,
+        reason: reason,
+        childPolicy: childPolicy
+    });
+
+    if (!! this.parent) {
+        // send a message to the parent that the child died.
+        var initiatedEventId = ((!! this.startChildWorkflowEvent)
+            ? this.startChildWorkflowEvent.id
+            : null
+            );
+        var startedEventId = ((!! this.childWorkflowExecutionStartedEvent)
+            ? this.childWorkflowExecutionStartedEvent.id
+            : null);
+        this.parent.addEvent("ChildWorkflowExecutionTerminated", {
+            initiatedEventId: initiatedEventId,
+            startedEventId: startedEventId,
+            workflowExecution: {
+                runId: this.runId,
+                workflowId: this.workflowId
+            },
+            workflowType: {
+                name: this.workflowType.name,
+                version: this.workflowType.version
+            }
+        });
+        for (var i = 0; i < this.parent.openChildWorkflowExecutions.length; i++) {
+            // delete ourself from the parent's open workflow list.
+            if (this.parent.openChildWorkflowExecutions[i] === this) {
+                this.parent.openChildWorkflowExecutions.splice(i, 1);
+            }
+        }
+    }
+};
+WorkflowRun.prototype.requestCancel = function requestCancel() {
+    // FIXME implement
+};
 
 
-
-function WorkflowEvent(name, details) {
+function WorkflowEvent(id, name, details) {
     if (name.endsWith("Event") || name.endsWith("Attributes")) {
         throw new Exception("bad event name: " + name);
     }
-    this.id = aws_common.gen_request_id();
+    this.id = id;
     this.created = aws_common.timestamp();
     this.name = name;
     this.details = details;
@@ -297,6 +418,12 @@ WorkflowEvent.prototype.describe = function describe() {
         eventTimestamp: "" + this.created
     };
     var attrName = this.name.charAt(0).toLowerCase() + this.name.substr(1) + "EventAttributes";
-    ret[attrName] = details;
+    ret[attrName] = {};
+    // Shallow copy
+    for (var p in this.details) {
+        if (this.details.hasOwnProperty(p)) {
+            ret[attrName][p] = this.details[p];
+        }
+    }
     return ret;
 };

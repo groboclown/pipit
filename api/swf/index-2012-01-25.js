@@ -682,34 +682,15 @@ module.exports.StartWorkflowExecution = function StartWorkflowExecution(aws) {
     if (!! missingDefault) {
         return [400, "Sender", "DefaultUndefinedFault", "Missing parameter " +
             missingDefault];
-    }
+    },
 
     // other creation-time settings, loaded from
     run.executionContext = input;
     run.tagList = tagList;
 
-    var inbox = getDecisionTaskList(domain, run.executionConfiguration.taskList.name);
-
-    // insert into the message the history up to this point.
-    var event = run.addEvent('WorkflowExecutionStarted', {
-        taskList: {
-            name: run.executionConfiguration.taskList.name
-        },
-        // This is initiated explicitly as a first workflow, so no parent.
-        parentInitiatedEventId: 0,
-        taskStartToCloseTimeout: str(run.executionConfiguration.taskStartToCloseTimeout),
-        childPolicy: run.executionConfiguration.childPolicy,
-        executionStartToCloseTimeout: str(run.executionConfiguration.executionStartToCloseTimeout),
-        input: run.executionContext,
-        workflowType: {
-            version: wtype.version,
-            name: wtype.name
-        },
-        tagList: tagList
-    });
-
-    // TODO write code
-    // inbox.
+    run.start();
+    var taskList = getDecisionTaskList(domain, run.executionConfiguration.taskList.name);
+    taskList.addWorkflowExecution(run);
 
     var ret = {
         runId: run.runId
@@ -725,11 +706,28 @@ module.exports.TerminateWorkflowExecution = function TerminateWorkflowExecution(
     var childPolicy = aws.params['childPolicy'];
     if (! domain) {
         return [400, "Sender", "MissingParameter", "Did not specify parameter domain"];
-    }        if (! workflowId) {
+    }
+    if (! workflowId) {
         return [400, "Sender", "MissingParameter", "Did not specify parameter workflowId"];
     }
+    if (!! childPolicy &&
+            !(childPolicy === 'TERMINATE' || childPolicy === 'REQUEST_CANCEL' || childPolicy === 'ABANDON')) {
+        return [400, "Sender", "ValidationError", "child policy incorrect"]
+    }
 
-    // TODO implement code
+    if (! domainWorkflows[domain]) {
+        return [400, "Sender", "UnknownResourceFault", "unknown domain " + str(domain)];
+    }
+
+    var workflowRun = getWorkflowRun(domain, workflowId, runId);
+    if (! workflowRun) {
+        return [400, "Sender", "UnknownResourceFault", "unknown workflow " + str(workflowId)];
+    }
+    if (workflowRun.isClosed()) {
+        return [400, "Sender", "OperationNotPermittedFault", "workflow already closed"];
+    }
+
+    workflowRun.terminate(reason, details, childPolicy, null);
 
     var ret = {};
     return [200, ret];
@@ -740,11 +738,24 @@ module.exports.RequestCancelWorkflowExecution = function RequestCancelWorkflowEx
     var runId = aws.params['runId'];
     if (! domain) {
         return [400, "Sender", "MissingParameter", "Did not specify parameter domain"];
-    }        if (! workflowId) {
+    }
+    if (! workflowId) {
         return [400, "Sender", "MissingParameter", "Did not specify parameter workflowId"];
     }
 
-    // TODO implement code
+    if (! domainWorkflows[domain]) {
+        return [400, "Sender", "UnknownResourceFault", "unknown domain " + str(domain)];
+    }
+
+    var workflowRun = getWorkflowRun(domain, workflowId, runId);
+    if (! workflowRun) {
+        return [400, "Sender", "UnknownResourceFault", "unknown workflow " + str(workflowId)];
+    }
+    if (workflowRun.isClosed()) {
+        return [400, "Sender", "OperationNotPermittedFault", "workflow already closed"];
+    }
+
+    workflowRun.requestCancel();
 
     var ret = {};
     return [200, ret];
@@ -817,6 +828,26 @@ var getActivityTaskList = function getActivityTaskList(domain, name) {
     }
     return domainWorkflows[domain].activityTaskLists[name];
 };
+
+var getWorkflowRun = function getWorkflowRun(domain, workflowId, runId) {
+    if (! domainWorkflows[domain]) {
+        return null;
+    }
+
+    for (var i = 0; i < domainWorkflows[domain].workflowRuns.length; i++) {
+        var wrun = domainWorkflows[domain].workflowRuns[i];
+        if (runId !== null && workflowId !== null && wrun.matches(workflowId, runId)) {
+            return wrun;
+        } else if (workflowId === null && wrun.runId === runId) {
+            return wrun;
+        } else if (runId === null && wrun.workflowId === workflowId) {
+            return wrun;
+        }
+    }
+    return null;
+};
+
+
 // -----------------------------------------------------------------------------
 // TODO to sort
 
