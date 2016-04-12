@@ -1,6 +1,6 @@
 'use strict';
-const aws_common = require('../../lib/aws-common');
 
+const awsCommon = require('../../lib/aws-common');
 
 /**
  * AWS OpsWorks version 2013-02-18
@@ -11,1479 +11,1549 @@ const aws_common = require('../../lib/aws-common');
 
 // Setup input and output to use AWS protocol json
 require('../../lib/aws-common/shape_http')('json', module.exports, null)
-module.exports.RegisterInstance = function RegisterInstance(aws) {
-        var RsaPublicKey = aws.params['RsaPublicKey'];
-        var RsaPublicKeyFingerprint = aws.params['RsaPublicKeyFingerprint'];
-        var PrivateIp = aws.params['PrivateIp'];
-        var InstanceIdentity = aws.params['InstanceIdentity'] /* structure */;
-        var StackId = aws.params['StackId'];
-        var Hostname = aws.params['Hostname'];
-        var PublicIp = aws.params['PublicIp'];
-        if (! StackId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter StackId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            InstanceId: ""
-        };
-        return [200, ret];
-    }
-module.exports.RegisterEcsCluster = function RegisterEcsCluster(aws) {
-        var EcsClusterArn = aws.params['EcsClusterArn'];
-        var StackId = aws.params['StackId'];
-        if (! EcsClusterArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter EcsClusterArn"];
-        }
-        if (! StackId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter StackId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            EcsClusterArn: ""
-        };
-        return [200, ret];
-    }
-module.exports.DetachElasticLoadBalancer = function DetachElasticLoadBalancer(aws) {
-        var LayerId = aws.params['LayerId'];
-        var ElasticLoadBalancerName = aws.params['ElasticLoadBalancerName'];
-        if (! ElasticLoadBalancerName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ElasticLoadBalancerName"];
-        }
-        if (! LayerId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter LayerId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.AssociateElasticIp = function AssociateElasticIp(aws) {
-        var ElasticIp = aws.params['ElasticIp'];
-        var InstanceId = aws.params['InstanceId'];
-        if (! ElasticIp) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ElasticIp"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.CreateApp = function CreateApp(aws) {
-        var Attributes = aws.params['Attributes'];
-        var Description = aws.params['Description'];
-        var Shortname = aws.params['Shortname'];
-        var SslConfiguration = aws.params['SslConfiguration'];
-        var EnableSsl = aws.params['EnableSsl'] /* boolean */;
-        var Domains = aws.params['Domains'];
-        var Name = aws.params['Name'];
-        var Type = aws.params['Type'];
-        var Environment = aws.params['Environment'];
-        var AppSource = aws.params['AppSource'];
-        var DataSources = aws.params['DataSources'];
-        var StackId = aws.params['StackId'];
-        if (! StackId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter StackId"];
-        }
-        if (! Name) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Name"];
-        }
-        if (! Type) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Type"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            AppId: ""
-        };
-        return [200, ret];
-    }
-module.exports.DeregisterElasticIp = function DeregisterElasticIp(aws) {
-        var ElasticIp = aws.params['ElasticIp'];
-        if (! ElasticIp) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ElasticIp"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.AttachElasticLoadBalancer = function AttachElasticLoadBalancer(aws) {
-        var LayerId = aws.params['LayerId'];
-        var ElasticLoadBalancerName = aws.params['ElasticLoadBalancerName'];
-        if (! ElasticLoadBalancerName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ElasticLoadBalancerName"];
-        }
-        if (! LayerId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter LayerId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.DeleteInstance = function DeleteInstance(aws) {
-        var DeleteElasticIp = aws.params['DeleteElasticIp'] /* boolean */;
-        var DeleteVolumes = aws.params['DeleteVolumes'] /* boolean */;
-        var InstanceId = aws.params['InstanceId'];
-        if (! InstanceId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter InstanceId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.DeleteLayer = function DeleteLayer(aws) {
-        var LayerId = aws.params['LayerId'];
-        if (! LayerId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter LayerId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.DescribeDeployments = function DescribeDeployments(aws) {
-        var AppId = aws.params['AppId'];
-        var DeploymentIds = aws.params['DeploymentIds'];
-        var StackId = aws.params['StackId'];
-
-
-        // TODO implement code
-
-        var ret = {
-            Deployments: [ {
-                IamUserArn: "",
-                InstanceIds: /*S3*/[ "" /*, ...*/ ],
-                Command: /*Ss*/{
-                    Name: "",
-                    Args: {} /* map */
-                },
-                Status: "",
-                CustomJson: "",
-                CompletedAt: "",
-                DeploymentId: "",
-                Comment: "",
-                AppId: "",
-                CreatedAt: "",
-                Duration: 0,
-                StackId: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.GrantAccess = function GrantAccess(aws) {
-        var InstanceId = aws.params['InstanceId'];
-        var ValidForInMinutes = aws.params['ValidForInMinutes'] /* integer */;
-        if (! InstanceId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter InstanceId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            TemporaryCredential: {
-                Password: "",
-                InstanceId: "",
-                ValidForInMinutes: 0,
-                Username: ""
-            }
-        };
-        return [200, ret];
-    }
-module.exports.StartInstance = function StartInstance(aws) {
-        var InstanceId = aws.params['InstanceId'];
-        if (! InstanceId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter InstanceId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
+// -----------------------------------
 module.exports.DescribeTimeBasedAutoScaling = function DescribeTimeBasedAutoScaling(aws) {
-        var InstanceIds = aws.params['InstanceIds'];
-        if (! InstanceIds) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter InstanceIds"];
-        }
+  var InstanceIds = aws.params['InstanceIds'];
+  if (!InstanceIds) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceIds'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            TimeBasedAutoScalingConfigurations: [ {
-                InstanceId: "",
-                AutoScalingSchedule: /*S40*/{
-                    Sunday: /*S41*/{} /* map */,
-                    Tuesday: /*S41*/{} /* map */,
-                    Thursday: /*S41*/{} /* map */,
-                    Saturday: /*S41*/{} /* map */,
-                    Wednesday: /*S41*/{} /* map */,
-                    Monday: /*S41*/{} /* map */,
-                    Friday: /*S41*/{} /* map */
-                }
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.UpdateElasticIp = function UpdateElasticIp(aws) {
-        var ElasticIp = aws.params['ElasticIp'];
-        var Name = aws.params['Name'];
-        if (! ElasticIp) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ElasticIp"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.UpdateVolume = function UpdateVolume(aws) {
-        var VolumeId = aws.params['VolumeId'];
-        var Name = aws.params['Name'];
-        var MountPoint = aws.params['MountPoint'];
-        if (! VolumeId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter VolumeId"];
-        }
+  var ret = {
+    TimeBasedAutoScalingConfigurations: [ {
+      AutoScalingSchedule: /*S40*/{
+        Thursday: /*S41*/{} /*Map*/,
+        Sunday: /*S41*/{} /*Map*/,
+        Friday: /*S41*/{} /*Map*/,
+        Monday: /*S41*/{} /*Map*/,
+        Saturday: /*S41*/{} /*Map*/,
+        Wednesday: /*S41*/{} /*Map*/,
+        Tuesday: /*S41*/{} /*Map*/,
+      },
+      InstanceId: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.StopInstance = function StopInstance(aws) {
+  var InstanceId = aws.params['InstanceId'];
+  if (!InstanceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.DeleteUserProfile = function DeleteUserProfile(aws) {
-        var IamUserArn = aws.params['IamUserArn'];
-        if (! IamUserArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter IamUserArn"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.UpdateApp = function UpdateApp(aws) {
-        var Name = aws.params['Name'];
-        var Attributes = aws.params['Attributes'];
-        var Type = aws.params['Type'];
-        var SslConfiguration = aws.params['SslConfiguration'];
-        var Environment = aws.params['Environment'];
-        var AppId = aws.params['AppId'];
-        var EnableSsl = aws.params['EnableSsl'] /* boolean */;
-        var AppSource = aws.params['AppSource'];
-        var Domains = aws.params['Domains'];
-        var Description = aws.params['Description'];
-        var DataSources = aws.params['DataSources'];
-        if (! AppId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter AppId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.DeleteStack = function DeleteStack(aws) {
-        var StackId = aws.params['StackId'];
-        if (! StackId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter StackId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.DeregisterInstance = function DeregisterInstance(aws) {
-        var InstanceId = aws.params['InstanceId'];
-        if (! InstanceId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter InstanceId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.DescribeStackSummary = function DescribeStackSummary(aws) {
-        var StackId = aws.params['StackId'];
-        if (! StackId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter StackId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            StackSummary: {
-                InstancesCount: {
-                    Terminated: 0,
-                    Stopped: 0,
-                    Rebooting: 0,
-                    RunningSetup: 0,
-                    Unassigning: 0,
-                    Stopping: 0,
-                    ShuttingDown: 0,
-                    Booting: 0,
-                    Requested: 0,
-                    ConnectionLost: 0,
-                    SetupFailed: 0,
-                    Pending: 0,
-                    Deregistering: 0,
-                    StartFailed: 0,
-                    Online: 0,
-                    Assigning: 0,
-                    Registering: 0,
-                    Registered: 0,
-                    Terminating: 0
-                },
-                AppsCount: 0,
-                Arn: "",
-                StackId: "",
-                Name: "",
-                LayersCount: 0
-            }
-        };
-        return [200, ret];
-    }
-module.exports.UpdateStack = function UpdateStack(aws) {
-        var Attributes = aws.params['Attributes'];
-        var DefaultOs = aws.params['DefaultOs'];
-        var DefaultAvailabilityZone = aws.params['DefaultAvailabilityZone'];
-        var ChefConfiguration = aws.params['ChefConfiguration'];
-        var DefaultSshKeyName = aws.params['DefaultSshKeyName'];
-        var DefaultSubnetId = aws.params['DefaultSubnetId'];
-        var HostnameTheme = aws.params['HostnameTheme'];
-        var ServiceRoleArn = aws.params['ServiceRoleArn'];
-        var UseCustomCookbooks = aws.params['UseCustomCookbooks'] /* boolean */;
-        var CustomCookbooksSource = aws.params['CustomCookbooksSource'];
-        var CustomJson = aws.params['CustomJson'];
-        var UseOpsworksSecurityGroups = aws.params['UseOpsworksSecurityGroups'] /* boolean */;
-        var DefaultRootDeviceType = aws.params['DefaultRootDeviceType'];
-        var ConfigurationManager = aws.params['ConfigurationManager'];
-        var AgentVersion = aws.params['AgentVersion'];
-        var Name = aws.params['Name'];
-        var DefaultInstanceProfileArn = aws.params['DefaultInstanceProfileArn'];
-        var StackId = aws.params['StackId'];
-        if (! StackId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter StackId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.UpdateRdsDbInstance = function UpdateRdsDbInstance(aws) {
-        var RdsDbInstanceArn = aws.params['RdsDbInstanceArn'];
-        var DbUser = aws.params['DbUser'];
-        var DbPassword = aws.params['DbPassword'];
-        if (! RdsDbInstanceArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter RdsDbInstanceArn"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.RegisterRdsDbInstance = function RegisterRdsDbInstance(aws) {
-        var RdsDbInstanceArn = aws.params['RdsDbInstanceArn'];
-        var DbPassword = aws.params['DbPassword'];
-        var DbUser = aws.params['DbUser'];
-        var StackId = aws.params['StackId'];
-        if (! StackId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter StackId"];
-        }
-        if (! RdsDbInstanceArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter RdsDbInstanceArn"];
-        }
-        if (! DbUser) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter DbUser"];
-        }
-        if (! DbPassword) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter DbPassword"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.DescribeLayers = function DescribeLayers(aws) {
-        var LayerIds = aws.params['LayerIds'];
-        var StackId = aws.params['StackId'];
-
-
-        // TODO implement code
-
-        var ret = {
-            Layers: [ {
-                Attributes: /*S17*/{} /* map */,
-                DefaultSecurityGroupNames: /*S3*/[ "" /*, ...*/ ],
-                Packages: /*S3*/[ "" /*, ...*/ ],
-                Shortname: "",
-                AutoAssignPublicIps: false,
-                CustomRecipes: /*S1b*/{
-                    Configure: /*S3*/[ "" /*, ...*/ ],
-                    Setup: /*S3*/[ "" /*, ...*/ ],
-                    Undeploy: /*S3*/[ "" /*, ...*/ ],
-                    Shutdown: /*S3*/[ "" /*, ...*/ ],
-                    Deploy: /*S3*/[ "" /*, ...*/ ]
-                },
-                UseEbsOptimizedInstances: false,
-                DefaultRecipes: /*S1b*/{
-                    Configure: /*S3*/[ "" /*, ...*/ ],
-                    Setup: /*S3*/[ "" /*, ...*/ ],
-                    Undeploy: /*S3*/[ "" /*, ...*/ ],
-                    Shutdown: /*S3*/[ "" /*, ...*/ ],
-                    Deploy: /*S3*/[ "" /*, ...*/ ]
-                },
-                LifecycleEventConfiguration: /*S1c*/{
-                    Shutdown: {
-                        ExecutionTimeout: 0,
-                        DelayUntilElbConnectionsDrained: false
-                    }
-                },
-                VolumeConfigurations: /*S19*/[ {
-                    Size: 0,
-                    VolumeType: "",
-                    MountPoint: "",
-                    NumberOfDisks: 0,
-                    Iops: 0,
-                    RaidLevel: 0
-                } /*, ...*/ ],
-                AutoAssignElasticIps: false,
-                CustomJson: "",
-                Type: "",
-                CustomSecurityGroupIds: /*S3*/[ "" /*, ...*/ ],
-                CustomInstanceProfileArn: "",
-                EnableAutoHealing: false,
-                LayerId: "",
-                CreatedAt: "",
-                InstallUpdatesOnBoot: false,
-                Name: "",
-                StackId: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.CreateUserProfile = function CreateUserProfile(aws) {
-        var IamUserArn = aws.params['IamUserArn'];
-        var SshUsername = aws.params['SshUsername'];
-        var SshPublicKey = aws.params['SshPublicKey'];
-        var AllowSelfManagement = aws.params['AllowSelfManagement'] /* boolean */;
-        if (! IamUserArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter IamUserArn"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            IamUserArn: ""
-        };
-        return [200, ret];
-    }
-module.exports.SetTimeBasedAutoScaling = function SetTimeBasedAutoScaling(aws) {
-        var InstanceId = aws.params['InstanceId'];
-        var AutoScalingSchedule = aws.params['AutoScalingSchedule'];
-        if (! InstanceId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter InstanceId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.DeregisterRdsDbInstance = function DeregisterRdsDbInstance(aws) {
-        var RdsDbInstanceArn = aws.params['RdsDbInstanceArn'];
-        if (! RdsDbInstanceArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter RdsDbInstanceArn"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.DescribeServiceErrors = function DescribeServiceErrors(aws) {
-        var InstanceId = aws.params['InstanceId'];
-        var ServiceErrorIds = aws.params['ServiceErrorIds'];
-        var StackId = aws.params['StackId'];
-
-
-        // TODO implement code
-
-        var ret = {
-            ServiceErrors: [ {
-                InstanceId: "",
-                ServiceErrorId: "",
-                Message: "",
-                CreatedAt: "",
-                Type: "",
-                StackId: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.DescribeStacks = function DescribeStacks(aws) {
-        var StackIds = aws.params['StackIds'];
-
-
-        // TODO implement code
-
-        var ret = {
-            Stacks: [ {
-                UseCustomCookbooks: false,
-                Region: "",
-                HostnameTheme: "",
-                ServiceRoleArn: "",
-                UseOpsworksSecurityGroups: false,
-                ConfigurationManager: /*Sa*/{
-                    Version: "",
-                    Name: ""
-                },
-                Name: "",
-                VpcId: "",
-                Attributes: /*S8*/{} /* map */,
-                DefaultOs: "",
-                DefaultAvailabilityZone: "",
-                ChefConfiguration: /*Sb*/{
-                    BerkshelfVersion: "",
-                    ManageBerkshelf: false
-                },
-                DefaultSshKeyName: "",
-                DefaultSubnetId: "",
-                CustomJson: "",
-                Arn: "",
-                AgentVersion: "",
-                CreatedAt: "",
-                DefaultRootDeviceType: "",
-                StackId: "",
-                CustomCookbooksSource: /*Sd*/{
-                    Type: "",
-                    Revision: "",
-                    Password: "",
-                    SshKey: "",
-                    Url: "",
-                    Username: ""
-                },
-                DefaultInstanceProfileArn: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.UpdateUserProfile = function UpdateUserProfile(aws) {
-        var IamUserArn = aws.params['IamUserArn'];
-        var SshUsername = aws.params['SshUsername'];
-        var SshPublicKey = aws.params['SshPublicKey'];
-        var AllowSelfManagement = aws.params['AllowSelfManagement'] /* boolean */;
-        if (! IamUserArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter IamUserArn"];
-        }
+  var AllowSelfManagement = aws.params['AllowSelfManagement'] /* Type boolean */;
+  var SshPublicKey = aws.params['SshPublicKey'];
+  var SshUsername = aws.params['SshUsername'];
+  var IamUserArn = aws.params['IamUserArn'];
+  if (!IamUserArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter IamUserArn'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.CloneStack = function CloneStack(aws) {
-        var UseCustomCookbooks = aws.params['UseCustomCookbooks'] /* boolean */;
-        var Region = aws.params['Region'];
-        var HostnameTheme = aws.params['HostnameTheme'];
-        var ServiceRoleArn = aws.params['ServiceRoleArn'];
-        var UseOpsworksSecurityGroups = aws.params['UseOpsworksSecurityGroups'] /* boolean */;
-        var ConfigurationManager = aws.params['ConfigurationManager'];
-        var Name = aws.params['Name'];
-        var VpcId = aws.params['VpcId'];
-        var Attributes = aws.params['Attributes'];
-        var DefaultOs = aws.params['DefaultOs'];
-        var DefaultAvailabilityZone = aws.params['DefaultAvailabilityZone'];
-        var ChefConfiguration = aws.params['ChefConfiguration'];
-        var DefaultSshKeyName = aws.params['DefaultSshKeyName'];
-        var DefaultSubnetId = aws.params['DefaultSubnetId'];
-        var CustomJson = aws.params['CustomJson'];
-        var SourceStackId = aws.params['SourceStackId'];
-        var DefaultRootDeviceType = aws.params['DefaultRootDeviceType'];
-        var AgentVersion = aws.params['AgentVersion'];
-        var ClonePermissions = aws.params['ClonePermissions'] /* boolean */;
-        var CloneAppIds = aws.params['CloneAppIds'];
-        var CustomCookbooksSource = aws.params['CustomCookbooksSource'];
-        var DefaultInstanceProfileArn = aws.params['DefaultInstanceProfileArn'];
-        if (! SourceStackId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter SourceStackId"];
-        }
-        if (! ServiceRoleArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ServiceRoleArn"];
-        }
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeregisterEcsCluster = function DeregisterEcsCluster(aws) {
+  var EcsClusterArn = aws.params['EcsClusterArn'];
+  if (!EcsClusterArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter EcsClusterArn'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            StackId: ""
-        };
-        return [200, ret];
-    }
-module.exports.DisassociateElasticIp = function DisassociateElasticIp(aws) {
-        var ElasticIp = aws.params['ElasticIp'];
-        if (! ElasticIp) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ElasticIp"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.DeregisterVolume = function DeregisterVolume(aws) {
-        var VolumeId = aws.params['VolumeId'];
-        if (! VolumeId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter VolumeId"];
-        }
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateInstance = function UpdateInstance(aws) {
+  var AutoScalingType = aws.params['AutoScalingType'];
+  var LayerIds = aws.params['LayerIds'];
+  var InstanceType = aws.params['InstanceType'];
+  var InstanceId = aws.params['InstanceId'];
+  var Architecture = aws.params['Architecture'];
+  var AgentVersion = aws.params['AgentVersion'];
+  var SshKeyName = aws.params['SshKeyName'];
+  var Hostname = aws.params['Hostname'];
+  var InstallUpdatesOnBoot = aws.params['InstallUpdatesOnBoot'] /* Type boolean */;
+  var AmiId = aws.params['AmiId'];
+  var EbsOptimized = aws.params['EbsOptimized'] /* Type boolean */;
+  var Os = aws.params['Os'];
+  if (!InstanceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.GetHostnameSuggestion = function GetHostnameSuggestion(aws) {
-        var LayerId = aws.params['LayerId'];
-        if (! LayerId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter LayerId"];
-        }
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeStackSummary = function DescribeStackSummary(aws) {
+  var StackId = aws.params['StackId'];
+  if (!StackId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StackId'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            Hostname: "",
-            LayerId: ""
-        };
-        return [200, ret];
-    }
+  var ret = {
+    StackSummary: {
+      InstancesCount: {
+        Unassigning: 0,
+        Rebooting: 0,
+        Terminated: 0,
+        Registered: 0,
+        Terminating: 0,
+        SetupFailed: 0,
+        Stopped: 0,
+        ShuttingDown: 0,
+        Pending: 0,
+        Assigning: 0,
+        Online: 0,
+        RunningSetup: 0,
+        Deregistering: 0,
+        Registering: 0,
+        Requested: 0,
+        ConnectionLost: 0,
+        Stopping: 0,
+        Booting: 0,
+        StartFailed: 0,
+      },
+      AppsCount: 0,
+      Name: '',
+      Arn: '',
+      LayersCount: 0,
+      StackId: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.DescribeElasticLoadBalancers = function DescribeElasticLoadBalancers(aws) {
-        var LayerIds = aws.params['LayerIds'];
-        var StackId = aws.params['StackId'];
+  var LayerIds = aws.params['LayerIds'];
+  var StackId = aws.params['StackId'];
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            ElasticLoadBalancers: [ {
-                SubnetIds: /*S3*/[ "" /*, ...*/ ],
-                ElasticLoadBalancerName: "",
-                AvailabilityZones: /*S3*/[ "" /*, ...*/ ],
-                Region: "",
-                DnsName: "",
-                VpcId: "",
-                LayerId: "",
-                Ec2InstanceIds: /*S3*/[ "" /*, ...*/ ],
-                StackId: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.DeleteApp = function DeleteApp(aws) {
-        var AppId = aws.params['AppId'];
-        if (! AppId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter AppId"];
-        }
+  var ret = {
+    ElasticLoadBalancers: [ {
+      DnsName: '',
+      VpcId: '',
+      LayerId: '',
+      Region: '',
+      Ec2InstanceIds: /*S3*/[ '', /* ...*/ ],
+      AvailabilityZones: /*S3*/[ '', /* ...*/ ],
+      StackId: '',
+      SubnetIds: /*S3*/[ '', /* ...*/ ],
+      ElasticLoadBalancerName: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GrantAccess = function GrantAccess(aws) {
+  var ValidForInMinutes = aws.params['ValidForInMinutes'] /* Type integer */;
+  var InstanceId = aws.params['InstanceId'];
+  if (!InstanceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {};
-        return [200, ret];
-    }
+  var ret = {
+    TemporaryCredential: {
+      Password: '',
+      ValidForInMinutes: 0,
+      InstanceId: '',
+      Username: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeRdsDbInstances = function DescribeRdsDbInstances(aws) {
+  var RdsDbInstanceArns = aws.params['RdsDbInstanceArns'];
+  var StackId = aws.params['StackId'];
+  if (!StackId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StackId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    RdsDbInstances: [ {
+      Region: '',
+      Engine: '',
+      MissingOnRds: false,
+      DbInstanceIdentifier: '',
+      DbUser: '',
+      RdsDbInstanceArn: '',
+      StackId: '',
+      DbPassword: '',
+      Address: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateElasticIp = function UpdateElasticIp(aws) {
+  var Name = aws.params['Name'];
+  var ElasticIp = aws.params['ElasticIp'];
+  if (!ElasticIp) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ElasticIp'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.DescribeStackProvisioningParameters = function DescribeStackProvisioningParameters(aws) {
-        var StackId = aws.params['StackId'];
-        if (! StackId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter StackId"];
-        }
+  var StackId = aws.params['StackId'];
+  if (!StackId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StackId'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            AgentInstallerUrl: "",
-            Parameters: {} /* map */
-        };
-        return [200, ret];
-    }
-module.exports.RegisterVolume = function RegisterVolume(aws) {
-        var Ec2VolumeId = aws.params['Ec2VolumeId'];
-        var StackId = aws.params['StackId'];
-        if (! StackId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter StackId"];
-        }
+  var ret = {
+    Parameters: {} /*Map*/,
+    AgentInstallerUrl: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.AssignVolume = function AssignVolume(aws) {
+  var InstanceId = aws.params['InstanceId'];
+  var VolumeId = aws.params['VolumeId'];
+  if (!VolumeId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VolumeId'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            VolumeId: ""
-        };
-        return [200, ret];
-    }
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.AttachElasticLoadBalancer = function AttachElasticLoadBalancer(aws) {
+  var LayerId = aws.params['LayerId'];
+  var ElasticLoadBalancerName = aws.params['ElasticLoadBalancerName'];
+  if (!ElasticLoadBalancerName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ElasticLoadBalancerName'];
+  }
+  if (!LayerId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LayerId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.DescribeRaidArrays = function DescribeRaidArrays(aws) {
-        var InstanceId = aws.params['InstanceId'];
-        var RaidArrayIds = aws.params['RaidArrayIds'];
-        var StackId = aws.params['StackId'];
+  var RaidArrayIds = aws.params['RaidArrayIds'];
+  var StackId = aws.params['StackId'];
+  var InstanceId = aws.params['InstanceId'];
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            RaidArrays: [ {
-                Size: 0,
-                VolumeType: "",
-                MountPoint: "",
-                Device: "",
-                AvailabilityZone: "",
-                InstanceId: "",
-                Iops: 0,
-                RaidLevel: 0,
-                CreatedAt: "",
-                NumberOfDisks: 0,
-                RaidArrayId: "",
-                Name: "",
-                StackId: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
+  var ret = {
+    RaidArrays: [ {
+      Size: 0,
+      Name: '',
+      NumberOfDisks: 0,
+      AvailabilityZone: '',
+      CreatedAt: '',
+      InstanceId: '',
+      VolumeType: '',
+      RaidArrayId: '',
+      Device: '',
+      Iops: 0,
+      StackId: '',
+      MountPoint: '',
+      RaidLevel: 0,
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RegisterEcsCluster = function RegisterEcsCluster(aws) {
+  var StackId = aws.params['StackId'];
+  var EcsClusterArn = aws.params['EcsClusterArn'];
+  if (!EcsClusterArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter EcsClusterArn'];
+  }
+  if (!StackId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StackId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    EcsClusterArn: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateInstance = function CreateInstance(aws) {
+  var AutoScalingType = aws.params['AutoScalingType'];
+  var RootDeviceType = aws.params['RootDeviceType'];
+  var LayerIds = aws.params['LayerIds'];
+  var InstanceType = aws.params['InstanceType'];
+  var StackId = aws.params['StackId'];
+  var Architecture = aws.params['Architecture'];
+  var AvailabilityZone = aws.params['AvailabilityZone'];
+  var VirtualizationType = aws.params['VirtualizationType'];
+  var Hostname = aws.params['Hostname'];
+  var InstallUpdatesOnBoot = aws.params['InstallUpdatesOnBoot'] /* Type boolean */;
+  var SshKeyName = aws.params['SshKeyName'];
+  var AmiId = aws.params['AmiId'];
+  var BlockDeviceMappings = aws.params['BlockDeviceMappings'];
+  var EbsOptimized = aws.params['EbsOptimized'] /* Type boolean */;
+  var AgentVersion = aws.params['AgentVersion'];
+  var Os = aws.params['Os'];
+  var SubnetId = aws.params['SubnetId'];
+  if (!StackId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StackId'];
+  }
+  if (!LayerIds) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LayerIds'];
+  }
+  if (!InstanceType) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceType'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    InstanceId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateApp = function UpdateApp(aws) {
+  var Environment = aws.params['Environment'];
+  var EnableSsl = aws.params['EnableSsl'] /* Type boolean */;
+  var Description = aws.params['Description'];
+  var SslConfiguration = aws.params['SslConfiguration'];
+  var AppSource = aws.params['AppSource'];
+  var Name = aws.params['Name'];
+  var Attributes = aws.params['Attributes'];
+  var DataSources = aws.params['DataSources'];
+  var Type = aws.params['Type'];
+  var AppId = aws.params['AppId'];
+  var Domains = aws.params['Domains'];
+  if (!AppId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AppId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteInstance = function DeleteInstance(aws) {
+  var DeleteElasticIp = aws.params['DeleteElasticIp'] /* Type boolean */;
+  var DeleteVolumes = aws.params['DeleteVolumes'] /* Type boolean */;
+  var InstanceId = aws.params['InstanceId'];
+  if (!InstanceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UnassignVolume = function UnassignVolume(aws) {
+  var VolumeId = aws.params['VolumeId'];
+  if (!VolumeId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VolumeId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UnassignInstance = function UnassignInstance(aws) {
+  var InstanceId = aws.params['InstanceId'];
+  if (!InstanceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateLayer = function UpdateLayer(aws) {
+  var CustomRecipes = aws.params['CustomRecipes'];
+  var Shortname = aws.params['Shortname'];
+  var AutoAssignPublicIps = aws.params['AutoAssignPublicIps'] /* Type boolean */;
+  var CustomSecurityGroupIds = aws.params['CustomSecurityGroupIds'];
+  var Name = aws.params['Name'];
+  var Attributes = aws.params['Attributes'];
+  var CustomJson = aws.params['CustomJson'];
+  var Packages = aws.params['Packages'];
+  var LifecycleEventConfiguration = aws.params['LifecycleEventConfiguration'];
+  var UseEbsOptimizedInstances = aws.params['UseEbsOptimizedInstances'] /* Type boolean */;
+  var InstallUpdatesOnBoot = aws.params['InstallUpdatesOnBoot'] /* Type boolean */;
+  var AutoAssignElasticIps = aws.params['AutoAssignElasticIps'] /* Type boolean */;
+  var CustomInstanceProfileArn = aws.params['CustomInstanceProfileArn'];
+  var LayerId = aws.params['LayerId'];
+  var EnableAutoHealing = aws.params['EnableAutoHealing'] /* Type boolean */;
+  var VolumeConfigurations = aws.params['VolumeConfigurations'];
+  if (!LayerId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LayerId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DisassociateElasticIp = function DisassociateElasticIp(aws) {
+  var ElasticIp = aws.params['ElasticIp'];
+  if (!ElasticIp) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ElasticIp'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RegisterVolume = function RegisterVolume(aws) {
+  var StackId = aws.params['StackId'];
+  var Ec2VolumeId = aws.params['Ec2VolumeId'];
+  if (!StackId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StackId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    VolumeId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeDeployments = function DescribeDeployments(aws) {
+  var StackId = aws.params['StackId'];
+  var DeploymentIds = aws.params['DeploymentIds'];
+  var AppId = aws.params['AppId'];
+
+
+  // TODO implement code
+
+  var ret = {
+    Deployments: [ {
+      CompletedAt: '',
+      IamUserArn: '',
+      Command: /*Ss*/{
+        Args: {} /*Map*/,
+        Name: '',
+      },
+      StackId: '',
+      Duration: 0,
+      CustomJson: '',
+      CreatedAt: '',
+      InstanceIds: /*S3*/[ '', /* ...*/ ],
+      Status: '',
+      DeploymentId: '',
+      Comment: '',
+      AppId: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeLoadBasedAutoScaling = function DescribeLoadBasedAutoScaling(aws) {
+  var LayerIds = aws.params['LayerIds'];
+  if (!LayerIds) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LayerIds'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    LoadBasedAutoScalingConfigurations: [ {
+      DownScaling: /*S30*/{
+        LoadThreshold: 0.0 /*Double*/,
+        IgnoreMetricsTime: 0,
+        ThresholdsWaitTime: 0,
+        InstanceCount: 0,
+        MemoryThreshold: 0.0 /*Double*/,
+        Alarms: /*S3*/[ '', /* ...*/ ],
+        CpuThreshold: 0.0 /*Double*/,
+      },
+      Enable: false,
+      UpScaling: /*S30*/{
+        LoadThreshold: 0.0 /*Double*/,
+        IgnoreMetricsTime: 0,
+        ThresholdsWaitTime: 0,
+        InstanceCount: 0,
+        MemoryThreshold: 0.0 /*Double*/,
+        Alarms: /*S3*/[ '', /* ...*/ ],
+        CpuThreshold: 0.0 /*Double*/,
+      },
+      LayerId: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateStack = function UpdateStack(aws) {
+  var HostnameTheme = aws.params['HostnameTheme'];
+  var UseOpsworksSecurityGroups = aws.params['UseOpsworksSecurityGroups'] /* Type boolean */;
+  var DefaultRootDeviceType = aws.params['DefaultRootDeviceType'];
+  var DefaultAvailabilityZone = aws.params['DefaultAvailabilityZone'];
+  var Name = aws.params['Name'];
+  var ChefConfiguration = aws.params['ChefConfiguration'];
+  var AgentVersion = aws.params['AgentVersion'];
+  var Attributes = aws.params['Attributes'];
+  var CustomJson = aws.params['CustomJson'];
+  var DefaultSshKeyName = aws.params['DefaultSshKeyName'];
+  var DefaultSubnetId = aws.params['DefaultSubnetId'];
+  var UseCustomCookbooks = aws.params['UseCustomCookbooks'] /* Type boolean */;
+  var ServiceRoleArn = aws.params['ServiceRoleArn'];
+  var CustomCookbooksSource = aws.params['CustomCookbooksSource'];
+  var DefaultOs = aws.params['DefaultOs'];
+  var DefaultInstanceProfileArn = aws.params['DefaultInstanceProfileArn'];
+  var StackId = aws.params['StackId'];
+  var ConfigurationManager = aws.params['ConfigurationManager'];
+  if (!StackId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StackId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.DescribeMyUserProfile = function DescribeMyUserProfile(aws) {
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            UserProfile: {
-                IamUserArn: "",
-                Name: "",
-                SshPublicKey: "",
-                SshUsername: ""
-            }
-        };
-        return [200, ret];
-    }
-module.exports.DescribeInstances = function DescribeInstances(aws) {
-        var LayerId = aws.params['LayerId'];
-        var InstanceIds = aws.params['InstanceIds'];
-        var StackId = aws.params['StackId'];
-
-
-        // TODO implement code
-
-        var ret = {
-            Instances: [ {
-                InstanceType: "",
-                Ec2InstanceId: "",
-                Os: "",
-                EcsClusterArn: "",
-                PrivateIp: "",
-                SshHostDsaKeyFingerprint: "",
-                EcsContainerInstanceArn: "",
-                StackId: "",
-                SshKeyName: "",
-                Hostname: "",
-                AutoScalingType: "",
-                InfrastructureClass: "",
-                PublicIp: "",
-                RootDeviceVolumeId: "",
-                LastServiceErrorId: "",
-                BlockDeviceMappings: /*Sz*/[ {
-                    DeviceName: "",
-                    VirtualName: "",
-                    Ebs: {
-                        SnapshotId: "",
-                        VolumeType: "",
-                        DeleteOnTermination: false,
-                        VolumeSize: 0,
-                        Iops: 0
-                    },
-                    NoDevice: ""
-                } /*, ...*/ ],
-                PublicDns: "",
-                ReportedAgentVersion: "",
-                PrivateDns: "",
-                SshHostRsaKeyFingerprint: "",
-                InstanceProfileArn: "",
-                InstanceId: "",
-                Platform: "",
-                RegisteredBy: "",
-                ElasticIp: "",
-                ReportedOs: {
-                    Version: "",
-                    Family: "",
-                    Name: ""
-                },
-                AvailabilityZone: "",
-                EbsOptimized: false,
-                SubnetId: "",
-                VirtualizationType: "",
-                RootDeviceType: "",
-                Architecture: "",
-                Status: "",
-                AgentVersion: "",
-                CreatedAt: "",
-                AmiId: "",
-                LayerIds: /*S3*/[ "" /*, ...*/ ],
-                SecurityGroupIds: /*S3*/[ "" /*, ...*/ ],
-                InstallUpdatesOnBoot: false
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.UnassignVolume = function UnassignVolume(aws) {
-        var VolumeId = aws.params['VolumeId'];
-        if (! VolumeId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter VolumeId"];
-        }
+  var ret = {
+    UserProfile: {
+      SshPublicKey: '',
+      SshUsername: '',
+      IamUserArn: '',
+      Name: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RegisterInstance = function RegisterInstance(aws) {
+  var PrivateIp = aws.params['PrivateIp'];
+  var RsaPublicKey = aws.params['RsaPublicKey'];
+  var PublicIp = aws.params['PublicIp'];
+  var InstanceIdentity = aws.params['InstanceIdentity'] /* Type structure */;
+  var StackId = aws.params['StackId'];
+  var RsaPublicKeyFingerprint = aws.params['RsaPublicKeyFingerprint'];
+  var Hostname = aws.params['Hostname'];
+  if (!StackId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StackId'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.DescribeRdsDbInstances = function DescribeRdsDbInstances(aws) {
-        var RdsDbInstanceArns = aws.params['RdsDbInstanceArns'];
-        var StackId = aws.params['StackId'];
-        if (! StackId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter StackId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            RdsDbInstances: [ {
-                Address: "",
-                Engine: "",
-                Region: "",
-                DbPassword: "",
-                RdsDbInstanceArn: "",
-                MissingOnRds: false,
-                DbUser: "",
-                DbInstanceIdentifier: "",
-                StackId: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.DescribeEcsClusters = function DescribeEcsClusters(aws) {
-        var NextToken = aws.params['NextToken'];
-        var EcsClusterArns = aws.params['EcsClusterArns'];
-        var MaxResults = aws.params['MaxResults'] /* integer */;
-        var StackId = aws.params['StackId'];
+  var ret = {
+    InstanceId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeregisterVolume = function DeregisterVolume(aws) {
+  var VolumeId = aws.params['VolumeId'];
+  if (!VolumeId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VolumeId'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            NextToken: "",
-            EcsClusters: [ {
-                EcsClusterName: "",
-                EcsClusterArn: "",
-                RegisteredAt: "",
-                StackId: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.CreateLayer = function CreateLayer(aws) {
-        var Attributes = aws.params['Attributes'];
-        var CustomRecipes = aws.params['CustomRecipes'];
-        var Packages = aws.params['Packages'];
-        var Shortname = aws.params['Shortname'];
-        var AutoAssignPublicIps = aws.params['AutoAssignPublicIps'] /* boolean */;
-        var UseEbsOptimizedInstances = aws.params['UseEbsOptimizedInstances'] /* boolean */;
-        var LifecycleEventConfiguration = aws.params['LifecycleEventConfiguration'];
-        var VolumeConfigurations = aws.params['VolumeConfigurations'];
-        var AutoAssignElasticIps = aws.params['AutoAssignElasticIps'] /* boolean */;
-        var CustomJson = aws.params['CustomJson'];
-        var Type = aws.params['Type'];
-        var CustomSecurityGroupIds = aws.params['CustomSecurityGroupIds'];
-        var CustomInstanceProfileArn = aws.params['CustomInstanceProfileArn'];
-        var EnableAutoHealing = aws.params['EnableAutoHealing'] /* boolean */;
-        var InstallUpdatesOnBoot = aws.params['InstallUpdatesOnBoot'] /* boolean */;
-        var Name = aws.params['Name'];
-        var StackId = aws.params['StackId'];
-        if (! StackId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter StackId"];
-        }
-        if (! Type) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Type"];
-        }
-        if (! Name) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Name"];
-        }
-        if (! Shortname) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Shortname"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            LayerId: ""
-        };
-        return [200, ret];
-    }
-module.exports.CreateDeployment = function CreateDeployment(aws) {
-        var CustomJson = aws.params['CustomJson'];
-        var Command = aws.params['Command'];
-        var Comment = aws.params['Comment'];
-        var AppId = aws.params['AppId'];
-        var InstanceIds = aws.params['InstanceIds'];
-        var StackId = aws.params['StackId'];
-        if (! StackId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter StackId"];
-        }
-        if (! Command) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Command"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            DeploymentId: ""
-        };
-        return [200, ret];
-    }
-module.exports.DeregisterEcsCluster = function DeregisterEcsCluster(aws) {
-        var EcsClusterArn = aws.params['EcsClusterArn'];
-        if (! EcsClusterArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter EcsClusterArn"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.CreateInstance = function CreateInstance(aws) {
-        var InstanceType = aws.params['InstanceType'];
-        var InstallUpdatesOnBoot = aws.params['InstallUpdatesOnBoot'] /* boolean */;
-        var Os = aws.params['Os'];
-        var EbsOptimized = aws.params['EbsOptimized'] /* boolean */;
-        var RootDeviceType = aws.params['RootDeviceType'];
-        var AvailabilityZone = aws.params['AvailabilityZone'];
-        var SshKeyName = aws.params['SshKeyName'];
-        var SubnetId = aws.params['SubnetId'];
-        var AutoScalingType = aws.params['AutoScalingType'];
-        var VirtualizationType = aws.params['VirtualizationType'];
-        var Architecture = aws.params['Architecture'];
-        var Hostname = aws.params['Hostname'];
-        var BlockDeviceMappings = aws.params['BlockDeviceMappings'];
-        var AgentVersion = aws.params['AgentVersion'];
-        var AmiId = aws.params['AmiId'];
-        var LayerIds = aws.params['LayerIds'];
-        var StackId = aws.params['StackId'];
-        if (! StackId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter StackId"];
-        }
-        if (! LayerIds) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter LayerIds"];
-        }
-        if (! InstanceType) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter InstanceType"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            InstanceId: ""
-        };
-        return [200, ret];
-    }
-module.exports.DescribeCommands = function DescribeCommands(aws) {
-        var InstanceId = aws.params['InstanceId'];
-        var CommandIds = aws.params['CommandIds'];
-        var DeploymentId = aws.params['DeploymentId'];
-
-
-        // TODO implement code
-
-        var ret = {
-            Commands: [ {
-                Status: "",
-                InstanceId: "",
-                LogUrl: "",
-                DeploymentId: "",
-                CommandId: "",
-                CreatedAt: "",
-                ExitCode: 0,
-                AcknowledgedAt: "",
-                CompletedAt: "",
-                Type: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.DescribeApps = function DescribeApps(aws) {
-        var AppIds = aws.params['AppIds'];
-        var StackId = aws.params['StackId'];
+  var AppIds = aws.params['AppIds'];
+  var StackId = aws.params['StackId'];
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            Apps: [ {
-                Attributes: /*Sm*/{} /* map */,
-                Description: "",
-                Shortname: "",
-                SslConfiguration: /*Sl*/{
-                    Chain: "",
-                    Certificate: "",
-                    PrivateKey: ""
-                },
-                EnableSsl: false,
-                Domains: /*S3*/[ "" /*, ...*/ ],
-                Name: "",
-                Type: "",
-                Environment: /*So*/[ {
-                    Value: "",
-                    Secure: false,
-                    Key: ""
-                } /*, ...*/ ],
-                AppId: "",
-                CreatedAt: "",
-                AppSource: /*Sd*/{
-                    Type: "",
-                    Revision: "",
-                    Password: "",
-                    SshKey: "",
-                    Url: "",
-                    Username: ""
-                },
-                DataSources: /*Si*/[ {
-                    Type: "",
-                    DatabaseName: "",
-                    Arn: ""
-                } /*, ...*/ ],
-                StackId: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.SetPermission = function SetPermission(aws) {
-        var IamUserArn = aws.params['IamUserArn'];
-        var Level = aws.params['Level'];
-        var AllowSsh = aws.params['AllowSsh'] /* boolean */;
-        var AllowSudo = aws.params['AllowSudo'] /* boolean */;
-        var StackId = aws.params['StackId'];
-        if (! StackId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter StackId"];
-        }
-        if (! IamUserArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter IamUserArn"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.UpdateInstance = function UpdateInstance(aws) {
-        var InstanceType = aws.params['InstanceType'];
-        var InstanceId = aws.params['InstanceId'];
-        var Os = aws.params['Os'];
-        var AutoScalingType = aws.params['AutoScalingType'];
-        var EbsOptimized = aws.params['EbsOptimized'] /* boolean */;
-        var Hostname = aws.params['Hostname'];
-        var SshKeyName = aws.params['SshKeyName'];
-        var Architecture = aws.params['Architecture'];
-        var AgentVersion = aws.params['AgentVersion'];
-        var AmiId = aws.params['AmiId'];
-        var LayerIds = aws.params['LayerIds'];
-        var InstallUpdatesOnBoot = aws.params['InstallUpdatesOnBoot'] /* boolean */;
-        if (! InstanceId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter InstanceId"];
-        }
+  var ret = {
+    Apps: [ {
+      Shortname: '',
+      Description: '',
+      Name: '',
+      Attributes: /*Sm*/{} /*Map*/,
+      DataSources: /*Si*/[ {
+        Arn: '',
+        Type: '',
+        DatabaseName: '',
+      }, /* ...*/ ],
+      Domains: /*S3*/[ '', /* ...*/ ],
+      CreatedAt: '',
+      Environment: /*So*/[ {
+        Secure: false,
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      EnableSsl: false,
+      SslConfiguration: /*Sl*/{
+        PrivateKey: '',
+        Chain: '',
+        Certificate: '',
+      },
+      AppSource: /*Sd*/{
+        Password: '',
+        Revision: '',
+        SshKey: '',
+        Url: '',
+        Type: '',
+        Username: '',
+      },
+      StackId: '',
+      Type: '',
+      AppId: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateLayer = function CreateLayer(aws) {
+  var CustomRecipes = aws.params['CustomRecipes'];
+  var Shortname = aws.params['Shortname'];
+  var AutoAssignPublicIps = aws.params['AutoAssignPublicIps'] /* Type boolean */;
+  var EnableAutoHealing = aws.params['EnableAutoHealing'] /* Type boolean */;
+  var Name = aws.params['Name'];
+  var Attributes = aws.params['Attributes'];
+  var CustomJson = aws.params['CustomJson'];
+  var Packages = aws.params['Packages'];
+  var LifecycleEventConfiguration = aws.params['LifecycleEventConfiguration'];
+  var UseEbsOptimizedInstances = aws.params['UseEbsOptimizedInstances'] /* Type boolean */;
+  var InstallUpdatesOnBoot = aws.params['InstallUpdatesOnBoot'] /* Type boolean */;
+  var AutoAssignElasticIps = aws.params['AutoAssignElasticIps'] /* Type boolean */;
+  var CustomInstanceProfileArn = aws.params['CustomInstanceProfileArn'];
+  var CustomSecurityGroupIds = aws.params['CustomSecurityGroupIds'];
+  var StackId = aws.params['StackId'];
+  var Type = aws.params['Type'];
+  var VolumeConfigurations = aws.params['VolumeConfigurations'];
+  if (!StackId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StackId'];
+  }
+  if (!Type) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Type'];
+  }
+  if (!Name) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
+  }
+  if (!Shortname) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Shortname'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.AssignVolume = function AssignVolume(aws) {
-        var InstanceId = aws.params['InstanceId'];
-        var VolumeId = aws.params['VolumeId'];
-        if (! VolumeId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter VolumeId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.UnassignInstance = function UnassignInstance(aws) {
-        var InstanceId = aws.params['InstanceId'];
-        if (! InstanceId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter InstanceId"];
-        }
+  var ret = {
+    LayerId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeregisterInstance = function DeregisterInstance(aws) {
+  var InstanceId = aws.params['InstanceId'];
+  if (!InstanceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.UpdateLayer = function UpdateLayer(aws) {
-        var Attributes = aws.params['Attributes'];
-        var CustomRecipes = aws.params['CustomRecipes'];
-        var Packages = aws.params['Packages'];
-        var Shortname = aws.params['Shortname'];
-        var AutoAssignPublicIps = aws.params['AutoAssignPublicIps'] /* boolean */;
-        var UseEbsOptimizedInstances = aws.params['UseEbsOptimizedInstances'] /* boolean */;
-        var LifecycleEventConfiguration = aws.params['LifecycleEventConfiguration'];
-        var AutoAssignElasticIps = aws.params['AutoAssignElasticIps'] /* boolean */;
-        var CustomJson = aws.params['CustomJson'];
-        var VolumeConfigurations = aws.params['VolumeConfigurations'];
-        var CustomSecurityGroupIds = aws.params['CustomSecurityGroupIds'];
-        var CustomInstanceProfileArn = aws.params['CustomInstanceProfileArn'];
-        var EnableAutoHealing = aws.params['EnableAutoHealing'] /* boolean */;
-        var LayerId = aws.params['LayerId'];
-        var Name = aws.params['Name'];
-        var InstallUpdatesOnBoot = aws.params['InstallUpdatesOnBoot'] /* boolean */;
-        if (! LayerId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter LayerId"];
-        }
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateUserProfile = function CreateUserProfile(aws) {
+  var AllowSelfManagement = aws.params['AllowSelfManagement'] /* Type boolean */;
+  var SshPublicKey = aws.params['SshPublicKey'];
+  var SshUsername = aws.params['SshUsername'];
+  var IamUserArn = aws.params['IamUserArn'];
+  if (!IamUserArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter IamUserArn'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.DescribeElasticIps = function DescribeElasticIps(aws) {
-        var InstanceId = aws.params['InstanceId'];
-        var Ips = aws.params['Ips'];
-        var StackId = aws.params['StackId'];
-
-
-        // TODO implement code
-
-        var ret = {
-            ElasticIps: [ {
-                Ip: "",
-                InstanceId: "",
-                Name: "",
-                Region: "",
-                Domain: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.CreateStack = function CreateStack(aws) {
-        var Attributes = aws.params['Attributes'];
-        var DefaultOs = aws.params['DefaultOs'];
-        var DefaultAvailabilityZone = aws.params['DefaultAvailabilityZone'];
-        var ChefConfiguration = aws.params['ChefConfiguration'];
-        var DefaultSshKeyName = aws.params['DefaultSshKeyName'];
-        var Region = aws.params['Region'];
-        var DefaultSubnetId = aws.params['DefaultSubnetId'];
-        var HostnameTheme = aws.params['HostnameTheme'];
-        var ServiceRoleArn = aws.params['ServiceRoleArn'];
-        var UseCustomCookbooks = aws.params['UseCustomCookbooks'] /* boolean */;
-        var CustomCookbooksSource = aws.params['CustomCookbooksSource'];
-        var CustomJson = aws.params['CustomJson'];
-        var UseOpsworksSecurityGroups = aws.params['UseOpsworksSecurityGroups'] /* boolean */;
-        var DefaultRootDeviceType = aws.params['DefaultRootDeviceType'];
-        var ConfigurationManager = aws.params['ConfigurationManager'];
-        var AgentVersion = aws.params['AgentVersion'];
-        var Name = aws.params['Name'];
-        var DefaultInstanceProfileArn = aws.params['DefaultInstanceProfileArn'];
-        var VpcId = aws.params['VpcId'];
-        if (! Name) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Name"];
-        }
-        if (! Region) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Region"];
-        }
-        if (! ServiceRoleArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ServiceRoleArn"];
-        }
-        if (! DefaultInstanceProfileArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter DefaultInstanceProfileArn"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            StackId: ""
-        };
-        return [200, ret];
-    }
-module.exports.RegisterElasticIp = function RegisterElasticIp(aws) {
-        var ElasticIp = aws.params['ElasticIp'];
-        var StackId = aws.params['StackId'];
-        if (! ElasticIp) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ElasticIp"];
-        }
-        if (! StackId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter StackId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            ElasticIp: ""
-        };
-        return [200, ret];
-    }
-module.exports.DescribePermissions = function DescribePermissions(aws) {
-        var IamUserArn = aws.params['IamUserArn'];
-        var StackId = aws.params['StackId'];
-
-
-        // TODO implement code
-
-        var ret = {
-            Permissions: [ {
-                IamUserArn: "",
-                Level: "",
-                AllowSsh: false,
-                AllowSudo: false,
-                StackId: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.DescribeVolumes = function DescribeVolumes(aws) {
-        var InstanceId = aws.params['InstanceId'];
-        var RaidArrayId = aws.params['RaidArrayId'];
-        var VolumeIds = aws.params['VolumeIds'];
-        var StackId = aws.params['StackId'];
-
-
-        // TODO implement code
-
-        var ret = {
-            Volumes: [ {
-                Size: 0,
-                VolumeType: "",
-                MountPoint: "",
-                Region: "",
-                Status: "",
-                Device: "",
-                AvailabilityZone: "",
-                InstanceId: "",
-                Iops: 0,
-                Ec2VolumeId: "",
-                VolumeId: "",
-                Name: "",
-                RaidArrayId: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.SetLoadBasedAutoScaling = function SetLoadBasedAutoScaling(aws) {
-        var DownScaling = aws.params['DownScaling'];
-        var Enable = aws.params['Enable'] /* boolean */;
-        var UpScaling = aws.params['UpScaling'];
-        var LayerId = aws.params['LayerId'];
-        if (! LayerId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter LayerId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.AssignInstance = function AssignInstance(aws) {
-        var InstanceId = aws.params['InstanceId'];
-        var LayerIds = aws.params['LayerIds'];
-        if (! InstanceId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter InstanceId"];
-        }
-        if (! LayerIds) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter LayerIds"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.StopInstance = function StopInstance(aws) {
-        var InstanceId = aws.params['InstanceId'];
-        if (! InstanceId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter InstanceId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
+  var ret = {
+    IamUserArn: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.DescribeAgentVersions = function DescribeAgentVersions(aws) {
-        var ConfigurationManager = aws.params['ConfigurationManager'];
-        var StackId = aws.params['StackId'];
+  var StackId = aws.params['StackId'];
+  var ConfigurationManager = aws.params['ConfigurationManager'];
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            AgentVersions: [ {
-                ConfigurationManager: /*Sa*/{
-                    Version: "",
-                    Name: ""
-                },
-                Version: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.StartStack = function StartStack(aws) {
-        var StackId = aws.params['StackId'];
-        if (! StackId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter StackId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
+  var ret = {
+    AgentVersions: [ {
+      ConfigurationManager: /*Sa*/{
+        Version: '',
+        Name: '',
+      },
+      Version: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.DescribeUserProfiles = function DescribeUserProfiles(aws) {
-        var IamUserArns = aws.params['IamUserArns'];
+  var IamUserArns = aws.params['IamUserArns'];
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            UserProfiles: [ {
-                IamUserArn: "",
-                AllowSelfManagement: false,
-                Name: "",
-                SshPublicKey: "",
-                SshUsername: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
+  var ret = {
+    UserProfiles: [ {
+      AllowSelfManagement: false,
+      SshPublicKey: '',
+      SshUsername: '',
+      IamUserArn: '',
+      Name: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteUserProfile = function DeleteUserProfile(aws) {
+  var IamUserArn = aws.params['IamUserArn'];
+  if (!IamUserArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter IamUserArn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeStacks = function DescribeStacks(aws) {
+  var StackIds = aws.params['StackIds'];
+
+
+  // TODO implement code
+
+  var ret = {
+    Stacks: [ {
+      DefaultSshKeyName: '',
+      VpcId: '',
+      Name: '',
+      DefaultRootDeviceType: '',
+      AgentVersion: '',
+      ChefConfiguration: /*Sb*/{
+        ManageBerkshelf: false,
+        BerkshelfVersion: '',
+      },
+      CustomJson: '',
+      CreatedAt: '',
+      ServiceRoleArn: '',
+      Region: '',
+      DefaultOs: '',
+      DefaultInstanceProfileArn: '',
+      HostnameTheme: '',
+      DefaultAvailabilityZone: '',
+      CustomCookbooksSource: /*Sd*/{
+        Password: '',
+        Revision: '',
+        SshKey: '',
+        Url: '',
+        Type: '',
+        Username: '',
+      },
+      Arn: '',
+      Attributes: /*S8*/{} /*Map*/,
+      DefaultSubnetId: '',
+      UseCustomCookbooks: false,
+      UseOpsworksSecurityGroups: false,
+      StackId: '',
+      ConfigurationManager: /*Sa*/{
+        Version: '',
+        Name: '',
+      },
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateRdsDbInstance = function UpdateRdsDbInstance(aws) {
+  var DbUser = aws.params['DbUser'];
+  var RdsDbInstanceArn = aws.params['RdsDbInstanceArn'];
+  var DbPassword = aws.params['DbPassword'];
+  if (!RdsDbInstanceArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RdsDbInstanceArn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CloneStack = function CloneStack(aws) {
+  var DefaultSshKeyName = aws.params['DefaultSshKeyName'];
+  var AgentVersion = aws.params['AgentVersion'];
+  var VpcId = aws.params['VpcId'];
+  var Name = aws.params['Name'];
+  var DefaultRootDeviceType = aws.params['DefaultRootDeviceType'];
+  var CloneAppIds = aws.params['CloneAppIds'];
+  var ChefConfiguration = aws.params['ChefConfiguration'];
+  var CustomJson = aws.params['CustomJson'];
+  var ServiceRoleArn = aws.params['ServiceRoleArn'];
+  var Region = aws.params['Region'];
+  var DefaultOs = aws.params['DefaultOs'];
+  var DefaultInstanceProfileArn = aws.params['DefaultInstanceProfileArn'];
+  var ClonePermissions = aws.params['ClonePermissions'] /* Type boolean */;
+  var HostnameTheme = aws.params['HostnameTheme'];
+  var DefaultAvailabilityZone = aws.params['DefaultAvailabilityZone'];
+  var CustomCookbooksSource = aws.params['CustomCookbooksSource'];
+  var Attributes = aws.params['Attributes'];
+  var DefaultSubnetId = aws.params['DefaultSubnetId'];
+  var UseCustomCookbooks = aws.params['UseCustomCookbooks'] /* Type boolean */;
+  var SourceStackId = aws.params['SourceStackId'];
+  var UseOpsworksSecurityGroups = aws.params['UseOpsworksSecurityGroups'] /* Type boolean */;
+  var ConfigurationManager = aws.params['ConfigurationManager'];
+  if (!SourceStackId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SourceStackId'];
+  }
+  if (!ServiceRoleArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ServiceRoleArn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    StackId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeElasticIps = function DescribeElasticIps(aws) {
+  var Ips = aws.params['Ips'];
+  var StackId = aws.params['StackId'];
+  var InstanceId = aws.params['InstanceId'];
+
+
+  // TODO implement code
+
+  var ret = {
+    ElasticIps: [ {
+      Region: '',
+      Ip: '',
+      Domain: '',
+      InstanceId: '',
+      Name: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.SetTimeBasedAutoScaling = function SetTimeBasedAutoScaling(aws) {
+  var AutoScalingSchedule = aws.params['AutoScalingSchedule'];
+  var InstanceId = aws.params['InstanceId'];
+  if (!InstanceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RegisterElasticIp = function RegisterElasticIp(aws) {
+  var StackId = aws.params['StackId'];
+  var ElasticIp = aws.params['ElasticIp'];
+  if (!ElasticIp) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ElasticIp'];
+  }
+  if (!StackId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StackId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ElasticIp: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateApp = function CreateApp(aws) {
+  var Shortname = aws.params['Shortname'];
+  var Description = aws.params['Description'];
+  var Name = aws.params['Name'];
+  var DataSources = aws.params['DataSources'];
+  var Attributes = aws.params['Attributes'];
+  var Domains = aws.params['Domains'];
+  var Environment = aws.params['Environment'];
+  var EnableSsl = aws.params['EnableSsl'] /* Type boolean */;
+  var SslConfiguration = aws.params['SslConfiguration'];
+  var AppSource = aws.params['AppSource'];
+  var StackId = aws.params['StackId'];
+  var Type = aws.params['Type'];
+  if (!StackId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StackId'];
+  }
+  if (!Name) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
+  }
+  if (!Type) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Type'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    AppId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeLayers = function DescribeLayers(aws) {
+  var LayerIds = aws.params['LayerIds'];
+  var StackId = aws.params['StackId'];
+
+
+  // TODO implement code
+
+  var ret = {
+    Layers: [ {
+      CustomRecipes: /*S1b*/{
+        Setup: /*S3*/[ '', /* ...*/ ],
+        Deploy: /*S3*/[ '', /* ...*/ ],
+        Configure: /*S3*/[ '', /* ...*/ ],
+        Undeploy: /*S3*/[ '', /* ...*/ ],
+        Shutdown: /*S3*/[ '', /* ...*/ ],
+      },
+      Shortname: '',
+      AutoAssignPublicIps: false,
+      CustomSecurityGroupIds: /*S3*/[ '', /* ...*/ ],
+      Name: '',
+      DefaultRecipes: /*S1b*/{
+        Setup: /*S3*/[ '', /* ...*/ ],
+        Deploy: /*S3*/[ '', /* ...*/ ],
+        Configure: /*S3*/[ '', /* ...*/ ],
+        Undeploy: /*S3*/[ '', /* ...*/ ],
+        Shutdown: /*S3*/[ '', /* ...*/ ],
+      },
+      LayerId: '',
+      Attributes: /*S17*/{} /*Map*/,
+      CustomJson: '',
+      CreatedAt: '',
+      Packages: /*S3*/[ '', /* ...*/ ],
+      LifecycleEventConfiguration: /*S1c*/{
+        Shutdown: {
+          DelayUntilElbConnectionsDrained: false,
+          ExecutionTimeout: 0,
+        },
+      },
+      UseEbsOptimizedInstances: false,
+      InstallUpdatesOnBoot: false,
+      AutoAssignElasticIps: false,
+      VolumeConfigurations: /*S19*/[ {
+        Size: 0,
+        NumberOfDisks: 0,
+        Iops: 0,
+        VolumeType: '',
+        MountPoint: '',
+        RaidLevel: 0,
+      }, /* ...*/ ],
+      DefaultSecurityGroupNames: /*S3*/[ '', /* ...*/ ],
+      EnableAutoHealing: false,
+      StackId: '',
+      Type: '',
+      CustomInstanceProfileArn: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeInstances = function DescribeInstances(aws) {
+  var StackId = aws.params['StackId'];
+  var InstanceIds = aws.params['InstanceIds'];
+  var LayerId = aws.params['LayerId'];
+
+
+  // TODO implement code
+
+  var ret = {
+    Instances: [ {
+      PrivateIp: '',
+      Ec2InstanceId: '',
+      RegisteredBy: '',
+      RootDeviceType: '',
+      Architecture: '',
+      AgentVersion: '',
+      AutoScalingType: '',
+      EcsClusterArn: '',
+      CreatedAt: '',
+      SshHostRsaKeyFingerprint: '',
+      Platform: '',
+      VirtualizationType: '',
+      InstallUpdatesOnBoot: false,
+      AmiId: '',
+      Hostname: '',
+      Os: '',
+      ElasticIp: '',
+      SecurityGroupIds: /*S3*/[ '', /* ...*/ ],
+      PrivateDns: '',
+      InstanceProfileArn: '',
+      LayerIds: /*S3*/[ '', /* ...*/ ],
+      InstanceType: '',
+      PublicIp: '',
+      PublicDns: '',
+      ReportedOs: {
+        Family: '',
+        Version: '',
+        Name: '',
+      },
+      RootDeviceVolumeId: '',
+      AvailabilityZone: '',
+      InfrastructureClass: '',
+      InstanceId: '',
+      EcsContainerInstanceArn: '',
+      SshKeyName: '',
+      Status: '',
+      BlockDeviceMappings: /*Sz*/[ {
+        DeviceName: '',
+        Ebs: {
+          SnapshotId: '',
+          DeleteOnTermination: false,
+          Iops: 0,
+          VolumeType: '',
+          VolumeSize: 0,
+        },
+        NoDevice: '',
+        VirtualName: '',
+      }, /* ...*/ ],
+      EbsOptimized: false,
+      SshHostDsaKeyFingerprint: '',
+      ReportedAgentVersion: '',
+      SubnetId: '',
+      StackId: '',
+      LastServiceErrorId: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateDeployment = function CreateDeployment(aws) {
+  var InstanceIds = aws.params['InstanceIds'];
+  var Command = aws.params['Command'];
+  var StackId = aws.params['StackId'];
+  var Comment = aws.params['Comment'];
+  var CustomJson = aws.params['CustomJson'];
+  var AppId = aws.params['AppId'];
+  if (!StackId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StackId'];
+  }
+  if (!Command) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Command'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    DeploymentId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DetachElasticLoadBalancer = function DetachElasticLoadBalancer(aws) {
+  var LayerId = aws.params['LayerId'];
+  var ElasticLoadBalancerName = aws.params['ElasticLoadBalancerName'];
+  if (!ElasticLoadBalancerName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ElasticLoadBalancerName'];
+  }
+  if (!LayerId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LayerId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateVolume = function UpdateVolume(aws) {
+  var Name = aws.params['Name'];
+  var MountPoint = aws.params['MountPoint'];
+  var VolumeId = aws.params['VolumeId'];
+  if (!VolumeId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VolumeId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.StartInstance = function StartInstance(aws) {
+  var InstanceId = aws.params['InstanceId'];
+  if (!InstanceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetHostnameSuggestion = function GetHostnameSuggestion(aws) {
+  var LayerId = aws.params['LayerId'];
+  if (!LayerId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LayerId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Hostname: '',
+    LayerId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.AssociateElasticIp = function AssociateElasticIp(aws) {
+  var InstanceId = aws.params['InstanceId'];
+  var ElasticIp = aws.params['ElasticIp'];
+  if (!ElasticIp) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ElasticIp'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.SetLoadBasedAutoScaling = function SetLoadBasedAutoScaling(aws) {
+  var DownScaling = aws.params['DownScaling'];
+  var Enable = aws.params['Enable'] /* Type boolean */;
+  var UpScaling = aws.params['UpScaling'];
+  var LayerId = aws.params['LayerId'];
+  if (!LayerId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LayerId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.StartStack = function StartStack(aws) {
+  var StackId = aws.params['StackId'];
+  if (!StackId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StackId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.UpdateMyUserProfile = function UpdateMyUserProfile(aws) {
-        var SshPublicKey = aws.params['SshPublicKey'];
+  var SshPublicKey = aws.params['SshPublicKey'];
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.StopStack = function StopStack(aws) {
-        var StackId = aws.params['StackId'];
-        if (! StackId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter StackId"];
-        }
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.SetPermission = function SetPermission(aws) {
+  var AllowSudo = aws.params['AllowSudo'] /* Type boolean */;
+  var Level = aws.params['Level'];
+  var StackId = aws.params['StackId'];
+  var IamUserArn = aws.params['IamUserArn'];
+  var AllowSsh = aws.params['AllowSsh'] /* Type boolean */;
+  if (!StackId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StackId'];
+  }
+  if (!IamUserArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter IamUserArn'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {};
-        return [200, ret];
-    }
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeVolumes = function DescribeVolumes(aws) {
+  var RaidArrayId = aws.params['RaidArrayId'];
+  var VolumeIds = aws.params['VolumeIds'];
+  var StackId = aws.params['StackId'];
+  var InstanceId = aws.params['InstanceId'];
+
+
+  // TODO implement code
+
+  var ret = {
+    Volumes: [ {
+      Ec2VolumeId: '',
+      Name: '',
+      AvailabilityZone: '',
+      VolumeType: '',
+      InstanceId: '',
+      VolumeId: '',
+      RaidArrayId: '',
+      Device: '',
+      Status: '',
+      Region: '',
+      Size: 0,
+      Iops: 0,
+      MountPoint: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribePermissions = function DescribePermissions(aws) {
+  var StackId = aws.params['StackId'];
+  var IamUserArn = aws.params['IamUserArn'];
+
+
+  // TODO implement code
+
+  var ret = {
+    Permissions: [ {
+      AllowSudo: false,
+      Level: '',
+      StackId: '',
+      IamUserArn: '',
+      AllowSsh: false,
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteLayer = function DeleteLayer(aws) {
+  var LayerId = aws.params['LayerId'];
+  if (!LayerId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LayerId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.RebootInstance = function RebootInstance(aws) {
-        var InstanceId = aws.params['InstanceId'];
-        if (! InstanceId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter InstanceId"];
-        }
+  var InstanceId = aws.params['InstanceId'];
+  if (!InstanceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.DescribeLoadBasedAutoScaling = function DescribeLoadBasedAutoScaling(aws) {
-        var LayerIds = aws.params['LayerIds'];
-        if (! LayerIds) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter LayerIds"];
-        }
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.AssignInstance = function AssignInstance(aws) {
+  var LayerIds = aws.params['LayerIds'];
+  var InstanceId = aws.params['InstanceId'];
+  if (!InstanceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
+  }
+  if (!LayerIds) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LayerIds'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            LoadBasedAutoScalingConfigurations: [ {
-                DownScaling: /*S30*/{
-                    IgnoreMetricsTime: 0,
-                    InstanceCount: 0,
-                    MemoryThreshold: 0.0 /*double*/,
-                    Alarms: /*S3*/[ "" /*, ...*/ ],
-                    LoadThreshold: 0.0 /*double*/,
-                    CpuThreshold: 0.0 /*double*/,
-                    ThresholdsWaitTime: 0
-                },
-                Enable: false,
-                UpScaling: /*S30*/{
-                    IgnoreMetricsTime: 0,
-                    InstanceCount: 0,
-                    MemoryThreshold: 0.0 /*double*/,
-                    Alarms: /*S3*/[ "" /*, ...*/ ],
-                    LoadThreshold: 0.0 /*double*/,
-                    CpuThreshold: 0.0 /*double*/,
-                    ThresholdsWaitTime: 0
-                },
-                LayerId: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeServiceErrors = function DescribeServiceErrors(aws) {
+  var ServiceErrorIds = aws.params['ServiceErrorIds'];
+  var StackId = aws.params['StackId'];
+  var InstanceId = aws.params['InstanceId'];
+
+
+  // TODO implement code
+
+  var ret = {
+    ServiceErrors: [ {
+      ServiceErrorId: '',
+      CreatedAt: '',
+      StackId: '',
+      Message: '',
+      InstanceId: '',
+      Type: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteApp = function DeleteApp(aws) {
+  var AppId = aws.params['AppId'];
+  if (!AppId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AppId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.StopStack = function StopStack(aws) {
+  var StackId = aws.params['StackId'];
+  if (!StackId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StackId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RegisterRdsDbInstance = function RegisterRdsDbInstance(aws) {
+  var DbUser = aws.params['DbUser'];
+  var RdsDbInstanceArn = aws.params['RdsDbInstanceArn'];
+  var StackId = aws.params['StackId'];
+  var DbPassword = aws.params['DbPassword'];
+  if (!StackId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StackId'];
+  }
+  if (!RdsDbInstanceArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RdsDbInstanceArn'];
+  }
+  if (!DbUser) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DbUser'];
+  }
+  if (!DbPassword) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DbPassword'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeEcsClusters = function DescribeEcsClusters(aws) {
+  var MaxResults = aws.params['MaxResults'] /* Type integer */;
+  var StackId = aws.params['StackId'];
+  var NextToken = aws.params['NextToken'];
+  var EcsClusterArns = aws.params['EcsClusterArns'];
+
+
+  // TODO implement code
+
+  var ret = {
+    NextToken: '',
+    EcsClusters: [ {
+      RegisteredAt: '',
+      EcsClusterName: '',
+      StackId: '',
+      EcsClusterArn: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeregisterElasticIp = function DeregisterElasticIp(aws) {
+  var ElasticIp = aws.params['ElasticIp'];
+  if (!ElasticIp) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ElasticIp'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeregisterRdsDbInstance = function DeregisterRdsDbInstance(aws) {
+  var RdsDbInstanceArn = aws.params['RdsDbInstanceArn'];
+  if (!RdsDbInstanceArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RdsDbInstanceArn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeCommands = function DescribeCommands(aws) {
+  var InstanceId = aws.params['InstanceId'];
+  var DeploymentId = aws.params['DeploymentId'];
+  var CommandIds = aws.params['CommandIds'];
+
+
+  // TODO implement code
+
+  var ret = {
+    Commands: [ {
+      LogUrl: '',
+      ExitCode: 0,
+      CompletedAt: '',
+      AcknowledgedAt: '',
+      DeploymentId: '',
+      Type: '',
+      Status: '',
+      CreatedAt: '',
+      InstanceId: '',
+      CommandId: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteStack = function DeleteStack(aws) {
+  var StackId = aws.params['StackId'];
+  if (!StackId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StackId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateStack = function CreateStack(aws) {
+  var HostnameTheme = aws.params['HostnameTheme'];
+  var DefaultRootDeviceType = aws.params['DefaultRootDeviceType'];
+  var UseOpsworksSecurityGroups = aws.params['UseOpsworksSecurityGroups'] /* Type boolean */;
+  var VpcId = aws.params['VpcId'];
+  var DefaultAvailabilityZone = aws.params['DefaultAvailabilityZone'];
+  var Name = aws.params['Name'];
+  var ChefConfiguration = aws.params['ChefConfiguration'];
+  var AgentVersion = aws.params['AgentVersion'];
+  var Attributes = aws.params['Attributes'];
+  var CustomJson = aws.params['CustomJson'];
+  var DefaultSshKeyName = aws.params['DefaultSshKeyName'];
+  var DefaultSubnetId = aws.params['DefaultSubnetId'];
+  var UseCustomCookbooks = aws.params['UseCustomCookbooks'] /* Type boolean */;
+  var ServiceRoleArn = aws.params['ServiceRoleArn'];
+  var CustomCookbooksSource = aws.params['CustomCookbooksSource'];
+  var Region = aws.params['Region'];
+  var DefaultOs = aws.params['DefaultOs'];
+  var DefaultInstanceProfileArn = aws.params['DefaultInstanceProfileArn'];
+  var ConfigurationManager = aws.params['ConfigurationManager'];
+  if (!Name) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
+  }
+  if (!Region) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Region'];
+  }
+  if (!ServiceRoleArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ServiceRoleArn'];
+  }
+  if (!DefaultInstanceProfileArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DefaultInstanceProfileArn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    StackId: '',
+  };
+  return [200, ret];
+};

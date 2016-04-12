@@ -1,6 +1,6 @@
 'use strict';
-const aws_common = require('../../lib/aws-common');
 
+const awsCommon = require('../../lib/aws-common');
 
 /**
  * AWS CloudFormation version 2010-05-15
@@ -11,394 +11,413 @@ const aws_common = require('../../lib/aws-common');
 
 // Setup input and output to use AWS protocol query
 require('../../lib/aws-common/shape_http')('query', module.exports, 'http://cloudformation.amazonaws.com/doc/2010-05-15/')
-module.exports.ListStackResources = function ListStackResources(aws) {
-        var NextToken = aws.params['NextToken'];
-        var StackName = aws.params['StackName'];
-        if (! StackName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter StackName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            NextToken: "",
-            StackResourceSummaries: [ {
-                ResourceType: "",
-                ResourceStatusReason: "",
-                LastUpdatedTimestamp: now(),
-                LogicalResourceId: "",
-                PhysicalResourceId: "",
-                ResourceStatus: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.DescribeStackResource = function DescribeStackResource(aws) {
-        var LogicalResourceId = aws.params['LogicalResourceId'];
-        var StackName = aws.params['StackName'];
-        if (! StackName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter StackName"];
-        }
-        if (! LogicalResourceId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter LogicalResourceId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            StackResourceDetail: {
-                Description: "",
-                Metadata: "",
-                ResourceType: "",
-                ResourceStatusReason: "",
-                LastUpdatedTimestamp: now(),
-                LogicalResourceId: "",
-                StackName: "",
-                PhysicalResourceId: "",
-                ResourceStatus: "",
-                StackId: ""
-            }
-        };
-        return [200, ret];
-    }
-module.exports.UpdateStack = function UpdateStack(aws) {
-        var Parameters = aws.params['Parameters'];
-        var TemplateURL = aws.params['TemplateURL'];
-        var StackPolicyDuringUpdateURL = aws.params['StackPolicyDuringUpdateURL'];
-        var Capabilities = aws.params['Capabilities'];
-        var UsePreviousTemplate = aws.params['UsePreviousTemplate'] /* boolean */;
-        var ResourceTypes = aws.params['ResourceTypes'];
-        var NotificationARNs = aws.params['NotificationARNs'];
-        var StackPolicyBody = aws.params['StackPolicyBody'];
-        var TemplateBody = aws.params['TemplateBody'];
-        var StackPolicyURL = aws.params['StackPolicyURL'];
-        var StackPolicyDuringUpdateBody = aws.params['StackPolicyDuringUpdateBody'];
-        var StackName = aws.params['StackName'];
-        if (! StackName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter StackName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            StackId: ""
-        };
-        return [200, ret];
-    }
-module.exports.CreateStack = function CreateStack(aws) {
-        var Tags = aws.params['Tags'];
-        var Parameters = aws.params['Parameters'];
-        var TemplateURL = aws.params['TemplateURL'];
-        var Capabilities = aws.params['Capabilities'];
-        var TimeoutInMinutes = aws.params['TimeoutInMinutes'] /* integer */;
-        var StackPolicyBody = aws.params['StackPolicyBody'];
-        var OnFailure = aws.params['OnFailure'];
-        var DisableRollback = aws.params['DisableRollback'] /* boolean */;
-        var NotificationARNs = aws.params['NotificationARNs'];
-        var TemplateBody = aws.params['TemplateBody'];
-        var StackPolicyURL = aws.params['StackPolicyURL'];
-        var ResourceTypes = aws.params['ResourceTypes'];
-        var StackName = aws.params['StackName'];
-        if (! StackName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter StackName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            StackId: ""
-        };
-        return [200, ret];
-    }
-module.exports.GetStackPolicy = function GetStackPolicy(aws) {
-        var StackName = aws.params['StackName'];
-        if (! StackName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter StackName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            StackPolicyBody: ""
-        };
-        return [200, ret];
-    }
-module.exports.GetTemplate = function GetTemplate(aws) {
-        var StackName = aws.params['StackName'];
-        if (! StackName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter StackName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            TemplateBody: ""
-        };
-        return [200, ret];
-    }
-module.exports.DescribeStackResources = function DescribeStackResources(aws) {
-        var LogicalResourceId = aws.params['LogicalResourceId'];
-        var PhysicalResourceId = aws.params['PhysicalResourceId'];
-        var StackName = aws.params['StackName'];
-
-
-        // TODO implement code
-
-        var ret = {
-            StackResources: [ {
-                Description: "",
-                ResourceType: "",
-                ResourceStatusReason: "",
-                Timestamp: now(),
-                LogicalResourceId: "",
-                StackName: "",
-                PhysicalResourceId: "",
-                ResourceStatus: "",
-                StackId: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.GetTemplateSummary = function GetTemplateSummary(aws) {
-        var TemplateBody = aws.params['TemplateBody'];
-        var TemplateURL = aws.params['TemplateURL'];
-        var StackName = aws.params['StackName'];
-
-
-        // TODO implement code
-
-        var ret = {
-            Parameters: [ {
-                DefaultValue: "",
-                Description: "",
-                ParameterConstraints: {
-                    AllowedValues: [ "" /*, ...*/ ]
-                },
-                ParameterType: "",
-                NoEcho: false,
-                ParameterKey: ""
-            } /*, ...*/ ],
-            Description: "",
-            Metadata: "",
-            Capabilities: /*Si*/[ "" /*, ...*/ ],
-            ResourceTypes: /*Sk*/[ "" /*, ...*/ ],
-            Version: "",
-            CapabilitiesReason: ""
-        };
-        return [200, ret];
-    }
-module.exports.DescribeStackEvents = function DescribeStackEvents(aws) {
-        var NextToken = aws.params['NextToken'];
-        var StackName = aws.params['StackName'];
-
-
-        // TODO implement code
-
-        var ret = {
-            NextToken: "",
-            StackEvents: [ {
-                ResourceProperties: "",
-                EventId: "",
-                ResourceType: "",
-                ResourceStatusReason: "",
-                Timestamp: now(),
-                LogicalResourceId: "",
-                StackId: "",
-                PhysicalResourceId: "",
-                ResourceStatus: "",
-                StackName: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.CancelUpdateStack = function CancelUpdateStack(aws) {
-        var StackName = aws.params['StackName'];
-        if (! StackName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter StackName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
+// -----------------------------------
 module.exports.DescribeStacks = function DescribeStacks(aws) {
-        var NextToken = aws.params['NextToken'];
-        var StackName = aws.params['StackName'];
+  var StackName = aws.params['StackName'];
+  var NextToken = aws.params['NextToken'];
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            NextToken: "",
-            Stacks: [ {
-                Tags: /*Sp*/[ {
-                    Value: "",
-                    Key: ""
-                } /*, ...*/ ],
-                Parameters: /*S9*/[ {
-                    ParameterKey: "",
-                    ParameterValue: "",
-                    UsePreviousValue: false
-                } /*, ...*/ ],
-                Description: "",
-                Outputs: [ {
-                    OutputKey: "",
-                    Description: "",
-                    OutputValue: ""
-                } /*, ...*/ ],
-                Capabilities: /*Si*/[ "" /*, ...*/ ],
-                TimeoutInMinutes: 0,
-                CreationTime: now(),
-                StackStatusReason: "",
-                NotificationARNs: /*Sg*/[ "" /*, ...*/ ],
-                StackStatus: "",
-                LastUpdatedTime: now(),
-                DisableRollback: false,
-                StackName: "",
-                StackId: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.EstimateTemplateCost = function EstimateTemplateCost(aws) {
-        var Parameters = aws.params['Parameters'];
-        var TemplateBody = aws.params['TemplateBody'];
-        var TemplateURL = aws.params['TemplateURL'];
-
-
-        // TODO implement code
-
-        var ret = {
-            Url: ""
-        };
-        return [200, ret];
-    }
+  var ret = {
+    Stacks: [ {
+      Description: '',
+      Tags: /*Sp*/[ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      StackStatus: '',
+      Parameters: /*S9*/[ {
+        ParameterKey: '',
+        ParameterValue: '',
+        UsePreviousValue: false,
+      }, /* ...*/ ],
+      StackStatusReason: '',
+      StackId: '',
+      Outputs: [ {
+        Description: '',
+        OutputValue: '',
+        OutputKey: '',
+      }, /* ...*/ ],
+      TimeoutInMinutes: 0,
+      NotificationARNs: /*Sg*/[ '', /* ...*/ ],
+      StackName: '',
+      Capabilities: /*Si*/[ '', /* ...*/ ],
+      DisableRollback: false,
+      CreationTime: awsCommon.timestamp(),
+      LastUpdatedTime: awsCommon.timestamp(),
+    }, /* ...*/ ],
+    NextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.SignalResource = function SignalResource(aws) {
-        var Status = aws.params['Status'];
-        var LogicalResourceId = aws.params['LogicalResourceId'];
-        var UniqueId = aws.params['UniqueId'];
-        var StackName = aws.params['StackName'];
-        if (! StackName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter StackName"];
-        }
-        if (! LogicalResourceId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter LogicalResourceId"];
-        }
-        if (! UniqueId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter UniqueId"];
-        }
-        if (! Status) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Status"];
-        }
+  var StackName = aws.params['StackName'];
+  var LogicalResourceId = aws.params['LogicalResourceId'];
+  var UniqueId = aws.params['UniqueId'];
+  var Status = aws.params['Status'];
+  if (!StackName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StackName'];
+  }
+  if (!LogicalResourceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LogicalResourceId'];
+  }
+  if (!UniqueId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter UniqueId'];
+  }
+  if (!Status) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Status'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.DescribeAccountLimits = function DescribeAccountLimits(aws) {
-        var NextToken = aws.params['NextToken'];
-
-
-        // TODO implement code
-
-        var ret = {
-            AccountLimits: [ {
-                Value: 0,
-                Name: ""
-            } /*, ...*/ ],
-            NextToken: ""
-        };
-        return [200, ret];
-    }
-module.exports.ValidateTemplate = function ValidateTemplate(aws) {
-        var TemplateBody = aws.params['TemplateBody'];
-        var TemplateURL = aws.params['TemplateURL'];
-
-
-        // TODO implement code
-
-        var ret = {
-            Parameters: [ {
-                DefaultValue: "",
-                NoEcho: false,
-                Description: "",
-                ParameterKey: ""
-            } /*, ...*/ ],
-            Description: "",
-            CapabilitiesReason: "",
-            Capabilities: /*Si*/[ "" /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.ContinueUpdateRollback = function ContinueUpdateRollback(aws) {
-        var StackName = aws.params['StackName'];
-        if (! StackName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter StackName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-
-        };
-        return [200, ret];
-    }
-module.exports.SetStackPolicy = function SetStackPolicy(aws) {
-        var StackPolicyBody = aws.params['StackPolicyBody'];
-        var StackPolicyURL = aws.params['StackPolicyURL'];
-        var StackName = aws.params['StackName'];
-        if (! StackName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter StackName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.ListStacks = function ListStacks(aws) {
-        var NextToken = aws.params['NextToken'];
-        var StackStatusFilter = aws.params['StackStatusFilter'] /* list */;
+  var StackStatusFilter = aws.params['StackStatusFilter'] /* Type list */;
+  var NextToken = aws.params['NextToken'];
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            NextToken: "",
-            StackSummaries: [ {
-                StackId: "",
-                StackStatus: "",
-                LastUpdatedTime: now(),
-                TemplateDescription: "",
-                CreationTime: now(),
-                StackStatusReason: "",
-                DeletionTime: now(),
-                StackName: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
+  var ret = {
+    StackSummaries: [ {
+      StackName: '',
+      StackStatus: '',
+      TemplateDescription: '',
+      StackStatusReason: '',
+      StackId: '',
+      CreationTime: awsCommon.timestamp(),
+      LastUpdatedTime: awsCommon.timestamp(),
+      DeletionTime: awsCommon.timestamp(),
+    }, /* ...*/ ],
+    NextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ContinueUpdateRollback = function ContinueUpdateRollback(aws) {
+  var StackName = aws.params['StackName'];
+  if (!StackName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StackName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetStackPolicy = function GetStackPolicy(aws) {
+  var StackName = aws.params['StackName'];
+  if (!StackName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StackName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    StackPolicyBody: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.EstimateTemplateCost = function EstimateTemplateCost(aws) {
+  var TemplateURL = aws.params['TemplateURL'];
+  var TemplateBody = aws.params['TemplateBody'];
+  var Parameters = aws.params['Parameters'];
+
+
+  // TODO implement code
+
+  var ret = {
+    Url: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetTemplateSummary = function GetTemplateSummary(aws) {
+  var TemplateURL = aws.params['TemplateURL'];
+  var TemplateBody = aws.params['TemplateBody'];
+  var StackName = aws.params['StackName'];
+
+
+  // TODO implement code
+
+  var ret = {
+    Parameters: [ {
+      NoEcho: false,
+      Description: '',
+      ParameterKey: '',
+      ParameterType: '',
+      DefaultValue: '',
+      ParameterConstraints: {
+        AllowedValues: [ '', /* ...*/ ],
+      },
+    }, /* ...*/ ],
+    Description: '',
+    Metadata: '',
+    Version: '',
+    Capabilities: /*Si*/[ '', /* ...*/ ],
+    CapabilitiesReason: '',
+    ResourceTypes: /*Sk*/[ '', /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CancelUpdateStack = function CancelUpdateStack(aws) {
+  var StackName = aws.params['StackName'];
+  if (!StackName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StackName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateStack = function UpdateStack(aws) {
+  var StackName = aws.params['StackName'];
+  var Capabilities = aws.params['Capabilities'];
+  var NotificationARNs = aws.params['NotificationARNs'];
+  var StackPolicyBody = aws.params['StackPolicyBody'];
+  var Parameters = aws.params['Parameters'];
+  var StackPolicyDuringUpdateURL = aws.params['StackPolicyDuringUpdateURL'];
+  var UsePreviousTemplate = aws.params['UsePreviousTemplate'] /* Type boolean */;
+  var StackPolicyURL = aws.params['StackPolicyURL'];
+  var StackPolicyDuringUpdateBody = aws.params['StackPolicyDuringUpdateBody'];
+  var TemplateURL = aws.params['TemplateURL'];
+  var TemplateBody = aws.params['TemplateBody'];
+  var ResourceTypes = aws.params['ResourceTypes'];
+  if (!StackName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StackName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    StackId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeStackResources = function DescribeStackResources(aws) {
+  var StackName = aws.params['StackName'];
+  var LogicalResourceId = aws.params['LogicalResourceId'];
+  var PhysicalResourceId = aws.params['PhysicalResourceId'];
+
+
+  // TODO implement code
+
+  var ret = {
+    StackResources: [ {
+      ResourceStatusReason: '',
+      StackName: '',
+      Description: '',
+      PhysicalResourceId: '',
+      ResourceStatus: '',
+      ResourceType: '',
+      LogicalResourceId: '',
+      StackId: '',
+      Timestamp: awsCommon.timestamp(),
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.SetStackPolicy = function SetStackPolicy(aws) {
+  var StackName = aws.params['StackName'];
+  var StackPolicyURL = aws.params['StackPolicyURL'];
+  var StackPolicyBody = aws.params['StackPolicyBody'];
+  if (!StackName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StackName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetTemplate = function GetTemplate(aws) {
+  var StackName = aws.params['StackName'];
+  if (!StackName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StackName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    TemplateBody: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeStackResource = function DescribeStackResource(aws) {
+  var StackName = aws.params['StackName'];
+  var LogicalResourceId = aws.params['LogicalResourceId'];
+  if (!StackName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StackName'];
+  }
+  if (!LogicalResourceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LogicalResourceId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    StackResourceDetail: {
+      StackName: '',
+      Description: '',
+      LastUpdatedTimestamp: awsCommon.timestamp(),
+      PhysicalResourceId: '',
+      ResourceStatus: '',
+      ResourceType: '',
+      LogicalResourceId: '',
+      StackId: '',
+      Metadata: '',
+      ResourceStatusReason: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeAccountLimits = function DescribeAccountLimits(aws) {
+  var NextToken = aws.params['NextToken'];
+
+
+  // TODO implement code
+
+  var ret = {
+    AccountLimits: [ {
+      Value: 0,
+      Name: '',
+    }, /* ...*/ ],
+    NextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ValidateTemplate = function ValidateTemplate(aws) {
+  var TemplateURL = aws.params['TemplateURL'];
+  var TemplateBody = aws.params['TemplateBody'];
+
+
+  // TODO implement code
+
+  var ret = {
+    Parameters: [ {
+      NoEcho: false,
+      ParameterKey: '',
+      Description: '',
+      DefaultValue: '',
+    }, /* ...*/ ],
+    Description: '',
+    CapabilitiesReason: '',
+    Capabilities: /*Si*/[ '', /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeStackEvents = function DescribeStackEvents(aws) {
+  var StackName = aws.params['StackName'];
+  var NextToken = aws.params['NextToken'];
+
+
+  // TODO implement code
+
+  var ret = {
+    StackEvents: [ {
+      ResourceStatusReason: '',
+      StackName: '',
+      ResourceStatus: '',
+      EventId: '',
+      Timestamp: awsCommon.timestamp(),
+      ResourceProperties: '',
+      ResourceType: '',
+      LogicalResourceId: '',
+      StackId: '',
+      PhysicalResourceId: '',
+    }, /* ...*/ ],
+    NextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListStackResources = function ListStackResources(aws) {
+  var StackName = aws.params['StackName'];
+  var NextToken = aws.params['NextToken'];
+  if (!StackName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StackName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    StackResourceSummaries: [ {
+      ResourceStatus: '',
+      LastUpdatedTimestamp: awsCommon.timestamp(),
+      PhysicalResourceId: '',
+      ResourceType: '',
+      LogicalResourceId: '',
+      ResourceStatusReason: '',
+    }, /* ...*/ ],
+    NextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.DeleteStack = function DeleteStack(aws) {
-        var StackName = aws.params['StackName'];
-        if (! StackName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter StackName"];
-        }
+  var StackName = aws.params['StackName'];
+  if (!StackName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StackName'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {};
-        return [200, ret];
-    }
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateStack = function CreateStack(aws) {
+  var Tags = aws.params['Tags'];
+  var StackName = aws.params['StackName'];
+  var NotificationARNs = aws.params['NotificationARNs'];
+  var TimeoutInMinutes = aws.params['TimeoutInMinutes'] /* Type integer */;
+  var DisableRollback = aws.params['DisableRollback'] /* Type boolean */;
+  var StackPolicyBody = aws.params['StackPolicyBody'];
+  var Parameters = aws.params['Parameters'];
+  var StackPolicyURL = aws.params['StackPolicyURL'];
+  var Capabilities = aws.params['Capabilities'];
+  var OnFailure = aws.params['OnFailure'];
+  var TemplateURL = aws.params['TemplateURL'];
+  var TemplateBody = aws.params['TemplateBody'];
+  var ResourceTypes = aws.params['ResourceTypes'];
+  if (!StackName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StackName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    StackId: '',
+  };
+  return [200, ret];
+};

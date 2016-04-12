@@ -1,6 +1,6 @@
 'use strict';
-const aws_common = require('../../lib/aws-common');
 
+const awsCommon = require('../../lib/aws-common');
 
 /**
  * Amazon Glacier version 2012-06-01
@@ -11,771 +11,802 @@ const aws_common = require('../../lib/aws-common');
 
 // Setup input and output to use AWS protocol rest-json
 require('../../lib/aws-common/shape_http')('rest-json', module.exports, null)
-module.exports.ListVaults = aws_common.as(
-    "GET",
-    "/:accountId/vaults",
-    function ListVaults(aws) {
-        var accountId = aws.reqParams.accountId;
-        var limit = aws.params['limit'];
-        var marker = aws.params['marker'];
-        if (! accountId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter accountId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            Marker: "",
-            VaultList: [ /*Sq*/{
-                NumberOfArchives: 0 /*long*/,
-                LastInventoryDate: "",
-                VaultARN: "",
-                SizeInBytes: 0 /*long*/,
-                VaultName: "",
-                CreationDate: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    });
-module.exports.RemoveTagsFromVault = aws_common.as(
-    "/:accountId/vaults/:vaultName/tags?operation=remove",
-    function RemoveTagsFromVault(aws) {
-        var accountId = aws.reqParams.accountId;
-        var vaultName = aws.reqParams.vaultName;
-        var TagKeys = aws.params['TagKeys'] /* list */;
-        if (! accountId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter accountId"];
-        }
-        if (! vaultName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter vaultName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [204, ret];
-    });
-module.exports.DescribeJob = aws_common.as(
-    "GET",
-    "/:accountId/vaults/:vaultName/jobs/:jobId",
-    function DescribeJob(aws) {
-        var accountId = aws.reqParams.accountId;
-        var jobId = aws.reqParams.jobId;
-        var vaultName = aws.reqParams.vaultName;
-        if (! accountId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter accountId"];
-        }
-        if (! vaultName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter vaultName"];
-        }
-        if (! jobId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter jobId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = /*Si*/{
-            Action: "",
-            JobId: "",
-            CreationDate: "",
-            JobDescription: "",
-            SHA256TreeHash: "",
-            SNSTopic: "",
-            ArchiveSizeInBytes: 0 /*long*/,
-            ArchiveId: "",
-            StatusCode: "",
-            ArchiveSHA256TreeHash: "",
-            StatusMessage: "",
-            VaultARN: "",
-            RetrievalByteRange: "",
-            InventorySizeInBytes: 0 /*long*/,
-            CompletionDate: "",
-            Completed: false,
-            InventoryRetrievalParameters: {
-                EndDate: "",
-                Limit: "",
-                Format: "",
-                StartDate: "",
-                Marker: ""
-            }
-        };
-        return [200, ret];
-    });
-module.exports.CreateVault = aws_common.as(
-    "PUT",
-    "/:accountId/vaults/:vaultName",
-    function CreateVault(aws) {
-        var accountId = aws.reqParams.accountId;
-        var vaultName = aws.reqParams.vaultName;
-        if (! accountId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter accountId"];
-        }
-        if (! vaultName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter vaultName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            location: ""
-        };
-        return [201, ret];
-    });
-module.exports.AbortVaultLock = aws_common.as(
-    "DELETE",
-    "/:accountId/vaults/:vaultName/lock-policy",
-    function AbortVaultLock(aws) {
-        var accountId = aws.reqParams.accountId;
-        var vaultName = aws.reqParams.vaultName;
-        if (! accountId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter accountId"];
-        }
-        if (! vaultName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter vaultName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [204, ret];
-    });
-module.exports.InitiateVaultLock = aws_common.as(
-    "/:accountId/vaults/:vaultName/lock-policy",
-    function InitiateVaultLock(aws) {
-        var accountId = aws.reqParams.accountId;
-        var policy = aws.params['policy'] /* structure */;
-        var vaultName = aws.reqParams.vaultName;
-        if (! accountId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter accountId"];
-        }
-        if (! vaultName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter vaultName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            lockId: ""
-        };
-        return [201, ret];
-    });
-module.exports.ListJobs = aws_common.as(
-    "GET",
-    "/:accountId/vaults/:vaultName/jobs",
-    function ListJobs(aws) {
-        var completed = aws.params['completed'];
-        var statuscode = aws.params['statuscode'];
-        var vaultName = aws.reqParams.vaultName;
-        var limit = aws.params['limit'];
-        var accountId = aws.reqParams.accountId;
-        var marker = aws.params['marker'];
-        if (! accountId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter accountId"];
-        }
-        if (! vaultName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter vaultName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            Marker: "",
-            JobList: [ /*Si*/{
-                Action: "",
-                JobId: "",
-                CreationDate: "",
-                JobDescription: "",
-                SHA256TreeHash: "",
-                SNSTopic: "",
-                ArchiveSizeInBytes: 0 /*long*/,
-                ArchiveId: "",
-                StatusCode: "",
-                ArchiveSHA256TreeHash: "",
-                StatusMessage: "",
-                VaultARN: "",
-                RetrievalByteRange: "",
-                InventorySizeInBytes: 0 /*long*/,
-                CompletionDate: "",
-                Completed: false,
-                InventoryRetrievalParameters: {
-                    EndDate: "",
-                    Limit: "",
-                    Format: "",
-                    StartDate: "",
-                    Marker: ""
-                }
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    });
-module.exports.DescribeVault = aws_common.as(
-    "GET",
-    "/:accountId/vaults/:vaultName",
-    function DescribeVault(aws) {
-        var accountId = aws.reqParams.accountId;
-        var vaultName = aws.reqParams.vaultName;
-        if (! accountId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter accountId"];
-        }
-        if (! vaultName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter vaultName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = /*Sq*/{
-            NumberOfArchives: 0 /*long*/,
-            LastInventoryDate: "",
-            VaultARN: "",
-            SizeInBytes: 0 /*long*/,
-            VaultName: "",
-            CreationDate: ""
-        };
-        return [200, ret];
-    });
-module.exports.DeleteArchive = aws_common.as(
-    "DELETE",
-    "/:accountId/vaults/:vaultName/archives/:archiveId",
-    function DeleteArchive(aws) {
-        var accountId = aws.reqParams.accountId;
-        var archiveId = aws.reqParams.archiveId;
-        var vaultName = aws.reqParams.vaultName;
-        if (! accountId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter accountId"];
-        }
-        if (! vaultName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter vaultName"];
-        }
-        if (! archiveId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter archiveId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [204, ret];
-    });
-module.exports.GetJobOutput = aws_common.as(
-    "GET",
-    "/:accountId/vaults/:vaultName/jobs/:jobId/output",
-    function GetJobOutput(aws) {
-        var range = aws.params['range'];
-        var accountId = aws.reqParams.accountId;
-        var jobId = aws.reqParams.jobId;
-        var vaultName = aws.reqParams.vaultName;
-        if (! accountId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter accountId"];
-        }
-        if (! vaultName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter vaultName"];
-        }
-        if (! jobId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter jobId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            contentType: "",
-            status: 0,
-            acceptRanges: "",
-            contentRange: "",
-            archiveDescription: "",
-            body: /*S10*/null /*blob*/,
-            checksum: ""
-        };
-        return [200, ret];
-    });
-module.exports.GetVaultNotifications = aws_common.as(
-    "GET",
-    "/:accountId/vaults/:vaultName/notification-configuration",
-    function GetVaultNotifications(aws) {
-        var accountId = aws.reqParams.accountId;
-        var vaultName = aws.reqParams.vaultName;
-        if (! accountId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter accountId"];
-        }
-        if (! vaultName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter vaultName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            vaultNotificationConfig: /*S19*/{
-                Events: [ "" /*, ...*/ ],
-                SNSTopic: ""
-            }
-        };
-        return [200, ret];
-    });
-module.exports.SetDataRetrievalPolicy = aws_common.as(
-    "PUT",
-    "/:accountId/policies/data-retrieval",
-    function SetDataRetrievalPolicy(aws) {
-        var accountId = aws.reqParams.accountId;
-        var Policy = aws.params['Policy'];
-        if (! accountId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter accountId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [204, ret];
-    });
-module.exports.SetVaultAccessPolicy = aws_common.as(
-    "PUT",
-    "/:accountId/vaults/:vaultName/access-policy",
-    function SetVaultAccessPolicy(aws) {
-        var accountId = aws.reqParams.accountId;
-        var policy = aws.params['policy'];
-        var vaultName = aws.reqParams.vaultName;
-        if (! accountId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter accountId"];
-        }
-        if (! vaultName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter vaultName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [204, ret];
-    });
-module.exports.SetVaultNotifications = aws_common.as(
-    "PUT",
-    "/:accountId/vaults/:vaultName/notification-configuration",
-    function SetVaultNotifications(aws) {
-        var vaultNotificationConfig = aws.params['vaultNotificationConfig'];
-        var accountId = aws.reqParams.accountId;
-        var vaultName = aws.reqParams.vaultName;
-        if (! accountId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter accountId"];
-        }
-        if (! vaultName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter vaultName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [204, ret];
-    });
-module.exports.DeleteVault = aws_common.as(
-    "DELETE",
-    "/:accountId/vaults/:vaultName",
-    function DeleteVault(aws) {
-        var accountId = aws.reqParams.accountId;
-        var vaultName = aws.reqParams.vaultName;
-        if (! accountId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter accountId"];
-        }
-        if (! vaultName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter vaultName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [204, ret];
-    });
-module.exports.UploadArchive = aws_common.as(
-    "/:accountId/vaults/:vaultName/archives",
-    function UploadArchive(aws) {
-        var archiveDescription = aws.params['archiveDescription'];
-        var accountId = aws.reqParams.accountId;
-        var checksum = aws.params['checksum'];
-        var vaultName = aws.reqParams.vaultName;
-        var body = aws.params['body'];
-        if (! vaultName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter vaultName"];
-        }
-        if (! accountId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter accountId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = /*S9*/{
-            location: "",
-            checksum: "",
-            archiveId: ""
-        };
-        return [201, ret];
-    });
-module.exports.ListMultipartUploads = aws_common.as(
-    "GET",
-    "/:accountId/vaults/:vaultName/multipart-uploads",
-    function ListMultipartUploads(aws) {
-        var accountId = aws.reqParams.accountId;
-        var limit = aws.params['limit'];
-        var marker = aws.params['marker'];
-        var vaultName = aws.reqParams.vaultName;
-        if (! accountId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter accountId"];
-        }
-        if (! vaultName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter vaultName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            Marker: "",
-            UploadsList: [ {
-                VaultARN: "",
-                CreationDate: "",
-                MultipartUploadId: "",
-                ArchiveDescription: "",
-                PartSizeInBytes: 0 /*long*/
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    });
-module.exports.DeleteVaultAccessPolicy = aws_common.as(
-    "DELETE",
-    "/:accountId/vaults/:vaultName/access-policy",
-    function DeleteVaultAccessPolicy(aws) {
-        var accountId = aws.reqParams.accountId;
-        var vaultName = aws.reqParams.vaultName;
-        if (! accountId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter accountId"];
-        }
-        if (! vaultName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter vaultName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [204, ret];
-    });
-module.exports.CompleteMultipartUpload = aws_common.as(
-    "/:accountId/vaults/:vaultName/multipart-uploads/:uploadId",
-    function CompleteMultipartUpload(aws) {
-        var uploadId = aws.reqParams.uploadId;
-        var accountId = aws.reqParams.accountId;
-        var checksum = aws.params['checksum'];
-        var vaultName = aws.reqParams.vaultName;
-        var archiveSize = aws.params['archiveSize'];
-        if (! accountId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter accountId"];
-        }
-        if (! vaultName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter vaultName"];
-        }
-        if (! uploadId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter uploadId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = /*S9*/{
-            location: "",
-            checksum: "",
-            archiveId: ""
-        };
-        return [201, ret];
-    });
-module.exports.DeleteVaultNotifications = aws_common.as(
-    "DELETE",
-    "/:accountId/vaults/:vaultName/notification-configuration",
-    function DeleteVaultNotifications(aws) {
-        var accountId = aws.reqParams.accountId;
-        var vaultName = aws.reqParams.vaultName;
-        if (! accountId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter accountId"];
-        }
-        if (! vaultName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter vaultName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [204, ret];
-    });
-module.exports.GetVaultAccessPolicy = aws_common.as(
-    "GET",
-    "/:accountId/vaults/:vaultName/access-policy",
-    function GetVaultAccessPolicy(aws) {
-        var accountId = aws.reqParams.accountId;
-        var vaultName = aws.reqParams.vaultName;
-        if (! accountId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter accountId"];
-        }
-        if (! vaultName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter vaultName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            policy: /*S14*/{
-                Policy: ""
-            }
-        };
-        return [200, ret];
-    });
-module.exports.AddTagsToVault = aws_common.as(
-    "/:accountId/vaults/:vaultName/tags?operation=add",
-    function AddTagsToVault(aws) {
-        var Tags = aws.params['Tags'];
-        var accountId = aws.reqParams.accountId;
-        var vaultName = aws.reqParams.vaultName;
-        if (! accountId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter accountId"];
-        }
-        if (! vaultName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter vaultName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [204, ret];
-    });
-module.exports.CompleteVaultLock = aws_common.as(
-    "/:accountId/vaults/:vaultName/lock-policy/:lockId",
-    function CompleteVaultLock(aws) {
-        var accountId = aws.reqParams.accountId;
-        var vaultName = aws.reqParams.vaultName;
-        var lockId = aws.reqParams.lockId;
-        if (! accountId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter accountId"];
-        }
-        if (! vaultName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter vaultName"];
-        }
-        if (! lockId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter lockId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [204, ret];
-    });
-module.exports.ListTagsForVault = aws_common.as(
-    "GET",
-    "/:accountId/vaults/:vaultName/tags",
-    function ListTagsForVault(aws) {
-        var accountId = aws.reqParams.accountId;
-        var vaultName = aws.reqParams.vaultName;
-        if (! accountId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter accountId"];
-        }
-        if (! vaultName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter vaultName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            Tags: /*S5*/{} /* map */
-        };
-        return [200, ret];
-    });
-module.exports.ListParts = aws_common.as(
-    "GET",
-    "/:accountId/vaults/:vaultName/multipart-uploads/:uploadId",
-    function ListParts(aws) {
-        var uploadId = aws.reqParams.uploadId;
-        var accountId = aws.reqParams.accountId;
-        var limit = aws.params['limit'];
-        var marker = aws.params['marker'];
-        var vaultName = aws.reqParams.vaultName;
-        if (! accountId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter accountId"];
-        }
-        if (! vaultName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter vaultName"];
-        }
-        if (! uploadId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter uploadId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            CreationDate: "",
-            ArchiveDescription: "",
-            PartSizeInBytes: 0 /*long*/,
-            Marker: "",
-            VaultARN: "",
-            MultipartUploadId: "",
-            Parts: [ {
-                SHA256TreeHash: "",
-                RangeInBytes: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    });
-module.exports.InitiateMultipartUpload = aws_common.as(
-    "/:accountId/vaults/:vaultName/multipart-uploads",
-    function InitiateMultipartUpload(aws) {
-        var archiveDescription = aws.params['archiveDescription'];
-        var accountId = aws.reqParams.accountId;
-        var vaultName = aws.reqParams.vaultName;
-        var partSize = aws.params['partSize'];
-        if (! accountId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter accountId"];
-        }
-        if (! vaultName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter vaultName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            uploadId: "",
-            location: ""
-        };
-        return [201, ret];
-    });
-module.exports.UploadMultipartPart = aws_common.as(
-    "PUT",
-    "/:accountId/vaults/:vaultName/multipart-uploads/:uploadId",
-    function UploadMultipartPart(aws) {
-        var uploadId = aws.reqParams.uploadId;
-        var range = aws.params['range'];
-        var vaultName = aws.reqParams.vaultName;
-        var body = aws.params['body'];
-        var accountId = aws.reqParams.accountId;
-        var checksum = aws.params['checksum'];
-        if (! accountId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter accountId"];
-        }
-        if (! vaultName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter vaultName"];
-        }
-        if (! uploadId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter uploadId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            checksum: ""
-        };
-        return [204, ret];
-    });
-module.exports.GetDataRetrievalPolicy = aws_common.as(
-    "GET",
-    "/:accountId/policies/data-retrieval",
-    function GetDataRetrievalPolicy(aws) {
-        var accountId = aws.reqParams.accountId;
-        if (! accountId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter accountId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            Policy: /*Su*/{
-                Rules: [ {
-                    BytesPerHour: 0 /*long*/,
-                    Strategy: ""
-                } /*, ...*/ ]
-            }
-        };
-        return [200, ret];
-    });
-module.exports.GetVaultLock = aws_common.as(
-    "GET",
-    "/:accountId/vaults/:vaultName/lock-policy",
-    function GetVaultLock(aws) {
-        var accountId = aws.reqParams.accountId;
-        var vaultName = aws.reqParams.vaultName;
-        if (! accountId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter accountId"];
-        }
-        if (! vaultName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter vaultName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            CreationDate: "",
-            State: "",
-            ExpirationDate: "",
-            Policy: ""
-        };
-        return [200, ret];
-    });
-module.exports.InitiateJob = aws_common.as(
-    "/:accountId/vaults/:vaultName/jobs",
-    function InitiateJob(aws) {
-        var accountId = aws.reqParams.accountId;
-        var jobParameters = aws.params['jobParameters'] /* structure */;
-        var vaultName = aws.reqParams.vaultName;
-        if (! accountId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter accountId"];
-        }
-        if (! vaultName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter vaultName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            location: "",
-            jobId: ""
-        };
-        return [202, ret];
-    });
-module.exports.AbortMultipartUpload = aws_common.as(
-    "DELETE",
-    "/:accountId/vaults/:vaultName/multipart-uploads/:uploadId",
-    function AbortMultipartUpload(aws) {
-        var uploadId = aws.reqParams.uploadId;
-        var accountId = aws.reqParams.accountId;
-        var vaultName = aws.reqParams.vaultName;
-        if (! accountId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter accountId"];
-        }
-        if (! vaultName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter vaultName"];
-        }
-        if (! uploadId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter uploadId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [204, ret];
-    });
+// -----------------------------------
+module.exports.AbortVaultLock = awsCommon.as(
+  'DELETE',
+  '/:accountId/vaults/:vaultName/lock-policy',
+  function AbortVaultLock(aws) {
+  var accountId = aws.reqParams['accountId'];
+  var vaultName = aws.reqParams['vaultName'];
+  if (!accountId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter accountId'];
+  }
+  if (!vaultName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter vaultName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [204, ret];
+});
+// -----------------------------------
+module.exports.DeleteVaultNotifications = awsCommon.as(
+  'DELETE',
+  '/:accountId/vaults/:vaultName/notification-configuration',
+  function DeleteVaultNotifications(aws) {
+  var accountId = aws.reqParams['accountId'];
+  var vaultName = aws.reqParams['vaultName'];
+  if (!accountId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter accountId'];
+  }
+  if (!vaultName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter vaultName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [204, ret];
+});
+// -----------------------------------
+module.exports.CompleteVaultLock = awsCommon.as(
+  '/:accountId/vaults/:vaultName/lock-policy/:lockId',
+  function CompleteVaultLock(aws) {
+  var accountId = aws.reqParams['accountId'];
+  var vaultName = aws.reqParams['vaultName'];
+  var lockId = aws.reqParams['lockId'];
+  if (!accountId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter accountId'];
+  }
+  if (!vaultName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter vaultName'];
+  }
+  if (!lockId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter lockId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [204, ret];
+});
+// -----------------------------------
+module.exports.ListTagsForVault = awsCommon.as(
+  'GET',
+  '/:accountId/vaults/:vaultName/tags',
+  function ListTagsForVault(aws) {
+  var accountId = aws.reqParams['accountId'];
+  var vaultName = aws.reqParams['vaultName'];
+  if (!accountId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter accountId'];
+  }
+  if (!vaultName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter vaultName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Tags: /*S5*/{} /*Map*/,
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.DeleteVaultAccessPolicy = awsCommon.as(
+  'DELETE',
+  '/:accountId/vaults/:vaultName/access-policy',
+  function DeleteVaultAccessPolicy(aws) {
+  var accountId = aws.reqParams['accountId'];
+  var vaultName = aws.reqParams['vaultName'];
+  if (!accountId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter accountId'];
+  }
+  if (!vaultName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter vaultName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [204, ret];
+});
+// -----------------------------------
+module.exports.DescribeVault = awsCommon.as(
+  'GET',
+  '/:accountId/vaults/:vaultName',
+  function DescribeVault(aws) {
+  var accountId = aws.reqParams['accountId'];
+  var vaultName = aws.reqParams['vaultName'];
+  if (!accountId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter accountId'];
+  }
+  if (!vaultName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter vaultName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = /*Sq*/{
+    NumberOfArchives: 0 /*Long*/,
+    VaultName: '',
+    LastInventoryDate: '',
+    VaultARN: '',
+    SizeInBytes: 0 /*Long*/,
+    CreationDate: '',
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.AddTagsToVault = awsCommon.as(
+  '/:accountId/vaults/:vaultName/tags?operation=add',
+  function AddTagsToVault(aws) {
+  var accountId = aws.reqParams['accountId'];
+  var vaultName = aws.reqParams['vaultName'];
+  var Tags = aws.params['Tags'];
+  if (!accountId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter accountId'];
+  }
+  if (!vaultName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter vaultName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [204, ret];
+});
+// -----------------------------------
+module.exports.SetDataRetrievalPolicy = awsCommon.as(
+  'PUT',
+  '/:accountId/policies/data-retrieval',
+  function SetDataRetrievalPolicy(aws) {
+  var accountId = aws.reqParams['accountId'];
+  var Policy = aws.params['Policy'];
+  if (!accountId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter accountId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [204, ret];
+});
+// -----------------------------------
+module.exports.DeleteVault = awsCommon.as(
+  'DELETE',
+  '/:accountId/vaults/:vaultName',
+  function DeleteVault(aws) {
+  var accountId = aws.reqParams['accountId'];
+  var vaultName = aws.reqParams['vaultName'];
+  if (!accountId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter accountId'];
+  }
+  if (!vaultName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter vaultName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [204, ret];
+});
+// -----------------------------------
+module.exports.InitiateMultipartUpload = awsCommon.as(
+  '/:accountId/vaults/:vaultName/multipart-uploads',
+  function InitiateMultipartUpload(aws) {
+  var archiveDescription = aws.params['archiveDescription'];
+  var accountId = aws.reqParams['accountId'];
+  var vaultName = aws.reqParams['vaultName'];
+  var partSize = aws.params['partSize'];
+  if (!accountId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter accountId'];
+  }
+  if (!vaultName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter vaultName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    location: '',
+    uploadId: '',
+  };
+  return [201, ret];
+});
+// -----------------------------------
+module.exports.DescribeJob = awsCommon.as(
+  'GET',
+  '/:accountId/vaults/:vaultName/jobs/:jobId',
+  function DescribeJob(aws) {
+  var accountId = aws.reqParams['accountId'];
+  var vaultName = aws.reqParams['vaultName'];
+  var jobId = aws.reqParams['jobId'];
+  if (!accountId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter accountId'];
+  }
+  if (!vaultName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter vaultName'];
+  }
+  if (!jobId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter jobId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = /*Si*/{
+    SNSTopic: '',
+    Action: '',
+    JobDescription: '',
+    InventorySizeInBytes: 0 /*Long*/,
+    JobId: '',
+    SHA256TreeHash: '',
+    StatusCode: '',
+    CreationDate: '',
+    InventoryRetrievalParameters: {
+      Marker: '',
+      Limit: '',
+      StartDate: '',
+      Format: '',
+      EndDate: '',
+    },
+    CompletionDate: '',
+    StatusMessage: '',
+    RetrievalByteRange: '',
+    ArchiveId: '',
+    VaultARN: '',
+    ArchiveSizeInBytes: 0 /*Long*/,
+    Completed: false,
+    ArchiveSHA256TreeHash: '',
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.CompleteMultipartUpload = awsCommon.as(
+  '/:accountId/vaults/:vaultName/multipart-uploads/:uploadId',
+  function CompleteMultipartUpload(aws) {
+  var checksum = aws.params['checksum'];
+  var accountId = aws.reqParams['accountId'];
+  var vaultName = aws.reqParams['vaultName'];
+  var uploadId = aws.reqParams['uploadId'];
+  var archiveSize = aws.params['archiveSize'];
+  if (!accountId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter accountId'];
+  }
+  if (!vaultName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter vaultName'];
+  }
+  if (!uploadId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter uploadId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = /*S9*/{
+    checksum: '',
+    location: '',
+    archiveId: '',
+  };
+  return [201, ret];
+});
+// -----------------------------------
+module.exports.GetVaultLock = awsCommon.as(
+  'GET',
+  '/:accountId/vaults/:vaultName/lock-policy',
+  function GetVaultLock(aws) {
+  var accountId = aws.reqParams['accountId'];
+  var vaultName = aws.reqParams['vaultName'];
+  if (!accountId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter accountId'];
+  }
+  if (!vaultName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter vaultName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ExpirationDate: '',
+    CreationDate: '',
+    Policy: '',
+    State: '',
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.DeleteArchive = awsCommon.as(
+  'DELETE',
+  '/:accountId/vaults/:vaultName/archives/:archiveId',
+  function DeleteArchive(aws) {
+  var accountId = aws.reqParams['accountId'];
+  var vaultName = aws.reqParams['vaultName'];
+  var archiveId = aws.reqParams['archiveId'];
+  if (!accountId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter accountId'];
+  }
+  if (!vaultName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter vaultName'];
+  }
+  if (!archiveId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter archiveId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [204, ret];
+});
+// -----------------------------------
+module.exports.SetVaultAccessPolicy = awsCommon.as(
+  'PUT',
+  '/:accountId/vaults/:vaultName/access-policy',
+  function SetVaultAccessPolicy(aws) {
+  var policy = aws.params['policy'];
+  var accountId = aws.reqParams['accountId'];
+  var vaultName = aws.reqParams['vaultName'];
+  if (!accountId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter accountId'];
+  }
+  if (!vaultName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter vaultName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [204, ret];
+});
+// -----------------------------------
+module.exports.CreateVault = awsCommon.as(
+  'PUT',
+  '/:accountId/vaults/:vaultName',
+  function CreateVault(aws) {
+  var accountId = aws.reqParams['accountId'];
+  var vaultName = aws.reqParams['vaultName'];
+  if (!accountId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter accountId'];
+  }
+  if (!vaultName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter vaultName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    location: '',
+  };
+  return [201, ret];
+});
+// -----------------------------------
+module.exports.ListJobs = awsCommon.as(
+  'GET',
+  '/:accountId/vaults/:vaultName/jobs',
+  function ListJobs(aws) {
+  var accountId = aws.reqParams['accountId'];
+  var vaultName = aws.reqParams['vaultName'];
+  var marker = aws.params['marker'];
+  var completed = aws.params['completed'];
+  var statuscode = aws.params['statuscode'];
+  var limit = aws.params['limit'];
+  if (!accountId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter accountId'];
+  }
+  if (!vaultName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter vaultName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    JobList: [ /*Si*/{
+      SNSTopic: '',
+      Action: '',
+      JobDescription: '',
+      InventorySizeInBytes: 0 /*Long*/,
+      JobId: '',
+      SHA256TreeHash: '',
+      StatusCode: '',
+      CreationDate: '',
+      InventoryRetrievalParameters: {
+        Marker: '',
+        Limit: '',
+        StartDate: '',
+        Format: '',
+        EndDate: '',
+      },
+      CompletionDate: '',
+      StatusMessage: '',
+      RetrievalByteRange: '',
+      ArchiveId: '',
+      VaultARN: '',
+      ArchiveSizeInBytes: 0 /*Long*/,
+      Completed: false,
+      ArchiveSHA256TreeHash: '',
+    }, /* ...*/ ],
+    Marker: '',
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.UploadArchive = awsCommon.as(
+  '/:accountId/vaults/:vaultName/archives',
+  function UploadArchive(aws) {
+  var body = aws.params['body'];
+  var archiveDescription = aws.params['archiveDescription'];
+  var accountId = aws.reqParams['accountId'];
+  var vaultName = aws.reqParams['vaultName'];
+  var checksum = aws.params['checksum'];
+  if (!vaultName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter vaultName'];
+  }
+  if (!accountId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter accountId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = /*S9*/{
+    checksum: '',
+    location: '',
+    archiveId: '',
+  };
+  return [201, ret];
+});
+// -----------------------------------
+module.exports.UploadMultipartPart = awsCommon.as(
+  'PUT',
+  '/:accountId/vaults/:vaultName/multipart-uploads/:uploadId',
+  function UploadMultipartPart(aws) {
+  var body = aws.params['body'];
+  var checksum = aws.params['checksum'];
+  var vaultName = aws.reqParams['vaultName'];
+  var uploadId = aws.reqParams['uploadId'];
+  var range = aws.params['range'];
+  var accountId = aws.reqParams['accountId'];
+  if (!accountId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter accountId'];
+  }
+  if (!vaultName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter vaultName'];
+  }
+  if (!uploadId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter uploadId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    checksum: '',
+  };
+  return [204, ret];
+});
+// -----------------------------------
+module.exports.InitiateJob = awsCommon.as(
+  '/:accountId/vaults/:vaultName/jobs',
+  function InitiateJob(aws) {
+  var accountId = aws.reqParams['accountId'];
+  var jobParameters = aws.params['jobParameters'] /* Type structure */;
+  var vaultName = aws.reqParams['vaultName'];
+  if (!accountId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter accountId'];
+  }
+  if (!vaultName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter vaultName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    location: '',
+    jobId: '',
+  };
+  return [202, ret];
+});
+// -----------------------------------
+module.exports.GetDataRetrievalPolicy = awsCommon.as(
+  'GET',
+  '/:accountId/policies/data-retrieval',
+  function GetDataRetrievalPolicy(aws) {
+  var accountId = aws.reqParams['accountId'];
+  if (!accountId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter accountId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Policy: /*Su*/{
+      Rules: [ {
+        BytesPerHour: 0 /*Long*/,
+        Strategy: '',
+      }, /* ...*/ ],
+    },
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.GetVaultNotifications = awsCommon.as(
+  'GET',
+  '/:accountId/vaults/:vaultName/notification-configuration',
+  function GetVaultNotifications(aws) {
+  var accountId = aws.reqParams['accountId'];
+  var vaultName = aws.reqParams['vaultName'];
+  if (!accountId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter accountId'];
+  }
+  if (!vaultName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter vaultName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    vaultNotificationConfig: /*S19*/{
+      Events: [ '', /* ...*/ ],
+      SNSTopic: '',
+    },
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.ListParts = awsCommon.as(
+  'GET',
+  '/:accountId/vaults/:vaultName/multipart-uploads/:uploadId',
+  function ListParts(aws) {
+  var marker = aws.params['marker'];
+  var accountId = aws.reqParams['accountId'];
+  var vaultName = aws.reqParams['vaultName'];
+  var uploadId = aws.reqParams['uploadId'];
+  var limit = aws.params['limit'];
+  if (!accountId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter accountId'];
+  }
+  if (!vaultName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter vaultName'];
+  }
+  if (!uploadId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter uploadId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    ArchiveDescription: '',
+    Parts: [ {
+      SHA256TreeHash: '',
+      RangeInBytes: '',
+    }, /* ...*/ ],
+    VaultARN: '',
+    MultipartUploadId: '',
+    PartSizeInBytes: 0 /*Long*/,
+    CreationDate: '',
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.AbortMultipartUpload = awsCommon.as(
+  'DELETE',
+  '/:accountId/vaults/:vaultName/multipart-uploads/:uploadId',
+  function AbortMultipartUpload(aws) {
+  var accountId = aws.reqParams['accountId'];
+  var vaultName = aws.reqParams['vaultName'];
+  var uploadId = aws.reqParams['uploadId'];
+  if (!accountId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter accountId'];
+  }
+  if (!vaultName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter vaultName'];
+  }
+  if (!uploadId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter uploadId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [204, ret];
+});
+// -----------------------------------
+module.exports.GetJobOutput = awsCommon.as(
+  'GET',
+  '/:accountId/vaults/:vaultName/jobs/:jobId/output',
+  function GetJobOutput(aws) {
+  var accountId = aws.reqParams['accountId'];
+  var range = aws.params['range'];
+  var vaultName = aws.reqParams['vaultName'];
+  var jobId = aws.reqParams['jobId'];
+  if (!accountId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter accountId'];
+  }
+  if (!vaultName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter vaultName'];
+  }
+  if (!jobId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter jobId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    body: /*S10*/null /*Blob*/,
+    checksum: '',
+    acceptRanges: '',
+    status: 0,
+    contentType: '',
+    contentRange: '',
+    archiveDescription: '',
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.SetVaultNotifications = awsCommon.as(
+  'PUT',
+  '/:accountId/vaults/:vaultName/notification-configuration',
+  function SetVaultNotifications(aws) {
+  var accountId = aws.reqParams['accountId'];
+  var vaultName = aws.reqParams['vaultName'];
+  var vaultNotificationConfig = aws.params['vaultNotificationConfig'];
+  if (!accountId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter accountId'];
+  }
+  if (!vaultName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter vaultName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [204, ret];
+});
+// -----------------------------------
+module.exports.InitiateVaultLock = awsCommon.as(
+  '/:accountId/vaults/:vaultName/lock-policy',
+  function InitiateVaultLock(aws) {
+  var policy = aws.params['policy'] /* Type structure */;
+  var accountId = aws.reqParams['accountId'];
+  var vaultName = aws.reqParams['vaultName'];
+  if (!accountId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter accountId'];
+  }
+  if (!vaultName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter vaultName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    lockId: '',
+  };
+  return [201, ret];
+});
+// -----------------------------------
+module.exports.RemoveTagsFromVault = awsCommon.as(
+  '/:accountId/vaults/:vaultName/tags?operation=remove',
+  function RemoveTagsFromVault(aws) {
+  var TagKeys = aws.params['TagKeys'] /* Type list */;
+  var accountId = aws.reqParams['accountId'];
+  var vaultName = aws.reqParams['vaultName'];
+  if (!accountId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter accountId'];
+  }
+  if (!vaultName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter vaultName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [204, ret];
+});
+// -----------------------------------
+module.exports.ListVaults = awsCommon.as(
+  'GET',
+  '/:accountId/vaults',
+  function ListVaults(aws) {
+  var accountId = aws.reqParams['accountId'];
+  var limit = aws.params['limit'];
+  var marker = aws.params['marker'];
+  if (!accountId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter accountId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    VaultList: [ /*Sq*/{
+      NumberOfArchives: 0 /*Long*/,
+      VaultName: '',
+      LastInventoryDate: '',
+      VaultARN: '',
+      SizeInBytes: 0 /*Long*/,
+      CreationDate: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.GetVaultAccessPolicy = awsCommon.as(
+  'GET',
+  '/:accountId/vaults/:vaultName/access-policy',
+  function GetVaultAccessPolicy(aws) {
+  var accountId = aws.reqParams['accountId'];
+  var vaultName = aws.reqParams['vaultName'];
+  if (!accountId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter accountId'];
+  }
+  if (!vaultName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter vaultName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    policy: /*S14*/{
+      Policy: '',
+    },
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.ListMultipartUploads = awsCommon.as(
+  'GET',
+  '/:accountId/vaults/:vaultName/multipart-uploads',
+  function ListMultipartUploads(aws) {
+  var accountId = aws.reqParams['accountId'];
+  var vaultName = aws.reqParams['vaultName'];
+  var marker = aws.params['marker'];
+  var limit = aws.params['limit'];
+  if (!accountId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter accountId'];
+  }
+  if (!vaultName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter vaultName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    UploadsList: [ {
+      VaultARN: '',
+      MultipartUploadId: '',
+      ArchiveDescription: '',
+      PartSizeInBytes: 0 /*Long*/,
+      CreationDate: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+});

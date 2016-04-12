@@ -1,6 +1,6 @@
 'use strict';
-const aws_common = require('../../lib/aws-common');
 
+const awsCommon = require('../../lib/aws-common');
 
 /**
  * Amazon Route 53 Domains version 2014-05-15
@@ -11,409 +11,427 @@ const aws_common = require('../../lib/aws-common');
 
 // Setup input and output to use AWS protocol json
 require('../../lib/aws-common/shape_http')('json', module.exports, null)
-module.exports.RetrieveDomainAuthCode = function RetrieveDomainAuthCode(aws) {
-        var DomainName = aws.params['DomainName'];
-        if (! DomainName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter DomainName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            AuthCode: /*S23*/""
-        };
-        return [200, ret];
-    }
-module.exports.CheckDomainAvailability = function CheckDomainAvailability(aws) {
-        var DomainName = aws.params['DomainName'];
-        var IdnLangCode = aws.params['IdnLangCode'];
-        if (! DomainName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter DomainName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            Availability: ""
-        };
-        return [200, ret];
-    }
-module.exports.UpdateDomainContactPrivacy = function UpdateDomainContactPrivacy(aws) {
-        var DomainName = aws.params['DomainName'];
-        var AdminPrivacy = aws.params['AdminPrivacy'] /* boolean */;
-        var RegistrantPrivacy = aws.params['RegistrantPrivacy'] /* boolean */;
-        var TechPrivacy = aws.params['TechPrivacy'] /* boolean */;
-        if (! DomainName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter DomainName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            OperationId: ""
-        };
-        return [200, ret];
-    }
-module.exports.DisableDomainAutoRenew = function DisableDomainAutoRenew(aws) {
-        var DomainName = aws.params['DomainName'];
-        if (! DomainName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter DomainName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-
-        };
-        return [200, ret];
-    }
+// -----------------------------------
 module.exports.UpdateTagsForDomain = function UpdateTagsForDomain(aws) {
-        var DomainName = aws.params['DomainName'];
-        var TagsToUpdate = aws.params['TagsToUpdate'];
-        if (! DomainName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter DomainName"];
-        }
+  var TagsToUpdate = aws.params['TagsToUpdate'];
+  var DomainName = aws.params['DomainName'];
+  if (!DomainName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
+  var ret = {
 
-        };
-        return [200, ret];
-    }
-module.exports.EnableDomainAutoRenew = function EnableDomainAutoRenew(aws) {
-        var DomainName = aws.params['DomainName'];
-        if (! DomainName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter DomainName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-
-        };
-        return [200, ret];
-    }
-module.exports.RegisterDomain = function RegisterDomain(aws) {
-        var DomainName = aws.params['DomainName'];
-        var RegistrantContact = aws.params['RegistrantContact'];
-        var PrivacyProtectRegistrantContact = aws.params['PrivacyProtectRegistrantContact'] /* boolean */;
-        var PrivacyProtectAdminContact = aws.params['PrivacyProtectAdminContact'] /* boolean */;
-        var AdminContact = aws.params['AdminContact'];
-        var DurationInYears = aws.params['DurationInYears'] /* integer */;
-        var TechContact = aws.params['TechContact'];
-        var PrivacyProtectTechContact = aws.params['PrivacyProtectTechContact'] /* boolean */;
-        var IdnLangCode = aws.params['IdnLangCode'];
-        var AutoRenew = aws.params['AutoRenew'] /* boolean */;
-        if (! DomainName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter DomainName"];
-        }
-        if (! DurationInYears) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter DurationInYears"];
-        }
-        if (! AdminContact) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter AdminContact"];
-        }
-        if (! RegistrantContact) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter RegistrantContact"];
-        }
-        if (! TechContact) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter TechContact"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            OperationId: ""
-        };
-        return [200, ret];
-    }
-module.exports.GetOperationDetail = function GetOperationDetail(aws) {
-        var OperationId = aws.params['OperationId'];
-        if (! OperationId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter OperationId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            DomainName: "",
-            Message: "",
-            Type: "",
-            SubmittedDate: now(),
-            Status: "",
-            OperationId: ""
-        };
-        return [200, ret];
-    }
-module.exports.EnableDomainTransferLock = function EnableDomainTransferLock(aws) {
-        var DomainName = aws.params['DomainName'];
-        if (! DomainName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter DomainName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            OperationId: ""
-        };
-        return [200, ret];
-    }
-module.exports.UpdateDomainContact = function UpdateDomainContact(aws) {
-        var DomainName = aws.params['DomainName'];
-        var AdminContact = aws.params['AdminContact'];
-        var TechContact = aws.params['TechContact'];
-        var RegistrantContact = aws.params['RegistrantContact'];
-        if (! DomainName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter DomainName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            OperationId: ""
-        };
-        return [200, ret];
-    }
-module.exports.DeleteTagsForDomain = function DeleteTagsForDomain(aws) {
-        var DomainName = aws.params['DomainName'];
-        var TagsToDelete = aws.params['TagsToDelete'] /* list */;
-        if (! DomainName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter DomainName"];
-        }
-        if (! TagsToDelete) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter TagsToDelete"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-
-        };
-        return [200, ret];
-    }
-module.exports.TransferDomain = function TransferDomain(aws) {
-        var DomainName = aws.params['DomainName'];
-        var AuthCode = aws.params['AuthCode'];
-        var PrivacyProtectRegistrantContact = aws.params['PrivacyProtectRegistrantContact'] /* boolean */;
-        var AdminContact = aws.params['AdminContact'];
-        var PrivacyProtectAdminContact = aws.params['PrivacyProtectAdminContact'] /* boolean */;
-        var Nameservers = aws.params['Nameservers'];
-        var AutoRenew = aws.params['AutoRenew'] /* boolean */;
-        var RegistrantContact = aws.params['RegistrantContact'];
-        var PrivacyProtectTechContact = aws.params['PrivacyProtectTechContact'] /* boolean */;
-        var DurationInYears = aws.params['DurationInYears'] /* integer */;
-        var TechContact = aws.params['TechContact'];
-        var IdnLangCode = aws.params['IdnLangCode'];
-        if (! DomainName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter DomainName"];
-        }
-        if (! DurationInYears) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter DurationInYears"];
-        }
-        if (! AdminContact) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter AdminContact"];
-        }
-        if (! RegistrantContact) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter RegistrantContact"];
-        }
-        if (! TechContact) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter TechContact"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            OperationId: ""
-        };
-        return [200, ret];
-    }
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.ListDomains = function ListDomains(aws) {
-        var Marker = aws.params['Marker'];
-        var MaxItems = aws.params['MaxItems'] /* integer */;
+  var Marker = aws.params['Marker'];
+  var MaxItems = aws.params['MaxItems'] /* Type integer */;
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            Domains: [ {
-                DomainName: "",
-                TransferLock: false,
-                Expiry: now(),
-                AutoRenew: false
-            } /*, ...*/ ],
-            NextPageMarker: ""
-        };
-        return [200, ret];
-    }
-module.exports.UpdateDomainNameservers = function UpdateDomainNameservers(aws) {
-        var DomainName = aws.params['DomainName'];
-        var Nameservers = aws.params['Nameservers'];
-        var FIAuthKey = aws.params['FIAuthKey'];
-        if (! DomainName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter DomainName"];
-        }
-        if (! Nameservers) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Nameservers"];
-        }
+  var ret = {
+    Domains: [ {
+      Expiry: awsCommon.timestamp(),
+      TransferLock: false,
+      DomainName: '',
+      AutoRenew: false,
+    }, /* ...*/ ],
+    NextPageMarker: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RetrieveDomainAuthCode = function RetrieveDomainAuthCode(aws) {
+  var DomainName = aws.params['DomainName'];
+  if (!DomainName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            OperationId: ""
-        };
-        return [200, ret];
-    }
-module.exports.ListTagsForDomain = function ListTagsForDomain(aws) {
-        var DomainName = aws.params['DomainName'];
-        if (! DomainName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter DomainName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            TagList: /*S1v*/[ {
-                Value: "",
-                Key: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.ListOperations = function ListOperations(aws) {
-        var Marker = aws.params['Marker'];
-        var MaxItems = aws.params['MaxItems'] /* integer */;
-
-
-        // TODO implement code
-
-        var ret = {
-            Operations: [ {
-                Status: "",
-                Type: "",
-                SubmittedDate: now(),
-                OperationId: ""
-            } /*, ...*/ ],
-            NextPageMarker: ""
-        };
-        return [200, ret];
-    }
-module.exports.GetDomainDetail = function GetDomainDetail(aws) {
-        var DomainName = aws.params['DomainName'];
-        if (! DomainName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter DomainName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            DomainName: "",
-            TechPrivacy: false,
-            AbuseContactEmail: "",
-            UpdatedDate: now(),
-            AdminPrivacy: false,
-            WhoIsServer: "",
-            StatusList: [ "" /*, ...*/ ],
-            CreationDate: now(),
-            Nameservers: /*Sl*/[ {
-                GlueIps: [ "" /*, ...*/ ],
-                Name: ""
-            } /*, ...*/ ],
-            AutoRenew: false,
-            RegistrantContact: /*Sr*/{
-                ExtraParams: [ {
-                    Value: "",
-                    Name: ""
-                } /*, ...*/ ],
-                City: "",
-                LastName: "",
-                Fax: "",
-                ContactType: "",
-                PhoneNumber: "",
-                AddressLine1: "",
-                State: "",
-                ZipCode: "",
-                FirstName: "",
-                AddressLine2: "",
-                CountryCode: "",
-                OrganizationName: "",
-                Email: ""
-            },
-            AdminContact: /*Sr*/{
-                ExtraParams: [ {
-                    Value: "",
-                    Name: ""
-                } /*, ...*/ ],
-                City: "",
-                LastName: "",
-                Fax: "",
-                ContactType: "",
-                PhoneNumber: "",
-                AddressLine1: "",
-                State: "",
-                ZipCode: "",
-                FirstName: "",
-                AddressLine2: "",
-                CountryCode: "",
-                OrganizationName: "",
-                Email: ""
-            },
-            RegistrarUrl: "",
-            DnsSec: "",
-            AbuseContactPhone: "",
-            RegistrantPrivacy: false,
-            TechContact: /*Sr*/{
-                ExtraParams: [ {
-                    Value: "",
-                    Name: ""
-                } /*, ...*/ ],
-                City: "",
-                LastName: "",
-                Fax: "",
-                ContactType: "",
-                PhoneNumber: "",
-                AddressLine1: "",
-                State: "",
-                ZipCode: "",
-                FirstName: "",
-                AddressLine2: "",
-                CountryCode: "",
-                OrganizationName: "",
-                Email: ""
-            },
-            ExpirationDate: now(),
-            RegistrarName: "",
-            Reseller: "",
-            RegistryDomainId: ""
-        };
-        return [200, ret];
-    }
+  var ret = {
+    AuthCode: /*S23*/'',
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.DisableDomainTransferLock = function DisableDomainTransferLock(aws) {
-        var DomainName = aws.params['DomainName'];
-        if (! DomainName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter DomainName"];
-        }
+  var DomainName = aws.params['DomainName'];
+  if (!DomainName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            OperationId: ""
-        };
-        return [200, ret];
-    }
+  var ret = {
+    OperationId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateDomainContactPrivacy = function UpdateDomainContactPrivacy(aws) {
+  var AdminPrivacy = aws.params['AdminPrivacy'] /* Type boolean */;
+  var TechPrivacy = aws.params['TechPrivacy'] /* Type boolean */;
+  var RegistrantPrivacy = aws.params['RegistrantPrivacy'] /* Type boolean */;
+  var DomainName = aws.params['DomainName'];
+  if (!DomainName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    OperationId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateDomainNameservers = function UpdateDomainNameservers(aws) {
+  var DomainName = aws.params['DomainName'];
+  var Nameservers = aws.params['Nameservers'];
+  var FIAuthKey = aws.params['FIAuthKey'];
+  if (!DomainName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
+  }
+  if (!Nameservers) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Nameservers'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    OperationId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetDomainDetail = function GetDomainDetail(aws) {
+  var DomainName = aws.params['DomainName'];
+  if (!DomainName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    TechContact: /*Sr*/{
+      Email: '',
+      AddressLine2: '',
+      FirstName: '',
+      PhoneNumber: '',
+      ZipCode: '',
+      ContactType: '',
+      CountryCode: '',
+      State: '',
+      City: '',
+      LastName: '',
+      Fax: '',
+      AddressLine1: '',
+      ExtraParams: [ {
+        Value: '',
+        Name: '',
+      }, /* ...*/ ],
+      OrganizationName: '',
+    },
+    RegistrarName: '',
+    AdminContact: /*Sr*/{
+      Email: '',
+      AddressLine2: '',
+      FirstName: '',
+      PhoneNumber: '',
+      ZipCode: '',
+      ContactType: '',
+      CountryCode: '',
+      State: '',
+      City: '',
+      LastName: '',
+      Fax: '',
+      AddressLine1: '',
+      ExtraParams: [ {
+        Value: '',
+        Name: '',
+      }, /* ...*/ ],
+      OrganizationName: '',
+    },
+    DnsSec: '',
+    RegistryDomainId: '',
+    Reseller: '',
+    RegistrantContact: /*Sr*/{
+      Email: '',
+      AddressLine2: '',
+      FirstName: '',
+      PhoneNumber: '',
+      ZipCode: '',
+      ContactType: '',
+      CountryCode: '',
+      State: '',
+      City: '',
+      LastName: '',
+      Fax: '',
+      AddressLine1: '',
+      ExtraParams: [ {
+        Value: '',
+        Name: '',
+      }, /* ...*/ ],
+      OrganizationName: '',
+    },
+    RegistrantPrivacy: false,
+    DomainName: '',
+    CreationDate: awsCommon.timestamp(),
+    StatusList: [ '', /* ...*/ ],
+    RegistrarUrl: '',
+    AbuseContactPhone: '',
+    ExpirationDate: awsCommon.timestamp(),
+    Nameservers: /*Sl*/[ {
+      GlueIps: [ '', /* ...*/ ],
+      Name: '',
+    }, /* ...*/ ],
+    WhoIsServer: '',
+    AutoRenew: false,
+    AdminPrivacy: false,
+    TechPrivacy: false,
+    UpdatedDate: awsCommon.timestamp(),
+    AbuseContactEmail: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteTagsForDomain = function DeleteTagsForDomain(aws) {
+  var TagsToDelete = aws.params['TagsToDelete'] /* Type list */;
+  var DomainName = aws.params['DomainName'];
+  if (!DomainName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
+  }
+  if (!TagsToDelete) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TagsToDelete'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RegisterDomain = function RegisterDomain(aws) {
+  var IdnLangCode = aws.params['IdnLangCode'];
+  var TechContact = aws.params['TechContact'];
+  var AdminContact = aws.params['AdminContact'];
+  var PrivacyProtectAdminContact = aws.params['PrivacyProtectAdminContact'] /* Type boolean */;
+  var AutoRenew = aws.params['AutoRenew'] /* Type boolean */;
+  var RegistrantContact = aws.params['RegistrantContact'];
+  var DomainName = aws.params['DomainName'];
+  var DurationInYears = aws.params['DurationInYears'] /* Type integer */;
+  var PrivacyProtectRegistrantContact = aws.params['PrivacyProtectRegistrantContact'] /* Type boolean */;
+  var PrivacyProtectTechContact = aws.params['PrivacyProtectTechContact'] /* Type boolean */;
+  if (!DomainName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
+  }
+  if (!DurationInYears) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DurationInYears'];
+  }
+  if (!AdminContact) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AdminContact'];
+  }
+  if (!RegistrantContact) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RegistrantContact'];
+  }
+  if (!TechContact) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TechContact'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    OperationId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetOperationDetail = function GetOperationDetail(aws) {
+  var OperationId = aws.params['OperationId'];
+  if (!OperationId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter OperationId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    SubmittedDate: awsCommon.timestamp(),
+    Status: '',
+    OperationId: '',
+    DomainName: '',
+    Message: '',
+    Type: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.TransferDomain = function TransferDomain(aws) {
+  var TechContact = aws.params['TechContact'];
+  var AdminContact = aws.params['AdminContact'];
+  var PrivacyProtectAdminContact = aws.params['PrivacyProtectAdminContact'] /* Type boolean */;
+  var DomainName = aws.params['DomainName'];
+  var AuthCode = aws.params['AuthCode'];
+  var RegistrantContact = aws.params['RegistrantContact'];
+  var DurationInYears = aws.params['DurationInYears'] /* Type integer */;
+  var IdnLangCode = aws.params['IdnLangCode'];
+  var Nameservers = aws.params['Nameservers'];
+  var AutoRenew = aws.params['AutoRenew'] /* Type boolean */;
+  var PrivacyProtectRegistrantContact = aws.params['PrivacyProtectRegistrantContact'] /* Type boolean */;
+  var PrivacyProtectTechContact = aws.params['PrivacyProtectTechContact'] /* Type boolean */;
+  if (!DomainName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
+  }
+  if (!DurationInYears) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DurationInYears'];
+  }
+  if (!AdminContact) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AdminContact'];
+  }
+  if (!RegistrantContact) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RegistrantContact'];
+  }
+  if (!TechContact) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TechContact'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    OperationId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.EnableDomainTransferLock = function EnableDomainTransferLock(aws) {
+  var DomainName = aws.params['DomainName'];
+  if (!DomainName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    OperationId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListTagsForDomain = function ListTagsForDomain(aws) {
+  var DomainName = aws.params['DomainName'];
+  if (!DomainName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    TagList: /*S1v*/[ {
+      Key: '',
+      Value: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CheckDomainAvailability = function CheckDomainAvailability(aws) {
+  var IdnLangCode = aws.params['IdnLangCode'];
+  var DomainName = aws.params['DomainName'];
+  if (!DomainName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Availability: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.EnableDomainAutoRenew = function EnableDomainAutoRenew(aws) {
+  var DomainName = aws.params['DomainName'];
+  if (!DomainName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListOperations = function ListOperations(aws) {
+  var Marker = aws.params['Marker'];
+  var MaxItems = aws.params['MaxItems'] /* Type integer */;
+
+
+  // TODO implement code
+
+  var ret = {
+    Operations: [ {
+      OperationId: '',
+      SubmittedDate: awsCommon.timestamp(),
+      Type: '',
+      Status: '',
+    }, /* ...*/ ],
+    NextPageMarker: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DisableDomainAutoRenew = function DisableDomainAutoRenew(aws) {
+  var DomainName = aws.params['DomainName'];
+  if (!DomainName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateDomainContact = function UpdateDomainContact(aws) {
+  var RegistrantContact = aws.params['RegistrantContact'];
+  var AdminContact = aws.params['AdminContact'];
+  var DomainName = aws.params['DomainName'];
+  var TechContact = aws.params['TechContact'];
+  if (!DomainName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    OperationId: '',
+  };
+  return [200, ret];
+};

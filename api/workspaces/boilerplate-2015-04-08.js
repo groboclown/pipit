@@ -1,6 +1,6 @@
 'use strict';
-const aws_common = require('../../lib/aws-common');
 
+const awsCommon = require('../../lib/aws-common');
 
 /**
  * Amazon WorkSpaces version 2015-04-08
@@ -11,185 +11,192 @@ const aws_common = require('../../lib/aws-common');
 
 // Setup input and output to use AWS protocol json
 require('../../lib/aws-common/shape_http')('json', module.exports, null)
-module.exports.CreateWorkspaces = function CreateWorkspaces(aws) {
-        var Workspaces = aws.params['Workspaces'] /* list */;
-        if (! Workspaces) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Workspaces"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            PendingRequests: /*Se*/[ {
-                UserName: "",
-                BundleId: "",
-                State: "",
-                WorkspaceId: "",
-                ErrorMessage: "",
-                ComputerName: "",
-                RootVolumeEncryptionEnabled: false,
-                SubnetId: "",
-                DirectoryId: "",
-                UserVolumeEncryptionEnabled: false,
-                VolumeEncryptionKey: "",
-                IpAddress: "",
-                ErrorCode: ""
-            } /*, ...*/ ],
-            FailedRequests: [ {
-                ErrorMessage: "",
-                ErrorCode: "",
-                WorkspaceRequest: /*S3*/{
-                    DirectoryId: "",
-                    UserName: "",
-                    BundleId: "",
-                    VolumeEncryptionKey: "",
-                    UserVolumeEncryptionEnabled: false,
-                    RootVolumeEncryptionEnabled: false
-                }
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.TerminateWorkspaces = function TerminateWorkspaces(aws) {
-        var TerminateWorkspaceRequests = aws.params['TerminateWorkspaceRequests'] /* list */;
-        if (! TerminateWorkspaceRequests) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter TerminateWorkspaceRequests"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            FailedRequests: [ /*S1m*/{
-                WorkspaceId: "",
-                ErrorMessage: "",
-                ErrorCode: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
+// -----------------------------------
 module.exports.DescribeWorkspaceBundles = function DescribeWorkspaceBundles(aws) {
-        var NextToken = aws.params['NextToken'];
-        var Owner = aws.params['Owner'];
-        var BundleIds = aws.params['BundleIds'] /* list */;
+  var BundleIds = aws.params['BundleIds'] /* Type list */;
+  var Owner = aws.params['Owner'];
+  var NextToken = aws.params['NextToken'];
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            NextToken: "",
-            Bundles: [ {
-                Name: "",
-                Owner: "",
-                ComputeType: {
-                    Name: ""
-                },
-                Description: "",
-                BundleId: "",
-                UserStorage: {
-                    Capacity: ""
-                }
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.DescribeWorkspaces = function DescribeWorkspaces(aws) {
-        var DirectoryId = aws.params['DirectoryId'];
-        var UserName = aws.params['UserName'];
-        var WorkspaceIds = aws.params['WorkspaceIds'] /* list */;
-        var NextToken = aws.params['NextToken'];
-        var Limit = aws.params['Limit'] /* integer */;
-        var BundleId = aws.params['BundleId'];
-
-
-        // TODO implement code
-
-        var ret = {
-            NextToken: "",
-            Workspaces: /*Se*/[ {
-                UserName: "",
-                BundleId: "",
-                State: "",
-                WorkspaceId: "",
-                ErrorMessage: "",
-                ComputerName: "",
-                RootVolumeEncryptionEnabled: false,
-                SubnetId: "",
-                DirectoryId: "",
-                UserVolumeEncryptionEnabled: false,
-                VolumeEncryptionKey: "",
-                IpAddress: "",
-                ErrorCode: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.RebuildWorkspaces = function RebuildWorkspaces(aws) {
-        var RebuildWorkspaceRequests = aws.params['RebuildWorkspaceRequests'] /* list */;
-        if (! RebuildWorkspaceRequests) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter RebuildWorkspaceRequests"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            FailedRequests: [ /*S1m*/{
-                WorkspaceId: "",
-                ErrorMessage: "",
-                ErrorCode: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
+  var ret = {
+    Bundles: [ {
+      BundleId: '',
+      ComputeType: {
+        Name: '',
+      },
+      Name: '',
+      Owner: '',
+      UserStorage: {
+        Capacity: '',
+      },
+      Description: '',
+    }, /* ...*/ ],
+    NextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.DescribeWorkspaceDirectories = function DescribeWorkspaceDirectories(aws) {
-        var DirectoryIds = aws.params['DirectoryIds'] /* list */;
-        var NextToken = aws.params['NextToken'];
+  var DirectoryIds = aws.params['DirectoryIds'] /* Type list */;
+  var NextToken = aws.params['NextToken'];
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            NextToken: "",
-            Directories: [ {
-                State: "",
-                WorkspaceSecurityGroupId: "",
-                DirectoryType: "",
-                RegistrationCode: "",
-                DirectoryId: "",
-                IamRoleId: "",
-                Alias: "",
-                CustomerUserName: "",
-                WorkspaceCreationProperties: {
-                    EnableInternetAccess: false,
-                    DefaultOu: "",
-                    EnableWorkDocs: false,
-                    CustomSecurityGroupId: "",
-                    UserEnabledAsLocalAdministrator: false
-                },
-                SubnetIds: [ "" /*, ...*/ ],
-                DirectoryName: "",
-                DnsIpAddresses: [ "" /*, ...*/ ]
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
+  var ret = {
+    Directories: [ {
+      DirectoryId: '',
+      RegistrationCode: '',
+      DirectoryName: '',
+      Alias: '',
+      CustomerUserName: '',
+      WorkspaceCreationProperties: {
+        UserEnabledAsLocalAdministrator: false,
+        DefaultOu: '',
+        EnableWorkDocs: false,
+        EnableInternetAccess: false,
+        CustomSecurityGroupId: '',
+      },
+      State: '',
+      WorkspaceSecurityGroupId: '',
+      IamRoleId: '',
+      DnsIpAddresses: [ '', /* ...*/ ],
+      DirectoryType: '',
+      SubnetIds: [ '', /* ...*/ ],
+    }, /* ...*/ ],
+    NextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.TerminateWorkspaces = function TerminateWorkspaces(aws) {
+  var TerminateWorkspaceRequests = aws.params['TerminateWorkspaceRequests'] /* Type list */;
+  if (!TerminateWorkspaceRequests) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TerminateWorkspaceRequests'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    FailedRequests: [ /*S1m*/{
+      ErrorCode: '',
+      ErrorMessage: '',
+      WorkspaceId: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RebuildWorkspaces = function RebuildWorkspaces(aws) {
+  var RebuildWorkspaceRequests = aws.params['RebuildWorkspaceRequests'] /* Type list */;
+  if (!RebuildWorkspaceRequests) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RebuildWorkspaceRequests'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    FailedRequests: [ /*S1m*/{
+      ErrorCode: '',
+      ErrorMessage: '',
+      WorkspaceId: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.RebootWorkspaces = function RebootWorkspaces(aws) {
-        var RebootWorkspaceRequests = aws.params['RebootWorkspaceRequests'] /* list */;
-        if (! RebootWorkspaceRequests) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter RebootWorkspaceRequests"];
-        }
+  var RebootWorkspaceRequests = aws.params['RebootWorkspaceRequests'] /* Type list */;
+  if (!RebootWorkspaceRequests) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RebootWorkspaceRequests'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            FailedRequests: [ /*S1m*/{
-                WorkspaceId: "",
-                ErrorMessage: "",
-                ErrorCode: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
+  var ret = {
+    FailedRequests: [ /*S1m*/{
+      ErrorCode: '',
+      ErrorMessage: '',
+      WorkspaceId: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeWorkspaces = function DescribeWorkspaces(aws) {
+  var DirectoryId = aws.params['DirectoryId'];
+  var Limit = aws.params['Limit'] /* Type integer */;
+  var NextToken = aws.params['NextToken'];
+  var UserName = aws.params['UserName'];
+  var BundleId = aws.params['BundleId'];
+  var WorkspaceIds = aws.params['WorkspaceIds'] /* Type list */;
+
+
+  // TODO implement code
+
+  var ret = {
+    Workspaces: /*Se*/[ {
+      DirectoryId: '',
+      UserVolumeEncryptionEnabled: false,
+      UserName: '',
+      BundleId: '',
+      IpAddress: '',
+      VolumeEncryptionKey: '',
+      RootVolumeEncryptionEnabled: false,
+      ErrorMessage: '',
+      ComputerName: '',
+      ErrorCode: '',
+      State: '',
+      WorkspaceId: '',
+      SubnetId: '',
+    }, /* ...*/ ],
+    NextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateWorkspaces = function CreateWorkspaces(aws) {
+  var Workspaces = aws.params['Workspaces'] /* Type list */;
+  if (!Workspaces) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Workspaces'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    PendingRequests: /*Se*/[ {
+      DirectoryId: '',
+      UserVolumeEncryptionEnabled: false,
+      UserName: '',
+      BundleId: '',
+      IpAddress: '',
+      VolumeEncryptionKey: '',
+      RootVolumeEncryptionEnabled: false,
+      ErrorMessage: '',
+      ComputerName: '',
+      ErrorCode: '',
+      State: '',
+      WorkspaceId: '',
+      SubnetId: '',
+    }, /* ...*/ ],
+    FailedRequests: [ {
+      ErrorCode: '',
+      ErrorMessage: '',
+      WorkspaceRequest: /*S3*/{
+        VolumeEncryptionKey: '',
+        RootVolumeEncryptionEnabled: false,
+        DirectoryId: '',
+        UserVolumeEncryptionEnabled: false,
+        UserName: '',
+        BundleId: '',
+      },
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};

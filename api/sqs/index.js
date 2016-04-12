@@ -1,6 +1,6 @@
 'use strict';
 
-const aws_common = require('../../lib/aws-common');
+const awsCommon = require('../../lib/aws-common');
 const uuid = require('uuid'); // FIXME eliminate this extra dependency
 const psplit = require('../../lib/psplit');
 const AWSQueue = require('./inbox');

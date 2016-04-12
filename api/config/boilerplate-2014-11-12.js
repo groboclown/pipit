@@ -1,6 +1,6 @@
 'use strict';
-const aws_common = require('../../lib/aws-common');
 
+const awsCommon = require('../../lib/aws-common');
 
 /**
  * AWS Config version 2014-11-12
@@ -11,505 +11,528 @@ const aws_common = require('../../lib/aws-common');
 
 // Setup input and output to use AWS protocol json
 require('../../lib/aws-common/shape_http')('json', module.exports, null)
+// -----------------------------------
+module.exports.DescribeComplianceByResource = function DescribeComplianceByResource(aws) {
+  var ResourceType = aws.params['ResourceType'];
+  var ResourceId = aws.params['ResourceId'];
+  var Limit = aws.params['Limit'] /* Type integer */;
+  var ComplianceTypes = aws.params['ComplianceTypes'];
+  var NextToken = aws.params['NextToken'];
+
+
+  // TODO implement code
+
+  var ret = {
+    ComplianceByResources: [ {
+      ResourceType: '',
+      ResourceId: '',
+      Compliance: /*Sf*/{
+        ComplianceContributorCount: /*Sg*/{
+          CapExceeded: false,
+          CappedCount: 0,
+        },
+        ComplianceType: '',
+      },
+    }, /* ...*/ ],
+    NextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.DescribeConfigurationRecorders = function DescribeConfigurationRecorders(aws) {
-        var ConfigurationRecorderNames = aws.params['ConfigurationRecorderNames'];
+  var ConfigurationRecorderNames = aws.params['ConfigurationRecorderNames'];
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            ConfigurationRecorders: [ /*S1l*/{
-                roleARN: "",
-                recordingGroup: {
-                    includeGlobalResourceTypes: false,
-                    allSupported: false,
-                    resourceTypes: [ "" /*, ...*/ ]
-                },
-                name: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.DescribeDeliveryChannelStatus = function DescribeDeliveryChannelStatus(aws) {
-        var DeliveryChannelNames = aws.params['DeliveryChannelNames'];
+  var ret = {
+    ConfigurationRecorders: [ /*S1l*/{
+      roleARN: '',
+      recordingGroup: {
+        includeGlobalResourceTypes: false,
+        resourceTypes: [ '', /* ...*/ ],
+        allSupported: false,
+      },
+      name: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListDiscoveredResources = function ListDiscoveredResources(aws) {
+  var nextToken = aws.params['nextToken'];
+  var resourceName = aws.params['resourceName'];
+  var resourceIds = aws.params['resourceIds'] /* Type list */;
+  var includeDeletedResources = aws.params['includeDeletedResources'] /* Type boolean */;
+  var limit = aws.params['limit'] /* Type integer */;
+  var resourceType = aws.params['resourceType'];
+  if (!resourceType) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter resourceType'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            DeliveryChannelsStatus: [ {
-                configStreamDeliveryInfo: {
-                    lastStatusChangeTime: now(),
-                    lastStatus: "",
-                    lastErrorCode: "",
-                    lastErrorMessage: ""
-                },
-                configSnapshotDeliveryInfo: /*S1w*/{
-                    lastStatus: "",
-                    lastErrorMessage: "",
-                    lastErrorCode: "",
-                    lastAttemptTime: now(),
-                    nextDeliveryTime: now(),
-                    lastSuccessfulTime: now()
-                },
-                configHistoryDeliveryInfo: /*S1w*/{
-                    lastStatus: "",
-                    lastErrorMessage: "",
-                    lastErrorCode: "",
-                    lastAttemptTime: now(),
-                    nextDeliveryTime: now(),
-                    lastSuccessfulTime: now()
-                },
-                name: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
+  var ret = {
+    nextToken: '',
+    resourceIdentifiers: [ {
+      resourceDeletionTime: awsCommon.timestamp(),
+      resourceId: '',
+      resourceName: '',
+      resourceType: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeConfigurationRecorderStatus = function DescribeConfigurationRecorderStatus(aws) {
+  var ConfigurationRecorderNames = aws.params['ConfigurationRecorderNames'];
+
+
+  // TODO implement code
+
+  var ret = {
+    ConfigurationRecordersStatus: [ {
+      lastStartTime: awsCommon.timestamp(),
+      name: '',
+      lastStatus: '',
+      lastErrorCode: '',
+      recording: false,
+      lastStopTime: awsCommon.timestamp(),
+      lastStatusChangeTime: awsCommon.timestamp(),
+      lastErrorMessage: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.DeliverConfigSnapshot = function DeliverConfigSnapshot(aws) {
-        var deliveryChannelName = aws.params['deliveryChannelName'];
-        if (! deliveryChannelName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter deliveryChannelName"];
-        }
+  var deliveryChannelName = aws.params['deliveryChannelName'];
+  if (!deliveryChannelName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter deliveryChannelName'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            configSnapshotId: ""
-        };
-        return [200, ret];
-    }
-module.exports.GetResourceConfigHistory = function GetResourceConfigHistory(aws) {
-        var nextToken = aws.params['nextToken'];
-        var resourceType = aws.params['resourceType'];
-        var limit = aws.params['limit'] /* integer */;
-        var resourceId = aws.params['resourceId'];
-        var earlierTime = aws.params['earlierTime'] /* timestamp */;
-        var laterTime = aws.params['laterTime'] /* timestamp */;
-        var chronologicalOrder = aws.params['chronologicalOrder'];
-        if (! resourceType) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter resourceType"];
-        }
-        if (! resourceId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter resourceId"];
-        }
+  var ret = {
+    configSnapshotId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeDeliveryChannels = function DescribeDeliveryChannels(aws) {
+  var DeliveryChannelNames = aws.params['DeliveryChannelNames'];
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            nextToken: "",
-            configurationItems: [ {
-                configuration: "",
-                resourceName: "",
-                configurationItemMD5Hash: "",
-                arn: "",
-                relationships: [ {
-                    relationshipName: "",
-                    resourceId: "",
-                    resourceType: "",
-                    resourceName: ""
-                } /*, ...*/ ],
-                configurationStateId: "",
-                awsRegion: "",
-                accountId: "",
-                version: "",
-                configurationItemStatus: "",
-                resourceType: "",
-                configurationItemCaptureTime: now(),
-                tags: {} /* map */,
-                resourceId: "",
-                relatedEvents: [ "" /*, ...*/ ],
-                availabilityZone: "",
-                resourceCreationTime: now()
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.GetComplianceSummaryByResourceType = function GetComplianceSummaryByResourceType(aws) {
-        var ResourceTypes = aws.params['ResourceTypes'] /* list */;
+  var ret = {
+    DeliveryChannels: [ /*S22*/{
+      s3BucketName: '',
+      configSnapshotDeliveryProperties: {
+        deliveryFrequency: '',
+      },
+      name: '',
+      s3KeyPrefix: '',
+      snsTopicARN: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeConfigRules = function DescribeConfigRules(aws) {
+  var NextToken = aws.params['NextToken'];
+  var ConfigRuleNames = aws.params['ConfigRuleNames'];
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            ComplianceSummariesByResourceType: [ {
-                ResourceType: "",
-                ComplianceSummary: /*S2d*/{
-                    NonCompliantResourceCount: /*Sg*/{
-                        CapExceeded: false,
-                        CappedCount: 0
-                    },
-                    ComplianceSummaryTimestamp: now(),
-                    CompliantResourceCount: /*Sg*/{
-                        CapExceeded: false,
-                        CappedCount: 0
-                    }
-                }
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.DeleteDeliveryChannel = function DeleteDeliveryChannel(aws) {
-        var DeliveryChannelName = aws.params['DeliveryChannelName'];
-        if (! DeliveryChannelName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter DeliveryChannelName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.DescribeConfigRuleEvaluationStatus = function DescribeConfigRuleEvaluationStatus(aws) {
-        var ConfigRuleNames = aws.params['ConfigRuleNames'];
-
-
-        // TODO implement code
-
-        var ret = {
-            ConfigRulesEvaluationStatus: [ {
-                ConfigRuleArn: "",
-                ConfigRuleName: "",
-                LastSuccessfulEvaluationTime: now(),
-                ConfigRuleId: "",
-                FirstEvaluationStarted: false,
-                LastErrorCode: "",
-                LastSuccessfulInvocationTime: now(),
-                LastErrorMessage: "",
-                LastFailedEvaluationTime: now(),
-                FirstActivatedTime: now(),
-                LastFailedInvocationTime: now()
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.PutConfigRule = function PutConfigRule(aws) {
-        var ConfigRule = aws.params['ConfigRule'];
-        if (! ConfigRule) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ConfigRule"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.GetComplianceDetailsByConfigRule = function GetComplianceDetailsByConfigRule(aws) {
-        var NextToken = aws.params['NextToken'];
-        var ConfigRuleName = aws.params['ConfigRuleName'];
-        var Limit = aws.params['Limit'] /* integer */;
-        var ComplianceTypes = aws.params['ComplianceTypes'];
-        if (! ConfigRuleName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ConfigRuleName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            EvaluationResults: /*S26*/[ {
-                ComplianceType: "",
-                ResultRecordedTime: now(),
-                ConfigRuleInvokedTime: now(),
-                ResultToken: "",
-                EvaluationResultIdentifier: {
-                    OrderingTimestamp: now(),
-                    EvaluationResultQualifier: {
-                        ConfigRuleName: "",
-                        ResourceType: "",
-                        ResourceId: ""
-                    }
-                },
-                Annotation: ""
-            } /*, ...*/ ],
-            NextToken: ""
-        };
-        return [200, ret];
-    }
+  var ret = {
+    ConfigRules: [ /*Sy*/{
+      Source: {
+        SourceDetails: [ {
+          EventSource: '',
+          MessageType: '',
+        }, /* ...*/ ],
+        Owner: '',
+        SourceIdentifier: '',
+      },
+      ConfigRuleArn: '',
+      Description: '',
+      InputParameters: '',
+      ConfigRuleId: '',
+      ConfigRuleState: '',
+      MaximumExecutionFrequency: '',
+      Scope: {
+        TagValue: '',
+        TagKey: '',
+        ComplianceResourceId: '',
+        ComplianceResourceTypes: [ '', /* ...*/ ],
+      },
+      ConfigRuleName: '',
+    }, /* ...*/ ],
+    NextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.DeleteConfigRule = function DeleteConfigRule(aws) {
-        var ConfigRuleName = aws.params['ConfigRuleName'];
-        if (! ConfigRuleName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ConfigRuleName"];
-        }
+  var ConfigRuleName = aws.params['ConfigRuleName'];
+  if (!ConfigRuleName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ConfigRuleName'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {};
-        return [200, ret];
-    }
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.PutConfigurationRecorder = function PutConfigurationRecorder(aws) {
+  var ConfigurationRecorder = aws.params['ConfigurationRecorder'];
+  if (!ConfigurationRecorder) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ConfigurationRecorder'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetResourceConfigHistory = function GetResourceConfigHistory(aws) {
+  var nextToken = aws.params['nextToken'];
+  var resourceId = aws.params['resourceId'];
+  var resourceType = aws.params['resourceType'];
+  var earlierTime = aws.params['earlierTime'] /* Type timestamp */;
+  var limit = aws.params['limit'] /* Type integer */;
+  var laterTime = aws.params['laterTime'] /* Type timestamp */;
+  var chronologicalOrder = aws.params['chronologicalOrder'];
+  if (!resourceType) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter resourceType'];
+  }
+  if (!resourceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter resourceId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    nextToken: '',
+    configurationItems: [ {
+      configurationItemCaptureTime: awsCommon.timestamp(),
+      availabilityZone: '',
+      relatedEvents: [ '', /* ...*/ ],
+      awsRegion: '',
+      resourceName: '',
+      arn: '',
+      configuration: '',
+      resourceCreationTime: awsCommon.timestamp(),
+      configurationItemMD5Hash: '',
+      accountId: '',
+      resourceType: '',
+      version: '',
+      resourceId: '',
+      relationships: [ {
+        resourceId: '',
+        relationshipName: '',
+        resourceName: '',
+        resourceType: '',
+      }, /* ...*/ ],
+      configurationItemStatus: '',
+      configurationStateId: '',
+      tags: {} /*Map*/,
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.StartConfigurationRecorder = function StartConfigurationRecorder(aws) {
+  var ConfigurationRecorderName = aws.params['ConfigurationRecorderName'];
+  if (!ConfigurationRecorderName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ConfigurationRecorderName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetComplianceDetailsByResource = function GetComplianceDetailsByResource(aws) {
+  var ResourceType = aws.params['ResourceType'];
+  var ResourceId = aws.params['ResourceId'];
+  var NextToken = aws.params['NextToken'];
+  var ComplianceTypes = aws.params['ComplianceTypes'];
+  if (!ResourceType) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ResourceType'];
+  }
+  if (!ResourceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ResourceId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    NextToken: '',
+    EvaluationResults: /*S26*/[ {
+      ResultToken: '',
+      ResultRecordedTime: awsCommon.timestamp(),
+      ComplianceType: '',
+      ConfigRuleInvokedTime: awsCommon.timestamp(),
+      EvaluationResultIdentifier: {
+        EvaluationResultQualifier: {
+          ResourceType: '',
+          ResourceId: '',
+          ConfigRuleName: '',
+        },
+        OrderingTimestamp: awsCommon.timestamp(),
+      },
+      Annotation: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.PutConfigRule = function PutConfigRule(aws) {
+  var ConfigRule = aws.params['ConfigRule'];
+  if (!ConfigRule) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ConfigRule'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.PutDeliveryChannel = function PutDeliveryChannel(aws) {
+  var DeliveryChannel = aws.params['DeliveryChannel'];
+  if (!DeliveryChannel) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DeliveryChannel'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteDeliveryChannel = function DeleteDeliveryChannel(aws) {
+  var DeliveryChannelName = aws.params['DeliveryChannelName'];
+  if (!DeliveryChannelName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DeliveryChannelName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetComplianceDetailsByConfigRule = function GetComplianceDetailsByConfigRule(aws) {
+  var NextToken = aws.params['NextToken'];
+  var ComplianceTypes = aws.params['ComplianceTypes'];
+  var ConfigRuleName = aws.params['ConfigRuleName'];
+  var Limit = aws.params['Limit'] /* Type integer */;
+  if (!ConfigRuleName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ConfigRuleName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    NextToken: '',
+    EvaluationResults: /*S26*/[ {
+      ResultToken: '',
+      ResultRecordedTime: awsCommon.timestamp(),
+      ComplianceType: '',
+      ConfigRuleInvokedTime: awsCommon.timestamp(),
+      EvaluationResultIdentifier: {
+        EvaluationResultQualifier: {
+          ResourceType: '',
+          ResourceId: '',
+          ConfigRuleName: '',
+        },
+        OrderingTimestamp: awsCommon.timestamp(),
+      },
+      Annotation: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeConfigRuleEvaluationStatus = function DescribeConfigRuleEvaluationStatus(aws) {
+  var ConfigRuleNames = aws.params['ConfigRuleNames'];
+
+
+  // TODO implement code
+
+  var ret = {
+    ConfigRulesEvaluationStatus: [ {
+      LastErrorMessage: '',
+      ConfigRuleArn: '',
+      LastFailedEvaluationTime: awsCommon.timestamp(),
+      LastSuccessfulEvaluationTime: awsCommon.timestamp(),
+      ConfigRuleId: '',
+      LastSuccessfulInvocationTime: awsCommon.timestamp(),
+      FirstActivatedTime: awsCommon.timestamp(),
+      LastErrorCode: '',
+      FirstEvaluationStarted: false,
+      LastFailedInvocationTime: awsCommon.timestamp(),
+      ConfigRuleName: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeComplianceByConfigRule = function DescribeComplianceByConfigRule(aws) {
+  var ComplianceTypes = aws.params['ComplianceTypes'];
+  var ConfigRuleNames = aws.params['ConfigRuleNames'];
+  var NextToken = aws.params['NextToken'];
+
+
+  // TODO implement code
+
+  var ret = {
+    ComplianceByConfigRules: [ {
+      Compliance: /*Sf*/{
+        ComplianceContributorCount: /*Sg*/{
+          CapExceeded: false,
+          CappedCount: 0,
+        },
+        ComplianceType: '',
+      },
+      ConfigRuleName: '',
+    }, /* ...*/ ],
+    NextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.PutEvaluations = function PutEvaluations(aws) {
+  var ResultToken = aws.params['ResultToken'];
+  var Evaluations = aws.params['Evaluations'];
+  if (!ResultToken) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ResultToken'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    FailedEvaluations: /*S3l*/[ {
+      OrderingTimestamp: awsCommon.timestamp(),
+      ComplianceResourceId: '',
+      Annotation: '',
+      ComplianceResourceType: '',
+      ComplianceType: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.StopConfigurationRecorder = function StopConfigurationRecorder(aws) {
+  var ConfigurationRecorderName = aws.params['ConfigurationRecorderName'];
+  if (!ConfigurationRecorderName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ConfigurationRecorderName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.GetComplianceSummaryByConfigRule = function GetComplianceSummaryByConfigRule(aws) {
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            ComplianceSummary: /*S2d*/{
-                NonCompliantResourceCount: /*Sg*/{
-                    CapExceeded: false,
-                    CappedCount: 0
-                },
-                ComplianceSummaryTimestamp: now(),
-                CompliantResourceCount: /*Sg*/{
-                    CapExceeded: false,
-                    CappedCount: 0
-                }
-            }
-        };
-        return [200, ret];
-    }
-module.exports.DescribeConfigRules = function DescribeConfigRules(aws) {
-        var NextToken = aws.params['NextToken'];
-        var ConfigRuleNames = aws.params['ConfigRuleNames'];
-
-
-        // TODO implement code
-
-        var ret = {
-            ConfigRules: [ /*Sy*/{
-                InputParameters: "",
-                ConfigRuleArn: "",
-                ConfigRuleName: "",
-                Source: {
-                    Owner: "",
-                    SourceIdentifier: "",
-                    SourceDetails: [ {
-                        EventSource: "",
-                        MessageType: ""
-                    } /*, ...*/ ]
-                },
-                ConfigRuleId: "",
-                MaximumExecutionFrequency: "",
-                Scope: {
-                    ComplianceResourceTypes: [ "" /*, ...*/ ],
-                    ComplianceResourceId: "",
-                    TagKey: "",
-                    TagValue: ""
-                },
-                ConfigRuleState: "",
-                Description: ""
-            } /*, ...*/ ],
-            NextToken: ""
-        };
-        return [200, ret];
-    }
-module.exports.PutDeliveryChannel = function PutDeliveryChannel(aws) {
-        var DeliveryChannel = aws.params['DeliveryChannel'];
-        if (! DeliveryChannel) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter DeliveryChannel"];
-        }
+  var ret = {
+    ComplianceSummary: /*S2d*/{
+      ComplianceSummaryTimestamp: awsCommon.timestamp(),
+      NonCompliantResourceCount: /*Sg*/{
+        CapExceeded: false,
+        CappedCount: 0,
+      },
+      CompliantResourceCount: /*Sg*/{
+        CapExceeded: false,
+        CappedCount: 0,
+      },
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetComplianceSummaryByResourceType = function GetComplianceSummaryByResourceType(aws) {
+  var ResourceTypes = aws.params['ResourceTypes'] /* Type list */;
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.StartConfigurationRecorder = function StartConfigurationRecorder(aws) {
-        var ConfigurationRecorderName = aws.params['ConfigurationRecorderName'];
-        if (! ConfigurationRecorderName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ConfigurationRecorderName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.DescribeComplianceByResource = function DescribeComplianceByResource(aws) {
-        var NextToken = aws.params['NextToken'];
-        var ResourceId = aws.params['ResourceId'];
-        var Limit = aws.params['Limit'] /* integer */;
-        var ResourceType = aws.params['ResourceType'];
-        var ComplianceTypes = aws.params['ComplianceTypes'];
-
-
-        // TODO implement code
-
-        var ret = {
-            NextToken: "",
-            ComplianceByResources: [ {
-                ResourceId: "",
-                ResourceType: "",
-                Compliance: /*Sf*/{
-                    ComplianceType: "",
-                    ComplianceContributorCount: /*Sg*/{
-                        CapExceeded: false,
-                        CappedCount: 0
-                    }
-                }
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.DescribeComplianceByConfigRule = function DescribeComplianceByConfigRule(aws) {
-        var NextToken = aws.params['NextToken'];
-        var ComplianceTypes = aws.params['ComplianceTypes'];
-        var ConfigRuleNames = aws.params['ConfigRuleNames'];
+  var ret = {
+    ComplianceSummariesByResourceType: [ {
+      ResourceType: '',
+      ComplianceSummary: /*S2d*/{
+        ComplianceSummaryTimestamp: awsCommon.timestamp(),
+        NonCompliantResourceCount: /*Sg*/{
+          CapExceeded: false,
+          CappedCount: 0,
+        },
+        CompliantResourceCount: /*Sg*/{
+          CapExceeded: false,
+          CappedCount: 0,
+        },
+      },
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeDeliveryChannelStatus = function DescribeDeliveryChannelStatus(aws) {
+  var DeliveryChannelNames = aws.params['DeliveryChannelNames'];
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            NextToken: "",
-            ComplianceByConfigRules: [ {
-                ConfigRuleName: "",
-                Compliance: /*Sf*/{
-                    ComplianceType: "",
-                    ComplianceContributorCount: /*Sg*/{
-                        CapExceeded: false,
-                        CappedCount: 0
-                    }
-                }
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.StopConfigurationRecorder = function StopConfigurationRecorder(aws) {
-        var ConfigurationRecorderName = aws.params['ConfigurationRecorderName'];
-        if (! ConfigurationRecorderName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ConfigurationRecorderName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.PutEvaluations = function PutEvaluations(aws) {
-        var Evaluations = aws.params['Evaluations'];
-        var ResultToken = aws.params['ResultToken'];
-        if (! ResultToken) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ResultToken"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            FailedEvaluations: /*S3l*/[ {
-                OrderingTimestamp: now(),
-                ComplianceType: "",
-                ComplianceResourceType: "",
-                ComplianceResourceId: "",
-                Annotation: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.PutConfigurationRecorder = function PutConfigurationRecorder(aws) {
-        var ConfigurationRecorder = aws.params['ConfigurationRecorder'];
-        if (! ConfigurationRecorder) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ConfigurationRecorder"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.DescribeDeliveryChannels = function DescribeDeliveryChannels(aws) {
-        var DeliveryChannelNames = aws.params['DeliveryChannelNames'];
-
-
-        // TODO implement code
-
-        var ret = {
-            DeliveryChannels: [ /*S22*/{
-                s3KeyPrefix: "",
-                s3BucketName: "",
-                configSnapshotDeliveryProperties: {
-                    deliveryFrequency: ""
-                },
-                snsTopicARN: "",
-                name: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.ListDiscoveredResources = function ListDiscoveredResources(aws) {
-        var includeDeletedResources = aws.params['includeDeletedResources'] /* boolean */;
-        var resourceType = aws.params['resourceType'];
-        var limit = aws.params['limit'] /* integer */;
-        var resourceName = aws.params['resourceName'];
-        var nextToken = aws.params['nextToken'];
-        var resourceIds = aws.params['resourceIds'] /* list */;
-        if (! resourceType) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter resourceType"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            nextToken: "",
-            resourceIdentifiers: [ {
-                resourceId: "",
-                resourceType: "",
-                resourceName: "",
-                resourceDeletionTime: now()
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.GetComplianceDetailsByResource = function GetComplianceDetailsByResource(aws) {
-        var NextToken = aws.params['NextToken'];
-        var ResourceId = aws.params['ResourceId'];
-        var ResourceType = aws.params['ResourceType'];
-        var ComplianceTypes = aws.params['ComplianceTypes'];
-        if (! ResourceType) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ResourceType"];
-        }
-        if (! ResourceId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ResourceId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            EvaluationResults: /*S26*/[ {
-                ComplianceType: "",
-                ResultRecordedTime: now(),
-                ConfigRuleInvokedTime: now(),
-                ResultToken: "",
-                EvaluationResultIdentifier: {
-                    OrderingTimestamp: now(),
-                    EvaluationResultQualifier: {
-                        ConfigRuleName: "",
-                        ResourceType: "",
-                        ResourceId: ""
-                    }
-                },
-                Annotation: ""
-            } /*, ...*/ ],
-            NextToken: ""
-        };
-        return [200, ret];
-    }
-module.exports.DescribeConfigurationRecorderStatus = function DescribeConfigurationRecorderStatus(aws) {
-        var ConfigurationRecorderNames = aws.params['ConfigurationRecorderNames'];
-
-
-        // TODO implement code
-
-        var ret = {
-            ConfigurationRecordersStatus: [ {
-                lastStatus: "",
-                lastStatusChangeTime: now(),
-                lastErrorMessage: "",
-                lastStartTime: now(),
-                name: "",
-                lastErrorCode: "",
-                lastStopTime: now(),
-                recording: false
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
+  var ret = {
+    DeliveryChannelsStatus: [ {
+      configHistoryDeliveryInfo: /*S1w*/{
+        lastSuccessfulTime: awsCommon.timestamp(),
+        lastErrorCode: '',
+        nextDeliveryTime: awsCommon.timestamp(),
+        lastErrorMessage: '',
+        lastAttemptTime: awsCommon.timestamp(),
+        lastStatus: '',
+      },
+      configStreamDeliveryInfo: {
+        lastErrorCode: '',
+        lastStatusChangeTime: awsCommon.timestamp(),
+        lastStatus: '',
+        lastErrorMessage: '',
+      },
+      name: '',
+      configSnapshotDeliveryInfo: /*S1w*/{
+        lastSuccessfulTime: awsCommon.timestamp(),
+        lastErrorCode: '',
+        nextDeliveryTime: awsCommon.timestamp(),
+        lastErrorMessage: '',
+        lastAttemptTime: awsCommon.timestamp(),
+        lastStatus: '',
+      },
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};

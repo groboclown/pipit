@@ -1,6 +1,6 @@
 'use strict';
-const aws_common = require('../../lib/aws-common');
 
+const awsCommon = require('../../lib/aws-common');
 
 /**
  * AWS Lambda version 2014-11-11
@@ -11,315 +11,326 @@ const aws_common = require('../../lib/aws-common');
 
 // Setup input and output to use AWS protocol rest-json
 require('../../lib/aws-common/shape_http')('rest-json', module.exports, null)
-module.exports.UpdateFunctionConfiguration = aws_common.as(
-    "PUT",
-    "/2014-11-13/functions/:FunctionName/configuration",
-    function UpdateFunctionConfiguration(aws) {
-        var Description = aws.params['Description'];
-        var MemorySize = aws.params['MemorySize'] /* integer */;
-        var Handler = aws.params['Handler'];
-        var FunctionName = aws.reqParams.FunctionName;
-        var Role = aws.params['Role'];
-        var Timeout = aws.params['Timeout'] /* integer */;
-        if (! FunctionName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter FunctionName"];
-        }
+// -----------------------------------
+module.exports.ListFunctions = awsCommon.as(
+  'GET',
+  '/2014-11-13/functions/',
+  function ListFunctions(aws) {
+  var Marker = aws.params['Marker'];
+  var MaxItems = aws.params['MaxItems'] /* Type integer */;
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = /*Se*/{
-            Handler: "",
-            MemorySize: 0,
-            Description: "",
-            CodeSize: 0 /*long*/,
-            FunctionName: "",
-            Timeout: 0,
-            ConfigurationId: "",
-            LastModified: now(),
-            FunctionARN: "",
-            Runtime: "",
-            Role: "",
-            Mode: ""
-        };
-        return [200, ret];
-    });
-module.exports.GetFunctionConfiguration = aws_common.as(
-    "GET",
-    "/2014-11-13/functions/:FunctionName/configuration",
-    function GetFunctionConfiguration(aws) {
-        var FunctionName = aws.reqParams.FunctionName;
-        if (! FunctionName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter FunctionName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = /*Se*/{
-            Handler: "",
-            MemorySize: 0,
-            Description: "",
-            CodeSize: 0 /*long*/,
-            FunctionName: "",
-            Timeout: 0,
-            ConfigurationId: "",
-            LastModified: now(),
-            FunctionARN: "",
-            Runtime: "",
-            Role: "",
-            Mode: ""
-        };
-        return [200, ret];
-    });
-module.exports.DeleteFunction = aws_common.as(
-    "DELETE",
-    "/2014-11-13/functions/:FunctionName",
-    function DeleteFunction(aws) {
-        var FunctionName = aws.reqParams.FunctionName;
-        if (! FunctionName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter FunctionName"];
-        }
+  var ret = {
+    NextMarker: '',
+    Functions: [ /*Se*/{
+      Description: '',
+      Handler: '',
+      ConfigurationId: '',
+      CodeSize: 0 /*Long*/,
+      MemorySize: 0,
+      Runtime: '',
+      LastModified: awsCommon.timestamp(),
+      Mode: '',
+      Role: '',
+      FunctionARN: '',
+      Timeout: 0,
+      FunctionName: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.GetFunctionConfiguration = awsCommon.as(
+  'GET',
+  '/2014-11-13/functions/:FunctionName/configuration',
+  function GetFunctionConfiguration(aws) {
+  var FunctionName = aws.reqParams['FunctionName'];
+  if (!FunctionName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter FunctionName'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {};
-        return [204, ret];
-    });
-module.exports.InvokeAsync = aws_common.as(
-    "/2014-11-13/functions/:FunctionName/invoke-async/",
-    function InvokeAsync(aws) {
-        var InvokeArgs = aws.params['InvokeArgs'];
-        var FunctionName = aws.reqParams.FunctionName;
-        if (! FunctionName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter FunctionName"];
-        }
-        if (! InvokeArgs) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter InvokeArgs"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            Status: 0
-        };
-        return [202, ret];
-    });
-module.exports.ListEventSources = aws_common.as(
-    "GET",
-    "/2014-11-13/event-source-mappings/",
-    function ListEventSources(aws) {
-        var EventSourceArn = aws.params['EventSourceArn'];
-        var Marker = aws.params['Marker'];
-        var FunctionName = aws.params['FunctionName'];
-        var MaxItems = aws.params['MaxItems'] /* integer */;
+  var ret = /*Se*/{
+    Description: '',
+    Handler: '',
+    ConfigurationId: '',
+    CodeSize: 0 /*Long*/,
+    MemorySize: 0,
+    Runtime: '',
+    LastModified: awsCommon.timestamp(),
+    Mode: '',
+    Role: '',
+    FunctionARN: '',
+    Timeout: 0,
+    FunctionName: '',
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.DeleteFunction = awsCommon.as(
+  'DELETE',
+  '/2014-11-13/functions/:FunctionName',
+  function DeleteFunction(aws) {
+  var FunctionName = aws.reqParams['FunctionName'];
+  if (!FunctionName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter FunctionName'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            EventSources: [ /*S7*/{
-                Parameters: /*S6*/{} /* map */,
-                Role: "",
-                LastModified: now(),
-                BatchSize: 0,
-                EventSource: "",
-                Status: "",
-                IsActive: false,
-                UUID: "",
-                FunctionName: ""
-            } /*, ...*/ ],
-            NextMarker: ""
-        };
-        return [200, ret];
-    });
-module.exports.GetEventSource = aws_common.as(
-    "GET",
-    "/2014-11-13/event-source-mappings/:UUID",
-    function GetEventSource(aws) {
-        var UUID = aws.reqParams.UUID;
-        if (! UUID) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter UUID"];
-        }
-
-
-        // TODO implement code
-
-        var ret = /*S7*/{
-            Parameters: /*S6*/{} /* map */,
-            Role: "",
-            LastModified: now(),
-            BatchSize: 0,
-            EventSource: "",
-            Status: "",
-            IsActive: false,
-            UUID: "",
-            FunctionName: ""
-        };
-        return [200, ret];
-    });
-module.exports.ListFunctions = aws_common.as(
-    "GET",
-    "/2014-11-13/functions/",
-    function ListFunctions(aws) {
-        var Marker = aws.params['Marker'];
-        var MaxItems = aws.params['MaxItems'] /* integer */;
+  var ret = {};
+  return [204, ret];
+});
+// -----------------------------------
+module.exports.UploadFunction = awsCommon.as(
+  'PUT',
+  '/2014-11-13/functions/:FunctionName',
+  function UploadFunction(aws) {
+  var MemorySize = aws.params['MemorySize'] /* Type integer */;
+  var Description = aws.params['Description'];
+  var FunctionName = aws.reqParams['FunctionName'];
+  var Mode = aws.params['Mode'];
+  var Role = aws.params['Role'];
+  var Handler = aws.params['Handler'];
+  var Timeout = aws.params['Timeout'] /* Type integer */;
+  var FunctionZip = aws.params['FunctionZip'];
+  var Runtime = aws.params['Runtime'];
+  if (!FunctionName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter FunctionName'];
+  }
+  if (!FunctionZip) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter FunctionZip'];
+  }
+  if (!Runtime) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Runtime'];
+  }
+  if (!Role) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Role'];
+  }
+  if (!Handler) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Handler'];
+  }
+  if (!Mode) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Mode'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            NextMarker: "",
-            Functions: [ /*Se*/{
-                Handler: "",
-                MemorySize: 0,
-                Description: "",
-                CodeSize: 0 /*long*/,
-                FunctionName: "",
-                Timeout: 0,
-                ConfigurationId: "",
-                LastModified: now(),
-                FunctionARN: "",
-                Runtime: "",
-                Role: "",
-                Mode: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    });
-module.exports.UploadFunction = aws_common.as(
-    "PUT",
-    "/2014-11-13/functions/:FunctionName",
-    function UploadFunction(aws) {
-        var Role = aws.params['Role'];
-        var Timeout = aws.params['Timeout'] /* integer */;
-        var Description = aws.params['Description'];
-        var Runtime = aws.params['Runtime'];
-        var MemorySize = aws.params['MemorySize'] /* integer */;
-        var FunctionName = aws.reqParams.FunctionName;
-        var FunctionZip = aws.params['FunctionZip'];
-        var Handler = aws.params['Handler'];
-        var Mode = aws.params['Mode'];
-        if (! FunctionName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter FunctionName"];
-        }
-        if (! FunctionZip) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter FunctionZip"];
-        }
-        if (! Runtime) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Runtime"];
-        }
-        if (! Role) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Role"];
-        }
-        if (! Handler) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Handler"];
-        }
-        if (! Mode) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Mode"];
-        }
+  var ret = /*Se*/{
+    Description: '',
+    Handler: '',
+    ConfigurationId: '',
+    CodeSize: 0 /*Long*/,
+    MemorySize: 0,
+    Runtime: '',
+    LastModified: awsCommon.timestamp(),
+    Mode: '',
+    Role: '',
+    FunctionARN: '',
+    Timeout: 0,
+    FunctionName: '',
+  };
+  return [201, ret];
+});
+// -----------------------------------
+module.exports.GetEventSource = awsCommon.as(
+  'GET',
+  '/2014-11-13/event-source-mappings/:UUID',
+  function GetEventSource(aws) {
+  var UUID = aws.reqParams['UUID'];
+  if (!UUID) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter UUID'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = /*Se*/{
-            Handler: "",
-            MemorySize: 0,
-            Description: "",
-            CodeSize: 0 /*long*/,
-            FunctionName: "",
-            Timeout: 0,
-            ConfigurationId: "",
-            LastModified: now(),
-            FunctionARN: "",
-            Runtime: "",
-            Role: "",
-            Mode: ""
-        };
-        return [201, ret];
-    });
-module.exports.AddEventSource = aws_common.as(
-    "/2014-11-13/event-source-mappings/",
-    function AddEventSource(aws) {
-        var Parameters = aws.params['Parameters'];
-        var Role = aws.params['Role'];
-        var FunctionName = aws.params['FunctionName'];
-        var BatchSize = aws.params['BatchSize'] /* integer */;
-        var EventSource = aws.params['EventSource'];
-        if (! EventSource) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter EventSource"];
-        }
-        if (! FunctionName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter FunctionName"];
-        }
-        if (! Role) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Role"];
-        }
+  var ret = /*S7*/{
+    BatchSize: 0,
+    Parameters: /*S6*/{} /*Map*/,
+    Role: '',
+    IsActive: false,
+    FunctionName: '',
+    LastModified: awsCommon.timestamp(),
+    UUID: '',
+    EventSource: '',
+    Status: '',
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.RemoveEventSource = awsCommon.as(
+  'DELETE',
+  '/2014-11-13/event-source-mappings/:UUID',
+  function RemoveEventSource(aws) {
+  var UUID = aws.reqParams['UUID'];
+  if (!UUID) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter UUID'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = /*S7*/{
-            Parameters: /*S6*/{} /* map */,
-            Role: "",
-            LastModified: now(),
-            BatchSize: 0,
-            EventSource: "",
-            Status: "",
-            IsActive: false,
-            UUID: "",
-            FunctionName: ""
-        };
-        return [200, ret];
-    });
-module.exports.RemoveEventSource = aws_common.as(
-    "DELETE",
-    "/2014-11-13/event-source-mappings/:UUID",
-    function RemoveEventSource(aws) {
-        var UUID = aws.reqParams.UUID;
-        if (! UUID) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter UUID"];
-        }
+  var ret = {};
+  return [204, ret];
+});
+// -----------------------------------
+module.exports.UpdateFunctionConfiguration = awsCommon.as(
+  'PUT',
+  '/2014-11-13/functions/:FunctionName/configuration',
+  function UpdateFunctionConfiguration(aws) {
+  var Description = aws.params['Description'];
+  var FunctionName = aws.reqParams['FunctionName'];
+  var MemorySize = aws.params['MemorySize'] /* Type integer */;
+  var Role = aws.params['Role'];
+  var Handler = aws.params['Handler'];
+  var Timeout = aws.params['Timeout'] /* Type integer */;
+  if (!FunctionName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter FunctionName'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {};
-        return [204, ret];
-    });
-module.exports.GetFunction = aws_common.as(
-    "GET",
-    "/2014-11-13/functions/:FunctionName",
-    function GetFunction(aws) {
-        var FunctionName = aws.reqParams.FunctionName;
-        if (! FunctionName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter FunctionName"];
-        }
+  var ret = /*Se*/{
+    Description: '',
+    Handler: '',
+    ConfigurationId: '',
+    CodeSize: 0 /*Long*/,
+    MemorySize: 0,
+    Runtime: '',
+    LastModified: awsCommon.timestamp(),
+    Mode: '',
+    Role: '',
+    FunctionARN: '',
+    Timeout: 0,
+    FunctionName: '',
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.InvokeAsync = awsCommon.as(
+  '/2014-11-13/functions/:FunctionName/invoke-async/',
+  function InvokeAsync(aws) {
+  var InvokeArgs = aws.params['InvokeArgs'];
+  var FunctionName = aws.reqParams['FunctionName'];
+  if (!FunctionName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter FunctionName'];
+  }
+  if (!InvokeArgs) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InvokeArgs'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            Code: {
-                RepositoryType: "",
-                Location: ""
-            },
-            Configuration: /*Se*/{
-                Handler: "",
-                MemorySize: 0,
-                Description: "",
-                CodeSize: 0 /*long*/,
-                FunctionName: "",
-                Timeout: 0,
-                ConfigurationId: "",
-                LastModified: now(),
-                FunctionARN: "",
-                Runtime: "",
-                Role: "",
-                Mode: ""
-            }
-        };
-        return [200, ret];
-    });
+  var ret = {
+    Status: 0,
+  };
+  return [202, ret];
+});
+// -----------------------------------
+module.exports.GetFunction = awsCommon.as(
+  'GET',
+  '/2014-11-13/functions/:FunctionName',
+  function GetFunction(aws) {
+  var FunctionName = aws.reqParams['FunctionName'];
+  if (!FunctionName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter FunctionName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Code: {
+      RepositoryType: '',
+      Location: '',
+    },
+    Configuration: /*Se*/{
+      Description: '',
+      Handler: '',
+      ConfigurationId: '',
+      CodeSize: 0 /*Long*/,
+      MemorySize: 0,
+      Runtime: '',
+      LastModified: awsCommon.timestamp(),
+      Mode: '',
+      Role: '',
+      FunctionARN: '',
+      Timeout: 0,
+      FunctionName: '',
+    },
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.AddEventSource = awsCommon.as(
+  '/2014-11-13/event-source-mappings/',
+  function AddEventSource(aws) {
+  var BatchSize = aws.params['BatchSize'] /* Type integer */;
+  var Parameters = aws.params['Parameters'];
+  var EventSource = aws.params['EventSource'];
+  var FunctionName = aws.params['FunctionName'];
+  var Role = aws.params['Role'];
+  if (!EventSource) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter EventSource'];
+  }
+  if (!FunctionName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter FunctionName'];
+  }
+  if (!Role) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Role'];
+  }
+
+
+  // TODO implement code
+
+  var ret = /*S7*/{
+    BatchSize: 0,
+    Parameters: /*S6*/{} /*Map*/,
+    Role: '',
+    IsActive: false,
+    FunctionName: '',
+    LastModified: awsCommon.timestamp(),
+    UUID: '',
+    EventSource: '',
+    Status: '',
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.ListEventSources = awsCommon.as(
+  'GET',
+  '/2014-11-13/event-source-mappings/',
+  function ListEventSources(aws) {
+  var Marker = aws.params['Marker'];
+  var EventSourceArn = aws.params['EventSourceArn'];
+  var FunctionName = aws.params['FunctionName'];
+  var MaxItems = aws.params['MaxItems'] /* Type integer */;
+
+
+  // TODO implement code
+
+  var ret = {
+    NextMarker: '',
+    EventSources: [ /*S7*/{
+      BatchSize: 0,
+      Parameters: /*S6*/{} /*Map*/,
+      Role: '',
+      IsActive: false,
+      FunctionName: '',
+      LastModified: awsCommon.timestamp(),
+      UUID: '',
+      EventSource: '',
+      Status: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+});

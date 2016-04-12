@@ -5,7 +5,13 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./bin/www",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "jscs": "jscs admin api bin/www lib app.js",
+    "jshint": "jshint",
+    "pretest": "jscs admin api bin/www lib app.js && jshint admin api bin/www lib app.js"
+  },
+  "config": {
+    "port": "3000"
   },
   "repository": {
     "type": "git",
@@ -39,5 +45,32 @@
     "uuid": "~2.0.1",
     "xml2js": "~0.4.16",
     "yauzl": "~2.4.1"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "jscs": "^2.11.0",
+    "jshint": "^2.9.1",
+    "mocha": "^2.4.5",
+    "pre-commit": "^1.1.2"
+  },
+  "pre-commit": [
+    "jshint",
+    "jscs"
+  ],
+  "jscsConfig": {
+    "preset": "node-style-guide",
+    "excludeFiles": ["api/*routes.js", "api/*/boilerplate-*.js"],
+    "requireCurlyBraces": true,
+    "requirePaddingNewLinesAfterUseStrict": true,
+    "validateLineBreaks": false,
+    "maximumLineLength": {
+        "value": 80,
+        "allExcept": [
+            "urlComments",
+            "functionSignature",
+            "require",
+            "regex"
+        ]
+    }
   }
 }

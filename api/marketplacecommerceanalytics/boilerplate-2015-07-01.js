@@ -1,6 +1,6 @@
 'use strict';
-const aws_common = require('../../lib/aws-common');
 
+const awsCommon = require('../../lib/aws-common');
 
 /**
  * AWS Marketplace Commerce Analytics version 2015-07-01
@@ -11,34 +11,35 @@ const aws_common = require('../../lib/aws-common');
 
 // Setup input and output to use AWS protocol json
 require('../../lib/aws-common/shape_http')('json', module.exports, null)
+// -----------------------------------
 module.exports.GenerateDataSet = function GenerateDataSet(aws) {
-        var dataSetType = aws.params['dataSetType'];
-        var snsTopicArn = aws.params['snsTopicArn'];
-        var destinationS3BucketName = aws.params['destinationS3BucketName'];
-        var dataSetPublicationDate = aws.params['dataSetPublicationDate'] /* timestamp */;
-        var destinationS3Prefix = aws.params['destinationS3Prefix'];
-        var roleNameArn = aws.params['roleNameArn'];
-        if (! dataSetType) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter dataSetType"];
-        }
-        if (! dataSetPublicationDate) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter dataSetPublicationDate"];
-        }
-        if (! roleNameArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter roleNameArn"];
-        }
-        if (! destinationS3BucketName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter destinationS3BucketName"];
-        }
-        if (! snsTopicArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter snsTopicArn"];
-        }
+  var destinationS3Prefix = aws.params['destinationS3Prefix'];
+  var destinationS3BucketName = aws.params['destinationS3BucketName'];
+  var dataSetPublicationDate = aws.params['dataSetPublicationDate'] /* Type timestamp */;
+  var dataSetType = aws.params['dataSetType'];
+  var roleNameArn = aws.params['roleNameArn'];
+  var snsTopicArn = aws.params['snsTopicArn'];
+  if (!dataSetType) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter dataSetType'];
+  }
+  if (!dataSetPublicationDate) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter dataSetPublicationDate'];
+  }
+  if (!roleNameArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter roleNameArn'];
+  }
+  if (!destinationS3BucketName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter destinationS3BucketName'];
+  }
+  if (!snsTopicArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter snsTopicArn'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            dataSetRequestId: ""
-        };
-        return [200, ret];
-    }
+  var ret = {
+    dataSetRequestId: '',
+  };
+  return [200, ret];
+};

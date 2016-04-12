@@ -1,6 +1,6 @@
 'use strict';
-const aws_common = require('../../lib/aws-common');
 
+const awsCommon = require('../../lib/aws-common');
 
 /**
  * Amazon Inspector version 2015-08-18
@@ -11,565 +11,601 @@ const aws_common = require('../../lib/aws-common');
 
 // Setup input and output to use AWS protocol json
 require('../../lib/aws-common/shape_http')('json', module.exports, null)
+// -----------------------------------
 module.exports.ListAttachedRulesPackages = function ListAttachedRulesPackages(aws) {
-        var maxResults = aws.params['maxResults'] /* integer */;
-        var assessmentArn = aws.params['assessmentArn'];
-        var nextToken = aws.params['nextToken'];
+  var nextToken = aws.params['nextToken'];
+  var assessmentArn = aws.params['assessmentArn'];
+  var maxResults = aws.params['maxResults'] /* Type integer */;
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            rulesPackageArnList: /*S2*/[ "" /*, ...*/ ],
-            nextToken: ""
-        };
-        return [200, ret];
-    }
-module.exports.GetAssessmentTelemetry = function GetAssessmentTelemetry(aws) {
-        var assessmentArn = aws.params['assessmentArn'];
-
-
-        // TODO implement code
-
-        var ret = {
-            telemetry: /*S1v*/[ {
-                messageTypeTelemetries: [ {
-                    messageType: "",
-                    count: 0 /*long*/,
-                    dataSize: 0 /*long*/
-                } /*, ...*/ ],
-                status: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.ListRulesPackages = function ListRulesPackages(aws) {
-        var maxResults = aws.params['maxResults'] /* integer */;
-        var nextToken = aws.params['nextToken'];
+  var ret = {
+    nextToken: '',
+    rulesPackageArnList: /*S2*/[ '', /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.LocalizeText = function LocalizeText(aws) {
+  var locale = aws.params['locale'];
+  var localizedTexts = aws.params['localizedTexts'] /* Type list */;
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            rulesPackageArnList: /*S2*/[ "" /*, ...*/ ],
-            nextToken: ""
-        };
-        return [200, ret];
-    }
-module.exports.AttachAssessmentAndRulesPackage = function AttachAssessmentAndRulesPackage(aws) {
-        var rulesPackageArn = aws.params['rulesPackageArn'];
-        var assessmentArn = aws.params['assessmentArn'];
+  var ret = {
+    message: '',
+    results: [ '', /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RegisterCrossAccountAccessRole = function RegisterCrossAccountAccessRole(aws) {
+  var roleArn = aws.params['roleArn'];
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            message: ""
-        };
-        return [200, ret];
-    }
+  var ret = {
+    message: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListFindings = function ListFindings(aws) {
+  var nextToken = aws.params['nextToken'];
+  var runArns = aws.params['runArns'];
+  var filter = aws.params['filter'] /* Type structure */;
+  var maxResults = aws.params['maxResults'] /* Type integer */;
+
+
+  // TODO implement code
+
+  var ret = {
+    nextToken: '',
+    findingArnList: /*S2*/[ '', /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.CreateAssessment = function CreateAssessment(aws) {
-        var applicationArn = aws.params['applicationArn'];
-        var userAttributesForFindings = aws.params['userAttributesForFindings'];
-        var durationInSeconds = aws.params['durationInSeconds'] /* integer */;
-        var assessmentName = aws.params['assessmentName'];
+  var durationInSeconds = aws.params['durationInSeconds'] /* Type integer */;
+  var applicationArn = aws.params['applicationArn'];
+  var assessmentName = aws.params['assessmentName'];
+  var userAttributesForFindings = aws.params['userAttributesForFindings'];
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            assessmentArn: ""
-        };
-        return [200, ret];
-    }
-module.exports.ListRuns = function ListRuns(aws) {
-        var assessmentArns = aws.params['assessmentArns'];
-        var maxResults = aws.params['maxResults'] /* integer */;
-        var nextToken = aws.params['nextToken'];
-        var filter = aws.params['filter'] /* structure */;
+  var ret = {
+    assessmentArn: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RunAssessment = function RunAssessment(aws) {
+  var assessmentArn = aws.params['assessmentArn'];
+  var runName = aws.params['runName'];
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            runArnList: /*S2*/[ "" /*, ...*/ ],
-            nextToken: ""
-        };
-        return [200, ret];
-    }
+  var ret = {
+    runArn: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.DescribeFinding = function DescribeFinding(aws) {
-        var findingArn = aws.params['findingArn'];
+  var findingArn = aws.params['findingArn'];
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            finding: {
-                runArn: "",
-                userAttributes: /*S4*/[ {
-                    key: "",
-                    value: ""
-                } /*, ...*/ ],
-                rulesPackageArn: "",
-                attributes: /*S4*/[ {
-                    key: "",
-                    value: ""
-                } /*, ...*/ ],
-                autoScalingGroup: "",
-                agentId: "",
-                description: /*S18*/{
-                    key: {
-                        id: "",
-                        facility: ""
-                    },
-                    parameters: [ {
-                        value: "",
-                        name: ""
-                    } /*, ...*/ ]
-                },
-                finding: /*S18*/{
-                    key: {
-                        id: "",
-                        facility: ""
-                    },
-                    parameters: [ {
-                        value: "",
-                        name: ""
-                    } /*, ...*/ ]
-                },
-                recommendation: /*S18*/{
-                    key: {
-                        id: "",
-                        facility: ""
-                    },
-                    parameters: [ {
-                        value: "",
-                        name: ""
-                    } /*, ...*/ ]
-                },
-                findingArn: "",
-                severity: "",
-                ruleName: ""
-            }
-        };
-        return [200, ret];
-    }
+  var ret = {
+    finding: {
+      findingArn: '',
+      rulesPackageArn: '',
+      severity: '',
+      finding: /*S18*/{
+        parameters: [ {
+          value: '',
+          name: '',
+        }, /* ...*/ ],
+        key: {
+          id: '',
+          facility: '',
+        },
+      },
+      description: /*S18*/{
+        parameters: [ {
+          value: '',
+          name: '',
+        }, /* ...*/ ],
+        key: {
+          id: '',
+          facility: '',
+        },
+      },
+      recommendation: /*S18*/{
+        parameters: [ {
+          value: '',
+          name: '',
+        }, /* ...*/ ],
+        key: {
+          id: '',
+          facility: '',
+        },
+      },
+      userAttributes: /*S4*/[ {
+        value: '',
+        key: '',
+      }, /* ...*/ ],
+      runArn: '',
+      attributes: /*S4*/[ {
+        value: '',
+        key: '',
+      }, /* ...*/ ],
+      agentId: '',
+      autoScalingGroup: '',
+      ruleName: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeApplication = function DescribeApplication(aws) {
+  var applicationArn = aws.params['applicationArn'];
+
+
+  // TODO implement code
+
+  var ret = {
+    application: {
+      applicationName: '',
+      applicationArn: '',
+      resourceGroupArn: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.DeleteApplication = function DeleteApplication(aws) {
-        var applicationArn = aws.params['applicationArn'];
+  var applicationArn = aws.params['applicationArn'];
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            message: ""
-        };
-        return [200, ret];
-    }
+  var ret = {
+    message: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateApplication = function UpdateApplication(aws) {
+  var applicationName = aws.params['applicationName'];
+  var applicationArn = aws.params['applicationArn'];
+  var resourceGroupArn = aws.params['resourceGroupArn'];
+
+
+  // TODO implement code
+
+  var ret = {
+    message: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteRun = function DeleteRun(aws) {
+  var runArn = aws.params['runArn'];
+
+
+  // TODO implement code
+
+  var ret = {
+    message: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListTagsForResource = function ListTagsForResource(aws) {
+  var resourceArn = aws.params['resourceArn'];
+
+
+  // TODO implement code
+
+  var ret = {
+    tagList: /*S36*/[ {
+      Key: '',
+      Value: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.PreviewAgentsForResourceGroup = function PreviewAgentsForResourceGroup(aws) {
+  var nextToken = aws.params['nextToken'];
+  var resourceGroupArn = aws.params['resourceGroupArn'];
+  var maxResults = aws.params['maxResults'] /* Type integer */;
+
+
+  // TODO implement code
+
+  var ret = {
+    nextToken: '',
+    agentPreviewList: [ {
+      autoScalingGroup: '',
+      agentId: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeRulesPackage = function DescribeRulesPackage(aws) {
+  var rulesPackageArn = aws.params['rulesPackageArn'];
+
+
+  // TODO implement code
+
+  var ret = {
+    rulesPackage: {
+      version: '',
+      rulesPackageArn: '',
+      provider: '',
+      rulesPackageName: '',
+      description: /*S18*/{
+        parameters: [ {
+          value: '',
+          name: '',
+        }, /* ...*/ ],
+        key: {
+          id: '',
+          facility: '',
+        },
+      },
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DetachAssessmentAndRulesPackage = function DetachAssessmentAndRulesPackage(aws) {
+  var rulesPackageArn = aws.params['rulesPackageArn'];
+  var assessmentArn = aws.params['assessmentArn'];
+
+
+  // TODO implement code
+
+  var ret = {
+    message: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeResourceGroup = function DescribeResourceGroup(aws) {
+  var resourceGroupArn = aws.params['resourceGroupArn'];
+
+
+  // TODO implement code
+
+  var ret = {
+    resourceGroup: {
+      resourceGroupArn: '',
+      resourceGroupTags: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetAssessmentTelemetry = function GetAssessmentTelemetry(aws) {
+  var assessmentArn = aws.params['assessmentArn'];
+
+
+  // TODO implement code
+
+  var ret = {
+    telemetry: /*S1v*/[ {
+      status: '',
+      messageTypeTelemetries: [ {
+        dataSize: 0 /*Long*/,
+        count: 0 /*Long*/,
+        messageType: '',
+      }, /* ...*/ ],
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListAttachedAssessments = function ListAttachedAssessments(aws) {
+  var nextToken = aws.params['nextToken'];
+  var filter = aws.params['filter'];
+  var rulesPackageArn = aws.params['rulesPackageArn'];
+  var maxResults = aws.params['maxResults'] /* Type integer */;
+
+
+  // TODO implement code
+
+  var ret = {
+    nextToken: '',
+    assessmentArnList: /*S2*/[ '', /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.DescribeCrossAccountAccessRole = function DescribeCrossAccountAccessRole(aws) {
 
 
-        // TODO implement code
-
-        var ret = {
-            roleArn: "",
-            valid: false
-        };
-        return [200, ret];
-    }
-module.exports.RunAssessment = function RunAssessment(aws) {
-        var assessmentArn = aws.params['assessmentArn'];
-        var runName = aws.params['runName'];
-
-
-        // TODO implement code
-
-        var ret = {
-            runArn: ""
-        };
-        return [200, ret];
-    }
-module.exports.DetachAssessmentAndRulesPackage = function DetachAssessmentAndRulesPackage(aws) {
-        var rulesPackageArn = aws.params['rulesPackageArn'];
-        var assessmentArn = aws.params['assessmentArn'];
-
-
-        // TODO implement code
-
-        var ret = {
-            message: ""
-        };
-        return [200, ret];
-    }
-module.exports.PreviewAgentsForResourceGroup = function PreviewAgentsForResourceGroup(aws) {
-        var maxResults = aws.params['maxResults'] /* integer */;
-        var nextToken = aws.params['nextToken'];
-        var resourceGroupArn = aws.params['resourceGroupArn'];
-
-
-        // TODO implement code
-
-        var ret = {
-            nextToken: "",
-            agentPreviewList: [ {
-                agentId: "",
-                autoScalingGroup: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.ListAttachedAssessments = function ListAttachedAssessments(aws) {
-        var rulesPackageArn = aws.params['rulesPackageArn'];
-        var nextToken = aws.params['nextToken'];
-        var filter = aws.params['filter'];
-        var maxResults = aws.params['maxResults'] /* integer */;
-
-
-        // TODO implement code
-
-        var ret = {
-            nextToken: "",
-            assessmentArnList: /*S2*/[ "" /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.ListAssessmentAgents = function ListAssessmentAgents(aws) {
-        var maxResults = aws.params['maxResults'] /* integer */;
-        var assessmentArn = aws.params['assessmentArn'];
-        var nextToken = aws.params['nextToken'];
-        var filter = aws.params['filter'] /* structure */;
-
-
-        // TODO implement code
-
-        var ret = {
-            nextToken: "",
-            agentList: [ {
-                accountId: "",
-                agentId: "",
-                agentHealthCode: "",
-                telemetry: /*S1v*/[ {
-                    messageTypeTelemetries: [ {
-                        messageType: "",
-                        count: 0 /*long*/,
-                        dataSize: 0 /*long*/
-                    } /*, ...*/ ],
-                    status: ""
-                } /*, ...*/ ],
-                agentHealthDetails: "",
-                autoScalingGroup: "",
-                agentHealth: "",
-                assessmentArn: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.UpdateApplication = function UpdateApplication(aws) {
-        var applicationArn = aws.params['applicationArn'];
-        var resourceGroupArn = aws.params['resourceGroupArn'];
-        var applicationName = aws.params['applicationName'];
-
-
-        // TODO implement code
-
-        var ret = {
-            message: ""
-        };
-        return [200, ret];
-    }
-module.exports.ListTagsForResource = function ListTagsForResource(aws) {
-        var resourceArn = aws.params['resourceArn'];
-
-
-        // TODO implement code
-
-        var ret = {
-            tagList: /*S36*/[ {
-                Value: "",
-                Key: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.DescribeRun = function DescribeRun(aws) {
-        var runArn = aws.params['runArn'];
-
-
-        // TODO implement code
-
-        var ret = {
-            run: {
-                creationTime: now(),
-                runArn: "",
-                runState: "",
-                completionTime: now(),
-                rulesPackages: /*S2*/[ "" /*, ...*/ ],
-                runName: "",
-                assessmentArn: ""
-            }
-        };
-        return [200, ret];
-    }
-module.exports.LocalizeText = function LocalizeText(aws) {
-        var locale = aws.params['locale'];
-        var localizedTexts = aws.params['localizedTexts'] /* list */;
-
-
-        // TODO implement code
-
-        var ret = {
-            results: [ "" /*, ...*/ ],
-            message: ""
-        };
-        return [200, ret];
-    }
-module.exports.DescribeAssessment = function DescribeAssessment(aws) {
-        var assessmentArn = aws.params['assessmentArn'];
-
-
-        // TODO implement code
-
-        var ret = {
-            assessment: {
-                dataCollected: false,
-                userAttributesForFindings: /*S4*/[ {
-                    key: "",
-                    value: ""
-                } /*, ...*/ ],
-                assessmentArn: "",
-                durationInSeconds: 0,
-                assessmentName: "",
-                applicationArn: "",
-                assessmentState: "",
-                failureMessage: "",
-                endTime: now(),
-                startTime: now()
-            }
-        };
-        return [200, ret];
-    }
-module.exports.DeleteAssessment = function DeleteAssessment(aws) {
-        var assessmentArn = aws.params['assessmentArn'];
-
-
-        // TODO implement code
-
-        var ret = {
-            message: ""
-        };
-        return [200, ret];
-    }
-module.exports.ListApplications = function ListApplications(aws) {
-        var maxResults = aws.params['maxResults'] /* integer */;
-        var nextToken = aws.params['nextToken'];
-        var filter = aws.params['filter'] /* structure */;
-
-
-        // TODO implement code
-
-        var ret = {
-            applicationArnList: /*S2*/[ "" /*, ...*/ ],
-            nextToken: ""
-        };
-        return [200, ret];
-    }
-module.exports.ListAssessments = function ListAssessments(aws) {
-        var maxResults = aws.params['maxResults'] /* integer */;
-        var nextToken = aws.params['nextToken'];
-        var applicationArns = aws.params['applicationArns'];
-        var filter = aws.params['filter'];
-
-
-        // TODO implement code
-
-        var ret = {
-            nextToken: "",
-            assessmentArnList: /*S2*/[ "" /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.UpdateAssessment = function UpdateAssessment(aws) {
-        var assessmentArn = aws.params['assessmentArn'];
-        var durationInSeconds = aws.params['durationInSeconds'] /* integer */;
-        var assessmentName = aws.params['assessmentName'];
-
-
-        // TODO implement code
-
-        var ret = {
-            message: ""
-        };
-        return [200, ret];
-    }
-module.exports.AddAttributesToFindings = function AddAttributesToFindings(aws) {
-        var findingArns = aws.params['findingArns'];
-        var attributes = aws.params['attributes'];
-
-
-        // TODO implement code
-
-        var ret = {
-            message: ""
-        };
-        return [200, ret];
-    }
-module.exports.CreateResourceGroup = function CreateResourceGroup(aws) {
-        var resourceGroupTags = aws.params['resourceGroupTags'];
-
-
-        // TODO implement code
-
-        var ret = {
-            resourceGroupArn: ""
-        };
-        return [200, ret];
-    }
-module.exports.ListFindings = function ListFindings(aws) {
-        var maxResults = aws.params['maxResults'] /* integer */;
-        var nextToken = aws.params['nextToken'];
-        var runArns = aws.params['runArns'];
-        var filter = aws.params['filter'] /* structure */;
-
-
-        // TODO implement code
-
-        var ret = {
-            nextToken: "",
-            findingArnList: /*S2*/[ "" /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.SetTagsForResource = function SetTagsForResource(aws) {
-        var resourceArn = aws.params['resourceArn'];
-        var tags = aws.params['tags'];
-
-
-        // TODO implement code
-
-        var ret = {
-            message: ""
-        };
-        return [200, ret];
-    }
-module.exports.DescribeResourceGroup = function DescribeResourceGroup(aws) {
-        var resourceGroupArn = aws.params['resourceGroupArn'];
-
-
-        // TODO implement code
-
-        var ret = {
-            resourceGroup: {
-                resourceGroupTags: "",
-                resourceGroupArn: ""
-            }
-        };
-        return [200, ret];
-    }
-module.exports.DescribeApplication = function DescribeApplication(aws) {
-        var applicationArn = aws.params['applicationArn'];
-
-
-        // TODO implement code
-
-        var ret = {
-            application: {
-                applicationArn: "",
-                resourceGroupArn: "",
-                applicationName: ""
-            }
-        };
-        return [200, ret];
-    }
-module.exports.DeleteRun = function DeleteRun(aws) {
-        var runArn = aws.params['runArn'];
-
-
-        // TODO implement code
-
-        var ret = {
-            message: ""
-        };
-        return [200, ret];
-    }
-module.exports.StartDataCollection = function StartDataCollection(aws) {
-        var assessmentArn = aws.params['assessmentArn'];
-
-
-        // TODO implement code
-
-        var ret = {
-            message: ""
-        };
-        return [200, ret];
-    }
+  // TODO implement code
+
+  var ret = {
+    roleArn: '',
+    valid: false,
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.StopDataCollection = function StopDataCollection(aws) {
-        var assessmentArn = aws.params['assessmentArn'];
+  var assessmentArn = aws.params['assessmentArn'];
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            message: ""
-        };
-        return [200, ret];
-    }
-module.exports.DescribeRulesPackage = function DescribeRulesPackage(aws) {
-        var rulesPackageArn = aws.params['rulesPackageArn'];
-
-
-        // TODO implement code
-
-        var ret = {
-            rulesPackage: {
-                rulesPackageArn: "",
-                description: /*S18*/{
-                    key: {
-                        id: "",
-                        facility: ""
-                    },
-                    parameters: [ {
-                        value: "",
-                        name: ""
-                    } /*, ...*/ ]
-                },
-                version: "",
-                rulesPackageName: "",
-                provider: ""
-            }
-        };
-        return [200, ret];
-    }
-module.exports.RegisterCrossAccountAccessRole = function RegisterCrossAccountAccessRole(aws) {
-        var roleArn = aws.params['roleArn'];
+  var ret = {
+    message: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.AddAttributesToFindings = function AddAttributesToFindings(aws) {
+  var findingArns = aws.params['findingArns'];
+  var attributes = aws.params['attributes'];
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            message: ""
-        };
-        return [200, ret];
-    }
-module.exports.CreateApplication = function CreateApplication(aws) {
-        var resourceGroupArn = aws.params['resourceGroupArn'];
-        var applicationName = aws.params['applicationName'];
+  var ret = {
+    message: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListAssessmentAgents = function ListAssessmentAgents(aws) {
+  var nextToken = aws.params['nextToken'];
+  var filter = aws.params['filter'] /* Type structure */;
+  var assessmentArn = aws.params['assessmentArn'];
+  var maxResults = aws.params['maxResults'] /* Type integer */;
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            applicationArn: ""
-        };
-        return [200, ret];
-    }
+  var ret = {
+    nextToken: '',
+    agentList: [ {
+      agentHealthDetails: '',
+      assessmentArn: '',
+      agentHealth: '',
+      agentId: '',
+      accountId: '',
+      agentHealthCode: '',
+      autoScalingGroup: '',
+      telemetry: /*S1v*/[ {
+        status: '',
+        messageTypeTelemetries: [ {
+          dataSize: 0 /*Long*/,
+          count: 0 /*Long*/,
+          messageType: '',
+        }, /* ...*/ ],
+      }, /* ...*/ ],
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.RemoveAttributesFromFindings = function RemoveAttributesFromFindings(aws) {
-        var findingArns = aws.params['findingArns'];
-        var attributeKeys = aws.params['attributeKeys'] /* list */;
+  var findingArns = aws.params['findingArns'];
+  var attributeKeys = aws.params['attributeKeys'] /* Type list */;
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            message: ""
-        };
-        return [200, ret];
-    }
+  var ret = {
+    message: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListApplications = function ListApplications(aws) {
+  var nextToken = aws.params['nextToken'];
+  var filter = aws.params['filter'] /* Type structure */;
+  var maxResults = aws.params['maxResults'] /* Type integer */;
+
+
+  // TODO implement code
+
+  var ret = {
+    nextToken: '',
+    applicationArnList: /*S2*/[ '', /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListRuns = function ListRuns(aws) {
+  var nextToken = aws.params['nextToken'];
+  var filter = aws.params['filter'] /* Type structure */;
+  var assessmentArns = aws.params['assessmentArns'];
+  var maxResults = aws.params['maxResults'] /* Type integer */;
+
+
+  // TODO implement code
+
+  var ret = {
+    nextToken: '',
+    runArnList: /*S2*/[ '', /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteAssessment = function DeleteAssessment(aws) {
+  var assessmentArn = aws.params['assessmentArn'];
+
+
+  // TODO implement code
+
+  var ret = {
+    message: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeRun = function DescribeRun(aws) {
+  var runArn = aws.params['runArn'];
+
+
+  // TODO implement code
+
+  var ret = {
+    run: {
+      runState: '',
+      runArn: '',
+      assessmentArn: '',
+      completionTime: awsCommon.timestamp(),
+      creationTime: awsCommon.timestamp(),
+      rulesPackages: /*S2*/[ '', /* ...*/ ],
+      runName: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeAssessment = function DescribeAssessment(aws) {
+  var assessmentArn = aws.params['assessmentArn'];
+
+
+  // TODO implement code
+
+  var ret = {
+    assessment: {
+      startTime: awsCommon.timestamp(),
+      applicationArn: '',
+      assessmentArn: '',
+      failureMessage: '',
+      assessmentState: '',
+      durationInSeconds: 0,
+      userAttributesForFindings: /*S4*/[ {
+        value: '',
+        key: '',
+      }, /* ...*/ ],
+      dataCollected: false,
+      assessmentName: '',
+      endTime: awsCommon.timestamp(),
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.StartDataCollection = function StartDataCollection(aws) {
+  var assessmentArn = aws.params['assessmentArn'];
+
+
+  // TODO implement code
+
+  var ret = {
+    message: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateApplication = function CreateApplication(aws) {
+  var applicationName = aws.params['applicationName'];
+  var resourceGroupArn = aws.params['resourceGroupArn'];
+
+
+  // TODO implement code
+
+  var ret = {
+    applicationArn: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateResourceGroup = function CreateResourceGroup(aws) {
+  var resourceGroupTags = aws.params['resourceGroupTags'];
+
+
+  // TODO implement code
+
+  var ret = {
+    resourceGroupArn: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.AttachAssessmentAndRulesPackage = function AttachAssessmentAndRulesPackage(aws) {
+  var rulesPackageArn = aws.params['rulesPackageArn'];
+  var assessmentArn = aws.params['assessmentArn'];
+
+
+  // TODO implement code
+
+  var ret = {
+    message: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.SetTagsForResource = function SetTagsForResource(aws) {
+  var resourceArn = aws.params['resourceArn'];
+  var tags = aws.params['tags'];
+
+
+  // TODO implement code
+
+  var ret = {
+    message: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListRulesPackages = function ListRulesPackages(aws) {
+  var nextToken = aws.params['nextToken'];
+  var maxResults = aws.params['maxResults'] /* Type integer */;
+
+
+  // TODO implement code
+
+  var ret = {
+    nextToken: '',
+    rulesPackageArnList: /*S2*/[ '', /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListAssessments = function ListAssessments(aws) {
+  var nextToken = aws.params['nextToken'];
+  var filter = aws.params['filter'];
+  var applicationArns = aws.params['applicationArns'];
+  var maxResults = aws.params['maxResults'] /* Type integer */;
+
+
+  // TODO implement code
+
+  var ret = {
+    nextToken: '',
+    assessmentArnList: /*S2*/[ '', /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateAssessment = function UpdateAssessment(aws) {
+  var durationInSeconds = aws.params['durationInSeconds'] /* Type integer */;
+  var assessmentArn = aws.params['assessmentArn'];
+  var assessmentName = aws.params['assessmentName'];
+
+
+  // TODO implement code
+
+  var ret = {
+    message: '',
+  };
+  return [200, ret];
+};

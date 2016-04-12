@@ -1,6 +1,6 @@
 'use strict';
-const aws_common = require('../../lib/aws-common');
 
+const awsCommon = require('../../lib/aws-common');
 
 /**
  * Amazon EC2 Container Registry version 2015-09-21
@@ -11,368 +11,384 @@ const aws_common = require('../../lib/aws-common');
 
 // Setup input and output to use AWS protocol json
 require('../../lib/aws-common/shape_http')('json', module.exports, null)
-module.exports.CompleteLayerUpload = function CompleteLayerUpload(aws) {
-        var uploadId = aws.params['uploadId'];
-        var layerDigests = aws.params['layerDigests'] /* list */;
-        var repositoryName = aws.params['repositoryName'];
-        var registryId = aws.params['registryId'];
-        if (! repositoryName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter repositoryName"];
-        }
-        if (! uploadId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter uploadId"];
-        }
-        if (! layerDigests) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter layerDigests"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            uploadId: "",
-            layerDigest: "",
-            repositoryName: "",
-            registryId: ""
-        };
-        return [200, ret];
-    }
-module.exports.SetRepositoryPolicy = function SetRepositoryPolicy(aws) {
-        var policyText = aws.params['policyText'];
-        var force = aws.params['force'] /* boolean */;
-        var repositoryName = aws.params['repositoryName'];
-        var registryId = aws.params['registryId'];
-        if (! repositoryName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter repositoryName"];
-        }
-        if (! policyText) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter policyText"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            policyText: "",
-            repositoryName: "",
-            registryId: ""
-        };
-        return [200, ret];
-    }
-module.exports.CreateRepository = function CreateRepository(aws) {
-        var repositoryName = aws.params['repositoryName'];
-        if (! repositoryName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter repositoryName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            repository: /*S11*/{
-                repositoryArn: "",
-                repositoryName: "",
-                registryId: ""
-            }
-        };
-        return [200, ret];
-    }
+// -----------------------------------
 module.exports.DescribeRepositories = function DescribeRepositories(aws) {
-        var repositoryNames = aws.params['repositoryNames'] /* list */;
-        var nextToken = aws.params['nextToken'];
-        var maxResults = aws.params['maxResults'] /* integer */;
-        var registryId = aws.params['registryId'];
+  var nextToken = aws.params['nextToken'];
+  var registryId = aws.params['registryId'];
+  var maxResults = aws.params['maxResults'] /* Type integer */;
+  var repositoryNames = aws.params['repositoryNames'] /* Type list */;
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            repositories: [ /*S11*/{
-                repositoryArn: "",
-                repositoryName: "",
-                registryId: ""
-            } /*, ...*/ ],
-            nextToken: ""
-        };
-        return [200, ret];
-    }
-module.exports.DeleteRepository = function DeleteRepository(aws) {
-        var force = aws.params['force'] /* boolean */;
-        var repositoryName = aws.params['repositoryName'];
-        var registryId = aws.params['registryId'];
-        if (! repositoryName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter repositoryName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            repository: /*S11*/{
-                repositoryArn: "",
-                repositoryName: "",
-                registryId: ""
-            }
-        };
-        return [200, ret];
-    }
-module.exports.PutImage = function PutImage(aws) {
-        var imageManifest = aws.params['imageManifest'];
-        var repositoryName = aws.params['repositoryName'];
-        var registryId = aws.params['registryId'];
-        if (! repositoryName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter repositoryName"];
-        }
-        if (! imageManifest) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter imageManifest"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            image: /*St*/{
-                imageId: /*Si*/{
-                    imageTag: "",
-                    imageDigest: ""
-                },
-                imageManifest: "",
-                repositoryName: "",
-                registryId: ""
-            }
-        };
-        return [200, ret];
-    }
-module.exports.GetDownloadUrlForLayer = function GetDownloadUrlForLayer(aws) {
-        var layerDigest = aws.params['layerDigest'];
-        var repositoryName = aws.params['repositoryName'];
-        var registryId = aws.params['registryId'];
-        if (! repositoryName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter repositoryName"];
-        }
-        if (! layerDigest) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter layerDigest"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            layerDigest: "",
-            downloadUrl: ""
-        };
-        return [200, ret];
-    }
-module.exports.GetAuthorizationToken = function GetAuthorizationToken(aws) {
-        var registryIds = aws.params['registryIds'] /* list */;
-
-
-        // TODO implement code
-
-        var ret = {
-            authorizationData: [ {
-                proxyEndpoint: "",
-                expiresAt: now(),
-                authorizationToken: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.UploadLayerPart = function UploadLayerPart(aws) {
-        var uploadId = aws.params['uploadId'];
-        var repositoryName = aws.params['repositoryName'];
-        var partLastByte = aws.params['partLastByte'] /* long */;
-        var layerPartBlob = aws.params['layerPartBlob'] /* blob */;
-        var partFirstByte = aws.params['partFirstByte'] /* long */;
-        var registryId = aws.params['registryId'];
-        if (! repositoryName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter repositoryName"];
-        }
-        if (! uploadId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter uploadId"];
-        }
-        if (! partFirstByte) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter partFirstByte"];
-        }
-        if (! partLastByte) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter partLastByte"];
-        }
-        if (! layerPartBlob) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter layerPartBlob"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            uploadId: "",
-            lastByteReceived: 0 /*long*/,
-            repositoryName: "",
-            registryId: ""
-        };
-        return [200, ret];
-    }
-module.exports.GetRepositoryPolicy = function GetRepositoryPolicy(aws) {
-        var repositoryName = aws.params['repositoryName'];
-        var registryId = aws.params['registryId'];
-        if (! repositoryName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter repositoryName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            policyText: "",
-            repositoryName: "",
-            registryId: ""
-        };
-        return [200, ret];
-    }
-module.exports.BatchGetImage = function BatchGetImage(aws) {
-        var imageIds = aws.params['imageIds'];
-        var repositoryName = aws.params['repositoryName'];
-        var registryId = aws.params['registryId'];
-        if (! repositoryName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter repositoryName"];
-        }
-        if (! imageIds) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter imageIds"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            images: [ /*St*/{
-                imageId: /*Si*/{
-                    imageTag: "",
-                    imageDigest: ""
-                },
-                imageManifest: "",
-                repositoryName: "",
-                registryId: ""
-            } /*, ...*/ ],
-            failures: /*Sm*/[ {
-                imageId: /*Si*/{
-                    imageTag: "",
-                    imageDigest: ""
-                },
-                failureCode: "",
-                failureReason: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.ListImages = function ListImages(aws) {
-        var maxResults = aws.params['maxResults'] /* integer */;
-        var nextToken = aws.params['nextToken'];
-        var repositoryName = aws.params['repositoryName'];
-        var registryId = aws.params['registryId'];
-        if (! repositoryName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter repositoryName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            imageIds: /*Sh*/[ /*Si*/{
-                imageTag: "",
-                imageDigest: ""
-            } /*, ...*/ ],
-            nextToken: ""
-        };
-        return [200, ret];
-    }
-module.exports.DeleteRepositoryPolicy = function DeleteRepositoryPolicy(aws) {
-        var repositoryName = aws.params['repositoryName'];
-        var registryId = aws.params['registryId'];
-        if (! repositoryName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter repositoryName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            policyText: "",
-            repositoryName: "",
-            registryId: ""
-        };
-        return [200, ret];
-    }
+  var ret = {
+    repositories: [ /*S11*/{
+      registryId: '',
+      repositoryArn: '',
+      repositoryName: '',
+    }, /* ...*/ ],
+    nextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.BatchCheckLayerAvailability = function BatchCheckLayerAvailability(aws) {
-        var layerDigests = aws.params['layerDigests'] /* list */;
-        var repositoryName = aws.params['repositoryName'];
-        var registryId = aws.params['registryId'];
-        if (! repositoryName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter repositoryName"];
-        }
-        if (! layerDigests) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter layerDigests"];
-        }
+  var registryId = aws.params['registryId'];
+  var repositoryName = aws.params['repositoryName'];
+  var layerDigests = aws.params['layerDigests'] /* Type list */;
+  if (!repositoryName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter repositoryName'];
+  }
+  if (!layerDigests) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter layerDigests'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            failures: [ {
-                layerDigest: "",
-                failureCode: "",
-                failureReason: ""
-            } /*, ...*/ ],
-            layers: [ {
-                layerAvailability: "",
-                layerDigest: "",
-                layerSize: 0 /*long*/
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
+  var ret = {
+    failures: [ {
+      failureReason: '',
+      failureCode: '',
+      layerDigest: '',
+    }, /* ...*/ ],
+    layers: [ {
+      layerAvailability: '',
+      layerSize: 0 /*Long*/,
+      layerDigest: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UploadLayerPart = function UploadLayerPart(aws) {
+  var registryId = aws.params['registryId'];
+  var uploadId = aws.params['uploadId'];
+  var partLastByte = aws.params['partLastByte'] /* Type long */;
+  var repositoryName = aws.params['repositoryName'];
+  var layerPartBlob = aws.params['layerPartBlob'] /* Type blob */;
+  var partFirstByte = aws.params['partFirstByte'] /* Type long */;
+  if (!repositoryName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter repositoryName'];
+  }
+  if (!uploadId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter uploadId'];
+  }
+  if (!partFirstByte) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter partFirstByte'];
+  }
+  if (!partLastByte) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter partLastByte'];
+  }
+  if (!layerPartBlob) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter layerPartBlob'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    registryId: '',
+    lastByteReceived: 0 /*Long*/,
+    repositoryName: '',
+    uploadId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.BatchGetImage = function BatchGetImage(aws) {
+  var imageIds = aws.params['imageIds'];
+  var registryId = aws.params['registryId'];
+  var repositoryName = aws.params['repositoryName'];
+  if (!repositoryName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter repositoryName'];
+  }
+  if (!imageIds) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter imageIds'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    images: [ /*St*/{
+      imageId: /*Si*/{
+        imageTag: '',
+        imageDigest: '',
+      },
+      registryId: '',
+      repositoryName: '',
+      imageManifest: '',
+    }, /* ...*/ ],
+    failures: /*Sm*/[ {
+      failureReason: '',
+      imageId: /*Si*/{
+        imageTag: '',
+        imageDigest: '',
+      },
+      failureCode: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.PutImage = function PutImage(aws) {
+  var registryId = aws.params['registryId'];
+  var repositoryName = aws.params['repositoryName'];
+  var imageManifest = aws.params['imageManifest'];
+  if (!repositoryName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter repositoryName'];
+  }
+  if (!imageManifest) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter imageManifest'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    image: /*St*/{
+      imageId: /*Si*/{
+        imageTag: '',
+        imageDigest: '',
+      },
+      registryId: '',
+      repositoryName: '',
+      imageManifest: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetRepositoryPolicy = function GetRepositoryPolicy(aws) {
+  var registryId = aws.params['registryId'];
+  var repositoryName = aws.params['repositoryName'];
+  if (!repositoryName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter repositoryName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    registryId: '',
+    repositoryName: '',
+    policyText: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListImages = function ListImages(aws) {
+  var nextToken = aws.params['nextToken'];
+  var registryId = aws.params['registryId'];
+  var repositoryName = aws.params['repositoryName'];
+  var maxResults = aws.params['maxResults'] /* Type integer */;
+  if (!repositoryName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter repositoryName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    nextToken: '',
+    imageIds: /*Sh*/[ /*Si*/{
+      imageTag: '',
+      imageDigest: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateRepository = function CreateRepository(aws) {
+  var repositoryName = aws.params['repositoryName'];
+  if (!repositoryName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter repositoryName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    repository: /*S11*/{
+      registryId: '',
+      repositoryArn: '',
+      repositoryName: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.InitiateLayerUpload = function InitiateLayerUpload(aws) {
-        var repositoryName = aws.params['repositoryName'];
-        var registryId = aws.params['registryId'];
-        if (! repositoryName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter repositoryName"];
-        }
+  var registryId = aws.params['registryId'];
+  var repositoryName = aws.params['repositoryName'];
+  if (!repositoryName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter repositoryName'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            uploadId: "",
-            partSize: 0 /*long*/
-        };
-        return [200, ret];
-    }
+  var ret = {
+    uploadId: '',
+    partSize: 0 /*Long*/,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteRepository = function DeleteRepository(aws) {
+  var force = aws.params['force'] /* Type boolean */;
+  var registryId = aws.params['registryId'];
+  var repositoryName = aws.params['repositoryName'];
+  if (!repositoryName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter repositoryName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    repository: /*S11*/{
+      registryId: '',
+      repositoryArn: '',
+      repositoryName: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.SetRepositoryPolicy = function SetRepositoryPolicy(aws) {
+  var force = aws.params['force'] /* Type boolean */;
+  var registryId = aws.params['registryId'];
+  var repositoryName = aws.params['repositoryName'];
+  var policyText = aws.params['policyText'];
+  if (!repositoryName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter repositoryName'];
+  }
+  if (!policyText) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter policyText'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    registryId: '',
+    repositoryName: '',
+    policyText: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CompleteLayerUpload = function CompleteLayerUpload(aws) {
+  var registryId = aws.params['registryId'];
+  var repositoryName = aws.params['repositoryName'];
+  var uploadId = aws.params['uploadId'];
+  var layerDigests = aws.params['layerDigests'] /* Type list */;
+  if (!repositoryName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter repositoryName'];
+  }
+  if (!uploadId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter uploadId'];
+  }
+  if (!layerDigests) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter layerDigests'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    registryId: '',
+    repositoryName: '',
+    uploadId: '',
+    layerDigest: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetDownloadUrlForLayer = function GetDownloadUrlForLayer(aws) {
+  var registryId = aws.params['registryId'];
+  var repositoryName = aws.params['repositoryName'];
+  var layerDigest = aws.params['layerDigest'];
+  if (!repositoryName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter repositoryName'];
+  }
+  if (!layerDigest) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter layerDigest'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    downloadUrl: '',
+    layerDigest: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.BatchDeleteImage = function BatchDeleteImage(aws) {
-        var imageIds = aws.params['imageIds'];
-        var repositoryName = aws.params['repositoryName'];
-        var registryId = aws.params['registryId'];
-        if (! repositoryName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter repositoryName"];
-        }
-        if (! imageIds) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter imageIds"];
-        }
+  var imageIds = aws.params['imageIds'];
+  var registryId = aws.params['registryId'];
+  var repositoryName = aws.params['repositoryName'];
+  if (!repositoryName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter repositoryName'];
+  }
+  if (!imageIds) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter imageIds'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            failures: /*Sm*/[ {
-                imageId: /*Si*/{
-                    imageTag: "",
-                    imageDigest: ""
-                },
-                failureCode: "",
-                failureReason: ""
-            } /*, ...*/ ],
-            imageIds: /*Sh*/[ /*Si*/{
-                    imageTag: "",
-                    imageDigest: ""
-                } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
+  var ret = {
+    failures: /*Sm*/[ {
+      failureReason: '',
+      imageId: /*Si*/{
+        imageTag: '',
+        imageDigest: '',
+      },
+      failureCode: '',
+    }, /* ...*/ ],
+    imageIds: /*Sh*/[ /*Si*/{
+        imageTag: '',
+        imageDigest: '',
+      }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteRepositoryPolicy = function DeleteRepositoryPolicy(aws) {
+  var registryId = aws.params['registryId'];
+  var repositoryName = aws.params['repositoryName'];
+  if (!repositoryName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter repositoryName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    registryId: '',
+    repositoryName: '',
+    policyText: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetAuthorizationToken = function GetAuthorizationToken(aws) {
+  var registryIds = aws.params['registryIds'] /* Type list */;
+
+
+  // TODO implement code
+
+  var ret = {
+    authorizationData: [ {
+      authorizationToken: '',
+      expiresAt: awsCommon.timestamp(),
+      proxyEndpoint: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};

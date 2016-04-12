@@ -1,6 +1,6 @@
 'use strict';
-const aws_common = require('../../lib/aws-common');
 
+const awsCommon = require('../../lib/aws-common');
 
 /**
  * Amazon CloudWatch version 2010-08-01
@@ -11,302 +11,313 @@ const aws_common = require('../../lib/aws-common');
 
 // Setup input and output to use AWS protocol query
 require('../../lib/aws-common/shape_http')('query', module.exports, 'http://monitoring.amazonaws.com/doc/2010-08-01/')
-module.exports.PutMetricAlarm = function PutMetricAlarm(aws) {
-        var Period = aws.params['Period'] /* integer */;
-        var Namespace = aws.params['Namespace'];
-        var Unit = aws.params['Unit'];
-        var Threshold = aws.params['Threshold'] /* double */;
-        var AlarmName = aws.params['AlarmName'];
-        var Statistic = aws.params['Statistic'];
-        var InsufficientDataActions = aws.params['InsufficientDataActions'];
-        var OKActions = aws.params['OKActions'];
-        var Dimensions = aws.params['Dimensions'];
-        var ActionsEnabled = aws.params['ActionsEnabled'] /* boolean */;
-        var AlarmDescription = aws.params['AlarmDescription'];
-        var MetricName = aws.params['MetricName'];
-        var EvaluationPeriods = aws.params['EvaluationPeriods'] /* integer */;
-        var AlarmActions = aws.params['AlarmActions'];
-        var ComparisonOperator = aws.params['ComparisonOperator'];
-        if (! AlarmName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter AlarmName"];
-        }
-        if (! MetricName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter MetricName"];
-        }
-        if (! Namespace) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Namespace"];
-        }
-        if (! Statistic) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Statistic"];
-        }
-        if (! Period) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Period"];
-        }
-        if (! EvaluationPeriods) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter EvaluationPeriods"];
-        }
-        if (! Threshold) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Threshold"];
-        }
-        if (! ComparisonOperator) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ComparisonOperator"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
+// -----------------------------------
 module.exports.SetAlarmState = function SetAlarmState(aws) {
-        var StateReasonData = aws.params['StateReasonData'];
-        var StateValue = aws.params['StateValue'];
-        var StateReason = aws.params['StateReason'];
-        var AlarmName = aws.params['AlarmName'];
-        if (! AlarmName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter AlarmName"];
-        }
-        if (! StateValue) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter StateValue"];
-        }
-        if (! StateReason) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter StateReason"];
-        }
+  var StateReason = aws.params['StateReason'];
+  var AlarmName = aws.params['AlarmName'];
+  var StateReasonData = aws.params['StateReasonData'];
+  var StateValue = aws.params['StateValue'];
+  if (!AlarmName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AlarmName'];
+  }
+  if (!StateValue) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StateValue'];
+  }
+  if (!StateReason) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StateReason'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.DescribeAlarmsForMetric = function DescribeAlarmsForMetric(aws) {
-        var Statistic = aws.params['Statistic'];
-        var Namespace = aws.params['Namespace'];
-        var Period = aws.params['Period'] /* integer */;
-        var Dimensions = aws.params['Dimensions'];
-        var Unit = aws.params['Unit'];
-        var MetricName = aws.params['MetricName'];
-        if (! MetricName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter MetricName"];
-        }
-        if (! Namespace) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Namespace"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            MetricAlarms: /*Sj*/[ {
-                AlarmConfigurationUpdatedTimestamp: now(),
-                Period: 0,
-                StateReason: "",
-                MetricName: "",
-                Namespace: "",
-                Unit: "",
-                StateUpdatedTimestamp: now(),
-                Threshold: 0.0 /*double*/,
-                AlarmName: "",
-                Statistic: "",
-                InsufficientDataActions: /*So*/[ "" /*, ...*/ ],
-                AlarmArn: "",
-                OKActions: /*So*/[ "" /*, ...*/ ],
-                StateReasonData: "",
-                ActionsEnabled: false,
-                Dimensions: /*Sv*/[ {
-                    Value: "",
-                    Name: ""
-                } /*, ...*/ ],
-                AlarmDescription: "",
-                StateValue: "",
-                EvaluationPeriods: 0,
-                AlarmActions: /*So*/[ "" /*, ...*/ ],
-                ComparisonOperator: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.DescribeAlarms = function DescribeAlarms(aws) {
-        var NextToken = aws.params['NextToken'];
-        var ActionPrefix = aws.params['ActionPrefix'];
-        var AlarmNames = aws.params['AlarmNames'];
-        var AlarmNamePrefix = aws.params['AlarmNamePrefix'];
-        var StateValue = aws.params['StateValue'];
-        var MaxRecords = aws.params['MaxRecords'] /* integer */;
-
-
-        // TODO implement code
-
-        var ret = {
-            NextToken: "",
-            MetricAlarms: /*Sj*/[ {
-                AlarmConfigurationUpdatedTimestamp: now(),
-                Period: 0,
-                StateReason: "",
-                MetricName: "",
-                Namespace: "",
-                Unit: "",
-                StateUpdatedTimestamp: now(),
-                Threshold: 0.0 /*double*/,
-                AlarmName: "",
-                Statistic: "",
-                InsufficientDataActions: /*So*/[ "" /*, ...*/ ],
-                AlarmArn: "",
-                OKActions: /*So*/[ "" /*, ...*/ ],
-                StateReasonData: "",
-                ActionsEnabled: false,
-                Dimensions: /*Sv*/[ {
-                    Value: "",
-                    Name: ""
-                } /*, ...*/ ],
-                AlarmDescription: "",
-                StateValue: "",
-                EvaluationPeriods: 0,
-                AlarmActions: /*So*/[ "" /*, ...*/ ],
-                ComparisonOperator: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.ListMetrics = function ListMetrics(aws) {
-        var NextToken = aws.params['NextToken'];
-        var Namespace = aws.params['Namespace'];
-        var MetricName = aws.params['MetricName'];
-        var Dimensions = aws.params['Dimensions'] /* list */;
-
-
-        // TODO implement code
-
-        var ret = {
-            NextToken: "",
-            Metrics: [ {
-                Namespace: "",
-                MetricName: "",
-                Dimensions: /*Sv*/[ {
-                    Value: "",
-                    Name: ""
-                } /*, ...*/ ]
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.GetMetricStatistics = function GetMetricStatistics(aws) {
-        var Namespace = aws.params['Namespace'];
-        var Period = aws.params['Period'] /* integer */;
-        var Statistics = aws.params['Statistics'] /* list */;
-        var EndTime = aws.params['EndTime'] /* timestamp */;
-        var StartTime = aws.params['StartTime'] /* timestamp */;
-        var Unit = aws.params['Unit'];
-        var Dimensions = aws.params['Dimensions'];
-        var MetricName = aws.params['MetricName'];
-        if (! Namespace) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Namespace"];
-        }
-        if (! MetricName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter MetricName"];
-        }
-        if (! StartTime) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter StartTime"];
-        }
-        if (! EndTime) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter EndTime"];
-        }
-        if (! Period) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Period"];
-        }
-        if (! Statistics) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Statistics"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            Label: "",
-            Datapoints: [ {
-                Average: 0.0 /*double*/,
-                Sum: 0.0 /*double*/,
-                Maximum: 0.0 /*double*/,
-                Unit: "",
-                Timestamp: now(),
-                Minimum: 0.0 /*double*/,
-                SampleCount: 0.0 /*double*/
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.EnableAlarmActions = function EnableAlarmActions(aws) {
-        var AlarmNames = aws.params['AlarmNames'];
-        if (! AlarmNames) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter AlarmNames"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.DescribeAlarmHistory = function DescribeAlarmHistory(aws) {
-        var NextToken = aws.params['NextToken'];
-        var HistoryItemType = aws.params['HistoryItemType'];
-        var StartDate = aws.params['StartDate'] /* timestamp */;
-        var EndDate = aws.params['EndDate'] /* timestamp */;
-        var MaxRecords = aws.params['MaxRecords'] /* integer */;
-        var AlarmName = aws.params['AlarmName'];
-
-
-        // TODO implement code
-
-        var ret = {
-            NextToken: "",
-            AlarmHistoryItems: [ {
-                HistoryItemType: "",
-                Timestamp: now(),
-                HistorySummary: "",
-                HistoryData: "",
-                AlarmName: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.PutMetricData = function PutMetricData(aws) {
-        var Namespace = aws.params['Namespace'];
-        var MetricData = aws.params['MetricData'] /* list */;
-        if (! Namespace) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Namespace"];
-        }
-        if (! MetricData) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter MetricData"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.DisableAlarmActions = function DisableAlarmActions(aws) {
-        var AlarmNames = aws.params['AlarmNames'];
-        if (! AlarmNames) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter AlarmNames"];
-        }
+  var AlarmNames = aws.params['AlarmNames'];
+  if (!AlarmNames) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AlarmNames'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {};
-        return [200, ret];
-    }
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.DeleteAlarms = function DeleteAlarms(aws) {
-        var AlarmNames = aws.params['AlarmNames'];
-        if (! AlarmNames) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter AlarmNames"];
-        }
+  var AlarmNames = aws.params['AlarmNames'];
+  if (!AlarmNames) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AlarmNames'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {};
-        return [200, ret];
-    }
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.PutMetricAlarm = function PutMetricAlarm(aws) {
+  var OKActions = aws.params['OKActions'];
+  var EvaluationPeriods = aws.params['EvaluationPeriods'] /* Type integer */;
+  var ActionsEnabled = aws.params['ActionsEnabled'] /* Type boolean */;
+  var Unit = aws.params['Unit'];
+  var Dimensions = aws.params['Dimensions'];
+  var Namespace = aws.params['Namespace'];
+  var Period = aws.params['Period'] /* Type integer */;
+  var AlarmName = aws.params['AlarmName'];
+  var ComparisonOperator = aws.params['ComparisonOperator'];
+  var Statistic = aws.params['Statistic'];
+  var AlarmActions = aws.params['AlarmActions'];
+  var AlarmDescription = aws.params['AlarmDescription'];
+  var Threshold = aws.params['Threshold'] /* Type double */;
+  var InsufficientDataActions = aws.params['InsufficientDataActions'];
+  var MetricName = aws.params['MetricName'];
+  if (!AlarmName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AlarmName'];
+  }
+  if (!MetricName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MetricName'];
+  }
+  if (!Namespace) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Namespace'];
+  }
+  if (!Statistic) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Statistic'];
+  }
+  if (!Period) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Period'];
+  }
+  if (!EvaluationPeriods) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter EvaluationPeriods'];
+  }
+  if (!Threshold) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Threshold'];
+  }
+  if (!ComparisonOperator) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ComparisonOperator'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.EnableAlarmActions = function EnableAlarmActions(aws) {
+  var AlarmNames = aws.params['AlarmNames'];
+  if (!AlarmNames) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AlarmNames'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeAlarmHistory = function DescribeAlarmHistory(aws) {
+  var HistoryItemType = aws.params['HistoryItemType'];
+  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
+  var NextToken = aws.params['NextToken'];
+  var AlarmName = aws.params['AlarmName'];
+  var StartDate = aws.params['StartDate'] /* Type timestamp */;
+  var EndDate = aws.params['EndDate'] /* Type timestamp */;
+
+
+  // TODO implement code
+
+  var ret = {
+    AlarmHistoryItems: [ {
+      HistoryItemType: '',
+      HistoryData: '',
+      HistorySummary: '',
+      AlarmName: '',
+      Timestamp: awsCommon.timestamp(),
+    }, /* ...*/ ],
+    NextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeAlarms = function DescribeAlarms(aws) {
+  var AlarmNamePrefix = aws.params['AlarmNamePrefix'];
+  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
+  var StateValue = aws.params['StateValue'];
+  var ActionPrefix = aws.params['ActionPrefix'];
+  var AlarmNames = aws.params['AlarmNames'];
+  var NextToken = aws.params['NextToken'];
+
+
+  // TODO implement code
+
+  var ret = {
+    MetricAlarms: /*Sj*/[ {
+      Dimensions: /*Sv*/[ {
+        Value: '',
+        Name: '',
+      }, /* ...*/ ],
+      AlarmConfigurationUpdatedTimestamp: awsCommon.timestamp(),
+      EvaluationPeriods: 0,
+      ActionsEnabled: false,
+      Unit: '',
+      OKActions: /*So*/[ '', /* ...*/ ],
+      Namespace: '',
+      Period: 0,
+      StateValue: '',
+      AlarmName: '',
+      ComparisonOperator: '',
+      Statistic: '',
+      AlarmActions: /*So*/[ '', /* ...*/ ],
+      AlarmDescription: '',
+      StateUpdatedTimestamp: awsCommon.timestamp(),
+      StateReason: '',
+      Threshold: 0.0 /*Double*/,
+      InsufficientDataActions: /*So*/[ '', /* ...*/ ],
+      MetricName: '',
+      AlarmArn: '',
+      StateReasonData: '',
+    }, /* ...*/ ],
+    NextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetMetricStatistics = function GetMetricStatistics(aws) {
+  var Dimensions = aws.params['Dimensions'];
+  var Statistics = aws.params['Statistics'] /* Type list */;
+  var Unit = aws.params['Unit'];
+  var Namespace = aws.params['Namespace'];
+  var Period = aws.params['Period'] /* Type integer */;
+  var EndTime = aws.params['EndTime'] /* Type timestamp */;
+  var StartTime = aws.params['StartTime'] /* Type timestamp */;
+  var MetricName = aws.params['MetricName'];
+  if (!Namespace) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Namespace'];
+  }
+  if (!MetricName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MetricName'];
+  }
+  if (!StartTime) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StartTime'];
+  }
+  if (!EndTime) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter EndTime'];
+  }
+  if (!Period) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Period'];
+  }
+  if (!Statistics) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Statistics'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Datapoints: [ {
+      Sum: 0.0 /*Double*/,
+      Unit: '',
+      Timestamp: awsCommon.timestamp(),
+      Maximum: 0.0 /*Double*/,
+      Minimum: 0.0 /*Double*/,
+      SampleCount: 0.0 /*Double*/,
+      Average: 0.0 /*Double*/,
+    }, /* ...*/ ],
+    Label: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.PutMetricData = function PutMetricData(aws) {
+  var Namespace = aws.params['Namespace'];
+  var MetricData = aws.params['MetricData'] /* Type list */;
+  if (!Namespace) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Namespace'];
+  }
+  if (!MetricData) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MetricData'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListMetrics = function ListMetrics(aws) {
+  var Namespace = aws.params['Namespace'];
+  var Dimensions = aws.params['Dimensions'] /* Type list */;
+  var NextToken = aws.params['NextToken'];
+  var MetricName = aws.params['MetricName'];
+
+
+  // TODO implement code
+
+  var ret = {
+    NextToken: '',
+    Metrics: [ {
+      Namespace: '',
+      Dimensions: /*Sv*/[ {
+        Value: '',
+        Name: '',
+      }, /* ...*/ ],
+      MetricName: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeAlarmsForMetric = function DescribeAlarmsForMetric(aws) {
+  var Statistic = aws.params['Statistic'];
+  var Unit = aws.params['Unit'];
+  var Dimensions = aws.params['Dimensions'];
+  var Namespace = aws.params['Namespace'];
+  var Period = aws.params['Period'] /* Type integer */;
+  var MetricName = aws.params['MetricName'];
+  if (!MetricName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MetricName'];
+  }
+  if (!Namespace) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Namespace'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    MetricAlarms: /*Sj*/[ {
+      Dimensions: /*Sv*/[ {
+        Value: '',
+        Name: '',
+      }, /* ...*/ ],
+      AlarmConfigurationUpdatedTimestamp: awsCommon.timestamp(),
+      EvaluationPeriods: 0,
+      ActionsEnabled: false,
+      Unit: '',
+      OKActions: /*So*/[ '', /* ...*/ ],
+      Namespace: '',
+      Period: 0,
+      StateValue: '',
+      AlarmName: '',
+      ComparisonOperator: '',
+      Statistic: '',
+      AlarmActions: /*So*/[ '', /* ...*/ ],
+      AlarmDescription: '',
+      StateUpdatedTimestamp: awsCommon.timestamp(),
+      StateReason: '',
+      Threshold: 0.0 /*Double*/,
+      InsufficientDataActions: /*So*/[ '', /* ...*/ ],
+      MetricName: '',
+      AlarmArn: '',
+      StateReasonData: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};

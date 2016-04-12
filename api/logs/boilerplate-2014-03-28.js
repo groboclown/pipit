@@ -1,6 +1,6 @@
 'use strict';
-const aws_common = require('../../lib/aws-common');
 
+const awsCommon = require('../../lib/aws-common');
 
 /**
  * Amazon CloudWatch Logs version 2014-03-28
@@ -11,531 +11,556 @@ const aws_common = require('../../lib/aws-common');
 
 // Setup input and output to use AWS protocol json
 require('../../lib/aws-common/shape_http')('json', module.exports, null)
-module.exports.DescribeMetricFilters = function DescribeMetricFilters(aws) {
-        var logGroupName = aws.params['logGroupName'];
-        var filterNamePrefix = aws.params['filterNamePrefix'];
-        var nextToken = aws.params['nextToken'];
-        var limit = aws.params['limit'] /* integer */;
-        if (! logGroupName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter logGroupName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            nextToken: "",
-            metricFilters: [ {
-                metricTransformations: /*S1m*/[ {
-                    metricValue: "",
-                    metricNamespace: "",
-                    metricName: ""
-                } /*, ...*/ ],
-                creationTime: 0 /*long*/,
-                filterName: "",
-                filterPattern: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.PutDestination = function PutDestination(aws) {
-        var roleArn = aws.params['roleArn'];
-        var destinationName = aws.params['destinationName'];
-        var targetArn = aws.params['targetArn'];
-        if (! destinationName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter destinationName"];
-        }
-        if (! targetArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter targetArn"];
-        }
-        if (! roleArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter roleArn"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            destination: /*Sq*/{
-                creationTime: 0 /*long*/,
-                roleArn: "",
-                destinationName: "",
-                targetArn: "",
-                arn: "",
-                accessPolicy: ""
-            }
-        };
-        return [200, ret];
-    }
-module.exports.CancelExportTask = function CancelExportTask(aws) {
-        var taskId = aws.params['taskId'];
-        if (! taskId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter taskId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.PutMetricFilter = function PutMetricFilter(aws) {
-        var logGroupName = aws.params['logGroupName'];
-        var metricTransformations = aws.params['metricTransformations'];
-        var filterName = aws.params['filterName'];
-        var filterPattern = aws.params['filterPattern'];
-        if (! logGroupName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter logGroupName"];
-        }
-        if (! filterName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter filterName"];
-        }
-        if (! filterPattern) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter filterPattern"];
-        }
-        if (! metricTransformations) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter metricTransformations"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.DescribeSubscriptionFilters = function DescribeSubscriptionFilters(aws) {
-        var logGroupName = aws.params['logGroupName'];
-        var filterNamePrefix = aws.params['filterNamePrefix'];
-        var nextToken = aws.params['nextToken'];
-        var limit = aws.params['limit'] /* integer */;
-        if (! logGroupName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter logGroupName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            subscriptionFilters: [ {
-                creationTime: 0 /*long*/,
-                destinationArn: "",
-                filterPattern: "",
-                roleArn: "",
-                logGroupName: "",
-                filterName: ""
-            } /*, ...*/ ],
-            nextToken: ""
-        };
-        return [200, ret];
-    }
-module.exports.GetLogEvents = function GetLogEvents(aws) {
-        var limit = aws.params['limit'] /* integer */;
-        var logGroupName = aws.params['logGroupName'];
-        var nextToken = aws.params['nextToken'];
-        var logStreamName = aws.params['logStreamName'];
-        var endTime = aws.params['endTime'] /* long */;
-        var startTime = aws.params['startTime'] /* long */;
-        var startFromHead = aws.params['startFromHead'] /* boolean */;
-        if (! logGroupName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter logGroupName"];
-        }
-        if (! logStreamName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter logStreamName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            nextBackwardToken: "",
-            nextForwardToken: "",
-            events: [ {
-                ingestionTime: 0 /*long*/,
-                timestamp: 0 /*long*/,
-                message: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.DeleteDestination = function DeleteDestination(aws) {
-        var destinationName = aws.params['destinationName'];
-        if (! destinationName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter destinationName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
+// -----------------------------------
 module.exports.FilterLogEvents = function FilterLogEvents(aws) {
-        var limit = aws.params['limit'] /* integer */;
-        var filterPattern = aws.params['filterPattern'];
-        var logStreamNames = aws.params['logStreamNames'] /* list */;
-        var logGroupName = aws.params['logGroupName'];
-        var nextToken = aws.params['nextToken'];
-        var interleaved = aws.params['interleaved'] /* boolean */;
-        var endTime = aws.params['endTime'] /* long */;
-        var startTime = aws.params['startTime'] /* long */;
-        if (! logGroupName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter logGroupName"];
-        }
+  var nextToken = aws.params['nextToken'];
+  var startTime = aws.params['startTime'] /* Type long */;
+  var logStreamNames = aws.params['logStreamNames'] /* Type list */;
+  var interleaved = aws.params['interleaved'] /* Type boolean */;
+  var logGroupName = aws.params['logGroupName'];
+  var filterPattern = aws.params['filterPattern'];
+  var limit = aws.params['limit'] /* Type integer */;
+  var endTime = aws.params['endTime'] /* Type long */;
+  if (!logGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter logGroupName'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            nextToken: "",
-            searchedLogStreams: [ {
-                searchedCompletely: false,
-                logStreamName: ""
-            } /*, ...*/ ],
-            events: [ {
-                eventId: "",
-                logStreamName: "",
-                ingestionTime: 0 /*long*/,
-                timestamp: 0 /*long*/,
-                message: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.CreateLogGroup = function CreateLogGroup(aws) {
-        var logGroupName = aws.params['logGroupName'];
-        if (! logGroupName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter logGroupName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.PutDestinationPolicy = function PutDestinationPolicy(aws) {
-        var destinationName = aws.params['destinationName'];
-        var accessPolicy = aws.params['accessPolicy'];
-        if (! destinationName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter destinationName"];
-        }
-        if (! accessPolicy) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter accessPolicy"];
-        }
+  var ret = {
+    events: [ {
+      message: '',
+      eventId: '',
+      timestamp: 0 /*Long*/,
+      logStreamName: '',
+      ingestionTime: 0 /*Long*/,
+    }, /* ...*/ ],
+    nextToken: '',
+    searchedLogStreams: [ {
+      logStreamName: '',
+      searchedCompletely: false,
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetLogEvents = function GetLogEvents(aws) {
+  var nextToken = aws.params['nextToken'];
+  var startTime = aws.params['startTime'] /* Type long */;
+  var limit = aws.params['limit'] /* Type integer */;
+  var startFromHead = aws.params['startFromHead'] /* Type boolean */;
+  var logStreamName = aws.params['logStreamName'];
+  var endTime = aws.params['endTime'] /* Type long */;
+  var logGroupName = aws.params['logGroupName'];
+  if (!logGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter logGroupName'];
+  }
+  if (!logStreamName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter logStreamName'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.CreateExportTask = function CreateExportTask(aws) {
-        var destination = aws.params['destination'];
-        var to = aws.params['to'] /* long */;
-        var taskName = aws.params['taskName'];
-        var logGroupName = aws.params['logGroupName'];
-        var destinationPrefix = aws.params['destinationPrefix'];
-        var from = aws.params['from'] /* long */;
-        var logStreamNamePrefix = aws.params['logStreamNamePrefix'];
-        if (! logGroupName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter logGroupName"];
-        }
-        if (! from) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter from"];
-        }
-        if (! to) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter to"];
-        }
-        if (! destination) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter destination"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            taskId: ""
-        };
-        return [200, ret];
-    }
-module.exports.DescribeLogGroups = function DescribeLogGroups(aws) {
-        var nextToken = aws.params['nextToken'];
-        var limit = aws.params['limit'] /* integer */;
-        var logGroupNamePrefix = aws.params['logGroupNamePrefix'];
-
-
-        // TODO implement code
-
-        var ret = {
-            nextToken: "",
-            logGroups: [ {
-                creationTime: 0 /*long*/,
-                retentionInDays: 0,
-                arn: "",
-                logGroupName: "",
-                metricFilterCount: 0,
-                storedBytes: 0 /*long*/
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.PutLogEvents = function PutLogEvents(aws) {
-        var logGroupName = aws.params['logGroupName'];
-        var logEvents = aws.params['logEvents'] /* list */;
-        var logStreamName = aws.params['logStreamName'];
-        var sequenceToken = aws.params['sequenceToken'];
-        if (! logGroupName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter logGroupName"];
-        }
-        if (! logStreamName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter logStreamName"];
-        }
-        if (! logEvents) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter logEvents"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            rejectedLogEventsInfo: {
-                expiredLogEventEndIndex: 0,
-                tooNewLogEventStartIndex: 0,
-                tooOldLogEventEndIndex: 0
-            },
-            nextSequenceToken: ""
-        };
-        return [200, ret];
-    }
-module.exports.DeleteLogGroup = function DeleteLogGroup(aws) {
-        var logGroupName = aws.params['logGroupName'];
-        if (! logGroupName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter logGroupName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.PutRetentionPolicy = function PutRetentionPolicy(aws) {
-        var logGroupName = aws.params['logGroupName'];
-        var retentionInDays = aws.params['retentionInDays'] /* integer */;
-        if (! logGroupName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter logGroupName"];
-        }
-        if (! retentionInDays) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter retentionInDays"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.DeleteLogStream = function DeleteLogStream(aws) {
-        var logGroupName = aws.params['logGroupName'];
-        var logStreamName = aws.params['logStreamName'];
-        if (! logGroupName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter logGroupName"];
-        }
-        if (! logStreamName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter logStreamName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.PutSubscriptionFilter = function PutSubscriptionFilter(aws) {
-        var logGroupName = aws.params['logGroupName'];
-        var destinationArn = aws.params['destinationArn'];
-        var filterName = aws.params['filterName'];
-        var filterPattern = aws.params['filterPattern'];
-        var roleArn = aws.params['roleArn'];
-        if (! logGroupName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter logGroupName"];
-        }
-        if (! filterName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter filterName"];
-        }
-        if (! filterPattern) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter filterPattern"];
-        }
-        if (! destinationArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter destinationArn"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.DescribeDestinations = function DescribeDestinations(aws) {
-        var DestinationNamePrefix = aws.params['DestinationNamePrefix'];
-        var nextToken = aws.params['nextToken'];
-        var limit = aws.params['limit'] /* integer */;
-
-
-        // TODO implement code
-
-        var ret = {
-            destinations: [ /*Sq*/{
-                creationTime: 0 /*long*/,
-                roleArn: "",
-                destinationName: "",
-                targetArn: "",
-                arn: "",
-                accessPolicy: ""
-            } /*, ...*/ ],
-            nextToken: ""
-        };
-        return [200, ret];
-    }
-module.exports.DeleteSubscriptionFilter = function DeleteSubscriptionFilter(aws) {
-        var logGroupName = aws.params['logGroupName'];
-        var filterName = aws.params['filterName'];
-        if (! logGroupName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter logGroupName"];
-        }
-        if (! filterName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter filterName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.DescribeLogStreams = function DescribeLogStreams(aws) {
-        var limit = aws.params['limit'] /* integer */;
-        var orderBy = aws.params['orderBy'];
-        var logGroupName = aws.params['logGroupName'];
-        var nextToken = aws.params['nextToken'];
-        var descending = aws.params['descending'] /* boolean */;
-        var logStreamNamePrefix = aws.params['logStreamNamePrefix'];
-        if (! logGroupName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter logGroupName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            nextToken: "",
-            logStreams: [ {
-                creationTime: 0 /*long*/,
-                firstEventTimestamp: 0 /*long*/,
-                arn: "",
-                uploadSequenceToken: "",
-                logStreamName: "",
-                lastEventTimestamp: 0 /*long*/,
-                lastIngestionTime: 0 /*long*/,
-                storedBytes: 0 /*long*/
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.CreateLogStream = function CreateLogStream(aws) {
-        var logGroupName = aws.params['logGroupName'];
-        var logStreamName = aws.params['logStreamName'];
-        if (! logGroupName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter logGroupName"];
-        }
-        if (! logStreamName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter logStreamName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.TestMetricFilter = function TestMetricFilter(aws) {
-        var logEventMessages = aws.params['logEventMessages'] /* list */;
-        var filterPattern = aws.params['filterPattern'];
-        if (! filterPattern) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter filterPattern"];
-        }
-        if (! logEventMessages) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter logEventMessages"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            matches: [ {
-                extractedValues: {} /* map */,
-                eventMessage: "",
-                eventNumber: 0 /*long*/
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.DeleteRetentionPolicy = function DeleteRetentionPolicy(aws) {
-        var logGroupName = aws.params['logGroupName'];
-        if (! logGroupName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter logGroupName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
+  var ret = {
+    events: [ {
+      message: '',
+      timestamp: 0 /*Long*/,
+      ingestionTime: 0 /*Long*/,
+    }, /* ...*/ ],
+    nextForwardToken: '',
+    nextBackwardToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.DeleteMetricFilter = function DeleteMetricFilter(aws) {
-        var logGroupName = aws.params['logGroupName'];
-        var filterName = aws.params['filterName'];
-        if (! logGroupName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter logGroupName"];
-        }
-        if (! filterName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter filterName"];
-        }
+  var filterName = aws.params['filterName'];
+  var logGroupName = aws.params['logGroupName'];
+  if (!logGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter logGroupName'];
+  }
+  if (!filterName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter filterName'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {};
-        return [200, ret];
-    }
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeSubscriptionFilters = function DescribeSubscriptionFilters(aws) {
+  var nextToken = aws.params['nextToken'];
+  var filterNamePrefix = aws.params['filterNamePrefix'];
+  var limit = aws.params['limit'] /* Type integer */;
+  var logGroupName = aws.params['logGroupName'];
+  if (!logGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter logGroupName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    nextToken: '',
+    subscriptionFilters: [ {
+      roleArn: '',
+      filterPattern: '',
+      destinationArn: '',
+      creationTime: 0 /*Long*/,
+      filterName: '',
+      logGroupName: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.PutSubscriptionFilter = function PutSubscriptionFilter(aws) {
+  var roleArn = aws.params['roleArn'];
+  var filterPattern = aws.params['filterPattern'];
+  var filterName = aws.params['filterName'];
+  var destinationArn = aws.params['destinationArn'];
+  var logGroupName = aws.params['logGroupName'];
+  if (!logGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter logGroupName'];
+  }
+  if (!filterName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter filterName'];
+  }
+  if (!filterPattern) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter filterPattern'];
+  }
+  if (!destinationArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter destinationArn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeLogGroups = function DescribeLogGroups(aws) {
+  var nextToken = aws.params['nextToken'];
+  var logGroupNamePrefix = aws.params['logGroupNamePrefix'];
+  var limit = aws.params['limit'] /* Type integer */;
+
+
+  // TODO implement code
+
+  var ret = {
+    nextToken: '',
+    logGroups: [ {
+      creationTime: 0 /*Long*/,
+      retentionInDays: 0,
+      arn: '',
+      storedBytes: 0 /*Long*/,
+      metricFilterCount: 0,
+      logGroupName: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.PutLogEvents = function PutLogEvents(aws) {
+  var sequenceToken = aws.params['sequenceToken'];
+  var logEvents = aws.params['logEvents'] /* Type list */;
+  var logStreamName = aws.params['logStreamName'];
+  var logGroupName = aws.params['logGroupName'];
+  if (!logGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter logGroupName'];
+  }
+  if (!logStreamName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter logStreamName'];
+  }
+  if (!logEvents) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter logEvents'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    nextSequenceToken: '',
+    rejectedLogEventsInfo: {
+      tooNewLogEventStartIndex: 0,
+      expiredLogEventEndIndex: 0,
+      tooOldLogEventEndIndex: 0,
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteSubscriptionFilter = function DeleteSubscriptionFilter(aws) {
+  var filterName = aws.params['filterName'];
+  var logGroupName = aws.params['logGroupName'];
+  if (!logGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter logGroupName'];
+  }
+  if (!filterName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter filterName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.DescribeExportTasks = function DescribeExportTasks(aws) {
-        var taskId = aws.params['taskId'];
-        var nextToken = aws.params['nextToken'];
-        var limit = aws.params['limit'] /* integer */;
-        var statusCode = aws.params['statusCode'];
+  var nextToken = aws.params['nextToken'];
+  var statusCode = aws.params['statusCode'];
+  var limit = aws.params['limit'] /* Type integer */;
+  var taskId = aws.params['taskId'];
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            exportTasks: [ {
-                destination: "",
-                executionInfo: {
-                    creationTime: 0 /*long*/,
-                    completionTime: 0 /*long*/
-                },
-                to: 0 /*long*/,
-                taskName: "",
-                logGroupName: "",
-                taskId: "",
-                from: 0 /*long*/,
-                destinationPrefix: "",
-                status: {
-                    code: "",
-                    message: ""
-                }
-            } /*, ...*/ ],
-            nextToken: ""
-        };
-        return [200, ret];
-    }
+  var ret = {
+    exportTasks: [ {
+      destination: '',
+      to: 0 /*Long*/,
+      executionInfo: {
+        creationTime: 0 /*Long*/,
+        completionTime: 0 /*Long*/,
+      },
+      status: {
+        message: '',
+        code: '',
+      },
+      from: 0 /*Long*/,
+      taskName: '',
+      taskId: '',
+      destinationPrefix: '',
+      logGroupName: '',
+    }, /* ...*/ ],
+    nextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteDestination = function DeleteDestination(aws) {
+  var destinationName = aws.params['destinationName'];
+  if (!destinationName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter destinationName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteLogGroup = function DeleteLogGroup(aws) {
+  var logGroupName = aws.params['logGroupName'];
+  if (!logGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter logGroupName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateLogStream = function CreateLogStream(aws) {
+  var logStreamName = aws.params['logStreamName'];
+  var logGroupName = aws.params['logGroupName'];
+  if (!logGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter logGroupName'];
+  }
+  if (!logStreamName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter logStreamName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CancelExportTask = function CancelExportTask(aws) {
+  var taskId = aws.params['taskId'];
+  if (!taskId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter taskId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteLogStream = function DeleteLogStream(aws) {
+  var logStreamName = aws.params['logStreamName'];
+  var logGroupName = aws.params['logGroupName'];
+  if (!logGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter logGroupName'];
+  }
+  if (!logStreamName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter logStreamName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.TestMetricFilter = function TestMetricFilter(aws) {
+  var filterPattern = aws.params['filterPattern'];
+  var logEventMessages = aws.params['logEventMessages'] /* Type list */;
+  if (!filterPattern) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter filterPattern'];
+  }
+  if (!logEventMessages) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter logEventMessages'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    matches: [ {
+      eventNumber: 0 /*Long*/,
+      eventMessage: '',
+      extractedValues: {} /*Map*/,
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateLogGroup = function CreateLogGroup(aws) {
+  var logGroupName = aws.params['logGroupName'];
+  if (!logGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter logGroupName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.PutDestinationPolicy = function PutDestinationPolicy(aws) {
+  var accessPolicy = aws.params['accessPolicy'];
+  var destinationName = aws.params['destinationName'];
+  if (!destinationName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter destinationName'];
+  }
+  if (!accessPolicy) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter accessPolicy'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeMetricFilters = function DescribeMetricFilters(aws) {
+  var nextToken = aws.params['nextToken'];
+  var filterNamePrefix = aws.params['filterNamePrefix'];
+  var limit = aws.params['limit'] /* Type integer */;
+  var logGroupName = aws.params['logGroupName'];
+  if (!logGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter logGroupName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    nextToken: '',
+    metricFilters: [ {
+      filterPattern: '',
+      creationTime: 0 /*Long*/,
+      metricTransformations: /*S1m*/[ {
+        metricName: '',
+        metricValue: '',
+        metricNamespace: '',
+      }, /* ...*/ ],
+      filterName: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.PutMetricFilter = function PutMetricFilter(aws) {
+  var filterPattern = aws.params['filterPattern'];
+  var filterName = aws.params['filterName'];
+  var metricTransformations = aws.params['metricTransformations'];
+  var logGroupName = aws.params['logGroupName'];
+  if (!logGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter logGroupName'];
+  }
+  if (!filterName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter filterName'];
+  }
+  if (!filterPattern) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter filterPattern'];
+  }
+  if (!metricTransformations) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter metricTransformations'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.PutDestination = function PutDestination(aws) {
+  var roleArn = aws.params['roleArn'];
+  var targetArn = aws.params['targetArn'];
+  var destinationName = aws.params['destinationName'];
+  if (!destinationName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter destinationName'];
+  }
+  if (!targetArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter targetArn'];
+  }
+  if (!roleArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter roleArn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    destination: /*Sq*/{
+      roleArn: '',
+      targetArn: '',
+      destinationName: '',
+      arn: '',
+      creationTime: 0 /*Long*/,
+      accessPolicy: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeDestinations = function DescribeDestinations(aws) {
+  var nextToken = aws.params['nextToken'];
+  var DestinationNamePrefix = aws.params['DestinationNamePrefix'];
+  var limit = aws.params['limit'] /* Type integer */;
+
+
+  // TODO implement code
+
+  var ret = {
+    nextToken: '',
+    destinations: [ /*Sq*/{
+      roleArn: '',
+      targetArn: '',
+      destinationName: '',
+      arn: '',
+      creationTime: 0 /*Long*/,
+      accessPolicy: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteRetentionPolicy = function DeleteRetentionPolicy(aws) {
+  var logGroupName = aws.params['logGroupName'];
+  if (!logGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter logGroupName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.PutRetentionPolicy = function PutRetentionPolicy(aws) {
+  var retentionInDays = aws.params['retentionInDays'] /* Type integer */;
+  var logGroupName = aws.params['logGroupName'];
+  if (!logGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter logGroupName'];
+  }
+  if (!retentionInDays) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter retentionInDays'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateExportTask = function CreateExportTask(aws) {
+  var destination = aws.params['destination'];
+  var to = aws.params['to'] /* Type long */;
+  var from = aws.params['from'] /* Type long */;
+  var taskName = aws.params['taskName'];
+  var logGroupName = aws.params['logGroupName'];
+  var destinationPrefix = aws.params['destinationPrefix'];
+  var logStreamNamePrefix = aws.params['logStreamNamePrefix'];
+  if (!logGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter logGroupName'];
+  }
+  if (!from) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter from'];
+  }
+  if (!to) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter to'];
+  }
+  if (!destination) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter destination'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    taskId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeLogStreams = function DescribeLogStreams(aws) {
+  var nextToken = aws.params['nextToken'];
+  var descending = aws.params['descending'] /* Type boolean */;
+  var logGroupName = aws.params['logGroupName'];
+  var logStreamNamePrefix = aws.params['logStreamNamePrefix'];
+  var limit = aws.params['limit'] /* Type integer */;
+  var orderBy = aws.params['orderBy'];
+  if (!logGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter logGroupName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    logStreams: [ {
+      lastEventTimestamp: 0 /*Long*/,
+      arn: '',
+      storedBytes: 0 /*Long*/,
+      creationTime: 0 /*Long*/,
+      firstEventTimestamp: 0 /*Long*/,
+      uploadSequenceToken: '',
+      lastIngestionTime: 0 /*Long*/,
+      logStreamName: '',
+    }, /* ...*/ ],
+    nextToken: '',
+  };
+  return [200, ret];
+};

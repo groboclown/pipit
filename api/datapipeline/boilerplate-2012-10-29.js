@@ -1,6 +1,6 @@
 'use strict';
-const aws_common = require('../../lib/aws-common');
 
+const awsCommon = require('../../lib/aws-common');
 
 /**
  * AWS Data Pipeline version 2012-10-29
@@ -11,403 +11,422 @@ const aws_common = require('../../lib/aws-common');
 
 // Setup input and output to use AWS protocol json
 require('../../lib/aws-common/shape_http')('json', module.exports, null)
-module.exports.ActivatePipeline = function ActivatePipeline(aws) {
-        var startTimestamp = aws.params['startTimestamp'] /* timestamp */;
-        var parameterValues = aws.params['parameterValues'];
-        var pipelineId = aws.params['pipelineId'];
-        if (! pipelineId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter pipelineId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-
-        };
-        return [200, ret];
-    }
-module.exports.ValidatePipelineDefinition = function ValidatePipelineDefinition(aws) {
-        var parameterObjects = aws.params['parameterObjects'];
-        var pipelineObjects = aws.params['pipelineObjects'];
-        var parameterValues = aws.params['parameterValues'];
-        var pipelineId = aws.params['pipelineId'];
-        if (! pipelineId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter pipelineId"];
-        }
-        if (! pipelineObjects) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter pipelineObjects"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            errored: false,
-            validationWarnings: /*S1p*/[ {
-                warnings: /*S1n*/[ "" /*, ...*/ ],
-                id: ""
-            } /*, ...*/ ],
-            validationErrors: /*S1l*/[ {
-                errors: /*S1n*/[ "" /*, ...*/ ],
-                id: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.CreatePipeline = function CreatePipeline(aws) {
-        var uniqueId = aws.params['uniqueId'];
-        var tags = aws.params['tags'];
-        var description = aws.params['description'];
-        var name = aws.params['name'];
-        if (! name) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter name"];
-        }
-        if (! uniqueId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter uniqueId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            pipelineId: ""
-        };
-        return [200, ret];
-    }
-module.exports.SetTaskStatus = function SetTaskStatus(aws) {
-        var taskId = aws.params['taskId'];
-        var errorStackTrace = aws.params['errorStackTrace'];
-        var errorId = aws.params['errorId'];
-        var taskStatus = aws.params['taskStatus'];
-        var errorMessage = aws.params['errorMessage'];
-        if (! taskId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter taskId"];
-        }
-        if (! taskStatus) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter taskStatus"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-
-        };
-        return [200, ret];
-    }
-module.exports.ReportTaskProgress = function ReportTaskProgress(aws) {
-        var taskId = aws.params['taskId'];
-        var fields = aws.params['fields'];
-        if (! taskId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter taskId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            canceled: false
-        };
-        return [200, ret];
-    }
-module.exports.PutPipelineDefinition = function PutPipelineDefinition(aws) {
-        var parameterObjects = aws.params['parameterObjects'];
-        var pipelineObjects = aws.params['pipelineObjects'];
-        var parameterValues = aws.params['parameterValues'];
-        var pipelineId = aws.params['pipelineId'];
-        if (! pipelineId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter pipelineId"];
-        }
-        if (! pipelineObjects) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter pipelineObjects"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            errored: false,
-            validationWarnings: /*S1p*/[ {
-                warnings: /*S1n*/[ "" /*, ...*/ ],
-                id: ""
-            } /*, ...*/ ],
-            validationErrors: /*S1l*/[ {
-                errors: /*S1n*/[ "" /*, ...*/ ],
-                id: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.PollForTask = function PollForTask(aws) {
-        var hostname = aws.params['hostname'];
-        var workerGroup = aws.params['workerGroup'];
-        var instanceIdentity = aws.params['instanceIdentity'] /* structure */;
-        if (! workerGroup) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter workerGroup"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            taskObject: {
-                taskId: "",
-                objects: {} /* map */,
-                pipelineId: "",
-                attemptId: ""
-            }
-        };
-        return [200, ret];
-    }
-module.exports.DescribePipelines = function DescribePipelines(aws) {
-        var pipelineIds = aws.params['pipelineIds'];
-        if (! pipelineIds) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter pipelineIds"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            pipelineDescriptionList: [ {
-                tags: /*Sa*/[ {
-                    key: "",
-                    value: ""
-                } /*, ...*/ ],
-                fields: /*Ss*/[ {
-                    key: "",
-                    refValue: "",
-                    stringValue: ""
-                } /*, ...*/ ],
-                description: "",
-                pipelineId: "",
-                name: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.DescribeObjects = function DescribeObjects(aws) {
-        var marker = aws.params['marker'];
-        var objectIds = aws.params['objectIds'];
-        var pipelineId = aws.params['pipelineId'];
-        var evaluateExpressions = aws.params['evaluateExpressions'] /* boolean */;
-        if (! pipelineId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter pipelineId"];
-        }
-        if (! objectIds) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter objectIds"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            pipelineObjects: /*Sq*/[ /*Sr*/{
-                fields: /*Ss*/[ {
-                    key: "",
-                    refValue: "",
-                    stringValue: ""
-                } /*, ...*/ ],
-                id: "",
-                name: ""
-            } /*, ...*/ ],
-            marker: "",
-            hasMoreResults: false
-        };
-        return [200, ret];
-    }
-module.exports.ReportTaskRunnerHeartbeat = function ReportTaskRunnerHeartbeat(aws) {
-        var hostname = aws.params['hostname'];
-        var workerGroup = aws.params['workerGroup'];
-        var taskrunnerId = aws.params['taskrunnerId'];
-        if (! taskrunnerId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter taskrunnerId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            terminate: false
-        };
-        return [200, ret];
-    }
-module.exports.EvaluateExpression = function EvaluateExpression(aws) {
-        var objectId = aws.params['objectId'];
-        var pipelineId = aws.params['pipelineId'];
-        var expression = aws.params['expression'];
-        if (! pipelineId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter pipelineId"];
-        }
-        if (! objectId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter objectId"];
-        }
-        if (! expression) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter expression"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            evaluatedExpression: ""
-        };
-        return [200, ret];
-    }
-module.exports.DeletePipeline = function DeletePipeline(aws) {
-        var pipelineId = aws.params['pipelineId'];
-        if (! pipelineId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter pipelineId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.ListPipelines = function ListPipelines(aws) {
-        var marker = aws.params['marker'];
-
-
-        // TODO implement code
-
-        var ret = {
-            hasMoreResults: false,
-            marker: "",
-            pipelineIdList: [ {
-                id: "",
-                name: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.DeactivatePipeline = function DeactivatePipeline(aws) {
-        var cancelActive = aws.params['cancelActive'] /* boolean */;
-        var pipelineId = aws.params['pipelineId'];
-        if (! pipelineId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter pipelineId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-
-        };
-        return [200, ret];
-    }
-module.exports.GetPipelineDefinition = function GetPipelineDefinition(aws) {
-        var version = aws.params['version'];
-        var pipelineId = aws.params['pipelineId'];
-        if (! pipelineId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter pipelineId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            parameterObjects: /*S13*/[ {
-                id: "",
-                attributes: [ {
-                    key: "",
-                    stringValue: ""
-                } /*, ...*/ ]
-            } /*, ...*/ ],
-            pipelineObjects: /*Sq*/[ /*Sr*/{
-                fields: /*Ss*/[ {
-                    key: "",
-                    refValue: "",
-                    stringValue: ""
-                } /*, ...*/ ],
-                id: "",
-                name: ""
-            } /*, ...*/ ],
-            parameterValues: /*S3*/[ {
-                id: "",
-                stringValue: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
+// -----------------------------------
 module.exports.SetStatus = function SetStatus(aws) {
-        var objectIds = aws.params['objectIds'];
-        var pipelineId = aws.params['pipelineId'];
-        var status = aws.params['status'];
-        if (! pipelineId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter pipelineId"];
-        }
-        if (! objectIds) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter objectIds"];
-        }
-        if (! status) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter status"];
-        }
+  var pipelineId = aws.params['pipelineId'];
+  var objectIds = aws.params['objectIds'];
+  var status = aws.params['status'];
+  if (!pipelineId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter pipelineId'];
+  }
+  if (!objectIds) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter objectIds'];
+  }
+  if (!status) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter status'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.QueryObjects = function QueryObjects(aws) {
-        var query = aws.params['query'] /* structure */;
-        var limit = aws.params['limit'] /* integer */;
-        var sphere = aws.params['sphere'];
-        var pipelineId = aws.params['pipelineId'];
-        var marker = aws.params['marker'];
-        if (! pipelineId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter pipelineId"];
-        }
-        if (! sphere) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter sphere"];
-        }
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetPipelineDefinition = function GetPipelineDefinition(aws) {
+  var version = aws.params['version'];
+  var pipelineId = aws.params['pipelineId'];
+  if (!pipelineId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter pipelineId'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            marker: "",
-            hasMoreResults: false,
-            ids: /*Sn*/[ "" /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.RemoveTags = function RemoveTags(aws) {
-        var tagKeys = aws.params['tagKeys'];
-        var pipelineId = aws.params['pipelineId'];
-        if (! pipelineId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter pipelineId"];
-        }
-        if (! tagKeys) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter tagKeys"];
-        }
+  var ret = {
+    parameterObjects: /*S13*/[ {
+      id: '',
+      attributes: [ {
+        stringValue: '',
+        key: '',
+      }, /* ...*/ ],
+    }, /* ...*/ ],
+    pipelineObjects: /*Sq*/[ /*Sr*/{
+      id: '',
+      name: '',
+      fields: /*Ss*/[ {
+        stringValue: '',
+        key: '',
+        refValue: '',
+      }, /* ...*/ ],
+    }, /* ...*/ ],
+    parameterValues: /*S3*/[ {
+      id: '',
+      stringValue: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeactivatePipeline = function DeactivatePipeline(aws) {
+  var cancelActive = aws.params['cancelActive'] /* Type boolean */;
+  var pipelineId = aws.params['pipelineId'];
+  if (!pipelineId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter pipelineId'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
+  var ret = {
 
-        };
-        return [200, ret];
-    }
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ActivatePipeline = function ActivatePipeline(aws) {
+  var startTimestamp = aws.params['startTimestamp'] /* Type timestamp */;
+  var pipelineId = aws.params['pipelineId'];
+  var parameterValues = aws.params['parameterValues'];
+  if (!pipelineId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter pipelineId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.AddTags = function AddTags(aws) {
-        var tags = aws.params['tags'];
-        var pipelineId = aws.params['pipelineId'];
-        if (! pipelineId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter pipelineId"];
-        }
-        if (! tags) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter tags"];
-        }
+  var tags = aws.params['tags'];
+  var pipelineId = aws.params['pipelineId'];
+  if (!pipelineId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter pipelineId'];
+  }
+  if (!tags) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter tags'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
+  var ret = {
 
-        };
-        return [200, ret];
-    }
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ReportTaskRunnerHeartbeat = function ReportTaskRunnerHeartbeat(aws) {
+  var taskrunnerId = aws.params['taskrunnerId'];
+  var hostname = aws.params['hostname'];
+  var workerGroup = aws.params['workerGroup'];
+  if (!taskrunnerId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter taskrunnerId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    terminate: false,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.PollForTask = function PollForTask(aws) {
+  var instanceIdentity = aws.params['instanceIdentity'] /* Type structure */;
+  var hostname = aws.params['hostname'];
+  var workerGroup = aws.params['workerGroup'];
+  if (!workerGroup) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter workerGroup'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    taskObject: {
+      objects: {} /*Map*/,
+      attemptId: '',
+      pipelineId: '',
+      taskId: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreatePipeline = function CreatePipeline(aws) {
+  var tags = aws.params['tags'];
+  var uniqueId = aws.params['uniqueId'];
+  var name = aws.params['name'];
+  var description = aws.params['description'];
+  if (!name) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter name'];
+  }
+  if (!uniqueId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter uniqueId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    pipelineId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeObjects = function DescribeObjects(aws) {
+  var evaluateExpressions = aws.params['evaluateExpressions'] /* Type boolean */;
+  var pipelineId = aws.params['pipelineId'];
+  var objectIds = aws.params['objectIds'];
+  var marker = aws.params['marker'];
+  if (!pipelineId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter pipelineId'];
+  }
+  if (!objectIds) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter objectIds'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    hasMoreResults: false,
+    marker: '',
+    pipelineObjects: /*Sq*/[ /*Sr*/{
+      id: '',
+      name: '',
+      fields: /*Ss*/[ {
+        stringValue: '',
+        key: '',
+        refValue: '',
+      }, /* ...*/ ],
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.EvaluateExpression = function EvaluateExpression(aws) {
+  var expression = aws.params['expression'];
+  var pipelineId = aws.params['pipelineId'];
+  var objectId = aws.params['objectId'];
+  if (!pipelineId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter pipelineId'];
+  }
+  if (!objectId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter objectId'];
+  }
+  if (!expression) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter expression'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    evaluatedExpression: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListPipelines = function ListPipelines(aws) {
+  var marker = aws.params['marker'];
+
+
+  // TODO implement code
+
+  var ret = {
+    pipelineIdList: [ {
+      id: '',
+      name: '',
+    }, /* ...*/ ],
+    hasMoreResults: false,
+    marker: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.QueryObjects = function QueryObjects(aws) {
+  var query = aws.params['query'] /* Type structure */;
+  var pipelineId = aws.params['pipelineId'];
+  var limit = aws.params['limit'] /* Type integer */;
+  var marker = aws.params['marker'];
+  var sphere = aws.params['sphere'];
+  if (!pipelineId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter pipelineId'];
+  }
+  if (!sphere) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter sphere'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ids: /*Sn*/[ '', /* ...*/ ],
+    hasMoreResults: false,
+    marker: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ValidatePipelineDefinition = function ValidatePipelineDefinition(aws) {
+  var parameterObjects = aws.params['parameterObjects'];
+  var pipelineId = aws.params['pipelineId'];
+  var pipelineObjects = aws.params['pipelineObjects'];
+  var parameterValues = aws.params['parameterValues'];
+  if (!pipelineId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter pipelineId'];
+  }
+  if (!pipelineObjects) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter pipelineObjects'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    validationErrors: /*S1l*/[ {
+      id: '',
+      errors: /*S1n*/[ '', /* ...*/ ],
+    }, /* ...*/ ],
+    validationWarnings: /*S1p*/[ {
+      id: '',
+      warnings: /*S1n*/[ '', /* ...*/ ],
+    }, /* ...*/ ],
+    errored: false,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribePipelines = function DescribePipelines(aws) {
+  var pipelineIds = aws.params['pipelineIds'];
+  if (!pipelineIds) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter pipelineIds'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    pipelineDescriptionList: [ {
+      tags: /*Sa*/[ {
+        value: '',
+        key: '',
+      }, /* ...*/ ],
+      name: '',
+      description: '',
+      pipelineId: '',
+      fields: /*Ss*/[ {
+        stringValue: '',
+        key: '',
+        refValue: '',
+      }, /* ...*/ ],
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.PutPipelineDefinition = function PutPipelineDefinition(aws) {
+  var parameterObjects = aws.params['parameterObjects'];
+  var pipelineId = aws.params['pipelineId'];
+  var pipelineObjects = aws.params['pipelineObjects'];
+  var parameterValues = aws.params['parameterValues'];
+  if (!pipelineId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter pipelineId'];
+  }
+  if (!pipelineObjects) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter pipelineObjects'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    validationErrors: /*S1l*/[ {
+      id: '',
+      errors: /*S1n*/[ '', /* ...*/ ],
+    }, /* ...*/ ],
+    validationWarnings: /*S1p*/[ {
+      id: '',
+      warnings: /*S1n*/[ '', /* ...*/ ],
+    }, /* ...*/ ],
+    errored: false,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeletePipeline = function DeletePipeline(aws) {
+  var pipelineId = aws.params['pipelineId'];
+  if (!pipelineId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter pipelineId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.SetTaskStatus = function SetTaskStatus(aws) {
+  var errorMessage = aws.params['errorMessage'];
+  var taskStatus = aws.params['taskStatus'];
+  var errorStackTrace = aws.params['errorStackTrace'];
+  var errorId = aws.params['errorId'];
+  var taskId = aws.params['taskId'];
+  if (!taskId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter taskId'];
+  }
+  if (!taskStatus) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter taskStatus'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ReportTaskProgress = function ReportTaskProgress(aws) {
+  var fields = aws.params['fields'];
+  var taskId = aws.params['taskId'];
+  if (!taskId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter taskId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    canceled: false,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RemoveTags = function RemoveTags(aws) {
+  var pipelineId = aws.params['pipelineId'];
+  var tagKeys = aws.params['tagKeys'];
+  if (!pipelineId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter pipelineId'];
+  }
+  if (!tagKeys) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter tagKeys'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+
+  };
+  return [200, ret];
+};

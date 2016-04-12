@@ -33,8 +33,8 @@ def build_file_text(api_entry):
                 and "'" + api_entry["api"]["metadata"]["xmlNamespace"] + "'"
         ) or 'null'
     ret = """'use strict';
-const aws_common = require('../../lib/aws-common');
 
+const awsCommon = require('../../lib/aws-common');
 
 /**
  * {0} version {1}
@@ -57,44 +57,44 @@ require('../../lib/aws-common/shape_http')('{2}', module.exports, {3})
 
 
 def build_action(operation_name, api):
-    ret = 'module.exports.' + operation_name + ' = '
+    ret = '// -----------------------------------\nmodule.exports.' + operation_name + ' = '
     operation = api["operations"][operation_name]
     end = '}'
     if "http" in operation:
-        ret += 'aws_common.as(\n'
+        ret += 'awsCommon.as(\n'
         if "method" in operation["http"]:
-            ret += '    "' + operation["http"]["method"] + '",\n'
+            ret += "  '" + operation["http"]["method"] + "',\n"
             if "requestUri" not in operation["http"]:
                 # we need a request URI to work this API right.
                 print(" - has no requestUri: {0}".format(operation_name))
                 operation["http"]["requestUri"] = '/'
         # the {asdf} translates into :asdf
-        ret += '    "' + operation["http"]["requestUri"].replace("{", ":").replace("}", "") + '",\n    '
+        ret += "  '" + operation["http"]["requestUri"].replace("{", ":").replace("}", "") + "',\n  "
         end += ')'
     ret += 'function ' + operation_name + '(aws) {\n'
     ret += build_arguments(operation_name, api)
-    ret += '\n\n        // TODO implement code\n\n'
+    ret += '\n\n  // TODO implement code\n\n'
     ret += build_return(operation_name, api)
     retcode = '200'
     if "http" in operation and "responseCode" in operation["http"]:
         retcode = operation["http"]["responseCode"]
     # retcode may have been parsed as a number
-    ret += '        return [{0}, ret];\n'.format(retcode)
-    ret += '    ' + end + ';\n'
+    ret += '  return [{0}, ret];\n'.format(retcode)
+    ret += end + ';\n'
     return ret
 
 
 def build_arguments(operation_name, api):
     """Constructs the input arguments."""
     ret = ''
-    indent = '        '
+    indent = '  '
     if "input" in api["operations"][operation_name]:
         if "members" in api["operations"][operation_name]["input"]:
             for k, v in api["operations"][operation_name]["input"]["members"].items():
                 vname = asJsVariable(k)
                 if "location" in v and v["location"] == 'uri':
                     # It's in the actual url path
-                    ret += indent + 'var ' + vname + " = aws.reqParams." + v["locationName"]
+                    ret += indent + 'var ' + vname + " = aws.reqParams['" + v["locationName"] + "']"
                 elif "location" in v and v["location"] == 'querystring':
                     # in the query string; should be the "params" due to some smarts
                     if "http" in api and "method" in api["http"] and api["http"]["method"] != 'GET':
@@ -103,12 +103,12 @@ def build_arguments(operation_name, api):
                 else:
                     ret += indent + 'var ' + vname + " = aws.params['" + k + "']"
                 if "type" in v:
-                    ret += ' /* ' + v["type"] + ' */'
+                    ret += ' /* Type ' + v["type"] + ' */'
                 ret += ';\n'
         if "required" in api["operations"][operation_name]["input"]:
             for k in api["operations"][operation_name]["input"]["required"]:
-                ret += (indent + 'if (! ' + k + ') {\n' +
-                    indent + '    return [400, "Sender", "MissingParameter", "Did not specify parameter ' + k + '"];\n' +
+                ret += (indent + 'if (!' + k + ') {\n' +
+                    indent + "  return [400, 'Sender', 'MissingParameter', 'Did not specify parameter " + k + "'];\n" +
                     indent + '}\n')
     return ret
 
@@ -124,16 +124,16 @@ def build_return(operation_name, api):
     """Constructs the empty return value."""
     if "output" in api["operations"][operation_name]:
         shape = api["operations"][operation_name]["output"]
-        return "        var ret = " + build_return_shape('        ', shape, api) + ';\n'
+        return "  var ret = " + build_return_shape('  ', shape, api) + ';\n'
     else:
         # print(" - no output for " + operation_name)
-        return "        var ret = {};\n"
+        return "  var ret = {};\n"
 
 def build_return_shape(indent, shape, api, found=None):
     if found is None:
         found = {}
     if shape is None:
-        return '""'
+        return "''"
     if "shape" in shape:
         if shape["shape"] in found:
             if found[shape["shape"]] is None:
@@ -146,32 +146,32 @@ def build_return_shape(indent, shape, api, found=None):
         found[shape["shape"]] = ret
         return ret
     if "type" not in shape or shape["type"] == 'string':
-        return '""'
+        return "''"
     if shape["type"] == 'list':
-        return '[ ' + build_return_shape(indent, shape["member"], api, found) + ' /*, ...*/ ]'
+        return '[ ' + build_return_shape(indent, shape["member"], api, found) + ', /* ...*/ ]'
     if shape["type"] == 'structure':
         ret = '{\n'
         members = []
         for k, v in shape["members"].items():
-            members.append(indent + '    ' + k + ': ' + build_return_shape(indent + '    ', v, api, found))
-        return '{\n' + ",\n".join(members) + '\n' + indent + '}'
+            members.append(indent + '  ' + k + ': ' + build_return_shape(indent + '  ', v, api, found) + ',')
+        return '{\n' + "\n".join(members) + '\n' + indent + '}'
     if shape["type"] == 'map':
         # simple map???
-        return '{} /* map */'
+        return '{} /*Map*/'
     if shape["type"] == 'integer':
         return '0'
     if shape["type"] == 'long':
-        return '0 /*long*/'
+        return '0 /*Long*/'
     if shape["type"] == 'double':
-        return '0.0 /*double*/'
+        return '0.0 /*Double*/'
     if shape["type"] == 'float':
         return '9.0'
     if shape["type"] == 'timestamp':
-        return 'now()'
+        return 'awsCommon.timestamp()'
     if shape["type"] == 'boolean':
         return 'false'
     if shape["type"] == 'blob':
-        return 'null /*blob*/'
+        return 'null /*Blob*/'
 
     raise Exception('unknown shape type ' + shape["type"])
 
@@ -223,18 +223,9 @@ def build_requires_list(api_name, version_entries):
             # not a version API
             versions[version] = False
             has_no_version_uri_count += 1
-            #### DEBUG
-            if api_name == 'lambda':
-                print("**** lambda [{1}][{0}]: not versioned".format(api, version))
-            #### DEBUG
             break
     if (has_no_version_uri_count >= version_count) or (has_no_version_uri_count > 1):
         # Just use the highest version number
-
-        #### DEBUG
-        if api_name == 'lambda':
-            print("**** lambda: lots of no version uris: " + repr(versions))
-        #### DEBUG
 
         highest_version = None
         for version in version_entries.keys():
@@ -276,17 +267,17 @@ def build_route_file(outdir, api_version_entries):
     routeList.sort()
 
     with open(os.path.join(outdir, 'boilerplate-routes.js'), 'w') as f:
-        f.write("""
-'use strict';
+        f.write("""'use strict';
+
 const normalize = require('../lib/aws-common/normalize-route');
 const normalizeVersions = normalize.normalizeVersions;
 
 /**
- * Maps the route from the URL path to the service's ActionMap.
- * ----- AUTO-GENERATED CODE -----
- */
+* Maps the route from the URL path to the service's ActionMap.
+* ----- AUTO-GENERATED CODE -----
+*/
 module.exports = {
-    """ + ",\n    ".join(routeList) + """
+  """ + ",\n  ".join(routeList) + """
 };""")
 
 

@@ -1,6 +1,6 @@
 'use strict';
-const aws_common = require('../../lib/aws-common');
 
+const awsCommon = require('../../lib/aws-common');
 
 /**
  * Amazon Simple Storage Service version 2006-03-01
@@ -11,1624 +11,1680 @@ const aws_common = require('../../lib/aws-common');
 
 // Setup input and output to use AWS protocol rest-xml
 require('../../lib/aws-common/shape_http')('rest-xml', module.exports, null)
-module.exports.PutBucketNotificationConfiguration = aws_common.as(
-    "PUT",
-    "/:Bucket?notification",
-    function PutBucketNotificationConfiguration(aws) {
-        var Bucket = aws.reqParams.Bucket;
-        var NotificationConfiguration = aws.params['NotificationConfiguration'];
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-        if (! NotificationConfiguration) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter NotificationConfiguration"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    });
-module.exports.PutBucketLifecycleConfiguration = aws_common.as(
-    "PUT",
-    "/:Bucket?lifecycle",
-    function PutBucketLifecycleConfiguration(aws) {
-        var LifecycleConfiguration = aws.params['LifecycleConfiguration'] /* structure */;
-        var Bucket = aws.reqParams.Bucket;
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    });
-module.exports.DeleteBucketWebsite = aws_common.as(
-    "DELETE",
-    "/:Bucket?website",
-    function DeleteBucketWebsite(aws) {
-        var Bucket = aws.reqParams.Bucket;
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    });
-module.exports.PutBucketPolicy = aws_common.as(
-    "PUT",
-    "/:Bucket?policy",
-    function PutBucketPolicy(aws) {
-        var ContentMD5 = aws.params['ContentMD5'];
-        var Bucket = aws.reqParams.Bucket;
-        var Policy = aws.params['Policy'];
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-        if (! Policy) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Policy"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    });
-module.exports.PutBucketReplication = aws_common.as(
-    "PUT",
-    "/:Bucket?replication",
-    function PutBucketReplication(aws) {
-        var ContentMD5 = aws.params['ContentMD5'];
-        var ReplicationConfiguration = aws.params['ReplicationConfiguration'];
-        var Bucket = aws.reqParams.Bucket;
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-        if (! ReplicationConfiguration) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ReplicationConfiguration"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    });
-module.exports.DeleteBucketReplication = aws_common.as(
-    "DELETE",
-    "/:Bucket?replication",
-    function DeleteBucketReplication(aws) {
-        var Bucket = aws.reqParams.Bucket;
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    });
-module.exports.RestoreObject = aws_common.as(
-    "/:Bucket/:Key+?restore",
-    function RestoreObject(aws) {
-        var VersionId = aws.params['VersionId'];
-        var Key = aws.reqParams.Key;
-        var RestoreRequest = aws.params['RestoreRequest'] /* structure */;
-        var Bucket = aws.reqParams.Bucket;
-        var RequestPayer = aws.params['RequestPayer'];
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-        if (! Key) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Key"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            RequestCharged: ""
-        };
-        return [200, ret];
-    });
-module.exports.DeleteBucketTagging = aws_common.as(
-    "DELETE",
-    "/:Bucket?tagging",
-    function DeleteBucketTagging(aws) {
-        var Bucket = aws.reqParams.Bucket;
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    });
-module.exports.PutObjectAcl = aws_common.as(
-    "PUT",
-    "/:Bucket/:Key+?acl",
-    function PutObjectAcl(aws) {
-        var ContentMD5 = aws.params['ContentMD5'];
-        var GrantFullControl = aws.params['GrantFullControl'];
-        var GrantReadACP = aws.params['GrantReadACP'];
-        var Key = aws.reqParams.Key;
-        var ACL = aws.params['ACL'];
-        var GrantWrite = aws.params['GrantWrite'];
-        var GrantRead = aws.params['GrantRead'];
-        var Bucket = aws.reqParams.Bucket;
-        var GrantWriteACP = aws.params['GrantWriteACP'];
-        var RequestPayer = aws.params['RequestPayer'];
-        var AccessControlPolicy = aws.params['AccessControlPolicy'];
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-        if (! Key) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Key"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            RequestCharged: ""
-        };
-        return [200, ret];
-    });
-module.exports.GetBucketNotificationConfiguration = aws_common.as(
-    "GET",
-    "/:Bucket?notification",
-    function GetBucketNotificationConfiguration(aws) {
-
-
-        // TODO implement code
-
-        var ret = /*S47*/{
-            QueueConfigurations: [ {
-                Events: /*S3z*/[ "" /*, ...*/ ],
-                Filter: /*S4a*/{
-                    Key: {
-                        FilterRules: [ {
-                            Value: "",
-                            Name: ""
-                        } /*, ...*/ ]
-                    }
-                },
-                QueueArn: "",
-                Id: ""
-            } /*, ...*/ ],
-            TopicConfigurations: [ {
-                Events: /*S3z*/[ "" /*, ...*/ ],
-                Filter: /*S4a*/{
-                    Key: {
-                        FilterRules: [ {
-                            Value: "",
-                            Name: ""
-                        } /*, ...*/ ]
-                    }
-                },
-                Id: "",
-                TopicArn: ""
-            } /*, ...*/ ],
-            LambdaFunctionConfigurations: [ {
-                Events: /*S3z*/[ "" /*, ...*/ ],
-                LambdaFunctionArn: "",
-                Id: "",
-                Filter: /*S4a*/{
-                    Key: {
-                        FilterRules: [ {
-                            Value: "",
-                            Name: ""
-                        } /*, ...*/ ]
-                    }
-                }
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    });
-module.exports.GetBucketVersioning = aws_common.as(
-    "GET",
-    "/:Bucket?versioning",
-    function GetBucketVersioning(aws) {
-        var Bucket = aws.reqParams.Bucket;
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            Status: "",
-            MFADelete: ""
-        };
-        return [200, ret];
-    });
-module.exports.GetBucketAcl = aws_common.as(
-    "GET",
-    "/:Bucket?acl",
-    function GetBucketAcl(aws) {
-        var Bucket = aws.reqParams.Bucket;
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            Owner: /*S2f*/{
-                ID: "",
-                DisplayName: ""
-            },
-            Grants: /*S2i*/[ {
-                Permission: "",
-                Grantee: /*S2k*/{
-                    URI: "",
-                    EmailAddress: "",
-                    Type: "",
-                    ID: "",
-                    DisplayName: ""
-                }
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    });
-module.exports.CreateMultipartUpload = aws_common.as(
-    "/:Bucket/:Key+?uploads",
-    function CreateMultipartUpload(aws) {
-        var Expires = aws.params['Expires'] /* timestamp */;
-        var Metadata = aws.params['Metadata'];
-        var ACL = aws.params['ACL'];
-        var Bucket = aws.reqParams.Bucket;
-        var SSECustomerAlgorithm = aws.params['SSECustomerAlgorithm'];
-        var WebsiteRedirectLocation = aws.params['WebsiteRedirectLocation'];
-        var CacheControl = aws.params['CacheControl'];
-        var SSECustomerKeyMD5 = aws.params['SSECustomerKeyMD5'];
-        var GrantWriteACP = aws.params['GrantWriteACP'];
-        var StorageClass = aws.params['StorageClass'];
-        var ContentEncoding = aws.params['ContentEncoding'];
-        var GrantReadACP = aws.params['GrantReadACP'];
-        var SSECustomerKey = aws.params['SSECustomerKey'];
-        var ContentLanguage = aws.params['ContentLanguage'];
-        var GrantRead = aws.params['GrantRead'];
-        var Key = aws.reqParams.Key;
-        var RequestPayer = aws.params['RequestPayer'];
-        var GrantFullControl = aws.params['GrantFullControl'];
-        var ContentDisposition = aws.params['ContentDisposition'];
-        var SSEKMSKeyId = aws.params['SSEKMSKeyId'];
-        var ContentType = aws.params['ContentType'];
-        var ServerSideEncryption = aws.params['ServerSideEncryption'];
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-        if (! Key) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Key"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            SSECustomerKeyMD5: "",
-            ServerSideEncryption: "",
-            RequestCharged: "",
-            UploadId: "",
-            Bucket: "",
-            SSEKMSKeyId: /*Sj*/"",
-            Key: "",
-            SSECustomerAlgorithm: ""
-        };
-        return [200, ret];
-    });
-module.exports.GetObjectAcl = aws_common.as(
-    "GET",
-    "/:Bucket/:Key+?acl",
-    function GetObjectAcl(aws) {
-        var VersionId = aws.params['VersionId'];
-        var Key = aws.reqParams.Key;
-        var Bucket = aws.reqParams.Bucket;
-        var RequestPayer = aws.params['RequestPayer'];
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-        if (! Key) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Key"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            RequestCharged: "",
-            Owner: /*S2f*/{
-                ID: "",
-                DisplayName: ""
-            },
-            Grants: /*S2i*/[ {
-                Permission: "",
-                Grantee: /*S2k*/{
-                    URI: "",
-                    EmailAddress: "",
-                    Type: "",
-                    ID: "",
-                    DisplayName: ""
-                }
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    });
-module.exports.PutBucketWebsite = aws_common.as(
-    "PUT",
-    "/:Bucket?website",
-    function PutBucketWebsite(aws) {
-        var ContentMD5 = aws.params['ContentMD5'];
-        var WebsiteConfiguration = aws.params['WebsiteConfiguration'] /* structure */;
-        var Bucket = aws.reqParams.Bucket;
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-        if (! WebsiteConfiguration) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter WebsiteConfiguration"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    });
-module.exports.GetBucketLogging = aws_common.as(
-    "GET",
-    "/:Bucket?logging",
-    function GetBucketLogging(aws) {
-        var Bucket = aws.reqParams.Bucket;
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            LoggingEnabled: /*S3p*/{
-                TargetBucket: "",
-                TargetPrefix: "",
-                TargetGrants: [ {
-                    Permission: "",
-                    Grantee: /*S2k*/{
-                        URI: "",
-                        EmailAddress: "",
-                        Type: "",
-                        ID: "",
-                        DisplayName: ""
-                    }
-                } /*, ...*/ ]
-            }
-        };
-        return [200, ret];
-    });
-module.exports.CompleteMultipartUpload = aws_common.as(
-    "/:Bucket/:Key+",
-    function CompleteMultipartUpload(aws) {
-        var UploadId = aws.params['UploadId'];
-        var Key = aws.reqParams.Key;
-        var Bucket = aws.reqParams.Bucket;
-        var RequestPayer = aws.params['RequestPayer'];
-        var MultipartUpload = aws.params['MultipartUpload'] /* structure */;
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-        if (! Key) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Key"];
-        }
-        if (! UploadId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter UploadId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            VersionId: "",
-            ETag: "",
-            Key: "",
-            Expiration: "",
-            RequestCharged: "",
-            Location: "",
-            SSEKMSKeyId: /*Sj*/"",
-            Bucket: "",
-            ServerSideEncryption: ""
-        };
-        return [200, ret];
-    });
-module.exports.PutBucketRequestPayment = aws_common.as(
-    "PUT",
-    "/:Bucket?requestPayment",
-    function PutBucketRequestPayment(aws) {
-        var ContentMD5 = aws.params['ContentMD5'];
-        var Bucket = aws.reqParams.Bucket;
-        var RequestPaymentConfiguration = aws.params['RequestPaymentConfiguration'] /* structure */;
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-        if (! RequestPaymentConfiguration) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter RequestPaymentConfiguration"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    });
-module.exports.GetBucketTagging = aws_common.as(
-    "GET",
-    "/:Bucket?tagging",
-    function GetBucketTagging(aws) {
-        var Bucket = aws.reqParams.Bucket;
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            TagSet: /*S51*/[ {
-                Value: "",
-                Key: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    });
-module.exports.PutObject = aws_common.as(
-    "PUT",
-    "/:Bucket/:Key+",
-    function PutObject(aws) {
-        var ContentMD5 = aws.params['ContentMD5'];
-        var Metadata = aws.params['Metadata'];
-        var Expires = aws.params['Expires'] /* timestamp */;
-        var ACL = aws.params['ACL'];
-        var Bucket = aws.reqParams.Bucket;
-        var Body = aws.params['Body'] /* blob */;
-        var SSECustomerAlgorithm = aws.params['SSECustomerAlgorithm'];
-        var WebsiteRedirectLocation = aws.params['WebsiteRedirectLocation'];
-        var ContentLength = aws.params['ContentLength'] /* integer */;
-        var CacheControl = aws.params['CacheControl'];
-        var SSECustomerKeyMD5 = aws.params['SSECustomerKeyMD5'];
-        var GrantWriteACP = aws.params['GrantWriteACP'];
-        var StorageClass = aws.params['StorageClass'];
-        var ContentEncoding = aws.params['ContentEncoding'];
-        var ContentType = aws.params['ContentType'];
-        var SSECustomerKey = aws.params['SSECustomerKey'];
-        var ContentLanguage = aws.params['ContentLanguage'];
-        var GrantRead = aws.params['GrantRead'];
-        var Key = aws.reqParams.Key;
-        var RequestPayer = aws.params['RequestPayer'];
-        var GrantFullControl = aws.params['GrantFullControl'];
-        var ContentDisposition = aws.params['ContentDisposition'];
-        var SSEKMSKeyId = aws.params['SSEKMSKeyId'];
-        var GrantReadACP = aws.params['GrantReadACP'];
-        var ServerSideEncryption = aws.params['ServerSideEncryption'];
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-        if (! Key) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Key"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            VersionId: "",
-            ETag: "",
-            ServerSideEncryption: "",
-            Expiration: "",
-            RequestCharged: "",
-            SSEKMSKeyId: /*Sj*/"",
-            SSECustomerKeyMD5: "",
-            SSECustomerAlgorithm: ""
-        };
-        return [200, ret];
-    });
-module.exports.PutBucketNotification = aws_common.as(
-    "PUT",
-    "/:Bucket?notification",
-    function PutBucketNotification(aws) {
-        var ContentMD5 = aws.params['ContentMD5'];
-        var Bucket = aws.reqParams.Bucket;
-        var NotificationConfiguration = aws.params['NotificationConfiguration'];
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-        if (! NotificationConfiguration) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter NotificationConfiguration"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    });
-module.exports.GetBucketPolicy = aws_common.as(
-    "GET",
-    "/:Bucket?policy",
-    function GetBucketPolicy(aws) {
-        var Bucket = aws.reqParams.Bucket;
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            Policy: ""
-        };
-        return [200, ret];
-    });
-module.exports.GetBucketNotification = aws_common.as(
-    "GET",
-    "/:Bucket?notification",
-    function GetBucketNotification(aws) {
-
-
-        // TODO implement code
-
-        var ret = /*S3w*/{
-            CloudFunctionConfiguration: {
-                Events: /*S3z*/[ "" /*, ...*/ ],
-                InvocationRole: "",
-                CloudFunction: "",
-                Event: "",
-                Id: ""
-            },
-            QueueConfiguration: {
-                Events: /*S3z*/[ "" /*, ...*/ ],
-                Event: "",
-                Id: "",
-                Queue: ""
-            },
-            TopicConfiguration: {
-                Events: /*S3z*/[ "" /*, ...*/ ],
-                Topic: "",
-                Event: "",
-                Id: ""
-            }
-        };
-        return [200, ret];
-    });
-module.exports.GetObjectTorrent = aws_common.as(
-    "GET",
-    "/:Bucket/:Key+?torrent",
-    function GetObjectTorrent(aws) {
-        var Key = aws.reqParams.Key;
-        var Bucket = aws.reqParams.Bucket;
-        var RequestPayer = aws.params['RequestPayer'];
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-        if (! Key) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Key"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            RequestCharged: "",
-            Body: null /*blob*/
-        };
-        return [200, ret];
-    });
-module.exports.PutBucketLifecycle = aws_common.as(
-    "PUT",
-    "/:Bucket?lifecycle",
-    function PutBucketLifecycle(aws) {
-        var ContentMD5 = aws.params['ContentMD5'];
-        var LifecycleConfiguration = aws.params['LifecycleConfiguration'] /* structure */;
-        var Bucket = aws.reqParams.Bucket;
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    });
-module.exports.PutBucketCors = aws_common.as(
-    "PUT",
-    "/:Bucket?cors",
-    function PutBucketCors(aws) {
-        var CORSConfiguration = aws.params['CORSConfiguration'] /* structure */;
-        var ContentMD5 = aws.params['ContentMD5'];
-        var Bucket = aws.reqParams.Bucket;
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-        if (! CORSConfiguration) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter CORSConfiguration"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    });
-module.exports.ListMultipartUploads = aws_common.as(
-    "GET",
-    "/:Bucket?uploads",
-    function ListMultipartUploads(aws) {
-        var KeyMarker = aws.params['KeyMarker'];
-        var MaxUploads = aws.params['MaxUploads'] /* integer */;
-        var Prefix = aws.params['Prefix'];
-        var UploadIdMarker = aws.params['UploadIdMarker'];
-        var EncodingType = aws.params['EncodingType'];
-        var Delimiter = aws.params['Delimiter'];
-        var Bucket = aws.reqParams.Bucket;
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            KeyMarker: "",
-            UploadIdMarker: "",
-            Uploads: [ {
-                Owner: /*S2f*/{
-                    ID: "",
-                    DisplayName: ""
-                },
-                UploadId: "",
-                Initiated: now(),
-                Key: "",
-                StorageClass: "",
-                Initiator: /*S6x*/{
-                    ID: "",
-                    DisplayName: ""
-                }
-            } /*, ...*/ ],
-            Delimiter: "",
-            CommonPrefixes: /*S6y*/[ {
-                Prefix: ""
-            } /*, ...*/ ],
-            Bucket: "",
-            MaxUploads: 0,
-            EncodingType: "",
-            Prefix: "",
-            IsTruncated: false,
-            NextKeyMarker: "",
-            NextUploadIdMarker: ""
-        };
-        return [200, ret];
-    });
-module.exports.DeleteObject = aws_common.as(
-    "DELETE",
-    "/:Bucket/:Key+",
-    function DeleteObject(aws) {
-        var VersionId = aws.params['VersionId'];
-        var Key = aws.reqParams.Key;
-        var Bucket = aws.reqParams.Bucket;
-        var MFA = aws.params['MFA'];
-        var RequestPayer = aws.params['RequestPayer'];
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-        if (! Key) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Key"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            VersionId: "",
-            RequestCharged: "",
-            DeleteMarker: false
-        };
-        return [200, ret];
-    });
-module.exports.GetBucketReplication = aws_common.as(
-    "GET",
-    "/:Bucket?replication",
-    function GetBucketReplication(aws) {
-        var Bucket = aws.reqParams.Bucket;
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            ReplicationConfiguration: /*S4q*/{
-                Role: "",
-                Rules: [ {
-                    Status: "",
-                    ID: "",
-                    Prefix: "",
-                    Destination: {
-                        Bucket: "",
-                        StorageClass: ""
-                    }
-                } /*, ...*/ ]
-            }
-        };
-        return [200, ret];
-    });
-module.exports.HeadObject = aws_common.as(
-    "HEAD",
-    "/:Bucket/:Key+",
-    function HeadObject(aws) {
-        var VersionId = aws.params['VersionId'];
-        var IfNoneMatch = aws.params['IfNoneMatch'];
-        var IfUnmodifiedSince = aws.params['IfUnmodifiedSince'] /* timestamp */;
-        var IfMatch = aws.params['IfMatch'];
-        var SSECustomerKey = aws.params['SSECustomerKey'];
-        var Bucket = aws.reqParams.Bucket;
-        var Key = aws.reqParams.Key;
-        var Range = aws.params['Range'];
-        var SSECustomerAlgorithm = aws.params['SSECustomerAlgorithm'];
-        var IfModifiedSince = aws.params['IfModifiedSince'] /* timestamp */;
-        var SSECustomerKeyMD5 = aws.params['SSECustomerKeyMD5'];
-        var RequestPayer = aws.params['RequestPayer'];
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-        if (! Key) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Key"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            VersionId: "",
-            ContentEncoding: "",
-            Metadata: /*S11*/{} /* map */,
-            DeleteMarker: false,
-            Expires: now(),
-            RequestCharged: "",
-            ContentDisposition: "",
-            SSECustomerAlgorithm: "",
-            WebsiteRedirectLocation: "",
-            ContentLength: 0,
-            CacheControl: "",
-            Expiration: "",
-            SSECustomerKeyMD5: "",
-            StorageClass: "",
-            MissingMeta: 0,
-            AcceptRanges: "",
-            ReplicationStatus: "",
-            ETag: "",
-            LastModified: now(),
-            ContentLanguage: "",
-            SSEKMSKeyId: /*Sj*/"",
-            ContentType: "",
-            Restore: "",
-            ServerSideEncryption: ""
-        };
-        return [200, ret];
-    });
-module.exports.DeleteObjects = aws_common.as(
-    "/:Bucket?delete",
-    function DeleteObjects(aws) {
-        var Delete = aws.params['Delete'] /* structure */;
-        var Bucket = aws.reqParams.Bucket;
-        var MFA = aws.params['MFA'];
-        var RequestPayer = aws.params['RequestPayer'];
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-        if (! Delete) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Delete"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            Deleted: [ {
-                VersionId: "",
-                DeleteMarker: false,
-                DeleteMarkerVersionId: "",
-                Key: ""
-            } /*, ...*/ ],
-            RequestCharged: "",
-            Errors: [ {
-                VersionId: "",
-                Message: "",
-                Key: "",
-                Code: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    });
-module.exports.GetBucketLifecycleConfiguration = aws_common.as(
-    "GET",
-    "/:Bucket?lifecycle",
-    function GetBucketLifecycleConfiguration(aws) {
-        var Bucket = aws.reqParams.Bucket;
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            Rules: /*S3h*/[ {
-                Transitions: [ /*S3b*/{
-                    Days: 0,
-                    Date: /*S37*/now(),
-                    StorageClass: ""
-                } /*, ...*/ ],
-                ID: "",
-                Prefix: "",
-                Expiration: /*S36*/{
-                    Days: 0,
-                    Date: /*S37*/now()
-                },
-                Status: "",
-                NoncurrentVersionTransitions: [ /*S3d*/{
-                    NoncurrentDays: 0,
-                    StorageClass: ""
-                } /*, ...*/ ],
-                NoncurrentVersionExpiration: /*S3e*/{
-                    NoncurrentDays: 0
-                }
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    });
-module.exports.DeleteBucket = aws_common.as(
-    "DELETE",
-    "/:Bucket",
-    function DeleteBucket(aws) {
-        var Bucket = aws.reqParams.Bucket;
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    });
-module.exports.PutBucketVersioning = aws_common.as(
-    "PUT",
-    "/:Bucket?versioning",
-    function PutBucketVersioning(aws) {
-        var ContentMD5 = aws.params['ContentMD5'];
-        var VersioningConfiguration = aws.params['VersioningConfiguration'] /* structure */;
-        var Bucket = aws.reqParams.Bucket;
-        var MFA = aws.params['MFA'];
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-        if (! VersioningConfiguration) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter VersioningConfiguration"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    });
-module.exports.GetBucketLifecycle = aws_common.as(
-    "GET",
-    "/:Bucket?lifecycle",
-    function GetBucketLifecycle(aws) {
-        var Bucket = aws.reqParams.Bucket;
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            Rules: /*S34*/[ {
-                ID: "",
-                Prefix: "",
-                Expiration: /*S36*/{
-                    Days: 0,
-                    Date: /*S37*/now()
-                },
-                Status: "",
-                NoncurrentVersionExpiration: /*S3e*/{
-                    NoncurrentDays: 0
-                },
-                NoncurrentVersionTransition: /*S3d*/{
-                    NoncurrentDays: 0,
-                    StorageClass: ""
-                },
-                Transition: /*S3b*/{
-                    Days: 0,
-                    Date: /*S37*/now(),
-                    StorageClass: ""
-                }
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    });
-module.exports.UploadPartCopy = aws_common.as(
-    "PUT",
-    "/:Bucket/:Key+",
-    function UploadPartCopy(aws) {
-        var CopySourceSSECustomerKeyMD5 = aws.params['CopySourceSSECustomerKeyMD5'];
-        var CopySourceIfMatch = aws.params['CopySourceIfMatch'];
-        var CopySource = aws.params['CopySource'];
-        var Bucket = aws.reqParams.Bucket;
-        var PartNumber = aws.params['PartNumber'] /* integer */;
-        var Key = aws.reqParams.Key;
-        var SSECustomerAlgorithm = aws.params['SSECustomerAlgorithm'];
-        var UploadId = aws.params['UploadId'];
-        var CopySourceSSECustomerKey = aws.params['CopySourceSSECustomerKey'];
-        var CopySourceRange = aws.params['CopySourceRange'];
-        var SSECustomerKeyMD5 = aws.params['SSECustomerKeyMD5'];
-        var CopySourceIfModifiedSince = aws.params['CopySourceIfModifiedSince'] /* timestamp */;
-        var CopySourceIfNoneMatch = aws.params['CopySourceIfNoneMatch'];
-        var CopySourceIfUnmodifiedSince = aws.params['CopySourceIfUnmodifiedSince'] /* timestamp */;
-        var SSECustomerKey = aws.params['SSECustomerKey'];
-        var RequestPayer = aws.params['RequestPayer'];
-        var CopySourceSSECustomerAlgorithm = aws.params['CopySourceSSECustomerAlgorithm'];
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-        if (! CopySource) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter CopySource"];
-        }
-        if (! Key) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Key"];
-        }
-        if (! PartNumber) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter PartNumber"];
-        }
-        if (! UploadId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter UploadId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            CopyPartResult: {
-                ETag: "",
-                LastModified: now()
-            },
-            ServerSideEncryption: "",
-            RequestCharged: "",
-            CopySourceVersionId: "",
-            SSECustomerKeyMD5: "",
-            SSEKMSKeyId: /*Sj*/"",
-            SSECustomerAlgorithm: ""
-        };
-        return [200, ret];
-    });
-module.exports.DeleteBucketCors = aws_common.as(
-    "DELETE",
-    "/:Bucket?cors",
-    function DeleteBucketCors(aws) {
-        var Bucket = aws.reqParams.Bucket;
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    });
-module.exports.ListParts = aws_common.as(
-    "GET",
-    "/:Bucket/:Key+",
-    function ListParts(aws) {
-        var PartNumberMarker = aws.params['PartNumberMarker'] /* integer */;
-        var UploadId = aws.params['UploadId'];
-        var Bucket = aws.reqParams.Bucket;
-        var MaxParts = aws.params['MaxParts'] /* integer */;
-        var Key = aws.reqParams.Key;
-        var RequestPayer = aws.params['RequestPayer'];
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-        if (! Key) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Key"];
-        }
-        if (! UploadId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter UploadId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            Parts: [ {
-                ETag: "",
-                PartNumber: 0,
-                LastModified: now(),
-                Size: 0
-            } /*, ...*/ ],
-            UploadId: "",
-            Key: "",
-            Bucket: "",
-            Owner: /*S2f*/{
-                ID: "",
-                DisplayName: ""
-            },
-            NextPartNumberMarker: 0,
-            Initiator: /*S6x*/{
-                ID: "",
-                DisplayName: ""
-            },
-            RequestCharged: "",
-            IsTruncated: false,
-            PartNumberMarker: 0,
-            MaxParts: 0,
-            StorageClass: ""
-        };
-        return [200, ret];
-    });
-module.exports.ListObjects = aws_common.as(
-    "GET",
-    "/:Bucket",
-    function ListObjects(aws) {
-        var MaxKeys = aws.params['MaxKeys'] /* integer */;
-        var EncodingType = aws.params['EncodingType'];
-        var Marker = aws.params['Marker'];
-        var Delimiter = aws.params['Delimiter'];
-        var Bucket = aws.reqParams.Bucket;
-        var Prefix = aws.params['Prefix'];
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            Marker: "",
-            CommonPrefixes: /*S6y*/[ {
-                Prefix: ""
-            } /*, ...*/ ],
-            EncodingType: "",
-            Prefix: "",
-            Contents: [ {
-                ETag: "",
-                Size: 0,
-                LastModified: now(),
-                Key: "",
-                Owner: /*S2f*/{
-                    ID: "",
-                    DisplayName: ""
-                },
-                StorageClass: ""
-            } /*, ...*/ ],
-            IsTruncated: false,
-            NextMarker: "",
-            Delimiter: "",
-            Name: "",
-            MaxKeys: 0
-        };
-        return [200, ret];
-    });
-module.exports.PutBucketLogging = aws_common.as(
-    "PUT",
-    "/:Bucket?logging",
-    function PutBucketLogging(aws) {
-        var ContentMD5 = aws.params['ContentMD5'];
-        var BucketLoggingStatus = aws.params['BucketLoggingStatus'] /* structure */;
-        var Bucket = aws.reqParams.Bucket;
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-        if (! BucketLoggingStatus) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter BucketLoggingStatus"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    });
-module.exports.CopyObject = aws_common.as(
-    "PUT",
-    "/:Bucket/:Key+",
-    function CopyObject(aws) {
-        var Expires = aws.params['Expires'] /* timestamp */;
-        var Metadata = aws.params['Metadata'];
-        var ACL = aws.params['ACL'];
-        var Bucket = aws.reqParams.Bucket;
-        var CopySourceIfNoneMatch = aws.params['CopySourceIfNoneMatch'];
-        var MetadataDirective = aws.params['MetadataDirective'];
-        var SSECustomerKey = aws.params['SSECustomerKey'];
-        var CopySourceIfModifiedSince = aws.params['CopySourceIfModifiedSince'] /* timestamp */;
-        var SSECustomerAlgorithm = aws.params['SSECustomerAlgorithm'];
-        var CacheControl = aws.params['CacheControl'];
-        var SSECustomerKeyMD5 = aws.params['SSECustomerKeyMD5'];
-        var WebsiteRedirectLocation = aws.params['WebsiteRedirectLocation'];
-        var GrantWriteACP = aws.params['GrantWriteACP'];
-        var StorageClass = aws.params['StorageClass'];
-        var ContentEncoding = aws.params['ContentEncoding'];
-        var ContentType = aws.params['ContentType'];
-        var CopySourceSSECustomerKeyMD5 = aws.params['CopySourceSSECustomerKeyMD5'];
-        var CopySourceIfMatch = aws.params['CopySourceIfMatch'];
-        var CopySource = aws.params['CopySource'];
-        var ContentLanguage = aws.params['ContentLanguage'];
-        var GrantRead = aws.params['GrantRead'];
-        var Key = aws.reqParams.Key;
-        var RequestPayer = aws.params['RequestPayer'];
-        var CopySourceSSECustomerKey = aws.params['CopySourceSSECustomerKey'];
-        var GrantFullControl = aws.params['GrantFullControl'];
-        var ContentDisposition = aws.params['ContentDisposition'];
-        var CopySourceIfUnmodifiedSince = aws.params['CopySourceIfUnmodifiedSince'] /* timestamp */;
-        var SSEKMSKeyId = aws.params['SSEKMSKeyId'];
-        var GrantReadACP = aws.params['GrantReadACP'];
-        var ServerSideEncryption = aws.params['ServerSideEncryption'];
-        var CopySourceSSECustomerAlgorithm = aws.params['CopySourceSSECustomerAlgorithm'];
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-        if (! CopySource) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter CopySource"];
-        }
-        if (! Key) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Key"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            VersionId: "",
-            SSECustomerAlgorithm: "",
-            Expiration: "",
-            CopyObjectResult: {
-                ETag: "",
-                LastModified: now()
-            },
-            RequestCharged: "",
-            CopySourceVersionId: "",
-            SSECustomerKeyMD5: "",
-            SSEKMSKeyId: /*Sj*/"",
-            ServerSideEncryption: ""
-        };
-        return [200, ret];
-    });
-module.exports.UploadPart = aws_common.as(
-    "PUT",
-    "/:Bucket/:Key+",
-    function UploadPart(aws) {
-        var ContentMD5 = aws.params['ContentMD5'];
-        var SSECustomerKey = aws.params['SSECustomerKey'];
-        var SSECustomerKeyMD5 = aws.params['SSECustomerKeyMD5'];
-        var ContentLength = aws.params['ContentLength'] /* integer */;
-        var UploadId = aws.params['UploadId'];
-        var Bucket = aws.reqParams.Bucket;
-        var PartNumber = aws.params['PartNumber'] /* integer */;
-        var Body = aws.params['Body'] /* blob */;
-        var Key = aws.reqParams.Key;
-        var RequestPayer = aws.params['RequestPayer'];
-        var SSECustomerAlgorithm = aws.params['SSECustomerAlgorithm'];
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-        if (! Key) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Key"];
-        }
-        if (! PartNumber) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter PartNumber"];
-        }
-        if (! UploadId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter UploadId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            ETag: "",
-            ServerSideEncryption: "",
-            RequestCharged: "",
-            SSEKMSKeyId: /*Sj*/"",
-            SSECustomerKeyMD5: "",
-            SSECustomerAlgorithm: ""
-        };
-        return [200, ret];
-    });
-module.exports.DeleteBucketPolicy = aws_common.as(
-    "DELETE",
-    "/:Bucket?policy",
-    function DeleteBucketPolicy(aws) {
-        var Bucket = aws.reqParams.Bucket;
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    });
-module.exports.GetBucketCors = aws_common.as(
-    "GET",
-    "/:Bucket?cors",
-    function GetBucketCors(aws) {
-        var Bucket = aws.reqParams.Bucket;
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            CORSRules: /*S2r*/[ {
-                AllowedMethods: [ "" /*, ...*/ ],
-                ExposeHeaders: [ "" /*, ...*/ ],
-                AllowedHeaders: [ "" /*, ...*/ ],
-                AllowedOrigins: [ "" /*, ...*/ ],
-                MaxAgeSeconds: 0
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    });
-module.exports.GetBucketLocation = aws_common.as(
-    "GET",
-    "/:Bucket?location",
-    function GetBucketLocation(aws) {
-        var Bucket = aws.reqParams.Bucket;
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            LocationConstraint: ""
-        };
-        return [200, ret];
-    });
-module.exports.ListObjectVersions = aws_common.as(
-    "GET",
-    "/:Bucket?versions",
-    function ListObjectVersions(aws) {
-        var KeyMarker = aws.params['KeyMarker'];
-        var MaxKeys = aws.params['MaxKeys'] /* integer */;
-        var EncodingType = aws.params['EncodingType'];
-        var VersionIdMarker = aws.params['VersionIdMarker'];
-        var Delimiter = aws.params['Delimiter'];
-        var Bucket = aws.reqParams.Bucket;
-        var Prefix = aws.params['Prefix'];
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            KeyMarker: "",
-            Versions: [ {
-                VersionId: "",
-                ETag: "",
-                Size: 0,
-                LastModified: now(),
-                IsLatest: false,
-                Key: "",
-                Owner: /*S2f*/{
-                    ID: "",
-                    DisplayName: ""
-                },
-                StorageClass: ""
-            } /*, ...*/ ],
-            MaxKeys: 0,
-            Delimiter: "",
-            CommonPrefixes: /*S6y*/[ {
-                Prefix: ""
-            } /*, ...*/ ],
-            EncodingType: "",
-            Prefix: "",
-            IsTruncated: false,
-            VersionIdMarker: "",
-            NextVersionIdMarker: "",
-            Name: "",
-            NextKeyMarker: "",
-            DeleteMarkers: [ {
-                VersionId: "",
-                Owner: /*S2f*/{
-                    ID: "",
-                    DisplayName: ""
-                },
-                LastModified: now(),
-                Key: "",
-                IsLatest: false
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    });
-module.exports.AbortMultipartUpload = aws_common.as(
-    "DELETE",
-    "/:Bucket/:Key+",
-    function AbortMultipartUpload(aws) {
-        var UploadId = aws.params['UploadId'];
-        var Key = aws.reqParams.Key;
-        var Bucket = aws.reqParams.Bucket;
-        var RequestPayer = aws.params['RequestPayer'];
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-        if (! Key) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Key"];
-        }
-        if (! UploadId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter UploadId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            RequestCharged: ""
-        };
-        return [200, ret];
-    });
-module.exports.ListBuckets = aws_common.as(
-    "GET",
-    "/",
-    function ListBuckets(aws) {
-
-
-        // TODO implement code
-
-        var ret = {
-            Owner: /*S2f*/{
-                ID: "",
-                DisplayName: ""
-            },
-            Buckets: [ {
-                CreationDate: now(),
-                Name: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    });
-module.exports.GetBucketRequestPayment = aws_common.as(
-    "GET",
-    "/:Bucket?requestPayment",
-    function GetBucketRequestPayment(aws) {
-        var Bucket = aws.reqParams.Bucket;
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            Payer: ""
-        };
-        return [200, ret];
-    });
-module.exports.PutBucketAcl = aws_common.as(
-    "PUT",
-    "/:Bucket?acl",
-    function PutBucketAcl(aws) {
-        var ContentMD5 = aws.params['ContentMD5'];
-        var GrantFullControl = aws.params['GrantFullControl'];
-        var GrantReadACP = aws.params['GrantReadACP'];
-        var ACL = aws.params['ACL'];
-        var GrantWrite = aws.params['GrantWrite'];
-        var GrantRead = aws.params['GrantRead'];
-        var Bucket = aws.reqParams.Bucket;
-        var GrantWriteACP = aws.params['GrantWriteACP'];
-        var AccessControlPolicy = aws.params['AccessControlPolicy'];
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    });
-module.exports.GetBucketWebsite = aws_common.as(
-    "GET",
-    "/:Bucket?website",
-    function GetBucketWebsite(aws) {
-        var Bucket = aws.reqParams.Bucket;
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            RoutingRules: /*S5g*/[ {
-                Condition: {
-                    KeyPrefixEquals: "",
-                    HttpErrorCodeReturnedEquals: ""
-                },
-                Redirect: {
-                    HttpRedirectCode: "",
-                    Protocol: "",
-                    ReplaceKeyPrefixWith: "",
-                    HostName: "",
-                    ReplaceKeyWith: ""
-                }
-            } /*, ...*/ ],
-            RedirectAllRequestsTo: /*S5a*/{
-                Protocol: "",
-                HostName: ""
-            },
-            IndexDocument: /*S5d*/{
-                Suffix: ""
-            },
-            ErrorDocument: /*S5f*/{
-                Key: ""
-            }
-        };
-        return [200, ret];
-    });
-module.exports.PutBucketTagging = aws_common.as(
-    "PUT",
-    "/:Bucket?tagging",
-    function PutBucketTagging(aws) {
-        var ContentMD5 = aws.params['ContentMD5'];
-        var Tagging = aws.params['Tagging'] /* structure */;
-        var Bucket = aws.reqParams.Bucket;
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-        if (! Tagging) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Tagging"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    });
-module.exports.DeleteBucketLifecycle = aws_common.as(
-    "DELETE",
-    "/:Bucket?lifecycle",
-    function DeleteBucketLifecycle(aws) {
-        var Bucket = aws.reqParams.Bucket;
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    });
-module.exports.CreateBucket = aws_common.as(
-    "PUT",
-    "/:Bucket",
-    function CreateBucket(aws) {
-        var GrantFullControl = aws.params['GrantFullControl'];
-        var GrantReadACP = aws.params['GrantReadACP'];
-        var CreateBucketConfiguration = aws.params['CreateBucketConfiguration'] /* structure */;
-        var ACL = aws.params['ACL'];
-        var GrantWrite = aws.params['GrantWrite'];
-        var GrantRead = aws.params['GrantRead'];
-        var Bucket = aws.reqParams.Bucket;
-        var GrantWriteACP = aws.params['GrantWriteACP'];
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            Location: ""
-        };
-        return [200, ret];
-    });
-module.exports.GetObject = aws_common.as(
-    "GET",
-    "/:Bucket/:Key+",
-    function GetObject(aws) {
-        var VersionId = aws.params['VersionId'];
-        var IfNoneMatch = aws.params['IfNoneMatch'];
-        var IfUnmodifiedSince = aws.params['IfUnmodifiedSince'] /* timestamp */;
-        var ResponseContentLanguage = aws.params['ResponseContentLanguage'];
-        var IfMatch = aws.params['IfMatch'];
-        var SSECustomerKey = aws.params['SSECustomerKey'];
-        var Bucket = aws.reqParams.Bucket;
-        var ResponseCacheControl = aws.params['ResponseCacheControl'];
-        var Key = aws.reqParams.Key;
-        var Range = aws.params['Range'];
-        var SSECustomerAlgorithm = aws.params['SSECustomerAlgorithm'];
-        var ResponseExpires = aws.params['ResponseExpires'] /* timestamp */;
-        var IfModifiedSince = aws.params['IfModifiedSince'] /* timestamp */;
-        var ResponseContentDisposition = aws.params['ResponseContentDisposition'];
-        var ResponseContentEncoding = aws.params['ResponseContentEncoding'];
-        var SSECustomerKeyMD5 = aws.params['SSECustomerKeyMD5'];
-        var RequestPayer = aws.params['RequestPayer'];
-        var ResponseContentType = aws.params['ResponseContentType'];
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-        if (! Key) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Key"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            VersionId: "",
-            ContentEncoding: "",
-            Metadata: /*S11*/{} /* map */,
-            DeleteMarker: false,
-            Expires: now(),
-            RequestCharged: "",
-            Body: null /*blob*/,
-            ContentLanguage: "",
-            SSECustomerAlgorithm: "",
-            WebsiteRedirectLocation: "",
-            ContentLength: 0,
-            CacheControl: "",
-            Expiration: "",
-            SSECustomerKeyMD5: "",
-            StorageClass: "",
-            MissingMeta: 0,
-            AcceptRanges: "",
-            ContentRange: "",
-            ReplicationStatus: "",
-            ETag: "",
-            LastModified: now(),
-            ContentDisposition: "",
-            SSEKMSKeyId: /*Sj*/"",
-            ContentType: "",
-            Restore: "",
-            ServerSideEncryption: ""
-        };
-        return [200, ret];
-    });
-module.exports.HeadBucket = aws_common.as(
-    "HEAD",
-    "/:Bucket",
-    function HeadBucket(aws) {
-        var Bucket = aws.reqParams.Bucket;
-        if (! Bucket) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Bucket"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    });
+// -----------------------------------
+module.exports.UploadPartCopy = awsCommon.as(
+  'PUT',
+  '/:Bucket/:Key+',
+  function UploadPartCopy(aws) {
+  var CopySource = aws.params['CopySource'];
+  var CopySourceSSECustomerKeyMD5 = aws.params['CopySourceSSECustomerKeyMD5'];
+  var CopySourceIfNoneMatch = aws.params['CopySourceIfNoneMatch'];
+  var RequestPayer = aws.params['RequestPayer'];
+  var UploadId = aws.params['UploadId'];
+  var Key = aws.reqParams['Key'];
+  var CopySourceIfModifiedSince = aws.params['CopySourceIfModifiedSince'] /* Type timestamp */;
+  var CopySourceIfMatch = aws.params['CopySourceIfMatch'];
+  var CopySourceRange = aws.params['CopySourceRange'];
+  var SSECustomerAlgorithm = aws.params['SSECustomerAlgorithm'];
+  var CopySourceSSECustomerKey = aws.params['CopySourceSSECustomerKey'];
+  var Bucket = aws.reqParams['Bucket'];
+  var CopySourceSSECustomerAlgorithm = aws.params['CopySourceSSECustomerAlgorithm'];
+  var CopySourceIfUnmodifiedSince = aws.params['CopySourceIfUnmodifiedSince'] /* Type timestamp */;
+  var PartNumber = aws.params['PartNumber'] /* Type integer */;
+  var SSECustomerKeyMD5 = aws.params['SSECustomerKeyMD5'];
+  var SSECustomerKey = aws.params['SSECustomerKey'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+  if (!CopySource) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CopySource'];
+  }
+  if (!Key) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Key'];
+  }
+  if (!PartNumber) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PartNumber'];
+  }
+  if (!UploadId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter UploadId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    CopySourceVersionId: '',
+    RequestCharged: '',
+    SSECustomerAlgorithm: '',
+    SSEKMSKeyId: /*Sj*/'',
+    CopyPartResult: {
+      ETag: '',
+      LastModified: awsCommon.timestamp(),
+    },
+    ServerSideEncryption: '',
+    SSECustomerKeyMD5: '',
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.PutBucketTagging = awsCommon.as(
+  'PUT',
+  '/:Bucket?tagging',
+  function PutBucketTagging(aws) {
+  var Bucket = aws.reqParams['Bucket'];
+  var ContentMD5 = aws.params['ContentMD5'];
+  var Tagging = aws.params['Tagging'] /* Type structure */;
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+  if (!Tagging) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Tagging'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.ListBuckets = awsCommon.as(
+  'GET',
+  '/',
+  function ListBuckets(aws) {
+
+
+  // TODO implement code
+
+  var ret = {
+    Buckets: [ {
+      CreationDate: awsCommon.timestamp(),
+      Name: '',
+    }, /* ...*/ ],
+    Owner: /*S2f*/{
+      DisplayName: '',
+      ID: '',
+    },
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.HeadObject = awsCommon.as(
+  'HEAD',
+  '/:Bucket/:Key+',
+  function HeadObject(aws) {
+  var VersionId = aws.params['VersionId'];
+  var IfUnmodifiedSince = aws.params['IfUnmodifiedSince'] /* Type timestamp */;
+  var IfModifiedSince = aws.params['IfModifiedSince'] /* Type timestamp */;
+  var Key = aws.reqParams['Key'];
+  var RequestPayer = aws.params['RequestPayer'];
+  var Range = aws.params['Range'];
+  var SSECustomerAlgorithm = aws.params['SSECustomerAlgorithm'];
+  var Bucket = aws.reqParams['Bucket'];
+  var IfMatch = aws.params['IfMatch'];
+  var IfNoneMatch = aws.params['IfNoneMatch'];
+  var SSECustomerKeyMD5 = aws.params['SSECustomerKeyMD5'];
+  var SSECustomerKey = aws.params['SSECustomerKey'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+  if (!Key) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Key'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ContentEncoding: '',
+    RequestCharged: '',
+    Expiration: '',
+    SSEKMSKeyId: /*Sj*/'',
+    ContentLanguage: '',
+    ETag: '',
+    MissingMeta: 0,
+    Restore: '',
+    SSECustomerKeyMD5: '',
+    VersionId: '',
+    CacheControl: '',
+    ContentLength: 0,
+    SSECustomerAlgorithm: '',
+    Metadata: /*S11*/{} /*Map*/,
+    WebsiteRedirectLocation: '',
+    StorageClass: '',
+    ContentType: '',
+    AcceptRanges: '',
+    DeleteMarker: false,
+    ReplicationStatus: '',
+    Expires: awsCommon.timestamp(),
+    ServerSideEncryption: '',
+    ContentDisposition: '',
+    LastModified: awsCommon.timestamp(),
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.UploadPart = awsCommon.as(
+  'PUT',
+  '/:Bucket/:Key+',
+  function UploadPart(aws) {
+  var RequestPayer = aws.params['RequestPayer'];
+  var SSECustomerAlgorithm = aws.params['SSECustomerAlgorithm'];
+  var Bucket = aws.reqParams['Bucket'];
+  var Body = aws.params['Body'] /* Type blob */;
+  var UploadId = aws.params['UploadId'];
+  var Key = aws.reqParams['Key'];
+  var SSECustomerKey = aws.params['SSECustomerKey'];
+  var ContentLength = aws.params['ContentLength'] /* Type integer */;
+  var PartNumber = aws.params['PartNumber'] /* Type integer */;
+  var SSECustomerKeyMD5 = aws.params['SSECustomerKeyMD5'];
+  var ContentMD5 = aws.params['ContentMD5'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+  if (!Key) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Key'];
+  }
+  if (!PartNumber) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PartNumber'];
+  }
+  if (!UploadId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter UploadId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ETag: '',
+    SSECustomerAlgorithm: '',
+    SSEKMSKeyId: /*Sj*/'',
+    RequestCharged: '',
+    ServerSideEncryption: '',
+    SSECustomerKeyMD5: '',
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.CopyObject = awsCommon.as(
+  'PUT',
+  '/:Bucket/:Key+',
+  function CopyObject(aws) {
+  var ContentEncoding = aws.params['ContentEncoding'];
+  var RequestPayer = aws.params['RequestPayer'];
+  var GrantReadACP = aws.params['GrantReadACP'];
+  var CopySourceIfModifiedSince = aws.params['CopySourceIfModifiedSince'] /* Type timestamp */;
+  var CopySourceSSECustomerAlgorithm = aws.params['CopySourceSSECustomerAlgorithm'];
+  var ContentLanguage = aws.params['ContentLanguage'];
+  var MetadataDirective = aws.params['MetadataDirective'];
+  var Metadata = aws.params['Metadata'];
+  var GrantWriteACP = aws.params['GrantWriteACP'];
+  var GrantRead = aws.params['GrantRead'];
+  var SSECustomerKeyMD5 = aws.params['SSECustomerKeyMD5'];
+  var SSECustomerKey = aws.params['SSECustomerKey'];
+  var CopySource = aws.params['CopySource'];
+  var CopySourceSSECustomerKeyMD5 = aws.params['CopySourceSSECustomerKeyMD5'];
+  var ServerSideEncryption = aws.params['ServerSideEncryption'];
+  var CopySourceIfNoneMatch = aws.params['CopySourceIfNoneMatch'];
+  var CopySourceSSECustomerKey = aws.params['CopySourceSSECustomerKey'];
+  var CacheControl = aws.params['CacheControl'];
+  var Key = aws.reqParams['Key'];
+  var ContentType = aws.params['ContentType'];
+  var CopySourceIfMatch = aws.params['CopySourceIfMatch'];
+  var WebsiteRedirectLocation = aws.params['WebsiteRedirectLocation'];
+  var StorageClass = aws.params['StorageClass'];
+  var GrantFullControl = aws.params['GrantFullControl'];
+  var Bucket = aws.reqParams['Bucket'];
+  var SSEKMSKeyId = aws.params['SSEKMSKeyId'];
+  var SSECustomerAlgorithm = aws.params['SSECustomerAlgorithm'];
+  var Expires = aws.params['Expires'] /* Type timestamp */;
+  var CopySourceIfUnmodifiedSince = aws.params['CopySourceIfUnmodifiedSince'] /* Type timestamp */;
+  var ContentDisposition = aws.params['ContentDisposition'];
+  var ACL = aws.params['ACL'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+  if (!CopySource) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CopySource'];
+  }
+  if (!Key) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Key'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    CopySourceVersionId: '',
+    RequestCharged: '',
+    VersionId: '',
+    SSEKMSKeyId: /*Sj*/'',
+    SSECustomerAlgorithm: '',
+    ServerSideEncryption: '',
+    Expiration: '',
+    SSECustomerKeyMD5: '',
+    CopyObjectResult: {
+      ETag: '',
+      LastModified: awsCommon.timestamp(),
+    },
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.PutObjectAcl = awsCommon.as(
+  'PUT',
+  '/:Bucket/:Key+?acl',
+  function PutObjectAcl(aws) {
+  var RequestPayer = aws.params['RequestPayer'];
+  var GrantFullControl = aws.params['GrantFullControl'];
+  var Bucket = aws.reqParams['Bucket'];
+  var ContentMD5 = aws.params['ContentMD5'];
+  var GrantRead = aws.params['GrantRead'];
+  var GrantWriteACP = aws.params['GrantWriteACP'];
+  var GrantWrite = aws.params['GrantWrite'];
+  var Key = aws.reqParams['Key'];
+  var GrantReadACP = aws.params['GrantReadACP'];
+  var AccessControlPolicy = aws.params['AccessControlPolicy'];
+  var ACL = aws.params['ACL'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+  if (!Key) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Key'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    RequestCharged: '',
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.GetBucketNotification = awsCommon.as(
+  'GET',
+  '/:Bucket?notification',
+  function GetBucketNotification(aws) {
+
+
+  // TODO implement code
+
+  var ret = /*S3w*/{
+    CloudFunctionConfiguration: {
+      Events: /*S3z*/[ '', /* ...*/ ],
+      Event: '',
+      InvocationRole: '',
+      CloudFunction: '',
+      Id: '',
+    },
+    TopicConfiguration: {
+      Events: /*S3z*/[ '', /* ...*/ ],
+      Event: '',
+      Topic: '',
+      Id: '',
+    },
+    QueueConfiguration: {
+      Events: /*S3z*/[ '', /* ...*/ ],
+      Event: '',
+      Queue: '',
+      Id: '',
+    },
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.DeleteObject = awsCommon.as(
+  'DELETE',
+  '/:Bucket/:Key+',
+  function DeleteObject(aws) {
+  var Key = aws.reqParams['Key'];
+  var MFA = aws.params['MFA'];
+  var Bucket = aws.reqParams['Bucket'];
+  var VersionId = aws.params['VersionId'];
+  var RequestPayer = aws.params['RequestPayer'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+  if (!Key) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Key'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    RequestCharged: '',
+    VersionId: '',
+    DeleteMarker: false,
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.GetBucketRequestPayment = awsCommon.as(
+  'GET',
+  '/:Bucket?requestPayment',
+  function GetBucketRequestPayment(aws) {
+  var Bucket = aws.reqParams['Bucket'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Payer: '',
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.CompleteMultipartUpload = awsCommon.as(
+  '/:Bucket/:Key+',
+  function CompleteMultipartUpload(aws) {
+  var UploadId = aws.params['UploadId'];
+  var Key = aws.reqParams['Key'];
+  var Bucket = aws.reqParams['Bucket'];
+  var MultipartUpload = aws.params['MultipartUpload'] /* Type structure */;
+  var RequestPayer = aws.params['RequestPayer'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+  if (!Key) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Key'];
+  }
+  if (!UploadId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter UploadId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ETag: '',
+    Expiration: '',
+    Bucket: '',
+    Location: '',
+    SSEKMSKeyId: /*Sj*/'',
+    RequestCharged: '',
+    Key: '',
+    ServerSideEncryption: '',
+    VersionId: '',
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.DeleteBucketWebsite = awsCommon.as(
+  'DELETE',
+  '/:Bucket?website',
+  function DeleteBucketWebsite(aws) {
+  var Bucket = aws.reqParams['Bucket'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.ListMultipartUploads = awsCommon.as(
+  'GET',
+  '/:Bucket?uploads',
+  function ListMultipartUploads(aws) {
+  var Prefix = aws.params['Prefix'];
+  var MaxUploads = aws.params['MaxUploads'] /* Type integer */;
+  var KeyMarker = aws.params['KeyMarker'];
+  var Delimiter = aws.params['Delimiter'];
+  var UploadIdMarker = aws.params['UploadIdMarker'];
+  var Bucket = aws.reqParams['Bucket'];
+  var EncodingType = aws.params['EncodingType'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Prefix: '',
+    MaxUploads: 0,
+    EncodingType: '',
+    NextKeyMarker: '',
+    IsTruncated: false,
+    CommonPrefixes: /*S6y*/[ {
+      Prefix: '',
+    }, /* ...*/ ],
+    Uploads: [ {
+      Initiated: awsCommon.timestamp(),
+      Owner: /*S2f*/{
+        DisplayName: '',
+        ID: '',
+      },
+      StorageClass: '',
+      UploadId: '',
+      Key: '',
+      Initiator: /*S6x*/{
+        DisplayName: '',
+        ID: '',
+      },
+    }, /* ...*/ ],
+    Bucket: '',
+    UploadIdMarker: '',
+    Delimiter: '',
+    KeyMarker: '',
+    NextUploadIdMarker: '',
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.PutBucketPolicy = awsCommon.as(
+  'PUT',
+  '/:Bucket?policy',
+  function PutBucketPolicy(aws) {
+  var Bucket = aws.reqParams['Bucket'];
+  var ContentMD5 = aws.params['ContentMD5'];
+  var Policy = aws.params['Policy'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+  if (!Policy) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Policy'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.DeleteBucketCors = awsCommon.as(
+  'DELETE',
+  '/:Bucket?cors',
+  function DeleteBucketCors(aws) {
+  var Bucket = aws.reqParams['Bucket'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.CreateBucket = awsCommon.as(
+  'PUT',
+  '/:Bucket',
+  function CreateBucket(aws) {
+  var GrantFullControl = aws.params['GrantFullControl'];
+  var Bucket = aws.reqParams['Bucket'];
+  var GrantWriteACP = aws.params['GrantWriteACP'];
+  var GrantWrite = aws.params['GrantWrite'];
+  var GrantReadACP = aws.params['GrantReadACP'];
+  var GrantRead = aws.params['GrantRead'];
+  var CreateBucketConfiguration = aws.params['CreateBucketConfiguration'] /* Type structure */;
+  var ACL = aws.params['ACL'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Location: '',
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.PutBucketNotificationConfiguration = awsCommon.as(
+  'PUT',
+  '/:Bucket?notification',
+  function PutBucketNotificationConfiguration(aws) {
+  var NotificationConfiguration = aws.params['NotificationConfiguration'];
+  var Bucket = aws.reqParams['Bucket'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+  if (!NotificationConfiguration) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter NotificationConfiguration'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.GetBucketReplication = awsCommon.as(
+  'GET',
+  '/:Bucket?replication',
+  function GetBucketReplication(aws) {
+  var Bucket = aws.reqParams['Bucket'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ReplicationConfiguration: /*S4q*/{
+      Rules: [ {
+        Prefix: '',
+        Destination: {
+          StorageClass: '',
+          Bucket: '',
+        },
+        ID: '',
+        Status: '',
+      }, /* ...*/ ],
+      Role: '',
+    },
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.ListObjectVersions = awsCommon.as(
+  'GET',
+  '/:Bucket?versions',
+  function ListObjectVersions(aws) {
+  var Prefix = aws.params['Prefix'];
+  var KeyMarker = aws.params['KeyMarker'];
+  var Delimiter = aws.params['Delimiter'];
+  var MaxKeys = aws.params['MaxKeys'] /* Type integer */;
+  var VersionIdMarker = aws.params['VersionIdMarker'];
+  var Bucket = aws.reqParams['Bucket'];
+  var EncodingType = aws.params['EncodingType'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Prefix: '',
+    EncodingType: '',
+    NextVersionIdMarker: '',
+    Name: '',
+    NextKeyMarker: '',
+    MaxKeys: 0,
+    IsTruncated: false,
+    CommonPrefixes: /*S6y*/[ {
+      Prefix: '',
+    }, /* ...*/ ],
+    Delimiter: '',
+    VersionIdMarker: '',
+    Versions: [ {
+      IsLatest: false,
+      ETag: '',
+      VersionId: '',
+      Size: 0,
+      LastModified: awsCommon.timestamp(),
+      StorageClass: '',
+      Key: '',
+      Owner: /*S2f*/{
+        DisplayName: '',
+        ID: '',
+      },
+    }, /* ...*/ ],
+    KeyMarker: '',
+    DeleteMarkers: [ {
+      IsLatest: false,
+      VersionId: '',
+      Owner: /*S2f*/{
+        DisplayName: '',
+        ID: '',
+      },
+      Key: '',
+      LastModified: awsCommon.timestamp(),
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.DeleteObjects = awsCommon.as(
+  '/:Bucket?delete',
+  function DeleteObjects(aws) {
+  var Delete = aws.params['Delete'] /* Type structure */;
+  var MFA = aws.params['MFA'];
+  var Bucket = aws.reqParams['Bucket'];
+  var RequestPayer = aws.params['RequestPayer'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+  if (!Delete) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Delete'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    RequestCharged: '',
+    Errors: [ {
+      Key: '',
+      Message: '',
+      VersionId: '',
+      Code: '',
+    }, /* ...*/ ],
+    Deleted: [ {
+      Key: '',
+      DeleteMarkerVersionId: '',
+      VersionId: '',
+      DeleteMarker: false,
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.GetObject = awsCommon.as(
+  'GET',
+  '/:Bucket/:Key+',
+  function GetObject(aws) {
+  var VersionId = aws.params['VersionId'];
+  var IfUnmodifiedSince = aws.params['IfUnmodifiedSince'] /* Type timestamp */;
+  var ResponseCacheControl = aws.params['ResponseCacheControl'];
+  var IfModifiedSince = aws.params['IfModifiedSince'] /* Type timestamp */;
+  var Key = aws.reqParams['Key'];
+  var ResponseExpires = aws.params['ResponseExpires'] /* Type timestamp */;
+  var RequestPayer = aws.params['RequestPayer'];
+  var ResponseContentDisposition = aws.params['ResponseContentDisposition'];
+  var ResponseContentType = aws.params['ResponseContentType'];
+  var Range = aws.params['Range'];
+  var SSECustomerAlgorithm = aws.params['SSECustomerAlgorithm'];
+  var Bucket = aws.reqParams['Bucket'];
+  var ResponseContentLanguage = aws.params['ResponseContentLanguage'];
+  var IfMatch = aws.params['IfMatch'];
+  var SSECustomerKey = aws.params['SSECustomerKey'];
+  var IfNoneMatch = aws.params['IfNoneMatch'];
+  var SSECustomerKeyMD5 = aws.params['SSECustomerKeyMD5'];
+  var ResponseContentEncoding = aws.params['ResponseContentEncoding'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+  if (!Key) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Key'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ContentEncoding: '',
+    RequestCharged: '',
+    Expiration: '',
+    LastModified: awsCommon.timestamp(),
+    ContentLanguage: '',
+    ETag: '',
+    MissingMeta: 0,
+    Restore: '',
+    ContentRange: '',
+    SSECustomerKeyMD5: '',
+    VersionId: '',
+    SSEKMSKeyId: /*Sj*/'',
+    Body: null /*Blob*/,
+    CacheControl: '',
+    ContentLength: 0,
+    SSECustomerAlgorithm: '',
+    Metadata: /*S11*/{} /*Map*/,
+    WebsiteRedirectLocation: '',
+    StorageClass: '',
+    ContentType: '',
+    AcceptRanges: '',
+    DeleteMarker: false,
+    ReplicationStatus: '',
+    Expires: awsCommon.timestamp(),
+    ServerSideEncryption: '',
+    ContentDisposition: '',
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.GetBucketLocation = awsCommon.as(
+  'GET',
+  '/:Bucket?location',
+  function GetBucketLocation(aws) {
+  var Bucket = aws.reqParams['Bucket'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    LocationConstraint: '',
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.DeleteBucketReplication = awsCommon.as(
+  'DELETE',
+  '/:Bucket?replication',
+  function DeleteBucketReplication(aws) {
+  var Bucket = aws.reqParams['Bucket'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.AbortMultipartUpload = awsCommon.as(
+  'DELETE',
+  '/:Bucket/:Key+',
+  function AbortMultipartUpload(aws) {
+  var UploadId = aws.params['UploadId'];
+  var Key = aws.reqParams['Key'];
+  var Bucket = aws.reqParams['Bucket'];
+  var RequestPayer = aws.params['RequestPayer'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+  if (!Key) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Key'];
+  }
+  if (!UploadId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter UploadId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    RequestCharged: '',
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.GetBucketTagging = awsCommon.as(
+  'GET',
+  '/:Bucket?tagging',
+  function GetBucketTagging(aws) {
+  var Bucket = aws.reqParams['Bucket'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    TagSet: /*S51*/[ {
+      Key: '',
+      Value: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.RestoreObject = awsCommon.as(
+  '/:Bucket/:Key+?restore',
+  function RestoreObject(aws) {
+  var Key = aws.reqParams['Key'];
+  var Bucket = aws.reqParams['Bucket'];
+  var VersionId = aws.params['VersionId'];
+  var RestoreRequest = aws.params['RestoreRequest'] /* Type structure */;
+  var RequestPayer = aws.params['RequestPayer'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+  if (!Key) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Key'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    RequestCharged: '',
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.GetBucketAcl = awsCommon.as(
+  'GET',
+  '/:Bucket?acl',
+  function GetBucketAcl(aws) {
+  var Bucket = aws.reqParams['Bucket'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Owner: /*S2f*/{
+      DisplayName: '',
+      ID: '',
+    },
+    Grants: /*S2i*/[ {
+      Grantee: /*S2k*/{
+        URI: '',
+        EmailAddress: '',
+        DisplayName: '',
+        ID: '',
+        Type: '',
+      },
+      Permission: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.PutBucketNotification = awsCommon.as(
+  'PUT',
+  '/:Bucket?notification',
+  function PutBucketNotification(aws) {
+  var NotificationConfiguration = aws.params['NotificationConfiguration'];
+  var Bucket = aws.reqParams['Bucket'];
+  var ContentMD5 = aws.params['ContentMD5'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+  if (!NotificationConfiguration) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter NotificationConfiguration'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.PutBucketReplication = awsCommon.as(
+  'PUT',
+  '/:Bucket?replication',
+  function PutBucketReplication(aws) {
+  var Bucket = aws.reqParams['Bucket'];
+  var ContentMD5 = aws.params['ContentMD5'];
+  var ReplicationConfiguration = aws.params['ReplicationConfiguration'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+  if (!ReplicationConfiguration) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ReplicationConfiguration'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.DeleteBucketLifecycle = awsCommon.as(
+  'DELETE',
+  '/:Bucket?lifecycle',
+  function DeleteBucketLifecycle(aws) {
+  var Bucket = aws.reqParams['Bucket'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.GetBucketPolicy = awsCommon.as(
+  'GET',
+  '/:Bucket?policy',
+  function GetBucketPolicy(aws) {
+  var Bucket = aws.reqParams['Bucket'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Policy: '',
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.DeleteBucketPolicy = awsCommon.as(
+  'DELETE',
+  '/:Bucket?policy',
+  function DeleteBucketPolicy(aws) {
+  var Bucket = aws.reqParams['Bucket'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.PutBucketCors = awsCommon.as(
+  'PUT',
+  '/:Bucket?cors',
+  function PutBucketCors(aws) {
+  var CORSConfiguration = aws.params['CORSConfiguration'] /* Type structure */;
+  var Bucket = aws.reqParams['Bucket'];
+  var ContentMD5 = aws.params['ContentMD5'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+  if (!CORSConfiguration) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CORSConfiguration'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.PutBucketLogging = awsCommon.as(
+  'PUT',
+  '/:Bucket?logging',
+  function PutBucketLogging(aws) {
+  var Bucket = aws.reqParams['Bucket'];
+  var ContentMD5 = aws.params['ContentMD5'];
+  var BucketLoggingStatus = aws.params['BucketLoggingStatus'] /* Type structure */;
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+  if (!BucketLoggingStatus) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter BucketLoggingStatus'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.PutBucketWebsite = awsCommon.as(
+  'PUT',
+  '/:Bucket?website',
+  function PutBucketWebsite(aws) {
+  var WebsiteConfiguration = aws.params['WebsiteConfiguration'] /* Type structure */;
+  var Bucket = aws.reqParams['Bucket'];
+  var ContentMD5 = aws.params['ContentMD5'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+  if (!WebsiteConfiguration) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter WebsiteConfiguration'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.GetBucketLifecycle = awsCommon.as(
+  'GET',
+  '/:Bucket?lifecycle',
+  function GetBucketLifecycle(aws) {
+  var Bucket = aws.reqParams['Bucket'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Rules: /*S34*/[ {
+      Prefix: '',
+      Expiration: /*S36*/{
+        Days: 0,
+        Date: /*S37*/awsCommon.timestamp(),
+      },
+      Transition: /*S3b*/{
+        StorageClass: '',
+        Days: 0,
+        Date: /*S37*/awsCommon.timestamp(),
+      },
+      ID: '',
+      Status: '',
+      NoncurrentVersionExpiration: /*S3e*/{
+        NoncurrentDays: 0,
+      },
+      NoncurrentVersionTransition: /*S3d*/{
+        StorageClass: '',
+        NoncurrentDays: 0,
+      },
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.GetBucketCors = awsCommon.as(
+  'GET',
+  '/:Bucket?cors',
+  function GetBucketCors(aws) {
+  var Bucket = aws.reqParams['Bucket'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    CORSRules: /*S2r*/[ {
+      AllowedMethods: [ '', /* ...*/ ],
+      AllowedHeaders: [ '', /* ...*/ ],
+      MaxAgeSeconds: 0,
+      AllowedOrigins: [ '', /* ...*/ ],
+      ExposeHeaders: [ '', /* ...*/ ],
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.GetBucketWebsite = awsCommon.as(
+  'GET',
+  '/:Bucket?website',
+  function GetBucketWebsite(aws) {
+  var Bucket = aws.reqParams['Bucket'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ErrorDocument: /*S5f*/{
+      Key: '',
+    },
+    RoutingRules: /*S5g*/[ {
+      Redirect: {
+        HostName: '',
+        Protocol: '',
+        HttpRedirectCode: '',
+        ReplaceKeyPrefixWith: '',
+        ReplaceKeyWith: '',
+      },
+      Condition: {
+        HttpErrorCodeReturnedEquals: '',
+        KeyPrefixEquals: '',
+      },
+    }, /* ...*/ ],
+    RedirectAllRequestsTo: /*S5a*/{
+      HostName: '',
+      Protocol: '',
+    },
+    IndexDocument: /*S5d*/{
+      Suffix: '',
+    },
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.PutBucketRequestPayment = awsCommon.as(
+  'PUT',
+  '/:Bucket?requestPayment',
+  function PutBucketRequestPayment(aws) {
+  var Bucket = aws.reqParams['Bucket'];
+  var ContentMD5 = aws.params['ContentMD5'];
+  var RequestPaymentConfiguration = aws.params['RequestPaymentConfiguration'] /* Type structure */;
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+  if (!RequestPaymentConfiguration) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RequestPaymentConfiguration'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.DeleteBucket = awsCommon.as(
+  'DELETE',
+  '/:Bucket',
+  function DeleteBucket(aws) {
+  var Bucket = aws.reqParams['Bucket'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.PutBucketLifecycle = awsCommon.as(
+  'PUT',
+  '/:Bucket?lifecycle',
+  function PutBucketLifecycle(aws) {
+  var Bucket = aws.reqParams['Bucket'];
+  var ContentMD5 = aws.params['ContentMD5'];
+  var LifecycleConfiguration = aws.params['LifecycleConfiguration'] /* Type structure */;
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.PutBucketAcl = awsCommon.as(
+  'PUT',
+  '/:Bucket?acl',
+  function PutBucketAcl(aws) {
+  var GrantFullControl = aws.params['GrantFullControl'];
+  var Bucket = aws.reqParams['Bucket'];
+  var ContentMD5 = aws.params['ContentMD5'];
+  var GrantRead = aws.params['GrantRead'];
+  var GrantWriteACP = aws.params['GrantWriteACP'];
+  var GrantWrite = aws.params['GrantWrite'];
+  var GrantReadACP = aws.params['GrantReadACP'];
+  var AccessControlPolicy = aws.params['AccessControlPolicy'];
+  var ACL = aws.params['ACL'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.PutBucketLifecycleConfiguration = awsCommon.as(
+  'PUT',
+  '/:Bucket?lifecycle',
+  function PutBucketLifecycleConfiguration(aws) {
+  var Bucket = aws.reqParams['Bucket'];
+  var LifecycleConfiguration = aws.params['LifecycleConfiguration'] /* Type structure */;
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.ListObjects = awsCommon.as(
+  'GET',
+  '/:Bucket',
+  function ListObjects(aws) {
+  var Marker = aws.params['Marker'];
+  var Prefix = aws.params['Prefix'];
+  var Delimiter = aws.params['Delimiter'];
+  var MaxKeys = aws.params['MaxKeys'] /* Type integer */;
+  var Bucket = aws.reqParams['Bucket'];
+  var EncodingType = aws.params['EncodingType'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    Prefix: '',
+    Contents: [ {
+      ETag: '',
+      Owner: /*S2f*/{
+        DisplayName: '',
+        ID: '',
+      },
+      Size: 0,
+      LastModified: awsCommon.timestamp(),
+      StorageClass: '',
+      Key: '',
+    }, /* ...*/ ],
+    Delimiter: '',
+    Name: '',
+    NextMarker: '',
+    MaxKeys: 0,
+    IsTruncated: false,
+    EncodingType: '',
+    CommonPrefixes: /*S6y*/[ {
+      Prefix: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.PutBucketVersioning = awsCommon.as(
+  'PUT',
+  '/:Bucket?versioning',
+  function PutBucketVersioning(aws) {
+  var VersioningConfiguration = aws.params['VersioningConfiguration'] /* Type structure */;
+  var MFA = aws.params['MFA'];
+  var Bucket = aws.reqParams['Bucket'];
+  var ContentMD5 = aws.params['ContentMD5'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+  if (!VersioningConfiguration) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VersioningConfiguration'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.DeleteBucketTagging = awsCommon.as(
+  'DELETE',
+  '/:Bucket?tagging',
+  function DeleteBucketTagging(aws) {
+  var Bucket = aws.reqParams['Bucket'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.GetBucketLogging = awsCommon.as(
+  'GET',
+  '/:Bucket?logging',
+  function GetBucketLogging(aws) {
+  var Bucket = aws.reqParams['Bucket'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    LoggingEnabled: /*S3p*/{
+      TargetGrants: [ {
+        Grantee: /*S2k*/{
+          URI: '',
+          EmailAddress: '',
+          DisplayName: '',
+          ID: '',
+          Type: '',
+        },
+        Permission: '',
+      }, /* ...*/ ],
+      TargetBucket: '',
+      TargetPrefix: '',
+    },
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.ListParts = awsCommon.as(
+  'GET',
+  '/:Bucket/:Key+',
+  function ListParts(aws) {
+  var Bucket = aws.reqParams['Bucket'];
+  var UploadId = aws.params['UploadId'];
+  var MaxParts = aws.params['MaxParts'] /* Type integer */;
+  var Key = aws.reqParams['Key'];
+  var PartNumberMarker = aws.params['PartNumberMarker'] /* Type integer */;
+  var RequestPayer = aws.params['RequestPayer'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+  if (!Key) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Key'];
+  }
+  if (!UploadId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter UploadId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    RequestCharged: '',
+    Owner: /*S2f*/{
+      DisplayName: '',
+      ID: '',
+    },
+    Parts: [ {
+      ETag: '',
+      Size: 0,
+      PartNumber: 0,
+      LastModified: awsCommon.timestamp(),
+    }, /* ...*/ ],
+    UploadId: '',
+    MaxParts: 0,
+    Key: '',
+    PartNumberMarker: 0,
+    Initiator: /*S6x*/{
+      DisplayName: '',
+      ID: '',
+    },
+    StorageClass: '',
+    Bucket: '',
+    NextPartNumberMarker: 0,
+    IsTruncated: false,
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.HeadBucket = awsCommon.as(
+  'HEAD',
+  '/:Bucket',
+  function HeadBucket(aws) {
+  var Bucket = aws.reqParams['Bucket'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.GetBucketNotificationConfiguration = awsCommon.as(
+  'GET',
+  '/:Bucket?notification',
+  function GetBucketNotificationConfiguration(aws) {
+
+
+  // TODO implement code
+
+  var ret = /*S47*/{
+    QueueConfigurations: [ {
+      Events: /*S3z*/[ '', /* ...*/ ],
+      Filter: /*S4a*/{
+        Key: {
+          FilterRules: [ {
+            Value: '',
+            Name: '',
+          }, /* ...*/ ],
+        },
+      },
+      QueueArn: '',
+      Id: '',
+    }, /* ...*/ ],
+    LambdaFunctionConfigurations: [ {
+      Events: /*S3z*/[ '', /* ...*/ ],
+      Filter: /*S4a*/{
+        Key: {
+          FilterRules: [ {
+            Value: '',
+            Name: '',
+          }, /* ...*/ ],
+        },
+      },
+      Id: '',
+      LambdaFunctionArn: '',
+    }, /* ...*/ ],
+    TopicConfigurations: [ {
+      Events: /*S3z*/[ '', /* ...*/ ],
+      TopicArn: '',
+      Filter: /*S4a*/{
+        Key: {
+          FilterRules: [ {
+            Value: '',
+            Name: '',
+          }, /* ...*/ ],
+        },
+      },
+      Id: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.GetObjectTorrent = awsCommon.as(
+  'GET',
+  '/:Bucket/:Key+?torrent',
+  function GetObjectTorrent(aws) {
+  var Key = aws.reqParams['Key'];
+  var Bucket = aws.reqParams['Bucket'];
+  var RequestPayer = aws.params['RequestPayer'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+  if (!Key) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Key'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    RequestCharged: '',
+    Body: null /*Blob*/,
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.PutObject = awsCommon.as(
+  'PUT',
+  '/:Bucket/:Key+',
+  function PutObject(aws) {
+  var ContentEncoding = aws.params['ContentEncoding'];
+  var GrantReadACP = aws.params['GrantReadACP'];
+  var ContentLanguage = aws.params['ContentLanguage'];
+  var ACL = aws.params['ACL'];
+  var ContentMD5 = aws.params['ContentMD5'];
+  var GrantWriteACP = aws.params['GrantWriteACP'];
+  var GrantRead = aws.params['GrantRead'];
+  var SSECustomerKeyMD5 = aws.params['SSECustomerKeyMD5'];
+  var SSECustomerKey = aws.params['SSECustomerKey'];
+  var Body = aws.params['Body'] /* Type blob */;
+  var CacheControl = aws.params['CacheControl'];
+  var Key = aws.reqParams['Key'];
+  var ContentLength = aws.params['ContentLength'] /* Type integer */;
+  var ContentType = aws.params['ContentType'];
+  var Metadata = aws.params['Metadata'];
+  var WebsiteRedirectLocation = aws.params['WebsiteRedirectLocation'];
+  var StorageClass = aws.params['StorageClass'];
+  var GrantFullControl = aws.params['GrantFullControl'];
+  var Bucket = aws.reqParams['Bucket'];
+  var SSEKMSKeyId = aws.params['SSEKMSKeyId'];
+  var SSECustomerAlgorithm = aws.params['SSECustomerAlgorithm'];
+  var Expires = aws.params['Expires'] /* Type timestamp */;
+  var ServerSideEncryption = aws.params['ServerSideEncryption'];
+  var ContentDisposition = aws.params['ContentDisposition'];
+  var RequestPayer = aws.params['RequestPayer'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+  if (!Key) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Key'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ETag: '',
+    Expiration: '',
+    SSEKMSKeyId: /*Sj*/'',
+    RequestCharged: '',
+    VersionId: '',
+    ServerSideEncryption: '',
+    SSECustomerAlgorithm: '',
+    SSECustomerKeyMD5: '',
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.GetBucketLifecycleConfiguration = awsCommon.as(
+  'GET',
+  '/:Bucket?lifecycle',
+  function GetBucketLifecycleConfiguration(aws) {
+  var Bucket = aws.reqParams['Bucket'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Rules: /*S3h*/[ {
+      Prefix: '',
+      Expiration: /*S36*/{
+        Days: 0,
+        Date: /*S37*/awsCommon.timestamp(),
+      },
+      ID: '',
+      Status: '',
+      NoncurrentVersionExpiration: /*S3e*/{
+        NoncurrentDays: 0,
+      },
+      NoncurrentVersionTransitions: [ /*S3d*/{
+        StorageClass: '',
+        NoncurrentDays: 0,
+      }, /* ...*/ ],
+      Transitions: [ /*S3b*/{
+        StorageClass: '',
+        Days: 0,
+        Date: /*S37*/awsCommon.timestamp(),
+      }, /* ...*/ ],
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.CreateMultipartUpload = awsCommon.as(
+  '/:Bucket/:Key+?uploads',
+  function CreateMultipartUpload(aws) {
+  var ContentEncoding = aws.params['ContentEncoding'];
+  var GrantReadACP = aws.params['GrantReadACP'];
+  var ContentLanguage = aws.params['ContentLanguage'];
+  var GrantWriteACP = aws.params['GrantWriteACP'];
+  var ACL = aws.params['ACL'];
+  var GrantRead = aws.params['GrantRead'];
+  var SSECustomerKeyMD5 = aws.params['SSECustomerKeyMD5'];
+  var SSECustomerKey = aws.params['SSECustomerKey'];
+  var CacheControl = aws.params['CacheControl'];
+  var Key = aws.reqParams['Key'];
+  var GrantFullControl = aws.params['GrantFullControl'];
+  var Metadata = aws.params['Metadata'];
+  var WebsiteRedirectLocation = aws.params['WebsiteRedirectLocation'];
+  var StorageClass = aws.params['StorageClass'];
+  var ContentType = aws.params['ContentType'];
+  var Bucket = aws.reqParams['Bucket'];
+  var SSEKMSKeyId = aws.params['SSEKMSKeyId'];
+  var SSECustomerAlgorithm = aws.params['SSECustomerAlgorithm'];
+  var Expires = aws.params['Expires'] /* Type timestamp */;
+  var ServerSideEncryption = aws.params['ServerSideEncryption'];
+  var ContentDisposition = aws.params['ContentDisposition'];
+  var RequestPayer = aws.params['RequestPayer'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+  if (!Key) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Key'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    RequestCharged: '',
+    SSECustomerAlgorithm: '',
+    Bucket: '',
+    SSEKMSKeyId: /*Sj*/'',
+    UploadId: '',
+    Key: '',
+    ServerSideEncryption: '',
+    SSECustomerKeyMD5: '',
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.GetObjectAcl = awsCommon.as(
+  'GET',
+  '/:Bucket/:Key+?acl',
+  function GetObjectAcl(aws) {
+  var Key = aws.reqParams['Key'];
+  var Bucket = aws.reqParams['Bucket'];
+  var VersionId = aws.params['VersionId'];
+  var RequestPayer = aws.params['RequestPayer'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+  if (!Key) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Key'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    RequestCharged: '',
+    Owner: /*S2f*/{
+      DisplayName: '',
+      ID: '',
+    },
+    Grants: /*S2i*/[ {
+      Grantee: /*S2k*/{
+        URI: '',
+        EmailAddress: '',
+        DisplayName: '',
+        ID: '',
+        Type: '',
+      },
+      Permission: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+});
+// -----------------------------------
+module.exports.GetBucketVersioning = awsCommon.as(
+  'GET',
+  '/:Bucket?versioning',
+  function GetBucketVersioning(aws) {
+  var Bucket = aws.reqParams['Bucket'];
+  if (!Bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    MFADelete: '',
+    Status: '',
+  };
+  return [200, ret];
+});

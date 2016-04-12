@@ -1,6 +1,6 @@
 'use strict';
-const aws_common = require('../../lib/aws-common');
 
+const awsCommon = require('../../lib/aws-common');
 
 /**
  * AWS Security Token Service version 2011-06-15
@@ -11,171 +11,177 @@ const aws_common = require('../../lib/aws-common');
 
 // Setup input and output to use AWS protocol query
 require('../../lib/aws-common/shape_http')('query', module.exports, 'https://sts.amazonaws.com/doc/2011-06-15/')
-module.exports.GetFederationToken = function GetFederationToken(aws) {
-        var Name = aws.params['Name'];
-        var Policy = aws.params['Policy'];
-        var DurationSeconds = aws.params['DurationSeconds'] /* integer */;
-        if (! Name) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Name"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            FederatedUser: {
-                FederatedUserId: "",
-                Arn: ""
-            },
-            PackedPolicySize: 0,
-            Credentials: /*Sa*/{
-                SessionToken: "",
-                AccessKeyId: "",
-                Expiration: now(),
-                SecretAccessKey: ""
-            }
-        };
-        return [200, ret];
-    }
+// -----------------------------------
 module.exports.AssumeRoleWithSAML = function AssumeRoleWithSAML(aws) {
-        var SAMLAssertion = aws.params['SAMLAssertion'];
-        var PrincipalArn = aws.params['PrincipalArn'];
-        var Policy = aws.params['Policy'];
-        var RoleArn = aws.params['RoleArn'];
-        var DurationSeconds = aws.params['DurationSeconds'] /* integer */;
-        if (! RoleArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter RoleArn"];
-        }
-        if (! PrincipalArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter PrincipalArn"];
-        }
-        if (! SAMLAssertion) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter SAMLAssertion"];
-        }
+  var PrincipalArn = aws.params['PrincipalArn'];
+  var RoleArn = aws.params['RoleArn'];
+  var SAMLAssertion = aws.params['SAMLAssertion'];
+  var Policy = aws.params['Policy'];
+  var DurationSeconds = aws.params['DurationSeconds'] /* Type integer */;
+  if (!RoleArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RoleArn'];
+  }
+  if (!PrincipalArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PrincipalArn'];
+  }
+  if (!SAMLAssertion) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SAMLAssertion'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            Issuer: "",
-            SubjectType: "",
-            AssumedRoleUser: /*Sf*/{
-                AssumedRoleId: "",
-                Arn: ""
-            },
-            Subject: "",
-            Audience: "",
-            Credentials: /*Sa*/{
-                SessionToken: "",
-                AccessKeyId: "",
-                Expiration: now(),
-                SecretAccessKey: ""
-            },
-            NameQualifier: "",
-            PackedPolicySize: 0
-        };
-        return [200, ret];
-    }
+  var ret = {
+    SubjectType: '',
+    Audience: '',
+    NameQualifier: '',
+    Subject: '',
+    Credentials: /*Sa*/{
+      AccessKeyId: '',
+      SessionToken: '',
+      SecretAccessKey: '',
+      Expiration: awsCommon.timestamp(),
+    },
+    AssumedRoleUser: /*Sf*/{
+      Arn: '',
+      AssumedRoleId: '',
+    },
+    Issuer: '',
+    PackedPolicySize: 0,
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.DecodeAuthorizationMessage = function DecodeAuthorizationMessage(aws) {
-        var EncodedMessage = aws.params['EncodedMessage'];
-        if (! EncodedMessage) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter EncodedMessage"];
-        }
+  var EncodedMessage = aws.params['EncodedMessage'];
+  if (!EncodedMessage) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter EncodedMessage'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            DecodedMessage: ""
-        };
-        return [200, ret];
-    }
-module.exports.AssumeRole = function AssumeRole(aws) {
-        var TokenCode = aws.params['TokenCode'];
-        var SerialNumber = aws.params['SerialNumber'];
-        var RoleArn = aws.params['RoleArn'];
-        var DurationSeconds = aws.params['DurationSeconds'] /* integer */;
-        var ExternalId = aws.params['ExternalId'];
-        var RoleSessionName = aws.params['RoleSessionName'];
-        var Policy = aws.params['Policy'];
-        if (! RoleArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter RoleArn"];
-        }
-        if (! RoleSessionName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter RoleSessionName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            PackedPolicySize: 0,
-            AssumedRoleUser: /*Sf*/{
-                AssumedRoleId: "",
-                Arn: ""
-            },
-            Credentials: /*Sa*/{
-                SessionToken: "",
-                AccessKeyId: "",
-                Expiration: now(),
-                SecretAccessKey: ""
-            }
-        };
-        return [200, ret];
-    }
+  var ret = {
+    DecodedMessage: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.GetSessionToken = function GetSessionToken(aws) {
-        var TokenCode = aws.params['TokenCode'];
-        var SerialNumber = aws.params['SerialNumber'];
-        var DurationSeconds = aws.params['DurationSeconds'] /* integer */;
+  var SerialNumber = aws.params['SerialNumber'];
+  var TokenCode = aws.params['TokenCode'];
+  var DurationSeconds = aws.params['DurationSeconds'] /* Type integer */;
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            Credentials: /*Sa*/{
-                SessionToken: "",
-                AccessKeyId: "",
-                Expiration: now(),
-                SecretAccessKey: ""
-            }
-        };
-        return [200, ret];
-    }
+  var ret = {
+    Credentials: /*Sa*/{
+      AccessKeyId: '',
+      SessionToken: '',
+      SecretAccessKey: '',
+      Expiration: awsCommon.timestamp(),
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetFederationToken = function GetFederationToken(aws) {
+  var DurationSeconds = aws.params['DurationSeconds'] /* Type integer */;
+  var Policy = aws.params['Policy'];
+  var Name = aws.params['Name'];
+  if (!Name) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    FederatedUser: {
+      Arn: '',
+      FederatedUserId: '',
+    },
+    Credentials: /*Sa*/{
+      AccessKeyId: '',
+      SessionToken: '',
+      SecretAccessKey: '',
+      Expiration: awsCommon.timestamp(),
+    },
+    PackedPolicySize: 0,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.AssumeRole = function AssumeRole(aws) {
+  var RoleSessionName = aws.params['RoleSessionName'];
+  var RoleArn = aws.params['RoleArn'];
+  var TokenCode = aws.params['TokenCode'];
+  var Policy = aws.params['Policy'];
+  var DurationSeconds = aws.params['DurationSeconds'] /* Type integer */;
+  var ExternalId = aws.params['ExternalId'];
+  var SerialNumber = aws.params['SerialNumber'];
+  if (!RoleArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RoleArn'];
+  }
+  if (!RoleSessionName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RoleSessionName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Credentials: /*Sa*/{
+      AccessKeyId: '',
+      SessionToken: '',
+      SecretAccessKey: '',
+      Expiration: awsCommon.timestamp(),
+    },
+    AssumedRoleUser: /*Sf*/{
+      Arn: '',
+      AssumedRoleId: '',
+    },
+    PackedPolicySize: 0,
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.AssumeRoleWithWebIdentity = function AssumeRoleWithWebIdentity(aws) {
-        var RoleArn = aws.params['RoleArn'];
-        var DurationSeconds = aws.params['DurationSeconds'] /* integer */;
-        var WebIdentityToken = aws.params['WebIdentityToken'];
-        var ProviderId = aws.params['ProviderId'];
-        var RoleSessionName = aws.params['RoleSessionName'];
-        var Policy = aws.params['Policy'];
-        if (! RoleArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter RoleArn"];
-        }
-        if (! RoleSessionName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter RoleSessionName"];
-        }
-        if (! WebIdentityToken) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter WebIdentityToken"];
-        }
+  var DurationSeconds = aws.params['DurationSeconds'] /* Type integer */;
+  var RoleArn = aws.params['RoleArn'];
+  var Policy = aws.params['Policy'];
+  var RoleSessionName = aws.params['RoleSessionName'];
+  var ProviderId = aws.params['ProviderId'];
+  var WebIdentityToken = aws.params['WebIdentityToken'];
+  if (!RoleArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RoleArn'];
+  }
+  if (!RoleSessionName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RoleSessionName'];
+  }
+  if (!WebIdentityToken) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter WebIdentityToken'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            SubjectFromWebIdentityToken: "",
-            AssumedRoleUser: /*Sf*/{
-                AssumedRoleId: "",
-                Arn: ""
-            },
-            Credentials: /*Sa*/{
-                SessionToken: "",
-                AccessKeyId: "",
-                Expiration: now(),
-                SecretAccessKey: ""
-            },
-            Provider: "",
-            Audience: "",
-            PackedPolicySize: 0
-        };
-        return [200, ret];
-    }
+  var ret = {
+    Provider: '',
+    SubjectFromWebIdentityToken: '',
+    Credentials: /*Sa*/{
+      AccessKeyId: '',
+      SessionToken: '',
+      SecretAccessKey: '',
+      Expiration: awsCommon.timestamp(),
+    },
+    AssumedRoleUser: /*Sf*/{
+      Arn: '',
+      AssumedRoleId: '',
+    },
+    Audience: '',
+    PackedPolicySize: 0,
+  };
+  return [200, ret];
+};

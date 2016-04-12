@@ -1,5 +1,5 @@
 'use strict';
 
 module.exports = {
-    '/admin/injections': require('./injections')
+  '/admin/injections': require('./injections'),
 };

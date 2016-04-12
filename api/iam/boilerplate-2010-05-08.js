@@ -1,6 +1,6 @@
 'use strict';
-const aws_common = require('../../lib/aws-common');
 
+const awsCommon = require('../../lib/aws-common');
 
 /**
  * AWS Identity and Access Management version 2010-05-08
@@ -11,2277 +11,2390 @@ const aws_common = require('../../lib/aws-common');
 
 // Setup input and output to use AWS protocol query
 require('../../lib/aws-common/shape_http')('query', module.exports, 'https://iam.amazonaws.com/doc/2010-05-08/')
-module.exports.GetUser = function GetUser(aws) {
-        var UserName = aws.params['UserName'];
-
-
-        // TODO implement code
-
-        var ret = {
-            User: /*S1t*/{
-                UserName: "",
-                UserId: "",
-                Arn: "",
-                PasswordLastUsed: now(),
-                CreateDate: now(),
-                Path: ""
-            }
-        };
-        return [200, ret];
-    }
-module.exports.DeleteRole = function DeleteRole(aws) {
-        var RoleName = aws.params['RoleName'];
-        if (! RoleName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter RoleName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.ListUsers = function ListUsers(aws) {
-        var Marker = aws.params['Marker'];
-        var MaxItems = aws.params['MaxItems'] /* integer */;
-        var PathPrefix = aws.params['PathPrefix'];
-
-
-        // TODO implement code
-
-        var ret = {
-            IsTruncated: false,
-            Marker: "",
-            Users: /*S44*/[ /*S1t*/{
-                UserName: "",
-                UserId: "",
-                Arn: "",
-                PasswordLastUsed: now(),
-                CreateDate: now(),
-                Path: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.GetServerCertificate = function GetServerCertificate(aws) {
-        var ServerCertificateName = aws.params['ServerCertificateName'];
-        if (! ServerCertificateName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ServerCertificateName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            ServerCertificate: {
-                CertificateChain: "",
-                CertificateBody: "",
-                ServerCertificateMetadata: /*S4w*/{
-                    Arn: "",
-                    Expiration: now(),
-                    ServerCertificateId: "",
-                    Path: "",
-                    UploadDate: now(),
-                    ServerCertificateName: ""
-                }
-            }
-        };
-        return [200, ret];
-    }
-module.exports.SimulateCustomPolicy = function SimulateCustomPolicy(aws) {
-        var ResourceHandlingOption = aws.params['ResourceHandlingOption'];
-        var ResourceArns = aws.params['ResourceArns'];
-        var ResourceOwner = aws.params['ResourceOwner'];
-        var ContextEntries = aws.params['ContextEntries'];
-        var ResourcePolicy = aws.params['ResourcePolicy'];
-        var MaxItems = aws.params['MaxItems'] /* integer */;
-        var PolicyInputList = aws.params['PolicyInputList'];
-        var Marker = aws.params['Marker'];
-        var ActionNames = aws.params['ActionNames'];
-        var CallerArn = aws.params['CallerArn'];
-        if (! PolicyInputList) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter PolicyInputList"];
-        }
-        if (! ActionNames) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ActionNames"];
-        }
-
-
-        // TODO implement code
-
-        var ret = /*S7p*/{
-            EvaluationResults: [ {
-                EvalDecisionDetails: /*S80*/{} /* map */,
-                MissingContextValues: /*S3w*/[ "" /*, ...*/ ],
-                ResourceSpecificResults: [ {
-                    EvalResourceName: "",
-                    EvalResourceDecision: "",
-                    EvalDecisionDetails: /*S80*/{} /* map */,
-                    MissingContextValues: /*S3w*/[ "" /*, ...*/ ],
-                    MatchedStatements: /*S7t*/[ {
-                        StartPosition: /*S7x*/{
-                            Line: 0,
-                            Column: 0
-                        },
-                        SourcePolicyId: "",
-                        EndPosition: /*S7x*/{
-                            Line: 0,
-                            Column: 0
-                        },
-                        SourcePolicyType: ""
-                    } /*, ...*/ ]
-                } /*, ...*/ ],
-                EvalResourceName: "",
-                EvalActionName: "",
-                EvalDecision: "",
-                MatchedStatements: /*S7t*/[ {
-                        StartPosition: /*S7x*/{
-                            Line: 0,
-                            Column: 0
-                        },
-                        SourcePolicyId: "",
-                        EndPosition: /*S7x*/{
-                            Line: 0,
-                            Column: 0
-                        },
-                        SourcePolicyType: ""
-                    } /*, ...*/ ]
-            } /*, ...*/ ],
-            IsTruncated: false,
-            Marker: ""
-        };
-        return [200, ret];
-    }
-module.exports.ChangePassword = function ChangePassword(aws) {
-        var OldPassword = aws.params['OldPassword'];
-        var NewPassword = aws.params['NewPassword'];
-        if (! OldPassword) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter OldPassword"];
-        }
-        if (! NewPassword) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter NewPassword"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.CreatePolicy = function CreatePolicy(aws) {
-        var PolicyDocument = aws.params['PolicyDocument'];
-        var Description = aws.params['Description'];
-        var PolicyName = aws.params['PolicyName'];
-        var Path = aws.params['Path'];
-        if (! PolicyName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter PolicyName"];
-        }
-        if (! PolicyDocument) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter PolicyDocument"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            Policy: /*S1f*/{
-                AttachmentCount: 0,
-                DefaultVersionId: "",
-                CreateDate: now(),
-                PolicyName: "",
-                Arn: "",
-                IsAttachable: false,
-                UpdateDate: now(),
-                PolicyId: "",
-                Description: "",
-                Path: ""
-            }
-        };
-        return [200, ret];
-    }
-module.exports.CreateVirtualMFADevice = function CreateVirtualMFADevice(aws) {
-        var VirtualMFADeviceName = aws.params['VirtualMFADeviceName'];
-        var Path = aws.params['Path'];
-        if (! VirtualMFADeviceName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter VirtualMFADeviceName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            VirtualMFADevice: /*S1x*/{
-                EnableDate: now(),
-                QRCodePNG: /*S1z*/null /*blob*/,
-                User: /*S1t*/{
-                    UserName: "",
-                    UserId: "",
-                    Arn: "",
-                    PasswordLastUsed: now(),
-                    CreateDate: now(),
-                    Path: ""
-                },
-                SerialNumber: "",
-                Base32StringSeed: /*S1z*/null /*blob*/
-            }
-        };
-        return [200, ret];
-    }
-module.exports.DeleteUserPolicy = function DeleteUserPolicy(aws) {
-        var UserName = aws.params['UserName'];
-        var PolicyName = aws.params['PolicyName'];
-        if (! UserName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter UserName"];
-        }
-        if (! PolicyName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter PolicyName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.DeleteSSHPublicKey = function DeleteSSHPublicKey(aws) {
-        var UserName = aws.params['UserName'];
-        var SSHPublicKeyId = aws.params['SSHPublicKeyId'];
-        if (! UserName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter UserName"];
-        }
-        if (! SSHPublicKeyId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter SSHPublicKeyId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.UploadSigningCertificate = function UploadSigningCertificate(aws) {
-        var UserName = aws.params['UserName'];
-        var CertificateBody = aws.params['CertificateBody'];
-        if (! CertificateBody) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter CertificateBody"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            Certificate: /*S6x*/{
-                UserName: "",
-                Status: "",
-                UploadDate: now(),
-                CertificateId: "",
-                CertificateBody: ""
-            }
-        };
-        return [200, ret];
-    }
-module.exports.DeleteAccountPasswordPolicy = function DeleteAccountPasswordPolicy(aws) {
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.UpdateGroup = function UpdateGroup(aws) {
-        var NewPath = aws.params['NewPath'];
-        var GroupName = aws.params['GroupName'];
-        var NewGroupName = aws.params['NewGroupName'];
-        if (! GroupName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter GroupName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.UpdateSSHPublicKey = function UpdateSSHPublicKey(aws) {
-        var UserName = aws.params['UserName'];
-        var Status = aws.params['Status'];
-        var SSHPublicKeyId = aws.params['SSHPublicKeyId'];
-        if (! UserName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter UserName"];
-        }
-        if (! SSHPublicKeyId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter SSHPublicKeyId"];
-        }
-        if (! Status) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Status"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.GetContextKeysForPrincipalPolicy = function GetContextKeysForPrincipalPolicy(aws) {
-        var PolicySourceArn = aws.params['PolicySourceArn'];
-        var PolicyInputList = aws.params['PolicyInputList'];
-        if (! PolicySourceArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter PolicySourceArn"];
-        }
-
-
-        // TODO implement code
-
-        var ret = /*S3v*/{
-            ContextKeyNames: /*S3w*/[ "" /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.UpdateUser = function UpdateUser(aws) {
-        var UserName = aws.params['UserName'];
-        var NewPath = aws.params['NewPath'];
-        var NewUserName = aws.params['NewUserName'];
-        if (! UserName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter UserName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.ListSSHPublicKeys = function ListSSHPublicKeys(aws) {
-        var UserName = aws.params['UserName'];
-        var Marker = aws.params['Marker'];
-        var MaxItems = aws.params['MaxItems'] /* integer */;
-
-
-        // TODO implement code
-
-        var ret = {
-            IsTruncated: false,
-            Marker: "",
-            SSHPublicKeys: [ {
-                UserName: "",
-                Status: "",
-                SSHPublicKeyId: "",
-                UploadDate: now()
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.ResyncMFADevice = function ResyncMFADevice(aws) {
-        var UserName = aws.params['UserName'];
-        var AuthenticationCode1 = aws.params['AuthenticationCode1'];
-        var AuthenticationCode2 = aws.params['AuthenticationCode2'];
-        var SerialNumber = aws.params['SerialNumber'];
-        if (! UserName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter UserName"];
-        }
-        if (! SerialNumber) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter SerialNumber"];
-        }
-        if (! AuthenticationCode1) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter AuthenticationCode1"];
-        }
-        if (! AuthenticationCode2) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter AuthenticationCode2"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.AttachGroupPolicy = function AttachGroupPolicy(aws) {
-        var GroupName = aws.params['GroupName'];
-        var PolicyArn = aws.params['PolicyArn'];
-        if (! GroupName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter GroupName"];
-        }
-        if (! PolicyArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter PolicyArn"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.UpdateOpenIDConnectProviderThumbprint = function UpdateOpenIDConnectProviderThumbprint(aws) {
-        var OpenIDConnectProviderArn = aws.params['OpenIDConnectProviderArn'];
-        var ThumbprintList = aws.params['ThumbprintList'];
-        if (! OpenIDConnectProviderArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter OpenIDConnectProviderArn"];
-        }
-        if (! ThumbprintList) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ThumbprintList"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.GetSAMLProvider = function GetSAMLProvider(aws) {
-        var SAMLProviderArn = aws.params['SAMLProviderArn'];
-        if (! SAMLProviderArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter SAMLProviderArn"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            ValidUntil: now(),
-            SAMLMetadataDocument: "",
-            CreateDate: now()
-        };
-        return [200, ret];
-    }
-module.exports.DeleteVirtualMFADevice = function DeleteVirtualMFADevice(aws) {
-        var SerialNumber = aws.params['SerialNumber'];
-        if (! SerialNumber) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter SerialNumber"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.ListInstanceProfilesForRole = function ListInstanceProfilesForRole(aws) {
-        var Marker = aws.params['Marker'];
-        var MaxItems = aws.params['MaxItems'] /* integer */;
-        var RoleName = aws.params['RoleName'];
-        if (! RoleName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter RoleName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            IsTruncated: false,
-            Marker: "",
-            InstanceProfiles: /*S3f*/[ /*Sw*/{
-                InstanceProfileName: "",
-                Arn: "",
-                Roles: /*Sx*/[ /*Sy*/{
-                    AssumeRolePolicyDocument: "",
-                    Arn: "",
-                    RoleId: "",
-                    Path: "",
-                    CreateDate: now(),
-                    RoleName: ""
-                } /*, ...*/ ],
-                InstanceProfileId: "",
-                CreateDate: now(),
-                Path: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.UpdateAccessKey = function UpdateAccessKey(aws) {
-        var UserName = aws.params['UserName'];
-        var Status = aws.params['Status'];
-        var AccessKeyId = aws.params['AccessKeyId'];
-        if (! AccessKeyId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter AccessKeyId"];
-        }
-        if (! Status) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Status"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.GetGroupPolicy = function GetGroupPolicy(aws) {
-        var GroupName = aws.params['GroupName'];
-        var PolicyName = aws.params['PolicyName'];
-        if (! GroupName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter GroupName"];
-        }
-        if (! PolicyName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter PolicyName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            PolicyDocument: "",
-            GroupName: "",
-            PolicyName: ""
-        };
-        return [200, ret];
-    }
-module.exports.EnableMFADevice = function EnableMFADevice(aws) {
-        var UserName = aws.params['UserName'];
-        var AuthenticationCode1 = aws.params['AuthenticationCode1'];
-        var AuthenticationCode2 = aws.params['AuthenticationCode2'];
-        var SerialNumber = aws.params['SerialNumber'];
-        if (! UserName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter UserName"];
-        }
-        if (! SerialNumber) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter SerialNumber"];
-        }
-        if (! AuthenticationCode1) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter AuthenticationCode1"];
-        }
-        if (! AuthenticationCode2) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter AuthenticationCode2"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.UpdateAssumeRolePolicy = function UpdateAssumeRolePolicy(aws) {
-        var PolicyDocument = aws.params['PolicyDocument'];
-        var RoleName = aws.params['RoleName'];
-        if (! RoleName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter RoleName"];
-        }
-        if (! PolicyDocument) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter PolicyDocument"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.GetCredentialReport = function GetCredentialReport(aws) {
-
-
-        // TODO implement code
-
-        var ret = {
-            ReportFormat: "",
-            Content: null /*blob*/,
-            GeneratedTime: now()
-        };
-        return [200, ret];
-    }
-module.exports.DeleteLoginProfile = function DeleteLoginProfile(aws) {
-        var UserName = aws.params['UserName'];
-        if (! UserName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter UserName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.ListRoles = function ListRoles(aws) {
-        var Marker = aws.params['Marker'];
-        var MaxItems = aws.params['MaxItems'] /* integer */;
-        var PathPrefix = aws.params['PathPrefix'];
-
-
-        // TODO implement code
-
-        var ret = {
-            Roles: /*Sx*/[ /*Sy*/{
-                AssumeRolePolicyDocument: "",
-                Arn: "",
-                RoleId: "",
-                Path: "",
-                CreateDate: now(),
-                RoleName: ""
-            } /*, ...*/ ],
-            IsTruncated: false,
-            Marker: ""
-        };
-        return [200, ret];
-    }
-module.exports.UploadServerCertificate = function UploadServerCertificate(aws) {
-        var CertificateChain = aws.params['CertificateChain'];
-        var ServerCertificateName = aws.params['ServerCertificateName'];
-        var PrivateKey = aws.params['PrivateKey'] /* string */;
-        var CertificateBody = aws.params['CertificateBody'];
-        var Path = aws.params['Path'];
-        if (! ServerCertificateName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ServerCertificateName"];
-        }
-        if (! CertificateBody) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter CertificateBody"];
-        }
-        if (! PrivateKey) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter PrivateKey"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            ServerCertificateMetadata: /*S4w*/{
-                Arn: "",
-                Expiration: now(),
-                ServerCertificateId: "",
-                Path: "",
-                UploadDate: now(),
-                ServerCertificateName: ""
-            }
-        };
-        return [200, ret];
-    }
-module.exports.DeleteRolePolicy = function DeleteRolePolicy(aws) {
-        var PolicyName = aws.params['PolicyName'];
-        var RoleName = aws.params['RoleName'];
-        if (! RoleName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter RoleName"];
-        }
-        if (! PolicyName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter PolicyName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.DeleteSigningCertificate = function DeleteSigningCertificate(aws) {
-        var UserName = aws.params['UserName'];
-        var CertificateId = aws.params['CertificateId'];
-        if (! CertificateId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter CertificateId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.SetDefaultPolicyVersion = function SetDefaultPolicyVersion(aws) {
-        var VersionId = aws.params['VersionId'];
-        var PolicyArn = aws.params['PolicyArn'];
-        if (! PolicyArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter PolicyArn"];
-        }
-        if (! VersionId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter VersionId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.GetPolicy = function GetPolicy(aws) {
-        var PolicyArn = aws.params['PolicyArn'];
-        if (! PolicyArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter PolicyArn"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            Policy: /*S1f*/{
-                AttachmentCount: 0,
-                DefaultVersionId: "",
-                CreateDate: now(),
-                PolicyName: "",
-                Arn: "",
-                IsAttachable: false,
-                UpdateDate: now(),
-                PolicyId: "",
-                Description: "",
-                Path: ""
-            }
-        };
-        return [200, ret];
-    }
-module.exports.GetUserPolicy = function GetUserPolicy(aws) {
-        var UserName = aws.params['UserName'];
-        var PolicyName = aws.params['PolicyName'];
-        if (! UserName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter UserName"];
-        }
-        if (! PolicyName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter PolicyName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            UserName: "",
-            PolicyDocument: "",
-            PolicyName: ""
-        };
-        return [200, ret];
-    }
-module.exports.RemoveUserFromGroup = function RemoveUserFromGroup(aws) {
-        var UserName = aws.params['UserName'];
-        var GroupName = aws.params['GroupName'];
-        if (! GroupName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter GroupName"];
-        }
-        if (! UserName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter UserName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.ListGroups = function ListGroups(aws) {
-        var Marker = aws.params['Marker'];
-        var MaxItems = aws.params['MaxItems'] /* integer */;
-        var PathPrefix = aws.params['PathPrefix'];
-
-
-        // TODO implement code
-
-        var ret = {
-            IsTruncated: false,
-            Groups: /*S5u*/[ /*Ss*/{
-                Arn: "",
-                GroupId: "",
-                GroupName: "",
-                CreateDate: now(),
-                Path: ""
-            } /*, ...*/ ],
-            Marker: ""
-        };
-        return [200, ret];
-    }
-module.exports.UpdateSAMLProvider = function UpdateSAMLProvider(aws) {
-        var SAMLProviderArn = aws.params['SAMLProviderArn'];
-        var SAMLMetadataDocument = aws.params['SAMLMetadataDocument'];
-        if (! SAMLMetadataDocument) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter SAMLMetadataDocument"];
-        }
-        if (! SAMLProviderArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter SAMLProviderArn"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            SAMLProviderArn: ""
-        };
-        return [200, ret];
-    }
-module.exports.GetContextKeysForCustomPolicy = function GetContextKeysForCustomPolicy(aws) {
-        var PolicyInputList = aws.params['PolicyInputList'];
-        if (! PolicyInputList) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter PolicyInputList"];
-        }
-
-
-        // TODO implement code
-
-        var ret = /*S3v*/{
-            ContextKeyNames: /*S3w*/[ "" /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.ListGroupsForUser = function ListGroupsForUser(aws) {
-        var UserName = aws.params['UserName'];
-        var Marker = aws.params['Marker'];
-        var MaxItems = aws.params['MaxItems'] /* integer */;
-        if (! UserName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter UserName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            IsTruncated: false,
-            Groups: /*S5u*/[ /*Ss*/{
-                Arn: "",
-                GroupId: "",
-                GroupName: "",
-                CreateDate: now(),
-                Path: ""
-            } /*, ...*/ ],
-            Marker: ""
-        };
-        return [200, ret];
-    }
-module.exports.DeleteUser = function DeleteUser(aws) {
-        var UserName = aws.params['UserName'];
-        if (! UserName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter UserName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.DetachRolePolicy = function DetachRolePolicy(aws) {
-        var PolicyArn = aws.params['PolicyArn'];
-        var RoleName = aws.params['RoleName'];
-        if (! RoleName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter RoleName"];
-        }
-        if (! PolicyArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter PolicyArn"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.CreateAccountAlias = function CreateAccountAlias(aws) {
-        var AccountAlias = aws.params['AccountAlias'];
-        if (! AccountAlias) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter AccountAlias"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.DeletePolicyVersion = function DeletePolicyVersion(aws) {
-        var VersionId = aws.params['VersionId'];
-        var PolicyArn = aws.params['PolicyArn'];
-        if (! PolicyArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter PolicyArn"];
-        }
-        if (! VersionId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter VersionId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.RemoveClientIDFromOpenIDConnectProvider = function RemoveClientIDFromOpenIDConnectProvider(aws) {
-        var OpenIDConnectProviderArn = aws.params['OpenIDConnectProviderArn'];
-        var ClientID = aws.params['ClientID'];
-        if (! OpenIDConnectProviderArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter OpenIDConnectProviderArn"];
-        }
-        if (! ClientID) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ClientID"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.UpdateServerCertificate = function UpdateServerCertificate(aws) {
-        var NewPath = aws.params['NewPath'];
-        var NewServerCertificateName = aws.params['NewServerCertificateName'];
-        var ServerCertificateName = aws.params['ServerCertificateName'];
-        if (! ServerCertificateName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ServerCertificateName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.DeactivateMFADevice = function DeactivateMFADevice(aws) {
-        var UserName = aws.params['UserName'];
-        var SerialNumber = aws.params['SerialNumber'];
-        if (! UserName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter UserName"];
-        }
-        if (! SerialNumber) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter SerialNumber"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.UploadSSHPublicKey = function UploadSSHPublicKey(aws) {
-        var UserName = aws.params['UserName'];
-        var SSHPublicKeyBody = aws.params['SSHPublicKeyBody'];
-        if (! UserName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter UserName"];
-        }
-        if (! SSHPublicKeyBody) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter SSHPublicKeyBody"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            SSHPublicKey: /*S4q*/{
-                UserName: "",
-                SSHPublicKeyBody: "",
-                Fingerprint: "",
-                Status: "",
-                SSHPublicKeyId: "",
-                UploadDate: now()
-            }
-        };
-        return [200, ret];
-    }
-module.exports.CreateAccessKey = function CreateAccessKey(aws) {
-        var UserName = aws.params['UserName'];
-
-
-        // TODO implement code
-
-        var ret = {
-            AccessKey: {
-                UserName: "",
-                Status: "",
-                AccessKeyId: "",
-                CreateDate: now(),
-                SecretAccessKey: ""
-            }
-        };
-        return [200, ret];
-    }
-module.exports.DetachUserPolicy = function DetachUserPolicy(aws) {
-        var UserName = aws.params['UserName'];
-        var PolicyArn = aws.params['PolicyArn'];
-        if (! UserName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter UserName"];
-        }
-        if (! PolicyArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter PolicyArn"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.DeleteAccountAlias = function DeleteAccountAlias(aws) {
-        var AccountAlias = aws.params['AccountAlias'];
-        if (! AccountAlias) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter AccountAlias"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.AttachRolePolicy = function AttachRolePolicy(aws) {
-        var PolicyArn = aws.params['PolicyArn'];
-        var RoleName = aws.params['RoleName'];
-        if (! RoleName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter RoleName"];
-        }
-        if (! PolicyArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter PolicyArn"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.DeleteGroupPolicy = function DeleteGroupPolicy(aws) {
-        var GroupName = aws.params['GroupName'];
-        var PolicyName = aws.params['PolicyName'];
-        if (! GroupName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter GroupName"];
-        }
-        if (! PolicyName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter PolicyName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.DeleteServerCertificate = function DeleteServerCertificate(aws) {
-        var ServerCertificateName = aws.params['ServerCertificateName'];
-        if (! ServerCertificateName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ServerCertificateName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.UpdateAccountPasswordPolicy = function UpdateAccountPasswordPolicy(aws) {
-        var RequireNumbers = aws.params['RequireNumbers'] /* boolean */;
-        var RequireLowercaseCharacters = aws.params['RequireLowercaseCharacters'] /* boolean */;
-        var RequireSymbols = aws.params['RequireSymbols'] /* boolean */;
-        var RequireUppercaseCharacters = aws.params['RequireUppercaseCharacters'] /* boolean */;
-        var MinimumPasswordLength = aws.params['MinimumPasswordLength'] /* integer */;
-        var PasswordReusePrevention = aws.params['PasswordReusePrevention'] /* integer */;
-        var MaxPasswordAge = aws.params['MaxPasswordAge'] /* integer */;
-        var HardExpiry = aws.params['HardExpiry'] /* boolean */;
-        var AllowUsersToChangePassword = aws.params['AllowUsersToChangePassword'] /* boolean */;
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.AddClientIDToOpenIDConnectProvider = function AddClientIDToOpenIDConnectProvider(aws) {
-        var OpenIDConnectProviderArn = aws.params['OpenIDConnectProviderArn'];
-        var ClientID = aws.params['ClientID'];
-        if (! OpenIDConnectProviderArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter OpenIDConnectProviderArn"];
-        }
-        if (! ClientID) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ClientID"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.ListMFADevices = function ListMFADevices(aws) {
-        var UserName = aws.params['UserName'];
-        var Marker = aws.params['Marker'];
-        var MaxItems = aws.params['MaxItems'] /* integer */;
-
-
-        // TODO implement code
-
-        var ret = {
-            IsTruncated: false,
-            Marker: "",
-            MFADevices: [ {
-                UserName: "",
-                SerialNumber: "",
-                EnableDate: now()
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.ListAccountAliases = function ListAccountAliases(aws) {
-        var Marker = aws.params['Marker'];
-        var MaxItems = aws.params['MaxItems'] /* integer */;
-
-
-        // TODO implement code
-
-        var ret = {
-            IsTruncated: false,
-            Marker: "",
-            AccountAliases: [ "" /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.ListAccessKeys = function ListAccessKeys(aws) {
-        var UserName = aws.params['UserName'];
-        var Marker = aws.params['Marker'];
-        var MaxItems = aws.params['MaxItems'] /* integer */;
-
-
-        // TODO implement code
-
-        var ret = {
-            IsTruncated: false,
-            AccessKeyMetadata: [ {
-                UserName: "",
-                Status: "",
-                AccessKeyId: "",
-                CreateDate: now()
-            } /*, ...*/ ],
-            Marker: ""
-        };
-        return [200, ret];
-    }
-module.exports.ListSigningCertificates = function ListSigningCertificates(aws) {
-        var UserName = aws.params['UserName'];
-        var Marker = aws.params['Marker'];
-        var MaxItems = aws.params['MaxItems'] /* integer */;
-
-
-        // TODO implement code
-
-        var ret = {
-            Certificates: [ /*S6x*/{
-                UserName: "",
-                Status: "",
-                UploadDate: now(),
-                CertificateId: "",
-                CertificateBody: ""
-            } /*, ...*/ ],
-            IsTruncated: false,
-            Marker: ""
-        };
-        return [200, ret];
-    }
-module.exports.CreateOpenIDConnectProvider = function CreateOpenIDConnectProvider(aws) {
-        var ClientIDList = aws.params['ClientIDList'];
-        var Url = aws.params['Url'];
-        var ThumbprintList = aws.params['ThumbprintList'];
-        if (! Url) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Url"];
-        }
-        if (! ThumbprintList) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ThumbprintList"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            OpenIDConnectProviderArn: ""
-        };
-        return [200, ret];
-    }
-module.exports.UpdateSigningCertificate = function UpdateSigningCertificate(aws) {
-        var UserName = aws.params['UserName'];
-        var Status = aws.params['Status'];
-        var CertificateId = aws.params['CertificateId'];
-        if (! CertificateId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter CertificateId"];
-        }
-        if (! Status) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Status"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.ListUserPolicies = function ListUserPolicies(aws) {
-        var UserName = aws.params['UserName'];
-        var Marker = aws.params['Marker'];
-        var MaxItems = aws.params['MaxItems'] /* integer */;
-        if (! UserName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter UserName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            PolicyNames: /*S5q*/[ "" /*, ...*/ ],
-            IsTruncated: false,
-            Marker: ""
-        };
-        return [200, ret];
-    }
-module.exports.CreateGroup = function CreateGroup(aws) {
-        var GroupName = aws.params['GroupName'];
-        var Path = aws.params['Path'];
-        if (! GroupName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter GroupName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            Group: /*Ss*/{
-                Arn: "",
-                GroupId: "",
-                GroupName: "",
-                CreateDate: now(),
-                Path: ""
-            }
-        };
-        return [200, ret];
-    }
-module.exports.DetachGroupPolicy = function DetachGroupPolicy(aws) {
-        var GroupName = aws.params['GroupName'];
-        var PolicyArn = aws.params['PolicyArn'];
-        if (! GroupName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter GroupName"];
-        }
-        if (! PolicyArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter PolicyArn"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.ListSAMLProviders = function ListSAMLProviders(aws) {
-
-
-        // TODO implement code
-
-        var ret = {
-            SAMLProviderList: [ {
-                ValidUntil: now(),
-                CreateDate: now(),
-                Arn: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.GetAccountPasswordPolicy = function GetAccountPasswordPolicy(aws) {
-
-
-        // TODO implement code
-
-        var ret = {
-            PasswordPolicy: {
-                RequireNumbers: false,
-                RequireLowercaseCharacters: false,
-                RequireSymbols: false,
-                RequireUppercaseCharacters: false,
-                MinimumPasswordLength: 0,
-                PasswordReusePrevention: 0,
-                MaxPasswordAge: 0,
-                HardExpiry: false,
-                ExpirePasswords: false,
-                AllowUsersToChangePassword: false
-            }
-        };
-        return [200, ret];
-    }
-module.exports.CreateRole = function CreateRole(aws) {
-        var RoleName = aws.params['RoleName'];
-        var AssumeRolePolicyDocument = aws.params['AssumeRolePolicyDocument'];
-        var Path = aws.params['Path'];
-        if (! RoleName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter RoleName"];
-        }
-        if (! AssumeRolePolicyDocument) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter AssumeRolePolicyDocument"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            Role: /*Sy*/{
-                AssumeRolePolicyDocument: "",
-                Arn: "",
-                RoleId: "",
-                Path: "",
-                CreateDate: now(),
-                RoleName: ""
-            }
-        };
-        return [200, ret];
-    }
-module.exports.GetAccountAuthorizationDetails = function GetAccountAuthorizationDetails(aws) {
-        var Marker = aws.params['Marker'];
-        var Filter = aws.params['Filter'] /* list */;
-        var MaxItems = aws.params['MaxItems'] /* integer */;
-
-
-        // TODO implement code
-
-        var ret = {
-            IsTruncated: false,
-            Policies: [ {
-                AttachmentCount: 0,
-                DefaultVersionId: "",
-                CreateDate: now(),
-                PolicyName: "",
-                PolicyVersionList: /*S3i*/[ /*S1k*/{
-                    VersionId: "",
-                    IsDefaultVersion: false,
-                    CreateDate: now(),
-                    Document: ""
-                } /*, ...*/ ],
-                Arn: "",
-                IsAttachable: false,
-                UpdateDate: now(),
-                PolicyId: "",
-                Description: "",
-                Path: ""
-            } /*, ...*/ ],
-            RoleDetailList: [ {
-                InstanceProfileList: /*S3f*/[ /*Sw*/{
-                    InstanceProfileName: "",
-                    Arn: "",
-                    Roles: /*Sx*/[ /*Sy*/{
-                        AssumeRolePolicyDocument: "",
-                        Arn: "",
-                        RoleId: "",
-                        Path: "",
-                        CreateDate: now(),
-                        RoleName: ""
-                    } /*, ...*/ ],
-                    InstanceProfileId: "",
-                    CreateDate: now(),
-                    Path: ""
-                } /*, ...*/ ],
-                AssumeRolePolicyDocument: "",
-                Arn: "",
-                AttachedManagedPolicies: /*S39*/[ {
-                    PolicyName: "",
-                    PolicyArn: ""
-                } /*, ...*/ ],
-                RolePolicyList: /*S36*/[ {
-                    PolicyDocument: "",
-                    PolicyName: ""
-                } /*, ...*/ ],
-                RoleId: "",
-                Path: "",
-                CreateDate: now(),
-                RoleName: ""
-            } /*, ...*/ ],
-            UserDetailList: [ {
-                UserName: "",
-                UserId: "",
-                GroupList: [ "" /*, ...*/ ],
-                Arn: "",
-                UserPolicyList: /*S36*/[ {
-                    PolicyDocument: "",
-                    PolicyName: ""
-                } /*, ...*/ ],
-                AttachedManagedPolicies: /*S39*/[ {
-                    PolicyName: "",
-                    PolicyArn: ""
-                } /*, ...*/ ],
-                CreateDate: now(),
-                Path: ""
-            } /*, ...*/ ],
-            GroupDetailList: [ {
-                GroupPolicyList: /*S36*/[ {
-                    PolicyDocument: "",
-                    PolicyName: ""
-                } /*, ...*/ ],
-                GroupId: "",
-                Arn: "",
-                AttachedManagedPolicies: /*S39*/[ {
-                    PolicyName: "",
-                    PolicyArn: ""
-                } /*, ...*/ ],
-                GroupName: "",
-                CreateDate: now(),
-                Path: ""
-            } /*, ...*/ ],
-            Marker: ""
-        };
-        return [200, ret];
-    }
-module.exports.RemoveRoleFromInstanceProfile = function RemoveRoleFromInstanceProfile(aws) {
-        var InstanceProfileName = aws.params['InstanceProfileName'];
-        var RoleName = aws.params['RoleName'];
-        if (! InstanceProfileName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter InstanceProfileName"];
-        }
-        if (! RoleName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter RoleName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.AddUserToGroup = function AddUserToGroup(aws) {
-        var UserName = aws.params['UserName'];
-        var GroupName = aws.params['GroupName'];
-        if (! GroupName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter GroupName"];
-        }
-        if (! UserName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter UserName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.ListEntitiesForPolicy = function ListEntitiesForPolicy(aws) {
-        var Marker = aws.params['Marker'];
-        var MaxItems = aws.params['MaxItems'] /* integer */;
-        var EntityFilter = aws.params['EntityFilter'];
-        var PolicyArn = aws.params['PolicyArn'];
-        var PathPrefix = aws.params['PathPrefix'];
-        if (! PolicyArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter PolicyArn"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            IsTruncated: false,
-            PolicyGroups: [ {
-                GroupName: ""
-            } /*, ...*/ ],
-            PolicyUsers: [ {
-                UserName: ""
-            } /*, ...*/ ],
-            PolicyRoles: [ {
-                RoleName: ""
-            } /*, ...*/ ],
-            Marker: ""
-        };
-        return [200, ret];
-    }
-module.exports.DeleteAccessKey = function DeleteAccessKey(aws) {
-        var UserName = aws.params['UserName'];
-        var AccessKeyId = aws.params['AccessKeyId'];
-        if (! AccessKeyId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter AccessKeyId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.AttachUserPolicy = function AttachUserPolicy(aws) {
-        var UserName = aws.params['UserName'];
-        var PolicyArn = aws.params['PolicyArn'];
-        if (! UserName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter UserName"];
-        }
-        if (! PolicyArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter PolicyArn"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.GetRolePolicy = function GetRolePolicy(aws) {
-        var PolicyName = aws.params['PolicyName'];
-        var RoleName = aws.params['RoleName'];
-        if (! RoleName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter RoleName"];
-        }
-        if (! PolicyName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter PolicyName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            PolicyDocument: "",
-            PolicyName: "",
-            RoleName: ""
-        };
-        return [200, ret];
-    }
-module.exports.GetAccessKeyLastUsed = function GetAccessKeyLastUsed(aws) {
-        var AccessKeyId = aws.params['AccessKeyId'];
-        if (! AccessKeyId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter AccessKeyId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            UserName: "",
-            AccessKeyLastUsed: {
-                LastUsedDate: now(),
-                ServiceName: "",
-                Region: ""
-            }
-        };
-        return [200, ret];
-    }
-module.exports.GetInstanceProfile = function GetInstanceProfile(aws) {
-        var InstanceProfileName = aws.params['InstanceProfileName'];
-        if (! InstanceProfileName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter InstanceProfileName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            InstanceProfile: /*Sw*/{
-                InstanceProfileName: "",
-                Arn: "",
-                Roles: /*Sx*/[ /*Sy*/{
-                    AssumeRolePolicyDocument: "",
-                    Arn: "",
-                    RoleId: "",
-                    Path: "",
-                    CreateDate: now(),
-                    RoleName: ""
-                } /*, ...*/ ],
-                InstanceProfileId: "",
-                CreateDate: now(),
-                Path: ""
-            }
-        };
-        return [200, ret];
-    }
-module.exports.AddRoleToInstanceProfile = function AddRoleToInstanceProfile(aws) {
-        var InstanceProfileName = aws.params['InstanceProfileName'];
-        var RoleName = aws.params['RoleName'];
-        if (! InstanceProfileName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter InstanceProfileName"];
-        }
-        if (! RoleName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter RoleName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.CreateUser = function CreateUser(aws) {
-        var UserName = aws.params['UserName'];
-        var Path = aws.params['Path'];
-        if (! UserName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter UserName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            User: /*S1t*/{
-                UserName: "",
-                UserId: "",
-                Arn: "",
-                PasswordLastUsed: now(),
-                CreateDate: now(),
-                Path: ""
-            }
-        };
-        return [200, ret];
-    }
-module.exports.DeleteOpenIDConnectProvider = function DeleteOpenIDConnectProvider(aws) {
-        var OpenIDConnectProviderArn = aws.params['OpenIDConnectProviderArn'];
-        if (! OpenIDConnectProviderArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter OpenIDConnectProviderArn"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.ListVirtualMFADevices = function ListVirtualMFADevices(aws) {
-        var Marker = aws.params['Marker'];
-        var MaxItems = aws.params['MaxItems'] /* integer */;
-        var AssignmentStatus = aws.params['AssignmentStatus'];
-
-
-        // TODO implement code
-
-        var ret = {
-            IsTruncated: false,
-            Marker: "",
-            VirtualMFADevices: [ /*S1x*/{
-                EnableDate: now(),
-                QRCodePNG: /*S1z*/null /*blob*/,
-                User: /*S1t*/{
-                    UserName: "",
-                    UserId: "",
-                    Arn: "",
-                    PasswordLastUsed: now(),
-                    CreateDate: now(),
-                    Path: ""
-                },
-                SerialNumber: "",
-                Base32StringSeed: /*S1z*/null /*blob*/
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
+// -----------------------------------
 module.exports.DeletePolicy = function DeletePolicy(aws) {
-        var PolicyArn = aws.params['PolicyArn'];
-        if (! PolicyArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter PolicyArn"];
-        }
+  var PolicyArn = aws.params['PolicyArn'];
+  if (!PolicyArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyArn'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.ListPolicyVersions = function ListPolicyVersions(aws) {
-        var Marker = aws.params['Marker'];
-        var PolicyArn = aws.params['PolicyArn'];
-        var MaxItems = aws.params['MaxItems'] /* integer */;
-        if (! PolicyArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter PolicyArn"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            IsTruncated: false,
-            Marker: "",
-            Versions: /*S3i*/[ /*S1k*/{
-                VersionId: "",
-                IsDefaultVersion: false,
-                CreateDate: now(),
-                Document: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.ListAttachedRolePolicies = function ListAttachedRolePolicies(aws) {
-        var Marker = aws.params['Marker'];
-        var PathPrefix = aws.params['PathPrefix'];
-        var MaxItems = aws.params['MaxItems'] /* integer */;
-        var RoleName = aws.params['RoleName'];
-        if (! RoleName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter RoleName"];
-        }
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeletePolicyVersion = function DeletePolicyVersion(aws) {
+  var VersionId = aws.params['VersionId'];
+  var PolicyArn = aws.params['PolicyArn'];
+  if (!PolicyArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyArn'];
+  }
+  if (!VersionId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VersionId'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            IsTruncated: false,
-            Marker: "",
-            AttachedPolicies: /*S39*/[ {
-                PolicyName: "",
-                PolicyArn: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListVirtualMFADevices = function ListVirtualMFADevices(aws) {
+  var AssignmentStatus = aws.params['AssignmentStatus'];
+  var Marker = aws.params['Marker'];
+  var MaxItems = aws.params['MaxItems'] /* Type integer */;
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    IsTruncated: false,
+    VirtualMFADevices: [ /*S1x*/{
+      EnableDate: awsCommon.timestamp(),
+      Base32StringSeed: /*S1z*/null /*Blob*/,
+      QRCodePNG: /*S1z*/null /*Blob*/,
+      User: /*S1t*/{
+        Path: '',
+        UserId: '',
+        UserName: '',
+        Arn: '',
+        PasswordLastUsed: awsCommon.timestamp(),
+        CreateDate: awsCommon.timestamp(),
+      },
+      SerialNumber: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetPolicyVersion = function GetPolicyVersion(aws) {
+  var VersionId = aws.params['VersionId'];
+  var PolicyArn = aws.params['PolicyArn'];
+  if (!PolicyArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyArn'];
+  }
+  if (!VersionId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VersionId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    PolicyVersion: /*S1k*/{
+      VersionId: '',
+      IsDefaultVersion: false,
+      Document: '',
+      CreateDate: awsCommon.timestamp(),
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.SimulatePrincipalPolicy = function SimulatePrincipalPolicy(aws) {
-        var ResourceHandlingOption = aws.params['ResourceHandlingOption'];
-        var PolicySourceArn = aws.params['PolicySourceArn'];
-        var ResourceOwner = aws.params['ResourceOwner'];
-        var ContextEntries = aws.params['ContextEntries'];
-        var ResourcePolicy = aws.params['ResourcePolicy'];
-        var MaxItems = aws.params['MaxItems'] /* integer */;
-        var PolicyInputList = aws.params['PolicyInputList'];
-        var Marker = aws.params['Marker'];
-        var ActionNames = aws.params['ActionNames'];
-        var CallerArn = aws.params['CallerArn'];
-        var ResourceArns = aws.params['ResourceArns'];
-        if (! PolicySourceArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter PolicySourceArn"];
-        }
-        if (! ActionNames) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ActionNames"];
-        }
+  var Marker = aws.params['Marker'];
+  var ResourceHandlingOption = aws.params['ResourceHandlingOption'];
+  var PolicyInputList = aws.params['PolicyInputList'];
+  var ContextEntries = aws.params['ContextEntries'];
+  var PolicySourceArn = aws.params['PolicySourceArn'];
+  var ResourceArns = aws.params['ResourceArns'];
+  var ActionNames = aws.params['ActionNames'];
+  var ResourceOwner = aws.params['ResourceOwner'];
+  var ResourcePolicy = aws.params['ResourcePolicy'];
+  var MaxItems = aws.params['MaxItems'] /* Type integer */;
+  var CallerArn = aws.params['CallerArn'];
+  if (!PolicySourceArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicySourceArn'];
+  }
+  if (!ActionNames) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ActionNames'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = /*S7p*/{
-            EvaluationResults: [ {
-                EvalDecisionDetails: /*S80*/{} /* map */,
-                MissingContextValues: /*S3w*/[ "" /*, ...*/ ],
-                ResourceSpecificResults: [ {
-                    EvalResourceName: "",
-                    EvalResourceDecision: "",
-                    EvalDecisionDetails: /*S80*/{} /* map */,
-                    MissingContextValues: /*S3w*/[ "" /*, ...*/ ],
-                    MatchedStatements: /*S7t*/[ {
-                        StartPosition: /*S7x*/{
-                            Line: 0,
-                            Column: 0
-                        },
-                        SourcePolicyId: "",
-                        EndPosition: /*S7x*/{
-                            Line: 0,
-                            Column: 0
-                        },
-                        SourcePolicyType: ""
-                    } /*, ...*/ ]
-                } /*, ...*/ ],
-                EvalResourceName: "",
-                EvalActionName: "",
-                EvalDecision: "",
-                MatchedStatements: /*S7t*/[ {
-                        StartPosition: /*S7x*/{
-                            Line: 0,
-                            Column: 0
-                        },
-                        SourcePolicyId: "",
-                        EndPosition: /*S7x*/{
-                            Line: 0,
-                            Column: 0
-                        },
-                        SourcePolicyType: ""
-                    } /*, ...*/ ]
-            } /*, ...*/ ],
-            IsTruncated: false,
-            Marker: ""
-        };
-        return [200, ret];
-    }
-module.exports.PutGroupPolicy = function PutGroupPolicy(aws) {
-        var PolicyDocument = aws.params['PolicyDocument'];
-        var GroupName = aws.params['GroupName'];
-        var PolicyName = aws.params['PolicyName'];
-        if (! GroupName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter GroupName"];
-        }
-        if (! PolicyName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter PolicyName"];
-        }
-        if (! PolicyDocument) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter PolicyDocument"];
-        }
+  var ret = /*S7p*/{
+    Marker: '',
+    IsTruncated: false,
+    EvaluationResults: [ {
+      MatchedStatements: /*S7t*/[ {
+        SourcePolicyId: '',
+        EndPosition: /*S7x*/{
+          Line: 0,
+          Column: 0,
+        },
+        StartPosition: /*S7x*/{
+          Line: 0,
+          Column: 0,
+        },
+        SourcePolicyType: '',
+      }, /* ...*/ ],
+      EvalResourceName: '',
+      EvalDecision: '',
+      ResourceSpecificResults: [ {
+        EvalDecisionDetails: /*S80*/{} /*Map*/,
+        EvalResourceDecision: '',
+        EvalResourceName: '',
+        MissingContextValues: /*S3w*/[ '', /* ...*/ ],
+        MatchedStatements: /*S7t*/[ {
+        SourcePolicyId: '',
+        EndPosition: /*S7x*/{
+          Line: 0,
+          Column: 0,
+        },
+        StartPosition: /*S7x*/{
+          Line: 0,
+          Column: 0,
+        },
+        SourcePolicyType: '',
+      }, /* ...*/ ],
+      }, /* ...*/ ],
+      EvalDecisionDetails: /*S80*/{} /*Map*/,
+      EvalActionName: '',
+      MissingContextValues: /*S3w*/[ '', /* ...*/ ],
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateUser = function CreateUser(aws) {
+  var UserName = aws.params['UserName'];
+  var Path = aws.params['Path'];
+  if (!UserName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter UserName'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.CreateInstanceProfile = function CreateInstanceProfile(aws) {
-        var InstanceProfileName = aws.params['InstanceProfileName'];
-        var Path = aws.params['Path'];
-        if (! InstanceProfileName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter InstanceProfileName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            InstanceProfile: /*Sw*/{
-                InstanceProfileName: "",
-                Arn: "",
-                Roles: /*Sx*/[ /*Sy*/{
-                    AssumeRolePolicyDocument: "",
-                    Arn: "",
-                    RoleId: "",
-                    Path: "",
-                    CreateDate: now(),
-                    RoleName: ""
-                } /*, ...*/ ],
-                InstanceProfileId: "",
-                CreateDate: now(),
-                Path: ""
-            }
-        };
-        return [200, ret];
-    }
-module.exports.ListOpenIDConnectProviders = function ListOpenIDConnectProviders(aws) {
+  var ret = {
+    User: /*S1t*/{
+      Path: '',
+      UserId: '',
+      UserName: '',
+      Arn: '',
+      PasswordLastUsed: awsCommon.timestamp(),
+      CreateDate: awsCommon.timestamp(),
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetServerCertificate = function GetServerCertificate(aws) {
+  var ServerCertificateName = aws.params['ServerCertificateName'];
+  if (!ServerCertificateName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ServerCertificateName'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            OpenIDConnectProviderList: [ {
-                Arn: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.CreateLoginProfile = function CreateLoginProfile(aws) {
-        var UserName = aws.params['UserName'];
-        var Password = aws.params['Password'];
-        var PasswordResetRequired = aws.params['PasswordResetRequired'] /* boolean */;
-        if (! UserName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter UserName"];
-        }
-        if (! Password) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Password"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            LoginProfile: /*S13*/{
-                UserName: "",
-                PasswordResetRequired: false,
-                CreateDate: now()
-            }
-        };
-        return [200, ret];
-    }
-module.exports.DeleteInstanceProfile = function DeleteInstanceProfile(aws) {
-        var InstanceProfileName = aws.params['InstanceProfileName'];
-        if (! InstanceProfileName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter InstanceProfileName"];
-        }
+  var ret = {
+    ServerCertificate: {
+      ServerCertificateMetadata: /*S4w*/{
+        ServerCertificateName: '',
+        Expiration: awsCommon.timestamp(),
+        Path: '',
+        ServerCertificateId: '',
+        UploadDate: awsCommon.timestamp(),
+        Arn: '',
+      },
+      CertificateChain: '',
+      CertificateBody: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListUsers = function ListUsers(aws) {
+  var Marker = aws.params['Marker'];
+  var MaxItems = aws.params['MaxItems'] /* Type integer */;
+  var PathPrefix = aws.params['PathPrefix'];
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.CreatePolicyVersion = function CreatePolicyVersion(aws) {
-        var PolicyDocument = aws.params['PolicyDocument'];
-        var PolicyArn = aws.params['PolicyArn'];
-        var SetAsDefault = aws.params['SetAsDefault'] /* boolean */;
-        if (! PolicyArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter PolicyArn"];
-        }
-        if (! PolicyDocument) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter PolicyDocument"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            PolicyVersion: /*S1k*/{
-                VersionId: "",
-                IsDefaultVersion: false,
-                CreateDate: now(),
-                Document: ""
-            }
-        };
-        return [200, ret];
-    }
-module.exports.CreateSAMLProvider = function CreateSAMLProvider(aws) {
-        var SAMLMetadataDocument = aws.params['SAMLMetadataDocument'];
-        var Name = aws.params['Name'];
-        if (! SAMLMetadataDocument) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter SAMLMetadataDocument"];
-        }
-        if (! Name) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Name"];
-        }
+  var ret = {
+    Marker: '',
+    IsTruncated: false,
+    Users: /*S44*/[ /*S1t*/{
+      Path: '',
+      UserId: '',
+      UserName: '',
+      Arn: '',
+      PasswordLastUsed: awsCommon.timestamp(),
+      CreateDate: awsCommon.timestamp(),
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DetachUserPolicy = function DetachUserPolicy(aws) {
+  var UserName = aws.params['UserName'];
+  var PolicyArn = aws.params['PolicyArn'];
+  if (!UserName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter UserName'];
+  }
+  if (!PolicyArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyArn'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            SAMLProviderArn: ""
-        };
-        return [200, ret];
-    }
-module.exports.ListPolicies = function ListPolicies(aws) {
-        var Scope = aws.params['Scope'];
-        var Marker = aws.params['Marker'];
-        var OnlyAttached = aws.params['OnlyAttached'] /* boolean */;
-        var MaxItems = aws.params['MaxItems'] /* integer */;
-        var PathPrefix = aws.params['PathPrefix'];
-
-
-        // TODO implement code
-
-        var ret = {
-            IsTruncated: false,
-            Marker: "",
-            Policies: [ /*S1f*/{
-                AttachmentCount: 0,
-                DefaultVersionId: "",
-                CreateDate: now(),
-                PolicyName: "",
-                Arn: "",
-                IsAttachable: false,
-                UpdateDate: now(),
-                PolicyId: "",
-                Description: "",
-                Path: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.PutRolePolicy = function PutRolePolicy(aws) {
-        var PolicyDocument = aws.params['PolicyDocument'];
-        var PolicyName = aws.params['PolicyName'];
-        var RoleName = aws.params['RoleName'];
-        if (! RoleName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter RoleName"];
-        }
-        if (! PolicyName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter PolicyName"];
-        }
-        if (! PolicyDocument) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter PolicyDocument"];
-        }
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateOpenIDConnectProvider = function CreateOpenIDConnectProvider(aws) {
+  var Url = aws.params['Url'];
+  var ThumbprintList = aws.params['ThumbprintList'];
+  var ClientIDList = aws.params['ClientIDList'];
+  if (!Url) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Url'];
+  }
+  if (!ThumbprintList) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ThumbprintList'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.GetRole = function GetRole(aws) {
-        var RoleName = aws.params['RoleName'];
-        if (! RoleName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter RoleName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            Role: /*Sy*/{
-                AssumeRolePolicyDocument: "",
-                Arn: "",
-                RoleId: "",
-                Path: "",
-                CreateDate: now(),
-                RoleName: ""
-            }
-        };
-        return [200, ret];
-    }
-module.exports.DeleteGroup = function DeleteGroup(aws) {
-        var GroupName = aws.params['GroupName'];
-        if (! GroupName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter GroupName"];
-        }
+  var ret = {
+    OpenIDConnectProviderArn: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.EnableMFADevice = function EnableMFADevice(aws) {
+  var UserName = aws.params['UserName'];
+  var AuthenticationCode1 = aws.params['AuthenticationCode1'];
+  var AuthenticationCode2 = aws.params['AuthenticationCode2'];
+  var SerialNumber = aws.params['SerialNumber'];
+  if (!UserName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter UserName'];
+  }
+  if (!SerialNumber) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SerialNumber'];
+  }
+  if (!AuthenticationCode1) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AuthenticationCode1'];
+  }
+  if (!AuthenticationCode2) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AuthenticationCode2'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.GetSSHPublicKey = function GetSSHPublicKey(aws) {
-        var UserName = aws.params['UserName'];
-        var Encoding = aws.params['Encoding'];
-        var SSHPublicKeyId = aws.params['SSHPublicKeyId'];
-        if (! UserName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter UserName"];
-        }
-        if (! SSHPublicKeyId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter SSHPublicKeyId"];
-        }
-        if (! Encoding) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Encoding"];
-        }
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListGroups = function ListGroups(aws) {
+  var Marker = aws.params['Marker'];
+  var MaxItems = aws.params['MaxItems'] /* Type integer */;
+  var PathPrefix = aws.params['PathPrefix'];
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            SSHPublicKey: /*S4q*/{
-                UserName: "",
-                SSHPublicKeyBody: "",
-                Fingerprint: "",
-                Status: "",
-                SSHPublicKeyId: "",
-                UploadDate: now()
-            }
-        };
-        return [200, ret];
-    }
+  var ret = {
+    Groups: /*S5u*/[ /*Ss*/{
+      GroupName: '',
+      Arn: '',
+      CreateDate: awsCommon.timestamp(),
+      Path: '',
+      GroupId: '',
+    }, /* ...*/ ],
+    Marker: '',
+    IsTruncated: false,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.AttachGroupPolicy = function AttachGroupPolicy(aws) {
+  var GroupName = aws.params['GroupName'];
+  var PolicyArn = aws.params['PolicyArn'];
+  if (!GroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GroupName'];
+  }
+  if (!PolicyArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyArn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.GetAccountSummary = function GetAccountSummary(aws) {
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            SummaryMap: {} /* map */
-        };
-        return [200, ret];
-    }
-module.exports.GetGroup = function GetGroup(aws) {
-        var Marker = aws.params['Marker'];
-        var GroupName = aws.params['GroupName'];
-        var MaxItems = aws.params['MaxItems'] /* integer */;
-        if (! GroupName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter GroupName"];
-        }
+  var ret = {
+    SummaryMap: {} /*Map*/,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetRolePolicy = function GetRolePolicy(aws) {
+  var PolicyName = aws.params['PolicyName'];
+  var RoleName = aws.params['RoleName'];
+  if (!RoleName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RoleName'];
+  }
+  if (!PolicyName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyName'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            IsTruncated: false,
-            Marker: "",
-            Users: /*S44*/[ /*S1t*/{
-                UserName: "",
-                UserId: "",
-                Arn: "",
-                PasswordLastUsed: now(),
-                CreateDate: now(),
-                Path: ""
-            } /*, ...*/ ],
-            Group: /*Ss*/{
-                Arn: "",
-                GroupId: "",
-                GroupName: "",
-                CreateDate: now(),
-                Path: ""
-            }
-        };
-        return [200, ret];
-    }
+  var ret = {
+    PolicyDocument: '',
+    PolicyName: '',
+    RoleName: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateInstanceProfile = function CreateInstanceProfile(aws) {
+  var InstanceProfileName = aws.params['InstanceProfileName'];
+  var Path = aws.params['Path'];
+  if (!InstanceProfileName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceProfileName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    InstanceProfile: /*Sw*/{
+      InstanceProfileId: '',
+      Roles: /*Sx*/[ /*Sy*/{
+        AssumeRolePolicyDocument: '',
+        Path: '',
+        Arn: '',
+        RoleName: '',
+        RoleId: '',
+        CreateDate: awsCommon.timestamp(),
+      }, /* ...*/ ],
+      Path: '',
+      InstanceProfileName: '',
+      Arn: '',
+      CreateDate: awsCommon.timestamp(),
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.PutRolePolicy = function PutRolePolicy(aws) {
+  var PolicyDocument = aws.params['PolicyDocument'];
+  var PolicyName = aws.params['PolicyName'];
+  var RoleName = aws.params['RoleName'];
+  if (!RoleName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RoleName'];
+  }
+  if (!PolicyName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyName'];
+  }
+  if (!PolicyDocument) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyDocument'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetAccountPasswordPolicy = function GetAccountPasswordPolicy(aws) {
+
+
+  // TODO implement code
+
+  var ret = {
+    PasswordPolicy: {
+      ExpirePasswords: false,
+      HardExpiry: false,
+      RequireLowercaseCharacters: false,
+      PasswordReusePrevention: 0,
+      MaxPasswordAge: 0,
+      RequireUppercaseCharacters: false,
+      MinimumPasswordLength: 0,
+      AllowUsersToChangePassword: false,
+      RequireNumbers: false,
+      RequireSymbols: false,
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.UpdateLoginProfile = function UpdateLoginProfile(aws) {
-        var UserName = aws.params['UserName'];
-        var Password = aws.params['Password'];
-        var PasswordResetRequired = aws.params['PasswordResetRequired'] /* boolean */;
-        if (! UserName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter UserName"];
-        }
+  var Password = aws.params['Password'];
+  var UserName = aws.params['UserName'];
+  var PasswordResetRequired = aws.params['PasswordResetRequired'] /* Type boolean */;
+  if (!UserName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter UserName'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {};
-        return [200, ret];
-    }
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetSSHPublicKey = function GetSSHPublicKey(aws) {
+  var UserName = aws.params['UserName'];
+  var SSHPublicKeyId = aws.params['SSHPublicKeyId'];
+  var Encoding = aws.params['Encoding'];
+  if (!UserName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter UserName'];
+  }
+  if (!SSHPublicKeyId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SSHPublicKeyId'];
+  }
+  if (!Encoding) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Encoding'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    SSHPublicKey: /*S4q*/{
+      SSHPublicKeyBody: '',
+      Fingerprint: '',
+      SSHPublicKeyId: '',
+      Status: '',
+      UserName: '',
+      UploadDate: awsCommon.timestamp(),
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListSSHPublicKeys = function ListSSHPublicKeys(aws) {
+  var Marker = aws.params['Marker'];
+  var UserName = aws.params['UserName'];
+  var MaxItems = aws.params['MaxItems'] /* Type integer */;
+
+
+  // TODO implement code
+
+  var ret = {
+    SSHPublicKeys: [ {
+      UserName: '',
+      UploadDate: awsCommon.timestamp(),
+      Status: '',
+      SSHPublicKeyId: '',
+    }, /* ...*/ ],
+    Marker: '',
+    IsTruncated: false,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetUser = function GetUser(aws) {
+  var UserName = aws.params['UserName'];
+
+
+  // TODO implement code
+
+  var ret = {
+    User: /*S1t*/{
+      Path: '',
+      UserId: '',
+      UserName: '',
+      Arn: '',
+      PasswordLastUsed: awsCommon.timestamp(),
+      CreateDate: awsCommon.timestamp(),
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListSigningCertificates = function ListSigningCertificates(aws) {
+  var Marker = aws.params['Marker'];
+  var UserName = aws.params['UserName'];
+  var MaxItems = aws.params['MaxItems'] /* Type integer */;
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    IsTruncated: false,
+    Certificates: [ /*S6x*/{
+      UserName: '',
+      UploadDate: awsCommon.timestamp(),
+      CertificateBody: '',
+      Status: '',
+      CertificateId: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateGroup = function UpdateGroup(aws) {
+  var GroupName = aws.params['GroupName'];
+  var NewPath = aws.params['NewPath'];
+  var NewGroupName = aws.params['NewGroupName'];
+  if (!GroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GroupName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteGroupPolicy = function DeleteGroupPolicy(aws) {
+  var GroupName = aws.params['GroupName'];
+  var PolicyName = aws.params['PolicyName'];
+  if (!GroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GroupName'];
+  }
+  if (!PolicyName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListAccountAliases = function ListAccountAliases(aws) {
+  var Marker = aws.params['Marker'];
+  var MaxItems = aws.params['MaxItems'] /* Type integer */;
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    IsTruncated: false,
+    AccountAliases: [ '', /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.AttachUserPolicy = function AttachUserPolicy(aws) {
+  var UserName = aws.params['UserName'];
+  var PolicyArn = aws.params['PolicyArn'];
+  if (!UserName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter UserName'];
+  }
+  if (!PolicyArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyArn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteSigningCertificate = function DeleteSigningCertificate(aws) {
+  var UserName = aws.params['UserName'];
+  var CertificateId = aws.params['CertificateId'];
+  if (!CertificateId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CertificateId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.SetDefaultPolicyVersion = function SetDefaultPolicyVersion(aws) {
+  var VersionId = aws.params['VersionId'];
+  var PolicyArn = aws.params['PolicyArn'];
+  if (!PolicyArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyArn'];
+  }
+  if (!VersionId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VersionId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.PutUserPolicy = function PutUserPolicy(aws) {
-        var UserName = aws.params['UserName'];
-        var PolicyDocument = aws.params['PolicyDocument'];
-        var PolicyName = aws.params['PolicyName'];
-        if (! UserName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter UserName"];
-        }
-        if (! PolicyName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter PolicyName"];
-        }
-        if (! PolicyDocument) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter PolicyDocument"];
-        }
+  var PolicyDocument = aws.params['PolicyDocument'];
+  var UserName = aws.params['UserName'];
+  var PolicyName = aws.params['PolicyName'];
+  if (!UserName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter UserName'];
+  }
+  if (!PolicyName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyName'];
+  }
+  if (!PolicyDocument) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyDocument'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.ListServerCertificates = function ListServerCertificates(aws) {
-        var Marker = aws.params['Marker'];
-        var MaxItems = aws.params['MaxItems'] /* integer */;
-        var PathPrefix = aws.params['PathPrefix'];
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateAccountPasswordPolicy = function UpdateAccountPasswordPolicy(aws) {
+  var HardExpiry = aws.params['HardExpiry'] /* Type boolean */;
+  var RequireLowercaseCharacters = aws.params['RequireLowercaseCharacters'] /* Type boolean */;
+  var PasswordReusePrevention = aws.params['PasswordReusePrevention'] /* Type integer */;
+  var MaxPasswordAge = aws.params['MaxPasswordAge'] /* Type integer */;
+  var RequireUppercaseCharacters = aws.params['RequireUppercaseCharacters'] /* Type boolean */;
+  var MinimumPasswordLength = aws.params['MinimumPasswordLength'] /* Type integer */;
+  var AllowUsersToChangePassword = aws.params['AllowUsersToChangePassword'] /* Type boolean */;
+  var RequireNumbers = aws.params['RequireNumbers'] /* Type boolean */;
+  var RequireSymbols = aws.params['RequireSymbols'] /* Type boolean */;
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            IsTruncated: false,
-            Marker: "",
-            ServerCertificateMetadataList: [ /*S4w*/{
-                Arn: "",
-                Expiration: now(),
-                ServerCertificateId: "",
-                Path: "",
-                UploadDate: now(),
-                ServerCertificateName: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeactivateMFADevice = function DeactivateMFADevice(aws) {
+  var UserName = aws.params['UserName'];
+  var SerialNumber = aws.params['SerialNumber'];
+  if (!UserName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter UserName'];
+  }
+  if (!SerialNumber) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SerialNumber'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteInstanceProfile = function DeleteInstanceProfile(aws) {
+  var InstanceProfileName = aws.params['InstanceProfileName'];
+  if (!InstanceProfileName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceProfileName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreatePolicy = function CreatePolicy(aws) {
+  var PolicyDocument = aws.params['PolicyDocument'];
+  var PolicyName = aws.params['PolicyName'];
+  var Description = aws.params['Description'];
+  var Path = aws.params['Path'];
+  if (!PolicyName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyName'];
+  }
+  if (!PolicyDocument) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyDocument'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Policy: /*S1f*/{
+      PolicyId: '',
+      PolicyName: '',
+      AttachmentCount: 0,
+      Description: '',
+      IsAttachable: false,
+      Path: '',
+      Arn: '',
+      UpdateDate: awsCommon.timestamp(),
+      DefaultVersionId: '',
+      CreateDate: awsCommon.timestamp(),
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetAccountAuthorizationDetails = function GetAccountAuthorizationDetails(aws) {
+  var Marker = aws.params['Marker'];
+  var Filter = aws.params['Filter'] /* Type list */;
+  var MaxItems = aws.params['MaxItems'] /* Type integer */;
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    UserDetailList: [ {
+      AttachedManagedPolicies: /*S39*/[ {
+        PolicyName: '',
+        PolicyArn: '',
+      }, /* ...*/ ],
+      Path: '',
+      UserId: '',
+      UserName: '',
+      Arn: '',
+      GroupList: [ '', /* ...*/ ],
+      UserPolicyList: /*S36*/[ {
+        PolicyDocument: '',
+        PolicyName: '',
+      }, /* ...*/ ],
+      CreateDate: awsCommon.timestamp(),
+    }, /* ...*/ ],
+    RoleDetailList: [ {
+      AttachedManagedPolicies: /*S39*/[ {
+        PolicyName: '',
+        PolicyArn: '',
+      }, /* ...*/ ],
+      AssumeRolePolicyDocument: '',
+      InstanceProfileList: /*S3f*/[ /*Sw*/{
+        InstanceProfileId: '',
+        Roles: /*Sx*/[ /*Sy*/{
+          AssumeRolePolicyDocument: '',
+          Path: '',
+          Arn: '',
+          RoleName: '',
+          RoleId: '',
+          CreateDate: awsCommon.timestamp(),
+        }, /* ...*/ ],
+        Path: '',
+        InstanceProfileName: '',
+        Arn: '',
+        CreateDate: awsCommon.timestamp(),
+      }, /* ...*/ ],
+      Path: '',
+      RolePolicyList: /*S36*/[ {
+        PolicyDocument: '',
+        PolicyName: '',
+      }, /* ...*/ ],
+      Arn: '',
+      RoleName: '',
+      RoleId: '',
+      CreateDate: awsCommon.timestamp(),
+    }, /* ...*/ ],
+    GroupDetailList: [ {
+      AttachedManagedPolicies: /*S39*/[ {
+        PolicyName: '',
+        PolicyArn: '',
+      }, /* ...*/ ],
+      GroupId: '',
+      Path: '',
+      GroupName: '',
+      Arn: '',
+      GroupPolicyList: /*S36*/[ {
+        PolicyDocument: '',
+        PolicyName: '',
+      }, /* ...*/ ],
+      CreateDate: awsCommon.timestamp(),
+    }, /* ...*/ ],
+    IsTruncated: false,
+    Policies: [ {
+      PolicyId: '',
+      PolicyName: '',
+      AttachmentCount: 0,
+      Description: '',
+      IsAttachable: false,
+      Path: '',
+      Arn: '',
+      UpdateDate: awsCommon.timestamp(),
+      PolicyVersionList: /*S3i*/[ /*S1k*/{
+        VersionId: '',
+        IsDefaultVersion: false,
+        Document: '',
+        CreateDate: awsCommon.timestamp(),
+      }, /* ...*/ ],
+      DefaultVersionId: '',
+      CreateDate: awsCommon.timestamp(),
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteServerCertificate = function DeleteServerCertificate(aws) {
+  var ServerCertificateName = aws.params['ServerCertificateName'];
+  if (!ServerCertificateName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ServerCertificateName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateSAMLProvider = function CreateSAMLProvider(aws) {
+  var SAMLMetadataDocument = aws.params['SAMLMetadataDocument'];
+  var Name = aws.params['Name'];
+  if (!SAMLMetadataDocument) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SAMLMetadataDocument'];
+  }
+  if (!Name) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    SAMLProviderArn: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteAccessKey = function DeleteAccessKey(aws) {
+  var AccessKeyId = aws.params['AccessKeyId'];
+  var UserName = aws.params['UserName'];
+  if (!AccessKeyId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AccessKeyId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateSAMLProvider = function UpdateSAMLProvider(aws) {
+  var SAMLMetadataDocument = aws.params['SAMLMetadataDocument'];
+  var SAMLProviderArn = aws.params['SAMLProviderArn'];
+  if (!SAMLMetadataDocument) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SAMLMetadataDocument'];
+  }
+  if (!SAMLProviderArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SAMLProviderArn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    SAMLProviderArn: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetLoginProfile = function GetLoginProfile(aws) {
+  var UserName = aws.params['UserName'];
+  if (!UserName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter UserName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    LoginProfile: /*S13*/{
+      UserName: '',
+      PasswordResetRequired: false,
+      CreateDate: awsCommon.timestamp(),
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateAccessKey = function UpdateAccessKey(aws) {
+  var AccessKeyId = aws.params['AccessKeyId'];
+  var UserName = aws.params['UserName'];
+  var Status = aws.params['Status'];
+  if (!AccessKeyId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AccessKeyId'];
+  }
+  if (!Status) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Status'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListMFADevices = function ListMFADevices(aws) {
+  var Marker = aws.params['Marker'];
+  var UserName = aws.params['UserName'];
+  var MaxItems = aws.params['MaxItems'] /* Type integer */;
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    IsTruncated: false,
+    MFADevices: [ {
+      UserName: '',
+      EnableDate: awsCommon.timestamp(),
+      SerialNumber: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListSAMLProviders = function ListSAMLProviders(aws) {
+
+
+  // TODO implement code
+
+  var ret = {
+    SAMLProviderList: [ {
+      Arn: '',
+      ValidUntil: awsCommon.timestamp(),
+      CreateDate: awsCommon.timestamp(),
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListAttachedRolePolicies = function ListAttachedRolePolicies(aws) {
+  var Marker = aws.params['Marker'];
+  var RoleName = aws.params['RoleName'];
+  var MaxItems = aws.params['MaxItems'] /* Type integer */;
+  var PathPrefix = aws.params['PathPrefix'];
+  if (!RoleName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RoleName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    IsTruncated: false,
+    AttachedPolicies: /*S39*/[ {
+      PolicyName: '',
+      PolicyArn: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateOpenIDConnectProviderThumbprint = function UpdateOpenIDConnectProviderThumbprint(aws) {
+  var ThumbprintList = aws.params['ThumbprintList'];
+  var OpenIDConnectProviderArn = aws.params['OpenIDConnectProviderArn'];
+  if (!OpenIDConnectProviderArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter OpenIDConnectProviderArn'];
+  }
+  if (!ThumbprintList) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ThumbprintList'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetContextKeysForPrincipalPolicy = function GetContextKeysForPrincipalPolicy(aws) {
+  var PolicyInputList = aws.params['PolicyInputList'];
+  var PolicySourceArn = aws.params['PolicySourceArn'];
+  if (!PolicySourceArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicySourceArn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = /*S3v*/{
+    ContextKeyNames: /*S3w*/[ '', /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ResyncMFADevice = function ResyncMFADevice(aws) {
+  var UserName = aws.params['UserName'];
+  var AuthenticationCode1 = aws.params['AuthenticationCode1'];
+  var AuthenticationCode2 = aws.params['AuthenticationCode2'];
+  var SerialNumber = aws.params['SerialNumber'];
+  if (!UserName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter UserName'];
+  }
+  if (!SerialNumber) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SerialNumber'];
+  }
+  if (!AuthenticationCode1) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AuthenticationCode1'];
+  }
+  if (!AuthenticationCode2) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AuthenticationCode2'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteVirtualMFADevice = function DeleteVirtualMFADevice(aws) {
+  var SerialNumber = aws.params['SerialNumber'];
+  if (!SerialNumber) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SerialNumber'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteOpenIDConnectProvider = function DeleteOpenIDConnectProvider(aws) {
+  var OpenIDConnectProviderArn = aws.params['OpenIDConnectProviderArn'];
+  if (!OpenIDConnectProviderArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter OpenIDConnectProviderArn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateAccountAlias = function CreateAccountAlias(aws) {
+  var AccountAlias = aws.params['AccountAlias'];
+  if (!AccountAlias) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AccountAlias'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateServerCertificate = function UpdateServerCertificate(aws) {
+  var ServerCertificateName = aws.params['ServerCertificateName'];
+  var NewPath = aws.params['NewPath'];
+  var NewServerCertificateName = aws.params['NewServerCertificateName'];
+  if (!ServerCertificateName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ServerCertificateName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.ListAttachedUserPolicies = function ListAttachedUserPolicies(aws) {
-        var UserName = aws.params['UserName'];
-        var Marker = aws.params['Marker'];
-        var MaxItems = aws.params['MaxItems'] /* integer */;
-        var PathPrefix = aws.params['PathPrefix'];
-        if (! UserName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter UserName"];
-        }
+  var Marker = aws.params['Marker'];
+  var UserName = aws.params['UserName'];
+  var MaxItems = aws.params['MaxItems'] /* Type integer */;
+  var PathPrefix = aws.params['PathPrefix'];
+  if (!UserName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter UserName'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            IsTruncated: false,
-            Marker: "",
-            AttachedPolicies: /*S39*/[ {
-                PolicyName: "",
-                PolicyArn: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.GetPolicyVersion = function GetPolicyVersion(aws) {
-        var VersionId = aws.params['VersionId'];
-        var PolicyArn = aws.params['PolicyArn'];
-        if (! PolicyArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter PolicyArn"];
-        }
-        if (! VersionId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter VersionId"];
-        }
+  var ret = {
+    Marker: '',
+    IsTruncated: false,
+    AttachedPolicies: /*S39*/[ {
+      PolicyName: '',
+      PolicyArn: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.AddUserToGroup = function AddUserToGroup(aws) {
+  var GroupName = aws.params['GroupName'];
+  var UserName = aws.params['UserName'];
+  if (!GroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GroupName'];
+  }
+  if (!UserName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter UserName'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            PolicyVersion: /*S1k*/{
-                VersionId: "",
-                IsDefaultVersion: false,
-                CreateDate: now(),
-                Document: ""
-            }
-        };
-        return [200, ret];
-    }
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetGroupPolicy = function GetGroupPolicy(aws) {
+  var GroupName = aws.params['GroupName'];
+  var PolicyName = aws.params['PolicyName'];
+  if (!GroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GroupName'];
+  }
+  if (!PolicyName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    PolicyDocument: '',
+    GroupName: '',
+    PolicyName: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListAttachedGroupPolicies = function ListAttachedGroupPolicies(aws) {
+  var Marker = aws.params['Marker'];
+  var GroupName = aws.params['GroupName'];
+  var MaxItems = aws.params['MaxItems'] /* Type integer */;
+  var PathPrefix = aws.params['PathPrefix'];
+  if (!GroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GroupName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    IsTruncated: false,
+    AttachedPolicies: /*S39*/[ {
+      PolicyName: '',
+      PolicyArn: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListOpenIDConnectProviders = function ListOpenIDConnectProviders(aws) {
+
+
+  // TODO implement code
+
+  var ret = {
+    OpenIDConnectProviderList: [ {
+      Arn: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateSSHPublicKey = function UpdateSSHPublicKey(aws) {
+  var UserName = aws.params['UserName'];
+  var Status = aws.params['Status'];
+  var SSHPublicKeyId = aws.params['SSHPublicKeyId'];
+  if (!UserName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter UserName'];
+  }
+  if (!SSHPublicKeyId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SSHPublicKeyId'];
+  }
+  if (!Status) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Status'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetOpenIDConnectProvider = function GetOpenIDConnectProvider(aws) {
+  var OpenIDConnectProviderArn = aws.params['OpenIDConnectProviderArn'];
+  if (!OpenIDConnectProviderArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter OpenIDConnectProviderArn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Url: '',
+    ThumbprintList: /*S17*/[ '', /* ...*/ ],
+    ClientIDList: /*S16*/[ '', /* ...*/ ],
+    CreateDate: awsCommon.timestamp(),
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DetachRolePolicy = function DetachRolePolicy(aws) {
+  var PolicyArn = aws.params['PolicyArn'];
+  var RoleName = aws.params['RoleName'];
+  if (!RoleName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RoleName'];
+  }
+  if (!PolicyArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyArn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteLoginProfile = function DeleteLoginProfile(aws) {
+  var UserName = aws.params['UserName'];
+  if (!UserName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter UserName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ChangePassword = function ChangePassword(aws) {
+  var OldPassword = aws.params['OldPassword'];
+  var NewPassword = aws.params['NewPassword'];
+  if (!OldPassword) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter OldPassword'];
+  }
+  if (!NewPassword) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter NewPassword'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListRolePolicies = function ListRolePolicies(aws) {
+  var Marker = aws.params['Marker'];
+  var RoleName = aws.params['RoleName'];
+  var MaxItems = aws.params['MaxItems'] /* Type integer */;
+  if (!RoleName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RoleName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    PolicyNames: /*S5q*/[ '', /* ...*/ ],
+    Marker: '',
+    IsTruncated: false,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListServerCertificates = function ListServerCertificates(aws) {
+  var Marker = aws.params['Marker'];
+  var MaxItems = aws.params['MaxItems'] /* Type integer */;
+  var PathPrefix = aws.params['PathPrefix'];
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    IsTruncated: false,
+    ServerCertificateMetadataList: [ /*S4w*/{
+      ServerCertificateName: '',
+      Expiration: awsCommon.timestamp(),
+      Path: '',
+      ServerCertificateId: '',
+      UploadDate: awsCommon.timestamp(),
+      Arn: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListPolicies = function ListPolicies(aws) {
+  var Marker = aws.params['Marker'];
+  var Scope = aws.params['Scope'];
+  var MaxItems = aws.params['MaxItems'] /* Type integer */;
+  var OnlyAttached = aws.params['OnlyAttached'] /* Type boolean */;
+  var PathPrefix = aws.params['PathPrefix'];
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    IsTruncated: false,
+    Policies: [ /*S1f*/{
+      PolicyId: '',
+      PolicyName: '',
+      AttachmentCount: 0,
+      Description: '',
+      IsAttachable: false,
+      Path: '',
+      Arn: '',
+      UpdateDate: awsCommon.timestamp(),
+      DefaultVersionId: '',
+      CreateDate: awsCommon.timestamp(),
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.GenerateCredentialReport = function GenerateCredentialReport(aws) {
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            Description: "",
-            State: ""
-        };
-        return [200, ret];
-    }
+  var ret = {
+    Description: '',
+    State: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListEntitiesForPolicy = function ListEntitiesForPolicy(aws) {
+  var Marker = aws.params['Marker'];
+  var EntityFilter = aws.params['EntityFilter'];
+  var PolicyArn = aws.params['PolicyArn'];
+  var MaxItems = aws.params['MaxItems'] /* Type integer */;
+  var PathPrefix = aws.params['PathPrefix'];
+  if (!PolicyArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyArn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    PolicyUsers: [ {
+      UserName: '',
+    }, /* ...*/ ],
+    Marker: '',
+    IsTruncated: false,
+    PolicyGroups: [ {
+      GroupName: '',
+    }, /* ...*/ ],
+    PolicyRoles: [ {
+      RoleName: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.AttachRolePolicy = function AttachRolePolicy(aws) {
+  var PolicyArn = aws.params['PolicyArn'];
+  var RoleName = aws.params['RoleName'];
+  if (!RoleName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RoleName'];
+  }
+  if (!PolicyArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyArn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteUser = function DeleteUser(aws) {
+  var UserName = aws.params['UserName'];
+  if (!UserName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter UserName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateRole = function CreateRole(aws) {
+  var RoleName = aws.params['RoleName'];
+  var AssumeRolePolicyDocument = aws.params['AssumeRolePolicyDocument'];
+  var Path = aws.params['Path'];
+  if (!RoleName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RoleName'];
+  }
+  if (!AssumeRolePolicyDocument) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AssumeRolePolicyDocument'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Role: /*Sy*/{
+      AssumeRolePolicyDocument: '',
+      Path: '',
+      Arn: '',
+      RoleName: '',
+      RoleId: '',
+      CreateDate: awsCommon.timestamp(),
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UploadSSHPublicKey = function UploadSSHPublicKey(aws) {
+  var SSHPublicKeyBody = aws.params['SSHPublicKeyBody'];
+  var UserName = aws.params['UserName'];
+  if (!UserName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter UserName'];
+  }
+  if (!SSHPublicKeyBody) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SSHPublicKeyBody'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    SSHPublicKey: /*S4q*/{
+      SSHPublicKeyBody: '',
+      Fingerprint: '',
+      SSHPublicKeyId: '',
+      Status: '',
+      UserName: '',
+      UploadDate: awsCommon.timestamp(),
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RemoveRoleFromInstanceProfile = function RemoveRoleFromInstanceProfile(aws) {
+  var InstanceProfileName = aws.params['InstanceProfileName'];
+  var RoleName = aws.params['RoleName'];
+  if (!InstanceProfileName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceProfileName'];
+  }
+  if (!RoleName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RoleName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.SimulateCustomPolicy = function SimulateCustomPolicy(aws) {
+  var Marker = aws.params['Marker'];
+  var ResourceHandlingOption = aws.params['ResourceHandlingOption'];
+  var PolicyInputList = aws.params['PolicyInputList'];
+  var ContextEntries = aws.params['ContextEntries'];
+  var ResourceArns = aws.params['ResourceArns'];
+  var ActionNames = aws.params['ActionNames'];
+  var ResourceOwner = aws.params['ResourceOwner'];
+  var ResourcePolicy = aws.params['ResourcePolicy'];
+  var MaxItems = aws.params['MaxItems'] /* Type integer */;
+  var CallerArn = aws.params['CallerArn'];
+  if (!PolicyInputList) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyInputList'];
+  }
+  if (!ActionNames) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ActionNames'];
+  }
+
+
+  // TODO implement code
+
+  var ret = /*S7p*/{
+    Marker: '',
+    IsTruncated: false,
+    EvaluationResults: [ {
+      MatchedStatements: /*S7t*/[ {
+        SourcePolicyId: '',
+        EndPosition: /*S7x*/{
+          Line: 0,
+          Column: 0,
+        },
+        StartPosition: /*S7x*/{
+          Line: 0,
+          Column: 0,
+        },
+        SourcePolicyType: '',
+      }, /* ...*/ ],
+      EvalResourceName: '',
+      EvalDecision: '',
+      ResourceSpecificResults: [ {
+        EvalDecisionDetails: /*S80*/{} /*Map*/,
+        EvalResourceDecision: '',
+        EvalResourceName: '',
+        MissingContextValues: /*S3w*/[ '', /* ...*/ ],
+        MatchedStatements: /*S7t*/[ {
+        SourcePolicyId: '',
+        EndPosition: /*S7x*/{
+          Line: 0,
+          Column: 0,
+        },
+        StartPosition: /*S7x*/{
+          Line: 0,
+          Column: 0,
+        },
+        SourcePolicyType: '',
+      }, /* ...*/ ],
+      }, /* ...*/ ],
+      EvalDecisionDetails: /*S80*/{} /*Map*/,
+      EvalActionName: '',
+      MissingContextValues: /*S3w*/[ '', /* ...*/ ],
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetUserPolicy = function GetUserPolicy(aws) {
+  var UserName = aws.params['UserName'];
+  var PolicyName = aws.params['PolicyName'];
+  if (!UserName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter UserName'];
+  }
+  if (!PolicyName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    PolicyDocument: '',
+    UserName: '',
+    PolicyName: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateAccessKey = function CreateAccessKey(aws) {
+  var UserName = aws.params['UserName'];
+
+
+  // TODO implement code
+
+  var ret = {
+    AccessKey: {
+      AccessKeyId: '',
+      UserName: '',
+      SecretAccessKey: '',
+      Status: '',
+      CreateDate: awsCommon.timestamp(),
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListUserPolicies = function ListUserPolicies(aws) {
+  var Marker = aws.params['Marker'];
+  var UserName = aws.params['UserName'];
+  var MaxItems = aws.params['MaxItems'] /* Type integer */;
+  if (!UserName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter UserName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    PolicyNames: /*S5q*/[ '', /* ...*/ ],
+    Marker: '',
+    IsTruncated: false,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RemoveUserFromGroup = function RemoveUserFromGroup(aws) {
+  var GroupName = aws.params['GroupName'];
+  var UserName = aws.params['UserName'];
+  if (!GroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GroupName'];
+  }
+  if (!UserName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter UserName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListAccessKeys = function ListAccessKeys(aws) {
+  var Marker = aws.params['Marker'];
+  var UserName = aws.params['UserName'];
+  var MaxItems = aws.params['MaxItems'] /* Type integer */;
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    IsTruncated: false,
+    AccessKeyMetadata: [ {
+      AccessKeyId: '',
+      UserName: '',
+      Status: '',
+      CreateDate: awsCommon.timestamp(),
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteAccountPasswordPolicy = function DeleteAccountPasswordPolicy(aws) {
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateSigningCertificate = function UpdateSigningCertificate(aws) {
+  var UserName = aws.params['UserName'];
+  var Status = aws.params['Status'];
+  var CertificateId = aws.params['CertificateId'];
+  if (!CertificateId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CertificateId'];
+  }
+  if (!Status) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Status'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.PutGroupPolicy = function PutGroupPolicy(aws) {
+  var PolicyDocument = aws.params['PolicyDocument'];
+  var GroupName = aws.params['GroupName'];
+  var PolicyName = aws.params['PolicyName'];
+  if (!GroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GroupName'];
+  }
+  if (!PolicyName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyName'];
+  }
+  if (!PolicyDocument) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyDocument'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UploadServerCertificate = function UploadServerCertificate(aws) {
+  var ServerCertificateName = aws.params['ServerCertificateName'];
+  var PrivateKey = aws.params['PrivateKey'] /* Type string */;
+  var CertificateChain = aws.params['CertificateChain'];
+  var CertificateBody = aws.params['CertificateBody'];
+  var Path = aws.params['Path'];
+  if (!ServerCertificateName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ServerCertificateName'];
+  }
+  if (!CertificateBody) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CertificateBody'];
+  }
+  if (!PrivateKey) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PrivateKey'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ServerCertificateMetadata: /*S4w*/{
+      ServerCertificateName: '',
+      Expiration: awsCommon.timestamp(),
+      Path: '',
+      ServerCertificateId: '',
+      UploadDate: awsCommon.timestamp(),
+      Arn: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetContextKeysForCustomPolicy = function GetContextKeysForCustomPolicy(aws) {
+  var PolicyInputList = aws.params['PolicyInputList'];
+  if (!PolicyInputList) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyInputList'];
+  }
+
+
+  // TODO implement code
+
+  var ret = /*S3v*/{
+    ContextKeyNames: /*S3w*/[ '', /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UploadSigningCertificate = function UploadSigningCertificate(aws) {
+  var UserName = aws.params['UserName'];
+  var CertificateBody = aws.params['CertificateBody'];
+  if (!CertificateBody) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CertificateBody'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Certificate: /*S6x*/{
+      UserName: '',
+      UploadDate: awsCommon.timestamp(),
+      CertificateBody: '',
+      Status: '',
+      CertificateId: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.DeleteSAMLProvider = function DeleteSAMLProvider(aws) {
-        var SAMLProviderArn = aws.params['SAMLProviderArn'];
-        if (! SAMLProviderArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter SAMLProviderArn"];
-        }
+  var SAMLProviderArn = aws.params['SAMLProviderArn'];
+  if (!SAMLProviderArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SAMLProviderArn'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {};
-        return [200, ret];
-    }
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteRolePolicy = function DeleteRolePolicy(aws) {
+  var PolicyName = aws.params['PolicyName'];
+  var RoleName = aws.params['RoleName'];
+  if (!RoleName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RoleName'];
+  }
+  if (!PolicyName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateVirtualMFADevice = function CreateVirtualMFADevice(aws) {
+  var VirtualMFADeviceName = aws.params['VirtualMFADeviceName'];
+  var Path = aws.params['Path'];
+  if (!VirtualMFADeviceName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VirtualMFADeviceName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    VirtualMFADevice: /*S1x*/{
+      EnableDate: awsCommon.timestamp(),
+      Base32StringSeed: /*S1z*/null /*Blob*/,
+      QRCodePNG: /*S1z*/null /*Blob*/,
+      User: /*S1t*/{
+        Path: '',
+        UserId: '',
+        UserName: '',
+        Arn: '',
+        PasswordLastUsed: awsCommon.timestamp(),
+        CreateDate: awsCommon.timestamp(),
+      },
+      SerialNumber: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetGroup = function GetGroup(aws) {
+  var Marker = aws.params['Marker'];
+  var GroupName = aws.params['GroupName'];
+  var MaxItems = aws.params['MaxItems'] /* Type integer */;
+  if (!GroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GroupName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    IsTruncated: false,
+    Group: /*Ss*/{
+      GroupName: '',
+      Arn: '',
+      CreateDate: awsCommon.timestamp(),
+      Path: '',
+      GroupId: '',
+    },
+    Users: /*S44*/[ /*S1t*/{
+      Path: '',
+      UserId: '',
+      UserName: '',
+      Arn: '',
+      PasswordLastUsed: awsCommon.timestamp(),
+      CreateDate: awsCommon.timestamp(),
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateAssumeRolePolicy = function UpdateAssumeRolePolicy(aws) {
+  var PolicyDocument = aws.params['PolicyDocument'];
+  var RoleName = aws.params['RoleName'];
+  if (!RoleName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RoleName'];
+  }
+  if (!PolicyDocument) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyDocument'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteRole = function DeleteRole(aws) {
+  var RoleName = aws.params['RoleName'];
+  if (!RoleName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RoleName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListRoles = function ListRoles(aws) {
+  var Marker = aws.params['Marker'];
+  var MaxItems = aws.params['MaxItems'] /* Type integer */;
+  var PathPrefix = aws.params['PathPrefix'];
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    IsTruncated: false,
+    Roles: /*Sx*/[ /*Sy*/{
+      AssumeRolePolicyDocument: '',
+      Path: '',
+      Arn: '',
+      RoleName: '',
+      RoleId: '',
+      CreateDate: awsCommon.timestamp(),
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DetachGroupPolicy = function DetachGroupPolicy(aws) {
+  var GroupName = aws.params['GroupName'];
+  var PolicyArn = aws.params['PolicyArn'];
+  if (!GroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GroupName'];
+  }
+  if (!PolicyArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyArn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetAccessKeyLastUsed = function GetAccessKeyLastUsed(aws) {
+  var AccessKeyId = aws.params['AccessKeyId'];
+  if (!AccessKeyId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AccessKeyId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    UserName: '',
+    AccessKeyLastUsed: {
+      Region: '',
+      LastUsedDate: awsCommon.timestamp(),
+      ServiceName: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetCredentialReport = function GetCredentialReport(aws) {
+
+
+  // TODO implement code
+
+  var ret = {
+    Content: null /*Blob*/,
+    ReportFormat: '',
+    GeneratedTime: awsCommon.timestamp(),
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListPolicyVersions = function ListPolicyVersions(aws) {
+  var Marker = aws.params['Marker'];
+  var PolicyArn = aws.params['PolicyArn'];
+  var MaxItems = aws.params['MaxItems'] /* Type integer */;
+  if (!PolicyArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyArn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    Versions: /*S3i*/[ /*S1k*/{
+      VersionId: '',
+      IsDefaultVersion: false,
+      Document: '',
+      CreateDate: awsCommon.timestamp(),
+    }, /* ...*/ ],
+    IsTruncated: false,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.AddClientIDToOpenIDConnectProvider = function AddClientIDToOpenIDConnectProvider(aws) {
+  var ClientID = aws.params['ClientID'];
+  var OpenIDConnectProviderArn = aws.params['OpenIDConnectProviderArn'];
+  if (!OpenIDConnectProviderArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter OpenIDConnectProviderArn'];
+  }
+  if (!ClientID) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClientID'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListInstanceProfilesForRole = function ListInstanceProfilesForRole(aws) {
+  var Marker = aws.params['Marker'];
+  var RoleName = aws.params['RoleName'];
+  var MaxItems = aws.params['MaxItems'] /* Type integer */;
+  if (!RoleName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RoleName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    IsTruncated: false,
+    InstanceProfiles: /*S3f*/[ /*Sw*/{
+      InstanceProfileId: '',
+      Roles: /*Sx*/[ /*Sy*/{
+        AssumeRolePolicyDocument: '',
+        Path: '',
+        Arn: '',
+        RoleName: '',
+        RoleId: '',
+        CreateDate: awsCommon.timestamp(),
+      }, /* ...*/ ],
+      Path: '',
+      InstanceProfileName: '',
+      Arn: '',
+      CreateDate: awsCommon.timestamp(),
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateLoginProfile = function CreateLoginProfile(aws) {
+  var Password = aws.params['Password'];
+  var UserName = aws.params['UserName'];
+  var PasswordResetRequired = aws.params['PasswordResetRequired'] /* Type boolean */;
+  if (!UserName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter UserName'];
+  }
+  if (!Password) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Password'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    LoginProfile: /*S13*/{
+      UserName: '',
+      PasswordResetRequired: false,
+      CreateDate: awsCommon.timestamp(),
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetPolicy = function GetPolicy(aws) {
+  var PolicyArn = aws.params['PolicyArn'];
+  if (!PolicyArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyArn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Policy: /*S1f*/{
+      PolicyId: '',
+      PolicyName: '',
+      AttachmentCount: 0,
+      Description: '',
+      IsAttachable: false,
+      Path: '',
+      Arn: '',
+      UpdateDate: awsCommon.timestamp(),
+      DefaultVersionId: '',
+      CreateDate: awsCommon.timestamp(),
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListGroupsForUser = function ListGroupsForUser(aws) {
+  var Marker = aws.params['Marker'];
+  var UserName = aws.params['UserName'];
+  var MaxItems = aws.params['MaxItems'] /* Type integer */;
+  if (!UserName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter UserName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Groups: /*S5u*/[ /*Ss*/{
+      GroupName: '',
+      Arn: '',
+      CreateDate: awsCommon.timestamp(),
+      Path: '',
+      GroupId: '',
+    }, /* ...*/ ],
+    Marker: '',
+    IsTruncated: false,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteGroup = function DeleteGroup(aws) {
+  var GroupName = aws.params['GroupName'];
+  if (!GroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GroupName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteAccountAlias = function DeleteAccountAlias(aws) {
+  var AccountAlias = aws.params['AccountAlias'];
+  if (!AccountAlias) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AccountAlias'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetInstanceProfile = function GetInstanceProfile(aws) {
+  var InstanceProfileName = aws.params['InstanceProfileName'];
+  if (!InstanceProfileName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceProfileName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    InstanceProfile: /*Sw*/{
+      InstanceProfileId: '',
+      Roles: /*Sx*/[ /*Sy*/{
+        AssumeRolePolicyDocument: '',
+        Path: '',
+        Arn: '',
+        RoleName: '',
+        RoleId: '',
+        CreateDate: awsCommon.timestamp(),
+      }, /* ...*/ ],
+      Path: '',
+      InstanceProfileName: '',
+      Arn: '',
+      CreateDate: awsCommon.timestamp(),
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateUser = function UpdateUser(aws) {
+  var UserName = aws.params['UserName'];
+  var NewPath = aws.params['NewPath'];
+  var NewUserName = aws.params['NewUserName'];
+  if (!UserName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter UserName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteUserPolicy = function DeleteUserPolicy(aws) {
+  var UserName = aws.params['UserName'];
+  var PolicyName = aws.params['PolicyName'];
+  if (!UserName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter UserName'];
+  }
+  if (!PolicyName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreatePolicyVersion = function CreatePolicyVersion(aws) {
+  var PolicyDocument = aws.params['PolicyDocument'];
+  var PolicyArn = aws.params['PolicyArn'];
+  var SetAsDefault = aws.params['SetAsDefault'] /* Type boolean */;
+  if (!PolicyArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyArn'];
+  }
+  if (!PolicyDocument) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyDocument'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    PolicyVersion: /*S1k*/{
+      VersionId: '',
+      IsDefaultVersion: false,
+      Document: '',
+      CreateDate: awsCommon.timestamp(),
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateGroup = function CreateGroup(aws) {
+  var GroupName = aws.params['GroupName'];
+  var Path = aws.params['Path'];
+  if (!GroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GroupName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Group: /*Ss*/{
+      GroupName: '',
+      Arn: '',
+      CreateDate: awsCommon.timestamp(),
+      Path: '',
+      GroupId: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.ListGroupPolicies = function ListGroupPolicies(aws) {
-        var Marker = aws.params['Marker'];
-        var GroupName = aws.params['GroupName'];
-        var MaxItems = aws.params['MaxItems'] /* integer */;
-        if (! GroupName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter GroupName"];
-        }
+  var Marker = aws.params['Marker'];
+  var GroupName = aws.params['GroupName'];
+  var MaxItems = aws.params['MaxItems'] /* Type integer */;
+  if (!GroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GroupName'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            PolicyNames: /*S5q*/[ "" /*, ...*/ ],
-            IsTruncated: false,
-            Marker: ""
-        };
-        return [200, ret];
-    }
-module.exports.ListRolePolicies = function ListRolePolicies(aws) {
-        var Marker = aws.params['Marker'];
-        var MaxItems = aws.params['MaxItems'] /* integer */;
-        var RoleName = aws.params['RoleName'];
-        if (! RoleName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter RoleName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            PolicyNames: /*S5q*/[ "" /*, ...*/ ],
-            IsTruncated: false,
-            Marker: ""
-        };
-        return [200, ret];
-    }
-module.exports.GetOpenIDConnectProvider = function GetOpenIDConnectProvider(aws) {
-        var OpenIDConnectProviderArn = aws.params['OpenIDConnectProviderArn'];
-        if (! OpenIDConnectProviderArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter OpenIDConnectProviderArn"];
-        }
+  var ret = {
+    PolicyNames: /*S5q*/[ '', /* ...*/ ],
+    Marker: '',
+    IsTruncated: false,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.AddRoleToInstanceProfile = function AddRoleToInstanceProfile(aws) {
+  var InstanceProfileName = aws.params['InstanceProfileName'];
+  var RoleName = aws.params['RoleName'];
+  if (!InstanceProfileName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceProfileName'];
+  }
+  if (!RoleName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RoleName'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            ClientIDList: /*S16*/[ "" /*, ...*/ ],
-            Url: "",
-            CreateDate: now(),
-            ThumbprintList: /*S17*/[ "" /*, ...*/ ]
-        };
-        return [200, ret];
-    }
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.ListInstanceProfiles = function ListInstanceProfiles(aws) {
-        var Marker = aws.params['Marker'];
-        var MaxItems = aws.params['MaxItems'] /* integer */;
-        var PathPrefix = aws.params['PathPrefix'];
+  var Marker = aws.params['Marker'];
+  var MaxItems = aws.params['MaxItems'] /* Type integer */;
+  var PathPrefix = aws.params['PathPrefix'];
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            IsTruncated: false,
-            Marker: "",
-            InstanceProfiles: /*S3f*/[ /*Sw*/{
-                InstanceProfileName: "",
-                Arn: "",
-                Roles: /*Sx*/[ /*Sy*/{
-                    AssumeRolePolicyDocument: "",
-                    Arn: "",
-                    RoleId: "",
-                    Path: "",
-                    CreateDate: now(),
-                    RoleName: ""
-                } /*, ...*/ ],
-                InstanceProfileId: "",
-                CreateDate: now(),
-                Path: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.GetLoginProfile = function GetLoginProfile(aws) {
-        var UserName = aws.params['UserName'];
-        if (! UserName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter UserName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            LoginProfile: /*S13*/{
-                UserName: "",
-                PasswordResetRequired: false,
-                CreateDate: now()
-            }
-        };
-        return [200, ret];
-    }
-module.exports.ListAttachedGroupPolicies = function ListAttachedGroupPolicies(aws) {
-        var Marker = aws.params['Marker'];
-        var GroupName = aws.params['GroupName'];
-        var MaxItems = aws.params['MaxItems'] /* integer */;
-        var PathPrefix = aws.params['PathPrefix'];
-        if (! GroupName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter GroupName"];
-        }
+  var ret = {
+    Marker: '',
+    IsTruncated: false,
+    InstanceProfiles: /*S3f*/[ /*Sw*/{
+      InstanceProfileId: '',
+      Roles: /*Sx*/[ /*Sy*/{
+        AssumeRolePolicyDocument: '',
+        Path: '',
+        Arn: '',
+        RoleName: '',
+        RoleId: '',
+        CreateDate: awsCommon.timestamp(),
+      }, /* ...*/ ],
+      Path: '',
+      InstanceProfileName: '',
+      Arn: '',
+      CreateDate: awsCommon.timestamp(),
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetSAMLProvider = function GetSAMLProvider(aws) {
+  var SAMLProviderArn = aws.params['SAMLProviderArn'];
+  if (!SAMLProviderArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SAMLProviderArn'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            IsTruncated: false,
-            Marker: "",
-            AttachedPolicies: /*S39*/[ {
-                PolicyName: "",
-                PolicyArn: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
+  var ret = {
+    SAMLMetadataDocument: '',
+    ValidUntil: awsCommon.timestamp(),
+    CreateDate: awsCommon.timestamp(),
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetRole = function GetRole(aws) {
+  var RoleName = aws.params['RoleName'];
+  if (!RoleName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RoleName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Role: /*Sy*/{
+      AssumeRolePolicyDocument: '',
+      Path: '',
+      Arn: '',
+      RoleName: '',
+      RoleId: '',
+      CreateDate: awsCommon.timestamp(),
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteSSHPublicKey = function DeleteSSHPublicKey(aws) {
+  var UserName = aws.params['UserName'];
+  var SSHPublicKeyId = aws.params['SSHPublicKeyId'];
+  if (!UserName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter UserName'];
+  }
+  if (!SSHPublicKeyId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SSHPublicKeyId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RemoveClientIDFromOpenIDConnectProvider = function RemoveClientIDFromOpenIDConnectProvider(aws) {
+  var ClientID = aws.params['ClientID'];
+  var OpenIDConnectProviderArn = aws.params['OpenIDConnectProviderArn'];
+  if (!OpenIDConnectProviderArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter OpenIDConnectProviderArn'];
+  }
+  if (!ClientID) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClientID'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};

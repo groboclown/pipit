@@ -1,6 +1,6 @@
 'use strict';
-const aws_common = require('../../lib/aws-common');
 
+const awsCommon = require('../../lib/aws-common');
 
 /**
  * AWS CloudTrail version 2013-11-01
@@ -11,266 +11,278 @@ const aws_common = require('../../lib/aws-common');
 
 // Setup input and output to use AWS protocol json
 require('../../lib/aws-common/shape_http')('json', module.exports, null)
-module.exports.DescribeTrails = function DescribeTrails(aws) {
-        var trailNameList = aws.params['trailNameList'] /* list */;
-        var includeShadowTrails = aws.params['includeShadowTrails'] /* boolean */;
-
-
-        // TODO implement code
-
-        var ret = {
-            trailList: [ {
-                IncludeGlobalServiceEvents: false,
-                CloudWatchLogsLogGroupArn: "",
-                HomeRegion: "",
-                S3BucketName: "",
-                S3KeyPrefix: "",
-                SnsTopicName: "",
-                LogFileValidationEnabled: false,
-                KmsKeyId: "",
-                IsMultiRegionTrail: false,
-                TrailARN: "",
-                Name: "",
-                CloudWatchLogsRoleArn: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.CreateTrail = function CreateTrail(aws) {
-        var IncludeGlobalServiceEvents = aws.params['IncludeGlobalServiceEvents'] /* boolean */;
-        var KmsKeyId = aws.params['KmsKeyId'];
-        var CloudWatchLogsLogGroupArn = aws.params['CloudWatchLogsLogGroupArn'];
-        var IsMultiRegionTrail = aws.params['IsMultiRegionTrail'] /* boolean */;
-        var EnableLogFileValidation = aws.params['EnableLogFileValidation'] /* boolean */;
-        var CloudWatchLogsRoleArn = aws.params['CloudWatchLogsRoleArn'];
-        var S3BucketName = aws.params['S3BucketName'];
-        var Name = aws.params['Name'];
-        var SnsTopicName = aws.params['SnsTopicName'];
-        var S3KeyPrefix = aws.params['S3KeyPrefix'];
-        if (! Name) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Name"];
-        }
-        if (! S3BucketName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter S3BucketName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            IncludeGlobalServiceEvents: false,
-            LogFileValidationEnabled: false,
-            KmsKeyId: "",
-            CloudWatchLogsRoleArn: "",
-            CloudWatchLogsLogGroupArn: "",
-            IsMultiRegionTrail: false,
-            TrailARN: "",
-            S3BucketName: "",
-            Name: "",
-            SnsTopicName: "",
-            S3KeyPrefix: ""
-        };
-        return [200, ret];
-    }
-module.exports.LookupEvents = function LookupEvents(aws) {
-        var NextToken = aws.params['NextToken'];
-        var LookupAttributes = aws.params['LookupAttributes'] /* list */;
-        var MaxResults = aws.params['MaxResults'] /* integer */;
-        var EndTime = aws.params['EndTime'] /* timestamp */;
-        var StartTime = aws.params['StartTime'] /* timestamp */;
-
-
-        // TODO implement code
-
-        var ret = {
-            Events: [ {
-                Resources: [ {
-                    ResourceName: "",
-                    ResourceType: ""
-                } /*, ...*/ ],
-                EventId: "",
-                CloudTrailEvent: "",
-                EventTime: now(),
-                EventName: "",
-                Username: ""
-            } /*, ...*/ ],
-            NextToken: ""
-        };
-        return [200, ret];
-    }
+// -----------------------------------
 module.exports.StopLogging = function StopLogging(aws) {
-        var Name = aws.params['Name'];
-        if (! Name) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Name"];
-        }
+  var Name = aws.params['Name'];
+  if (!Name) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
+  var ret = {
 
-        };
-        return [200, ret];
-    }
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.StartLogging = function StartLogging(aws) {
-        var Name = aws.params['Name'];
-        if (! Name) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Name"];
-        }
+  var Name = aws.params['Name'];
+  if (!Name) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
+  var ret = {
 
-        };
-        return [200, ret];
-    }
-module.exports.UpdateTrail = function UpdateTrail(aws) {
-        var IncludeGlobalServiceEvents = aws.params['IncludeGlobalServiceEvents'] /* boolean */;
-        var KmsKeyId = aws.params['KmsKeyId'];
-        var CloudWatchLogsLogGroupArn = aws.params['CloudWatchLogsLogGroupArn'];
-        var IsMultiRegionTrail = aws.params['IsMultiRegionTrail'] /* boolean */;
-        var EnableLogFileValidation = aws.params['EnableLogFileValidation'] /* boolean */;
-        var CloudWatchLogsRoleArn = aws.params['CloudWatchLogsRoleArn'];
-        var S3BucketName = aws.params['S3BucketName'];
-        var Name = aws.params['Name'];
-        var SnsTopicName = aws.params['SnsTopicName'];
-        var S3KeyPrefix = aws.params['S3KeyPrefix'];
-        if (! Name) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Name"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            IncludeGlobalServiceEvents: false,
-            LogFileValidationEnabled: false,
-            KmsKeyId: "",
-            CloudWatchLogsRoleArn: "",
-            CloudWatchLogsLogGroupArn: "",
-            IsMultiRegionTrail: false,
-            TrailARN: "",
-            S3BucketName: "",
-            Name: "",
-            SnsTopicName: "",
-            S3KeyPrefix: ""
-        };
-        return [200, ret];
-    }
-module.exports.ListPublicKeys = function ListPublicKeys(aws) {
-        var NextToken = aws.params['NextToken'];
-        var EndTime = aws.params['EndTime'] /* timestamp */;
-        var StartTime = aws.params['StartTime'] /* timestamp */;
-
-
-        // TODO implement code
-
-        var ret = {
-            NextToken: "",
-            PublicKeyList: [ {
-                Value: null /*blob*/,
-                ValidityStartTime: now(),
-                ValidityEndTime: now(),
-                Fingerprint: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.DeleteTrail = function DeleteTrail(aws) {
-        var Name = aws.params['Name'];
-        if (! Name) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Name"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-
-        };
-        return [200, ret];
-    }
-module.exports.GetTrailStatus = function GetTrailStatus(aws) {
-        var Name = aws.params['Name'];
-        if (! Name) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Name"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            IsLogging: false,
-            LatestDeliveryTime: now(),
-            TimeLoggingStarted: "",
-            LatestNotificationTime: now(),
-            LatestDeliveryError: "",
-            LatestNotificationAttemptTime: "",
-            TimeLoggingStopped: "",
-            LatestCloudWatchLogsDeliveryTime: now(),
-            LatestDeliveryAttemptTime: "",
-            LatestDigestDeliveryTime: now(),
-            LatestNotificationError: "",
-            StartLoggingTime: now(),
-            LatestDigestDeliveryError: "",
-            LatestCloudWatchLogsDeliveryError: "",
-            StopLoggingTime: now(),
-            LatestDeliveryAttemptSucceeded: "",
-            LatestNotificationAttemptSucceeded: ""
-        };
-        return [200, ret];
-    }
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.AddTags = function AddTags(aws) {
-        var ResourceId = aws.params['ResourceId'];
-        var TagsList = aws.params['TagsList'];
-        if (! ResourceId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ResourceId"];
-        }
+  var ResourceId = aws.params['ResourceId'];
+  var TagsList = aws.params['TagsList'];
+  if (!ResourceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ResourceId'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
+  var ret = {
 
-        };
-        return [200, ret];
-    }
-module.exports.RemoveTags = function RemoveTags(aws) {
-        var ResourceId = aws.params['ResourceId'];
-        var TagsList = aws.params['TagsList'];
-        if (! ResourceId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ResourceId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-
-        };
-        return [200, ret];
-    }
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.ListTags = function ListTags(aws) {
-        var NextToken = aws.params['NextToken'];
-        var ResourceIdList = aws.params['ResourceIdList'] /* list */;
-        if (! ResourceIdList) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ResourceIdList"];
-        }
+  var NextToken = aws.params['NextToken'];
+  var ResourceIdList = aws.params['ResourceIdList'] /* Type list */;
+  if (!ResourceIdList) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ResourceIdList'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            NextToken: "",
-            ResourceTagList: [ {
-                ResourceId: "",
-                TagsList: /*S3*/[ {
-                    Value: "",
-                    Key: ""
-                } /*, ...*/ ]
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
+  var ret = {
+    ResourceTagList: [ {
+      ResourceId: '',
+      TagsList: /*S3*/[ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+    }, /* ...*/ ],
+    NextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListPublicKeys = function ListPublicKeys(aws) {
+  var EndTime = aws.params['EndTime'] /* Type timestamp */;
+  var NextToken = aws.params['NextToken'];
+  var StartTime = aws.params['StartTime'] /* Type timestamp */;
+
+
+  // TODO implement code
+
+  var ret = {
+    PublicKeyList: [ {
+      ValidityStartTime: awsCommon.timestamp(),
+      ValidityEndTime: awsCommon.timestamp(),
+      Value: null /*Blob*/,
+      Fingerprint: '',
+    }, /* ...*/ ],
+    NextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetTrailStatus = function GetTrailStatus(aws) {
+  var Name = aws.params['Name'];
+  if (!Name) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    LatestDeliveryError: '',
+    LatestCloudWatchLogsDeliveryError: '',
+    IsLogging: false,
+    LatestNotificationTime: awsCommon.timestamp(),
+    LatestDigestDeliveryError: '',
+    LatestCloudWatchLogsDeliveryTime: awsCommon.timestamp(),
+    LatestNotificationAttemptSucceeded: '',
+    LatestDeliveryAttemptTime: '',
+    StartLoggingTime: awsCommon.timestamp(),
+    LatestDigestDeliveryTime: awsCommon.timestamp(),
+    TimeLoggingStopped: '',
+    LatestNotificationAttemptTime: '',
+    StopLoggingTime: awsCommon.timestamp(),
+    LatestDeliveryTime: awsCommon.timestamp(),
+    LatestNotificationError: '',
+    TimeLoggingStarted: '',
+    LatestDeliveryAttemptSucceeded: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateTrail = function UpdateTrail(aws) {
+  var SnsTopicName = aws.params['SnsTopicName'];
+  var S3KeyPrefix = aws.params['S3KeyPrefix'];
+  var S3BucketName = aws.params['S3BucketName'];
+  var EnableLogFileValidation = aws.params['EnableLogFileValidation'] /* Type boolean */;
+  var IsMultiRegionTrail = aws.params['IsMultiRegionTrail'] /* Type boolean */;
+  var Name = aws.params['Name'];
+  var IncludeGlobalServiceEvents = aws.params['IncludeGlobalServiceEvents'] /* Type boolean */;
+  var CloudWatchLogsRoleArn = aws.params['CloudWatchLogsRoleArn'];
+  var CloudWatchLogsLogGroupArn = aws.params['CloudWatchLogsLogGroupArn'];
+  var KmsKeyId = aws.params['KmsKeyId'];
+  if (!Name) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    SnsTopicName: '',
+    S3KeyPrefix: '',
+    S3BucketName: '',
+    LogFileValidationEnabled: false,
+    IsMultiRegionTrail: false,
+    Name: '',
+    IncludeGlobalServiceEvents: false,
+    CloudWatchLogsRoleArn: '',
+    TrailARN: '',
+    CloudWatchLogsLogGroupArn: '',
+    KmsKeyId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeTrails = function DescribeTrails(aws) {
+  var includeShadowTrails = aws.params['includeShadowTrails'] /* Type boolean */;
+  var trailNameList = aws.params['trailNameList'] /* Type list */;
+
+
+  // TODO implement code
+
+  var ret = {
+    trailList: [ {
+      LogFileValidationEnabled: false,
+      S3KeyPrefix: '',
+      CloudWatchLogsLogGroupArn: '',
+      Name: '',
+      IncludeGlobalServiceEvents: false,
+      HomeRegion: '',
+      CloudWatchLogsRoleArn: '',
+      KmsKeyId: '',
+      SnsTopicName: '',
+      TrailARN: '',
+      S3BucketName: '',
+      IsMultiRegionTrail: false,
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.LookupEvents = function LookupEvents(aws) {
+  var LookupAttributes = aws.params['LookupAttributes'] /* Type list */;
+  var EndTime = aws.params['EndTime'] /* Type timestamp */;
+  var NextToken = aws.params['NextToken'];
+  var StartTime = aws.params['StartTime'] /* Type timestamp */;
+  var MaxResults = aws.params['MaxResults'] /* Type integer */;
+
+
+  // TODO implement code
+
+  var ret = {
+    Events: [ {
+      EventName: '',
+      EventId: '',
+      EventTime: awsCommon.timestamp(),
+      CloudTrailEvent: '',
+      Username: '',
+      Resources: [ {
+        ResourceType: '',
+        ResourceName: '',
+      }, /* ...*/ ],
+    }, /* ...*/ ],
+    NextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteTrail = function DeleteTrail(aws) {
+  var Name = aws.params['Name'];
+  if (!Name) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RemoveTags = function RemoveTags(aws) {
+  var ResourceId = aws.params['ResourceId'];
+  var TagsList = aws.params['TagsList'];
+  if (!ResourceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ResourceId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateTrail = function CreateTrail(aws) {
+  var SnsTopicName = aws.params['SnsTopicName'];
+  var S3KeyPrefix = aws.params['S3KeyPrefix'];
+  var S3BucketName = aws.params['S3BucketName'];
+  var EnableLogFileValidation = aws.params['EnableLogFileValidation'] /* Type boolean */;
+  var IsMultiRegionTrail = aws.params['IsMultiRegionTrail'] /* Type boolean */;
+  var Name = aws.params['Name'];
+  var IncludeGlobalServiceEvents = aws.params['IncludeGlobalServiceEvents'] /* Type boolean */;
+  var CloudWatchLogsRoleArn = aws.params['CloudWatchLogsRoleArn'];
+  var CloudWatchLogsLogGroupArn = aws.params['CloudWatchLogsLogGroupArn'];
+  var KmsKeyId = aws.params['KmsKeyId'];
+  if (!Name) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
+  }
+  if (!S3BucketName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter S3BucketName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    SnsTopicName: '',
+    S3KeyPrefix: '',
+    S3BucketName: '',
+    LogFileValidationEnabled: false,
+    IsMultiRegionTrail: false,
+    Name: '',
+    IncludeGlobalServiceEvents: false,
+    CloudWatchLogsRoleArn: '',
+    TrailARN: '',
+    CloudWatchLogsLogGroupArn: '',
+    KmsKeyId: '',
+  };
+  return [200, ret];
+};

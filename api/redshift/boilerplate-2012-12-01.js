@@ -1,6 +1,6 @@
 'use strict';
-const aws_common = require('../../lib/aws-common');
 
+const awsCommon = require('../../lib/aws-common');
 
 /**
  * Amazon Redshift version 2012-12-01
@@ -11,2443 +11,2502 @@ const aws_common = require('../../lib/aws-common');
 
 // Setup input and output to use AWS protocol query
 require('../../lib/aws-common/shape_http')('query', module.exports, 'http://redshift.amazonaws.com/doc/2012-12-01/')
-module.exports.RevokeSnapshotAccess = function RevokeSnapshotAccess(aws) {
-        var SnapshotIdentifier = aws.params['SnapshotIdentifier'];
-        var AccountWithRestoreAccess = aws.params['AccountWithRestoreAccess'];
-        var SnapshotClusterIdentifier = aws.params['SnapshotClusterIdentifier'];
-        if (! SnapshotIdentifier) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter SnapshotIdentifier"];
-        }
-        if (! AccountWithRestoreAccess) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter AccountWithRestoreAccess"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            Snapshot: /*Sd*/{
-                Tags: /*S7*/[ /*S8*/{
-                    Value: "",
-                    Key: ""
-                } /*, ...*/ ],
-                Port: 0,
-                OwnerAccount: "",
-                ElapsedTimeInSeconds: 0 /*long*/,
-                ClusterVersion: "",
-                EncryptedWithHSM: false,
-                SnapshotCreateTime: now(),
-                ActualIncrementalBackupSizeInMegaBytes: 0.0 /*double*/,
-                SnapshotType: "",
-                SnapshotIdentifier: "",
-                AccountsWithRestoreAccess: [ {
-                    AccountId: ""
-                } /*, ...*/ ],
-                VpcId: "",
-                NumberOfNodes: 0,
-                TotalBackupSizeInMegaBytes: 0.0 /*double*/,
-                EstimatedSecondsToCompletion: 0 /*long*/,
-                Status: "",
-                SourceRegion: "",
-                ClusterIdentifier: "",
-                MasterUsername: "",
-                AvailabilityZone: "",
-                DBName: "",
-                Encrypted: false,
-                KmsKeyId: "",
-                NodeType: "",
-                RestorableNodeTypes: [ "" /*, ...*/ ],
-                CurrentBackupRateInMegaBytesPerSecond: 0.0 /*double*/,
-                BackupProgressInMegaBytes: 0.0 /*double*/,
-                ClusterCreateTime: now()
-            }
-        };
-        return [200, ret];
-    }
-module.exports.DescribeClusterParameters = function DescribeClusterParameters(aws) {
-        var Marker = aws.params['Marker'];
-        var Source = aws.params['Source'];
-        var ParameterGroupName = aws.params['ParameterGroupName'];
-        var MaxRecords = aws.params['MaxRecords'] /* integer */;
-        if (! ParameterGroupName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ParameterGroupName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            Marker: "",
-            Parameters: /*S2n*/[ {
-                MinimumEngineVersion: "",
-                Description: "",
-                Source: "",
-                IsModifiable: false,
-                ParameterValue: "",
-                ParameterName: "",
-                DataType: "",
-                AllowedValues: "",
-                ApplyType: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.DescribeClusters = function DescribeClusters(aws) {
-        var Marker = aws.params['Marker'];
-        var ClusterIdentifier = aws.params['ClusterIdentifier'];
-        var TagValues = aws.params['TagValues'];
-        var MaxRecords = aws.params['MaxRecords'] /* integer */;
-        var TagKeys = aws.params['TagKeys'];
-
-
-        // TODO implement code
-
-        var ret = {
-            Marker: "",
-            Clusters: [ /*Su*/{
-                Tags: /*S7*/[ /*S8*/{
-                    Value: "",
-                    Key: ""
-                } /*, ...*/ ],
-                VpcSecurityGroups: [ {
-                    Status: "",
-                    VpcSecurityGroupId: ""
-                } /*, ...*/ ],
-                ClusterSecurityGroups: [ {
-                    Status: "",
-                    ClusterSecurityGroupName: ""
-                } /*, ...*/ ],
-                KmsKeyId: "",
-                MasterUsername: "",
-                HsmStatus: {
-                    Status: "",
-                    HsmClientCertificateIdentifier: "",
-                    HsmConfigurationIdentifier: ""
-                },
-                Endpoint: {
-                    Address: "",
-                    Port: 0
-                },
-                AutomatedSnapshotRetentionPeriod: 0,
-                ClusterNodes: [ {
-                    NodeRole: "",
-                    PublicIPAddress: "",
-                    PrivateIPAddress: ""
-                } /*, ...*/ ],
-                PendingModifiedValues: {
-                    NumberOfNodes: 0,
-                    NodeType: "",
-                    MasterUserPassword: "",
-                    ClusterVersion: "",
-                    ClusterType: "",
-                    AutomatedSnapshotRetentionPeriod: 0,
-                    ClusterIdentifier: ""
-                },
-                PubliclyAccessible: false,
-                RestoreStatus: {
-                    EstimatedTimeToCompletionInSeconds: 0 /*long*/,
-                    ElapsedTimeInSeconds: 0 /*long*/,
-                    SnapshotSizeInMegaBytes: 0 /*long*/,
-                    Status: "",
-                    CurrentRestoreRateInMegaBytesPerSecond: 0.0 /*double*/,
-                    ProgressInMegaBytes: 0 /*long*/
-                },
-                ClusterSnapshotCopyStatus: {
-                    SnapshotCopyGrantName: "",
-                    RetentionPeriod: 0 /*long*/,
-                    DestinationRegion: ""
-                },
-                ElasticIpStatus: {
-                    Status: "",
-                    ElasticIp: ""
-                },
-                AllowVersionUpgrade: false,
-                ModifyStatus: "",
-                VpcId: "",
-                ClusterVersion: "",
-                NumberOfNodes: 0,
-                PreferredMaintenanceWindow: "",
-                ClusterRevisionNumber: "",
-                ClusterParameterGroups: [ {
-                    ParameterApplyStatus: "",
-                    ParameterGroupName: "",
-                    ClusterParameterStatusList: [ {
-                        ParameterApplyErrorDescription: "",
-                        ParameterApplyStatus: "",
-                        ParameterName: ""
-                    } /*, ...*/ ]
-                } /*, ...*/ ],
-                ClusterIdentifier: "",
-                ClusterSubnetGroupName: "",
-                AvailabilityZone: "",
-                DBName: "",
-                NodeType: "",
-                ClusterStatus: "",
-                Encrypted: false,
-                ClusterCreateTime: now(),
-                ClusterPublicKey: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.DeleteClusterSubnetGroup = function DeleteClusterSubnetGroup(aws) {
-        var ClusterSubnetGroupName = aws.params['ClusterSubnetGroupName'];
-        if (! ClusterSubnetGroupName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ClusterSubnetGroupName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.CreateCluster = function CreateCluster(aws) {
-        var Tags = aws.params['Tags'];
-        var Port = aws.params['Port'] /* integer */;
-        var AllowVersionUpgrade = aws.params['AllowVersionUpgrade'] /* boolean */;
-        var ClusterSecurityGroups = aws.params['ClusterSecurityGroups'];
-        var KmsKeyId = aws.params['KmsKeyId'];
-        var MasterUsername = aws.params['MasterUsername'];
-        var AutomatedSnapshotRetentionPeriod = aws.params['AutomatedSnapshotRetentionPeriod'] /* integer */;
-        var VpcSecurityGroupIds = aws.params['VpcSecurityGroupIds'];
-        var PubliclyAccessible = aws.params['PubliclyAccessible'] /* boolean */;
-        var HsmConfigurationIdentifier = aws.params['HsmConfigurationIdentifier'];
-        var MasterUserPassword = aws.params['MasterUserPassword'];
-        var ClusterParameterGroupName = aws.params['ClusterParameterGroupName'];
-        var ClusterType = aws.params['ClusterType'];
-        var NumberOfNodes = aws.params['NumberOfNodes'] /* integer */;
-        var PreferredMaintenanceWindow = aws.params['PreferredMaintenanceWindow'];
-        var ElasticIp = aws.params['ElasticIp'];
-        var ClusterIdentifier = aws.params['ClusterIdentifier'];
-        var ClusterSubnetGroupName = aws.params['ClusterSubnetGroupName'];
-        var AvailabilityZone = aws.params['AvailabilityZone'];
-        var DBName = aws.params['DBName'];
-        var ClusterVersion = aws.params['ClusterVersion'];
-        var Encrypted = aws.params['Encrypted'] /* boolean */;
-        var NodeType = aws.params['NodeType'];
-        var HsmClientCertificateIdentifier = aws.params['HsmClientCertificateIdentifier'];
-        if (! ClusterIdentifier) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ClusterIdentifier"];
-        }
-        if (! NodeType) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter NodeType"];
-        }
-        if (! MasterUsername) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter MasterUsername"];
-        }
-        if (! MasterUserPassword) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter MasterUserPassword"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            Cluster: /*Su*/{
-                Tags: /*S7*/[ /*S8*/{
-                    Value: "",
-                    Key: ""
-                } /*, ...*/ ],
-                VpcSecurityGroups: [ {
-                    Status: "",
-                    VpcSecurityGroupId: ""
-                } /*, ...*/ ],
-                ClusterSecurityGroups: [ {
-                    Status: "",
-                    ClusterSecurityGroupName: ""
-                } /*, ...*/ ],
-                KmsKeyId: "",
-                MasterUsername: "",
-                HsmStatus: {
-                    Status: "",
-                    HsmClientCertificateIdentifier: "",
-                    HsmConfigurationIdentifier: ""
-                },
-                Endpoint: {
-                    Address: "",
-                    Port: 0
-                },
-                AutomatedSnapshotRetentionPeriod: 0,
-                ClusterNodes: [ {
-                    NodeRole: "",
-                    PublicIPAddress: "",
-                    PrivateIPAddress: ""
-                } /*, ...*/ ],
-                PendingModifiedValues: {
-                    NumberOfNodes: 0,
-                    NodeType: "",
-                    MasterUserPassword: "",
-                    ClusterVersion: "",
-                    ClusterType: "",
-                    AutomatedSnapshotRetentionPeriod: 0,
-                    ClusterIdentifier: ""
-                },
-                PubliclyAccessible: false,
-                RestoreStatus: {
-                    EstimatedTimeToCompletionInSeconds: 0 /*long*/,
-                    ElapsedTimeInSeconds: 0 /*long*/,
-                    SnapshotSizeInMegaBytes: 0 /*long*/,
-                    Status: "",
-                    CurrentRestoreRateInMegaBytesPerSecond: 0.0 /*double*/,
-                    ProgressInMegaBytes: 0 /*long*/
-                },
-                ClusterSnapshotCopyStatus: {
-                    SnapshotCopyGrantName: "",
-                    RetentionPeriod: 0 /*long*/,
-                    DestinationRegion: ""
-                },
-                ElasticIpStatus: {
-                    Status: "",
-                    ElasticIp: ""
-                },
-                AllowVersionUpgrade: false,
-                ModifyStatus: "",
-                VpcId: "",
-                ClusterVersion: "",
-                NumberOfNodes: 0,
-                PreferredMaintenanceWindow: "",
-                ClusterRevisionNumber: "",
-                ClusterParameterGroups: [ {
-                    ParameterApplyStatus: "",
-                    ParameterGroupName: "",
-                    ClusterParameterStatusList: [ {
-                        ParameterApplyErrorDescription: "",
-                        ParameterApplyStatus: "",
-                        ParameterName: ""
-                    } /*, ...*/ ]
-                } /*, ...*/ ],
-                ClusterIdentifier: "",
-                ClusterSubnetGroupName: "",
-                AvailabilityZone: "",
-                DBName: "",
-                NodeType: "",
-                ClusterStatus: "",
-                Encrypted: false,
-                ClusterCreateTime: now(),
-                ClusterPublicKey: ""
-            }
-        };
-        return [200, ret];
-    }
-module.exports.CreateClusterSubnetGroup = function CreateClusterSubnetGroup(aws) {
-        var Tags = aws.params['Tags'];
-        var Description = aws.params['Description'];
-        var ClusterSubnetGroupName = aws.params['ClusterSubnetGroupName'];
-        var SubnetIds = aws.params['SubnetIds'];
-        if (! ClusterSubnetGroupName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ClusterSubnetGroupName"];
-        }
-        if (! Description) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Description"];
-        }
-        if (! SubnetIds) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter SubnetIds"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            ClusterSubnetGroup: /*S1l*/{
-                Tags: /*S7*/[ /*S8*/{
-                    Value: "",
-                    Key: ""
-                } /*, ...*/ ],
-                Description: "",
-                Subnets: [ {
-                    SubnetIdentifier: "",
-                    SubnetStatus: "",
-                    SubnetAvailabilityZone: /*S1o*/{
-                        Name: ""
-                    }
-                } /*, ...*/ ],
-                SubnetGroupStatus: "",
-                ClusterSubnetGroupName: "",
-                VpcId: ""
-            }
-        };
-        return [200, ret];
-    }
-module.exports.DescribeOrderableClusterOptions = function DescribeOrderableClusterOptions(aws) {
-        var Marker = aws.params['Marker'];
-        var ClusterVersion = aws.params['ClusterVersion'];
-        var NodeType = aws.params['NodeType'];
-        var MaxRecords = aws.params['MaxRecords'] /* integer */;
-
-
-        // TODO implement code
-
-        var ret = {
-            Marker: "",
-            OrderableClusterOptions: [ {
-                ClusterVersion: "",
-                NodeType: "",
-                AvailabilityZones: [ /*S1o*/{
-                    Name: ""
-                } /*, ...*/ ],
-                ClusterType: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.CopyClusterSnapshot = function CopyClusterSnapshot(aws) {
-        var TargetSnapshotIdentifier = aws.params['TargetSnapshotIdentifier'];
-        var SourceSnapshotClusterIdentifier = aws.params['SourceSnapshotClusterIdentifier'];
-        var SourceSnapshotIdentifier = aws.params['SourceSnapshotIdentifier'];
-        if (! SourceSnapshotIdentifier) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter SourceSnapshotIdentifier"];
-        }
-        if (! TargetSnapshotIdentifier) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter TargetSnapshotIdentifier"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            Snapshot: /*Sd*/{
-                Tags: /*S7*/[ /*S8*/{
-                    Value: "",
-                    Key: ""
-                } /*, ...*/ ],
-                Port: 0,
-                OwnerAccount: "",
-                ElapsedTimeInSeconds: 0 /*long*/,
-                ClusterVersion: "",
-                EncryptedWithHSM: false,
-                SnapshotCreateTime: now(),
-                ActualIncrementalBackupSizeInMegaBytes: 0.0 /*double*/,
-                SnapshotType: "",
-                SnapshotIdentifier: "",
-                AccountsWithRestoreAccess: [ {
-                    AccountId: ""
-                } /*, ...*/ ],
-                VpcId: "",
-                NumberOfNodes: 0,
-                TotalBackupSizeInMegaBytes: 0.0 /*double*/,
-                EstimatedSecondsToCompletion: 0 /*long*/,
-                Status: "",
-                SourceRegion: "",
-                ClusterIdentifier: "",
-                MasterUsername: "",
-                AvailabilityZone: "",
-                DBName: "",
-                Encrypted: false,
-                KmsKeyId: "",
-                NodeType: "",
-                RestorableNodeTypes: [ "" /*, ...*/ ],
-                CurrentBackupRateInMegaBytesPerSecond: 0.0 /*double*/,
-                BackupProgressInMegaBytes: 0.0 /*double*/,
-                ClusterCreateTime: now()
-            }
-        };
-        return [200, ret];
-    }
+// -----------------------------------
 module.exports.DisableLogging = function DisableLogging(aws) {
-        var ClusterIdentifier = aws.params['ClusterIdentifier'];
-        if (! ClusterIdentifier) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ClusterIdentifier"];
-        }
-
-
-        // TODO implement code
-
-        var ret = /*S3u*/{
-            LastFailureMessage: "",
-            LastFailureTime: now(),
-            BucketName: "",
-            LastSuccessfulDeliveryTime: now(),
-            S3KeyPrefix: "",
-            LoggingEnabled: false
-        };
-        return [200, ret];
-    }
-module.exports.DescribeResize = function DescribeResize(aws) {
-        var ClusterIdentifier = aws.params['ClusterIdentifier'];
-        if (! ClusterIdentifier) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ClusterIdentifier"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            ImportTablesInProgress: [ "" /*, ...*/ ],
-            TargetNumberOfNodes: 0,
-            ElapsedTimeInSeconds: 0 /*long*/,
-            ImportTablesCompleted: [ "" /*, ...*/ ],
-            Status: "",
-            AvgResizeRateInMegaBytesPerSecond: 0.0 /*double*/,
-            TargetNodeType: "",
-            TotalResizeDataInMegaBytes: 0 /*long*/,
-            EstimatedTimeToCompletionInSeconds: 0 /*long*/,
-            TargetClusterType: "",
-            ProgressInMegaBytes: 0 /*long*/,
-            ImportTablesNotStarted: [ "" /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.ModifyCluster = function ModifyCluster(aws) {
-        var ClusterVersion = aws.params['ClusterVersion'];
-        var NumberOfNodes = aws.params['NumberOfNodes'] /* integer */;
-        var ClusterSecurityGroups = aws.params['ClusterSecurityGroups'];
-        var PreferredMaintenanceWindow = aws.params['PreferredMaintenanceWindow'];
-        var ClusterType = aws.params['ClusterType'];
-        var ClusterIdentifier = aws.params['ClusterIdentifier'];
-        var AllowVersionUpgrade = aws.params['AllowVersionUpgrade'] /* boolean */;
-        var VpcSecurityGroupIds = aws.params['VpcSecurityGroupIds'];
-        var ClusterParameterGroupName = aws.params['ClusterParameterGroupName'];
-        var HsmConfigurationIdentifier = aws.params['HsmConfigurationIdentifier'];
-        var MasterUserPassword = aws.params['MasterUserPassword'];
-        var NodeType = aws.params['NodeType'];
-        var HsmClientCertificateIdentifier = aws.params['HsmClientCertificateIdentifier'];
-        var AutomatedSnapshotRetentionPeriod = aws.params['AutomatedSnapshotRetentionPeriod'] /* integer */;
-        var NewClusterIdentifier = aws.params['NewClusterIdentifier'];
-        if (! ClusterIdentifier) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ClusterIdentifier"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            Cluster: /*Su*/{
-                Tags: /*S7*/[ /*S8*/{
-                    Value: "",
-                    Key: ""
-                } /*, ...*/ ],
-                VpcSecurityGroups: [ {
-                    Status: "",
-                    VpcSecurityGroupId: ""
-                } /*, ...*/ ],
-                ClusterSecurityGroups: [ {
-                    Status: "",
-                    ClusterSecurityGroupName: ""
-                } /*, ...*/ ],
-                KmsKeyId: "",
-                MasterUsername: "",
-                HsmStatus: {
-                    Status: "",
-                    HsmClientCertificateIdentifier: "",
-                    HsmConfigurationIdentifier: ""
-                },
-                Endpoint: {
-                    Address: "",
-                    Port: 0
-                },
-                AutomatedSnapshotRetentionPeriod: 0,
-                ClusterNodes: [ {
-                    NodeRole: "",
-                    PublicIPAddress: "",
-                    PrivateIPAddress: ""
-                } /*, ...*/ ],
-                PendingModifiedValues: {
-                    NumberOfNodes: 0,
-                    NodeType: "",
-                    MasterUserPassword: "",
-                    ClusterVersion: "",
-                    ClusterType: "",
-                    AutomatedSnapshotRetentionPeriod: 0,
-                    ClusterIdentifier: ""
-                },
-                PubliclyAccessible: false,
-                RestoreStatus: {
-                    EstimatedTimeToCompletionInSeconds: 0 /*long*/,
-                    ElapsedTimeInSeconds: 0 /*long*/,
-                    SnapshotSizeInMegaBytes: 0 /*long*/,
-                    Status: "",
-                    CurrentRestoreRateInMegaBytesPerSecond: 0.0 /*double*/,
-                    ProgressInMegaBytes: 0 /*long*/
-                },
-                ClusterSnapshotCopyStatus: {
-                    SnapshotCopyGrantName: "",
-                    RetentionPeriod: 0 /*long*/,
-                    DestinationRegion: ""
-                },
-                ElasticIpStatus: {
-                    Status: "",
-                    ElasticIp: ""
-                },
-                AllowVersionUpgrade: false,
-                ModifyStatus: "",
-                VpcId: "",
-                ClusterVersion: "",
-                NumberOfNodes: 0,
-                PreferredMaintenanceWindow: "",
-                ClusterRevisionNumber: "",
-                ClusterParameterGroups: [ {
-                    ParameterApplyStatus: "",
-                    ParameterGroupName: "",
-                    ClusterParameterStatusList: [ {
-                        ParameterApplyErrorDescription: "",
-                        ParameterApplyStatus: "",
-                        ParameterName: ""
-                    } /*, ...*/ ]
-                } /*, ...*/ ],
-                ClusterIdentifier: "",
-                ClusterSubnetGroupName: "",
-                AvailabilityZone: "",
-                DBName: "",
-                NodeType: "",
-                ClusterStatus: "",
-                Encrypted: false,
-                ClusterCreateTime: now(),
-                ClusterPublicKey: ""
-            }
-        };
-        return [200, ret];
-    }
-module.exports.DescribeReservedNodeOfferings = function DescribeReservedNodeOfferings(aws) {
-        var Marker = aws.params['Marker'];
-        var ReservedNodeOfferingId = aws.params['ReservedNodeOfferingId'];
-        var MaxRecords = aws.params['MaxRecords'] /* integer */;
-
-
-        // TODO implement code
-
-        var ret = {
-            Marker: "",
-            ReservedNodeOfferings: [ {
-                CurrencyCode: "",
-                RecurringCharges: /*S44*/[ {
-                    RecurringChargeAmount: 0.0 /*double*/,
-                    RecurringChargeFrequency: ""
-                } /*, ...*/ ],
-                FixedPrice: 0.0 /*double*/,
-                OfferingType: "",
-                ReservedNodeOfferingId: "",
-                Duration: 0,
-                UsagePrice: 0.0 /*double*/,
-                NodeType: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.RotateEncryptionKey = function RotateEncryptionKey(aws) {
-        var ClusterIdentifier = aws.params['ClusterIdentifier'];
-        if (! ClusterIdentifier) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ClusterIdentifier"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            Cluster: /*Su*/{
-                Tags: /*S7*/[ /*S8*/{
-                    Value: "",
-                    Key: ""
-                } /*, ...*/ ],
-                VpcSecurityGroups: [ {
-                    Status: "",
-                    VpcSecurityGroupId: ""
-                } /*, ...*/ ],
-                ClusterSecurityGroups: [ {
-                    Status: "",
-                    ClusterSecurityGroupName: ""
-                } /*, ...*/ ],
-                KmsKeyId: "",
-                MasterUsername: "",
-                HsmStatus: {
-                    Status: "",
-                    HsmClientCertificateIdentifier: "",
-                    HsmConfigurationIdentifier: ""
-                },
-                Endpoint: {
-                    Address: "",
-                    Port: 0
-                },
-                AutomatedSnapshotRetentionPeriod: 0,
-                ClusterNodes: [ {
-                    NodeRole: "",
-                    PublicIPAddress: "",
-                    PrivateIPAddress: ""
-                } /*, ...*/ ],
-                PendingModifiedValues: {
-                    NumberOfNodes: 0,
-                    NodeType: "",
-                    MasterUserPassword: "",
-                    ClusterVersion: "",
-                    ClusterType: "",
-                    AutomatedSnapshotRetentionPeriod: 0,
-                    ClusterIdentifier: ""
-                },
-                PubliclyAccessible: false,
-                RestoreStatus: {
-                    EstimatedTimeToCompletionInSeconds: 0 /*long*/,
-                    ElapsedTimeInSeconds: 0 /*long*/,
-                    SnapshotSizeInMegaBytes: 0 /*long*/,
-                    Status: "",
-                    CurrentRestoreRateInMegaBytesPerSecond: 0.0 /*double*/,
-                    ProgressInMegaBytes: 0 /*long*/
-                },
-                ClusterSnapshotCopyStatus: {
-                    SnapshotCopyGrantName: "",
-                    RetentionPeriod: 0 /*long*/,
-                    DestinationRegion: ""
-                },
-                ElasticIpStatus: {
-                    Status: "",
-                    ElasticIp: ""
-                },
-                AllowVersionUpgrade: false,
-                ModifyStatus: "",
-                VpcId: "",
-                ClusterVersion: "",
-                NumberOfNodes: 0,
-                PreferredMaintenanceWindow: "",
-                ClusterRevisionNumber: "",
-                ClusterParameterGroups: [ {
-                    ParameterApplyStatus: "",
-                    ParameterGroupName: "",
-                    ClusterParameterStatusList: [ {
-                        ParameterApplyErrorDescription: "",
-                        ParameterApplyStatus: "",
-                        ParameterName: ""
-                    } /*, ...*/ ]
-                } /*, ...*/ ],
-                ClusterIdentifier: "",
-                ClusterSubnetGroupName: "",
-                AvailabilityZone: "",
-                DBName: "",
-                NodeType: "",
-                ClusterStatus: "",
-                Encrypted: false,
-                ClusterCreateTime: now(),
-                ClusterPublicKey: ""
-            }
-        };
-        return [200, ret];
-    }
-module.exports.CreateTags = function CreateTags(aws) {
-        var Tags = aws.params['Tags'];
-        var ResourceName = aws.params['ResourceName'];
-        if (! ResourceName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ResourceName"];
-        }
-        if (! Tags) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Tags"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.CreateSnapshotCopyGrant = function CreateSnapshotCopyGrant(aws) {
-        var Tags = aws.params['Tags'];
-        var SnapshotCopyGrantName = aws.params['SnapshotCopyGrantName'];
-        var KmsKeyId = aws.params['KmsKeyId'];
-        if (! SnapshotCopyGrantName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter SnapshotCopyGrantName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            SnapshotCopyGrant: /*S22*/{
-                Tags: /*S7*/[ /*S8*/{
-                    Value: "",
-                    Key: ""
-                } /*, ...*/ ],
-                SnapshotCopyGrantName: "",
-                KmsKeyId: ""
-            }
-        };
-        return [200, ret];
-    }
-module.exports.CreateClusterSnapshot = function CreateClusterSnapshot(aws) {
-        var Tags = aws.params['Tags'];
-        var ClusterIdentifier = aws.params['ClusterIdentifier'];
-        var SnapshotIdentifier = aws.params['SnapshotIdentifier'];
-        if (! SnapshotIdentifier) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter SnapshotIdentifier"];
-        }
-        if (! ClusterIdentifier) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ClusterIdentifier"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            Snapshot: /*Sd*/{
-                Tags: /*S7*/[ /*S8*/{
-                    Value: "",
-                    Key: ""
-                } /*, ...*/ ],
-                Port: 0,
-                OwnerAccount: "",
-                ElapsedTimeInSeconds: 0 /*long*/,
-                ClusterVersion: "",
-                EncryptedWithHSM: false,
-                SnapshotCreateTime: now(),
-                ActualIncrementalBackupSizeInMegaBytes: 0.0 /*double*/,
-                SnapshotType: "",
-                SnapshotIdentifier: "",
-                AccountsWithRestoreAccess: [ {
-                    AccountId: ""
-                } /*, ...*/ ],
-                VpcId: "",
-                NumberOfNodes: 0,
-                TotalBackupSizeInMegaBytes: 0.0 /*double*/,
-                EstimatedSecondsToCompletion: 0 /*long*/,
-                Status: "",
-                SourceRegion: "",
-                ClusterIdentifier: "",
-                MasterUsername: "",
-                AvailabilityZone: "",
-                DBName: "",
-                Encrypted: false,
-                KmsKeyId: "",
-                NodeType: "",
-                RestorableNodeTypes: [ "" /*, ...*/ ],
-                CurrentBackupRateInMegaBytesPerSecond: 0.0 /*double*/,
-                BackupProgressInMegaBytes: 0.0 /*double*/,
-                ClusterCreateTime: now()
-            }
-        };
-        return [200, ret];
-    }
-module.exports.DescribeClusterParameterGroups = function DescribeClusterParameterGroups(aws) {
-        var Marker = aws.params['Marker'];
-        var ParameterGroupName = aws.params['ParameterGroupName'];
-        var TagValues = aws.params['TagValues'];
-        var MaxRecords = aws.params['MaxRecords'] /* integer */;
-        var TagKeys = aws.params['TagKeys'];
-
-
-        // TODO implement code
-
-        var ret = {
-            Marker: "",
-            ParameterGroups: [ /*S1d*/{
-                Tags: /*S7*/[ /*S8*/{
-                    Value: "",
-                    Key: ""
-                } /*, ...*/ ],
-                ParameterGroupFamily: "",
-                ParameterGroupName: "",
-                Description: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.DescribeLoggingStatus = function DescribeLoggingStatus(aws) {
-        var ClusterIdentifier = aws.params['ClusterIdentifier'];
-        if (! ClusterIdentifier) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ClusterIdentifier"];
-        }
-
-
-        // TODO implement code
-
-        var ret = /*S3u*/{
-            LastFailureMessage: "",
-            LastFailureTime: now(),
-            BucketName: "",
-            LastSuccessfulDeliveryTime: now(),
-            S3KeyPrefix: "",
-            LoggingEnabled: false
-        };
-        return [200, ret];
-    }
-module.exports.ModifyEventSubscription = function ModifyEventSubscription(aws) {
-        var Severity = aws.params['Severity'];
-        var SubscriptionName = aws.params['SubscriptionName'];
-        var Enabled = aws.params['Enabled'] /* boolean */;
-        var SnsTopicArn = aws.params['SnsTopicArn'];
-        var SourceType = aws.params['SourceType'];
-        var SourceIds = aws.params['SourceIds'];
-        var EventCategories = aws.params['EventCategories'];
-        if (! SubscriptionName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter SubscriptionName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            EventSubscription: /*S1t*/{
-                Severity: "",
-                SourceType: "",
-                Tags: /*S7*/[ /*S8*/{
-                    Value: "",
-                    Key: ""
-                } /*, ...*/ ],
-                Enabled: false,
-                SubscriptionCreationTime: now(),
-                SnsTopicArn: "",
-                SourceIdsList: /*S1q*/[ "" /*, ...*/ ],
-                Status: "",
-                CustomerAwsId: "",
-                EventCategoriesList: /*S1r*/[ "" /*, ...*/ ],
-                CustSubscriptionId: ""
-            }
-        };
-        return [200, ret];
-    }
-module.exports.EnableSnapshotCopy = function EnableSnapshotCopy(aws) {
-        var ClusterIdentifier = aws.params['ClusterIdentifier'];
-        var RetentionPeriod = aws.params['RetentionPeriod'] /* integer */;
-        var SnapshotCopyGrantName = aws.params['SnapshotCopyGrantName'];
-        var DestinationRegion = aws.params['DestinationRegion'];
-        if (! ClusterIdentifier) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ClusterIdentifier"];
-        }
-        if (! DestinationRegion) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter DestinationRegion"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            Cluster: /*Su*/{
-                Tags: /*S7*/[ /*S8*/{
-                    Value: "",
-                    Key: ""
-                } /*, ...*/ ],
-                VpcSecurityGroups: [ {
-                    Status: "",
-                    VpcSecurityGroupId: ""
-                } /*, ...*/ ],
-                ClusterSecurityGroups: [ {
-                    Status: "",
-                    ClusterSecurityGroupName: ""
-                } /*, ...*/ ],
-                KmsKeyId: "",
-                MasterUsername: "",
-                HsmStatus: {
-                    Status: "",
-                    HsmClientCertificateIdentifier: "",
-                    HsmConfigurationIdentifier: ""
-                },
-                Endpoint: {
-                    Address: "",
-                    Port: 0
-                },
-                AutomatedSnapshotRetentionPeriod: 0,
-                ClusterNodes: [ {
-                    NodeRole: "",
-                    PublicIPAddress: "",
-                    PrivateIPAddress: ""
-                } /*, ...*/ ],
-                PendingModifiedValues: {
-                    NumberOfNodes: 0,
-                    NodeType: "",
-                    MasterUserPassword: "",
-                    ClusterVersion: "",
-                    ClusterType: "",
-                    AutomatedSnapshotRetentionPeriod: 0,
-                    ClusterIdentifier: ""
-                },
-                PubliclyAccessible: false,
-                RestoreStatus: {
-                    EstimatedTimeToCompletionInSeconds: 0 /*long*/,
-                    ElapsedTimeInSeconds: 0 /*long*/,
-                    SnapshotSizeInMegaBytes: 0 /*long*/,
-                    Status: "",
-                    CurrentRestoreRateInMegaBytesPerSecond: 0.0 /*double*/,
-                    ProgressInMegaBytes: 0 /*long*/
-                },
-                ClusterSnapshotCopyStatus: {
-                    SnapshotCopyGrantName: "",
-                    RetentionPeriod: 0 /*long*/,
-                    DestinationRegion: ""
-                },
-                ElasticIpStatus: {
-                    Status: "",
-                    ElasticIp: ""
-                },
-                AllowVersionUpgrade: false,
-                ModifyStatus: "",
-                VpcId: "",
-                ClusterVersion: "",
-                NumberOfNodes: 0,
-                PreferredMaintenanceWindow: "",
-                ClusterRevisionNumber: "",
-                ClusterParameterGroups: [ {
-                    ParameterApplyStatus: "",
-                    ParameterGroupName: "",
-                    ClusterParameterStatusList: [ {
-                        ParameterApplyErrorDescription: "",
-                        ParameterApplyStatus: "",
-                        ParameterName: ""
-                    } /*, ...*/ ]
-                } /*, ...*/ ],
-                ClusterIdentifier: "",
-                ClusterSubnetGroupName: "",
-                AvailabilityZone: "",
-                DBName: "",
-                NodeType: "",
-                ClusterStatus: "",
-                Encrypted: false,
-                ClusterCreateTime: now(),
-                ClusterPublicKey: ""
-            }
-        };
-        return [200, ret];
-    }
-module.exports.DescribeTags = function DescribeTags(aws) {
-        var ResourceType = aws.params['ResourceType'];
-        var TagKeys = aws.params['TagKeys'];
-        var Marker = aws.params['Marker'];
-        var ResourceName = aws.params['ResourceName'];
-        var TagValues = aws.params['TagValues'];
-        var MaxRecords = aws.params['MaxRecords'] /* integer */;
-
-
-        // TODO implement code
-
-        var ret = {
-            TaggedResources: [ {
-                ResourceType: "",
-                Tag: /*S8*/{
-                    Value: "",
-                    Key: ""
-                },
-                ResourceName: ""
-            } /*, ...*/ ],
-            Marker: ""
-        };
-        return [200, ret];
-    }
-module.exports.RevokeClusterSecurityGroupIngress = function RevokeClusterSecurityGroupIngress(aws) {
-        var CIDRIP = aws.params['CIDRIP'];
-        var ClusterSecurityGroupName = aws.params['ClusterSecurityGroupName'];
-        var EC2SecurityGroupName = aws.params['EC2SecurityGroupName'];
-        var EC2SecurityGroupOwnerId = aws.params['EC2SecurityGroupOwnerId'];
-        if (! ClusterSecurityGroupName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ClusterSecurityGroupName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            ClusterSecurityGroup: /*S4*/{
-                IPRanges: [ {
-                    Status: "",
-                    Tags: /*S7*/[ /*S8*/{
-                        Value: "",
-                        Key: ""
-                    } /*, ...*/ ],
-                    CIDRIP: ""
-                } /*, ...*/ ],
-                Tags: /*S7*/[ /*S8*/{
-                        Value: "",
-                        Key: ""
-                    } /*, ...*/ ],
-                Description: "",
-                ClusterSecurityGroupName: "",
-                EC2SecurityGroups: [ {
-                    Status: "",
-                    Tags: /*S7*/[ /*S8*/{
-                        Value: "",
-                        Key: ""
-                    } /*, ...*/ ],
-                    EC2SecurityGroupName: "",
-                    EC2SecurityGroupOwnerId: ""
-                } /*, ...*/ ]
-            }
-        };
-        return [200, ret];
-    }
-module.exports.CreateHsmClientCertificate = function CreateHsmClientCertificate(aws) {
-        var Tags = aws.params['Tags'];
-        var HsmClientCertificateIdentifier = aws.params['HsmClientCertificateIdentifier'];
-        if (! HsmClientCertificateIdentifier) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter HsmClientCertificateIdentifier"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            HsmClientCertificate: /*S1w*/{
-                Tags: /*S7*/[ /*S8*/{
-                    Value: "",
-                    Key: ""
-                } /*, ...*/ ],
-                HsmClientCertificateIdentifier: "",
-                HsmClientCertificatePublicKey: ""
-            }
-        };
-        return [200, ret];
-    }
-module.exports.DeleteHsmConfiguration = function DeleteHsmConfiguration(aws) {
-        var HsmConfigurationIdentifier = aws.params['HsmConfigurationIdentifier'];
-        if (! HsmConfigurationIdentifier) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter HsmConfigurationIdentifier"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.ModifyClusterParameterGroup = function ModifyClusterParameterGroup(aws) {
-        var Parameters = aws.params['Parameters'];
-        var ParameterGroupName = aws.params['ParameterGroupName'];
-        if (! ParameterGroupName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ParameterGroupName"];
-        }
-        if (! Parameters) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Parameters"];
-        }
-
-
-        // TODO implement code
-
-        var ret = /*S4x*/{
-            ParameterGroupStatus: "",
-            ParameterGroupName: ""
-        };
-        return [200, ret];
-    }
-module.exports.EnableLogging = function EnableLogging(aws) {
-        var ClusterIdentifier = aws.params['ClusterIdentifier'];
-        var S3KeyPrefix = aws.params['S3KeyPrefix'];
-        var BucketName = aws.params['BucketName'];
-        if (! ClusterIdentifier) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ClusterIdentifier"];
-        }
-        if (! BucketName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter BucketName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = /*S3u*/{
-            LastFailureMessage: "",
-            LastFailureTime: now(),
-            BucketName: "",
-            LastSuccessfulDeliveryTime: now(),
-            S3KeyPrefix: "",
-            LoggingEnabled: false
-        };
-        return [200, ret];
-    }
-module.exports.DeleteTags = function DeleteTags(aws) {
-        var ResourceName = aws.params['ResourceName'];
-        var TagKeys = aws.params['TagKeys'];
-        if (! ResourceName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ResourceName"];
-        }
-        if (! TagKeys) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter TagKeys"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.DescribeClusterSecurityGroups = function DescribeClusterSecurityGroups(aws) {
-        var Marker = aws.params['Marker'];
-        var ClusterSecurityGroupName = aws.params['ClusterSecurityGroupName'];
-        var TagValues = aws.params['TagValues'];
-        var MaxRecords = aws.params['MaxRecords'] /* integer */;
-        var TagKeys = aws.params['TagKeys'];
-
-
-        // TODO implement code
-
-        var ret = {
-            Marker: "",
-            ClusterSecurityGroups: [ /*S4*/{
-                IPRanges: [ {
-                    Status: "",
-                    Tags: /*S7*/[ /*S8*/{
-                        Value: "",
-                        Key: ""
-                    } /*, ...*/ ],
-                    CIDRIP: ""
-                } /*, ...*/ ],
-                Tags: /*S7*/[ /*S8*/{
-                        Value: "",
-                        Key: ""
-                    } /*, ...*/ ],
-                Description: "",
-                ClusterSecurityGroupName: "",
-                EC2SecurityGroups: [ {
-                    Status: "",
-                    Tags: /*S7*/[ /*S8*/{
-                        Value: "",
-                        Key: ""
-                    } /*, ...*/ ],
-                    EC2SecurityGroupName: "",
-                    EC2SecurityGroupOwnerId: ""
-                } /*, ...*/ ]
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.RebootCluster = function RebootCluster(aws) {
-        var ClusterIdentifier = aws.params['ClusterIdentifier'];
-        if (! ClusterIdentifier) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ClusterIdentifier"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            Cluster: /*Su*/{
-                Tags: /*S7*/[ /*S8*/{
-                    Value: "",
-                    Key: ""
-                } /*, ...*/ ],
-                VpcSecurityGroups: [ {
-                    Status: "",
-                    VpcSecurityGroupId: ""
-                } /*, ...*/ ],
-                ClusterSecurityGroups: [ {
-                    Status: "",
-                    ClusterSecurityGroupName: ""
-                } /*, ...*/ ],
-                KmsKeyId: "",
-                MasterUsername: "",
-                HsmStatus: {
-                    Status: "",
-                    HsmClientCertificateIdentifier: "",
-                    HsmConfigurationIdentifier: ""
-                },
-                Endpoint: {
-                    Address: "",
-                    Port: 0
-                },
-                AutomatedSnapshotRetentionPeriod: 0,
-                ClusterNodes: [ {
-                    NodeRole: "",
-                    PublicIPAddress: "",
-                    PrivateIPAddress: ""
-                } /*, ...*/ ],
-                PendingModifiedValues: {
-                    NumberOfNodes: 0,
-                    NodeType: "",
-                    MasterUserPassword: "",
-                    ClusterVersion: "",
-                    ClusterType: "",
-                    AutomatedSnapshotRetentionPeriod: 0,
-                    ClusterIdentifier: ""
-                },
-                PubliclyAccessible: false,
-                RestoreStatus: {
-                    EstimatedTimeToCompletionInSeconds: 0 /*long*/,
-                    ElapsedTimeInSeconds: 0 /*long*/,
-                    SnapshotSizeInMegaBytes: 0 /*long*/,
-                    Status: "",
-                    CurrentRestoreRateInMegaBytesPerSecond: 0.0 /*double*/,
-                    ProgressInMegaBytes: 0 /*long*/
-                },
-                ClusterSnapshotCopyStatus: {
-                    SnapshotCopyGrantName: "",
-                    RetentionPeriod: 0 /*long*/,
-                    DestinationRegion: ""
-                },
-                ElasticIpStatus: {
-                    Status: "",
-                    ElasticIp: ""
-                },
-                AllowVersionUpgrade: false,
-                ModifyStatus: "",
-                VpcId: "",
-                ClusterVersion: "",
-                NumberOfNodes: 0,
-                PreferredMaintenanceWindow: "",
-                ClusterRevisionNumber: "",
-                ClusterParameterGroups: [ {
-                    ParameterApplyStatus: "",
-                    ParameterGroupName: "",
-                    ClusterParameterStatusList: [ {
-                        ParameterApplyErrorDescription: "",
-                        ParameterApplyStatus: "",
-                        ParameterName: ""
-                    } /*, ...*/ ]
-                } /*, ...*/ ],
-                ClusterIdentifier: "",
-                ClusterSubnetGroupName: "",
-                AvailabilityZone: "",
-                DBName: "",
-                NodeType: "",
-                ClusterStatus: "",
-                Encrypted: false,
-                ClusterCreateTime: now(),
-                ClusterPublicKey: ""
-            }
-        };
-        return [200, ret];
-    }
-module.exports.DeleteClusterSecurityGroup = function DeleteClusterSecurityGroup(aws) {
-        var ClusterSecurityGroupName = aws.params['ClusterSecurityGroupName'];
-        if (! ClusterSecurityGroupName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ClusterSecurityGroupName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.DescribeEvents = function DescribeEvents(aws) {
-        var Marker = aws.params['Marker'];
-        var SourceIdentifier = aws.params['SourceIdentifier'];
-        var EndTime = aws.params['EndTime'] /* timestamp */;
-        var StartTime = aws.params['StartTime'] /* timestamp */;
-        var SourceType = aws.params['SourceType'];
-        var Duration = aws.params['Duration'] /* integer */;
-        var MaxRecords = aws.params['MaxRecords'] /* integer */;
-
-
-        // TODO implement code
-
-        var ret = {
-            Marker: "",
-            Events: [ {
-                Severity: "",
-                Message: "",
-                EventId: "",
-                SourceIdentifier: "",
-                SourceType: "",
-                Date: now(),
-                EventCategories: /*S1r*/[ "" /*, ...*/ ]
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.DescribeHsmClientCertificates = function DescribeHsmClientCertificates(aws) {
-        var Marker = aws.params['Marker'];
-        var HsmClientCertificateIdentifier = aws.params['HsmClientCertificateIdentifier'];
-        var TagValues = aws.params['TagValues'];
-        var MaxRecords = aws.params['MaxRecords'] /* integer */;
-        var TagKeys = aws.params['TagKeys'];
-
-
-        // TODO implement code
-
-        var ret = {
-            Marker: "",
-            HsmClientCertificates: [ /*S1w*/{
-                Tags: /*S7*/[ /*S8*/{
-                    Value: "",
-                    Key: ""
-                } /*, ...*/ ],
-                HsmClientCertificateIdentifier: "",
-                HsmClientCertificatePublicKey: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.DeleteHsmClientCertificate = function DeleteHsmClientCertificate(aws) {
-        var HsmClientCertificateIdentifier = aws.params['HsmClientCertificateIdentifier'];
-        if (! HsmClientCertificateIdentifier) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter HsmClientCertificateIdentifier"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.DeleteSnapshotCopyGrant = function DeleteSnapshotCopyGrant(aws) {
-        var SnapshotCopyGrantName = aws.params['SnapshotCopyGrantName'];
-        if (! SnapshotCopyGrantName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter SnapshotCopyGrantName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.DescribeClusterSnapshots = function DescribeClusterSnapshots(aws) {
-        var SnapshotType = aws.params['SnapshotType'];
-        var OwnerAccount = aws.params['OwnerAccount'];
-        var EndTime = aws.params['EndTime'] /* timestamp */;
-        var StartTime = aws.params['StartTime'] /* timestamp */;
-        var Marker = aws.params['Marker'];
-        var ClusterIdentifier = aws.params['ClusterIdentifier'];
-        var SnapshotIdentifier = aws.params['SnapshotIdentifier'];
-        var TagKeys = aws.params['TagKeys'];
-        var TagValues = aws.params['TagValues'];
-        var MaxRecords = aws.params['MaxRecords'] /* integer */;
-
-
-        // TODO implement code
-
-        var ret = {
-            Marker: "",
-            Snapshots: [ /*Sd*/{
-                Tags: /*S7*/[ /*S8*/{
-                    Value: "",
-                    Key: ""
-                } /*, ...*/ ],
-                Port: 0,
-                OwnerAccount: "",
-                ElapsedTimeInSeconds: 0 /*long*/,
-                ClusterVersion: "",
-                EncryptedWithHSM: false,
-                SnapshotCreateTime: now(),
-                ActualIncrementalBackupSizeInMegaBytes: 0.0 /*double*/,
-                SnapshotType: "",
-                SnapshotIdentifier: "",
-                AccountsWithRestoreAccess: [ {
-                    AccountId: ""
-                } /*, ...*/ ],
-                VpcId: "",
-                NumberOfNodes: 0,
-                TotalBackupSizeInMegaBytes: 0.0 /*double*/,
-                EstimatedSecondsToCompletion: 0 /*long*/,
-                Status: "",
-                SourceRegion: "",
-                ClusterIdentifier: "",
-                MasterUsername: "",
-                AvailabilityZone: "",
-                DBName: "",
-                Encrypted: false,
-                KmsKeyId: "",
-                NodeType: "",
-                RestorableNodeTypes: [ "" /*, ...*/ ],
-                CurrentBackupRateInMegaBytesPerSecond: 0.0 /*double*/,
-                BackupProgressInMegaBytes: 0.0 /*double*/,
-                ClusterCreateTime: now()
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.DisableSnapshotCopy = function DisableSnapshotCopy(aws) {
-        var ClusterIdentifier = aws.params['ClusterIdentifier'];
-        if (! ClusterIdentifier) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ClusterIdentifier"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            Cluster: /*Su*/{
-                Tags: /*S7*/[ /*S8*/{
-                    Value: "",
-                    Key: ""
-                } /*, ...*/ ],
-                VpcSecurityGroups: [ {
-                    Status: "",
-                    VpcSecurityGroupId: ""
-                } /*, ...*/ ],
-                ClusterSecurityGroups: [ {
-                    Status: "",
-                    ClusterSecurityGroupName: ""
-                } /*, ...*/ ],
-                KmsKeyId: "",
-                MasterUsername: "",
-                HsmStatus: {
-                    Status: "",
-                    HsmClientCertificateIdentifier: "",
-                    HsmConfigurationIdentifier: ""
-                },
-                Endpoint: {
-                    Address: "",
-                    Port: 0
-                },
-                AutomatedSnapshotRetentionPeriod: 0,
-                ClusterNodes: [ {
-                    NodeRole: "",
-                    PublicIPAddress: "",
-                    PrivateIPAddress: ""
-                } /*, ...*/ ],
-                PendingModifiedValues: {
-                    NumberOfNodes: 0,
-                    NodeType: "",
-                    MasterUserPassword: "",
-                    ClusterVersion: "",
-                    ClusterType: "",
-                    AutomatedSnapshotRetentionPeriod: 0,
-                    ClusterIdentifier: ""
-                },
-                PubliclyAccessible: false,
-                RestoreStatus: {
-                    EstimatedTimeToCompletionInSeconds: 0 /*long*/,
-                    ElapsedTimeInSeconds: 0 /*long*/,
-                    SnapshotSizeInMegaBytes: 0 /*long*/,
-                    Status: "",
-                    CurrentRestoreRateInMegaBytesPerSecond: 0.0 /*double*/,
-                    ProgressInMegaBytes: 0 /*long*/
-                },
-                ClusterSnapshotCopyStatus: {
-                    SnapshotCopyGrantName: "",
-                    RetentionPeriod: 0 /*long*/,
-                    DestinationRegion: ""
-                },
-                ElasticIpStatus: {
-                    Status: "",
-                    ElasticIp: ""
-                },
-                AllowVersionUpgrade: false,
-                ModifyStatus: "",
-                VpcId: "",
-                ClusterVersion: "",
-                NumberOfNodes: 0,
-                PreferredMaintenanceWindow: "",
-                ClusterRevisionNumber: "",
-                ClusterParameterGroups: [ {
-                    ParameterApplyStatus: "",
-                    ParameterGroupName: "",
-                    ClusterParameterStatusList: [ {
-                        ParameterApplyErrorDescription: "",
-                        ParameterApplyStatus: "",
-                        ParameterName: ""
-                    } /*, ...*/ ]
-                } /*, ...*/ ],
-                ClusterIdentifier: "",
-                ClusterSubnetGroupName: "",
-                AvailabilityZone: "",
-                DBName: "",
-                NodeType: "",
-                ClusterStatus: "",
-                Encrypted: false,
-                ClusterCreateTime: now(),
-                ClusterPublicKey: ""
-            }
-        };
-        return [200, ret];
-    }
-module.exports.CreateEventSubscription = function CreateEventSubscription(aws) {
-        var Tags = aws.params['Tags'];
-        var Severity = aws.params['Severity'];
-        var SubscriptionName = aws.params['SubscriptionName'];
-        var Enabled = aws.params['Enabled'] /* boolean */;
-        var SnsTopicArn = aws.params['SnsTopicArn'];
-        var SourceType = aws.params['SourceType'];
-        var SourceIds = aws.params['SourceIds'];
-        var EventCategories = aws.params['EventCategories'];
-        if (! SubscriptionName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter SubscriptionName"];
-        }
-        if (! SnsTopicArn) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter SnsTopicArn"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            EventSubscription: /*S1t*/{
-                Severity: "",
-                SourceType: "",
-                Tags: /*S7*/[ /*S8*/{
-                    Value: "",
-                    Key: ""
-                } /*, ...*/ ],
-                Enabled: false,
-                SubscriptionCreationTime: now(),
-                SnsTopicArn: "",
-                SourceIdsList: /*S1q*/[ "" /*, ...*/ ],
-                Status: "",
-                CustomerAwsId: "",
-                EventCategoriesList: /*S1r*/[ "" /*, ...*/ ],
-                CustSubscriptionId: ""
-            }
-        };
-        return [200, ret];
-    }
-module.exports.DescribeClusterSubnetGroups = function DescribeClusterSubnetGroups(aws) {
-        var Marker = aws.params['Marker'];
-        var ClusterSubnetGroupName = aws.params['ClusterSubnetGroupName'];
-        var TagValues = aws.params['TagValues'];
-        var MaxRecords = aws.params['MaxRecords'] /* integer */;
-        var TagKeys = aws.params['TagKeys'];
-
-
-        // TODO implement code
-
-        var ret = {
-            Marker: "",
-            ClusterSubnetGroups: [ /*S1l*/{
-                Tags: /*S7*/[ /*S8*/{
-                    Value: "",
-                    Key: ""
-                } /*, ...*/ ],
-                Description: "",
-                Subnets: [ {
-                    SubnetIdentifier: "",
-                    SubnetStatus: "",
-                    SubnetAvailabilityZone: /*S1o*/{
-                        Name: ""
-                    }
-                } /*, ...*/ ],
-                SubnetGroupStatus: "",
-                ClusterSubnetGroupName: "",
-                VpcId: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.DescribeEventSubscriptions = function DescribeEventSubscriptions(aws) {
-        var Marker = aws.params['Marker'];
-        var SubscriptionName = aws.params['SubscriptionName'];
-        var MaxRecords = aws.params['MaxRecords'] /* integer */;
-
-
-        // TODO implement code
-
-        var ret = {
-            Marker: "",
-            EventSubscriptionsList: [ /*S1t*/{
-                Severity: "",
-                SourceType: "",
-                Tags: /*S7*/[ /*S8*/{
-                    Value: "",
-                    Key: ""
-                } /*, ...*/ ],
-                Enabled: false,
-                SubscriptionCreationTime: now(),
-                SnsTopicArn: "",
-                SourceIdsList: /*S1q*/[ "" /*, ...*/ ],
-                Status: "",
-                CustomerAwsId: "",
-                EventCategoriesList: /*S1r*/[ "" /*, ...*/ ],
-                CustSubscriptionId: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.CreateHsmConfiguration = function CreateHsmConfiguration(aws) {
-        var Tags = aws.params['Tags'];
-        var Description = aws.params['Description'];
-        var HsmPartitionName = aws.params['HsmPartitionName'];
-        var HsmServerPublicCertificate = aws.params['HsmServerPublicCertificate'];
-        var HsmIpAddress = aws.params['HsmIpAddress'];
-        var HsmConfigurationIdentifier = aws.params['HsmConfigurationIdentifier'];
-        var HsmPartitionPassword = aws.params['HsmPartitionPassword'];
-        if (! HsmConfigurationIdentifier) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter HsmConfigurationIdentifier"];
-        }
-        if (! Description) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Description"];
-        }
-        if (! HsmIpAddress) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter HsmIpAddress"];
-        }
-        if (! HsmPartitionName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter HsmPartitionName"];
-        }
-        if (! HsmPartitionPassword) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter HsmPartitionPassword"];
-        }
-        if (! HsmServerPublicCertificate) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter HsmServerPublicCertificate"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            HsmConfiguration: /*S1z*/{
-                Tags: /*S7*/[ /*S8*/{
-                    Value: "",
-                    Key: ""
-                } /*, ...*/ ],
-                Description: "",
-                HsmPartitionName: "",
-                HsmIpAddress: "",
-                HsmConfigurationIdentifier: ""
-            }
-        };
-        return [200, ret];
-    }
-module.exports.RestoreFromClusterSnapshot = function RestoreFromClusterSnapshot(aws) {
-        var Port = aws.params['Port'] /* integer */;
-        var ClusterSubnetGroupName = aws.params['ClusterSubnetGroupName'];
-        var ClusterSecurityGroups = aws.params['ClusterSecurityGroups'];
-        var OwnerAccount = aws.params['OwnerAccount'];
-        var SnapshotClusterIdentifier = aws.params['SnapshotClusterIdentifier'];
-        var ElasticIp = aws.params['ElasticIp'];
-        var ClusterIdentifier = aws.params['ClusterIdentifier'];
-        var AllowVersionUpgrade = aws.params['AllowVersionUpgrade'] /* boolean */;
-        var AvailabilityZone = aws.params['AvailabilityZone'];
-        var HsmConfigurationIdentifier = aws.params['HsmConfigurationIdentifier'];
-        var VpcSecurityGroupIds = aws.params['VpcSecurityGroupIds'];
-        var ClusterParameterGroupName = aws.params['ClusterParameterGroupName'];
-        var PubliclyAccessible = aws.params['PubliclyAccessible'] /* boolean */;
-        var NodeType = aws.params['NodeType'];
-        var KmsKeyId = aws.params['KmsKeyId'];
-        var SnapshotIdentifier = aws.params['SnapshotIdentifier'];
-        var HsmClientCertificateIdentifier = aws.params['HsmClientCertificateIdentifier'];
-        var AutomatedSnapshotRetentionPeriod = aws.params['AutomatedSnapshotRetentionPeriod'] /* integer */;
-        var PreferredMaintenanceWindow = aws.params['PreferredMaintenanceWindow'];
-        if (! ClusterIdentifier) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ClusterIdentifier"];
-        }
-        if (! SnapshotIdentifier) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter SnapshotIdentifier"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            Cluster: /*Su*/{
-                Tags: /*S7*/[ /*S8*/{
-                    Value: "",
-                    Key: ""
-                } /*, ...*/ ],
-                VpcSecurityGroups: [ {
-                    Status: "",
-                    VpcSecurityGroupId: ""
-                } /*, ...*/ ],
-                ClusterSecurityGroups: [ {
-                    Status: "",
-                    ClusterSecurityGroupName: ""
-                } /*, ...*/ ],
-                KmsKeyId: "",
-                MasterUsername: "",
-                HsmStatus: {
-                    Status: "",
-                    HsmClientCertificateIdentifier: "",
-                    HsmConfigurationIdentifier: ""
-                },
-                Endpoint: {
-                    Address: "",
-                    Port: 0
-                },
-                AutomatedSnapshotRetentionPeriod: 0,
-                ClusterNodes: [ {
-                    NodeRole: "",
-                    PublicIPAddress: "",
-                    PrivateIPAddress: ""
-                } /*, ...*/ ],
-                PendingModifiedValues: {
-                    NumberOfNodes: 0,
-                    NodeType: "",
-                    MasterUserPassword: "",
-                    ClusterVersion: "",
-                    ClusterType: "",
-                    AutomatedSnapshotRetentionPeriod: 0,
-                    ClusterIdentifier: ""
-                },
-                PubliclyAccessible: false,
-                RestoreStatus: {
-                    EstimatedTimeToCompletionInSeconds: 0 /*long*/,
-                    ElapsedTimeInSeconds: 0 /*long*/,
-                    SnapshotSizeInMegaBytes: 0 /*long*/,
-                    Status: "",
-                    CurrentRestoreRateInMegaBytesPerSecond: 0.0 /*double*/,
-                    ProgressInMegaBytes: 0 /*long*/
-                },
-                ClusterSnapshotCopyStatus: {
-                    SnapshotCopyGrantName: "",
-                    RetentionPeriod: 0 /*long*/,
-                    DestinationRegion: ""
-                },
-                ElasticIpStatus: {
-                    Status: "",
-                    ElasticIp: ""
-                },
-                AllowVersionUpgrade: false,
-                ModifyStatus: "",
-                VpcId: "",
-                ClusterVersion: "",
-                NumberOfNodes: 0,
-                PreferredMaintenanceWindow: "",
-                ClusterRevisionNumber: "",
-                ClusterParameterGroups: [ {
-                    ParameterApplyStatus: "",
-                    ParameterGroupName: "",
-                    ClusterParameterStatusList: [ {
-                        ParameterApplyErrorDescription: "",
-                        ParameterApplyStatus: "",
-                        ParameterName: ""
-                    } /*, ...*/ ]
-                } /*, ...*/ ],
-                ClusterIdentifier: "",
-                ClusterSubnetGroupName: "",
-                AvailabilityZone: "",
-                DBName: "",
-                NodeType: "",
-                ClusterStatus: "",
-                Encrypted: false,
-                ClusterCreateTime: now(),
-                ClusterPublicKey: ""
-            }
-        };
-        return [200, ret];
-    }
-module.exports.CreateClusterParameterGroup = function CreateClusterParameterGroup(aws) {
-        var Tags = aws.params['Tags'];
-        var ParameterGroupFamily = aws.params['ParameterGroupFamily'];
-        var ParameterGroupName = aws.params['ParameterGroupName'];
-        var Description = aws.params['Description'];
-        if (! ParameterGroupName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ParameterGroupName"];
-        }
-        if (! ParameterGroupFamily) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ParameterGroupFamily"];
-        }
-        if (! Description) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Description"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            ClusterParameterGroup: /*S1d*/{
-                Tags: /*S7*/[ /*S8*/{
-                    Value: "",
-                    Key: ""
-                } /*, ...*/ ],
-                ParameterGroupFamily: "",
-                ParameterGroupName: "",
-                Description: ""
-            }
-        };
-        return [200, ret];
-    }
-module.exports.AuthorizeSnapshotAccess = function AuthorizeSnapshotAccess(aws) {
-        var SnapshotIdentifier = aws.params['SnapshotIdentifier'];
-        var AccountWithRestoreAccess = aws.params['AccountWithRestoreAccess'];
-        var SnapshotClusterIdentifier = aws.params['SnapshotClusterIdentifier'];
-        if (! SnapshotIdentifier) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter SnapshotIdentifier"];
-        }
-        if (! AccountWithRestoreAccess) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter AccountWithRestoreAccess"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            Snapshot: /*Sd*/{
-                Tags: /*S7*/[ /*S8*/{
-                    Value: "",
-                    Key: ""
-                } /*, ...*/ ],
-                Port: 0,
-                OwnerAccount: "",
-                ElapsedTimeInSeconds: 0 /*long*/,
-                ClusterVersion: "",
-                EncryptedWithHSM: false,
-                SnapshotCreateTime: now(),
-                ActualIncrementalBackupSizeInMegaBytes: 0.0 /*double*/,
-                SnapshotType: "",
-                SnapshotIdentifier: "",
-                AccountsWithRestoreAccess: [ {
-                    AccountId: ""
-                } /*, ...*/ ],
-                VpcId: "",
-                NumberOfNodes: 0,
-                TotalBackupSizeInMegaBytes: 0.0 /*double*/,
-                EstimatedSecondsToCompletion: 0 /*long*/,
-                Status: "",
-                SourceRegion: "",
-                ClusterIdentifier: "",
-                MasterUsername: "",
-                AvailabilityZone: "",
-                DBName: "",
-                Encrypted: false,
-                KmsKeyId: "",
-                NodeType: "",
-                RestorableNodeTypes: [ "" /*, ...*/ ],
-                CurrentBackupRateInMegaBytesPerSecond: 0.0 /*double*/,
-                BackupProgressInMegaBytes: 0.0 /*double*/,
-                ClusterCreateTime: now()
-            }
-        };
-        return [200, ret];
-    }
-module.exports.DeleteEventSubscription = function DeleteEventSubscription(aws) {
-        var SubscriptionName = aws.params['SubscriptionName'];
-        if (! SubscriptionName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter SubscriptionName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.ResetClusterParameterGroup = function ResetClusterParameterGroup(aws) {
-        var ResetAllParameters = aws.params['ResetAllParameters'] /* boolean */;
-        var ParameterGroupName = aws.params['ParameterGroupName'];
-        var Parameters = aws.params['Parameters'];
-        if (! ParameterGroupName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ParameterGroupName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = /*S4x*/{
-            ParameterGroupStatus: "",
-            ParameterGroupName: ""
-        };
-        return [200, ret];
-    }
-module.exports.DeleteClusterSnapshot = function DeleteClusterSnapshot(aws) {
-        var SnapshotIdentifier = aws.params['SnapshotIdentifier'];
-        var SnapshotClusterIdentifier = aws.params['SnapshotClusterIdentifier'];
-        if (! SnapshotIdentifier) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter SnapshotIdentifier"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            Snapshot: /*Sd*/{
-                Tags: /*S7*/[ /*S8*/{
-                    Value: "",
-                    Key: ""
-                } /*, ...*/ ],
-                Port: 0,
-                OwnerAccount: "",
-                ElapsedTimeInSeconds: 0 /*long*/,
-                ClusterVersion: "",
-                EncryptedWithHSM: false,
-                SnapshotCreateTime: now(),
-                ActualIncrementalBackupSizeInMegaBytes: 0.0 /*double*/,
-                SnapshotType: "",
-                SnapshotIdentifier: "",
-                AccountsWithRestoreAccess: [ {
-                    AccountId: ""
-                } /*, ...*/ ],
-                VpcId: "",
-                NumberOfNodes: 0,
-                TotalBackupSizeInMegaBytes: 0.0 /*double*/,
-                EstimatedSecondsToCompletion: 0 /*long*/,
-                Status: "",
-                SourceRegion: "",
-                ClusterIdentifier: "",
-                MasterUsername: "",
-                AvailabilityZone: "",
-                DBName: "",
-                Encrypted: false,
-                KmsKeyId: "",
-                NodeType: "",
-                RestorableNodeTypes: [ "" /*, ...*/ ],
-                CurrentBackupRateInMegaBytesPerSecond: 0.0 /*double*/,
-                BackupProgressInMegaBytes: 0.0 /*double*/,
-                ClusterCreateTime: now()
-            }
-        };
-        return [200, ret];
-    }
-module.exports.DescribeHsmConfigurations = function DescribeHsmConfigurations(aws) {
-        var Marker = aws.params['Marker'];
-        var TagValues = aws.params['TagValues'];
-        var MaxRecords = aws.params['MaxRecords'] /* integer */;
-        var HsmConfigurationIdentifier = aws.params['HsmConfigurationIdentifier'];
-        var TagKeys = aws.params['TagKeys'];
-
-
-        // TODO implement code
-
-        var ret = {
-            Marker: "",
-            HsmConfigurations: [ /*S1z*/{
-                Tags: /*S7*/[ /*S8*/{
-                    Value: "",
-                    Key: ""
-                } /*, ...*/ ],
-                Description: "",
-                HsmPartitionName: "",
-                HsmIpAddress: "",
-                HsmConfigurationIdentifier: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.DeleteClusterParameterGroup = function DeleteClusterParameterGroup(aws) {
-        var ParameterGroupName = aws.params['ParameterGroupName'];
-        if (! ParameterGroupName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ParameterGroupName"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {};
-        return [200, ret];
-    }
-module.exports.PurchaseReservedNodeOffering = function PurchaseReservedNodeOffering(aws) {
-        var ReservedNodeOfferingId = aws.params['ReservedNodeOfferingId'];
-        var NodeCount = aws.params['NodeCount'] /* integer */;
-        if (! ReservedNodeOfferingId) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ReservedNodeOfferingId"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            ReservedNode: /*S49*/{
-                State: "",
-                RecurringCharges: /*S44*/[ {
-                    RecurringChargeAmount: 0.0 /*double*/,
-                    RecurringChargeFrequency: ""
-                } /*, ...*/ ],
-                ReservedNodeOfferingId: "",
-                UsagePrice: 0.0 /*double*/,
-                CurrencyCode: "",
-                NodeCount: 0,
-                NodeType: "",
-                StartTime: now(),
-                OfferingType: "",
-                FixedPrice: 0.0 /*double*/,
-                Duration: 0,
-                ReservedNodeId: ""
-            }
-        };
-        return [200, ret];
-    }
-module.exports.CreateClusterSecurityGroup = function CreateClusterSecurityGroup(aws) {
-        var Tags = aws.params['Tags'];
-        var Description = aws.params['Description'];
-        var ClusterSecurityGroupName = aws.params['ClusterSecurityGroupName'];
-        if (! ClusterSecurityGroupName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ClusterSecurityGroupName"];
-        }
-        if (! Description) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter Description"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            ClusterSecurityGroup: /*S4*/{
-                IPRanges: [ {
-                    Status: "",
-                    Tags: /*S7*/[ /*S8*/{
-                        Value: "",
-                        Key: ""
-                    } /*, ...*/ ],
-                    CIDRIP: ""
-                } /*, ...*/ ],
-                Tags: /*S7*/[ /*S8*/{
-                        Value: "",
-                        Key: ""
-                    } /*, ...*/ ],
-                Description: "",
-                ClusterSecurityGroupName: "",
-                EC2SecurityGroups: [ {
-                    Status: "",
-                    Tags: /*S7*/[ /*S8*/{
-                        Value: "",
-                        Key: ""
-                    } /*, ...*/ ],
-                    EC2SecurityGroupName: "",
-                    EC2SecurityGroupOwnerId: ""
-                } /*, ...*/ ]
-            }
-        };
-        return [200, ret];
-    }
-module.exports.DescribeEventCategories = function DescribeEventCategories(aws) {
-        var SourceType = aws.params['SourceType'];
-
-
-        // TODO implement code
-
-        var ret = {
-            EventCategoriesMapList: [ {
-                SourceType: "",
-                Events: [ {
-                    Severity: "",
-                    EventId: "",
-                    EventCategories: /*S1r*/[ "" /*, ...*/ ],
-                    EventDescription: ""
-                } /*, ...*/ ]
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
+  var ClusterIdentifier = aws.params['ClusterIdentifier'];
+  if (!ClusterIdentifier) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClusterIdentifier'];
+  }
+
+
+  // TODO implement code
+
+  var ret = /*S3u*/{
+    S3KeyPrefix: '',
+    BucketName: '',
+    LoggingEnabled: false,
+    LastFailureMessage: '',
+    LastFailureTime: awsCommon.timestamp(),
+    LastSuccessfulDeliveryTime: awsCommon.timestamp(),
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.DescribeSnapshotCopyGrants = function DescribeSnapshotCopyGrants(aws) {
-        var Marker = aws.params['Marker'];
-        var SnapshotCopyGrantName = aws.params['SnapshotCopyGrantName'];
-        var TagValues = aws.params['TagValues'];
-        var MaxRecords = aws.params['MaxRecords'] /* integer */;
-        var TagKeys = aws.params['TagKeys'];
+  var Marker = aws.params['Marker'];
+  var SnapshotCopyGrantName = aws.params['SnapshotCopyGrantName'];
+  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
+  var TagKeys = aws.params['TagKeys'];
+  var TagValues = aws.params['TagValues'];
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            Marker: "",
-            SnapshotCopyGrants: [ /*S22*/{
-                Tags: /*S7*/[ /*S8*/{
-                    Value: "",
-                    Key: ""
-                } /*, ...*/ ],
-                SnapshotCopyGrantName: "",
-                KmsKeyId: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.DescribeDefaultClusterParameters = function DescribeDefaultClusterParameters(aws) {
-        var Marker = aws.params['Marker'];
-        var ParameterGroupFamily = aws.params['ParameterGroupFamily'];
-        var MaxRecords = aws.params['MaxRecords'] /* integer */;
-        if (! ParameterGroupFamily) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ParameterGroupFamily"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            DefaultClusterParameters: {
-                Marker: "",
-                Parameters: /*S2n*/[ {
-                    MinimumEngineVersion: "",
-                    Description: "",
-                    Source: "",
-                    IsModifiable: false,
-                    ParameterValue: "",
-                    ParameterName: "",
-                    DataType: "",
-                    AllowedValues: "",
-                    ApplyType: ""
-                } /*, ...*/ ],
-                ParameterGroupFamily: ""
-            }
-        };
-        return [200, ret];
-    }
-module.exports.DescribeClusterVersions = function DescribeClusterVersions(aws) {
-        var Marker = aws.params['Marker'];
-        var ClusterVersion = aws.params['ClusterVersion'];
-        var ClusterParameterGroupFamily = aws.params['ClusterParameterGroupFamily'];
-        var MaxRecords = aws.params['MaxRecords'] /* integer */;
+  var ret = {
+    Marker: '',
+    SnapshotCopyGrants: [ /*S22*/{
+      SnapshotCopyGrantName: '',
+      Tags: /*S7*/[ /*S8*/{
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      KmsKeyId: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteEventSubscription = function DeleteEventSubscription(aws) {
+  var SubscriptionName = aws.params['SubscriptionName'];
+  if (!SubscriptionName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SubscriptionName'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            Marker: "",
-            ClusterVersions: [ {
-                ClusterVersion: "",
-                Description: "",
-                ClusterParameterGroupFamily: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
-module.exports.ModifySnapshotCopyRetentionPeriod = function ModifySnapshotCopyRetentionPeriod(aws) {
-        var ClusterIdentifier = aws.params['ClusterIdentifier'];
-        var RetentionPeriod = aws.params['RetentionPeriod'] /* integer */;
-        if (! ClusterIdentifier) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ClusterIdentifier"];
-        }
-        if (! RetentionPeriod) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter RetentionPeriod"];
-        }
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DisableSnapshotCopy = function DisableSnapshotCopy(aws) {
+  var ClusterIdentifier = aws.params['ClusterIdentifier'];
+  if (!ClusterIdentifier) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClusterIdentifier'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            Cluster: /*Su*/{
-                Tags: /*S7*/[ /*S8*/{
-                    Value: "",
-                    Key: ""
-                } /*, ...*/ ],
-                VpcSecurityGroups: [ {
-                    Status: "",
-                    VpcSecurityGroupId: ""
-                } /*, ...*/ ],
-                ClusterSecurityGroups: [ {
-                    Status: "",
-                    ClusterSecurityGroupName: ""
-                } /*, ...*/ ],
-                KmsKeyId: "",
-                MasterUsername: "",
-                HsmStatus: {
-                    Status: "",
-                    HsmClientCertificateIdentifier: "",
-                    HsmConfigurationIdentifier: ""
-                },
-                Endpoint: {
-                    Address: "",
-                    Port: 0
-                },
-                AutomatedSnapshotRetentionPeriod: 0,
-                ClusterNodes: [ {
-                    NodeRole: "",
-                    PublicIPAddress: "",
-                    PrivateIPAddress: ""
-                } /*, ...*/ ],
-                PendingModifiedValues: {
-                    NumberOfNodes: 0,
-                    NodeType: "",
-                    MasterUserPassword: "",
-                    ClusterVersion: "",
-                    ClusterType: "",
-                    AutomatedSnapshotRetentionPeriod: 0,
-                    ClusterIdentifier: ""
-                },
-                PubliclyAccessible: false,
-                RestoreStatus: {
-                    EstimatedTimeToCompletionInSeconds: 0 /*long*/,
-                    ElapsedTimeInSeconds: 0 /*long*/,
-                    SnapshotSizeInMegaBytes: 0 /*long*/,
-                    Status: "",
-                    CurrentRestoreRateInMegaBytesPerSecond: 0.0 /*double*/,
-                    ProgressInMegaBytes: 0 /*long*/
-                },
-                ClusterSnapshotCopyStatus: {
-                    SnapshotCopyGrantName: "",
-                    RetentionPeriod: 0 /*long*/,
-                    DestinationRegion: ""
-                },
-                ElasticIpStatus: {
-                    Status: "",
-                    ElasticIp: ""
-                },
-                AllowVersionUpgrade: false,
-                ModifyStatus: "",
-                VpcId: "",
-                ClusterVersion: "",
-                NumberOfNodes: 0,
-                PreferredMaintenanceWindow: "",
-                ClusterRevisionNumber: "",
-                ClusterParameterGroups: [ {
-                    ParameterApplyStatus: "",
-                    ParameterGroupName: "",
-                    ClusterParameterStatusList: [ {
-                        ParameterApplyErrorDescription: "",
-                        ParameterApplyStatus: "",
-                        ParameterName: ""
-                    } /*, ...*/ ]
-                } /*, ...*/ ],
-                ClusterIdentifier: "",
-                ClusterSubnetGroupName: "",
-                AvailabilityZone: "",
-                DBName: "",
-                NodeType: "",
-                ClusterStatus: "",
-                Encrypted: false,
-                ClusterCreateTime: now(),
-                ClusterPublicKey: ""
-            }
-        };
-        return [200, ret];
-    }
-module.exports.AuthorizeClusterSecurityGroupIngress = function AuthorizeClusterSecurityGroupIngress(aws) {
-        var CIDRIP = aws.params['CIDRIP'];
-        var ClusterSecurityGroupName = aws.params['ClusterSecurityGroupName'];
-        var EC2SecurityGroupName = aws.params['EC2SecurityGroupName'];
-        var EC2SecurityGroupOwnerId = aws.params['EC2SecurityGroupOwnerId'];
-        if (! ClusterSecurityGroupName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ClusterSecurityGroupName"];
-        }
+  var ret = {
+    Cluster: /*Su*/{
+      ClusterIdentifier: '',
+      ClusterCreateTime: awsCommon.timestamp(),
+      PreferredMaintenanceWindow: '',
+      VpcId: '',
+      MasterUsername: '',
+      ClusterVersion: '',
+      ClusterStatus: '',
+      AllowVersionUpgrade: false,
+      VpcSecurityGroups: [ {
+        VpcSecurityGroupId: '',
+        Status: '',
+      }, /* ...*/ ],
+      DBName: '',
+      RestoreStatus: {
+        ElapsedTimeInSeconds: 0 /*Long*/,
+        CurrentRestoreRateInMegaBytesPerSecond: 0.0 /*Double*/,
+        ProgressInMegaBytes: 0 /*Long*/,
+        SnapshotSizeInMegaBytes: 0 /*Long*/,
+        EstimatedTimeToCompletionInSeconds: 0 /*Long*/,
+        Status: '',
+      },
+      ClusterPublicKey: '',
+      ClusterRevisionNumber: '',
+      KmsKeyId: '',
+      ClusterParameterGroups: [ {
+        ClusterParameterStatusList: [ {
+          ParameterName: '',
+          ParameterApplyErrorDescription: '',
+          ParameterApplyStatus: '',
+        }, /* ...*/ ],
+        ParameterApplyStatus: '',
+        ParameterGroupName: '',
+      }, /* ...*/ ],
+      PendingModifiedValues: {
+        ClusterIdentifier: '',
+        NodeType: '',
+        AutomatedSnapshotRetentionPeriod: 0,
+        ClusterVersion: '',
+        NumberOfNodes: 0,
+        ClusterType: '',
+        MasterUserPassword: '',
+      },
+      Endpoint: {
+        Port: 0,
+        Address: '',
+      },
+      NodeType: '',
+      Tags: /*S7*/[ /*S8*/{
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      ModifyStatus: '',
+      NumberOfNodes: 0,
+      ClusterSecurityGroups: [ {
+        Status: '',
+        ClusterSecurityGroupName: '',
+      }, /* ...*/ ],
+      AvailabilityZone: '',
+      HsmStatus: {
+        HsmClientCertificateIdentifier: '',
+        HsmConfigurationIdentifier: '',
+        Status: '',
+      },
+      PubliclyAccessible: false,
+      Encrypted: false,
+      AutomatedSnapshotRetentionPeriod: 0,
+      ElasticIpStatus: {
+        Status: '',
+        ElasticIp: '',
+      },
+      ClusterSnapshotCopyStatus: {
+        RetentionPeriod: 0 /*Long*/,
+        SnapshotCopyGrantName: '',
+        DestinationRegion: '',
+      },
+      ClusterSubnetGroupName: '',
+      ClusterNodes: [ {
+        PublicIPAddress: '',
+        NodeRole: '',
+        PrivateIPAddress: '',
+      }, /* ...*/ ],
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeLoggingStatus = function DescribeLoggingStatus(aws) {
+  var ClusterIdentifier = aws.params['ClusterIdentifier'];
+  if (!ClusterIdentifier) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClusterIdentifier'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            ClusterSecurityGroup: /*S4*/{
-                IPRanges: [ {
-                    Status: "",
-                    Tags: /*S7*/[ /*S8*/{
-                        Value: "",
-                        Key: ""
-                    } /*, ...*/ ],
-                    CIDRIP: ""
-                } /*, ...*/ ],
-                Tags: /*S7*/[ /*S8*/{
-                        Value: "",
-                        Key: ""
-                    } /*, ...*/ ],
-                Description: "",
-                ClusterSecurityGroupName: "",
-                EC2SecurityGroups: [ {
-                    Status: "",
-                    Tags: /*S7*/[ /*S8*/{
-                        Value: "",
-                        Key: ""
-                    } /*, ...*/ ],
-                    EC2SecurityGroupName: "",
-                    EC2SecurityGroupOwnerId: ""
-                } /*, ...*/ ]
-            }
-        };
-        return [200, ret];
-    }
-module.exports.ModifyClusterSubnetGroup = function ModifyClusterSubnetGroup(aws) {
-        var Description = aws.params['Description'];
-        var ClusterSubnetGroupName = aws.params['ClusterSubnetGroupName'];
-        var SubnetIds = aws.params['SubnetIds'];
-        if (! ClusterSubnetGroupName) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ClusterSubnetGroupName"];
-        }
-        if (! SubnetIds) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter SubnetIds"];
-        }
-
-
-        // TODO implement code
-
-        var ret = {
-            ClusterSubnetGroup: /*S1l*/{
-                Tags: /*S7*/[ /*S8*/{
-                    Value: "",
-                    Key: ""
-                } /*, ...*/ ],
-                Description: "",
-                Subnets: [ {
-                    SubnetIdentifier: "",
-                    SubnetStatus: "",
-                    SubnetAvailabilityZone: /*S1o*/{
-                        Name: ""
-                    }
-                } /*, ...*/ ],
-                SubnetGroupStatus: "",
-                ClusterSubnetGroupName: "",
-                VpcId: ""
-            }
-        };
-        return [200, ret];
-    }
+  var ret = /*S3u*/{
+    S3KeyPrefix: '',
+    BucketName: '',
+    LoggingEnabled: false,
+    LastFailureMessage: '',
+    LastFailureTime: awsCommon.timestamp(),
+    LastSuccessfulDeliveryTime: awsCommon.timestamp(),
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.DescribeReservedNodes = function DescribeReservedNodes(aws) {
-        var Marker = aws.params['Marker'];
-        var ReservedNodeId = aws.params['ReservedNodeId'];
-        var MaxRecords = aws.params['MaxRecords'] /* integer */;
+  var ReservedNodeId = aws.params['ReservedNodeId'];
+  var Marker = aws.params['Marker'];
+  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            Marker: "",
-            ReservedNodes: [ /*S49*/{
-                State: "",
-                RecurringCharges: /*S44*/[ {
-                    RecurringChargeAmount: 0.0 /*double*/,
-                    RecurringChargeFrequency: ""
-                } /*, ...*/ ],
-                ReservedNodeOfferingId: "",
-                UsagePrice: 0.0 /*double*/,
-                CurrencyCode: "",
-                NodeCount: 0,
-                NodeType: "",
-                StartTime: now(),
-                OfferingType: "",
-                FixedPrice: 0.0 /*double*/,
-                Duration: 0,
-                ReservedNodeId: ""
-            } /*, ...*/ ]
-        };
-        return [200, ret];
-    }
+  var ret = {
+    Marker: '',
+    ReservedNodes: [ /*S49*/{
+      ReservedNodeOfferingId: '',
+      NodeCount: 0,
+      NodeType: '',
+      FixedPrice: 0.0 /*Double*/,
+      Duration: 0,
+      State: '',
+      ReservedNodeId: '',
+      CurrencyCode: '',
+      RecurringCharges: /*S44*/[ {
+        RecurringChargeAmount: 0.0 /*Double*/,
+        RecurringChargeFrequency: '',
+      }, /* ...*/ ],
+      OfferingType: '',
+      UsagePrice: 0.0 /*Double*/,
+      StartTime: awsCommon.timestamp(),
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteHsmConfiguration = function DeleteHsmConfiguration(aws) {
+  var HsmConfigurationIdentifier = aws.params['HsmConfigurationIdentifier'];
+  if (!HsmConfigurationIdentifier) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HsmConfigurationIdentifier'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteSnapshotCopyGrant = function DeleteSnapshotCopyGrant(aws) {
+  var SnapshotCopyGrantName = aws.params['SnapshotCopyGrantName'];
+  if (!SnapshotCopyGrantName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SnapshotCopyGrantName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ModifyClusterSubnetGroup = function ModifyClusterSubnetGroup(aws) {
+  var ClusterSubnetGroupName = aws.params['ClusterSubnetGroupName'];
+  var Description = aws.params['Description'];
+  var SubnetIds = aws.params['SubnetIds'];
+  if (!ClusterSubnetGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClusterSubnetGroupName'];
+  }
+  if (!SubnetIds) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SubnetIds'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ClusterSubnetGroup: /*S1l*/{
+      Description: '',
+      Tags: /*S7*/[ /*S8*/{
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      VpcId: '',
+      Subnets: [ {
+        SubnetStatus: '',
+        SubnetIdentifier: '',
+        SubnetAvailabilityZone: /*S1o*/{
+          Name: '',
+        },
+      }, /* ...*/ ],
+      ClusterSubnetGroupName: '',
+      SubnetGroupStatus: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateHsmConfiguration = function CreateHsmConfiguration(aws) {
+  var HsmConfigurationIdentifier = aws.params['HsmConfigurationIdentifier'];
+  var Tags = aws.params['Tags'];
+  var HsmServerPublicCertificate = aws.params['HsmServerPublicCertificate'];
+  var HsmPartitionName = aws.params['HsmPartitionName'];
+  var Description = aws.params['Description'];
+  var HsmPartitionPassword = aws.params['HsmPartitionPassword'];
+  var HsmIpAddress = aws.params['HsmIpAddress'];
+  if (!HsmConfigurationIdentifier) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HsmConfigurationIdentifier'];
+  }
+  if (!Description) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Description'];
+  }
+  if (!HsmIpAddress) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HsmIpAddress'];
+  }
+  if (!HsmPartitionName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HsmPartitionName'];
+  }
+  if (!HsmPartitionPassword) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HsmPartitionPassword'];
+  }
+  if (!HsmServerPublicCertificate) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HsmServerPublicCertificate'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    HsmConfiguration: /*S1z*/{
+      HsmPartitionName: '',
+      HsmConfigurationIdentifier: '',
+      Tags: /*S7*/[ /*S8*/{
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      Description: '',
+      HsmIpAddress: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeHsmClientCertificates = function DescribeHsmClientCertificates(aws) {
+  var HsmClientCertificateIdentifier = aws.params['HsmClientCertificateIdentifier'];
+  var Marker = aws.params['Marker'];
+  var TagKeys = aws.params['TagKeys'];
+  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
+  var TagValues = aws.params['TagValues'];
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    HsmClientCertificates: [ /*S1w*/{
+      HsmClientCertificateIdentifier: '',
+      HsmClientCertificatePublicKey: '',
+      Tags: /*S7*/[ /*S8*/{
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeTags = function DescribeTags(aws) {
+  var Marker = aws.params['Marker'];
+  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
+  var ResourceType = aws.params['ResourceType'];
+  var ResourceName = aws.params['ResourceName'];
+  var TagKeys = aws.params['TagKeys'];
+  var TagValues = aws.params['TagValues'];
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    TaggedResources: [ {
+      Tag: /*S8*/{
+        Key: '',
+        Value: '',
+      },
+      ResourceName: '',
+      ResourceType: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ModifyClusterParameterGroup = function ModifyClusterParameterGroup(aws) {
+  var Parameters = aws.params['Parameters'];
+  var ParameterGroupName = aws.params['ParameterGroupName'];
+  if (!ParameterGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ParameterGroupName'];
+  }
+  if (!Parameters) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Parameters'];
+  }
+
+
+  // TODO implement code
+
+  var ret = /*S4x*/{
+    ParameterGroupStatus: '',
+    ParameterGroupName: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateClusterSecurityGroup = function CreateClusterSecurityGroup(aws) {
+  var Description = aws.params['Description'];
+  var Tags = aws.params['Tags'];
+  var ClusterSecurityGroupName = aws.params['ClusterSecurityGroupName'];
+  if (!ClusterSecurityGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClusterSecurityGroupName'];
+  }
+  if (!Description) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Description'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ClusterSecurityGroup: /*S4*/{
+      Description: '',
+      EC2SecurityGroups: [ {
+        EC2SecurityGroupName: '',
+        Tags: /*S7*/[ /*S8*/{
+          Key: '',
+          Value: '',
+        }, /* ...*/ ],
+        Status: '',
+        EC2SecurityGroupOwnerId: '',
+      }, /* ...*/ ],
+      Tags: /*S7*/[ /*S8*/{
+          Key: '',
+          Value: '',
+        }, /* ...*/ ],
+      IPRanges: [ {
+        CIDRIP: '',
+        Tags: /*S7*/[ /*S8*/{
+          Key: '',
+          Value: '',
+        }, /* ...*/ ],
+        Status: '',
+      }, /* ...*/ ],
+      ClusterSecurityGroupName: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RotateEncryptionKey = function RotateEncryptionKey(aws) {
+  var ClusterIdentifier = aws.params['ClusterIdentifier'];
+  if (!ClusterIdentifier) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClusterIdentifier'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Cluster: /*Su*/{
+      ClusterIdentifier: '',
+      ClusterCreateTime: awsCommon.timestamp(),
+      PreferredMaintenanceWindow: '',
+      VpcId: '',
+      MasterUsername: '',
+      ClusterVersion: '',
+      ClusterStatus: '',
+      AllowVersionUpgrade: false,
+      VpcSecurityGroups: [ {
+        VpcSecurityGroupId: '',
+        Status: '',
+      }, /* ...*/ ],
+      DBName: '',
+      RestoreStatus: {
+        ElapsedTimeInSeconds: 0 /*Long*/,
+        CurrentRestoreRateInMegaBytesPerSecond: 0.0 /*Double*/,
+        ProgressInMegaBytes: 0 /*Long*/,
+        SnapshotSizeInMegaBytes: 0 /*Long*/,
+        EstimatedTimeToCompletionInSeconds: 0 /*Long*/,
+        Status: '',
+      },
+      ClusterPublicKey: '',
+      ClusterRevisionNumber: '',
+      KmsKeyId: '',
+      ClusterParameterGroups: [ {
+        ClusterParameterStatusList: [ {
+          ParameterName: '',
+          ParameterApplyErrorDescription: '',
+          ParameterApplyStatus: '',
+        }, /* ...*/ ],
+        ParameterApplyStatus: '',
+        ParameterGroupName: '',
+      }, /* ...*/ ],
+      PendingModifiedValues: {
+        ClusterIdentifier: '',
+        NodeType: '',
+        AutomatedSnapshotRetentionPeriod: 0,
+        ClusterVersion: '',
+        NumberOfNodes: 0,
+        ClusterType: '',
+        MasterUserPassword: '',
+      },
+      Endpoint: {
+        Port: 0,
+        Address: '',
+      },
+      NodeType: '',
+      Tags: /*S7*/[ /*S8*/{
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      ModifyStatus: '',
+      NumberOfNodes: 0,
+      ClusterSecurityGroups: [ {
+        Status: '',
+        ClusterSecurityGroupName: '',
+      }, /* ...*/ ],
+      AvailabilityZone: '',
+      HsmStatus: {
+        HsmClientCertificateIdentifier: '',
+        HsmConfigurationIdentifier: '',
+        Status: '',
+      },
+      PubliclyAccessible: false,
+      Encrypted: false,
+      AutomatedSnapshotRetentionPeriod: 0,
+      ElasticIpStatus: {
+        Status: '',
+        ElasticIp: '',
+      },
+      ClusterSnapshotCopyStatus: {
+        RetentionPeriod: 0 /*Long*/,
+        SnapshotCopyGrantName: '',
+        DestinationRegion: '',
+      },
+      ClusterSubnetGroupName: '',
+      ClusterNodes: [ {
+        PublicIPAddress: '',
+        NodeRole: '',
+        PrivateIPAddress: '',
+      }, /* ...*/ ],
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateCluster = function CreateCluster(aws) {
+  var ClusterIdentifier = aws.params['ClusterIdentifier'];
+  var PreferredMaintenanceWindow = aws.params['PreferredMaintenanceWindow'];
+  var MasterUsername = aws.params['MasterUsername'];
+  var ClusterVersion = aws.params['ClusterVersion'];
+  var ClusterType = aws.params['ClusterType'];
+  var AllowVersionUpgrade = aws.params['AllowVersionUpgrade'] /* Type boolean */;
+  var NodeType = aws.params['NodeType'];
+  var MasterUserPassword = aws.params['MasterUserPassword'];
+  var Port = aws.params['Port'] /* Type integer */;
+  var HsmClientCertificateIdentifier = aws.params['HsmClientCertificateIdentifier'];
+  var Encrypted = aws.params['Encrypted'] /* Type boolean */;
+  var DBName = aws.params['DBName'];
+  var Tags = aws.params['Tags'];
+  var NumberOfNodes = aws.params['NumberOfNodes'] /* Type integer */;
+  var VpcSecurityGroupIds = aws.params['VpcSecurityGroupIds'];
+  var ClusterSecurityGroups = aws.params['ClusterSecurityGroups'];
+  var AvailabilityZone = aws.params['AvailabilityZone'];
+  var KmsKeyId = aws.params['KmsKeyId'];
+  var PubliclyAccessible = aws.params['PubliclyAccessible'] /* Type boolean */;
+  var HsmConfigurationIdentifier = aws.params['HsmConfigurationIdentifier'];
+  var AutomatedSnapshotRetentionPeriod = aws.params['AutomatedSnapshotRetentionPeriod'] /* Type integer */;
+  var ElasticIp = aws.params['ElasticIp'];
+  var ClusterSubnetGroupName = aws.params['ClusterSubnetGroupName'];
+  var ClusterParameterGroupName = aws.params['ClusterParameterGroupName'];
+  if (!ClusterIdentifier) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClusterIdentifier'];
+  }
+  if (!NodeType) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter NodeType'];
+  }
+  if (!MasterUsername) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MasterUsername'];
+  }
+  if (!MasterUserPassword) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MasterUserPassword'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Cluster: /*Su*/{
+      ClusterIdentifier: '',
+      ClusterCreateTime: awsCommon.timestamp(),
+      PreferredMaintenanceWindow: '',
+      VpcId: '',
+      MasterUsername: '',
+      ClusterVersion: '',
+      ClusterStatus: '',
+      AllowVersionUpgrade: false,
+      VpcSecurityGroups: [ {
+        VpcSecurityGroupId: '',
+        Status: '',
+      }, /* ...*/ ],
+      DBName: '',
+      RestoreStatus: {
+        ElapsedTimeInSeconds: 0 /*Long*/,
+        CurrentRestoreRateInMegaBytesPerSecond: 0.0 /*Double*/,
+        ProgressInMegaBytes: 0 /*Long*/,
+        SnapshotSizeInMegaBytes: 0 /*Long*/,
+        EstimatedTimeToCompletionInSeconds: 0 /*Long*/,
+        Status: '',
+      },
+      ClusterPublicKey: '',
+      ClusterRevisionNumber: '',
+      KmsKeyId: '',
+      ClusterParameterGroups: [ {
+        ClusterParameterStatusList: [ {
+          ParameterName: '',
+          ParameterApplyErrorDescription: '',
+          ParameterApplyStatus: '',
+        }, /* ...*/ ],
+        ParameterApplyStatus: '',
+        ParameterGroupName: '',
+      }, /* ...*/ ],
+      PendingModifiedValues: {
+        ClusterIdentifier: '',
+        NodeType: '',
+        AutomatedSnapshotRetentionPeriod: 0,
+        ClusterVersion: '',
+        NumberOfNodes: 0,
+        ClusterType: '',
+        MasterUserPassword: '',
+      },
+      Endpoint: {
+        Port: 0,
+        Address: '',
+      },
+      NodeType: '',
+      Tags: /*S7*/[ /*S8*/{
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      ModifyStatus: '',
+      NumberOfNodes: 0,
+      ClusterSecurityGroups: [ {
+        Status: '',
+        ClusterSecurityGroupName: '',
+      }, /* ...*/ ],
+      AvailabilityZone: '',
+      HsmStatus: {
+        HsmClientCertificateIdentifier: '',
+        HsmConfigurationIdentifier: '',
+        Status: '',
+      },
+      PubliclyAccessible: false,
+      Encrypted: false,
+      AutomatedSnapshotRetentionPeriod: 0,
+      ElasticIpStatus: {
+        Status: '',
+        ElasticIp: '',
+      },
+      ClusterSnapshotCopyStatus: {
+        RetentionPeriod: 0 /*Long*/,
+        SnapshotCopyGrantName: '',
+        DestinationRegion: '',
+      },
+      ClusterSubnetGroupName: '',
+      ClusterNodes: [ {
+        PublicIPAddress: '',
+        NodeRole: '',
+        PrivateIPAddress: '',
+      }, /* ...*/ ],
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteClusterSecurityGroup = function DeleteClusterSecurityGroup(aws) {
+  var ClusterSecurityGroupName = aws.params['ClusterSecurityGroupName'];
+  if (!ClusterSecurityGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClusterSecurityGroupName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeResize = function DescribeResize(aws) {
+  var ClusterIdentifier = aws.params['ClusterIdentifier'];
+  if (!ClusterIdentifier) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClusterIdentifier'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    AvgResizeRateInMegaBytesPerSecond: 0.0 /*Double*/,
+    ProgressInMegaBytes: 0 /*Long*/,
+    TotalResizeDataInMegaBytes: 0 /*Long*/,
+    EstimatedTimeToCompletionInSeconds: 0 /*Long*/,
+    TargetNodeType: '',
+    TargetNumberOfNodes: 0,
+    ElapsedTimeInSeconds: 0 /*Long*/,
+    ImportTablesCompleted: [ '', /* ...*/ ],
+    Status: '',
+    ImportTablesInProgress: [ '', /* ...*/ ],
+    TargetClusterType: '',
+    ImportTablesNotStarted: [ '', /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeEvents = function DescribeEvents(aws) {
+  var Marker = aws.params['Marker'];
+  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
+  var SourceType = aws.params['SourceType'];
+  var Duration = aws.params['Duration'] /* Type integer */;
+  var EndTime = aws.params['EndTime'] /* Type timestamp */;
+  var StartTime = aws.params['StartTime'] /* Type timestamp */;
+  var SourceIdentifier = aws.params['SourceIdentifier'];
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    Events: [ {
+      EventCategories: /*S1r*/[ '', /* ...*/ ],
+      EventId: '',
+      SourceType: '',
+      Severity: '',
+      Date: awsCommon.timestamp(),
+      Message: '',
+      SourceIdentifier: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CopyClusterSnapshot = function CopyClusterSnapshot(aws) {
+  var SourceSnapshotIdentifier = aws.params['SourceSnapshotIdentifier'];
+  var SourceSnapshotClusterIdentifier = aws.params['SourceSnapshotClusterIdentifier'];
+  var TargetSnapshotIdentifier = aws.params['TargetSnapshotIdentifier'];
+  if (!SourceSnapshotIdentifier) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SourceSnapshotIdentifier'];
+  }
+  if (!TargetSnapshotIdentifier) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TargetSnapshotIdentifier'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Snapshot: /*Sd*/{
+      CurrentBackupRateInMegaBytesPerSecond: 0.0 /*Double*/,
+      ClusterIdentifier: '',
+      ClusterCreateTime: awsCommon.timestamp(),
+      VpcId: '',
+      MasterUsername: '',
+      ClusterVersion: '',
+      TotalBackupSizeInMegaBytes: 0.0 /*Double*/,
+      DBName: '',
+      Port: 0,
+      AccountsWithRestoreAccess: [ {
+        AccountId: '',
+      }, /* ...*/ ],
+      Status: '',
+      BackupProgressInMegaBytes: 0.0 /*Double*/,
+      Encrypted: false,
+      NodeType: '',
+      Tags: /*S7*/[ /*S8*/{
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      ActualIncrementalBackupSizeInMegaBytes: 0.0 /*Double*/,
+      NumberOfNodes: 0,
+      SnapshotCreateTime: awsCommon.timestamp(),
+      AvailabilityZone: '',
+      KmsKeyId: '',
+      SourceRegion: '',
+      SnapshotType: '',
+      ElapsedTimeInSeconds: 0 /*Long*/,
+      EncryptedWithHSM: false,
+      OwnerAccount: '',
+      EstimatedSecondsToCompletion: 0 /*Long*/,
+      SnapshotIdentifier: '',
+      RestorableNodeTypes: [ '', /* ...*/ ],
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteClusterParameterGroup = function DeleteClusterParameterGroup(aws) {
+  var ParameterGroupName = aws.params['ParameterGroupName'];
+  if (!ParameterGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ParameterGroupName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RebootCluster = function RebootCluster(aws) {
+  var ClusterIdentifier = aws.params['ClusterIdentifier'];
+  if (!ClusterIdentifier) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClusterIdentifier'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Cluster: /*Su*/{
+      ClusterIdentifier: '',
+      ClusterCreateTime: awsCommon.timestamp(),
+      PreferredMaintenanceWindow: '',
+      VpcId: '',
+      MasterUsername: '',
+      ClusterVersion: '',
+      ClusterStatus: '',
+      AllowVersionUpgrade: false,
+      VpcSecurityGroups: [ {
+        VpcSecurityGroupId: '',
+        Status: '',
+      }, /* ...*/ ],
+      DBName: '',
+      RestoreStatus: {
+        ElapsedTimeInSeconds: 0 /*Long*/,
+        CurrentRestoreRateInMegaBytesPerSecond: 0.0 /*Double*/,
+        ProgressInMegaBytes: 0 /*Long*/,
+        SnapshotSizeInMegaBytes: 0 /*Long*/,
+        EstimatedTimeToCompletionInSeconds: 0 /*Long*/,
+        Status: '',
+      },
+      ClusterPublicKey: '',
+      ClusterRevisionNumber: '',
+      KmsKeyId: '',
+      ClusterParameterGroups: [ {
+        ClusterParameterStatusList: [ {
+          ParameterName: '',
+          ParameterApplyErrorDescription: '',
+          ParameterApplyStatus: '',
+        }, /* ...*/ ],
+        ParameterApplyStatus: '',
+        ParameterGroupName: '',
+      }, /* ...*/ ],
+      PendingModifiedValues: {
+        ClusterIdentifier: '',
+        NodeType: '',
+        AutomatedSnapshotRetentionPeriod: 0,
+        ClusterVersion: '',
+        NumberOfNodes: 0,
+        ClusterType: '',
+        MasterUserPassword: '',
+      },
+      Endpoint: {
+        Port: 0,
+        Address: '',
+      },
+      NodeType: '',
+      Tags: /*S7*/[ /*S8*/{
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      ModifyStatus: '',
+      NumberOfNodes: 0,
+      ClusterSecurityGroups: [ {
+        Status: '',
+        ClusterSecurityGroupName: '',
+      }, /* ...*/ ],
+      AvailabilityZone: '',
+      HsmStatus: {
+        HsmClientCertificateIdentifier: '',
+        HsmConfigurationIdentifier: '',
+        Status: '',
+      },
+      PubliclyAccessible: false,
+      Encrypted: false,
+      AutomatedSnapshotRetentionPeriod: 0,
+      ElasticIpStatus: {
+        Status: '',
+        ElasticIp: '',
+      },
+      ClusterSnapshotCopyStatus: {
+        RetentionPeriod: 0 /*Long*/,
+        SnapshotCopyGrantName: '',
+        DestinationRegion: '',
+      },
+      ClusterSubnetGroupName: '',
+      ClusterNodes: [ {
+        PublicIPAddress: '',
+        NodeRole: '',
+        PrivateIPAddress: '',
+      }, /* ...*/ ],
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateEventSubscription = function CreateEventSubscription(aws) {
+  var SourceType = aws.params['SourceType'];
+  var EventCategories = aws.params['EventCategories'];
+  var Tags = aws.params['Tags'];
+  var SubscriptionName = aws.params['SubscriptionName'];
+  var SnsTopicArn = aws.params['SnsTopicArn'];
+  var SourceIds = aws.params['SourceIds'];
+  var Severity = aws.params['Severity'];
+  var Enabled = aws.params['Enabled'] /* Type boolean */;
+  if (!SubscriptionName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SubscriptionName'];
+  }
+  if (!SnsTopicArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SnsTopicArn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    EventSubscription: /*S1t*/{
+      CustSubscriptionId: '',
+      SourceType: '',
+      Tags: /*S7*/[ /*S8*/{
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      Status: '',
+      Enabled: false,
+      SnsTopicArn: '',
+      EventCategoriesList: /*S1r*/[ '', /* ...*/ ],
+      Severity: '',
+      SourceIdsList: /*S1q*/[ '', /* ...*/ ],
+      CustomerAwsId: '',
+      SubscriptionCreationTime: awsCommon.timestamp(),
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeClusterParameterGroups = function DescribeClusterParameterGroups(aws) {
+  var Marker = aws.params['Marker'];
+  var TagKeys = aws.params['TagKeys'];
+  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
+  var TagValues = aws.params['TagValues'];
+  var ParameterGroupName = aws.params['ParameterGroupName'];
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    ParameterGroups: [ /*S1d*/{
+      ParameterGroupFamily: '',
+      Description: '',
+      Tags: /*S7*/[ /*S8*/{
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      ParameterGroupName: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeClusterParameters = function DescribeClusterParameters(aws) {
+  var Marker = aws.params['Marker'];
+  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
+  var Source = aws.params['Source'];
+  var ParameterGroupName = aws.params['ParameterGroupName'];
+  if (!ParameterGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ParameterGroupName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    Parameters: /*S2n*/[ {
+      ParameterValue: '',
+      MinimumEngineVersion: '',
+      IsModifiable: false,
+      ParameterName: '',
+      DataType: '',
+      AllowedValues: '',
+      Description: '',
+      Source: '',
+      ApplyType: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeHsmConfigurations = function DescribeHsmConfigurations(aws) {
+  var Marker = aws.params['Marker'];
+  var HsmConfigurationIdentifier = aws.params['HsmConfigurationIdentifier'];
+  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
+  var TagKeys = aws.params['TagKeys'];
+  var TagValues = aws.params['TagValues'];
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    HsmConfigurations: [ /*S1z*/{
+      HsmPartitionName: '',
+      HsmConfigurationIdentifier: '',
+      Tags: /*S7*/[ /*S8*/{
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      Description: '',
+      HsmIpAddress: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeReservedNodeOfferings = function DescribeReservedNodeOfferings(aws) {
+  var ReservedNodeOfferingId = aws.params['ReservedNodeOfferingId'];
+  var Marker = aws.params['Marker'];
+  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    ReservedNodeOfferings: [ {
+      ReservedNodeOfferingId: '',
+      NodeType: '',
+      CurrencyCode: '',
+      RecurringCharges: /*S44*/[ {
+        RecurringChargeAmount: 0.0 /*Double*/,
+        RecurringChargeFrequency: '',
+      }, /* ...*/ ],
+      FixedPrice: 0.0 /*Double*/,
+      OfferingType: '',
+      Duration: 0,
+      UsagePrice: 0.0 /*Double*/,
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.AuthorizeClusterSecurityGroupIngress = function AuthorizeClusterSecurityGroupIngress(aws) {
+  var CIDRIP = aws.params['CIDRIP'];
+  var EC2SecurityGroupOwnerId = aws.params['EC2SecurityGroupOwnerId'];
+  var EC2SecurityGroupName = aws.params['EC2SecurityGroupName'];
+  var ClusterSecurityGroupName = aws.params['ClusterSecurityGroupName'];
+  if (!ClusterSecurityGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClusterSecurityGroupName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ClusterSecurityGroup: /*S4*/{
+      Description: '',
+      EC2SecurityGroups: [ {
+        EC2SecurityGroupName: '',
+        Tags: /*S7*/[ /*S8*/{
+          Key: '',
+          Value: '',
+        }, /* ...*/ ],
+        Status: '',
+        EC2SecurityGroupOwnerId: '',
+      }, /* ...*/ ],
+      Tags: /*S7*/[ /*S8*/{
+          Key: '',
+          Value: '',
+        }, /* ...*/ ],
+      IPRanges: [ {
+        CIDRIP: '',
+        Tags: /*S7*/[ /*S8*/{
+          Key: '',
+          Value: '',
+        }, /* ...*/ ],
+        Status: '',
+      }, /* ...*/ ],
+      ClusterSecurityGroupName: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateClusterSnapshot = function CreateClusterSnapshot(aws) {
+  var SnapshotIdentifier = aws.params['SnapshotIdentifier'];
+  var Tags = aws.params['Tags'];
+  var ClusterIdentifier = aws.params['ClusterIdentifier'];
+  if (!SnapshotIdentifier) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SnapshotIdentifier'];
+  }
+  if (!ClusterIdentifier) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClusterIdentifier'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Snapshot: /*Sd*/{
+      CurrentBackupRateInMegaBytesPerSecond: 0.0 /*Double*/,
+      ClusterIdentifier: '',
+      ClusterCreateTime: awsCommon.timestamp(),
+      VpcId: '',
+      MasterUsername: '',
+      ClusterVersion: '',
+      TotalBackupSizeInMegaBytes: 0.0 /*Double*/,
+      DBName: '',
+      Port: 0,
+      AccountsWithRestoreAccess: [ {
+        AccountId: '',
+      }, /* ...*/ ],
+      Status: '',
+      BackupProgressInMegaBytes: 0.0 /*Double*/,
+      Encrypted: false,
+      NodeType: '',
+      Tags: /*S7*/[ /*S8*/{
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      ActualIncrementalBackupSizeInMegaBytes: 0.0 /*Double*/,
+      NumberOfNodes: 0,
+      SnapshotCreateTime: awsCommon.timestamp(),
+      AvailabilityZone: '',
+      KmsKeyId: '',
+      SourceRegion: '',
+      SnapshotType: '',
+      ElapsedTimeInSeconds: 0 /*Long*/,
+      EncryptedWithHSM: false,
+      OwnerAccount: '',
+      EstimatedSecondsToCompletion: 0 /*Long*/,
+      SnapshotIdentifier: '',
+      RestorableNodeTypes: [ '', /* ...*/ ],
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeOrderableClusterOptions = function DescribeOrderableClusterOptions(aws) {
+  var Marker = aws.params['Marker'];
+  var NodeType = aws.params['NodeType'];
+  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
+  var ClusterVersion = aws.params['ClusterVersion'];
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    OrderableClusterOptions: [ {
+      ClusterType: '',
+      NodeType: '',
+      AvailabilityZones: [ /*S1o*/{
+        Name: '',
+      }, /* ...*/ ],
+      ClusterVersion: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeEventCategories = function DescribeEventCategories(aws) {
+  var SourceType = aws.params['SourceType'];
+
+
+  // TODO implement code
+
+  var ret = {
+    EventCategoriesMapList: [ {
+      SourceType: '',
+      Events: [ {
+        EventCategories: /*S1r*/[ '', /* ...*/ ],
+        Severity: '',
+        EventDescription: '',
+        EventId: '',
+      }, /* ...*/ ],
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeClusterSecurityGroups = function DescribeClusterSecurityGroups(aws) {
+  var Marker = aws.params['Marker'];
+  var TagKeys = aws.params['TagKeys'];
+  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
+  var TagValues = aws.params['TagValues'];
+  var ClusterSecurityGroupName = aws.params['ClusterSecurityGroupName'];
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    ClusterSecurityGroups: [ /*S4*/{
+      Description: '',
+      EC2SecurityGroups: [ {
+        EC2SecurityGroupName: '',
+        Tags: /*S7*/[ /*S8*/{
+          Key: '',
+          Value: '',
+        }, /* ...*/ ],
+        Status: '',
+        EC2SecurityGroupOwnerId: '',
+      }, /* ...*/ ],
+      Tags: /*S7*/[ /*S8*/{
+          Key: '',
+          Value: '',
+        }, /* ...*/ ],
+      IPRanges: [ {
+        CIDRIP: '',
+        Tags: /*S7*/[ /*S8*/{
+          Key: '',
+          Value: '',
+        }, /* ...*/ ],
+        Status: '',
+      }, /* ...*/ ],
+      ClusterSecurityGroupName: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeClusterSnapshots = function DescribeClusterSnapshots(aws) {
+  var Marker = aws.params['Marker'];
+  var ClusterIdentifier = aws.params['ClusterIdentifier'];
+  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
+  var SnapshotType = aws.params['SnapshotType'];
+  var SnapshotIdentifier = aws.params['SnapshotIdentifier'];
+  var TagKeys = aws.params['TagKeys'];
+  var OwnerAccount = aws.params['OwnerAccount'];
+  var EndTime = aws.params['EndTime'] /* Type timestamp */;
+  var TagValues = aws.params['TagValues'];
+  var StartTime = aws.params['StartTime'] /* Type timestamp */;
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    Snapshots: [ /*Sd*/{
+      CurrentBackupRateInMegaBytesPerSecond: 0.0 /*Double*/,
+      ClusterIdentifier: '',
+      ClusterCreateTime: awsCommon.timestamp(),
+      VpcId: '',
+      MasterUsername: '',
+      ClusterVersion: '',
+      TotalBackupSizeInMegaBytes: 0.0 /*Double*/,
+      DBName: '',
+      Port: 0,
+      AccountsWithRestoreAccess: [ {
+        AccountId: '',
+      }, /* ...*/ ],
+      Status: '',
+      BackupProgressInMegaBytes: 0.0 /*Double*/,
+      Encrypted: false,
+      NodeType: '',
+      Tags: /*S7*/[ /*S8*/{
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      ActualIncrementalBackupSizeInMegaBytes: 0.0 /*Double*/,
+      NumberOfNodes: 0,
+      SnapshotCreateTime: awsCommon.timestamp(),
+      AvailabilityZone: '',
+      KmsKeyId: '',
+      SourceRegion: '',
+      SnapshotType: '',
+      ElapsedTimeInSeconds: 0 /*Long*/,
+      EncryptedWithHSM: false,
+      OwnerAccount: '',
+      EstimatedSecondsToCompletion: 0 /*Long*/,
+      SnapshotIdentifier: '',
+      RestorableNodeTypes: [ '', /* ...*/ ],
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ModifyCluster = function ModifyCluster(aws) {
+  var HsmClientCertificateIdentifier = aws.params['HsmClientCertificateIdentifier'];
+  var ClusterIdentifier = aws.params['ClusterIdentifier'];
+  var NodeType = aws.params['NodeType'];
+  var NewClusterIdentifier = aws.params['NewClusterIdentifier'];
+  var ClusterVersion = aws.params['ClusterVersion'];
+  var NumberOfNodes = aws.params['NumberOfNodes'] /* Type integer */;
+  var ClusterType = aws.params['ClusterType'];
+  var ClusterSecurityGroups = aws.params['ClusterSecurityGroups'];
+  var AllowVersionUpgrade = aws.params['AllowVersionUpgrade'] /* Type boolean */;
+  var PreferredMaintenanceWindow = aws.params['PreferredMaintenanceWindow'];
+  var MasterUserPassword = aws.params['MasterUserPassword'];
+  var VpcSecurityGroupIds = aws.params['VpcSecurityGroupIds'];
+  var HsmConfigurationIdentifier = aws.params['HsmConfigurationIdentifier'];
+  var AutomatedSnapshotRetentionPeriod = aws.params['AutomatedSnapshotRetentionPeriod'] /* Type integer */;
+  var ClusterParameterGroupName = aws.params['ClusterParameterGroupName'];
+  if (!ClusterIdentifier) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClusterIdentifier'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Cluster: /*Su*/{
+      ClusterIdentifier: '',
+      ClusterCreateTime: awsCommon.timestamp(),
+      PreferredMaintenanceWindow: '',
+      VpcId: '',
+      MasterUsername: '',
+      ClusterVersion: '',
+      ClusterStatus: '',
+      AllowVersionUpgrade: false,
+      VpcSecurityGroups: [ {
+        VpcSecurityGroupId: '',
+        Status: '',
+      }, /* ...*/ ],
+      DBName: '',
+      RestoreStatus: {
+        ElapsedTimeInSeconds: 0 /*Long*/,
+        CurrentRestoreRateInMegaBytesPerSecond: 0.0 /*Double*/,
+        ProgressInMegaBytes: 0 /*Long*/,
+        SnapshotSizeInMegaBytes: 0 /*Long*/,
+        EstimatedTimeToCompletionInSeconds: 0 /*Long*/,
+        Status: '',
+      },
+      ClusterPublicKey: '',
+      ClusterRevisionNumber: '',
+      KmsKeyId: '',
+      ClusterParameterGroups: [ {
+        ClusterParameterStatusList: [ {
+          ParameterName: '',
+          ParameterApplyErrorDescription: '',
+          ParameterApplyStatus: '',
+        }, /* ...*/ ],
+        ParameterApplyStatus: '',
+        ParameterGroupName: '',
+      }, /* ...*/ ],
+      PendingModifiedValues: {
+        ClusterIdentifier: '',
+        NodeType: '',
+        AutomatedSnapshotRetentionPeriod: 0,
+        ClusterVersion: '',
+        NumberOfNodes: 0,
+        ClusterType: '',
+        MasterUserPassword: '',
+      },
+      Endpoint: {
+        Port: 0,
+        Address: '',
+      },
+      NodeType: '',
+      Tags: /*S7*/[ /*S8*/{
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      ModifyStatus: '',
+      NumberOfNodes: 0,
+      ClusterSecurityGroups: [ {
+        Status: '',
+        ClusterSecurityGroupName: '',
+      }, /* ...*/ ],
+      AvailabilityZone: '',
+      HsmStatus: {
+        HsmClientCertificateIdentifier: '',
+        HsmConfigurationIdentifier: '',
+        Status: '',
+      },
+      PubliclyAccessible: false,
+      Encrypted: false,
+      AutomatedSnapshotRetentionPeriod: 0,
+      ElasticIpStatus: {
+        Status: '',
+        ElasticIp: '',
+      },
+      ClusterSnapshotCopyStatus: {
+        RetentionPeriod: 0 /*Long*/,
+        SnapshotCopyGrantName: '',
+        DestinationRegion: '',
+      },
+      ClusterSubnetGroupName: '',
+      ClusterNodes: [ {
+        PublicIPAddress: '',
+        NodeRole: '',
+        PrivateIPAddress: '',
+      }, /* ...*/ ],
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.EnableLogging = function EnableLogging(aws) {
+  var ClusterIdentifier = aws.params['ClusterIdentifier'];
+  var BucketName = aws.params['BucketName'];
+  var S3KeyPrefix = aws.params['S3KeyPrefix'];
+  if (!ClusterIdentifier) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClusterIdentifier'];
+  }
+  if (!BucketName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter BucketName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = /*S3u*/{
+    S3KeyPrefix: '',
+    BucketName: '',
+    LoggingEnabled: false,
+    LastFailureMessage: '',
+    LastFailureTime: awsCommon.timestamp(),
+    LastSuccessfulDeliveryTime: awsCommon.timestamp(),
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.AuthorizeSnapshotAccess = function AuthorizeSnapshotAccess(aws) {
+  var SnapshotIdentifier = aws.params['SnapshotIdentifier'];
+  var AccountWithRestoreAccess = aws.params['AccountWithRestoreAccess'];
+  var SnapshotClusterIdentifier = aws.params['SnapshotClusterIdentifier'];
+  if (!SnapshotIdentifier) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SnapshotIdentifier'];
+  }
+  if (!AccountWithRestoreAccess) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AccountWithRestoreAccess'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Snapshot: /*Sd*/{
+      CurrentBackupRateInMegaBytesPerSecond: 0.0 /*Double*/,
+      ClusterIdentifier: '',
+      ClusterCreateTime: awsCommon.timestamp(),
+      VpcId: '',
+      MasterUsername: '',
+      ClusterVersion: '',
+      TotalBackupSizeInMegaBytes: 0.0 /*Double*/,
+      DBName: '',
+      Port: 0,
+      AccountsWithRestoreAccess: [ {
+        AccountId: '',
+      }, /* ...*/ ],
+      Status: '',
+      BackupProgressInMegaBytes: 0.0 /*Double*/,
+      Encrypted: false,
+      NodeType: '',
+      Tags: /*S7*/[ /*S8*/{
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      ActualIncrementalBackupSizeInMegaBytes: 0.0 /*Double*/,
+      NumberOfNodes: 0,
+      SnapshotCreateTime: awsCommon.timestamp(),
+      AvailabilityZone: '',
+      KmsKeyId: '',
+      SourceRegion: '',
+      SnapshotType: '',
+      ElapsedTimeInSeconds: 0 /*Long*/,
+      EncryptedWithHSM: false,
+      OwnerAccount: '',
+      EstimatedSecondsToCompletion: 0 /*Long*/,
+      SnapshotIdentifier: '',
+      RestorableNodeTypes: [ '', /* ...*/ ],
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateHsmClientCertificate = function CreateHsmClientCertificate(aws) {
+  var HsmClientCertificateIdentifier = aws.params['HsmClientCertificateIdentifier'];
+  var Tags = aws.params['Tags'];
+  if (!HsmClientCertificateIdentifier) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HsmClientCertificateIdentifier'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    HsmClientCertificate: /*S1w*/{
+      HsmClientCertificateIdentifier: '',
+      HsmClientCertificatePublicKey: '',
+      Tags: /*S7*/[ /*S8*/{
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeClusters = function DescribeClusters(aws) {
+  var Marker = aws.params['Marker'];
+  var ClusterIdentifier = aws.params['ClusterIdentifier'];
+  var TagKeys = aws.params['TagKeys'];
+  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
+  var TagValues = aws.params['TagValues'];
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    Clusters: [ /*Su*/{
+      ClusterIdentifier: '',
+      ClusterCreateTime: awsCommon.timestamp(),
+      PreferredMaintenanceWindow: '',
+      VpcId: '',
+      MasterUsername: '',
+      ClusterVersion: '',
+      ClusterStatus: '',
+      AllowVersionUpgrade: false,
+      VpcSecurityGroups: [ {
+        VpcSecurityGroupId: '',
+        Status: '',
+      }, /* ...*/ ],
+      DBName: '',
+      RestoreStatus: {
+        ElapsedTimeInSeconds: 0 /*Long*/,
+        CurrentRestoreRateInMegaBytesPerSecond: 0.0 /*Double*/,
+        ProgressInMegaBytes: 0 /*Long*/,
+        SnapshotSizeInMegaBytes: 0 /*Long*/,
+        EstimatedTimeToCompletionInSeconds: 0 /*Long*/,
+        Status: '',
+      },
+      ClusterPublicKey: '',
+      ClusterRevisionNumber: '',
+      KmsKeyId: '',
+      ClusterParameterGroups: [ {
+        ClusterParameterStatusList: [ {
+          ParameterName: '',
+          ParameterApplyErrorDescription: '',
+          ParameterApplyStatus: '',
+        }, /* ...*/ ],
+        ParameterApplyStatus: '',
+        ParameterGroupName: '',
+      }, /* ...*/ ],
+      PendingModifiedValues: {
+        ClusterIdentifier: '',
+        NodeType: '',
+        AutomatedSnapshotRetentionPeriod: 0,
+        ClusterVersion: '',
+        NumberOfNodes: 0,
+        ClusterType: '',
+        MasterUserPassword: '',
+      },
+      Endpoint: {
+        Port: 0,
+        Address: '',
+      },
+      NodeType: '',
+      Tags: /*S7*/[ /*S8*/{
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      ModifyStatus: '',
+      NumberOfNodes: 0,
+      ClusterSecurityGroups: [ {
+        Status: '',
+        ClusterSecurityGroupName: '',
+      }, /* ...*/ ],
+      AvailabilityZone: '',
+      HsmStatus: {
+        HsmClientCertificateIdentifier: '',
+        HsmConfigurationIdentifier: '',
+        Status: '',
+      },
+      PubliclyAccessible: false,
+      Encrypted: false,
+      AutomatedSnapshotRetentionPeriod: 0,
+      ElasticIpStatus: {
+        Status: '',
+        ElasticIp: '',
+      },
+      ClusterSnapshotCopyStatus: {
+        RetentionPeriod: 0 /*Long*/,
+        SnapshotCopyGrantName: '',
+        DestinationRegion: '',
+      },
+      ClusterSubnetGroupName: '',
+      ClusterNodes: [ {
+        PublicIPAddress: '',
+        NodeRole: '',
+        PrivateIPAddress: '',
+      }, /* ...*/ ],
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeClusterSubnetGroups = function DescribeClusterSubnetGroups(aws) {
+  var Marker = aws.params['Marker'];
+  var ClusterSubnetGroupName = aws.params['ClusterSubnetGroupName'];
+  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
+  var TagKeys = aws.params['TagKeys'];
+  var TagValues = aws.params['TagValues'];
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    ClusterSubnetGroups: [ /*S1l*/{
+      Description: '',
+      Tags: /*S7*/[ /*S8*/{
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      VpcId: '',
+      Subnets: [ {
+        SubnetStatus: '',
+        SubnetIdentifier: '',
+        SubnetAvailabilityZone: /*S1o*/{
+          Name: '',
+        },
+      }, /* ...*/ ],
+      ClusterSubnetGroupName: '',
+      SubnetGroupStatus: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.DeleteCluster = function DeleteCluster(aws) {
-        var FinalClusterSnapshotIdentifier = aws.params['FinalClusterSnapshotIdentifier'];
-        var ClusterIdentifier = aws.params['ClusterIdentifier'];
-        var SkipFinalClusterSnapshot = aws.params['SkipFinalClusterSnapshot'] /* boolean */;
-        if (! ClusterIdentifier) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter ClusterIdentifier"];
-        }
+  var FinalClusterSnapshotIdentifier = aws.params['FinalClusterSnapshotIdentifier'];
+  var ClusterIdentifier = aws.params['ClusterIdentifier'];
+  var SkipFinalClusterSnapshot = aws.params['SkipFinalClusterSnapshot'] /* Type boolean */;
+  if (!ClusterIdentifier) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClusterIdentifier'];
+  }
 
 
-        // TODO implement code
+  // TODO implement code
 
-        var ret = {
-            Cluster: /*Su*/{
-                Tags: /*S7*/[ /*S8*/{
-                    Value: "",
-                    Key: ""
-                } /*, ...*/ ],
-                VpcSecurityGroups: [ {
-                    Status: "",
-                    VpcSecurityGroupId: ""
-                } /*, ...*/ ],
-                ClusterSecurityGroups: [ {
-                    Status: "",
-                    ClusterSecurityGroupName: ""
-                } /*, ...*/ ],
-                KmsKeyId: "",
-                MasterUsername: "",
-                HsmStatus: {
-                    Status: "",
-                    HsmClientCertificateIdentifier: "",
-                    HsmConfigurationIdentifier: ""
-                },
-                Endpoint: {
-                    Address: "",
-                    Port: 0
-                },
-                AutomatedSnapshotRetentionPeriod: 0,
-                ClusterNodes: [ {
-                    NodeRole: "",
-                    PublicIPAddress: "",
-                    PrivateIPAddress: ""
-                } /*, ...*/ ],
-                PendingModifiedValues: {
-                    NumberOfNodes: 0,
-                    NodeType: "",
-                    MasterUserPassword: "",
-                    ClusterVersion: "",
-                    ClusterType: "",
-                    AutomatedSnapshotRetentionPeriod: 0,
-                    ClusterIdentifier: ""
-                },
-                PubliclyAccessible: false,
-                RestoreStatus: {
-                    EstimatedTimeToCompletionInSeconds: 0 /*long*/,
-                    ElapsedTimeInSeconds: 0 /*long*/,
-                    SnapshotSizeInMegaBytes: 0 /*long*/,
-                    Status: "",
-                    CurrentRestoreRateInMegaBytesPerSecond: 0.0 /*double*/,
-                    ProgressInMegaBytes: 0 /*long*/
-                },
-                ClusterSnapshotCopyStatus: {
-                    SnapshotCopyGrantName: "",
-                    RetentionPeriod: 0 /*long*/,
-                    DestinationRegion: ""
-                },
-                ElasticIpStatus: {
-                    Status: "",
-                    ElasticIp: ""
-                },
-                AllowVersionUpgrade: false,
-                ModifyStatus: "",
-                VpcId: "",
-                ClusterVersion: "",
-                NumberOfNodes: 0,
-                PreferredMaintenanceWindow: "",
-                ClusterRevisionNumber: "",
-                ClusterParameterGroups: [ {
-                    ParameterApplyStatus: "",
-                    ParameterGroupName: "",
-                    ClusterParameterStatusList: [ {
-                        ParameterApplyErrorDescription: "",
-                        ParameterApplyStatus: "",
-                        ParameterName: ""
-                    } /*, ...*/ ]
-                } /*, ...*/ ],
-                ClusterIdentifier: "",
-                ClusterSubnetGroupName: "",
-                AvailabilityZone: "",
-                DBName: "",
-                NodeType: "",
-                ClusterStatus: "",
-                Encrypted: false,
-                ClusterCreateTime: now(),
-                ClusterPublicKey: ""
-            }
-        };
-        return [200, ret];
-    }
+  var ret = {
+    Cluster: /*Su*/{
+      ClusterIdentifier: '',
+      ClusterCreateTime: awsCommon.timestamp(),
+      PreferredMaintenanceWindow: '',
+      VpcId: '',
+      MasterUsername: '',
+      ClusterVersion: '',
+      ClusterStatus: '',
+      AllowVersionUpgrade: false,
+      VpcSecurityGroups: [ {
+        VpcSecurityGroupId: '',
+        Status: '',
+      }, /* ...*/ ],
+      DBName: '',
+      RestoreStatus: {
+        ElapsedTimeInSeconds: 0 /*Long*/,
+        CurrentRestoreRateInMegaBytesPerSecond: 0.0 /*Double*/,
+        ProgressInMegaBytes: 0 /*Long*/,
+        SnapshotSizeInMegaBytes: 0 /*Long*/,
+        EstimatedTimeToCompletionInSeconds: 0 /*Long*/,
+        Status: '',
+      },
+      ClusterPublicKey: '',
+      ClusterRevisionNumber: '',
+      KmsKeyId: '',
+      ClusterParameterGroups: [ {
+        ClusterParameterStatusList: [ {
+          ParameterName: '',
+          ParameterApplyErrorDescription: '',
+          ParameterApplyStatus: '',
+        }, /* ...*/ ],
+        ParameterApplyStatus: '',
+        ParameterGroupName: '',
+      }, /* ...*/ ],
+      PendingModifiedValues: {
+        ClusterIdentifier: '',
+        NodeType: '',
+        AutomatedSnapshotRetentionPeriod: 0,
+        ClusterVersion: '',
+        NumberOfNodes: 0,
+        ClusterType: '',
+        MasterUserPassword: '',
+      },
+      Endpoint: {
+        Port: 0,
+        Address: '',
+      },
+      NodeType: '',
+      Tags: /*S7*/[ /*S8*/{
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      ModifyStatus: '',
+      NumberOfNodes: 0,
+      ClusterSecurityGroups: [ {
+        Status: '',
+        ClusterSecurityGroupName: '',
+      }, /* ...*/ ],
+      AvailabilityZone: '',
+      HsmStatus: {
+        HsmClientCertificateIdentifier: '',
+        HsmConfigurationIdentifier: '',
+        Status: '',
+      },
+      PubliclyAccessible: false,
+      Encrypted: false,
+      AutomatedSnapshotRetentionPeriod: 0,
+      ElasticIpStatus: {
+        Status: '',
+        ElasticIp: '',
+      },
+      ClusterSnapshotCopyStatus: {
+        RetentionPeriod: 0 /*Long*/,
+        SnapshotCopyGrantName: '',
+        DestinationRegion: '',
+      },
+      ClusterSubnetGroupName: '',
+      ClusterNodes: [ {
+        PublicIPAddress: '',
+        NodeRole: '',
+        PrivateIPAddress: '',
+      }, /* ...*/ ],
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.PurchaseReservedNodeOffering = function PurchaseReservedNodeOffering(aws) {
+  var ReservedNodeOfferingId = aws.params['ReservedNodeOfferingId'];
+  var NodeCount = aws.params['NodeCount'] /* Type integer */;
+  if (!ReservedNodeOfferingId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ReservedNodeOfferingId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ReservedNode: /*S49*/{
+      ReservedNodeOfferingId: '',
+      NodeCount: 0,
+      NodeType: '',
+      FixedPrice: 0.0 /*Double*/,
+      Duration: 0,
+      State: '',
+      ReservedNodeId: '',
+      CurrencyCode: '',
+      RecurringCharges: /*S44*/[ {
+        RecurringChargeAmount: 0.0 /*Double*/,
+        RecurringChargeFrequency: '',
+      }, /* ...*/ ],
+      OfferingType: '',
+      UsagePrice: 0.0 /*Double*/,
+      StartTime: awsCommon.timestamp(),
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RestoreFromClusterSnapshot = function RestoreFromClusterSnapshot(aws) {
+  var HsmClientCertificateIdentifier = aws.params['HsmClientCertificateIdentifier'];
+  var ClusterIdentifier = aws.params['ClusterIdentifier'];
+  var NodeType = aws.params['NodeType'];
+  var AvailabilityZone = aws.params['AvailabilityZone'];
+  var VpcSecurityGroupIds = aws.params['VpcSecurityGroupIds'];
+  var ClusterSecurityGroups = aws.params['ClusterSecurityGroups'];
+  var AllowVersionUpgrade = aws.params['AllowVersionUpgrade'] /* Type boolean */;
+  var SnapshotClusterIdentifier = aws.params['SnapshotClusterIdentifier'];
+  var HsmConfigurationIdentifier = aws.params['HsmConfigurationIdentifier'];
+  var KmsKeyId = aws.params['KmsKeyId'];
+  var PubliclyAccessible = aws.params['PubliclyAccessible'] /* Type boolean */;
+  var Port = aws.params['Port'] /* Type integer */;
+  var AutomatedSnapshotRetentionPeriod = aws.params['AutomatedSnapshotRetentionPeriod'] /* Type integer */;
+  var PreferredMaintenanceWindow = aws.params['PreferredMaintenanceWindow'];
+  var OwnerAccount = aws.params['OwnerAccount'];
+  var SnapshotIdentifier = aws.params['SnapshotIdentifier'];
+  var ClusterSubnetGroupName = aws.params['ClusterSubnetGroupName'];
+  var ClusterParameterGroupName = aws.params['ClusterParameterGroupName'];
+  var ElasticIp = aws.params['ElasticIp'];
+  if (!ClusterIdentifier) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClusterIdentifier'];
+  }
+  if (!SnapshotIdentifier) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SnapshotIdentifier'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Cluster: /*Su*/{
+      ClusterIdentifier: '',
+      ClusterCreateTime: awsCommon.timestamp(),
+      PreferredMaintenanceWindow: '',
+      VpcId: '',
+      MasterUsername: '',
+      ClusterVersion: '',
+      ClusterStatus: '',
+      AllowVersionUpgrade: false,
+      VpcSecurityGroups: [ {
+        VpcSecurityGroupId: '',
+        Status: '',
+      }, /* ...*/ ],
+      DBName: '',
+      RestoreStatus: {
+        ElapsedTimeInSeconds: 0 /*Long*/,
+        CurrentRestoreRateInMegaBytesPerSecond: 0.0 /*Double*/,
+        ProgressInMegaBytes: 0 /*Long*/,
+        SnapshotSizeInMegaBytes: 0 /*Long*/,
+        EstimatedTimeToCompletionInSeconds: 0 /*Long*/,
+        Status: '',
+      },
+      ClusterPublicKey: '',
+      ClusterRevisionNumber: '',
+      KmsKeyId: '',
+      ClusterParameterGroups: [ {
+        ClusterParameterStatusList: [ {
+          ParameterName: '',
+          ParameterApplyErrorDescription: '',
+          ParameterApplyStatus: '',
+        }, /* ...*/ ],
+        ParameterApplyStatus: '',
+        ParameterGroupName: '',
+      }, /* ...*/ ],
+      PendingModifiedValues: {
+        ClusterIdentifier: '',
+        NodeType: '',
+        AutomatedSnapshotRetentionPeriod: 0,
+        ClusterVersion: '',
+        NumberOfNodes: 0,
+        ClusterType: '',
+        MasterUserPassword: '',
+      },
+      Endpoint: {
+        Port: 0,
+        Address: '',
+      },
+      NodeType: '',
+      Tags: /*S7*/[ /*S8*/{
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      ModifyStatus: '',
+      NumberOfNodes: 0,
+      ClusterSecurityGroups: [ {
+        Status: '',
+        ClusterSecurityGroupName: '',
+      }, /* ...*/ ],
+      AvailabilityZone: '',
+      HsmStatus: {
+        HsmClientCertificateIdentifier: '',
+        HsmConfigurationIdentifier: '',
+        Status: '',
+      },
+      PubliclyAccessible: false,
+      Encrypted: false,
+      AutomatedSnapshotRetentionPeriod: 0,
+      ElasticIpStatus: {
+        Status: '',
+        ElasticIp: '',
+      },
+      ClusterSnapshotCopyStatus: {
+        RetentionPeriod: 0 /*Long*/,
+        SnapshotCopyGrantName: '',
+        DestinationRegion: '',
+      },
+      ClusterSubnetGroupName: '',
+      ClusterNodes: [ {
+        PublicIPAddress: '',
+        NodeRole: '',
+        PrivateIPAddress: '',
+      }, /* ...*/ ],
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteHsmClientCertificate = function DeleteHsmClientCertificate(aws) {
+  var HsmClientCertificateIdentifier = aws.params['HsmClientCertificateIdentifier'];
+  if (!HsmClientCertificateIdentifier) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HsmClientCertificateIdentifier'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteClusterSnapshot = function DeleteClusterSnapshot(aws) {
+  var SnapshotIdentifier = aws.params['SnapshotIdentifier'];
+  var SnapshotClusterIdentifier = aws.params['SnapshotClusterIdentifier'];
+  if (!SnapshotIdentifier) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SnapshotIdentifier'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Snapshot: /*Sd*/{
+      CurrentBackupRateInMegaBytesPerSecond: 0.0 /*Double*/,
+      ClusterIdentifier: '',
+      ClusterCreateTime: awsCommon.timestamp(),
+      VpcId: '',
+      MasterUsername: '',
+      ClusterVersion: '',
+      TotalBackupSizeInMegaBytes: 0.0 /*Double*/,
+      DBName: '',
+      Port: 0,
+      AccountsWithRestoreAccess: [ {
+        AccountId: '',
+      }, /* ...*/ ],
+      Status: '',
+      BackupProgressInMegaBytes: 0.0 /*Double*/,
+      Encrypted: false,
+      NodeType: '',
+      Tags: /*S7*/[ /*S8*/{
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      ActualIncrementalBackupSizeInMegaBytes: 0.0 /*Double*/,
+      NumberOfNodes: 0,
+      SnapshotCreateTime: awsCommon.timestamp(),
+      AvailabilityZone: '',
+      KmsKeyId: '',
+      SourceRegion: '',
+      SnapshotType: '',
+      ElapsedTimeInSeconds: 0 /*Long*/,
+      EncryptedWithHSM: false,
+      OwnerAccount: '',
+      EstimatedSecondsToCompletion: 0 /*Long*/,
+      SnapshotIdentifier: '',
+      RestorableNodeTypes: [ '', /* ...*/ ],
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeEventSubscriptions = function DescribeEventSubscriptions(aws) {
+  var Marker = aws.params['Marker'];
+  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
+  var SubscriptionName = aws.params['SubscriptionName'];
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    EventSubscriptionsList: [ /*S1t*/{
+      CustSubscriptionId: '',
+      SourceType: '',
+      Tags: /*S7*/[ /*S8*/{
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      Status: '',
+      Enabled: false,
+      SnsTopicArn: '',
+      EventCategoriesList: /*S1r*/[ '', /* ...*/ ],
+      Severity: '',
+      SourceIdsList: /*S1q*/[ '', /* ...*/ ],
+      CustomerAwsId: '',
+      SubscriptionCreationTime: awsCommon.timestamp(),
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RevokeClusterSecurityGroupIngress = function RevokeClusterSecurityGroupIngress(aws) {
+  var CIDRIP = aws.params['CIDRIP'];
+  var EC2SecurityGroupOwnerId = aws.params['EC2SecurityGroupOwnerId'];
+  var EC2SecurityGroupName = aws.params['EC2SecurityGroupName'];
+  var ClusterSecurityGroupName = aws.params['ClusterSecurityGroupName'];
+  if (!ClusterSecurityGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClusterSecurityGroupName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ClusterSecurityGroup: /*S4*/{
+      Description: '',
+      EC2SecurityGroups: [ {
+        EC2SecurityGroupName: '',
+        Tags: /*S7*/[ /*S8*/{
+          Key: '',
+          Value: '',
+        }, /* ...*/ ],
+        Status: '',
+        EC2SecurityGroupOwnerId: '',
+      }, /* ...*/ ],
+      Tags: /*S7*/[ /*S8*/{
+          Key: '',
+          Value: '',
+        }, /* ...*/ ],
+      IPRanges: [ {
+        CIDRIP: '',
+        Tags: /*S7*/[ /*S8*/{
+          Key: '',
+          Value: '',
+        }, /* ...*/ ],
+        Status: '',
+      }, /* ...*/ ],
+      ClusterSecurityGroupName: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateSnapshotCopyGrant = function CreateSnapshotCopyGrant(aws) {
+  var SnapshotCopyGrantName = aws.params['SnapshotCopyGrantName'];
+  var Tags = aws.params['Tags'];
+  var KmsKeyId = aws.params['KmsKeyId'];
+  if (!SnapshotCopyGrantName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SnapshotCopyGrantName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    SnapshotCopyGrant: /*S22*/{
+      SnapshotCopyGrantName: '',
+      Tags: /*S7*/[ /*S8*/{
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      KmsKeyId: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeClusterVersions = function DescribeClusterVersions(aws) {
+  var Marker = aws.params['Marker'];
+  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
+  var ClusterParameterGroupFamily = aws.params['ClusterParameterGroupFamily'];
+  var ClusterVersion = aws.params['ClusterVersion'];
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    ClusterVersions: [ {
+      Description: '',
+      ClusterParameterGroupFamily: '',
+      ClusterVersion: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateClusterSubnetGroup = function CreateClusterSubnetGroup(aws) {
+  var ClusterSubnetGroupName = aws.params['ClusterSubnetGroupName'];
+  var Tags = aws.params['Tags'];
+  var Description = aws.params['Description'];
+  var SubnetIds = aws.params['SubnetIds'];
+  if (!ClusterSubnetGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClusterSubnetGroupName'];
+  }
+  if (!Description) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Description'];
+  }
+  if (!SubnetIds) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SubnetIds'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ClusterSubnetGroup: /*S1l*/{
+      Description: '',
+      Tags: /*S7*/[ /*S8*/{
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      VpcId: '',
+      Subnets: [ {
+        SubnetStatus: '',
+        SubnetIdentifier: '',
+        SubnetAvailabilityZone: /*S1o*/{
+          Name: '',
+        },
+      }, /* ...*/ ],
+      ClusterSubnetGroupName: '',
+      SubnetGroupStatus: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ResetClusterParameterGroup = function ResetClusterParameterGroup(aws) {
+  var Parameters = aws.params['Parameters'];
+  var ResetAllParameters = aws.params['ResetAllParameters'] /* Type boolean */;
+  var ParameterGroupName = aws.params['ParameterGroupName'];
+  if (!ParameterGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ParameterGroupName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = /*S4x*/{
+    ParameterGroupStatus: '',
+    ParameterGroupName: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ModifySnapshotCopyRetentionPeriod = function ModifySnapshotCopyRetentionPeriod(aws) {
+  var ClusterIdentifier = aws.params['ClusterIdentifier'];
+  var RetentionPeriod = aws.params['RetentionPeriod'] /* Type integer */;
+  if (!ClusterIdentifier) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClusterIdentifier'];
+  }
+  if (!RetentionPeriod) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RetentionPeriod'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Cluster: /*Su*/{
+      ClusterIdentifier: '',
+      ClusterCreateTime: awsCommon.timestamp(),
+      PreferredMaintenanceWindow: '',
+      VpcId: '',
+      MasterUsername: '',
+      ClusterVersion: '',
+      ClusterStatus: '',
+      AllowVersionUpgrade: false,
+      VpcSecurityGroups: [ {
+        VpcSecurityGroupId: '',
+        Status: '',
+      }, /* ...*/ ],
+      DBName: '',
+      RestoreStatus: {
+        ElapsedTimeInSeconds: 0 /*Long*/,
+        CurrentRestoreRateInMegaBytesPerSecond: 0.0 /*Double*/,
+        ProgressInMegaBytes: 0 /*Long*/,
+        SnapshotSizeInMegaBytes: 0 /*Long*/,
+        EstimatedTimeToCompletionInSeconds: 0 /*Long*/,
+        Status: '',
+      },
+      ClusterPublicKey: '',
+      ClusterRevisionNumber: '',
+      KmsKeyId: '',
+      ClusterParameterGroups: [ {
+        ClusterParameterStatusList: [ {
+          ParameterName: '',
+          ParameterApplyErrorDescription: '',
+          ParameterApplyStatus: '',
+        }, /* ...*/ ],
+        ParameterApplyStatus: '',
+        ParameterGroupName: '',
+      }, /* ...*/ ],
+      PendingModifiedValues: {
+        ClusterIdentifier: '',
+        NodeType: '',
+        AutomatedSnapshotRetentionPeriod: 0,
+        ClusterVersion: '',
+        NumberOfNodes: 0,
+        ClusterType: '',
+        MasterUserPassword: '',
+      },
+      Endpoint: {
+        Port: 0,
+        Address: '',
+      },
+      NodeType: '',
+      Tags: /*S7*/[ /*S8*/{
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      ModifyStatus: '',
+      NumberOfNodes: 0,
+      ClusterSecurityGroups: [ {
+        Status: '',
+        ClusterSecurityGroupName: '',
+      }, /* ...*/ ],
+      AvailabilityZone: '',
+      HsmStatus: {
+        HsmClientCertificateIdentifier: '',
+        HsmConfigurationIdentifier: '',
+        Status: '',
+      },
+      PubliclyAccessible: false,
+      Encrypted: false,
+      AutomatedSnapshotRetentionPeriod: 0,
+      ElasticIpStatus: {
+        Status: '',
+        ElasticIp: '',
+      },
+      ClusterSnapshotCopyStatus: {
+        RetentionPeriod: 0 /*Long*/,
+        SnapshotCopyGrantName: '',
+        DestinationRegion: '',
+      },
+      ClusterSubnetGroupName: '',
+      ClusterNodes: [ {
+        PublicIPAddress: '',
+        NodeRole: '',
+        PrivateIPAddress: '',
+      }, /* ...*/ ],
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeDefaultClusterParameters = function DescribeDefaultClusterParameters(aws) {
+  var Marker = aws.params['Marker'];
+  var ParameterGroupFamily = aws.params['ParameterGroupFamily'];
+  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
+  if (!ParameterGroupFamily) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ParameterGroupFamily'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    DefaultClusterParameters: {
+      Marker: '',
+      ParameterGroupFamily: '',
+      Parameters: /*S2n*/[ {
+        ParameterValue: '',
+        MinimumEngineVersion: '',
+        IsModifiable: false,
+        ParameterName: '',
+        DataType: '',
+        AllowedValues: '',
+        Description: '',
+        Source: '',
+        ApplyType: '',
+      }, /* ...*/ ],
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RevokeSnapshotAccess = function RevokeSnapshotAccess(aws) {
+  var SnapshotIdentifier = aws.params['SnapshotIdentifier'];
+  var AccountWithRestoreAccess = aws.params['AccountWithRestoreAccess'];
+  var SnapshotClusterIdentifier = aws.params['SnapshotClusterIdentifier'];
+  if (!SnapshotIdentifier) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SnapshotIdentifier'];
+  }
+  if (!AccountWithRestoreAccess) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AccountWithRestoreAccess'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Snapshot: /*Sd*/{
+      CurrentBackupRateInMegaBytesPerSecond: 0.0 /*Double*/,
+      ClusterIdentifier: '',
+      ClusterCreateTime: awsCommon.timestamp(),
+      VpcId: '',
+      MasterUsername: '',
+      ClusterVersion: '',
+      TotalBackupSizeInMegaBytes: 0.0 /*Double*/,
+      DBName: '',
+      Port: 0,
+      AccountsWithRestoreAccess: [ {
+        AccountId: '',
+      }, /* ...*/ ],
+      Status: '',
+      BackupProgressInMegaBytes: 0.0 /*Double*/,
+      Encrypted: false,
+      NodeType: '',
+      Tags: /*S7*/[ /*S8*/{
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      ActualIncrementalBackupSizeInMegaBytes: 0.0 /*Double*/,
+      NumberOfNodes: 0,
+      SnapshotCreateTime: awsCommon.timestamp(),
+      AvailabilityZone: '',
+      KmsKeyId: '',
+      SourceRegion: '',
+      SnapshotType: '',
+      ElapsedTimeInSeconds: 0 /*Long*/,
+      EncryptedWithHSM: false,
+      OwnerAccount: '',
+      EstimatedSecondsToCompletion: 0 /*Long*/,
+      SnapshotIdentifier: '',
+      RestorableNodeTypes: [ '', /* ...*/ ],
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.EnableSnapshotCopy = function EnableSnapshotCopy(aws) {
+  var ClusterIdentifier = aws.params['ClusterIdentifier'];
+  var RetentionPeriod = aws.params['RetentionPeriod'] /* Type integer */;
+  var SnapshotCopyGrantName = aws.params['SnapshotCopyGrantName'];
+  var DestinationRegion = aws.params['DestinationRegion'];
+  if (!ClusterIdentifier) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClusterIdentifier'];
+  }
+  if (!DestinationRegion) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DestinationRegion'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Cluster: /*Su*/{
+      ClusterIdentifier: '',
+      ClusterCreateTime: awsCommon.timestamp(),
+      PreferredMaintenanceWindow: '',
+      VpcId: '',
+      MasterUsername: '',
+      ClusterVersion: '',
+      ClusterStatus: '',
+      AllowVersionUpgrade: false,
+      VpcSecurityGroups: [ {
+        VpcSecurityGroupId: '',
+        Status: '',
+      }, /* ...*/ ],
+      DBName: '',
+      RestoreStatus: {
+        ElapsedTimeInSeconds: 0 /*Long*/,
+        CurrentRestoreRateInMegaBytesPerSecond: 0.0 /*Double*/,
+        ProgressInMegaBytes: 0 /*Long*/,
+        SnapshotSizeInMegaBytes: 0 /*Long*/,
+        EstimatedTimeToCompletionInSeconds: 0 /*Long*/,
+        Status: '',
+      },
+      ClusterPublicKey: '',
+      ClusterRevisionNumber: '',
+      KmsKeyId: '',
+      ClusterParameterGroups: [ {
+        ClusterParameterStatusList: [ {
+          ParameterName: '',
+          ParameterApplyErrorDescription: '',
+          ParameterApplyStatus: '',
+        }, /* ...*/ ],
+        ParameterApplyStatus: '',
+        ParameterGroupName: '',
+      }, /* ...*/ ],
+      PendingModifiedValues: {
+        ClusterIdentifier: '',
+        NodeType: '',
+        AutomatedSnapshotRetentionPeriod: 0,
+        ClusterVersion: '',
+        NumberOfNodes: 0,
+        ClusterType: '',
+        MasterUserPassword: '',
+      },
+      Endpoint: {
+        Port: 0,
+        Address: '',
+      },
+      NodeType: '',
+      Tags: /*S7*/[ /*S8*/{
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      ModifyStatus: '',
+      NumberOfNodes: 0,
+      ClusterSecurityGroups: [ {
+        Status: '',
+        ClusterSecurityGroupName: '',
+      }, /* ...*/ ],
+      AvailabilityZone: '',
+      HsmStatus: {
+        HsmClientCertificateIdentifier: '',
+        HsmConfigurationIdentifier: '',
+        Status: '',
+      },
+      PubliclyAccessible: false,
+      Encrypted: false,
+      AutomatedSnapshotRetentionPeriod: 0,
+      ElasticIpStatus: {
+        Status: '',
+        ElasticIp: '',
+      },
+      ClusterSnapshotCopyStatus: {
+        RetentionPeriod: 0 /*Long*/,
+        SnapshotCopyGrantName: '',
+        DestinationRegion: '',
+      },
+      ClusterSubnetGroupName: '',
+      ClusterNodes: [ {
+        PublicIPAddress: '',
+        NodeRole: '',
+        PrivateIPAddress: '',
+      }, /* ...*/ ],
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ModifyEventSubscription = function ModifyEventSubscription(aws) {
+  var SourceType = aws.params['SourceType'];
+  var EventCategories = aws.params['EventCategories'];
+  var SubscriptionName = aws.params['SubscriptionName'];
+  var SnsTopicArn = aws.params['SnsTopicArn'];
+  var SourceIds = aws.params['SourceIds'];
+  var Severity = aws.params['Severity'];
+  var Enabled = aws.params['Enabled'] /* Type boolean */;
+  if (!SubscriptionName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SubscriptionName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    EventSubscription: /*S1t*/{
+      CustSubscriptionId: '',
+      SourceType: '',
+      Tags: /*S7*/[ /*S8*/{
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      Status: '',
+      Enabled: false,
+      SnsTopicArn: '',
+      EventCategoriesList: /*S1r*/[ '', /* ...*/ ],
+      Severity: '',
+      SourceIdsList: /*S1q*/[ '', /* ...*/ ],
+      CustomerAwsId: '',
+      SubscriptionCreationTime: awsCommon.timestamp(),
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateClusterParameterGroup = function CreateClusterParameterGroup(aws) {
+  var ParameterGroupFamily = aws.params['ParameterGroupFamily'];
+  var Description = aws.params['Description'];
+  var Tags = aws.params['Tags'];
+  var ParameterGroupName = aws.params['ParameterGroupName'];
+  if (!ParameterGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ParameterGroupName'];
+  }
+  if (!ParameterGroupFamily) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ParameterGroupFamily'];
+  }
+  if (!Description) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Description'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ClusterParameterGroup: /*S1d*/{
+      ParameterGroupFamily: '',
+      Description: '',
+      Tags: /*S7*/[ /*S8*/{
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      ParameterGroupName: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteClusterSubnetGroup = function DeleteClusterSubnetGroup(aws) {
+  var ClusterSubnetGroupName = aws.params['ClusterSubnetGroupName'];
+  if (!ClusterSubnetGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClusterSubnetGroupName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateTags = function CreateTags(aws) {
+  var ResourceName = aws.params['ResourceName'];
+  var Tags = aws.params['Tags'];
+  if (!ResourceName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ResourceName'];
+  }
+  if (!Tags) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Tags'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteTags = function DeleteTags(aws) {
+  var ResourceName = aws.params['ResourceName'];
+  var TagKeys = aws.params['TagKeys'];
+  if (!ResourceName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ResourceName'];
+  }
+  if (!TagKeys) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TagKeys'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
