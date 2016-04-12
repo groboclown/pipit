@@ -1,7 +1,7 @@
 'use strict';
 
-const aws_common = require('../../lib/aws-common');
-const test_parse = require('../../lib/test-parse');
+const awsCommon = require('../../lib/aws-common');
+const testParse = require('../../lib/test-parse');
 
 module.exports.createWorkflowType = function createWorkflowType(name, version, domain) {
     return new WorkflowType(name, version, domain);
@@ -16,7 +16,7 @@ var WorkflowType = function(name, version, domain) {
     this.description = "";
     this.domain = domain;
     this.status = 'REGISTERED';
-    this.creationDate = aws_common.timestamp();
+    this.creationDate = awsCommon.timestamp();
     this.deprecationDate = null;
     this.configuration = {};
     this.configuration.defaultChildPolicy = "";
@@ -63,7 +63,7 @@ var ActivityType = function(name, version) {
     this.name = name;
     this.version = version;
     this.description = "";
-    this.creationDate = aws_common.timestamp();
+    this.creationDate = awsCommon.timestamp();
 };
 ActivityType.prototype.describe = function describe() {
     return {
@@ -102,7 +102,7 @@ const RUN_STATE_TIMED_OUT = 15;
 var WorkflowRun = function(workflowType, workflowId) {
     this.workflowType = workflowType;
     this.workflowId = workflowId;
-    this.runId = aws_common.gen_request_id();
+    this.runId = awsCommon.genRequestId();
     this.executionConfiguration = {
         lambdaRole: workflowType.configuration.defaultLambdaRole,
         taskStartToCloseTimeout: workflowType.configuration.defaultTaskStartToCloseTimeout,
@@ -130,10 +130,10 @@ var WorkflowRun = function(workflowType, workflowId) {
     this.openActivityTasks = [];
     this.openChildWorkflowExecutions = [];
     this.eventHistory = [];
-    this.startTimestamp = aws_common.timestamp();
+    this.startTimestamp = awsCommon.timestamp();
     this.closeTimestamp = null;
     this.runState = RUN_STATE_RUNNING;
-    this.latestActivityTaskTimestamp = aws_common.timestamp();
+    this.latestActivityTaskTimestamp = awsCommon.timestamp();
     this.previousStartedEventId = null;
 
     this.nextEventId = 0;
@@ -237,22 +237,22 @@ WorkflowRun.prototype.matchesFilter = function matchesFilter(filterMap) {
     if (!! startTimeFilter) {
         if (!! startTimeFilter.latestDate) {
             // Optional parameter
-            if (this.startTimestamp > test_parse.parseInteger(startTimeFilter.latestDate)) {
+            if (this.startTimestamp > testParse.parseInteger(startTimeFilter.latestDate)) {
                 timeFilterPass = false;
             }
         }
         timeFilterPass = timeFilterPass &&
-            (this.startTimestamp >= test_parse.parseInteger(startTimeFilter.oldestDate));
+            (this.startTimestamp >= testParse.parseInteger(startTimeFilter.oldestDate));
     }
     if (!! closeTimeFilter) {
         if (!! closeTimeFilter.latestDate) {
             // Optional parameter
-            if (this.closeTimestamp > test_parse.parseInteger(closeTimeFilter.latestDate)) {
+            if (this.closeTimestamp > testParse.parseInteger(closeTimeFilter.latestDate)) {
                 timeFilterPass = false;
             }
         }
         timeFilterPass = timeFilterPass &&
-            (this.closeTimestamp >= test_parse.parseInteger(closeTimeFilter.oldestDate));
+            (this.closeTimestamp >= testParse.parseInteger(closeTimeFilter.oldestDate));
     }
 
     if (!! closeStatusFilter) {
@@ -333,7 +333,7 @@ WorkflowRun.prototype.terminate = function terminate(reason, details, requestedC
 
     // Set our state.
     this.runState = RUN_STATE_TERMINATED;
-    this.closeTimestamp = aws_common.timestamp();
+    this.closeTimestamp = awsCommon.timestamp();
 
     // Deal with the children.
     if (childPolicy === 'REQUEST_CANCEL') {
@@ -408,7 +408,7 @@ function WorkflowEvent(id, name, details) {
         throw new Exception("bad event name: " + name);
     }
     this.id = id;
-    this.created = aws_common.timestamp();
+    this.created = awsCommon.timestamp();
     this.name = name;
     this.details = details;
 }
