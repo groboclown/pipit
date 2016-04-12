@@ -682,7 +682,7 @@ module.exports.StartWorkflowExecution = function StartWorkflowExecution(aws) {
     if (!! missingDefault) {
         return [400, "Sender", "DefaultUndefinedFault", "Missing parameter " +
             missingDefault];
-    },
+    }
 
     // other creation-time settings, loaded from
     run.executionContext = input;
@@ -691,6 +691,7 @@ module.exports.StartWorkflowExecution = function StartWorkflowExecution(aws) {
     run.start();
     var taskList = getDecisionTaskList(domain, run.executionConfiguration.taskList.name);
     taskList.addWorkflowExecution(run);
+    domainWorkflows[domain].workflowRuns.push(run);
 
     var ret = {
         runId: run.runId
@@ -716,12 +717,12 @@ module.exports.TerminateWorkflowExecution = function TerminateWorkflowExecution(
     }
 
     if (! domainWorkflows[domain]) {
-        return [400, "Sender", "UnknownResourceFault", "unknown domain " + str(domain)];
+        return [400, "Sender", "UnknownResourceFault", "unknown domain " + domain];
     }
 
     var workflowRun = getWorkflowRun(domain, workflowId, runId);
     if (! workflowRun) {
-        return [400, "Sender", "UnknownResourceFault", "unknown workflow " + str(workflowId)];
+        return [400, "Sender", "UnknownResourceFault", "unknown workflow " + workflowId];
     }
     if (workflowRun.isClosed()) {
         return [400, "Sender", "OperationNotPermittedFault", "workflow already closed"];
@@ -744,12 +745,12 @@ module.exports.RequestCancelWorkflowExecution = function RequestCancelWorkflowEx
     }
 
     if (! domainWorkflows[domain]) {
-        return [400, "Sender", "UnknownResourceFault", "unknown domain " + str(domain)];
+        return [400, "Sender", "UnknownResourceFault", "unknown domain " + domain];
     }
 
     var workflowRun = getWorkflowRun(domain, workflowId, runId);
     if (! workflowRun) {
-        return [400, "Sender", "UnknownResourceFault", "unknown workflow " + str(workflowId)];
+        return [400, "Sender", "UnknownResourceFault", "unknown workflow " + workflowId];
     }
     if (workflowRun.isClosed()) {
         return [400, "Sender", "OperationNotPermittedFault", "workflow already closed"];
@@ -762,6 +763,42 @@ module.exports.RequestCancelWorkflowExecution = function RequestCancelWorkflowEx
 };
 
 
+// ----------------------------------------------------------------------------------------
+// Decision tasks
+
+
+
+module.exports.PollForDecisionTask = function PollForDecisionTask(aws) {
+    var maximumPageSize = aws.params['maximumPageSize'] /* integer */;
+    var reverseOrder = aws.params['reverseOrder'] /* boolean */;
+    var identity = aws.params['identity'];
+    var nextPageToken = aws.params['nextPageToken'];
+    var domain = aws.params['domain'];
+    var taskList = aws.params['taskList'];
+    if (! domain) {
+        return [400, "Sender", "MissingParameter", "Did not specify parameter domain"];
+    }
+    if (! taskList) {
+        return [400, "Sender", "MissingParameter", "Did not specify parameter taskList"];
+    }
+
+    if (! domainWorkflows[domain]) {
+        return [400, "Sender", "UnknownResourceFault", "unknown domain " + domain];
+    }
+
+    // really should check if it exists in domainWorkflows[domain].decisionsTaskLists[taskList]
+    // UnknownResourceFault
+    var tlist = getDecisionTaskList(domain, taskList);
+
+    console.log("polling on " + taskList.name + "; " + tlist.size() + " pending messages");
+    return tlist.pull(nextPageToken, maximumPageSize, reverseOrder)
+        .then(function (val) {
+            if (! val) {
+                return [400, "UnknownResourceFault", "no such page token " + nextPageToken];
+            }
+            return [200, val];
+        });
+}
 
 
 
@@ -836,11 +873,11 @@ var getWorkflowRun = function getWorkflowRun(domain, workflowId, runId) {
 
     for (var i = 0; i < domainWorkflows[domain].workflowRuns.length; i++) {
         var wrun = domainWorkflows[domain].workflowRuns[i];
-        if (runId !== null && workflowId !== null && wrun.matches(workflowId, runId)) {
+        if (!! runId && !! workflowId && wrun.matches(workflowId, runId)) {
             return wrun;
-        } else if (workflowId === null && wrun.runId === runId) {
+        } else if (! workflowId && wrun.runId === runId) {
             return wrun;
-        } else if (runId === null && wrun.workflowId === workflowId) {
+        } else if (! runId && wrun.workflowId === workflowId) {
             return wrun;
         }
     }
@@ -975,446 +1012,6 @@ module.exports.RespondActivityTaskFailed = function RespondActivityTaskFailed(aw
         return [200, ret];
     }
 
-
-
-module.exports.PollForDecisionTask = function PollForDecisionTask(aws) {
-        var maximumPageSize = aws.params['maximumPageSize'] /* integer */;
-        var reverseOrder = aws.params['reverseOrder'] /* boolean */;
-        var identity = aws.params['identity'];
-        var nextPageToken = aws.params['nextPageToken'];
-        var domain = aws.params['domain'];
-        var taskList = aws.params['taskList'];
-        if (! domain) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter domain"];
-        }        if (! taskList) {
-            return [400, "Sender", "MissingParameter", "Did not specify parameter taskList"];
-        }
-
-        // TODO implement code
-
-        var ret = {
-            workflowExecution: /*S16*/{
-                workflowId: "",
-                runId: ""
-            },
-            previousStartedEventId: 0 /*long*/,
-            startedEventId: 0 /*long*/,
-            nextPageToken: "",
-            events: /*S1t*/[ {
-                activityTaskCancelRequestedEventAttributes: {
-                    activityId: "",
-                    decisionTaskCompletedEventId: 0 /*long*/
-                },
-                timerCanceledEventAttributes: {
-                    timerId: "",
-                    startedEventId: 0 /*long*/,
-                    decisionTaskCompletedEventId: 0 /*long*/
-                },
-                workflowExecutionContinuedAsNewEventAttributes: {
-                    lambdaRole: "",
-                    input: "",
-                    executionStartToCloseTimeout: "",
-                    tagList: /*S1b*/[ "" /*, ...*/ ],
-                    decisionTaskCompletedEventId: 0 /*long*/,
-                    newExecutionRunId: "",
-                    taskPriority: "",
-                    workflowType: /*Sr*/{
-                        version: "",
-                        name: ""
-                    },
-                    taskStartToCloseTimeout: "",
-                    taskList: /*Sj*/{
-                        name: ""
-                    },
-                    childPolicy: ""
-                },
-                markerRecordedEventAttributes: {
-                    details: "",
-                    markerName: "",
-                    decisionTaskCompletedEventId: 0 /*long*/
-                },
-                activityTaskStartedEventAttributes: {
-                    identity: "",
-                    scheduledEventId: 0 /*long*/
-                },
-                signalExternalWorkflowExecutionFailedEventAttributes: {
-                    workflowId: "",
-                    initiatedEventId: 0 /*long*/,
-                    runId: "",
-                    control: "",
-                    cause: "",
-                    decisionTaskCompletedEventId: 0 /*long*/
-                },
-                requestCancelActivityTaskFailedEventAttributes: {
-                    cause: "",
-                    activityId: "",
-                    decisionTaskCompletedEventId: 0 /*long*/
-                },
-                activityTaskCompletedEventAttributes: {
-                    scheduledEventId: 0 /*long*/,
-                    startedEventId: 0 /*long*/,
-                    result: ""
-                },
-                activityTaskFailedEventAttributes: {
-                    details: "",
-                    reason: "",
-                    scheduledEventId: 0 /*long*/,
-                    startedEventId: 0 /*long*/
-                },
-                startTimerFailedEventAttributes: {
-                    timerId: "",
-                    cause: "",
-                    decisionTaskCompletedEventId: 0 /*long*/
-                },
-                childWorkflowExecutionCanceledEventAttributes: {
-                    details: "",
-                    workflowExecution: /*S16*/{
-                workflowId: "",
-                runId: ""
-            },
-                    workflowType: /*Sr*/{
-                        version: "",
-                        name: ""
-                    },
-                    initiatedEventId: 0 /*long*/,
-                    startedEventId: 0 /*long*/
-                },
-                requestCancelExternalWorkflowExecutionFailedEventAttributes: {
-                    workflowId: "",
-                    initiatedEventId: 0 /*long*/,
-                    runId: "",
-                    control: "",
-                    cause: "",
-                    decisionTaskCompletedEventId: 0 /*long*/
-                },
-                signalExternalWorkflowExecutionInitiatedEventAttributes: {
-                    workflowId: "",
-                    control: "",
-                    runId: "",
-                    signalName: "",
-                    input: "",
-                    decisionTaskCompletedEventId: 0 /*long*/
-                },
-                requestCancelExternalWorkflowExecutionInitiatedEventAttributes: {
-                    control: "",
-                    workflowId: "",
-                    decisionTaskCompletedEventId: 0 /*long*/,
-                    runId: ""
-                },
-                continueAsNewWorkflowExecutionFailedEventAttributes: {
-                    cause: "",
-                    decisionTaskCompletedEventId: 0 /*long*/
-                },
-                childWorkflowExecutionTerminatedEventAttributes: {
-                    workflowExecution: /*S16*/{
-                workflowId: "",
-                runId: ""
-            },
-                    workflowType: /*Sr*/{
-                        version: "",
-                        name: ""
-                    },
-                    initiatedEventId: 0 /*long*/,
-                    startedEventId: 0 /*long*/
-                },
-                eventId: 0 /*long*/,
-                decisionTaskTimedOutEventAttributes: {
-                    scheduledEventId: 0 /*long*/,
-                    timeoutType: "",
-                    startedEventId: 0 /*long*/
-                },
-                decisionTaskStartedEventAttributes: {
-                    identity: "",
-                    scheduledEventId: 0 /*long*/
-                },
-                workflowExecutionCancelRequestedEventAttributes: {
-                    cause: "",
-                    externalWorkflowExecution: /*S16*/{
-                workflowId: "",
-                runId: ""
-            },
-                    externalInitiatedEventId: 0 /*long*/
-                },
-                lambdaFunctionFailedEventAttributes: {
-                    details: "",
-                    reason: "",
-                    scheduledEventId: 0 /*long*/,
-                    startedEventId: 0 /*long*/
-                },
-                activityTaskScheduledEventAttributes: {
-                    input: "",
-                    activityType: /*Sn*/{
-                        version: "",
-                        name: ""
-                    },
-                    decisionTaskCompletedEventId: 0 /*long*/,
-                    activityId: "",
-                    control: "",
-                    taskPriority: "",
-                    scheduleToStartTimeout: "",
-                    heartbeatTimeout: "",
-                    startToCloseTimeout: "",
-                    scheduleToCloseTimeout: "",
-                    taskList: /*Sj*/{
-                        name: ""
-                    }
-                },
-                failWorkflowExecutionFailedEventAttributes: {
-                    cause: "",
-                    decisionTaskCompletedEventId: 0 /*long*/
-                },
-                workflowExecutionSignaledEventAttributes: {
-                    externalInitiatedEventId: 0 /*long*/,
-                    input: "",
-                    signalName: "",
-                    externalWorkflowExecution: /*S16*/{
-                workflowId: "",
-                runId: ""
-            }
-                },
-                cancelWorkflowExecutionFailedEventAttributes: {
-                    cause: "",
-                    decisionTaskCompletedEventId: 0 /*long*/
-                },
-                childWorkflowExecutionFailedEventAttributes: {
-                    workflowExecution: /*S16*/{
-                workflowId: "",
-                runId: ""
-            },
-                    reason: "",
-                    startedEventId: 0 /*long*/,
-                    details: "",
-                    workflowType: /*Sr*/{
-                        version: "",
-                        name: ""
-                    },
-                    initiatedEventId: 0 /*long*/
-                },
-                startLambdaFunctionFailedEventAttributes: {
-                    cause: "",
-                    scheduledEventId: 0 /*long*/,
-                    message: ""
-                },
-                timerStartedEventAttributes: {
-                    timerId: "",
-                    startToFireTimeout: "",
-                    decisionTaskCompletedEventId: 0 /*long*/,
-                    control: ""
-                },
-                lambdaFunctionStartedEventAttributes: {
-                    scheduledEventId: 0 /*long*/
-                },
-                activityTaskTimedOutEventAttributes: {
-                    details: "",
-                    scheduledEventId: 0 /*long*/,
-                    timeoutType: "",
-                    startedEventId: 0 /*long*/
-                },
-                cancelTimerFailedEventAttributes: {
-                    timerId: "",
-                    cause: "",
-                    decisionTaskCompletedEventId: 0 /*long*/
-                },
-                scheduleLambdaFunctionFailedEventAttributes: {
-                    cause: "",
-                    name: "",
-                    decisionTaskCompletedEventId: 0 /*long*/,
-                    id: ""
-                },
-                workflowExecutionCompletedEventAttributes: {
-                    decisionTaskCompletedEventId: 0 /*long*/,
-                    result: ""
-                },
-                lambdaFunctionCompletedEventAttributes: {
-                    scheduledEventId: 0 /*long*/,
-                    startedEventId: 0 /*long*/,
-                    result: ""
-                },
-                lambdaFunctionTimedOutEventAttributes: {
-                    scheduledEventId: 0 /*long*/,
-                    startedEventId: 0 /*long*/,
-                    timeoutType: ""
-                },
-                startChildWorkflowExecutionInitiatedEventAttributes: {
-                    lambdaRole: "",
-                    input: "",
-                    tagList: /*S1b*/[ "" /*, ...*/ ],
-                    workflowId: "",
-                    childPolicy: "",
-                    taskStartToCloseTimeout: "",
-                    executionStartToCloseTimeout: "",
-                    taskList: /*Sj*/{
-                        name: ""
-                    },
-                    control: "",
-                    taskPriority: "",
-                    workflowType: /*Sr*/{
-                        version: "",
-                        name: ""
-                    },
-                    decisionTaskCompletedEventId: 0 /*long*/
-                },
-                activityTaskCanceledEventAttributes: {
-                    details: "",
-                    scheduledEventId: 0 /*long*/,
-                    startedEventId: 0 /*long*/,
-                    latestCancelRequestedEventId: 0 /*long*/
-                },
-                workflowExecutionCanceledEventAttributes: {
-                    details: "",
-                    decisionTaskCompletedEventId: 0 /*long*/
-                },
-                lambdaFunctionScheduledEventAttributes: {
-                    startToCloseTimeout: "",
-                    input: "",
-                    name: "",
-                    decisionTaskCompletedEventId: 0 /*long*/,
-                    id: ""
-                },
-                childWorkflowExecutionStartedEventAttributes: {
-                    workflowExecution: /*S16*/{
-                workflowId: "",
-                runId: ""
-            },
-                    workflowType: /*Sr*/{
-                        version: "",
-                        name: ""
-                    },
-                    initiatedEventId: 0 /*long*/
-                },
-                workflowExecutionTerminatedEventAttributes: {
-                    details: "",
-                    cause: "",
-                    reason: "",
-                    childPolicy: ""
-                },
-                scheduleActivityTaskFailedEventAttributes: {
-                    cause: "",
-                    activityType: /*Sn*/{
-                        version: "",
-                        name: ""
-                    },
-                    activityId: "",
-                    decisionTaskCompletedEventId: 0 /*long*/
-                },
-                decisionTaskCompletedEventAttributes: {
-                    scheduledEventId: 0 /*long*/,
-                    startedEventId: 0 /*long*/,
-                    executionContext: ""
-                },
-                externalWorkflowExecutionCancelRequestedEventAttributes: {
-                    workflowExecution: /*S16*/{
-                workflowId: "",
-                runId: ""
-            },
-                    initiatedEventId: 0 /*long*/
-                },
-                childWorkflowExecutionTimedOutEventAttributes: {
-                    startedEventId: 0 /*long*/,
-                    workflowExecution: /*S16*/{
-                workflowId: "",
-                runId: ""
-            },
-                    workflowType: /*Sr*/{
-                        version: "",
-                        name: ""
-                    },
-                    initiatedEventId: 0 /*long*/,
-                    timeoutType: ""
-                },
-                workflowExecutionFailedEventAttributes: {
-                    details: "",
-                    reason: "",
-                    decisionTaskCompletedEventId: 0 /*long*/
-                },
-                startChildWorkflowExecutionFailedEventAttributes: {
-                    workflowId: "",
-                    initiatedEventId: 0 /*long*/,
-                    control: "",
-                    cause: "",
-                    workflowType: /*Sr*/{
-                        version: "",
-                        name: ""
-                    },
-                    decisionTaskCompletedEventId: 0 /*long*/
-                },
-                recordMarkerFailedEventAttributes: {
-                    cause: "",
-                    markerName: "",
-                    decisionTaskCompletedEventId: 0 /*long*/
-                },
-                eventType: "",
-                workflowExecutionStartedEventAttributes: {
-                    lambdaRole: "",
-                    parentInitiatedEventId: 0 /*long*/,
-                    parentWorkflowExecution: /*S16*/{
-                workflowId: "",
-                runId: ""
-            },
-                    input: "",
-                    childPolicy: "",
-                    taskStartToCloseTimeout: "",
-                    executionStartToCloseTimeout: "",
-                    continuedExecutionRunId: "",
-                    taskPriority: "",
-                    tagList: /*S1b*/[ "" /*, ...*/ ],
-                    workflowType: /*Sr*/{
-                        version: "",
-                        name: ""
-                    },
-                    taskList: /*Sj*/{
-                        name: ""
-                    }
-                },
-                completeWorkflowExecutionFailedEventAttributes: {
-                    cause: "",
-                    decisionTaskCompletedEventId: 0 /*long*/
-                },
-                childWorkflowExecutionCompletedEventAttributes: {
-                    startedEventId: 0 /*long*/,
-                    workflowExecution: /*S16*/{
-                workflowId: "",
-                runId: ""
-            },
-                    workflowType: /*Sr*/{
-                        version: "",
-                        name: ""
-                    },
-                    initiatedEventId: 0 /*long*/,
-                    result: ""
-                },
-                workflowExecutionTimedOutEventAttributes: {
-                    timeoutType: "",
-                    childPolicy: ""
-                },
-                eventTimestamp: now(),
-                decisionTaskScheduledEventAttributes: {
-                    startToCloseTimeout: "",
-                    taskList: /*Sj*/{
-                        name: ""
-                    },
-                    taskPriority: ""
-                },
-                externalWorkflowExecutionSignaledEventAttributes: {
-                    workflowExecution: /*S16*/{
-                workflowId: "",
-                runId: ""
-            },
-                    initiatedEventId: 0 /*long*/
-                },
-                timerFiredEventAttributes: {
-                    timerId: "",
-                    startedEventId: 0 /*long*/
-                }
-            } /*, ...*/ ],
-            workflowType: /*Sr*/{
-                        version: "",
-                        name: ""
-                    },
-            taskToken: ""
-        };
-        return [200, ret];
-    }
 
 
 

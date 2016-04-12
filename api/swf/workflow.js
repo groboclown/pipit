@@ -1,6 +1,7 @@
 'use strict';
 
 const aws_common = require('../../lib/aws-common');
+const test_parse = require('../../lib/test-parse');
 
 module.exports.createWorkflowType = function createWorkflowType(name, version, domain) {
     return new WorkflowType(name, version, domain);
@@ -183,7 +184,7 @@ WorkflowRun.prototype.describe = function describe() {
             },
             executionStatus: this.runState < RUN_STATE_CLOSED_STATE_START ? "OPEN" : "CLOSED"
         },
-        latestActivityTaskTimestamp: "" + latestActivityTaskTimestamp,
+        latestActivityTaskTimestamp: "" + this.latestActivityTaskTimestamp,
         latestExecutionContext: this.executionContext
     };
 };
@@ -291,9 +292,9 @@ WorkflowRun.prototype.start = function start() {
         },
         // This is initiated explicitly as a first workflow, so no parent.
         parentInitiatedEventId: 0,
-        taskStartToCloseTimeout: str(this.executionConfiguration.taskStartToCloseTimeout),
+        taskStartToCloseTimeout: "" + (this.executionConfiguration.taskStartToCloseTimeout),
         childPolicy: this.executionConfiguration.childPolicy,
-        executionStartToCloseTimeout: str(this.executionConfiguration.executionStartToCloseTimeout),
+        executionStartToCloseTimeout: "" + (this.executionConfiguration.executionStartToCloseTimeout),
         input: this.executionContext,
         workflowType: {
             version: this.workflowType.version,
