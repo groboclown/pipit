@@ -78,6 +78,7 @@
     "node": true,
     "esversion": 6,
     "sub": true,
-    "strict": "global"
+    "strict": "global",
+    "laxbreak": true
   }
 }

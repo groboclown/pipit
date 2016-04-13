@@ -384,13 +384,8 @@ WorkflowRun.prototype.terminate = function terminate(reason, details, requestedC
 
   if (!!this.parent) {
     // Send a message to the parent that the child died.
-    var initiatedEventId = ((!!this.startChildWorkflowEvent)
-      ? this.startChildWorkflowEvent.id
-      : null
-      );
-    var startedEventId = ((!!this.childWorkflowExecutionStartedEvent)
-      ? this.childWorkflowExecutionStartedEvent.id
-      : null);
+    var initiatedEventId = ((!!this.startChildWorkflowEvent) ? this.startChildWorkflowEvent.id : null);
+    var startedEventId = ((!!this.childWorkflowExecutionStartedEvent) ? this.childWorkflowExecutionStartedEvent.id : null);
     this.parent.addEvent('ChildWorkflowExecutionTerminated', {
       initiatedEventId: initiatedEventId,
       startedEventId: startedEventId,
