@@ -10,31 +10,61 @@ const awsCommon = require('../../lib/aws-common');
  */
 
 // Setup input and output to use AWS protocol query
-require('../../lib/aws-common/shape_http')('query', module.exports, 'http://sdb.amazonaws.com/doc/2009-04-15/')
+require('../../lib/aws-common/shape_http')('query', module.exports, 'http://sdb.amazonaws.com/doc/2009-04-15/');
 // -----------------------------------
-module.exports.ListDomains = function ListDomains(aws) {
-  var MaxNumberOfDomains = aws.params['MaxNumberOfDomains'] /* Type integer */;
-  var NextToken = aws.params['NextToken'];
+module.exports.Select = function Select(aws) {
+  var selectExpression = aws.params.SelectExpression;
+  var nextToken = aws.params.NextToken;
+  var consistentRead = aws.params.ConsistentRead /* Type boolean */;
+  if (!selectExpression) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SelectExpression'];
+  }
 
 
   // TODO implement code
 
   var ret = {
-    DomainNames: [ '', /* ...*/ ],
     NextToken: '',
+    Items: [ {
+      Name: '',
+      AlternateNameEncoding: '',
+      Attributes: /*So*/[ {
+        Name: '',
+        AlternateNameEncoding: '',
+        Value: '',
+        AlternateValueEncoding: '',
+      }, /* ...*/ ],
+    }, /* ...*/ ],
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DeleteAttributes = function DeleteAttributes(aws) {
-  var Attributes = aws.params['Attributes'];
-  var Expected = aws.params['Expected'];
-  var ItemName = aws.params['ItemName'];
-  var DomainName = aws.params['DomainName'];
-  if (!DomainName) {
+module.exports.BatchPutAttributes = function BatchPutAttributes(aws) {
+  var domainName = aws.params.DomainName;
+  var items = aws.params.Items /* Type list */;
+  if (!domainName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
   }
-  if (!ItemName) {
+  if (!items) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Items'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteAttributes = function DeleteAttributes(aws) {
+  var expected = aws.params.Expected;
+  var domainName = aws.params.DomainName;
+  var itemName = aws.params.ItemName;
+  var attributes = aws.params.Attributes;
+  if (!domainName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
+  }
+  if (!itemName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ItemName'];
   }
 
@@ -45,9 +75,9 @@ module.exports.DeleteAttributes = function DeleteAttributes(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.CreateDomain = function CreateDomain(aws) {
-  var DomainName = aws.params['DomainName'];
-  if (!DomainName) {
+module.exports.DeleteDomain = function DeleteDomain(aws) {
+  var domainName = aws.params.DomainName;
+  if (!domainName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
   }
 
@@ -59,12 +89,12 @@ module.exports.CreateDomain = function CreateDomain(aws) {
 };
 // -----------------------------------
 module.exports.BatchDeleteAttributes = function BatchDeleteAttributes(aws) {
-  var DomainName = aws.params['DomainName'];
-  var Items = aws.params['Items'] /* Type list */;
-  if (!DomainName) {
+  var domainName = aws.params.DomainName;
+  var items = aws.params.Items /* Type list */;
+  if (!domainName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
   }
-  if (!Items) {
+  if (!items) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Items'];
   }
 
@@ -75,62 +105,45 @@ module.exports.BatchDeleteAttributes = function BatchDeleteAttributes(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.BatchPutAttributes = function BatchPutAttributes(aws) {
-  var DomainName = aws.params['DomainName'];
-  var Items = aws.params['Items'] /* Type list */;
-  if (!DomainName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
-  }
-  if (!Items) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Items'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.Select = function Select(aws) {
-  var SelectExpression = aws.params['SelectExpression'];
-  var NextToken = aws.params['NextToken'];
-  var ConsistentRead = aws.params['ConsistentRead'] /* Type boolean */;
-  if (!SelectExpression) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SelectExpression'];
-  }
+module.exports.ListDomains = function ListDomains(aws) {
+  var nextToken = aws.params.NextToken;
+  var maxNumberOfDomains = aws.params.MaxNumberOfDomains /* Type integer */;
 
 
   // TODO implement code
 
   var ret = {
+    DomainNames: [ '', /* ...*/ ],
     NextToken: '',
-    Items: [ {
-      Attributes: /*So*/[ {
-        Value: '',
-        AlternateNameEncoding: '',
-        AlternateValueEncoding: '',
-        Name: '',
-      }, /* ...*/ ],
-      AlternateNameEncoding: '',
-      Name: '',
-    }, /* ...*/ ],
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.PutAttributes = function PutAttributes(aws) {
-  var Attributes = aws.params['Attributes'];
-  var Expected = aws.params['Expected'];
-  var ItemName = aws.params['ItemName'];
-  var DomainName = aws.params['DomainName'];
-  if (!DomainName) {
+module.exports.CreateDomain = function CreateDomain(aws) {
+  var domainName = aws.params.DomainName;
+  if (!domainName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
   }
-  if (!ItemName) {
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.PutAttributes = function PutAttributes(aws) {
+  var expected = aws.params.Expected;
+  var domainName = aws.params.DomainName;
+  var itemName = aws.params.ItemName;
+  var attributes = aws.params.Attributes;
+  if (!domainName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
+  }
+  if (!itemName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ItemName'];
   }
-  if (!Attributes) {
+  if (!attributes) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Attributes'];
   }
 
@@ -141,48 +154,9 @@ module.exports.PutAttributes = function PutAttributes(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.GetAttributes = function GetAttributes(aws) {
-  var ItemName = aws.params['ItemName'];
-  var DomainName = aws.params['DomainName'];
-  var AttributeNames = aws.params['AttributeNames'] /* Type list */;
-  var ConsistentRead = aws.params['ConsistentRead'] /* Type boolean */;
-  if (!DomainName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
-  }
-  if (!ItemName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ItemName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Attributes: /*So*/[ {
-      Value: '',
-      AlternateNameEncoding: '',
-      AlternateValueEncoding: '',
-      Name: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteDomain = function DeleteDomain(aws) {
-  var DomainName = aws.params['DomainName'];
-  if (!DomainName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
 module.exports.DomainMetadata = function DomainMetadata(aws) {
-  var DomainName = aws.params['DomainName'];
-  if (!DomainName) {
+  var domainName = aws.params.DomainName;
+  if (!domainName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
   }
 
@@ -192,11 +166,37 @@ module.exports.DomainMetadata = function DomainMetadata(aws) {
   var ret = {
     AttributeValuesSizeBytes: 0 /*Long*/,
     ItemCount: 0,
+    ItemNamesSizeBytes: 0 /*Long*/,
     Timestamp: 0,
+    AttributeNameCount: 0,
     AttributeNamesSizeBytes: 0 /*Long*/,
     AttributeValueCount: 0,
-    ItemNamesSizeBytes: 0 /*Long*/,
-    AttributeNameCount: 0,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetAttributes = function GetAttributes(aws) {
+  var consistentRead = aws.params.ConsistentRead /* Type boolean */;
+  var domainName = aws.params.DomainName;
+  var itemName = aws.params.ItemName;
+  var attributeNames = aws.params.AttributeNames /* Type list */;
+  if (!domainName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
+  }
+  if (!itemName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ItemName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Attributes: /*So*/[ {
+      Name: '',
+      AlternateNameEncoding: '',
+      Value: '',
+      AlternateValueEncoding: '',
+    }, /* ...*/ ],
   };
   return [200, ret];
 };

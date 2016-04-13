@@ -8,7 +8,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "jscs": "jscs admin api bin/www lib app.js",
     "jshint": "jshint",
-    "pretest": "jscs admin api bin/www lib app.js && jshint admin api bin/www lib app.js"
+    "pretest": "jscs admin api bin/www lib app.js && jshint admin api bin/www lib app.js",
+    "gen-boilerplate": "bin/build-api.py node_modules/aws-sdk/apis/ api/"
   },
   "config": {
     "port": "3000"
@@ -59,18 +60,24 @@
   ],
   "jscsConfig": {
     "preset": "node-style-guide",
-    "excludeFiles": ["api/*routes.js", "api/*/boilerplate-*.js"],
+    "excludeFiles": ["nothing-to-exclude"],
     "requireCurlyBraces": true,
     "requirePaddingNewLinesAfterUseStrict": true,
     "validateLineBreaks": false,
     "maximumLineLength": {
-        "value": 80,
+        "value": 280,
         "allExcept": [
-            "urlComments",
-            "functionSignature",
-            "require",
-            "regex"
+          "urlComments",
+          "functionSignature",
+          "require",
+          "regex"
         ]
     }
+  },
+  "jshintConfig": {
+    "node": true,
+    "esversion": 6,
+    "sub": true,
+    "strict": "global"
   }
 }

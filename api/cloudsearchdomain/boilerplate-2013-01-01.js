@@ -10,110 +10,110 @@ const awsCommon = require('../../lib/aws-common');
  */
 
 // Setup input and output to use AWS protocol rest-json
-require('../../lib/aws-common/shape_http')('rest-json', module.exports, null)
+require('../../lib/aws-common/shape_http')('rest-json', module.exports, null);
 // -----------------------------------
 module.exports.Search = awsCommon.as(
   'GET',
   '/2013-01-01/search?format=sdk&pretty=true',
   function Search(aws) {
-  var partial = aws.params['partial'] /* Type boolean */;
-  var query = aws.params['query'];
-  var _return = aws.params['return'];
-  var queryOptions = aws.params['queryOptions'];
-  var queryParser = aws.params['queryParser'];
-  var start = aws.params['start'] /* Type long */;
-  var facet = aws.params['facet'];
-  var expr = aws.params['expr'];
-  var filterQuery = aws.params['filterQuery'];
-  var cursor = aws.params['cursor'];
-  var highlight = aws.params['highlight'];
-  var sort = aws.params['sort'];
-  var size = aws.params['size'] /* Type long */;
-  if (!query) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter query'];
-  }
+    var _return = aws.params.return;
+    var partial = aws.params.partial /* Type boolean */;
+    var expr = aws.params.expr;
+    var query = aws.params.query;
+    var filterQuery = aws.params.filterQuery;
+    var cursor = aws.params.cursor;
+    var queryOptions = aws.params.queryOptions;
+    var size = aws.params.size /* Type long */;
+    var queryParser = aws.params.queryParser;
+    var highlight = aws.params.highlight;
+    var sort = aws.params.sort;
+    var facet = aws.params.facet;
+    var start = aws.params.start /* Type long */;
+    if (!query) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter query'];
+    }
 
 
-  // TODO implement code
+    // TODO implement code
 
-  var ret = {
-    hits: {
-      found: 0 /*Long*/,
-      cursor: '',
-      hit: [ {
-        id: '',
-        exprs: {} /*Map*/,
-        highlights: {} /*Map*/,
-        fields: {} /*Map*/,
-      }, /* ...*/ ],
-      start: 0 /*Long*/,
-    },
-    status: {
-      timems: 0 /*Long*/,
-      rid: '',
-    },
-    facets: {} /*Map*/,
-  };
-  return [200, ret];
-});
+    var ret = {
+      facets: {} /*Map*/,
+      hits: {
+        cursor: '',
+        start: 0 /*Long*/,
+        hit: [ {
+          id: '',
+          exprs: {} /*Map*/,
+          highlights: {} /*Map*/,
+          fields: {} /*Map*/,
+        }, /* ...*/ ],
+        found: 0 /*Long*/,
+      },
+      status: {
+        timems: 0 /*Long*/,
+        rid: '',
+      },
+    };
+    return [200, ret];
+  });
 // -----------------------------------
 module.exports.UploadDocuments = awsCommon.as(
   '/2013-01-01/documents/batch?format=sdk',
   function UploadDocuments(aws) {
-  var documents = aws.params['documents'] /* Type blob */;
-  var contentType = aws.params['contentType'];
-  if (!documents) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter documents'];
-  }
-  if (!contentType) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter contentType'];
-  }
+    var documents = aws.params.documents /* Type blob */;
+    var contentType = aws.params.contentType;
+    if (!documents) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter documents'];
+    }
+    if (!contentType) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter contentType'];
+    }
 
 
-  // TODO implement code
+    // TODO implement code
 
-  var ret = {
-    adds: 0 /*Long*/,
-    warnings: [ {
-      message: '',
-    }, /* ...*/ ],
-    status: '',
-    deletes: 0 /*Long*/,
-  };
-  return [200, ret];
-});
+    var ret = {
+      warnings: [ {
+        message: '',
+      }, /* ...*/ ],
+      deletes: 0 /*Long*/,
+      adds: 0 /*Long*/,
+      status: '',
+    };
+    return [200, ret];
+  });
 // -----------------------------------
 module.exports.Suggest = awsCommon.as(
   'GET',
   '/2013-01-01/suggest?format=sdk&pretty=true',
   function Suggest(aws) {
-  var suggester = aws.params['suggester'];
-  var query = aws.params['query'];
-  var size = aws.params['size'] /* Type long */;
-  if (!query) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter query'];
-  }
-  if (!suggester) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter suggester'];
-  }
+    var size = aws.params.size /* Type long */;
+    var query = aws.params.query;
+    var suggester = aws.params.suggester;
+    if (!query) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter query'];
+    }
+    if (!suggester) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter suggester'];
+    }
 
 
-  // TODO implement code
+    // TODO implement code
 
-  var ret = {
-    status: {
-      timems: 0 /*Long*/,
-      rid: '',
-    },
-    suggest: {
-      found: 0 /*Long*/,
-      query: '',
-      suggestions: [ {
-        id: '',
-        score: 0 /*Long*/,
-        suggestion: '',
-      }, /* ...*/ ],
-    },
-  };
-  return [200, ret];
-});
+    var ret = {
+      suggest: {
+        suggestions: [ {
+          score: 0 /*Long*/,
+          suggestion: '',
+          id: '',
+        }, /* ...*/ ],
+        query: '',
+        found: 0 /*Long*/,
+      },
+      status: {
+        timems: 0 /*Long*/,
+        rid: '',
+      },
+    };
+    return [200, ret];
+  });

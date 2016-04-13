@@ -10,31 +10,24 @@ const awsCommon = require('../../lib/aws-common');
  */
 
 // Setup input and output to use AWS protocol json
-require('../../lib/aws-common/shape_http')('json', module.exports, null)
+require('../../lib/aws-common/shape_http')('json', module.exports, null);
 // -----------------------------------
-module.exports.DeleteSqlInjectionMatchSet = function DeleteSqlInjectionMatchSet(aws) {
-  var SqlInjectionMatchSetId = aws.params['SqlInjectionMatchSetId'];
-  var ChangeToken = aws.params['ChangeToken'];
-  if (!SqlInjectionMatchSetId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SqlInjectionMatchSetId'];
+module.exports.CreateWebACL = function CreateWebACL(aws) {
+  var name = aws.params.Name;
+  var metricName = aws.params.MetricName;
+  var changeToken = aws.params.ChangeToken;
+  var defaultAction = aws.params.DefaultAction;
+  if (!name) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
   }
-  if (!ChangeToken) {
+  if (!metricName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MetricName'];
+  }
+  if (!defaultAction) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DefaultAction'];
+  }
+  if (!changeToken) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ChangeToken'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    ChangeToken: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.GetWebACL = function GetWebACL(aws) {
-  var WebACLId = aws.params['WebACLId'];
-  if (!WebACLId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter WebACLId'];
   }
 
 
@@ -42,135 +35,87 @@ module.exports.GetWebACL = function GetWebACL(aws) {
 
   var ret = {
     WebACL: /*S1a*/{
+      WebACLId: '',
+      Name: '',
+      MetricName: '',
       Rules: [ /*S1c*/{
+        RuleId: '',
+        Priority: 0,
         Action: /*S17*/{
           Type: '',
         },
-        RuleId: '',
-        Priority: 0,
       }, /* ...*/ ],
-      MetricName: '',
-      WebACLId: '',
       DefaultAction: /*S17*/{
           Type: '',
         },
-      Name: '',
     },
+    ChangeToken: '',
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.GetSqlInjectionMatchSet = function GetSqlInjectionMatchSet(aws) {
-  var SqlInjectionMatchSetId = aws.params['SqlInjectionMatchSetId'];
-  if (!SqlInjectionMatchSetId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SqlInjectionMatchSetId'];
+module.exports.UpdateByteMatchSet = function UpdateByteMatchSet(aws) {
+  var updates = aws.params.Updates /* Type list */;
+  var byteMatchSetId = aws.params.ByteMatchSetId;
+  var changeToken = aws.params.ChangeToken;
+  if (!byteMatchSetId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ByteMatchSetId'];
+  }
+  if (!changeToken) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ChangeToken'];
+  }
+  if (!updates) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Updates'];
   }
 
 
   // TODO implement code
 
   var ret = {
-    SqlInjectionMatchSet: /*S13*/{
-      SqlInjectionMatchTuples: [ /*S15*/{
+    ChangeToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateByteMatchSet = function CreateByteMatchSet(aws) {
+  var name = aws.params.Name;
+  var changeToken = aws.params.ChangeToken;
+  if (!name) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
+  }
+  if (!changeToken) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ChangeToken'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ByteMatchSet: /*S5*/{
+      Name: '',
+      ByteMatchTuples: [ /*S8*/{
+        PositionalConstraint: '',
+        TargetString: null /*Blob*/,
+        TextTransformation: '',
         FieldToMatch: /*S9*/{
           Data: '',
           Type: '',
         },
-        TextTransformation: '',
       }, /* ...*/ ],
-      SqlInjectionMatchSetId: '',
-      Name: '',
+      ByteMatchSetId: '',
     },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.UpdateRule = function UpdateRule(aws) {
-  var RuleId = aws.params['RuleId'];
-  var Updates = aws.params['Updates'] /* Type list */;
-  var ChangeToken = aws.params['ChangeToken'];
-  if (!RuleId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RuleId'];
-  }
-  if (!ChangeToken) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ChangeToken'];
-  }
-  if (!Updates) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Updates'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
     ChangeToken: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.UpdateIPSet = function UpdateIPSet(aws) {
-  var IPSetId = aws.params['IPSetId'];
-  var ChangeToken = aws.params['ChangeToken'];
-  var Updates = aws.params['Updates'] /* Type list */;
-  if (!IPSetId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter IPSetId'];
-  }
-  if (!ChangeToken) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ChangeToken'];
-  }
-  if (!Updates) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Updates'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    ChangeToken: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateRule = function CreateRule(aws) {
-  var MetricName = aws.params['MetricName'];
-  var ChangeToken = aws.params['ChangeToken'];
-  var Name = aws.params['Name'];
-  if (!Name) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
-  }
-  if (!MetricName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MetricName'];
-  }
-  if (!ChangeToken) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ChangeToken'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    ChangeToken: '',
-    Rule: /*Sp*/{
-      Predicates: [ /*Sr*/{
-        DataId: '',
-        Type: '',
-        Negated: false,
-      }, /* ...*/ ],
-      RuleId: '',
-      MetricName: '',
-      Name: '',
-    },
   };
   return [200, ret];
 };
 // -----------------------------------
 module.exports.DeleteSizeConstraintSet = function DeleteSizeConstraintSet(aws) {
-  var SizeConstraintSetId = aws.params['SizeConstraintSetId'];
-  var ChangeToken = aws.params['ChangeToken'];
-  if (!SizeConstraintSetId) {
+  var sizeConstraintSetId = aws.params.SizeConstraintSetId;
+  var changeToken = aws.params.ChangeToken;
+  if (!sizeConstraintSetId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SizeConstraintSetId'];
   }
-  if (!ChangeToken) {
+  if (!changeToken) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ChangeToken'];
   }
 
@@ -183,85 +128,13 @@ module.exports.DeleteSizeConstraintSet = function DeleteSizeConstraintSet(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.GetRule = function GetRule(aws) {
-  var RuleId = aws.params['RuleId'];
-  if (!RuleId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RuleId'];
+module.exports.DeleteIPSet = function DeleteIPSet(aws) {
+  var iPSetId = aws.params.IPSetId;
+  var changeToken = aws.params.ChangeToken;
+  if (!iPSetId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter IPSetId'];
   }
-
-
-  // TODO implement code
-
-  var ret = {
-    Rule: /*Sp*/{
-      Predicates: [ /*Sr*/{
-        DataId: '',
-        Type: '',
-        Negated: false,
-      }, /* ...*/ ],
-      RuleId: '',
-      MetricName: '',
-      Name: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateIPSet = function CreateIPSet(aws) {
-  var ChangeToken = aws.params['ChangeToken'];
-  var Name = aws.params['Name'];
-  if (!Name) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
-  }
-  if (!ChangeToken) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ChangeToken'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    IPSet: /*Sh*/{
-      IPSetId: '',
-      IPSetDescriptors: [ /*Sj*/{
-        Value: '',
-        Type: '',
-      }, /* ...*/ ],
-      Name: '',
-    },
-    ChangeToken: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.UpdateWebACL = function UpdateWebACL(aws) {
-  var DefaultAction = aws.params['DefaultAction'];
-  var ChangeToken = aws.params['ChangeToken'];
-  var WebACLId = aws.params['WebACLId'];
-  var Updates = aws.params['Updates'] /* Type list */;
-  if (!WebACLId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter WebACLId'];
-  }
-  if (!ChangeToken) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ChangeToken'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    ChangeToken: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteWebACL = function DeleteWebACL(aws) {
-  var ChangeToken = aws.params['ChangeToken'];
-  var WebACLId = aws.params['WebACLId'];
-  if (!WebACLId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter WebACLId'];
-  }
-  if (!ChangeToken) {
+  if (!changeToken) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ChangeToken'];
   }
 
@@ -275,9 +148,9 @@ module.exports.DeleteWebACL = function DeleteWebACL(aws) {
 };
 // -----------------------------------
 module.exports.ListSqlInjectionMatchSets = function ListSqlInjectionMatchSets(aws) {
-  var NextMarker = aws.params['NextMarker'];
-  var Limit = aws.params['Limit'] /* Type integer */;
-  if (!Limit) {
+  var nextMarker = aws.params.NextMarker;
+  var limit = aws.params.Limit /* Type integer */;
+  if (!limit) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Limit'];
   }
 
@@ -287,138 +160,16 @@ module.exports.ListSqlInjectionMatchSets = function ListSqlInjectionMatchSets(aw
   var ret = {
     NextMarker: '',
     SqlInjectionMatchSets: [ {
+      Name: '',
       SqlInjectionMatchSetId: '',
-      Name: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListByteMatchSets = function ListByteMatchSets(aws) {
-  var NextMarker = aws.params['NextMarker'];
-  var Limit = aws.params['Limit'] /* Type integer */;
-  if (!Limit) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Limit'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    NextMarker: '',
-    ByteMatchSets: [ {
-      ByteMatchSetId: '',
-      Name: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.GetChangeToken = function GetChangeToken(aws) {
-
-
-  // TODO implement code
-
-  var ret = {
-    ChangeToken: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteRule = function DeleteRule(aws) {
-  var RuleId = aws.params['RuleId'];
-  var ChangeToken = aws.params['ChangeToken'];
-  if (!RuleId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RuleId'];
-  }
-  if (!ChangeToken) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ChangeToken'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    ChangeToken: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListIPSets = function ListIPSets(aws) {
-  var NextMarker = aws.params['NextMarker'];
-  var Limit = aws.params['Limit'] /* Type integer */;
-  if (!Limit) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Limit'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    NextMarker: '',
-    IPSets: [ {
-      IPSetId: '',
-      Name: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateByteMatchSet = function CreateByteMatchSet(aws) {
-  var ChangeToken = aws.params['ChangeToken'];
-  var Name = aws.params['Name'];
-  if (!Name) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
-  }
-  if (!ChangeToken) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ChangeToken'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    ByteMatchSet: /*S5*/{
-      ByteMatchTuples: [ /*S8*/{
-        TextTransformation: '',
-        FieldToMatch: /*S9*/{
-          Data: '',
-          Type: '',
-        },
-        TargetString: null /*Blob*/,
-        PositionalConstraint: '',
-      }, /* ...*/ ],
-      ByteMatchSetId: '',
-      Name: '',
-    },
-    ChangeToken: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListSizeConstraintSets = function ListSizeConstraintSets(aws) {
-  var NextMarker = aws.params['NextMarker'];
-  var Limit = aws.params['Limit'] /* Type integer */;
-  if (!Limit) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Limit'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    NextMarker: '',
-    SizeConstraintSets: [ {
-      SizeConstraintSetId: '',
-      Name: '',
     }, /* ...*/ ],
   };
   return [200, ret];
 };
 // -----------------------------------
 module.exports.GetSizeConstraintSet = function GetSizeConstraintSet(aws) {
-  var SizeConstraintSetId = aws.params['SizeConstraintSetId'];
-  if (!SizeConstraintSetId) {
+  var sizeConstraintSetId = aws.params.SizeConstraintSetId;
+  if (!sizeConstraintSetId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SizeConstraintSetId'];
   }
 
@@ -427,163 +178,29 @@ module.exports.GetSizeConstraintSet = function GetSizeConstraintSet(aws) {
 
   var ret = {
     SizeConstraintSet: /*Sw*/{
-      SizeConstraintSetId: '',
+      Name: '',
       SizeConstraints: [ /*Sy*/{
-        Size: 0 /*Long*/,
-        FieldToMatch: /*S9*/{
-          Data: '',
-          Type: '',
-        },
-        TextTransformation: '',
         ComparisonOperator: '',
-      }, /* ...*/ ],
-      Name: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateWebACL = function CreateWebACL(aws) {
-  var ChangeToken = aws.params['ChangeToken'];
-  var MetricName = aws.params['MetricName'];
-  var DefaultAction = aws.params['DefaultAction'];
-  var Name = aws.params['Name'];
-  if (!Name) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
-  }
-  if (!MetricName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MetricName'];
-  }
-  if (!DefaultAction) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DefaultAction'];
-  }
-  if (!ChangeToken) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ChangeToken'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    ChangeToken: '',
-    WebACL: /*S1a*/{
-      Rules: [ /*S1c*/{
-        Action: /*S17*/{
-          Type: '',
-        },
-        RuleId: '',
-        Priority: 0,
-      }, /* ...*/ ],
-      MetricName: '',
-      WebACLId: '',
-      DefaultAction: /*S17*/{
-          Type: '',
-        },
-      Name: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.UpdateSizeConstraintSet = function UpdateSizeConstraintSet(aws) {
-  var SizeConstraintSetId = aws.params['SizeConstraintSetId'];
-  var ChangeToken = aws.params['ChangeToken'];
-  var Updates = aws.params['Updates'] /* Type list */;
-  if (!SizeConstraintSetId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SizeConstraintSetId'];
-  }
-  if (!ChangeToken) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ChangeToken'];
-  }
-  if (!Updates) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Updates'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    ChangeToken: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteByteMatchSet = function DeleteByteMatchSet(aws) {
-  var ChangeToken = aws.params['ChangeToken'];
-  var ByteMatchSetId = aws.params['ByteMatchSetId'];
-  if (!ByteMatchSetId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ByteMatchSetId'];
-  }
-  if (!ChangeToken) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ChangeToken'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    ChangeToken: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.UpdateByteMatchSet = function UpdateByteMatchSet(aws) {
-  var ChangeToken = aws.params['ChangeToken'];
-  var ByteMatchSetId = aws.params['ByteMatchSetId'];
-  var Updates = aws.params['Updates'] /* Type list */;
-  if (!ByteMatchSetId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ByteMatchSetId'];
-  }
-  if (!ChangeToken) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ChangeToken'];
-  }
-  if (!Updates) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Updates'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    ChangeToken: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.GetByteMatchSet = function GetByteMatchSet(aws) {
-  var ByteMatchSetId = aws.params['ByteMatchSetId'];
-  if (!ByteMatchSetId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ByteMatchSetId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    ByteMatchSet: /*S5*/{
-      ByteMatchTuples: [ /*S8*/{
+        Size: 0 /*Long*/,
         TextTransformation: '',
         FieldToMatch: /*S9*/{
           Data: '',
           Type: '',
         },
-        TargetString: null /*Blob*/,
-        PositionalConstraint: '',
       }, /* ...*/ ],
-      ByteMatchSetId: '',
-      Name: '',
+      SizeConstraintSetId: '',
     },
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DeleteIPSet = function DeleteIPSet(aws) {
-  var IPSetId = aws.params['IPSetId'];
-  var ChangeToken = aws.params['ChangeToken'];
-  if (!IPSetId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter IPSetId'];
+module.exports.DeleteSqlInjectionMatchSet = function DeleteSqlInjectionMatchSet(aws) {
+  var sqlInjectionMatchSetId = aws.params.SqlInjectionMatchSetId;
+  var changeToken = aws.params.ChangeToken;
+  if (!sqlInjectionMatchSetId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SqlInjectionMatchSetId'];
   }
-  if (!ChangeToken) {
+  if (!changeToken) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ChangeToken'];
   }
 
@@ -592,36 +209,14 @@ module.exports.DeleteIPSet = function DeleteIPSet(aws) {
 
   var ret = {
     ChangeToken: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.GetIPSet = function GetIPSet(aws) {
-  var IPSetId = aws.params['IPSetId'];
-  if (!IPSetId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter IPSetId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    IPSet: /*Sh*/{
-      IPSetId: '',
-      IPSetDescriptors: [ /*Sj*/{
-        Value: '',
-        Type: '',
-      }, /* ...*/ ],
-      Name: '',
-    },
   };
   return [200, ret];
 };
 // -----------------------------------
 module.exports.ListRules = function ListRules(aws) {
-  var NextMarker = aws.params['NextMarker'];
-  var Limit = aws.params['Limit'] /* Type integer */;
-  if (!Limit) {
+  var nextMarker = aws.params.NextMarker;
+  var limit = aws.params.Limit /* Type integer */;
+  if (!limit) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Limit'];
   }
 
@@ -631,72 +226,17 @@ module.exports.ListRules = function ListRules(aws) {
   var ret = {
     NextMarker: '',
     Rules: [ {
-      RuleId: '',
       Name: '',
+      RuleId: '',
     }, /* ...*/ ],
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.UpdateSqlInjectionMatchSet = function UpdateSqlInjectionMatchSet(aws) {
-  var SqlInjectionMatchSetId = aws.params['SqlInjectionMatchSetId'];
-  var Updates = aws.params['Updates'] /* Type list */;
-  var ChangeToken = aws.params['ChangeToken'];
-  if (!SqlInjectionMatchSetId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SqlInjectionMatchSetId'];
-  }
-  if (!ChangeToken) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ChangeToken'];
-  }
-  if (!Updates) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Updates'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    ChangeToken: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateSizeConstraintSet = function CreateSizeConstraintSet(aws) {
-  var ChangeToken = aws.params['ChangeToken'];
-  var Name = aws.params['Name'];
-  if (!Name) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
-  }
-  if (!ChangeToken) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ChangeToken'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    SizeConstraintSet: /*Sw*/{
-      SizeConstraintSetId: '',
-      SizeConstraints: [ /*Sy*/{
-        Size: 0 /*Long*/,
-        FieldToMatch: /*S9*/{
-          Data: '',
-          Type: '',
-        },
-        TextTransformation: '',
-        ComparisonOperator: '',
-      }, /* ...*/ ],
-      Name: '',
-    },
-    ChangeToken: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
 module.exports.ListWebACLs = function ListWebACLs(aws) {
-  var NextMarker = aws.params['NextMarker'];
-  var Limit = aws.params['Limit'] /* Type integer */;
-  if (!Limit) {
+  var nextMarker = aws.params.NextMarker;
+  var limit = aws.params.Limit /* Type integer */;
+  if (!limit) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Limit'];
   }
 
@@ -714,8 +254,8 @@ module.exports.ListWebACLs = function ListWebACLs(aws) {
 };
 // -----------------------------------
 module.exports.GetChangeTokenStatus = function GetChangeTokenStatus(aws) {
-  var ChangeToken = aws.params['ChangeToken'];
-  if (!ChangeToken) {
+  var changeToken = aws.params.ChangeToken;
+  if (!changeToken) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ChangeToken'];
   }
 
@@ -728,13 +268,47 @@ module.exports.GetChangeTokenStatus = function GetChangeTokenStatus(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.CreateSqlInjectionMatchSet = function CreateSqlInjectionMatchSet(aws) {
-  var ChangeToken = aws.params['ChangeToken'];
-  var Name = aws.params['Name'];
-  if (!Name) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
+module.exports.UpdateSizeConstraintSet = function UpdateSizeConstraintSet(aws) {
+  var sizeConstraintSetId = aws.params.SizeConstraintSetId;
+  var updates = aws.params.Updates /* Type list */;
+  var changeToken = aws.params.ChangeToken;
+  if (!sizeConstraintSetId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SizeConstraintSetId'];
   }
-  if (!ChangeToken) {
+  if (!changeToken) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ChangeToken'];
+  }
+  if (!updates) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Updates'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ChangeToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetChangeToken = function GetChangeToken(aws) {
+
+
+  // TODO implement code
+
+  var ret = {
+    ChangeToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteByteMatchSet = function DeleteByteMatchSet(aws) {
+  var byteMatchSetId = aws.params.ByteMatchSetId;
+  var changeToken = aws.params.ChangeToken;
+  if (!byteMatchSetId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ByteMatchSetId'];
+  }
+  if (!changeToken) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ChangeToken'];
   }
 
@@ -743,36 +317,169 @@ module.exports.CreateSqlInjectionMatchSet = function CreateSqlInjectionMatchSet(
 
   var ret = {
     ChangeToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateRule = function UpdateRule(aws) {
+  var updates = aws.params.Updates /* Type list */;
+  var ruleId = aws.params.RuleId;
+  var changeToken = aws.params.ChangeToken;
+  if (!ruleId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RuleId'];
+  }
+  if (!changeToken) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ChangeToken'];
+  }
+  if (!updates) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Updates'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ChangeToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListSizeConstraintSets = function ListSizeConstraintSets(aws) {
+  var nextMarker = aws.params.NextMarker;
+  var limit = aws.params.Limit /* Type integer */;
+  if (!limit) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Limit'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    NextMarker: '',
+    SizeConstraintSets: [ {
+      Name: '',
+      SizeConstraintSetId: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateSqlInjectionMatchSet = function CreateSqlInjectionMatchSet(aws) {
+  var name = aws.params.Name;
+  var changeToken = aws.params.ChangeToken;
+  if (!name) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
+  }
+  if (!changeToken) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ChangeToken'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
     SqlInjectionMatchSet: /*S13*/{
+      Name: '',
       SqlInjectionMatchTuples: [ /*S15*/{
+        TextTransformation: '',
         FieldToMatch: /*S9*/{
           Data: '',
           Type: '',
         },
-        TextTransformation: '',
       }, /* ...*/ ],
       SqlInjectionMatchSetId: '',
+    },
+    ChangeToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetSqlInjectionMatchSet = function GetSqlInjectionMatchSet(aws) {
+  var sqlInjectionMatchSetId = aws.params.SqlInjectionMatchSetId;
+  if (!sqlInjectionMatchSetId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SqlInjectionMatchSetId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    SqlInjectionMatchSet: /*S13*/{
       Name: '',
+      SqlInjectionMatchTuples: [ /*S15*/{
+        TextTransformation: '',
+        FieldToMatch: /*S9*/{
+          Data: '',
+          Type: '',
+        },
+      }, /* ...*/ ],
+      SqlInjectionMatchSetId: '',
     },
   };
   return [200, ret];
 };
 // -----------------------------------
+module.exports.DeleteWebACL = function DeleteWebACL(aws) {
+  var webACLId = aws.params.WebACLId;
+  var changeToken = aws.params.ChangeToken;
+  if (!webACLId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter WebACLId'];
+  }
+  if (!changeToken) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ChangeToken'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ChangeToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateIPSet = function CreateIPSet(aws) {
+  var name = aws.params.Name;
+  var changeToken = aws.params.ChangeToken;
+  if (!name) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
+  }
+  if (!changeToken) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ChangeToken'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    IPSet: /*Sh*/{
+      IPSetId: '',
+      IPSetDescriptors: [ /*Sj*/{
+        Value: '',
+        Type: '',
+      }, /* ...*/ ],
+      Name: '',
+    },
+    ChangeToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.GetSampledRequests = function GetSampledRequests(aws) {
-  var TimeWindow = aws.params['TimeWindow'];
-  var RuleId = aws.params['RuleId'];
-  var WebAclId = aws.params['WebAclId'];
-  var MaxItems = aws.params['MaxItems'] /* Type long */;
-  if (!WebAclId) {
+  var maxItems = aws.params.MaxItems /* Type long */;
+  var timeWindow = aws.params.TimeWindow;
+  var webAclId = aws.params.WebAclId;
+  var ruleId = aws.params.RuleId;
+  if (!webAclId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter WebAclId'];
   }
-  if (!RuleId) {
+  if (!ruleId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RuleId'];
   }
-  if (!TimeWindow) {
+  if (!timeWindow) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TimeWindow'];
   }
-  if (!MaxItems) {
+  if (!maxItems) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MaxItems'];
   }
 
@@ -780,27 +487,320 @@ module.exports.GetSampledRequests = function GetSampledRequests(aws) {
   // TODO implement code
 
   var ret = {
+    SampledRequests: [ {
+      Timestamp: awsCommon.timestamp(),
+      Request: {
+        URI: '',
+        Headers: [ {
+          Name: '',
+          Value: '',
+        }, /* ...*/ ],
+        ClientIP: '',
+        HTTPVersion: '',
+        Method: '',
+        Country: '',
+      },
+      Weight: 0 /*Long*/,
+      Action: '',
+    }, /* ...*/ ],
     TimeWindow: /*S22*/{
       EndTime: awsCommon.timestamp(),
       StartTime: awsCommon.timestamp(),
     },
-    SampledRequests: [ {
-      Weight: 0 /*Long*/,
-      Request: {
-        HTTPVersion: '',
-        ClientIP: '',
-        Country: '',
-        Headers: [ {
-          Value: '',
-          Name: '',
-        }, /* ...*/ ],
-        Method: '',
-        URI: '',
-      },
-      Action: '',
-      Timestamp: awsCommon.timestamp(),
-    }, /* ...*/ ],
     PopulationSize: 0 /*Long*/,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateSqlInjectionMatchSet = function UpdateSqlInjectionMatchSet(aws) {
+  var sqlInjectionMatchSetId = aws.params.SqlInjectionMatchSetId;
+  var updates = aws.params.Updates /* Type list */;
+  var changeToken = aws.params.ChangeToken;
+  if (!sqlInjectionMatchSetId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SqlInjectionMatchSetId'];
+  }
+  if (!changeToken) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ChangeToken'];
+  }
+  if (!updates) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Updates'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ChangeToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetByteMatchSet = function GetByteMatchSet(aws) {
+  var byteMatchSetId = aws.params.ByteMatchSetId;
+  if (!byteMatchSetId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ByteMatchSetId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ByteMatchSet: /*S5*/{
+      Name: '',
+      ByteMatchTuples: [ /*S8*/{
+        PositionalConstraint: '',
+        TargetString: null /*Blob*/,
+        TextTransformation: '',
+        FieldToMatch: /*S9*/{
+          Data: '',
+          Type: '',
+        },
+      }, /* ...*/ ],
+      ByteMatchSetId: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateWebACL = function UpdateWebACL(aws) {
+  var webACLId = aws.params.WebACLId;
+  var updates = aws.params.Updates /* Type list */;
+  var changeToken = aws.params.ChangeToken;
+  var defaultAction = aws.params.DefaultAction;
+  if (!webACLId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter WebACLId'];
+  }
+  if (!changeToken) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ChangeToken'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ChangeToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListIPSets = function ListIPSets(aws) {
+  var nextMarker = aws.params.NextMarker;
+  var limit = aws.params.Limit /* Type integer */;
+  if (!limit) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Limit'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    NextMarker: '',
+    IPSets: [ {
+      IPSetId: '',
+      Name: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetIPSet = function GetIPSet(aws) {
+  var iPSetId = aws.params.IPSetId;
+  if (!iPSetId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter IPSetId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    IPSet: /*Sh*/{
+      IPSetId: '',
+      IPSetDescriptors: [ /*Sj*/{
+        Value: '',
+        Type: '',
+      }, /* ...*/ ],
+      Name: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateSizeConstraintSet = function CreateSizeConstraintSet(aws) {
+  var name = aws.params.Name;
+  var changeToken = aws.params.ChangeToken;
+  if (!name) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
+  }
+  if (!changeToken) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ChangeToken'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    SizeConstraintSet: /*Sw*/{
+      Name: '',
+      SizeConstraints: [ /*Sy*/{
+        ComparisonOperator: '',
+        Size: 0 /*Long*/,
+        TextTransformation: '',
+        FieldToMatch: /*S9*/{
+          Data: '',
+          Type: '',
+        },
+      }, /* ...*/ ],
+      SizeConstraintSetId: '',
+    },
+    ChangeToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateRule = function CreateRule(aws) {
+  var name = aws.params.Name;
+  var metricName = aws.params.MetricName;
+  var changeToken = aws.params.ChangeToken;
+  if (!name) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
+  }
+  if (!metricName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MetricName'];
+  }
+  if (!changeToken) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ChangeToken'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ChangeToken: '',
+    Rule: /*Sp*/{
+      Name: '',
+      MetricName: '',
+      RuleId: '',
+      Predicates: [ /*Sr*/{
+        DataId: '',
+        Negated: false,
+        Type: '',
+      }, /* ...*/ ],
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListByteMatchSets = function ListByteMatchSets(aws) {
+  var nextMarker = aws.params.NextMarker;
+  var limit = aws.params.Limit /* Type integer */;
+  if (!limit) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Limit'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    NextMarker: '',
+    ByteMatchSets: [ {
+      Name: '',
+      ByteMatchSetId: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteRule = function DeleteRule(aws) {
+  var ruleId = aws.params.RuleId;
+  var changeToken = aws.params.ChangeToken;
+  if (!ruleId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RuleId'];
+  }
+  if (!changeToken) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ChangeToken'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ChangeToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetRule = function GetRule(aws) {
+  var ruleId = aws.params.RuleId;
+  if (!ruleId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RuleId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Rule: /*Sp*/{
+      Name: '',
+      MetricName: '',
+      RuleId: '',
+      Predicates: [ /*Sr*/{
+        DataId: '',
+        Negated: false,
+        Type: '',
+      }, /* ...*/ ],
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateIPSet = function UpdateIPSet(aws) {
+  var iPSetId = aws.params.IPSetId;
+  var updates = aws.params.Updates /* Type list */;
+  var changeToken = aws.params.ChangeToken;
+  if (!iPSetId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter IPSetId'];
+  }
+  if (!changeToken) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ChangeToken'];
+  }
+  if (!updates) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Updates'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ChangeToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetWebACL = function GetWebACL(aws) {
+  var webACLId = aws.params.WebACLId;
+  if (!webACLId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter WebACLId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    WebACL: /*S1a*/{
+      WebACLId: '',
+      Name: '',
+      MetricName: '',
+      Rules: [ /*S1c*/{
+        RuleId: '',
+        Priority: 0,
+        Action: /*S17*/{
+          Type: '',
+        },
+      }, /* ...*/ ],
+      DefaultAction: /*S17*/{
+          Type: '',
+        },
+    },
   };
   return [200, ret];
 };

@@ -10,62 +10,12 @@ const awsCommon = require('../../lib/aws-common');
  */
 
 // Setup input and output to use AWS protocol json
-require('../../lib/aws-common/shape_http')('json', module.exports, null)
-// -----------------------------------
-module.exports.DeleteCertificate = function DeleteCertificate(aws) {
-  var CertificateArn = aws.params['CertificateArn'];
-  if (!CertificateArn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CertificateArn'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeCertificate = function DescribeCertificate(aws) {
-  var CertificateArn = aws.params['CertificateArn'];
-  if (!CertificateArn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CertificateArn'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Certificate: {
-      NotBefore: awsCommon.timestamp(),
-      SignatureAlgorithm: '',
-      Serial: '',
-      KeyAlgorithm: '',
-      NotAfter: awsCommon.timestamp(),
-      Subject: '',
-      RevokedAt: awsCommon.timestamp(),
-      DomainName: '',
-      CreatedAt: awsCommon.timestamp(),
-      Issuer: '',
-      CertificateArn: '',
-      SubjectAlternativeNames: /*S7*/[ '', /* ...*/ ],
-      Status: '',
-      InUseBy: [ '', /* ...*/ ],
-      DomainValidationOptions: [ {
-        ValidationDomain: '',
-        DomainName: '',
-        ValidationEmails: [ '', /* ...*/ ],
-      }, /* ...*/ ],
-      RevocationReason: '',
-      IssuedAt: awsCommon.timestamp(),
-    },
-  };
-  return [200, ret];
-};
+require('../../lib/aws-common/shape_http')('json', module.exports, null);
 // -----------------------------------
 module.exports.ListCertificates = function ListCertificates(aws) {
-  var CertificateStatuses = aws.params['CertificateStatuses'] /* Type list */;
-  var MaxItems = aws.params['MaxItems'] /* Type integer */;
-  var NextToken = aws.params['NextToken'];
+  var nextToken = aws.params.NextToken;
+  var certificateStatuses = aws.params.CertificateStatuses /* Type list */;
+  var maxItems = aws.params.MaxItems /* Type integer */;
 
 
   // TODO implement code
@@ -80,33 +30,28 @@ module.exports.ListCertificates = function ListCertificates(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.ResendValidationEmail = function ResendValidationEmail(aws) {
-  var CertificateArn = aws.params['CertificateArn'];
-  var Domain = aws.params['Domain'];
-  var ValidationDomain = aws.params['ValidationDomain'];
-  if (!CertificateArn) {
+module.exports.GetCertificate = function GetCertificate(aws) {
+  var certificateArn = aws.params.CertificateArn;
+  if (!certificateArn) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CertificateArn'];
-  }
-  if (!Domain) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Domain'];
-  }
-  if (!ValidationDomain) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ValidationDomain'];
   }
 
 
   // TODO implement code
 
-  var ret = {};
+  var ret = {
+    Certificate: '',
+    CertificateChain: '',
+  };
   return [200, ret];
 };
 // -----------------------------------
 module.exports.RequestCertificate = function RequestCertificate(aws) {
-  var IdempotencyToken = aws.params['IdempotencyToken'];
-  var DomainName = aws.params['DomainName'];
-  var SubjectAlternativeNames = aws.params['SubjectAlternativeNames'];
-  var DomainValidationOptions = aws.params['DomainValidationOptions'] /* Type list */;
-  if (!DomainName) {
+  var idempotencyToken = aws.params.IdempotencyToken;
+  var domainName = aws.params.DomainName;
+  var domainValidationOptions = aws.params.DomainValidationOptions /* Type list */;
+  var subjectAlternativeNames = aws.params.SubjectAlternativeNames;
+  if (!domainName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
   }
 
@@ -119,9 +64,43 @@ module.exports.RequestCertificate = function RequestCertificate(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.GetCertificate = function GetCertificate(aws) {
-  var CertificateArn = aws.params['CertificateArn'];
-  if (!CertificateArn) {
+module.exports.ResendValidationEmail = function ResendValidationEmail(aws) {
+  var certificateArn = aws.params.CertificateArn;
+  var validationDomain = aws.params.ValidationDomain;
+  var domain = aws.params.Domain;
+  if (!certificateArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CertificateArn'];
+  }
+  if (!domain) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Domain'];
+  }
+  if (!validationDomain) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ValidationDomain'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteCertificate = function DeleteCertificate(aws) {
+  var certificateArn = aws.params.CertificateArn;
+  if (!certificateArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CertificateArn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeCertificate = function DescribeCertificate(aws) {
+  var certificateArn = aws.params.CertificateArn;
+  if (!certificateArn) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CertificateArn'];
   }
 
@@ -129,8 +108,29 @@ module.exports.GetCertificate = function GetCertificate(aws) {
   // TODO implement code
 
   var ret = {
-    CertificateChain: '',
-    Certificate: '',
+    Certificate: {
+      Subject: '',
+      Status: '',
+      DomainName: '',
+      InUseBy: [ '', /* ...*/ ],
+      DomainValidationOptions: [ {
+        DomainName: '',
+        ValidationEmails: [ '', /* ...*/ ],
+        ValidationDomain: '',
+      }, /* ...*/ ],
+      CertificateArn: '',
+      NotBefore: awsCommon.timestamp(),
+      SubjectAlternativeNames: /*S7*/[ '', /* ...*/ ],
+      RevocationReason: '',
+      Serial: '',
+      CreatedAt: awsCommon.timestamp(),
+      KeyAlgorithm: '',
+      IssuedAt: awsCommon.timestamp(),
+      RevokedAt: awsCommon.timestamp(),
+      NotAfter: awsCommon.timestamp(),
+      Issuer: '',
+      SignatureAlgorithm: '',
+    },
   };
   return [200, ret];
 };

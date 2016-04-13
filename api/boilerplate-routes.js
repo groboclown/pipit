@@ -14,7 +14,7 @@ module.exports = {
   '/cloudformation': normalize(require('./cloudformation/boilerplate-2010-05-15.js')),
   '/cloudfront/2016-01-28': normalizeVersions('2016-01-28', [require('./cloudfront/boilerplate-2016-01-28.js')]),
   '/cloudhsm': normalize(require('./cloudhsm/boilerplate-2014-05-30.js')),
-  '/cloudsearch': normalize(require('./cloudsearch/boilerplate-2013-01-01.js')),
+  '/cloudsearch': normalize(require('./cloudsearch/boilerplate-2011-02-01.js')),
   '/cloudsearchdomain/2013-01-01': normalizeVersions('2013-01-01', [require('./cloudsearchdomain/boilerplate-2013-01-01.js')]),
   '/cloudtrail': normalize(require('./cloudtrail/boilerplate-2013-11-01.js')),
   '/codecommit': normalize(require('./codecommit/boilerplate-2015-04-13.js')),
@@ -54,7 +54,7 @@ module.exports = {
   '/mobileanalytics/2014-06-05': normalizeVersions('2014-06-05', [require('./mobileanalytics/boilerplate-2014-06-05.js')]),
   '/monitoring': normalize(require('./monitoring/boilerplate-2010-08-01.js')),
   '/opsworks': normalize(require('./opsworks/boilerplate-2013-02-18.js')),
-  '/rds': normalize(require('./rds/boilerplate-2013-02-12.js')),
+  '/rds': normalize(require('./rds/boilerplate-2014-10-31.js')),
   '/redshift': normalize(require('./redshift/boilerplate-2012-12-01.js')),
   '/route53/2013-04-01': normalizeVersions('2013-04-01', [require('./route53/boilerplate-2013-04-01.js')]),
   '/route53domains': normalize(require('./route53domains/boilerplate-2014-05-15.js')),
@@ -69,5 +69,5 @@ module.exports = {
   '/support': normalize(require('./support/boilerplate-2013-04-15.js')),
   '/swf': normalize(require('./swf/boilerplate-2012-01-25.js')),
   '/waf': normalize(require('./waf/boilerplate-2015-08-24.js')),
-  '/workspaces': normalize(require('./workspaces/boilerplate-2015-04-08.js'))
+  '/workspaces': normalize(require('./workspaces/boilerplate-2015-04-08.js')),
 };

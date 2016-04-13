@@ -10,1593 +10,1593 @@ const awsCommon = require('../../lib/aws-common');
  */
 
 // Setup input and output to use AWS protocol rest-xml
-require('../../lib/aws-common/shape_http')('rest-xml', module.exports, null)
-// -----------------------------------
-module.exports.ListStreamingDistributions = awsCommon.as(
-  'GET',
-  '/2016-01-28/streaming-distribution',
-  function ListStreamingDistributions(aws) {
-  var Marker = aws.params['Marker'];
-  var MaxItems = aws.params['MaxItems'];
-
-
-  // TODO implement code
-
-  var ret = {
-    StreamingDistributionList: {
-      Marker: '',
-      Quantity: 0,
-      Items: [ {
-        S3Origin: /*S20*/{
-          OriginAccessIdentity: '',
-          DomainName: '',
-        },
-        PriceClass: '',
-        Comment: '',
-        Status: '',
-        LastModifiedTime: awsCommon.timestamp(),
-        Enabled: false,
-        TrustedSigners: /*Sw*/{
-          Quantity: 0,
-          Items: [ '', /* ...*/ ],
-          Enabled: false,
-        },
-        Aliases: /*S8*/{
-          Quantity: 0,
-          Items: [ '', /* ...*/ ],
-        },
-        DomainName: '',
-        Id: '',
-      }, /* ...*/ ],
-      NextMarker: '',
-      IsTruncated: false,
-      MaxItems: 0,
-    },
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.CreateDistribution = awsCommon.as(
-  '/2016-01-28/distribution',
-  function CreateDistribution(aws) {
-  var DistributionConfig = aws.params['DistributionConfig'];
-  if (!DistributionConfig) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DistributionConfig'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Distribution: /*S1l*/{
-      InProgressInvalidationBatches: 0,
-      Status: '',
-      LastModifiedTime: awsCommon.timestamp(),
-      DistributionConfig: /*S7*/{
-        DefaultCacheBehavior: /*Sn*/{
-          ForwardedValues: /*So*/{
-            Cookies: {
-              WhitelistedNames: {
-                Quantity: 0,
-                Items: [ '', /* ...*/ ],
-              },
-              Forward: '',
-            },
-            QueryString: false,
-            Headers: {
-              Quantity: 0,
-              Items: [ '', /* ...*/ ],
-            },
-          },
-          Compress: false,
-          SmoothStreaming: false,
-          AllowedMethods: /*S10*/{
-            Quantity: 0,
-            CachedMethods: {
-              Quantity: 0,
-              Items: /*S11*/[ '', /* ...*/ ],
-            },
-            Items: /*S11*/[ '', /* ...*/ ],
-          },
-          TrustedSigners: /*Sw*/{
-            Quantity: 0,
-            Items: [ '', /* ...*/ ],
-            Enabled: false,
-          },
-          MinTTL: 0 /*Long*/,
-          ViewerProtocolPolicy: '',
-          MaxTTL: 0 /*Long*/,
-          TargetOriginId: '',
-          DefaultTTL: 0 /*Long*/,
-        },
-        ViewerCertificate: /*S1c*/{
-          CloudFrontDefaultCertificate: false,
-          IAMCertificateId: '',
-          CertificateSource: '',
-          SSLSupportMethod: '',
-          MinimumProtocolVersion: '',
-          Certificate: '',
-        },
-        Origins: /*Sb*/{
-          Quantity: 0,
-          Items: [ {
-            CustomOriginConfig: {
-              HTTPPort: 0,
-              OriginProtocolPolicy: '',
-              HTTPSPort: 0,
-              OriginSslProtocols: {
-                Quantity: 0,
-                Items: [ '', /* ...*/ ],
-              },
-            },
-            OriginPath: '',
-            S3OriginConfig: {
-              OriginAccessIdentity: '',
-            },
-            DomainName: '',
-            CustomHeaders: {
-              Quantity: 0,
-              Items: [ {
-                HeaderValue: '',
-                HeaderName: '',
-              }, /* ...*/ ],
-            },
-            Id: '',
-          }, /* ...*/ ],
-        },
-        PriceClass: '',
-        CacheBehaviors: /*S14*/{
-          Quantity: 0,
-          Items: [ {
-            ForwardedValues: /*So*/{
-            Cookies: {
-              WhitelistedNames: {
-                Quantity: 0,
-                Items: [ '', /* ...*/ ],
-              },
-              Forward: '',
-            },
-            QueryString: false,
-            Headers: {
-              Quantity: 0,
-              Items: [ '', /* ...*/ ],
-            },
-          },
-            Compress: false,
-            SmoothStreaming: false,
-            PathPattern: '',
-            TrustedSigners: /*Sw*/{
-            Quantity: 0,
-            Items: [ '', /* ...*/ ],
-            Enabled: false,
-          },
-            AllowedMethods: /*S10*/{
-            Quantity: 0,
-            CachedMethods: {
-              Quantity: 0,
-              Items: /*S11*/[ '', /* ...*/ ],
-            },
-            Items: /*S11*/[ '', /* ...*/ ],
-          },
-            MinTTL: 0 /*Long*/,
-            ViewerProtocolPolicy: '',
-            MaxTTL: 0 /*Long*/,
-            TargetOriginId: '',
-            DefaultTTL: 0 /*Long*/,
-          }, /* ...*/ ],
-        },
-        Logging: {
-          Prefix: '',
-          IncludeCookies: false,
-          Bucket: '',
-          Enabled: false,
-        },
-        Enabled: false,
-        Restrictions: /*S1g*/{
-          GeoRestriction: {
-            RestrictionType: '',
-            Quantity: 0,
-            Items: [ '', /* ...*/ ],
-          },
-        },
-        WebACLId: '',
-        CustomErrorResponses: /*S17*/{
-          Quantity: 0,
-          Items: [ {
-            ErrorCode: 0,
-            ResponseCode: '',
-            ErrorCachingMinTTL: 0 /*Long*/,
-            ResponsePagePath: '',
-          }, /* ...*/ ],
-        },
-        CallerReference: '',
-        DefaultRootObject: '',
-        Aliases: /*S8*/{
-          Quantity: 0,
-          Items: [ '', /* ...*/ ],
-        },
-        Comment: '',
-      },
-      DomainName: '',
-      Id: '',
-      ActiveTrustedSigners: /*S1n*/{
-        Quantity: 0,
-        Items: [ {
-          AwsAccountNumber: '',
-          KeyPairIds: {
-            Quantity: 0,
-            Items: [ '', /* ...*/ ],
-          },
-        }, /* ...*/ ],
-        Enabled: false,
-      },
-    },
-    Location: '',
-    ETag: '',
-  };
-  return [201, ret];
-});
-// -----------------------------------
-module.exports.ListDistributions = awsCommon.as(
-  'GET',
-  '/2016-01-28/distribution',
-  function ListDistributions(aws) {
-  var Marker = aws.params['Marker'];
-  var MaxItems = aws.params['MaxItems'];
-
-
-  // TODO implement code
-
-  var ret = {
-    DistributionList: /*S2s*/{
-      Marker: '',
-      Quantity: 0,
-      Items: [ {
-        DefaultCacheBehavior: /*Sn*/{
-          ForwardedValues: /*So*/{
-            Cookies: {
-              WhitelistedNames: {
-                Quantity: 0,
-                Items: [ '', /* ...*/ ],
-              },
-              Forward: '',
-            },
-            QueryString: false,
-            Headers: {
-              Quantity: 0,
-              Items: [ '', /* ...*/ ],
-            },
-          },
-          Compress: false,
-          SmoothStreaming: false,
-          AllowedMethods: /*S10*/{
-            Quantity: 0,
-            CachedMethods: {
-              Quantity: 0,
-              Items: /*S11*/[ '', /* ...*/ ],
-            },
-            Items: /*S11*/[ '', /* ...*/ ],
-          },
-          TrustedSigners: /*Sw*/{
-            Quantity: 0,
-            Items: [ '', /* ...*/ ],
-            Enabled: false,
-          },
-          MinTTL: 0 /*Long*/,
-          ViewerProtocolPolicy: '',
-          MaxTTL: 0 /*Long*/,
-          TargetOriginId: '',
-          DefaultTTL: 0 /*Long*/,
-        },
-        ViewerCertificate: /*S1c*/{
-          CloudFrontDefaultCertificate: false,
-          IAMCertificateId: '',
-          CertificateSource: '',
-          SSLSupportMethod: '',
-          MinimumProtocolVersion: '',
-          Certificate: '',
-        },
-        Origins: /*Sb*/{
-          Quantity: 0,
-          Items: [ {
-            CustomOriginConfig: {
-              HTTPPort: 0,
-              OriginProtocolPolicy: '',
-              HTTPSPort: 0,
-              OriginSslProtocols: {
-                Quantity: 0,
-                Items: [ '', /* ...*/ ],
-              },
-            },
-            OriginPath: '',
-            S3OriginConfig: {
-              OriginAccessIdentity: '',
-            },
-            DomainName: '',
-            CustomHeaders: {
-              Quantity: 0,
-              Items: [ {
-                HeaderValue: '',
-                HeaderName: '',
-              }, /* ...*/ ],
-            },
-            Id: '',
-          }, /* ...*/ ],
-        },
-        LastModifiedTime: awsCommon.timestamp(),
-        PriceClass: '',
-        CacheBehaviors: /*S14*/{
-          Quantity: 0,
-          Items: [ {
-            ForwardedValues: /*So*/{
-            Cookies: {
-              WhitelistedNames: {
-                Quantity: 0,
-                Items: [ '', /* ...*/ ],
-              },
-              Forward: '',
-            },
-            QueryString: false,
-            Headers: {
-              Quantity: 0,
-              Items: [ '', /* ...*/ ],
-            },
-          },
-            Compress: false,
-            SmoothStreaming: false,
-            PathPattern: '',
-            TrustedSigners: /*Sw*/{
-            Quantity: 0,
-            Items: [ '', /* ...*/ ],
-            Enabled: false,
-          },
-            AllowedMethods: /*S10*/{
-            Quantity: 0,
-            CachedMethods: {
-              Quantity: 0,
-              Items: /*S11*/[ '', /* ...*/ ],
-            },
-            Items: /*S11*/[ '', /* ...*/ ],
-          },
-            MinTTL: 0 /*Long*/,
-            ViewerProtocolPolicy: '',
-            MaxTTL: 0 /*Long*/,
-            TargetOriginId: '',
-            DefaultTTL: 0 /*Long*/,
-          }, /* ...*/ ],
-        },
-        Enabled: false,
-        DomainName: '',
-        Restrictions: /*S1g*/{
-          GeoRestriction: {
-            RestrictionType: '',
-            Quantity: 0,
-            Items: [ '', /* ...*/ ],
-          },
-        },
-        WebACLId: '',
-        CustomErrorResponses: /*S17*/{
-          Quantity: 0,
-          Items: [ {
-            ErrorCode: 0,
-            ResponseCode: '',
-            ErrorCachingMinTTL: 0 /*Long*/,
-            ResponsePagePath: '',
-          }, /* ...*/ ],
-        },
-        Status: '',
-        Aliases: /*S8*/{
-          Quantity: 0,
-          Items: [ '', /* ...*/ ],
-        },
-        Comment: '',
-        Id: '',
-      }, /* ...*/ ],
-      NextMarker: '',
-      IsTruncated: false,
-      MaxItems: 0,
-    },
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.CreateCloudFrontOriginAccessIdentity = awsCommon.as(
-  '/2016-01-28/origin-access-identity/cloudfront',
-  function CreateCloudFrontOriginAccessIdentity(aws) {
-  var CloudFrontOriginAccessIdentityConfig = aws.params['CloudFrontOriginAccessIdentityConfig'];
-  if (!CloudFrontOriginAccessIdentityConfig) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CloudFrontOriginAccessIdentityConfig'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    ETag: '',
-    CloudFrontOriginAccessIdentity: /*S5*/{
-      CloudFrontOriginAccessIdentityConfig: /*S2*/{
-        CallerReference: '',
-        Comment: '',
-      },
-      S3CanonicalUserId: '',
-      Id: '',
-    },
-    Location: '',
-  };
-  return [201, ret];
-});
-// -----------------------------------
-module.exports.GetInvalidation = awsCommon.as(
-  'GET',
-  '/2016-01-28/distribution/:DistributionId/invalidation/:Id',
-  function GetInvalidation(aws) {
-  var DistributionId = aws.reqParams['DistributionId'];
-  var Id = aws.reqParams['Id'];
-  if (!DistributionId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DistributionId'];
-  }
-  if (!Id) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Invalidation: /*S1x*/{
-      InvalidationBatch: /*S1t*/{
-        CallerReference: '',
-        Paths: {
-          Quantity: 0,
-          Items: [ '', /* ...*/ ],
-        },
-      },
-      CreateTime: awsCommon.timestamp(),
-      Status: '',
-      Id: '',
-    },
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.DeleteDistribution = awsCommon.as(
-  'DELETE',
-  '/2016-01-28/distribution/:Id',
-  function DeleteDistribution(aws) {
-  var IfMatch = aws.params['IfMatch'];
-  var Id = aws.reqParams['Id'];
-  if (!Id) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [204, ret];
-});
-// -----------------------------------
-module.exports.CreateStreamingDistribution = awsCommon.as(
-  '/2016-01-28/streaming-distribution',
-  function CreateStreamingDistribution(aws) {
-  var StreamingDistributionConfig = aws.params['StreamingDistributionConfig'];
-  if (!StreamingDistributionConfig) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StreamingDistributionConfig'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    ETag: '',
-    StreamingDistribution: /*S23*/{
-      StreamingDistributionConfig: /*S1z*/{
-        S3Origin: /*S20*/{
-          OriginAccessIdentity: '',
-          DomainName: '',
-        },
-        PriceClass: '',
-        TrustedSigners: /*Sw*/{
-          Quantity: 0,
-          Items: [ '', /* ...*/ ],
-          Enabled: false,
-        },
-        Logging: {
-          Prefix: '',
-          Bucket: '',
-          Enabled: false,
-        },
-        CallerReference: '',
-        Aliases: /*S8*/{
-          Quantity: 0,
-          Items: [ '', /* ...*/ ],
-        },
-        Enabled: false,
-        Comment: '',
-      },
-      Status: '',
-      LastModifiedTime: awsCommon.timestamp(),
-      DomainName: '',
-      Id: '',
-      ActiveTrustedSigners: /*S1n*/{
-        Quantity: 0,
-        Items: [ {
-          AwsAccountNumber: '',
-          KeyPairIds: {
-            Quantity: 0,
-            Items: [ '', /* ...*/ ],
-          },
-        }, /* ...*/ ],
-        Enabled: false,
-      },
-    },
-    Location: '',
-  };
-  return [201, ret];
-});
-// -----------------------------------
-module.exports.UpdateDistribution = awsCommon.as(
-  'PUT',
-  '/2016-01-28/distribution/:Id/config',
-  function UpdateDistribution(aws) {
-  var IfMatch = aws.params['IfMatch'];
-  var Id = aws.reqParams['Id'];
-  var DistributionConfig = aws.params['DistributionConfig'];
-  if (!DistributionConfig) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DistributionConfig'];
-  }
-  if (!Id) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Distribution: /*S1l*/{
-      InProgressInvalidationBatches: 0,
-      Status: '',
-      LastModifiedTime: awsCommon.timestamp(),
-      DistributionConfig: /*S7*/{
-        DefaultCacheBehavior: /*Sn*/{
-          ForwardedValues: /*So*/{
-            Cookies: {
-              WhitelistedNames: {
-                Quantity: 0,
-                Items: [ '', /* ...*/ ],
-              },
-              Forward: '',
-            },
-            QueryString: false,
-            Headers: {
-              Quantity: 0,
-              Items: [ '', /* ...*/ ],
-            },
-          },
-          Compress: false,
-          SmoothStreaming: false,
-          AllowedMethods: /*S10*/{
-            Quantity: 0,
-            CachedMethods: {
-              Quantity: 0,
-              Items: /*S11*/[ '', /* ...*/ ],
-            },
-            Items: /*S11*/[ '', /* ...*/ ],
-          },
-          TrustedSigners: /*Sw*/{
-            Quantity: 0,
-            Items: [ '', /* ...*/ ],
-            Enabled: false,
-          },
-          MinTTL: 0 /*Long*/,
-          ViewerProtocolPolicy: '',
-          MaxTTL: 0 /*Long*/,
-          TargetOriginId: '',
-          DefaultTTL: 0 /*Long*/,
-        },
-        ViewerCertificate: /*S1c*/{
-          CloudFrontDefaultCertificate: false,
-          IAMCertificateId: '',
-          CertificateSource: '',
-          SSLSupportMethod: '',
-          MinimumProtocolVersion: '',
-          Certificate: '',
-        },
-        Origins: /*Sb*/{
-          Quantity: 0,
-          Items: [ {
-            CustomOriginConfig: {
-              HTTPPort: 0,
-              OriginProtocolPolicy: '',
-              HTTPSPort: 0,
-              OriginSslProtocols: {
-                Quantity: 0,
-                Items: [ '', /* ...*/ ],
-              },
-            },
-            OriginPath: '',
-            S3OriginConfig: {
-              OriginAccessIdentity: '',
-            },
-            DomainName: '',
-            CustomHeaders: {
-              Quantity: 0,
-              Items: [ {
-                HeaderValue: '',
-                HeaderName: '',
-              }, /* ...*/ ],
-            },
-            Id: '',
-          }, /* ...*/ ],
-        },
-        PriceClass: '',
-        CacheBehaviors: /*S14*/{
-          Quantity: 0,
-          Items: [ {
-            ForwardedValues: /*So*/{
-            Cookies: {
-              WhitelistedNames: {
-                Quantity: 0,
-                Items: [ '', /* ...*/ ],
-              },
-              Forward: '',
-            },
-            QueryString: false,
-            Headers: {
-              Quantity: 0,
-              Items: [ '', /* ...*/ ],
-            },
-          },
-            Compress: false,
-            SmoothStreaming: false,
-            PathPattern: '',
-            TrustedSigners: /*Sw*/{
-            Quantity: 0,
-            Items: [ '', /* ...*/ ],
-            Enabled: false,
-          },
-            AllowedMethods: /*S10*/{
-            Quantity: 0,
-            CachedMethods: {
-              Quantity: 0,
-              Items: /*S11*/[ '', /* ...*/ ],
-            },
-            Items: /*S11*/[ '', /* ...*/ ],
-          },
-            MinTTL: 0 /*Long*/,
-            ViewerProtocolPolicy: '',
-            MaxTTL: 0 /*Long*/,
-            TargetOriginId: '',
-            DefaultTTL: 0 /*Long*/,
-          }, /* ...*/ ],
-        },
-        Logging: {
-          Prefix: '',
-          IncludeCookies: false,
-          Bucket: '',
-          Enabled: false,
-        },
-        Enabled: false,
-        Restrictions: /*S1g*/{
-          GeoRestriction: {
-            RestrictionType: '',
-            Quantity: 0,
-            Items: [ '', /* ...*/ ],
-          },
-        },
-        WebACLId: '',
-        CustomErrorResponses: /*S17*/{
-          Quantity: 0,
-          Items: [ {
-            ErrorCode: 0,
-            ResponseCode: '',
-            ErrorCachingMinTTL: 0 /*Long*/,
-            ResponsePagePath: '',
-          }, /* ...*/ ],
-        },
-        CallerReference: '',
-        DefaultRootObject: '',
-        Aliases: /*S8*/{
-          Quantity: 0,
-          Items: [ '', /* ...*/ ],
-        },
-        Comment: '',
-      },
-      DomainName: '',
-      Id: '',
-      ActiveTrustedSigners: /*S1n*/{
-        Quantity: 0,
-        Items: [ {
-          AwsAccountNumber: '',
-          KeyPairIds: {
-            Quantity: 0,
-            Items: [ '', /* ...*/ ],
-          },
-        }, /* ...*/ ],
-        Enabled: false,
-      },
-    },
-    ETag: '',
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.ListDistributionsByWebACLId = awsCommon.as(
-  'GET',
-  '/2016-01-28/distributionsByWebACLId/:WebACLId',
-  function ListDistributionsByWebACLId(aws) {
-  var Marker = aws.params['Marker'];
-  var WebACLId = aws.reqParams['WebACLId'];
-  var MaxItems = aws.params['MaxItems'];
-  if (!WebACLId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter WebACLId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    DistributionList: /*S2s*/{
-      Marker: '',
-      Quantity: 0,
-      Items: [ {
-        DefaultCacheBehavior: /*Sn*/{
-          ForwardedValues: /*So*/{
-            Cookies: {
-              WhitelistedNames: {
-                Quantity: 0,
-                Items: [ '', /* ...*/ ],
-              },
-              Forward: '',
-            },
-            QueryString: false,
-            Headers: {
-              Quantity: 0,
-              Items: [ '', /* ...*/ ],
-            },
-          },
-          Compress: false,
-          SmoothStreaming: false,
-          AllowedMethods: /*S10*/{
-            Quantity: 0,
-            CachedMethods: {
-              Quantity: 0,
-              Items: /*S11*/[ '', /* ...*/ ],
-            },
-            Items: /*S11*/[ '', /* ...*/ ],
-          },
-          TrustedSigners: /*Sw*/{
-            Quantity: 0,
-            Items: [ '', /* ...*/ ],
-            Enabled: false,
-          },
-          MinTTL: 0 /*Long*/,
-          ViewerProtocolPolicy: '',
-          MaxTTL: 0 /*Long*/,
-          TargetOriginId: '',
-          DefaultTTL: 0 /*Long*/,
-        },
-        ViewerCertificate: /*S1c*/{
-          CloudFrontDefaultCertificate: false,
-          IAMCertificateId: '',
-          CertificateSource: '',
-          SSLSupportMethod: '',
-          MinimumProtocolVersion: '',
-          Certificate: '',
-        },
-        Origins: /*Sb*/{
-          Quantity: 0,
-          Items: [ {
-            CustomOriginConfig: {
-              HTTPPort: 0,
-              OriginProtocolPolicy: '',
-              HTTPSPort: 0,
-              OriginSslProtocols: {
-                Quantity: 0,
-                Items: [ '', /* ...*/ ],
-              },
-            },
-            OriginPath: '',
-            S3OriginConfig: {
-              OriginAccessIdentity: '',
-            },
-            DomainName: '',
-            CustomHeaders: {
-              Quantity: 0,
-              Items: [ {
-                HeaderValue: '',
-                HeaderName: '',
-              }, /* ...*/ ],
-            },
-            Id: '',
-          }, /* ...*/ ],
-        },
-        LastModifiedTime: awsCommon.timestamp(),
-        PriceClass: '',
-        CacheBehaviors: /*S14*/{
-          Quantity: 0,
-          Items: [ {
-            ForwardedValues: /*So*/{
-            Cookies: {
-              WhitelistedNames: {
-                Quantity: 0,
-                Items: [ '', /* ...*/ ],
-              },
-              Forward: '',
-            },
-            QueryString: false,
-            Headers: {
-              Quantity: 0,
-              Items: [ '', /* ...*/ ],
-            },
-          },
-            Compress: false,
-            SmoothStreaming: false,
-            PathPattern: '',
-            TrustedSigners: /*Sw*/{
-            Quantity: 0,
-            Items: [ '', /* ...*/ ],
-            Enabled: false,
-          },
-            AllowedMethods: /*S10*/{
-            Quantity: 0,
-            CachedMethods: {
-              Quantity: 0,
-              Items: /*S11*/[ '', /* ...*/ ],
-            },
-            Items: /*S11*/[ '', /* ...*/ ],
-          },
-            MinTTL: 0 /*Long*/,
-            ViewerProtocolPolicy: '',
-            MaxTTL: 0 /*Long*/,
-            TargetOriginId: '',
-            DefaultTTL: 0 /*Long*/,
-          }, /* ...*/ ],
-        },
-        Enabled: false,
-        DomainName: '',
-        Restrictions: /*S1g*/{
-          GeoRestriction: {
-            RestrictionType: '',
-            Quantity: 0,
-            Items: [ '', /* ...*/ ],
-          },
-        },
-        WebACLId: '',
-        CustomErrorResponses: /*S17*/{
-          Quantity: 0,
-          Items: [ {
-            ErrorCode: 0,
-            ResponseCode: '',
-            ErrorCachingMinTTL: 0 /*Long*/,
-            ResponsePagePath: '',
-          }, /* ...*/ ],
-        },
-        Status: '',
-        Aliases: /*S8*/{
-          Quantity: 0,
-          Items: [ '', /* ...*/ ],
-        },
-        Comment: '',
-        Id: '',
-      }, /* ...*/ ],
-      NextMarker: '',
-      IsTruncated: false,
-      MaxItems: 0,
-    },
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.ListCloudFrontOriginAccessIdentities = awsCommon.as(
-  'GET',
-  '/2016-01-28/origin-access-identity/cloudfront',
-  function ListCloudFrontOriginAccessIdentities(aws) {
-  var Marker = aws.params['Marker'];
-  var MaxItems = aws.params['MaxItems'];
-
-
-  // TODO implement code
-
-  var ret = {
-    CloudFrontOriginAccessIdentityList: {
-      Marker: '',
-      Quantity: 0,
-      Items: [ {
-        Comment: '',
-        S3CanonicalUserId: '',
-        Id: '',
-      }, /* ...*/ ],
-      NextMarker: '',
-      IsTruncated: false,
-      MaxItems: 0,
-    },
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.GetCloudFrontOriginAccessIdentity = awsCommon.as(
-  'GET',
-  '/2016-01-28/origin-access-identity/cloudfront/:Id',
-  function GetCloudFrontOriginAccessIdentity(aws) {
-  var Id = aws.reqParams['Id'];
-  if (!Id) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    ETag: '',
-    CloudFrontOriginAccessIdentity: /*S5*/{
-      CloudFrontOriginAccessIdentityConfig: /*S2*/{
-        CallerReference: '',
-        Comment: '',
-      },
-      S3CanonicalUserId: '',
-      Id: '',
-    },
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.ListInvalidations = awsCommon.as(
-  'GET',
-  '/2016-01-28/distribution/:DistributionId/invalidation',
-  function ListInvalidations(aws) {
-  var Marker = aws.params['Marker'];
-  var DistributionId = aws.reqParams['DistributionId'];
-  var MaxItems = aws.params['MaxItems'];
-  if (!DistributionId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DistributionId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    InvalidationList: {
-      Marker: '',
-      Quantity: 0,
-      Items: [ {
-        CreateTime: awsCommon.timestamp(),
-        Status: '',
-        Id: '',
-      }, /* ...*/ ],
-      NextMarker: '',
-      IsTruncated: false,
-      MaxItems: 0,
-    },
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.GetStreamingDistribution = awsCommon.as(
-  'GET',
-  '/2016-01-28/streaming-distribution/:Id',
-  function GetStreamingDistribution(aws) {
-  var Id = aws.reqParams['Id'];
-  if (!Id) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    ETag: '',
-    StreamingDistribution: /*S23*/{
-      StreamingDistributionConfig: /*S1z*/{
-        S3Origin: /*S20*/{
-          OriginAccessIdentity: '',
-          DomainName: '',
-        },
-        PriceClass: '',
-        TrustedSigners: /*Sw*/{
-          Quantity: 0,
-          Items: [ '', /* ...*/ ],
-          Enabled: false,
-        },
-        Logging: {
-          Prefix: '',
-          Bucket: '',
-          Enabled: false,
-        },
-        CallerReference: '',
-        Aliases: /*S8*/{
-          Quantity: 0,
-          Items: [ '', /* ...*/ ],
-        },
-        Enabled: false,
-        Comment: '',
-      },
-      Status: '',
-      LastModifiedTime: awsCommon.timestamp(),
-      DomainName: '',
-      Id: '',
-      ActiveTrustedSigners: /*S1n*/{
-        Quantity: 0,
-        Items: [ {
-          AwsAccountNumber: '',
-          KeyPairIds: {
-            Quantity: 0,
-            Items: [ '', /* ...*/ ],
-          },
-        }, /* ...*/ ],
-        Enabled: false,
-      },
-    },
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.GetCloudFrontOriginAccessIdentityConfig = awsCommon.as(
-  'GET',
-  '/2016-01-28/origin-access-identity/cloudfront/:Id/config',
-  function GetCloudFrontOriginAccessIdentityConfig(aws) {
-  var Id = aws.reqParams['Id'];
-  if (!Id) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    ETag: '',
-    CloudFrontOriginAccessIdentityConfig: /*S2*/{
-      CallerReference: '',
-      Comment: '',
-    },
-  };
-  return [200, ret];
-});
+require('../../lib/aws-common/shape_http')('rest-xml', module.exports, null);
 // -----------------------------------
 module.exports.UpdateStreamingDistribution = awsCommon.as(
   'PUT',
   '/2016-01-28/streaming-distribution/:Id/config',
   function UpdateStreamingDistribution(aws) {
-  var StreamingDistributionConfig = aws.params['StreamingDistributionConfig'];
-  var IfMatch = aws.params['IfMatch'];
-  var Id = aws.reqParams['Id'];
-  if (!StreamingDistributionConfig) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StreamingDistributionConfig'];
-  }
-  if (!Id) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
-  }
+    var id = aws.reqParams.Id;
+    var ifMatch = aws.params.IfMatch;
+    var streamingDistributionConfig = aws.params.StreamingDistributionConfig;
+    if (!streamingDistributionConfig) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StreamingDistributionConfig'];
+    }
+    if (!id) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
+    }
 
 
-  // TODO implement code
+    // TODO implement code
 
-  var ret = {
-    ETag: '',
-    StreamingDistribution: /*S23*/{
-      StreamingDistributionConfig: /*S1z*/{
-        S3Origin: /*S20*/{
-          OriginAccessIdentity: '',
-          DomainName: '',
-        },
-        PriceClass: '',
-        TrustedSigners: /*Sw*/{
-          Quantity: 0,
-          Items: [ '', /* ...*/ ],
+    var ret = {
+      ETag: '',
+      StreamingDistribution: /*S23*/{
+        DomainName: '',
+        Status: '',
+        ActiveTrustedSigners: /*S1n*/{
           Enabled: false,
-        },
-        Logging: {
-          Prefix: '',
-          Bucket: '',
-          Enabled: false,
-        },
-        CallerReference: '',
-        Aliases: /*S8*/{
-          Quantity: 0,
-          Items: [ '', /* ...*/ ],
-        },
-        Enabled: false,
-        Comment: '',
-      },
-      Status: '',
-      LastModifiedTime: awsCommon.timestamp(),
-      DomainName: '',
-      Id: '',
-      ActiveTrustedSigners: /*S1n*/{
-        Quantity: 0,
-        Items: [ {
-          AwsAccountNumber: '',
-          KeyPairIds: {
-            Quantity: 0,
-            Items: [ '', /* ...*/ ],
-          },
-        }, /* ...*/ ],
-        Enabled: false,
-      },
-    },
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.DeleteStreamingDistribution = awsCommon.as(
-  'DELETE',
-  '/2016-01-28/streaming-distribution/:Id',
-  function DeleteStreamingDistribution(aws) {
-  var IfMatch = aws.params['IfMatch'];
-  var Id = aws.reqParams['Id'];
-  if (!Id) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [204, ret];
-});
-// -----------------------------------
-module.exports.UpdateCloudFrontOriginAccessIdentity = awsCommon.as(
-  'PUT',
-  '/2016-01-28/origin-access-identity/cloudfront/:Id/config',
-  function UpdateCloudFrontOriginAccessIdentity(aws) {
-  var Id = aws.reqParams['Id'];
-  var CloudFrontOriginAccessIdentityConfig = aws.params['CloudFrontOriginAccessIdentityConfig'];
-  var IfMatch = aws.params['IfMatch'];
-  if (!CloudFrontOriginAccessIdentityConfig) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CloudFrontOriginAccessIdentityConfig'];
-  }
-  if (!Id) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    ETag: '',
-    CloudFrontOriginAccessIdentity: /*S5*/{
-      CloudFrontOriginAccessIdentityConfig: /*S2*/{
-        CallerReference: '',
-        Comment: '',
-      },
-      S3CanonicalUserId: '',
-      Id: '',
-    },
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.CreateInvalidation = awsCommon.as(
-  '/2016-01-28/distribution/:DistributionId/invalidation',
-  function CreateInvalidation(aws) {
-  var InvalidationBatch = aws.params['InvalidationBatch'];
-  var DistributionId = aws.reqParams['DistributionId'];
-  if (!DistributionId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DistributionId'];
-  }
-  if (!InvalidationBatch) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InvalidationBatch'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Invalidation: /*S1x*/{
-      InvalidationBatch: /*S1t*/{
-        CallerReference: '',
-        Paths: {
-          Quantity: 0,
-          Items: [ '', /* ...*/ ],
-        },
-      },
-      CreateTime: awsCommon.timestamp(),
-      Status: '',
-      Id: '',
-    },
-    Location: '',
-  };
-  return [201, ret];
-});
-// -----------------------------------
-module.exports.GetDistributionConfig = awsCommon.as(
-  'GET',
-  '/2016-01-28/distribution/:Id/config',
-  function GetDistributionConfig(aws) {
-  var Id = aws.reqParams['Id'];
-  if (!Id) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    ETag: '',
-    DistributionConfig: /*S7*/{
-      DefaultCacheBehavior: /*Sn*/{
-        ForwardedValues: /*So*/{
-          Cookies: {
-            WhitelistedNames: {
-              Quantity: 0,
+          Items: [ {
+            AwsAccountNumber: '',
+            KeyPairIds: {
               Items: [ '', /* ...*/ ],
-            },
-            Forward: '',
-          },
-          QueryString: false,
-          Headers: {
-            Quantity: 0,
-            Items: [ '', /* ...*/ ],
-          },
-        },
-        Compress: false,
-        SmoothStreaming: false,
-        AllowedMethods: /*S10*/{
-          Quantity: 0,
-          CachedMethods: {
-            Quantity: 0,
-            Items: /*S11*/[ '', /* ...*/ ],
-          },
-          Items: /*S11*/[ '', /* ...*/ ],
-        },
-        TrustedSigners: /*Sw*/{
-          Quantity: 0,
-          Items: [ '', /* ...*/ ],
-          Enabled: false,
-        },
-        MinTTL: 0 /*Long*/,
-        ViewerProtocolPolicy: '',
-        MaxTTL: 0 /*Long*/,
-        TargetOriginId: '',
-        DefaultTTL: 0 /*Long*/,
-      },
-      ViewerCertificate: /*S1c*/{
-        CloudFrontDefaultCertificate: false,
-        IAMCertificateId: '',
-        CertificateSource: '',
-        SSLSupportMethod: '',
-        MinimumProtocolVersion: '',
-        Certificate: '',
-      },
-      Origins: /*Sb*/{
-        Quantity: 0,
-        Items: [ {
-          CustomOriginConfig: {
-            HTTPPort: 0,
-            OriginProtocolPolicy: '',
-            HTTPSPort: 0,
-            OriginSslProtocols: {
               Quantity: 0,
-              Items: [ '', /* ...*/ ],
             },
+          }, /* ...*/ ],
+          Quantity: 0,
+        },
+        LastModifiedTime: awsCommon.timestamp(),
+        Id: '',
+        StreamingDistributionConfig: /*S1z*/{
+          TrustedSigners: /*Sw*/{
+            Enabled: false,
+            Items: [ '', /* ...*/ ],
+            Quantity: 0,
           },
-          OriginPath: '',
-          S3OriginConfig: {
+          Enabled: false,
+          CallerReference: '',
+          Comment: '',
+          PriceClass: '',
+          Aliases: /*S8*/{
+            Items: [ '', /* ...*/ ],
+            Quantity: 0,
+          },
+          S3Origin: /*S20*/{
+            DomainName: '',
             OriginAccessIdentity: '',
           },
-          DomainName: '',
-          CustomHeaders: {
-            Quantity: 0,
-            Items: [ {
-              HeaderValue: '',
-              HeaderName: '',
-            }, /* ...*/ ],
+          Logging: {
+            Enabled: false,
+            Bucket: '',
+            Prefix: '',
           },
+        },
+      },
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.ListCloudFrontOriginAccessIdentities = awsCommon.as(
+  'GET',
+  '/2016-01-28/origin-access-identity/cloudfront',
+  function ListCloudFrontOriginAccessIdentities(aws) {
+    var marker = aws.params.Marker;
+    var maxItems = aws.params.MaxItems;
+
+
+    // TODO implement code
+
+    var ret = {
+      CloudFrontOriginAccessIdentityList: {
+        NextMarker: '',
+        MaxItems: 0,
+        IsTruncated: false,
+        Items: [ {
+          Comment: '',
           Id: '',
+          S3CanonicalUserId: '',
         }, /* ...*/ ],
-      },
-      PriceClass: '',
-      CacheBehaviors: /*S14*/{
+        Marker: '',
         Quantity: 0,
-        Items: [ {
-          ForwardedValues: /*So*/{
-          Cookies: {
-            WhitelistedNames: {
-              Quantity: 0,
-              Items: [ '', /* ...*/ ],
-            },
-            Forward: '',
-          },
-          QueryString: false,
-          Headers: {
-            Quantity: 0,
-            Items: [ '', /* ...*/ ],
-          },
-        },
-          Compress: false,
-          SmoothStreaming: false,
-          PathPattern: '',
-          TrustedSigners: /*Sw*/{
-          Quantity: 0,
-          Items: [ '', /* ...*/ ],
-          Enabled: false,
-        },
-          AllowedMethods: /*S10*/{
-          Quantity: 0,
-          CachedMethods: {
-            Quantity: 0,
-            Items: /*S11*/[ '', /* ...*/ ],
-          },
-          Items: /*S11*/[ '', /* ...*/ ],
-        },
-          MinTTL: 0 /*Long*/,
-          ViewerProtocolPolicy: '',
-          MaxTTL: 0 /*Long*/,
-          TargetOriginId: '',
-          DefaultTTL: 0 /*Long*/,
-        }, /* ...*/ ],
       },
-      Logging: {
-        Prefix: '',
-        IncludeCookies: false,
-        Bucket: '',
-        Enabled: false,
-      },
-      Enabled: false,
-      Restrictions: /*S1g*/{
-        GeoRestriction: {
-          RestrictionType: '',
-          Quantity: 0,
-          Items: [ '', /* ...*/ ],
-        },
-      },
-      WebACLId: '',
-      CustomErrorResponses: /*S17*/{
-        Quantity: 0,
-        Items: [ {
-          ErrorCode: 0,
-          ResponseCode: '',
-          ErrorCachingMinTTL: 0 /*Long*/,
-          ResponsePagePath: '',
-        }, /* ...*/ ],
-      },
-      CallerReference: '',
-      DefaultRootObject: '',
-      Aliases: /*S8*/{
-        Quantity: 0,
-        Items: [ '', /* ...*/ ],
-      },
-      Comment: '',
-    },
-  };
-  return [200, ret];
-});
+    };
+    return [200, ret];
+  });
 // -----------------------------------
 module.exports.GetStreamingDistributionConfig = awsCommon.as(
   'GET',
   '/2016-01-28/streaming-distribution/:Id/config',
   function GetStreamingDistributionConfig(aws) {
-  var Id = aws.reqParams['Id'];
-  if (!Id) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
-  }
+    var id = aws.reqParams.Id;
+    if (!id) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
+    }
 
 
-  // TODO implement code
+    // TODO implement code
 
-  var ret = {
-    ETag: '',
-    StreamingDistributionConfig: /*S1z*/{
-      S3Origin: /*S20*/{
-        OriginAccessIdentity: '',
-        DomainName: '',
-      },
-      PriceClass: '',
-      TrustedSigners: /*Sw*/{
-        Quantity: 0,
-        Items: [ '', /* ...*/ ],
-        Enabled: false,
-      },
-      Logging: {
-        Prefix: '',
-        Bucket: '',
-        Enabled: false,
-      },
-      CallerReference: '',
-      Aliases: /*S8*/{
-        Quantity: 0,
-        Items: [ '', /* ...*/ ],
-      },
-      Enabled: false,
-      Comment: '',
-    },
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.GetDistribution = awsCommon.as(
-  'GET',
-  '/2016-01-28/distribution/:Id',
-  function GetDistribution(aws) {
-  var Id = aws.reqParams['Id'];
-  if (!Id) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Distribution: /*S1l*/{
-      InProgressInvalidationBatches: 0,
-      Status: '',
-      LastModifiedTime: awsCommon.timestamp(),
-      DistributionConfig: /*S7*/{
-        DefaultCacheBehavior: /*Sn*/{
-          ForwardedValues: /*So*/{
-            Cookies: {
-              WhitelistedNames: {
-                Quantity: 0,
-                Items: [ '', /* ...*/ ],
-              },
-              Forward: '',
-            },
-            QueryString: false,
-            Headers: {
-              Quantity: 0,
-              Items: [ '', /* ...*/ ],
-            },
-          },
-          Compress: false,
-          SmoothStreaming: false,
-          AllowedMethods: /*S10*/{
-            Quantity: 0,
-            CachedMethods: {
-              Quantity: 0,
-              Items: /*S11*/[ '', /* ...*/ ],
-            },
-            Items: /*S11*/[ '', /* ...*/ ],
-          },
-          TrustedSigners: /*Sw*/{
-            Quantity: 0,
-            Items: [ '', /* ...*/ ],
-            Enabled: false,
-          },
-          MinTTL: 0 /*Long*/,
-          ViewerProtocolPolicy: '',
-          MaxTTL: 0 /*Long*/,
-          TargetOriginId: '',
-          DefaultTTL: 0 /*Long*/,
-        },
-        ViewerCertificate: /*S1c*/{
-          CloudFrontDefaultCertificate: false,
-          IAMCertificateId: '',
-          CertificateSource: '',
-          SSLSupportMethod: '',
-          MinimumProtocolVersion: '',
-          Certificate: '',
-        },
-        Origins: /*Sb*/{
+    var ret = {
+      ETag: '',
+      StreamingDistributionConfig: /*S1z*/{
+        TrustedSigners: /*Sw*/{
+          Enabled: false,
+          Items: [ '', /* ...*/ ],
           Quantity: 0,
-          Items: [ {
-            CustomOriginConfig: {
-              HTTPPort: 0,
-              OriginProtocolPolicy: '',
-              HTTPSPort: 0,
-              OriginSslProtocols: {
-                Quantity: 0,
-                Items: [ '', /* ...*/ ],
-              },
-            },
-            OriginPath: '',
-            S3OriginConfig: {
-              OriginAccessIdentity: '',
-            },
-            DomainName: '',
-            CustomHeaders: {
-              Quantity: 0,
-              Items: [ {
-                HeaderValue: '',
-                HeaderName: '',
-              }, /* ...*/ ],
-            },
-            Id: '',
-          }, /* ...*/ ],
         },
+        Enabled: false,
+        CallerReference: '',
+        Comment: '',
         PriceClass: '',
-        CacheBehaviors: /*S14*/{
+        Aliases: /*S8*/{
+          Items: [ '', /* ...*/ ],
           Quantity: 0,
-          Items: [ {
-            ForwardedValues: /*So*/{
-            Cookies: {
-              WhitelistedNames: {
-                Quantity: 0,
-                Items: [ '', /* ...*/ ],
-              },
-              Forward: '',
-            },
-            QueryString: false,
-            Headers: {
-              Quantity: 0,
-              Items: [ '', /* ...*/ ],
-            },
-          },
-            Compress: false,
-            SmoothStreaming: false,
-            PathPattern: '',
-            TrustedSigners: /*Sw*/{
-            Quantity: 0,
-            Items: [ '', /* ...*/ ],
-            Enabled: false,
-          },
-            AllowedMethods: /*S10*/{
-            Quantity: 0,
-            CachedMethods: {
-              Quantity: 0,
-              Items: /*S11*/[ '', /* ...*/ ],
-            },
-            Items: /*S11*/[ '', /* ...*/ ],
-          },
-            MinTTL: 0 /*Long*/,
-            ViewerProtocolPolicy: '',
-            MaxTTL: 0 /*Long*/,
-            TargetOriginId: '',
-            DefaultTTL: 0 /*Long*/,
-          }, /* ...*/ ],
+        },
+        S3Origin: /*S20*/{
+          DomainName: '',
+          OriginAccessIdentity: '',
         },
         Logging: {
-          Prefix: '',
-          IncludeCookies: false,
-          Bucket: '',
           Enabled: false,
+          Bucket: '',
+          Prefix: '',
         },
-        Enabled: false,
-        Restrictions: /*S1g*/{
-          GeoRestriction: {
-            RestrictionType: '',
-            Quantity: 0,
-            Items: [ '', /* ...*/ ],
-          },
-        },
-        WebACLId: '',
-        CustomErrorResponses: /*S17*/{
-          Quantity: 0,
-          Items: [ {
-            ErrorCode: 0,
-            ResponseCode: '',
-            ErrorCachingMinTTL: 0 /*Long*/,
-            ResponsePagePath: '',
-          }, /* ...*/ ],
-        },
-        CallerReference: '',
-        DefaultRootObject: '',
-        Aliases: /*S8*/{
-          Quantity: 0,
-          Items: [ '', /* ...*/ ],
-        },
-        Comment: '',
       },
-      DomainName: '',
-      Id: '',
-      ActiveTrustedSigners: /*S1n*/{
-        Quantity: 0,
-        Items: [ {
-          AwsAccountNumber: '',
-          KeyPairIds: {
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.GetCloudFrontOriginAccessIdentity = awsCommon.as(
+  'GET',
+  '/2016-01-28/origin-access-identity/cloudfront/:Id',
+  function GetCloudFrontOriginAccessIdentity(aws) {
+    var id = aws.reqParams.Id;
+    if (!id) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      CloudFrontOriginAccessIdentity: /*S5*/{
+        Id: '',
+        S3CanonicalUserId: '',
+        CloudFrontOriginAccessIdentityConfig: /*S2*/{
+          Comment: '',
+          CallerReference: '',
+        },
+      },
+      ETag: '',
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.CreateDistribution = awsCommon.as(
+  '/2016-01-28/distribution',
+  function CreateDistribution(aws) {
+    var distributionConfig = aws.params.DistributionConfig;
+    if (!distributionConfig) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DistributionConfig'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      Location: '',
+      ETag: '',
+      Distribution: /*S1l*/{
+        DomainName: '',
+        InProgressInvalidationBatches: 0,
+        ActiveTrustedSigners: /*S1n*/{
+          Enabled: false,
+          Items: [ {
+            AwsAccountNumber: '',
+            KeyPairIds: {
+              Items: [ '', /* ...*/ ],
+              Quantity: 0,
+            },
+          }, /* ...*/ ],
+          Quantity: 0,
+        },
+        Status: '',
+        DistributionConfig: /*S7*/{
+          Enabled: false,
+          Restrictions: /*S1g*/{
+            GeoRestriction: {
+              RestrictionType: '',
+              Items: [ '', /* ...*/ ],
+              Quantity: 0,
+            },
+          },
+          DefaultCacheBehavior: /*Sn*/{
+            TrustedSigners: /*Sw*/{
+              Enabled: false,
+              Items: [ '', /* ...*/ ],
+              Quantity: 0,
+            },
+            DefaultTTL: 0 /*Long*/,
+            Compress: false,
+            TargetOriginId: '',
+            AllowedMethods: /*S10*/{
+              CachedMethods: {
+                Items: /*S11*/[ '', /* ...*/ ],
+                Quantity: 0,
+              },
+              Items: /*S11*/[ '', /* ...*/ ],
+              Quantity: 0,
+            },
+            MaxTTL: 0 /*Long*/,
+            ViewerProtocolPolicy: '',
+            SmoothStreaming: false,
+            ForwardedValues: /*So*/{
+              Headers: {
+                Items: [ '', /* ...*/ ],
+                Quantity: 0,
+              },
+              QueryString: false,
+              Cookies: {
+                Forward: '',
+                WhitelistedNames: {
+                  Items: [ '', /* ...*/ ],
+                  Quantity: 0,
+                },
+              },
+            },
+            MinTTL: 0 /*Long*/,
+          },
+          Origins: /*Sb*/{
+            Items: [ {
+              DomainName: '',
+              Id: '',
+              CustomOriginConfig: {
+                HTTPSPort: 0,
+                OriginSslProtocols: {
+                  Items: [ '', /* ...*/ ],
+                  Quantity: 0,
+                },
+                HTTPPort: 0,
+                OriginProtocolPolicy: '',
+              },
+              CustomHeaders: {
+                Items: [ {
+                  HeaderName: '',
+                  HeaderValue: '',
+                }, /* ...*/ ],
+                Quantity: 0,
+              },
+              S3OriginConfig: {
+                OriginAccessIdentity: '',
+              },
+              OriginPath: '',
+            }, /* ...*/ ],
             Quantity: 0,
+          },
+          WebACLId: '',
+          Aliases: /*S8*/{
             Items: [ '', /* ...*/ ],
+            Quantity: 0,
+          },
+          CacheBehaviors: /*S14*/{
+            Items: [ {
+              TrustedSigners: /*Sw*/{
+              Enabled: false,
+              Items: [ '', /* ...*/ ],
+              Quantity: 0,
+            },
+              DefaultTTL: 0 /*Long*/,
+              Compress: false,
+              TargetOriginId: '',
+              AllowedMethods: /*S10*/{
+              CachedMethods: {
+                Items: /*S11*/[ '', /* ...*/ ],
+                Quantity: 0,
+              },
+              Items: /*S11*/[ '', /* ...*/ ],
+              Quantity: 0,
+            },
+              MaxTTL: 0 /*Long*/,
+              ViewerProtocolPolicy: '',
+              PathPattern: '',
+              SmoothStreaming: false,
+              ForwardedValues: /*So*/{
+              Headers: {
+                Items: [ '', /* ...*/ ],
+                Quantity: 0,
+              },
+              QueryString: false,
+              Cookies: {
+                Forward: '',
+                WhitelistedNames: {
+                  Items: [ '', /* ...*/ ],
+                  Quantity: 0,
+                },
+              },
+            },
+              MinTTL: 0 /*Long*/,
+            }, /* ...*/ ],
+            Quantity: 0,
+          },
+          ViewerCertificate: /*S1c*/{
+            IAMCertificateId: '',
+            Certificate: '',
+            MinimumProtocolVersion: '',
+            CloudFrontDefaultCertificate: false,
+            SSLSupportMethod: '',
+            CertificateSource: '',
+          },
+          CallerReference: '',
+          Logging: {
+            Enabled: false,
+            IncludeCookies: false,
+            Bucket: '',
+            Prefix: '',
+          },
+          CustomErrorResponses: /*S17*/{
+            Items: [ {
+              ResponseCode: '',
+              ErrorCode: 0,
+              ErrorCachingMinTTL: 0 /*Long*/,
+              ResponsePagePath: '',
+            }, /* ...*/ ],
+            Quantity: 0,
+          },
+          PriceClass: '',
+          Comment: '',
+          DefaultRootObject: '',
+        },
+        LastModifiedTime: awsCommon.timestamp(),
+        Id: '',
+      },
+    };
+    return [201, ret];
+  });
+// -----------------------------------
+module.exports.CreateCloudFrontOriginAccessIdentity = awsCommon.as(
+  '/2016-01-28/origin-access-identity/cloudfront',
+  function CreateCloudFrontOriginAccessIdentity(aws) {
+    var cloudFrontOriginAccessIdentityConfig = aws.params.CloudFrontOriginAccessIdentityConfig;
+    if (!cloudFrontOriginAccessIdentityConfig) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CloudFrontOriginAccessIdentityConfig'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      CloudFrontOriginAccessIdentity: /*S5*/{
+        Id: '',
+        S3CanonicalUserId: '',
+        CloudFrontOriginAccessIdentityConfig: /*S2*/{
+          Comment: '',
+          CallerReference: '',
+        },
+      },
+      ETag: '',
+      Location: '',
+    };
+    return [201, ret];
+  });
+// -----------------------------------
+module.exports.ListDistributions = awsCommon.as(
+  'GET',
+  '/2016-01-28/distribution',
+  function ListDistributions(aws) {
+    var marker = aws.params.Marker;
+    var maxItems = aws.params.MaxItems;
+
+
+    // TODO implement code
+
+    var ret = {
+      DistributionList: /*S2s*/{
+        NextMarker: '',
+        MaxItems: 0,
+        IsTruncated: false,
+        Items: [ {
+          Enabled: false,
+          Restrictions: /*S1g*/{
+            GeoRestriction: {
+              RestrictionType: '',
+              Items: [ '', /* ...*/ ],
+              Quantity: 0,
+            },
+          },
+          PriceClass: '',
+          Status: '',
+          Origins: /*Sb*/{
+            Items: [ {
+              DomainName: '',
+              Id: '',
+              CustomOriginConfig: {
+                HTTPSPort: 0,
+                OriginSslProtocols: {
+                  Items: [ '', /* ...*/ ],
+                  Quantity: 0,
+                },
+                HTTPPort: 0,
+                OriginProtocolPolicy: '',
+              },
+              CustomHeaders: {
+                Items: [ {
+                  HeaderName: '',
+                  HeaderValue: '',
+                }, /* ...*/ ],
+                Quantity: 0,
+              },
+              S3OriginConfig: {
+                OriginAccessIdentity: '',
+              },
+              OriginPath: '',
+            }, /* ...*/ ],
+            Quantity: 0,
+          },
+          WebACLId: '',
+          Aliases: /*S8*/{
+            Items: [ '', /* ...*/ ],
+            Quantity: 0,
+          },
+          CacheBehaviors: /*S14*/{
+            Items: [ {
+              TrustedSigners: /*Sw*/{
+                Enabled: false,
+                Items: [ '', /* ...*/ ],
+                Quantity: 0,
+              },
+              DefaultTTL: 0 /*Long*/,
+              Compress: false,
+              TargetOriginId: '',
+              AllowedMethods: /*S10*/{
+                CachedMethods: {
+                  Items: /*S11*/[ '', /* ...*/ ],
+                  Quantity: 0,
+                },
+                Items: /*S11*/[ '', /* ...*/ ],
+                Quantity: 0,
+              },
+              MaxTTL: 0 /*Long*/,
+              ViewerProtocolPolicy: '',
+              PathPattern: '',
+              SmoothStreaming: false,
+              ForwardedValues: /*So*/{
+                Headers: {
+                  Items: [ '', /* ...*/ ],
+                  Quantity: 0,
+                },
+                QueryString: false,
+                Cookies: {
+                  Forward: '',
+                  WhitelistedNames: {
+                    Items: [ '', /* ...*/ ],
+                    Quantity: 0,
+                  },
+                },
+              },
+              MinTTL: 0 /*Long*/,
+            }, /* ...*/ ],
+            Quantity: 0,
+          },
+          ViewerCertificate: /*S1c*/{
+            IAMCertificateId: '',
+            Certificate: '',
+            MinimumProtocolVersion: '',
+            CloudFrontDefaultCertificate: false,
+            SSLSupportMethod: '',
+            CertificateSource: '',
+          },
+          DomainName: '',
+          Comment: '',
+          DefaultCacheBehavior: /*Sn*/{
+            TrustedSigners: /*Sw*/{
+                Enabled: false,
+                Items: [ '', /* ...*/ ],
+                Quantity: 0,
+              },
+            DefaultTTL: 0 /*Long*/,
+            Compress: false,
+            TargetOriginId: '',
+            AllowedMethods: /*S10*/{
+                CachedMethods: {
+                  Items: /*S11*/[ '', /* ...*/ ],
+                  Quantity: 0,
+                },
+                Items: /*S11*/[ '', /* ...*/ ],
+                Quantity: 0,
+              },
+            MaxTTL: 0 /*Long*/,
+            ViewerProtocolPolicy: '',
+            SmoothStreaming: false,
+            ForwardedValues: /*So*/{
+                Headers: {
+                  Items: [ '', /* ...*/ ],
+                  Quantity: 0,
+                },
+                QueryString: false,
+                Cookies: {
+                  Forward: '',
+                  WhitelistedNames: {
+                    Items: [ '', /* ...*/ ],
+                    Quantity: 0,
+                  },
+                },
+              },
+            MinTTL: 0 /*Long*/,
+          },
+          LastModifiedTime: awsCommon.timestamp(),
+          Id: '',
+          CustomErrorResponses: /*S17*/{
+            Items: [ {
+              ResponseCode: '',
+              ErrorCode: 0,
+              ErrorCachingMinTTL: 0 /*Long*/,
+              ResponsePagePath: '',
+            }, /* ...*/ ],
+            Quantity: 0,
           },
         }, /* ...*/ ],
-        Enabled: false,
+        Marker: '',
+        Quantity: 0,
       },
-    },
-    ETag: '',
-  };
-  return [200, ret];
-});
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.UpdateDistribution = awsCommon.as(
+  'PUT',
+  '/2016-01-28/distribution/:Id/config',
+  function UpdateDistribution(aws) {
+    var id = aws.reqParams.Id;
+    var ifMatch = aws.params.IfMatch;
+    var distributionConfig = aws.params.DistributionConfig;
+    if (!distributionConfig) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DistributionConfig'];
+    }
+    if (!id) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      ETag: '',
+      Distribution: /*S1l*/{
+        DomainName: '',
+        InProgressInvalidationBatches: 0,
+        ActiveTrustedSigners: /*S1n*/{
+          Enabled: false,
+          Items: [ {
+            AwsAccountNumber: '',
+            KeyPairIds: {
+              Items: [ '', /* ...*/ ],
+              Quantity: 0,
+            },
+          }, /* ...*/ ],
+          Quantity: 0,
+        },
+        Status: '',
+        DistributionConfig: /*S7*/{
+          Enabled: false,
+          Restrictions: /*S1g*/{
+            GeoRestriction: {
+              RestrictionType: '',
+              Items: [ '', /* ...*/ ],
+              Quantity: 0,
+            },
+          },
+          DefaultCacheBehavior: /*Sn*/{
+            TrustedSigners: /*Sw*/{
+              Enabled: false,
+              Items: [ '', /* ...*/ ],
+              Quantity: 0,
+            },
+            DefaultTTL: 0 /*Long*/,
+            Compress: false,
+            TargetOriginId: '',
+            AllowedMethods: /*S10*/{
+              CachedMethods: {
+                Items: /*S11*/[ '', /* ...*/ ],
+                Quantity: 0,
+              },
+              Items: /*S11*/[ '', /* ...*/ ],
+              Quantity: 0,
+            },
+            MaxTTL: 0 /*Long*/,
+            ViewerProtocolPolicy: '',
+            SmoothStreaming: false,
+            ForwardedValues: /*So*/{
+              Headers: {
+                Items: [ '', /* ...*/ ],
+                Quantity: 0,
+              },
+              QueryString: false,
+              Cookies: {
+                Forward: '',
+                WhitelistedNames: {
+                  Items: [ '', /* ...*/ ],
+                  Quantity: 0,
+                },
+              },
+            },
+            MinTTL: 0 /*Long*/,
+          },
+          Origins: /*Sb*/{
+            Items: [ {
+              DomainName: '',
+              Id: '',
+              CustomOriginConfig: {
+                HTTPSPort: 0,
+                OriginSslProtocols: {
+                  Items: [ '', /* ...*/ ],
+                  Quantity: 0,
+                },
+                HTTPPort: 0,
+                OriginProtocolPolicy: '',
+              },
+              CustomHeaders: {
+                Items: [ {
+                  HeaderName: '',
+                  HeaderValue: '',
+                }, /* ...*/ ],
+                Quantity: 0,
+              },
+              S3OriginConfig: {
+                OriginAccessIdentity: '',
+              },
+              OriginPath: '',
+            }, /* ...*/ ],
+            Quantity: 0,
+          },
+          WebACLId: '',
+          Aliases: /*S8*/{
+            Items: [ '', /* ...*/ ],
+            Quantity: 0,
+          },
+          CacheBehaviors: /*S14*/{
+            Items: [ {
+              TrustedSigners: /*Sw*/{
+              Enabled: false,
+              Items: [ '', /* ...*/ ],
+              Quantity: 0,
+            },
+              DefaultTTL: 0 /*Long*/,
+              Compress: false,
+              TargetOriginId: '',
+              AllowedMethods: /*S10*/{
+              CachedMethods: {
+                Items: /*S11*/[ '', /* ...*/ ],
+                Quantity: 0,
+              },
+              Items: /*S11*/[ '', /* ...*/ ],
+              Quantity: 0,
+            },
+              MaxTTL: 0 /*Long*/,
+              ViewerProtocolPolicy: '',
+              PathPattern: '',
+              SmoothStreaming: false,
+              ForwardedValues: /*So*/{
+              Headers: {
+                Items: [ '', /* ...*/ ],
+                Quantity: 0,
+              },
+              QueryString: false,
+              Cookies: {
+                Forward: '',
+                WhitelistedNames: {
+                  Items: [ '', /* ...*/ ],
+                  Quantity: 0,
+                },
+              },
+            },
+              MinTTL: 0 /*Long*/,
+            }, /* ...*/ ],
+            Quantity: 0,
+          },
+          ViewerCertificate: /*S1c*/{
+            IAMCertificateId: '',
+            Certificate: '',
+            MinimumProtocolVersion: '',
+            CloudFrontDefaultCertificate: false,
+            SSLSupportMethod: '',
+            CertificateSource: '',
+          },
+          CallerReference: '',
+          Logging: {
+            Enabled: false,
+            IncludeCookies: false,
+            Bucket: '',
+            Prefix: '',
+          },
+          CustomErrorResponses: /*S17*/{
+            Items: [ {
+              ResponseCode: '',
+              ErrorCode: 0,
+              ErrorCachingMinTTL: 0 /*Long*/,
+              ResponsePagePath: '',
+            }, /* ...*/ ],
+            Quantity: 0,
+          },
+          PriceClass: '',
+          Comment: '',
+          DefaultRootObject: '',
+        },
+        LastModifiedTime: awsCommon.timestamp(),
+        Id: '',
+      },
+    };
+    return [200, ret];
+  });
 // -----------------------------------
 module.exports.DeleteCloudFrontOriginAccessIdentity = awsCommon.as(
   'DELETE',
   '/2016-01-28/origin-access-identity/cloudfront/:Id',
   function DeleteCloudFrontOriginAccessIdentity(aws) {
-  var IfMatch = aws.params['IfMatch'];
-  var Id = aws.reqParams['Id'];
-  if (!Id) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
-  }
+    var id = aws.reqParams.Id;
+    var ifMatch = aws.params.IfMatch;
+    if (!id) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
+    }
 
 
-  // TODO implement code
+    // TODO implement code
 
-  var ret = {};
-  return [204, ret];
-});
+    var ret = {};
+    return [204, ret];
+  });
+// -----------------------------------
+module.exports.DeleteStreamingDistribution = awsCommon.as(
+  'DELETE',
+  '/2016-01-28/streaming-distribution/:Id',
+  function DeleteStreamingDistribution(aws) {
+    var id = aws.reqParams.Id;
+    var ifMatch = aws.params.IfMatch;
+    if (!id) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {};
+    return [204, ret];
+  });
+// -----------------------------------
+module.exports.GetCloudFrontOriginAccessIdentityConfig = awsCommon.as(
+  'GET',
+  '/2016-01-28/origin-access-identity/cloudfront/:Id/config',
+  function GetCloudFrontOriginAccessIdentityConfig(aws) {
+    var id = aws.reqParams.Id;
+    if (!id) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      CloudFrontOriginAccessIdentityConfig: /*S2*/{
+        Comment: '',
+        CallerReference: '',
+      },
+      ETag: '',
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.ListInvalidations = awsCommon.as(
+  'GET',
+  '/2016-01-28/distribution/:DistributionId/invalidation',
+  function ListInvalidations(aws) {
+    var marker = aws.params.Marker;
+    var maxItems = aws.params.MaxItems;
+    var distributionId = aws.reqParams.DistributionId;
+    if (!distributionId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DistributionId'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      InvalidationList: {
+        NextMarker: '',
+        MaxItems: 0,
+        IsTruncated: false,
+        Items: [ {
+          Id: '',
+          CreateTime: awsCommon.timestamp(),
+          Status: '',
+        }, /* ...*/ ],
+        Marker: '',
+        Quantity: 0,
+      },
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.GetStreamingDistribution = awsCommon.as(
+  'GET',
+  '/2016-01-28/streaming-distribution/:Id',
+  function GetStreamingDistribution(aws) {
+    var id = aws.reqParams.Id;
+    if (!id) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      ETag: '',
+      StreamingDistribution: /*S23*/{
+        DomainName: '',
+        Status: '',
+        ActiveTrustedSigners: /*S1n*/{
+          Enabled: false,
+          Items: [ {
+            AwsAccountNumber: '',
+            KeyPairIds: {
+              Items: [ '', /* ...*/ ],
+              Quantity: 0,
+            },
+          }, /* ...*/ ],
+          Quantity: 0,
+        },
+        LastModifiedTime: awsCommon.timestamp(),
+        Id: '',
+        StreamingDistributionConfig: /*S1z*/{
+          TrustedSigners: /*Sw*/{
+            Enabled: false,
+            Items: [ '', /* ...*/ ],
+            Quantity: 0,
+          },
+          Enabled: false,
+          CallerReference: '',
+          Comment: '',
+          PriceClass: '',
+          Aliases: /*S8*/{
+            Items: [ '', /* ...*/ ],
+            Quantity: 0,
+          },
+          S3Origin: /*S20*/{
+            DomainName: '',
+            OriginAccessIdentity: '',
+          },
+          Logging: {
+            Enabled: false,
+            Bucket: '',
+            Prefix: '',
+          },
+        },
+      },
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.ListDistributionsByWebACLId = awsCommon.as(
+  'GET',
+  '/2016-01-28/distributionsByWebACLId/:WebACLId',
+  function ListDistributionsByWebACLId(aws) {
+    var marker = aws.params.Marker;
+    var maxItems = aws.params.MaxItems;
+    var webACLId = aws.reqParams.WebACLId;
+    if (!webACLId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter WebACLId'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      DistributionList: /*S2s*/{
+        NextMarker: '',
+        MaxItems: 0,
+        IsTruncated: false,
+        Items: [ {
+          Enabled: false,
+          Restrictions: /*S1g*/{
+            GeoRestriction: {
+              RestrictionType: '',
+              Items: [ '', /* ...*/ ],
+              Quantity: 0,
+            },
+          },
+          PriceClass: '',
+          Status: '',
+          Origins: /*Sb*/{
+            Items: [ {
+              DomainName: '',
+              Id: '',
+              CustomOriginConfig: {
+                HTTPSPort: 0,
+                OriginSslProtocols: {
+                  Items: [ '', /* ...*/ ],
+                  Quantity: 0,
+                },
+                HTTPPort: 0,
+                OriginProtocolPolicy: '',
+              },
+              CustomHeaders: {
+                Items: [ {
+                  HeaderName: '',
+                  HeaderValue: '',
+                }, /* ...*/ ],
+                Quantity: 0,
+              },
+              S3OriginConfig: {
+                OriginAccessIdentity: '',
+              },
+              OriginPath: '',
+            }, /* ...*/ ],
+            Quantity: 0,
+          },
+          WebACLId: '',
+          Aliases: /*S8*/{
+            Items: [ '', /* ...*/ ],
+            Quantity: 0,
+          },
+          CacheBehaviors: /*S14*/{
+            Items: [ {
+              TrustedSigners: /*Sw*/{
+                Enabled: false,
+                Items: [ '', /* ...*/ ],
+                Quantity: 0,
+              },
+              DefaultTTL: 0 /*Long*/,
+              Compress: false,
+              TargetOriginId: '',
+              AllowedMethods: /*S10*/{
+                CachedMethods: {
+                  Items: /*S11*/[ '', /* ...*/ ],
+                  Quantity: 0,
+                },
+                Items: /*S11*/[ '', /* ...*/ ],
+                Quantity: 0,
+              },
+              MaxTTL: 0 /*Long*/,
+              ViewerProtocolPolicy: '',
+              PathPattern: '',
+              SmoothStreaming: false,
+              ForwardedValues: /*So*/{
+                Headers: {
+                  Items: [ '', /* ...*/ ],
+                  Quantity: 0,
+                },
+                QueryString: false,
+                Cookies: {
+                  Forward: '',
+                  WhitelistedNames: {
+                    Items: [ '', /* ...*/ ],
+                    Quantity: 0,
+                  },
+                },
+              },
+              MinTTL: 0 /*Long*/,
+            }, /* ...*/ ],
+            Quantity: 0,
+          },
+          ViewerCertificate: /*S1c*/{
+            IAMCertificateId: '',
+            Certificate: '',
+            MinimumProtocolVersion: '',
+            CloudFrontDefaultCertificate: false,
+            SSLSupportMethod: '',
+            CertificateSource: '',
+          },
+          DomainName: '',
+          Comment: '',
+          DefaultCacheBehavior: /*Sn*/{
+            TrustedSigners: /*Sw*/{
+                Enabled: false,
+                Items: [ '', /* ...*/ ],
+                Quantity: 0,
+              },
+            DefaultTTL: 0 /*Long*/,
+            Compress: false,
+            TargetOriginId: '',
+            AllowedMethods: /*S10*/{
+                CachedMethods: {
+                  Items: /*S11*/[ '', /* ...*/ ],
+                  Quantity: 0,
+                },
+                Items: /*S11*/[ '', /* ...*/ ],
+                Quantity: 0,
+              },
+            MaxTTL: 0 /*Long*/,
+            ViewerProtocolPolicy: '',
+            SmoothStreaming: false,
+            ForwardedValues: /*So*/{
+                Headers: {
+                  Items: [ '', /* ...*/ ],
+                  Quantity: 0,
+                },
+                QueryString: false,
+                Cookies: {
+                  Forward: '',
+                  WhitelistedNames: {
+                    Items: [ '', /* ...*/ ],
+                    Quantity: 0,
+                  },
+                },
+              },
+            MinTTL: 0 /*Long*/,
+          },
+          LastModifiedTime: awsCommon.timestamp(),
+          Id: '',
+          CustomErrorResponses: /*S17*/{
+            Items: [ {
+              ResponseCode: '',
+              ErrorCode: 0,
+              ErrorCachingMinTTL: 0 /*Long*/,
+              ResponsePagePath: '',
+            }, /* ...*/ ],
+            Quantity: 0,
+          },
+        }, /* ...*/ ],
+        Marker: '',
+        Quantity: 0,
+      },
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.ListStreamingDistributions = awsCommon.as(
+  'GET',
+  '/2016-01-28/streaming-distribution',
+  function ListStreamingDistributions(aws) {
+    var marker = aws.params.Marker;
+    var maxItems = aws.params.MaxItems;
+
+
+    // TODO implement code
+
+    var ret = {
+      StreamingDistributionList: {
+        NextMarker: '',
+        MaxItems: 0,
+        IsTruncated: false,
+        Items: [ {
+          TrustedSigners: /*Sw*/{
+            Enabled: false,
+            Items: [ '', /* ...*/ ],
+            Quantity: 0,
+          },
+          DomainName: '',
+          Comment: '',
+          PriceClass: '',
+          Status: '',
+          Enabled: false,
+          LastModifiedTime: awsCommon.timestamp(),
+          Aliases: /*S8*/{
+            Items: [ '', /* ...*/ ],
+            Quantity: 0,
+          },
+          Id: '',
+          S3Origin: /*S20*/{
+            DomainName: '',
+            OriginAccessIdentity: '',
+          },
+        }, /* ...*/ ],
+        Marker: '',
+        Quantity: 0,
+      },
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.GetDistribution = awsCommon.as(
+  'GET',
+  '/2016-01-28/distribution/:Id',
+  function GetDistribution(aws) {
+    var id = aws.reqParams.Id;
+    if (!id) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      ETag: '',
+      Distribution: /*S1l*/{
+        DomainName: '',
+        InProgressInvalidationBatches: 0,
+        ActiveTrustedSigners: /*S1n*/{
+          Enabled: false,
+          Items: [ {
+            AwsAccountNumber: '',
+            KeyPairIds: {
+              Items: [ '', /* ...*/ ],
+              Quantity: 0,
+            },
+          }, /* ...*/ ],
+          Quantity: 0,
+        },
+        Status: '',
+        DistributionConfig: /*S7*/{
+          Enabled: false,
+          Restrictions: /*S1g*/{
+            GeoRestriction: {
+              RestrictionType: '',
+              Items: [ '', /* ...*/ ],
+              Quantity: 0,
+            },
+          },
+          DefaultCacheBehavior: /*Sn*/{
+            TrustedSigners: /*Sw*/{
+              Enabled: false,
+              Items: [ '', /* ...*/ ],
+              Quantity: 0,
+            },
+            DefaultTTL: 0 /*Long*/,
+            Compress: false,
+            TargetOriginId: '',
+            AllowedMethods: /*S10*/{
+              CachedMethods: {
+                Items: /*S11*/[ '', /* ...*/ ],
+                Quantity: 0,
+              },
+              Items: /*S11*/[ '', /* ...*/ ],
+              Quantity: 0,
+            },
+            MaxTTL: 0 /*Long*/,
+            ViewerProtocolPolicy: '',
+            SmoothStreaming: false,
+            ForwardedValues: /*So*/{
+              Headers: {
+                Items: [ '', /* ...*/ ],
+                Quantity: 0,
+              },
+              QueryString: false,
+              Cookies: {
+                Forward: '',
+                WhitelistedNames: {
+                  Items: [ '', /* ...*/ ],
+                  Quantity: 0,
+                },
+              },
+            },
+            MinTTL: 0 /*Long*/,
+          },
+          Origins: /*Sb*/{
+            Items: [ {
+              DomainName: '',
+              Id: '',
+              CustomOriginConfig: {
+                HTTPSPort: 0,
+                OriginSslProtocols: {
+                  Items: [ '', /* ...*/ ],
+                  Quantity: 0,
+                },
+                HTTPPort: 0,
+                OriginProtocolPolicy: '',
+              },
+              CustomHeaders: {
+                Items: [ {
+                  HeaderName: '',
+                  HeaderValue: '',
+                }, /* ...*/ ],
+                Quantity: 0,
+              },
+              S3OriginConfig: {
+                OriginAccessIdentity: '',
+              },
+              OriginPath: '',
+            }, /* ...*/ ],
+            Quantity: 0,
+          },
+          WebACLId: '',
+          Aliases: /*S8*/{
+            Items: [ '', /* ...*/ ],
+            Quantity: 0,
+          },
+          CacheBehaviors: /*S14*/{
+            Items: [ {
+              TrustedSigners: /*Sw*/{
+              Enabled: false,
+              Items: [ '', /* ...*/ ],
+              Quantity: 0,
+            },
+              DefaultTTL: 0 /*Long*/,
+              Compress: false,
+              TargetOriginId: '',
+              AllowedMethods: /*S10*/{
+              CachedMethods: {
+                Items: /*S11*/[ '', /* ...*/ ],
+                Quantity: 0,
+              },
+              Items: /*S11*/[ '', /* ...*/ ],
+              Quantity: 0,
+            },
+              MaxTTL: 0 /*Long*/,
+              ViewerProtocolPolicy: '',
+              PathPattern: '',
+              SmoothStreaming: false,
+              ForwardedValues: /*So*/{
+              Headers: {
+                Items: [ '', /* ...*/ ],
+                Quantity: 0,
+              },
+              QueryString: false,
+              Cookies: {
+                Forward: '',
+                WhitelistedNames: {
+                  Items: [ '', /* ...*/ ],
+                  Quantity: 0,
+                },
+              },
+            },
+              MinTTL: 0 /*Long*/,
+            }, /* ...*/ ],
+            Quantity: 0,
+          },
+          ViewerCertificate: /*S1c*/{
+            IAMCertificateId: '',
+            Certificate: '',
+            MinimumProtocolVersion: '',
+            CloudFrontDefaultCertificate: false,
+            SSLSupportMethod: '',
+            CertificateSource: '',
+          },
+          CallerReference: '',
+          Logging: {
+            Enabled: false,
+            IncludeCookies: false,
+            Bucket: '',
+            Prefix: '',
+          },
+          CustomErrorResponses: /*S17*/{
+            Items: [ {
+              ResponseCode: '',
+              ErrorCode: 0,
+              ErrorCachingMinTTL: 0 /*Long*/,
+              ResponsePagePath: '',
+            }, /* ...*/ ],
+            Quantity: 0,
+          },
+          PriceClass: '',
+          Comment: '',
+          DefaultRootObject: '',
+        },
+        LastModifiedTime: awsCommon.timestamp(),
+        Id: '',
+      },
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.GetDistributionConfig = awsCommon.as(
+  'GET',
+  '/2016-01-28/distribution/:Id/config',
+  function GetDistributionConfig(aws) {
+    var id = aws.reqParams.Id;
+    if (!id) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      ETag: '',
+      DistributionConfig: /*S7*/{
+        Enabled: false,
+        Restrictions: /*S1g*/{
+          GeoRestriction: {
+            RestrictionType: '',
+            Items: [ '', /* ...*/ ],
+            Quantity: 0,
+          },
+        },
+        DefaultCacheBehavior: /*Sn*/{
+          TrustedSigners: /*Sw*/{
+            Enabled: false,
+            Items: [ '', /* ...*/ ],
+            Quantity: 0,
+          },
+          DefaultTTL: 0 /*Long*/,
+          Compress: false,
+          TargetOriginId: '',
+          AllowedMethods: /*S10*/{
+            CachedMethods: {
+              Items: /*S11*/[ '', /* ...*/ ],
+              Quantity: 0,
+            },
+            Items: /*S11*/[ '', /* ...*/ ],
+            Quantity: 0,
+          },
+          MaxTTL: 0 /*Long*/,
+          ViewerProtocolPolicy: '',
+          SmoothStreaming: false,
+          ForwardedValues: /*So*/{
+            Headers: {
+              Items: [ '', /* ...*/ ],
+              Quantity: 0,
+            },
+            QueryString: false,
+            Cookies: {
+              Forward: '',
+              WhitelistedNames: {
+                Items: [ '', /* ...*/ ],
+                Quantity: 0,
+              },
+            },
+          },
+          MinTTL: 0 /*Long*/,
+        },
+        Origins: /*Sb*/{
+          Items: [ {
+            DomainName: '',
+            Id: '',
+            CustomOriginConfig: {
+              HTTPSPort: 0,
+              OriginSslProtocols: {
+                Items: [ '', /* ...*/ ],
+                Quantity: 0,
+              },
+              HTTPPort: 0,
+              OriginProtocolPolicy: '',
+            },
+            CustomHeaders: {
+              Items: [ {
+                HeaderName: '',
+                HeaderValue: '',
+              }, /* ...*/ ],
+              Quantity: 0,
+            },
+            S3OriginConfig: {
+              OriginAccessIdentity: '',
+            },
+            OriginPath: '',
+          }, /* ...*/ ],
+          Quantity: 0,
+        },
+        WebACLId: '',
+        Aliases: /*S8*/{
+          Items: [ '', /* ...*/ ],
+          Quantity: 0,
+        },
+        CacheBehaviors: /*S14*/{
+          Items: [ {
+            TrustedSigners: /*Sw*/{
+            Enabled: false,
+            Items: [ '', /* ...*/ ],
+            Quantity: 0,
+          },
+            DefaultTTL: 0 /*Long*/,
+            Compress: false,
+            TargetOriginId: '',
+            AllowedMethods: /*S10*/{
+            CachedMethods: {
+              Items: /*S11*/[ '', /* ...*/ ],
+              Quantity: 0,
+            },
+            Items: /*S11*/[ '', /* ...*/ ],
+            Quantity: 0,
+          },
+            MaxTTL: 0 /*Long*/,
+            ViewerProtocolPolicy: '',
+            PathPattern: '',
+            SmoothStreaming: false,
+            ForwardedValues: /*So*/{
+            Headers: {
+              Items: [ '', /* ...*/ ],
+              Quantity: 0,
+            },
+            QueryString: false,
+            Cookies: {
+              Forward: '',
+              WhitelistedNames: {
+                Items: [ '', /* ...*/ ],
+                Quantity: 0,
+              },
+            },
+          },
+            MinTTL: 0 /*Long*/,
+          }, /* ...*/ ],
+          Quantity: 0,
+        },
+        ViewerCertificate: /*S1c*/{
+          IAMCertificateId: '',
+          Certificate: '',
+          MinimumProtocolVersion: '',
+          CloudFrontDefaultCertificate: false,
+          SSLSupportMethod: '',
+          CertificateSource: '',
+        },
+        CallerReference: '',
+        Logging: {
+          Enabled: false,
+          IncludeCookies: false,
+          Bucket: '',
+          Prefix: '',
+        },
+        CustomErrorResponses: /*S17*/{
+          Items: [ {
+            ResponseCode: '',
+            ErrorCode: 0,
+            ErrorCachingMinTTL: 0 /*Long*/,
+            ResponsePagePath: '',
+          }, /* ...*/ ],
+          Quantity: 0,
+        },
+        PriceClass: '',
+        Comment: '',
+        DefaultRootObject: '',
+      },
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.UpdateCloudFrontOriginAccessIdentity = awsCommon.as(
+  'PUT',
+  '/2016-01-28/origin-access-identity/cloudfront/:Id/config',
+  function UpdateCloudFrontOriginAccessIdentity(aws) {
+    var cloudFrontOriginAccessIdentityConfig = aws.params.CloudFrontOriginAccessIdentityConfig;
+    var id = aws.reqParams.Id;
+    var ifMatch = aws.params.IfMatch;
+    if (!cloudFrontOriginAccessIdentityConfig) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CloudFrontOriginAccessIdentityConfig'];
+    }
+    if (!id) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      CloudFrontOriginAccessIdentity: /*S5*/{
+        Id: '',
+        S3CanonicalUserId: '',
+        CloudFrontOriginAccessIdentityConfig: /*S2*/{
+          Comment: '',
+          CallerReference: '',
+        },
+      },
+      ETag: '',
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.CreateInvalidation = awsCommon.as(
+  '/2016-01-28/distribution/:DistributionId/invalidation',
+  function CreateInvalidation(aws) {
+    var invalidationBatch = aws.params.InvalidationBatch;
+    var distributionId = aws.reqParams.DistributionId;
+    if (!distributionId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DistributionId'];
+    }
+    if (!invalidationBatch) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InvalidationBatch'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      Invalidation: /*S1x*/{
+        InvalidationBatch: /*S1t*/{
+          CallerReference: '',
+          Paths: {
+            Items: [ '', /* ...*/ ],
+            Quantity: 0,
+          },
+        },
+        Id: '',
+        CreateTime: awsCommon.timestamp(),
+        Status: '',
+      },
+      Location: '',
+    };
+    return [201, ret];
+  });
+// -----------------------------------
+module.exports.DeleteDistribution = awsCommon.as(
+  'DELETE',
+  '/2016-01-28/distribution/:Id',
+  function DeleteDistribution(aws) {
+    var id = aws.reqParams.Id;
+    var ifMatch = aws.params.IfMatch;
+    if (!id) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {};
+    return [204, ret];
+  });
+// -----------------------------------
+module.exports.GetInvalidation = awsCommon.as(
+  'GET',
+  '/2016-01-28/distribution/:DistributionId/invalidation/:Id',
+  function GetInvalidation(aws) {
+    var id = aws.reqParams.Id;
+    var distributionId = aws.reqParams.DistributionId;
+    if (!distributionId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DistributionId'];
+    }
+    if (!id) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      Invalidation: /*S1x*/{
+        InvalidationBatch: /*S1t*/{
+          CallerReference: '',
+          Paths: {
+            Items: [ '', /* ...*/ ],
+            Quantity: 0,
+          },
+        },
+        Id: '',
+        CreateTime: awsCommon.timestamp(),
+        Status: '',
+      },
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.CreateStreamingDistribution = awsCommon.as(
+  '/2016-01-28/streaming-distribution',
+  function CreateStreamingDistribution(aws) {
+    var streamingDistributionConfig = aws.params.StreamingDistributionConfig;
+    if (!streamingDistributionConfig) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StreamingDistributionConfig'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      ETag: '',
+      StreamingDistribution: /*S23*/{
+        DomainName: '',
+        Status: '',
+        ActiveTrustedSigners: /*S1n*/{
+          Enabled: false,
+          Items: [ {
+            AwsAccountNumber: '',
+            KeyPairIds: {
+              Items: [ '', /* ...*/ ],
+              Quantity: 0,
+            },
+          }, /* ...*/ ],
+          Quantity: 0,
+        },
+        LastModifiedTime: awsCommon.timestamp(),
+        Id: '',
+        StreamingDistributionConfig: /*S1z*/{
+          TrustedSigners: /*Sw*/{
+            Enabled: false,
+            Items: [ '', /* ...*/ ],
+            Quantity: 0,
+          },
+          Enabled: false,
+          CallerReference: '',
+          Comment: '',
+          PriceClass: '',
+          Aliases: /*S8*/{
+            Items: [ '', /* ...*/ ],
+            Quantity: 0,
+          },
+          S3Origin: /*S20*/{
+            DomainName: '',
+            OriginAccessIdentity: '',
+          },
+          Logging: {
+            Enabled: false,
+            Bucket: '',
+            Prefix: '',
+          },
+        },
+      },
+      Location: '',
+    };
+    return [201, ret];
+  });

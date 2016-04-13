@@ -10,72 +10,16 @@ const awsCommon = require('../../lib/aws-common');
  */
 
 // Setup input and output to use AWS protocol json
-require('../../lib/aws-common/shape_http')('json', module.exports, null)
-// -----------------------------------
-module.exports.DescribeTasks = function DescribeTasks(aws) {
-  var tasks = aws.params['tasks'];
-  var cluster = aws.params['cluster'];
-  if (!tasks) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter tasks'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    failures: /*S1v*/[ {
-      reason: '',
-      arn: '',
-    }, /* ...*/ ],
-    tasks: /*S27*/[ /*S28*/{
-      startedAt: awsCommon.timestamp(),
-      clusterArn: '',
-      overrides: /*S29*/{
-        containerOverrides: [ {
-          environment: /*S18*/[ {
-            value: '',
-            name: '',
-          }, /* ...*/ ],
-          name: '',
-          command: /*Sv*/[ '', /* ...*/ ],
-        }, /* ...*/ ],
-      },
-      createdAt: awsCommon.timestamp(),
-      containers: [ {
-        containerArn: '',
-        name: '',
-        lastStatus: '',
-        reason: '',
-        exitCode: 0,
-        taskArn: '',
-        networkBindings: /*S2e*/[ {
-          containerPort: 0,
-          hostPort: 0,
-          protocol: '',
-          bindIP: '',
-        }, /* ...*/ ],
-      }, /* ...*/ ],
-      startedBy: '',
-      taskDefinitionArn: '',
-      desiredStatus: '',
-      stoppedReason: '',
-      containerInstanceArn: '',
-      taskArn: '',
-      stoppedAt: awsCommon.timestamp(),
-      lastStatus: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
+require('../../lib/aws-common/shape_http')('json', module.exports, null);
 // -----------------------------------
 module.exports.SubmitContainerStateChange = function SubmitContainerStateChange(aws) {
-  var task = aws.params['task'];
-  var cluster = aws.params['cluster'];
-  var status = aws.params['status'];
-  var containerName = aws.params['containerName'];
-  var reason = aws.params['reason'];
-  var exitCode = aws.params['exitCode'] /* Type integer */;
-  var networkBindings = aws.params['networkBindings'];
+  var containerName = aws.params.containerName;
+  var exitCode = aws.params.exitCode /* Type integer */;
+  var cluster = aws.params.cluster;
+  var task = aws.params.task;
+  var networkBindings = aws.params.networkBindings;
+  var reason = aws.params.reason;
+  var status = aws.params.status;
 
 
   // TODO implement code
@@ -86,385 +30,8 @@ module.exports.SubmitContainerStateChange = function SubmitContainerStateChange(
   return [200, ret];
 };
 // -----------------------------------
-module.exports.RegisterTaskDefinition = function RegisterTaskDefinition(aws) {
-  var family = aws.params['family'];
-  var volumes = aws.params['volumes'];
-  var containerDefinitions = aws.params['containerDefinitions'];
-  if (!family) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter family'];
-  }
-  if (!containerDefinitions) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter containerDefinitions'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    taskDefinition: /*S12*/{
-      family: '',
-      revision: 0,
-      taskDefinitionArn: '',
-      containerDefinitions: /*S13*/[ {
-        privileged: false,
-        essential: false,
-        entryPoint: /*Sv*/[ '', /* ...*/ ],
-        user: '',
-        readonlyRootFilesystem: false,
-        extraHosts: [ {
-          ipAddress: '',
-          hostname: '',
-        }, /* ...*/ ],
-        environment: /*S18*/[ {
-          value: '',
-          name: '',
-        }, /* ...*/ ],
-        dockerLabels: {} /*Map*/,
-        dnsServers: /*Sv*/[ '', /* ...*/ ],
-        workingDirectory: '',
-        mountPoints: [ {
-          containerPath: '',
-          sourceVolume: '',
-          readOnly: false,
-        }, /* ...*/ ],
-        image: '',
-        volumesFrom: [ {
-          sourceContainer: '',
-          readOnly: false,
-        }, /* ...*/ ],
-        memory: 0,
-        name: '',
-        command: /*Sv*/[ '', /* ...*/ ],
-        links: /*Sv*/[ '', /* ...*/ ],
-        portMappings: [ {
-          containerPort: 0,
-          hostPort: 0,
-          protocol: '',
-        }, /* ...*/ ],
-        ulimits: [ {
-          name: '',
-          hardLimit: 0,
-          softLimit: 0,
-        }, /* ...*/ ],
-        cpu: 0,
-        dockerSecurityOptions: /*Sv*/[ '', /* ...*/ ],
-        disableNetworking: false,
-        dnsSearchDomains: /*Sv*/[ '', /* ...*/ ],
-        hostname: '',
-        logConfiguration: {
-          options: {} /*Map*/,
-          logDriver: '',
-        },
-      }, /* ...*/ ],
-      volumes: /*S1n*/[ {
-        name: '',
-        host: {
-          sourcePath: '',
-        },
-      }, /* ...*/ ],
-      requiresAttributes: [ /*Sz*/{
-        value: '',
-        name: '',
-      }, /* ...*/ ],
-      status: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListTaskDefinitionFamilies = function ListTaskDefinitionFamilies(aws) {
-  var nextToken = aws.params['nextToken'];
-  var familyPrefix = aws.params['familyPrefix'];
-  var maxResults = aws.params['maxResults'] /* Type integer */;
-
-
-  // TODO implement code
-
-  var ret = {
-    nextToken: '',
-    families: /*Sv*/[ '', /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeregisterContainerInstance = function DeregisterContainerInstance(aws) {
-  var force = aws.params['force'] /* Type boolean */;
-  var containerInstance = aws.params['containerInstance'];
-  var cluster = aws.params['cluster'];
-  if (!containerInstance) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter containerInstance'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    containerInstance: /*Sp*/{
-      attributes: /*Sy*/[ /*Sz*/{
-        value: '',
-        name: '',
-      }, /* ...*/ ],
-      registeredResources: /*Sr*/[ {
-        name: '',
-        doubleValue: 0.0 /*Double*/,
-        type: '',
-        integerValue: 0,
-        stringSetValue: /*Sv*/[ '', /* ...*/ ],
-        longValue: 0 /*Long*/,
-      }, /* ...*/ ],
-      runningTasksCount: 0,
-      status: '',
-      pendingTasksCount: 0,
-      remainingResources: /*Sr*/[ {
-        name: '',
-        doubleValue: 0.0 /*Double*/,
-        type: '',
-        integerValue: 0,
-        stringSetValue: /*Sv*/[ '', /* ...*/ ],
-        longValue: 0 /*Long*/,
-      }, /* ...*/ ],
-      ec2InstanceId: '',
-      containerInstanceArn: '',
-      agentConnected: false,
-      agentUpdateStatus: '',
-      versionInfo: /*Sq*/{
-        agentVersion: '',
-        dockerVersion: '',
-        agentHash: '',
-      },
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DiscoverPollEndpoint = function DiscoverPollEndpoint(aws) {
-  var containerInstance = aws.params['containerInstance'];
-  var cluster = aws.params['cluster'];
-
-
-  // TODO implement code
-
-  var ret = {
-    endpoint: '',
-    telemetryEndpoint: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListTasks = function ListTasks(aws) {
-  var nextToken = aws.params['nextToken'];
-  var family = aws.params['family'];
-  var cluster = aws.params['cluster'];
-  var serviceName = aws.params['serviceName'];
-  var maxResults = aws.params['maxResults'] /* Type integer */;
-  var startedBy = aws.params['startedBy'];
-  var containerInstance = aws.params['containerInstance'];
-  var desiredStatus = aws.params['desiredStatus'];
-
-
-  // TODO implement code
-
-  var ret = {
-    nextToken: '',
-    taskArns: /*Sv*/[ '', /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.RegisterContainerInstance = function RegisterContainerInstance(aws) {
-  var instanceIdentityDocument = aws.params['instanceIdentityDocument'];
-  var attributes = aws.params['attributes'];
-  var instanceIdentityDocumentSignature = aws.params['instanceIdentityDocumentSignature'];
-  var cluster = aws.params['cluster'];
-  var containerInstanceArn = aws.params['containerInstanceArn'];
-  var totalResources = aws.params['totalResources'];
-  var versionInfo = aws.params['versionInfo'];
-
-
-  // TODO implement code
-
-  var ret = {
-    containerInstance: /*Sp*/{
-      attributes: /*Sy*/[ /*Sz*/{
-        value: '',
-        name: '',
-      }, /* ...*/ ],
-      registeredResources: /*Sr*/[ {
-        name: '',
-        doubleValue: 0.0 /*Double*/,
-        type: '',
-        integerValue: 0,
-        stringSetValue: /*Sv*/[ '', /* ...*/ ],
-        longValue: 0 /*Long*/,
-      }, /* ...*/ ],
-      runningTasksCount: 0,
-      status: '',
-      pendingTasksCount: 0,
-      remainingResources: /*Sr*/[ {
-        name: '',
-        doubleValue: 0.0 /*Double*/,
-        type: '',
-        integerValue: 0,
-        stringSetValue: /*Sv*/[ '', /* ...*/ ],
-        longValue: 0 /*Long*/,
-      }, /* ...*/ ],
-      ec2InstanceId: '',
-      containerInstanceArn: '',
-      agentConnected: false,
-      agentUpdateStatus: '',
-      versionInfo: /*Sq*/{
-        agentVersion: '',
-        dockerVersion: '',
-        agentHash: '',
-      },
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.UpdateContainerAgent = function UpdateContainerAgent(aws) {
-  var containerInstance = aws.params['containerInstance'];
-  var cluster = aws.params['cluster'];
-  if (!containerInstance) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter containerInstance'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    containerInstance: /*Sp*/{
-      attributes: /*Sy*/[ /*Sz*/{
-        value: '',
-        name: '',
-      }, /* ...*/ ],
-      registeredResources: /*Sr*/[ {
-        name: '',
-        doubleValue: 0.0 /*Double*/,
-        type: '',
-        integerValue: 0,
-        stringSetValue: /*Sv*/[ '', /* ...*/ ],
-        longValue: 0 /*Long*/,
-      }, /* ...*/ ],
-      runningTasksCount: 0,
-      status: '',
-      pendingTasksCount: 0,
-      remainingResources: /*Sr*/[ {
-        name: '',
-        doubleValue: 0.0 /*Double*/,
-        type: '',
-        integerValue: 0,
-        stringSetValue: /*Sv*/[ '', /* ...*/ ],
-        longValue: 0 /*Long*/,
-      }, /* ...*/ ],
-      ec2InstanceId: '',
-      containerInstanceArn: '',
-      agentConnected: false,
-      agentUpdateStatus: '',
-      versionInfo: /*Sq*/{
-        agentVersion: '',
-        dockerVersion: '',
-        agentHash: '',
-      },
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.StopTask = function StopTask(aws) {
-  var reason = aws.params['reason'];
-  var task = aws.params['task'];
-  var cluster = aws.params['cluster'];
-  if (!task) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter task'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    task: /*S28*/{
-      startedAt: awsCommon.timestamp(),
-      clusterArn: '',
-      overrides: /*S29*/{
-        containerOverrides: [ {
-          environment: /*S18*/[ {
-            value: '',
-            name: '',
-          }, /* ...*/ ],
-          name: '',
-          command: /*Sv*/[ '', /* ...*/ ],
-        }, /* ...*/ ],
-      },
-      createdAt: awsCommon.timestamp(),
-      containers: [ {
-        containerArn: '',
-        name: '',
-        lastStatus: '',
-        reason: '',
-        exitCode: 0,
-        taskArn: '',
-        networkBindings: /*S2e*/[ {
-          containerPort: 0,
-          hostPort: 0,
-          protocol: '',
-          bindIP: '',
-        }, /* ...*/ ],
-      }, /* ...*/ ],
-      startedBy: '',
-      taskDefinitionArn: '',
-      desiredStatus: '',
-      stoppedReason: '',
-      containerInstanceArn: '',
-      taskArn: '',
-      stoppedAt: awsCommon.timestamp(),
-      lastStatus: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeClusters = function DescribeClusters(aws) {
-  var clusters = aws.params['clusters'];
-
-
-  // TODO implement code
-
-  var ret = {
-    failures: /*S1v*/[ {
-      reason: '',
-      arn: '',
-    }, /* ...*/ ],
-    clusters: [ /*S4*/{
-      registeredContainerInstancesCount: 0,
-      clusterArn: '',
-      status: '',
-      pendingTasksCount: 0,
-      clusterName: '',
-      runningTasksCount: 0,
-      activeServicesCount: 0,
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListContainerInstances = function ListContainerInstances(aws) {
-  var nextToken = aws.params['nextToken'];
-  var cluster = aws.params['cluster'];
-  var maxResults = aws.params['maxResults'] /* Type integer */;
-
-
-  // TODO implement code
-
-  var ret = {
-    nextToken: '',
-    containerInstanceArns: /*Sv*/[ '', /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
 module.exports.DeleteCluster = function DeleteCluster(aws) {
-  var cluster = aws.params['cluster'];
+  var cluster = aws.params.cluster;
   if (!cluster) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter cluster'];
   }
@@ -474,336 +41,24 @@ module.exports.DeleteCluster = function DeleteCluster(aws) {
 
   var ret = {
     cluster: /*S4*/{
-      registeredContainerInstancesCount: 0,
-      clusterArn: '',
-      status: '',
-      pendingTasksCount: 0,
+      runningTasksCount: 0,
       clusterName: '',
-      runningTasksCount: 0,
-      activeServicesCount: 0,
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListTaskDefinitions = function ListTaskDefinitions(aws) {
-  var nextToken = aws.params['nextToken'];
-  var familyPrefix = aws.params['familyPrefix'];
-  var sort = aws.params['sort'];
-  var status = aws.params['status'];
-  var maxResults = aws.params['maxResults'] /* Type integer */;
-
-
-  // TODO implement code
-
-  var ret = {
-    nextToken: '',
-    taskDefinitionArns: /*Sv*/[ '', /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListServices = function ListServices(aws) {
-  var nextToken = aws.params['nextToken'];
-  var cluster = aws.params['cluster'];
-  var maxResults = aws.params['maxResults'] /* Type integer */;
-
-
-  // TODO implement code
-
-  var ret = {
-    nextToken: '',
-    serviceArns: /*Sv*/[ '', /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeContainerInstances = function DescribeContainerInstances(aws) {
-  var cluster = aws.params['cluster'];
-  var containerInstances = aws.params['containerInstances'];
-  if (!containerInstances) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter containerInstances'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    failures: /*S1v*/[ {
-      reason: '',
-      arn: '',
-    }, /* ...*/ ],
-    containerInstances: [ /*Sp*/{
-      attributes: /*Sy*/[ /*Sz*/{
-        value: '',
-        name: '',
-      }, /* ...*/ ],
-      registeredResources: /*Sr*/[ {
-        name: '',
-        doubleValue: 0.0 /*Double*/,
-        type: '',
-        integerValue: 0,
-        stringSetValue: /*Sv*/[ '', /* ...*/ ],
-        longValue: 0 /*Long*/,
-      }, /* ...*/ ],
-      runningTasksCount: 0,
-      status: '',
-      pendingTasksCount: 0,
-      remainingResources: /*Sr*/[ {
-        name: '',
-        doubleValue: 0.0 /*Double*/,
-        type: '',
-        integerValue: 0,
-        stringSetValue: /*Sv*/[ '', /* ...*/ ],
-        longValue: 0 /*Long*/,
-      }, /* ...*/ ],
-      ec2InstanceId: '',
-      containerInstanceArn: '',
-      agentConnected: false,
-      agentUpdateStatus: '',
-      versionInfo: /*Sq*/{
-        agentVersion: '',
-        dockerVersion: '',
-        agentHash: '',
-      },
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteService = function DeleteService(aws) {
-  var service = aws.params['service'];
-  var cluster = aws.params['cluster'];
-  if (!service) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter service'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    service: /*Sc*/{
-      serviceName: '',
-      loadBalancers: /*S7*/[ {
-        containerName: '',
-        containerPort: 0,
-        loadBalancerName: '',
-      }, /* ...*/ ],
-      pendingCount: 0,
-      clusterArn: '',
-      roleArn: '',
-      desiredCount: 0,
-      deploymentConfiguration: /*Sa*/{
-        maximumPercent: 0,
-        minimumHealthyPercent: 0,
-      },
-      serviceArn: '',
-      status: '',
-      deployments: [ {
-        id: '',
-        pendingCount: 0,
-        status: '',
-        taskDefinition: '',
-        desiredCount: 0,
-        createdAt: awsCommon.timestamp(),
-        runningCount: 0,
-        updatedAt: awsCommon.timestamp(),
-      }, /* ...*/ ],
-      events: [ {
-        id: '',
-        createdAt: awsCommon.timestamp(),
-        message: '',
-      }, /* ...*/ ],
-      taskDefinition: '',
-      runningCount: 0,
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.StartTask = function StartTask(aws) {
-  var startedBy = aws.params['startedBy'];
-  var overrides = aws.params['overrides'];
-  var taskDefinition = aws.params['taskDefinition'];
-  var cluster = aws.params['cluster'];
-  var containerInstances = aws.params['containerInstances'];
-  if (!taskDefinition) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter taskDefinition'];
-  }
-  if (!containerInstances) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter containerInstances'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    failures: /*S1v*/[ {
-      reason: '',
-      arn: '',
-    }, /* ...*/ ],
-    tasks: /*S27*/[ /*S28*/{
-      startedAt: awsCommon.timestamp(),
-      clusterArn: '',
-      overrides: /*S29*/{
-        containerOverrides: [ {
-          environment: /*S18*/[ {
-            value: '',
-            name: '',
-          }, /* ...*/ ],
-          name: '',
-          command: /*Sv*/[ '', /* ...*/ ],
-        }, /* ...*/ ],
-      },
-      createdAt: awsCommon.timestamp(),
-      containers: [ {
-        containerArn: '',
-        name: '',
-        lastStatus: '',
-        reason: '',
-        exitCode: 0,
-        taskArn: '',
-        networkBindings: /*S2e*/[ {
-          containerPort: 0,
-          hostPort: 0,
-          protocol: '',
-          bindIP: '',
-        }, /* ...*/ ],
-      }, /* ...*/ ],
-      startedBy: '',
-      taskDefinitionArn: '',
-      desiredStatus: '',
-      stoppedReason: '',
-      containerInstanceArn: '',
-      taskArn: '',
-      stoppedAt: awsCommon.timestamp(),
-      lastStatus: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeTaskDefinition = function DescribeTaskDefinition(aws) {
-  var taskDefinition = aws.params['taskDefinition'];
-  if (!taskDefinition) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter taskDefinition'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    taskDefinition: /*S12*/{
-      family: '',
-      revision: 0,
-      taskDefinitionArn: '',
-      containerDefinitions: /*S13*/[ {
-        privileged: false,
-        essential: false,
-        entryPoint: /*Sv*/[ '', /* ...*/ ],
-        user: '',
-        readonlyRootFilesystem: false,
-        extraHosts: [ {
-          ipAddress: '',
-          hostname: '',
-        }, /* ...*/ ],
-        environment: /*S18*/[ {
-          value: '',
-          name: '',
-        }, /* ...*/ ],
-        dockerLabels: {} /*Map*/,
-        dnsServers: /*Sv*/[ '', /* ...*/ ],
-        workingDirectory: '',
-        mountPoints: [ {
-          containerPath: '',
-          sourceVolume: '',
-          readOnly: false,
-        }, /* ...*/ ],
-        image: '',
-        volumesFrom: [ {
-          sourceContainer: '',
-          readOnly: false,
-        }, /* ...*/ ],
-        memory: 0,
-        name: '',
-        command: /*Sv*/[ '', /* ...*/ ],
-        links: /*Sv*/[ '', /* ...*/ ],
-        portMappings: [ {
-          containerPort: 0,
-          hostPort: 0,
-          protocol: '',
-        }, /* ...*/ ],
-        ulimits: [ {
-          name: '',
-          hardLimit: 0,
-          softLimit: 0,
-        }, /* ...*/ ],
-        cpu: 0,
-        dockerSecurityOptions: /*Sv*/[ '', /* ...*/ ],
-        disableNetworking: false,
-        dnsSearchDomains: /*Sv*/[ '', /* ...*/ ],
-        hostname: '',
-        logConfiguration: {
-          options: {} /*Map*/,
-          logDriver: '',
-        },
-      }, /* ...*/ ],
-      volumes: /*S1n*/[ {
-        name: '',
-        host: {
-          sourcePath: '',
-        },
-      }, /* ...*/ ],
-      requiresAttributes: [ /*Sz*/{
-        value: '',
-        name: '',
-      }, /* ...*/ ],
-      status: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateCluster = function CreateCluster(aws) {
-  var clusterName = aws.params['clusterName'];
-
-
-  // TODO implement code
-
-  var ret = {
-    cluster: /*S4*/{
       registeredContainerInstancesCount: 0,
+      activeServicesCount: 0,
+      pendingTasksCount: 0,
       clusterArn: '',
       status: '',
-      pendingTasksCount: 0,
-      clusterName: '',
-      runningTasksCount: 0,
-      activeServicesCount: 0,
     },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListClusters = function ListClusters(aws) {
-  var nextToken = aws.params['nextToken'];
-  var maxResults = aws.params['maxResults'] /* Type integer */;
-
-
-  // TODO implement code
-
-  var ret = {
-    nextToken: '',
-    clusterArns: /*Sv*/[ '', /* ...*/ ],
   };
   return [200, ret];
 };
 // -----------------------------------
 module.exports.RunTask = function RunTask(aws) {
-  var overrides = aws.params['overrides'];
-  var taskDefinition = aws.params['taskDefinition'];
-  var count = aws.params['count'] /* Type integer */;
-  var cluster = aws.params['cluster'];
-  var startedBy = aws.params['startedBy'];
+  var overrides = aws.params.overrides;
+  var startedBy = aws.params.startedBy;
+  var count = aws.params.count /* Type integer */;
+  var taskDefinition = aws.params.taskDefinition;
+  var cluster = aws.params.cluster;
   if (!taskDefinition) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter taskDefinition'];
   }
@@ -813,112 +68,59 @@ module.exports.RunTask = function RunTask(aws) {
 
   var ret = {
     failures: /*S1v*/[ {
-      reason: '',
       arn: '',
+      reason: '',
     }, /* ...*/ ],
     tasks: /*S27*/[ /*S28*/{
-      startedAt: awsCommon.timestamp(),
-      clusterArn: '',
-      overrides: /*S29*/{
-        containerOverrides: [ {
-          environment: /*S18*/[ {
-            value: '',
-            name: '',
-          }, /* ...*/ ],
-          name: '',
-          command: /*Sv*/[ '', /* ...*/ ],
-        }, /* ...*/ ],
-      },
-      createdAt: awsCommon.timestamp(),
       containers: [ {
-        containerArn: '',
-        name: '',
         lastStatus: '',
-        reason: '',
         exitCode: 0,
         taskArn: '',
+        name: '',
         networkBindings: /*S2e*/[ {
-          containerPort: 0,
+          bindIP: '',
           hostPort: 0,
           protocol: '',
-          bindIP: '',
+          containerPort: 0,
         }, /* ...*/ ],
+        containerArn: '',
+        reason: '',
       }, /* ...*/ ],
       startedBy: '',
-      taskDefinitionArn: '',
-      desiredStatus: '',
-      stoppedReason: '',
-      containerInstanceArn: '',
+      startedAt: awsCommon.timestamp(),
       taskArn: '',
-      stoppedAt: awsCommon.timestamp(),
-      lastStatus: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.UpdateService = function UpdateService(aws) {
-  var service = aws.params['service'];
-  var desiredCount = aws.params['desiredCount'] /* Type integer */;
-  var taskDefinition = aws.params['taskDefinition'];
-  var cluster = aws.params['cluster'];
-  var deploymentConfiguration = aws.params['deploymentConfiguration'];
-  if (!service) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter service'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    service: /*Sc*/{
-      serviceName: '',
-      loadBalancers: /*S7*/[ {
-        containerName: '',
-        containerPort: 0,
-        loadBalancerName: '',
-      }, /* ...*/ ],
-      pendingCount: 0,
+      containerInstanceArn: '',
+      desiredStatus: '',
       clusterArn: '',
-      roleArn: '',
-      desiredCount: 0,
-      deploymentConfiguration: /*Sa*/{
-        maximumPercent: 0,
-        minimumHealthyPercent: 0,
+      lastStatus: '',
+      createdAt: awsCommon.timestamp(),
+      stoppedReason: '',
+      stoppedAt: awsCommon.timestamp(),
+      taskDefinitionArn: '',
+      overrides: /*S29*/{
+        containerOverrides: [ {
+          name: '',
+          command: /*Sv*/[ '', /* ...*/ ],
+          environment: /*S18*/[ {
+            name: '',
+            value: '',
+          }, /* ...*/ ],
+        }, /* ...*/ ],
       },
-      serviceArn: '',
-      status: '',
-      deployments: [ {
-        id: '',
-        pendingCount: 0,
-        status: '',
-        taskDefinition: '',
-        desiredCount: 0,
-        createdAt: awsCommon.timestamp(),
-        runningCount: 0,
-        updatedAt: awsCommon.timestamp(),
-      }, /* ...*/ ],
-      events: [ {
-        id: '',
-        createdAt: awsCommon.timestamp(),
-        message: '',
-      }, /* ...*/ ],
-      taskDefinition: '',
-      runningCount: 0,
-    },
+    }, /* ...*/ ],
   };
   return [200, ret];
 };
 // -----------------------------------
 module.exports.CreateService = function CreateService(aws) {
-  var serviceName = aws.params['serviceName'];
-  var loadBalancers = aws.params['loadBalancers'];
-  var role = aws.params['role'];
-  var cluster = aws.params['cluster'];
-  var deploymentConfiguration = aws.params['deploymentConfiguration'];
-  var taskDefinition = aws.params['taskDefinition'];
-  var desiredCount = aws.params['desiredCount'] /* Type integer */;
-  var clientToken = aws.params['clientToken'];
+  var deploymentConfiguration = aws.params.deploymentConfiguration;
+  var desiredCount = aws.params.desiredCount /* Type integer */;
+  var cluster = aws.params.cluster;
+  var role = aws.params.role;
+  var loadBalancers = aws.params.loadBalancers;
+  var clientToken = aws.params.clientToken;
+  var taskDefinition = aws.params.taskDefinition;
+  var serviceName = aws.params.serviceName;
   if (!serviceName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter serviceName'];
   }
@@ -934,49 +136,448 @@ module.exports.CreateService = function CreateService(aws) {
 
   var ret = {
     service: /*Sc*/{
-      serviceName: '',
-      loadBalancers: /*S7*/[ {
-        containerName: '',
-        containerPort: 0,
-        loadBalancerName: '',
-      }, /* ...*/ ],
-      pendingCount: 0,
-      clusterArn: '',
-      roleArn: '',
-      desiredCount: 0,
-      deploymentConfiguration: /*Sa*/{
-        maximumPercent: 0,
-        minimumHealthyPercent: 0,
-      },
       serviceArn: '',
+      runningCount: 0,
+      desiredCount: 0,
       status: '',
-      deployments: [ {
-        id: '',
-        pendingCount: 0,
-        status: '',
-        taskDefinition: '',
-        desiredCount: 0,
-        createdAt: awsCommon.timestamp(),
-        runningCount: 0,
-        updatedAt: awsCommon.timestamp(),
-      }, /* ...*/ ],
+      taskDefinition: '',
+      clusterArn: '',
       events: [ {
         id: '',
         createdAt: awsCommon.timestamp(),
         message: '',
       }, /* ...*/ ],
-      taskDefinition: '',
-      runningCount: 0,
+      roleArn: '',
+      deploymentConfiguration: /*Sa*/{
+        maximumPercent: 0,
+        minimumHealthyPercent: 0,
+      },
+      pendingCount: 0,
+      loadBalancers: /*S7*/[ {
+        containerName: '',
+        containerPort: 0,
+        loadBalancerName: '',
+      }, /* ...*/ ],
+      deployments: [ {
+        createdAt: awsCommon.timestamp(),
+        runningCount: 0,
+        desiredCount: 0,
+        id: '',
+        pendingCount: 0,
+        updatedAt: awsCommon.timestamp(),
+        taskDefinition: '',
+        status: '',
+      }, /* ...*/ ],
+      serviceName: '',
     },
   };
   return [200, ret];
 };
 // -----------------------------------
+module.exports.DescribeTaskDefinition = function DescribeTaskDefinition(aws) {
+  var taskDefinition = aws.params.taskDefinition;
+  if (!taskDefinition) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter taskDefinition'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    taskDefinition: /*S12*/{
+      volumes: /*S1n*/[ {
+        name: '',
+        host: {
+          sourcePath: '',
+        },
+      }, /* ...*/ ],
+      revision: 0,
+      taskDefinitionArn: '',
+      family: '',
+      requiresAttributes: [ /*Sz*/{
+        name: '',
+        value: '',
+      }, /* ...*/ ],
+      containerDefinitions: /*S13*/[ {
+        links: /*Sv*/[ '', /* ...*/ ],
+        portMappings: [ {
+          hostPort: 0,
+          protocol: '',
+          containerPort: 0,
+        }, /* ...*/ ],
+        image: '',
+        ulimits: [ {
+          name: '',
+          softLimit: 0,
+          hardLimit: 0,
+        }, /* ...*/ ],
+        memory: 0,
+        logConfiguration: {
+          options: {} /*Map*/,
+          logDriver: '',
+        },
+        essential: false,
+        hostname: '',
+        dockerLabels: {} /*Map*/,
+        entryPoint: /*Sv*/[ '', /* ...*/ ],
+        disableNetworking: false,
+        privileged: false,
+        cpu: 0,
+        workingDirectory: '',
+        environment: /*S18*/[ {
+          name: '',
+          value: '',
+        }, /* ...*/ ],
+        extraHosts: [ {
+          ipAddress: '',
+          hostname: '',
+        }, /* ...*/ ],
+        volumesFrom: [ {
+          readOnly: false,
+          sourceContainer: '',
+        }, /* ...*/ ],
+        dnsServers: /*Sv*/[ '', /* ...*/ ],
+        readonlyRootFilesystem: false,
+        user: '',
+        name: '',
+        dockerSecurityOptions: /*Sv*/[ '', /* ...*/ ],
+        command: /*Sv*/[ '', /* ...*/ ],
+        mountPoints: [ {
+          sourceVolume: '',
+          readOnly: false,
+          containerPath: '',
+        }, /* ...*/ ],
+        dnsSearchDomains: /*Sv*/[ '', /* ...*/ ],
+      }, /* ...*/ ],
+      status: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateCluster = function CreateCluster(aws) {
+  var clusterName = aws.params.clusterName;
+
+
+  // TODO implement code
+
+  var ret = {
+    cluster: /*S4*/{
+      runningTasksCount: 0,
+      clusterName: '',
+      registeredContainerInstancesCount: 0,
+      activeServicesCount: 0,
+      pendingTasksCount: 0,
+      clusterArn: '',
+      status: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeregisterTaskDefinition = function DeregisterTaskDefinition(aws) {
+  var taskDefinition = aws.params.taskDefinition;
+  if (!taskDefinition) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter taskDefinition'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    taskDefinition: /*S12*/{
+      volumes: /*S1n*/[ {
+        name: '',
+        host: {
+          sourcePath: '',
+        },
+      }, /* ...*/ ],
+      revision: 0,
+      taskDefinitionArn: '',
+      family: '',
+      requiresAttributes: [ /*Sz*/{
+        name: '',
+        value: '',
+      }, /* ...*/ ],
+      containerDefinitions: /*S13*/[ {
+        links: /*Sv*/[ '', /* ...*/ ],
+        portMappings: [ {
+          hostPort: 0,
+          protocol: '',
+          containerPort: 0,
+        }, /* ...*/ ],
+        image: '',
+        ulimits: [ {
+          name: '',
+          softLimit: 0,
+          hardLimit: 0,
+        }, /* ...*/ ],
+        memory: 0,
+        logConfiguration: {
+          options: {} /*Map*/,
+          logDriver: '',
+        },
+        essential: false,
+        hostname: '',
+        dockerLabels: {} /*Map*/,
+        entryPoint: /*Sv*/[ '', /* ...*/ ],
+        disableNetworking: false,
+        privileged: false,
+        cpu: 0,
+        workingDirectory: '',
+        environment: /*S18*/[ {
+          name: '',
+          value: '',
+        }, /* ...*/ ],
+        extraHosts: [ {
+          ipAddress: '',
+          hostname: '',
+        }, /* ...*/ ],
+        volumesFrom: [ {
+          readOnly: false,
+          sourceContainer: '',
+        }, /* ...*/ ],
+        dnsServers: /*Sv*/[ '', /* ...*/ ],
+        readonlyRootFilesystem: false,
+        user: '',
+        name: '',
+        dockerSecurityOptions: /*Sv*/[ '', /* ...*/ ],
+        command: /*Sv*/[ '', /* ...*/ ],
+        mountPoints: [ {
+          sourceVolume: '',
+          readOnly: false,
+          containerPath: '',
+        }, /* ...*/ ],
+        dnsSearchDomains: /*Sv*/[ '', /* ...*/ ],
+      }, /* ...*/ ],
+      status: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListContainerInstances = function ListContainerInstances(aws) {
+  var nextToken = aws.params.nextToken;
+  var maxResults = aws.params.maxResults /* Type integer */;
+  var cluster = aws.params.cluster;
+
+
+  // TODO implement code
+
+  var ret = {
+    containerInstanceArns: /*Sv*/[ '', /* ...*/ ],
+    nextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListTaskDefinitions = function ListTaskDefinitions(aws) {
+  var sort = aws.params.sort;
+  var nextToken = aws.params.nextToken;
+  var maxResults = aws.params.maxResults /* Type integer */;
+  var familyPrefix = aws.params.familyPrefix;
+  var status = aws.params.status;
+
+
+  // TODO implement code
+
+  var ret = {
+    taskDefinitionArns: /*Sv*/[ '', /* ...*/ ],
+    nextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteService = function DeleteService(aws) {
+  var service = aws.params.service;
+  var cluster = aws.params.cluster;
+  if (!service) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter service'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    service: /*Sc*/{
+      serviceArn: '',
+      runningCount: 0,
+      desiredCount: 0,
+      status: '',
+      taskDefinition: '',
+      clusterArn: '',
+      events: [ {
+        id: '',
+        createdAt: awsCommon.timestamp(),
+        message: '',
+      }, /* ...*/ ],
+      roleArn: '',
+      deploymentConfiguration: /*Sa*/{
+        maximumPercent: 0,
+        minimumHealthyPercent: 0,
+      },
+      pendingCount: 0,
+      loadBalancers: /*S7*/[ {
+        containerName: '',
+        containerPort: 0,
+        loadBalancerName: '',
+      }, /* ...*/ ],
+      deployments: [ {
+        createdAt: awsCommon.timestamp(),
+        runningCount: 0,
+        desiredCount: 0,
+        id: '',
+        pendingCount: 0,
+        updatedAt: awsCommon.timestamp(),
+        taskDefinition: '',
+        status: '',
+      }, /* ...*/ ],
+      serviceName: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.StartTask = function StartTask(aws) {
+  var containerInstances = aws.params.containerInstances;
+  var overrides = aws.params.overrides;
+  var startedBy = aws.params.startedBy;
+  var taskDefinition = aws.params.taskDefinition;
+  var cluster = aws.params.cluster;
+  if (!taskDefinition) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter taskDefinition'];
+  }
+  if (!containerInstances) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter containerInstances'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    failures: /*S1v*/[ {
+      arn: '',
+      reason: '',
+    }, /* ...*/ ],
+    tasks: /*S27*/[ /*S28*/{
+      containers: [ {
+        lastStatus: '',
+        exitCode: 0,
+        taskArn: '',
+        name: '',
+        networkBindings: /*S2e*/[ {
+          bindIP: '',
+          hostPort: 0,
+          protocol: '',
+          containerPort: 0,
+        }, /* ...*/ ],
+        containerArn: '',
+        reason: '',
+      }, /* ...*/ ],
+      startedBy: '',
+      startedAt: awsCommon.timestamp(),
+      taskArn: '',
+      containerInstanceArn: '',
+      desiredStatus: '',
+      clusterArn: '',
+      lastStatus: '',
+      createdAt: awsCommon.timestamp(),
+      stoppedReason: '',
+      stoppedAt: awsCommon.timestamp(),
+      taskDefinitionArn: '',
+      overrides: /*S29*/{
+        containerOverrides: [ {
+          name: '',
+          command: /*Sv*/[ '', /* ...*/ ],
+          environment: /*S18*/[ {
+            name: '',
+            value: '',
+          }, /* ...*/ ],
+        }, /* ...*/ ],
+      },
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateService = function UpdateService(aws) {
+  var deploymentConfiguration = aws.params.deploymentConfiguration;
+  var service = aws.params.service;
+  var taskDefinition = aws.params.taskDefinition;
+  var desiredCount = aws.params.desiredCount /* Type integer */;
+  var cluster = aws.params.cluster;
+  if (!service) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter service'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    service: /*Sc*/{
+      serviceArn: '',
+      runningCount: 0,
+      desiredCount: 0,
+      status: '',
+      taskDefinition: '',
+      clusterArn: '',
+      events: [ {
+        id: '',
+        createdAt: awsCommon.timestamp(),
+        message: '',
+      }, /* ...*/ ],
+      roleArn: '',
+      deploymentConfiguration: /*Sa*/{
+        maximumPercent: 0,
+        minimumHealthyPercent: 0,
+      },
+      pendingCount: 0,
+      loadBalancers: /*S7*/[ {
+        containerName: '',
+        containerPort: 0,
+        loadBalancerName: '',
+      }, /* ...*/ ],
+      deployments: [ {
+        createdAt: awsCommon.timestamp(),
+        runningCount: 0,
+        desiredCount: 0,
+        id: '',
+        pendingCount: 0,
+        updatedAt: awsCommon.timestamp(),
+        taskDefinition: '',
+        status: '',
+      }, /* ...*/ ],
+      serviceName: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListTasks = function ListTasks(aws) {
+  var startedBy = aws.params.startedBy;
+  var maxResults = aws.params.maxResults /* Type integer */;
+  var cluster = aws.params.cluster;
+  var containerInstance = aws.params.containerInstance;
+  var desiredStatus = aws.params.desiredStatus;
+  var serviceName = aws.params.serviceName;
+  var family = aws.params.family;
+  var nextToken = aws.params.nextToken;
+
+
+  // TODO implement code
+
+  var ret = {
+    taskArns: /*Sv*/[ '', /* ...*/ ],
+    nextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.SubmitTaskStateChange = function SubmitTaskStateChange(aws) {
-  var reason = aws.params['reason'];
-  var task = aws.params['task'];
-  var cluster = aws.params['cluster'];
-  var status = aws.params['status'];
+  var status = aws.params.status;
+  var task = aws.params.task;
+  var reason = aws.params.reason;
+  var cluster = aws.params.cluster;
 
 
   // TODO implement code
@@ -987,80 +588,393 @@ module.exports.SubmitTaskStateChange = function SubmitTaskStateChange(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DeregisterTaskDefinition = function DeregisterTaskDefinition(aws) {
-  var taskDefinition = aws.params['taskDefinition'];
-  if (!taskDefinition) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter taskDefinition'];
+module.exports.RegisterContainerInstance = function RegisterContainerInstance(aws) {
+  var instanceIdentityDocumentSignature = aws.params.instanceIdentityDocumentSignature;
+  var instanceIdentityDocument = aws.params.instanceIdentityDocument;
+  var cluster = aws.params.cluster;
+  var totalResources = aws.params.totalResources;
+  var versionInfo = aws.params.versionInfo;
+  var containerInstanceArn = aws.params.containerInstanceArn;
+  var attributes = aws.params.attributes;
+
+
+  // TODO implement code
+
+  var ret = {
+    containerInstance: /*Sp*/{
+      runningTasksCount: 0,
+      agentUpdateStatus: '',
+      registeredResources: /*Sr*/[ {
+        doubleValue: 0.0 /*Double*/,
+        name: '',
+        longValue: 0 /*Long*/,
+        stringSetValue: /*Sv*/[ '', /* ...*/ ],
+        integerValue: 0,
+        type: '',
+      }, /* ...*/ ],
+      remainingResources: /*Sr*/[ {
+        doubleValue: 0.0 /*Double*/,
+        name: '',
+        longValue: 0 /*Long*/,
+        stringSetValue: /*Sv*/[ '', /* ...*/ ],
+        integerValue: 0,
+        type: '',
+      }, /* ...*/ ],
+      containerInstanceArn: '',
+      versionInfo: /*Sq*/{
+        agentVersion: '',
+        agentHash: '',
+        dockerVersion: '',
+      },
+      ec2InstanceId: '',
+      pendingTasksCount: 0,
+      agentConnected: false,
+      attributes: /*Sy*/[ /*Sz*/{
+        name: '',
+        value: '',
+      }, /* ...*/ ],
+      status: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeTasks = function DescribeTasks(aws) {
+  var tasks = aws.params.tasks;
+  var cluster = aws.params.cluster;
+  if (!tasks) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter tasks'];
   }
 
 
   // TODO implement code
 
   var ret = {
-    taskDefinition: /*S12*/{
-      family: '',
-      revision: 0,
-      taskDefinitionArn: '',
-      containerDefinitions: /*S13*/[ {
-        privileged: false,
-        essential: false,
-        entryPoint: /*Sv*/[ '', /* ...*/ ],
-        user: '',
-        readonlyRootFilesystem: false,
-        extraHosts: [ {
-          ipAddress: '',
-          hostname: '',
-        }, /* ...*/ ],
-        environment: /*S18*/[ {
-          value: '',
-          name: '',
-        }, /* ...*/ ],
-        dockerLabels: {} /*Map*/,
-        dnsServers: /*Sv*/[ '', /* ...*/ ],
-        workingDirectory: '',
-        mountPoints: [ {
-          containerPath: '',
-          sourceVolume: '',
-          readOnly: false,
-        }, /* ...*/ ],
-        image: '',
-        volumesFrom: [ {
-          sourceContainer: '',
-          readOnly: false,
-        }, /* ...*/ ],
-        memory: 0,
+    failures: /*S1v*/[ {
+      arn: '',
+      reason: '',
+    }, /* ...*/ ],
+    tasks: /*S27*/[ /*S28*/{
+      containers: [ {
+        lastStatus: '',
+        exitCode: 0,
+        taskArn: '',
         name: '',
-        command: /*Sv*/[ '', /* ...*/ ],
-        links: /*Sv*/[ '', /* ...*/ ],
-        portMappings: [ {
-          containerPort: 0,
+        networkBindings: /*S2e*/[ {
+          bindIP: '',
           hostPort: 0,
           protocol: '',
+          containerPort: 0,
         }, /* ...*/ ],
-        ulimits: [ {
+        containerArn: '',
+        reason: '',
+      }, /* ...*/ ],
+      startedBy: '',
+      startedAt: awsCommon.timestamp(),
+      taskArn: '',
+      containerInstanceArn: '',
+      desiredStatus: '',
+      clusterArn: '',
+      lastStatus: '',
+      createdAt: awsCommon.timestamp(),
+      stoppedReason: '',
+      stoppedAt: awsCommon.timestamp(),
+      taskDefinitionArn: '',
+      overrides: /*S29*/{
+        containerOverrides: [ {
           name: '',
-          hardLimit: 0,
-          softLimit: 0,
+          command: /*Sv*/[ '', /* ...*/ ],
+          environment: /*S18*/[ {
+            name: '',
+            value: '',
+          }, /* ...*/ ],
         }, /* ...*/ ],
-        cpu: 0,
-        dockerSecurityOptions: /*Sv*/[ '', /* ...*/ ],
-        disableNetworking: false,
-        dnsSearchDomains: /*Sv*/[ '', /* ...*/ ],
-        hostname: '',
-        logConfiguration: {
-          options: {} /*Map*/,
-          logDriver: '',
-        },
-      }, /* ...*/ ],
-      volumes: /*S1n*/[ {
+      },
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DiscoverPollEndpoint = function DiscoverPollEndpoint(aws) {
+  var containerInstance = aws.params.containerInstance;
+  var cluster = aws.params.cluster;
+
+
+  // TODO implement code
+
+  var ret = {
+    endpoint: '',
+    telemetryEndpoint: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListClusters = function ListClusters(aws) {
+  var maxResults = aws.params.maxResults /* Type integer */;
+  var nextToken = aws.params.nextToken;
+
+
+  // TODO implement code
+
+  var ret = {
+    clusterArns: /*Sv*/[ '', /* ...*/ ],
+    nextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeClusters = function DescribeClusters(aws) {
+  var clusters = aws.params.clusters;
+
+
+  // TODO implement code
+
+  var ret = {
+    failures: /*S1v*/[ {
+      arn: '',
+      reason: '',
+    }, /* ...*/ ],
+    clusters: [ /*S4*/{
+      runningTasksCount: 0,
+      clusterName: '',
+      registeredContainerInstancesCount: 0,
+      activeServicesCount: 0,
+      pendingTasksCount: 0,
+      clusterArn: '',
+      status: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListTaskDefinitionFamilies = function ListTaskDefinitionFamilies(aws) {
+  var maxResults = aws.params.maxResults /* Type integer */;
+  var familyPrefix = aws.params.familyPrefix;
+  var nextToken = aws.params.nextToken;
+
+
+  // TODO implement code
+
+  var ret = {
+    families: /*Sv*/[ '', /* ...*/ ],
+    nextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeregisterContainerInstance = function DeregisterContainerInstance(aws) {
+  var containerInstance = aws.params.containerInstance;
+  var force = aws.params.force /* Type boolean */;
+  var cluster = aws.params.cluster;
+  if (!containerInstance) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter containerInstance'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    containerInstance: /*Sp*/{
+      runningTasksCount: 0,
+      agentUpdateStatus: '',
+      registeredResources: /*Sr*/[ {
+        doubleValue: 0.0 /*Double*/,
         name: '',
-        host: {
-          sourcePath: '',
-        },
+        longValue: 0 /*Long*/,
+        stringSetValue: /*Sv*/[ '', /* ...*/ ],
+        integerValue: 0,
+        type: '',
       }, /* ...*/ ],
-      requiresAttributes: [ /*Sz*/{
+      remainingResources: /*Sr*/[ {
+        doubleValue: 0.0 /*Double*/,
+        name: '',
+        longValue: 0 /*Long*/,
+        stringSetValue: /*Sv*/[ '', /* ...*/ ],
+        integerValue: 0,
+        type: '',
+      }, /* ...*/ ],
+      containerInstanceArn: '',
+      versionInfo: /*Sq*/{
+        agentVersion: '',
+        agentHash: '',
+        dockerVersion: '',
+      },
+      ec2InstanceId: '',
+      pendingTasksCount: 0,
+      agentConnected: false,
+      attributes: /*Sy*/[ /*Sz*/{
+        name: '',
         value: '',
+      }, /* ...*/ ],
+      status: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListServices = function ListServices(aws) {
+  var nextToken = aws.params.nextToken;
+  var maxResults = aws.params.maxResults /* Type integer */;
+  var cluster = aws.params.cluster;
+
+
+  // TODO implement code
+
+  var ret = {
+    serviceArns: /*Sv*/[ '', /* ...*/ ],
+    nextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeContainerInstances = function DescribeContainerInstances(aws) {
+  var containerInstances = aws.params.containerInstances;
+  var cluster = aws.params.cluster;
+  if (!containerInstances) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter containerInstances'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    containerInstances: [ /*Sp*/{
+      runningTasksCount: 0,
+      agentUpdateStatus: '',
+      registeredResources: /*Sr*/[ {
+        doubleValue: 0.0 /*Double*/,
         name: '',
+        longValue: 0 /*Long*/,
+        stringSetValue: /*Sv*/[ '', /* ...*/ ],
+        integerValue: 0,
+        type: '',
+      }, /* ...*/ ],
+      remainingResources: /*Sr*/[ {
+        doubleValue: 0.0 /*Double*/,
+        name: '',
+        longValue: 0 /*Long*/,
+        stringSetValue: /*Sv*/[ '', /* ...*/ ],
+        integerValue: 0,
+        type: '',
+      }, /* ...*/ ],
+      containerInstanceArn: '',
+      versionInfo: /*Sq*/{
+        agentVersion: '',
+        agentHash: '',
+        dockerVersion: '',
+      },
+      ec2InstanceId: '',
+      pendingTasksCount: 0,
+      agentConnected: false,
+      attributes: /*Sy*/[ /*Sz*/{
+        name: '',
+        value: '',
+      }, /* ...*/ ],
+      status: '',
+    }, /* ...*/ ],
+    failures: /*S1v*/[ {
+      arn: '',
+      reason: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.StopTask = function StopTask(aws) {
+  var task = aws.params.task;
+  var reason = aws.params.reason;
+  var cluster = aws.params.cluster;
+  if (!task) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter task'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    task: /*S28*/{
+      containers: [ {
+        lastStatus: '',
+        exitCode: 0,
+        taskArn: '',
+        name: '',
+        networkBindings: /*S2e*/[ {
+          bindIP: '',
+          hostPort: 0,
+          protocol: '',
+          containerPort: 0,
+        }, /* ...*/ ],
+        containerArn: '',
+        reason: '',
+      }, /* ...*/ ],
+      startedBy: '',
+      startedAt: awsCommon.timestamp(),
+      taskArn: '',
+      containerInstanceArn: '',
+      desiredStatus: '',
+      clusterArn: '',
+      lastStatus: '',
+      createdAt: awsCommon.timestamp(),
+      stoppedReason: '',
+      stoppedAt: awsCommon.timestamp(),
+      taskDefinitionArn: '',
+      overrides: /*S29*/{
+        containerOverrides: [ {
+          name: '',
+          command: /*Sv*/[ '', /* ...*/ ],
+          environment: /*S18*/[ {
+            name: '',
+            value: '',
+          }, /* ...*/ ],
+        }, /* ...*/ ],
+      },
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateContainerAgent = function UpdateContainerAgent(aws) {
+  var containerInstance = aws.params.containerInstance;
+  var cluster = aws.params.cluster;
+  if (!containerInstance) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter containerInstance'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    containerInstance: /*Sp*/{
+      runningTasksCount: 0,
+      agentUpdateStatus: '',
+      registeredResources: /*Sr*/[ {
+        doubleValue: 0.0 /*Double*/,
+        name: '',
+        longValue: 0 /*Long*/,
+        stringSetValue: /*Sv*/[ '', /* ...*/ ],
+        integerValue: 0,
+        type: '',
+      }, /* ...*/ ],
+      remainingResources: /*Sr*/[ {
+        doubleValue: 0.0 /*Double*/,
+        name: '',
+        longValue: 0 /*Long*/,
+        stringSetValue: /*Sv*/[ '', /* ...*/ ],
+        integerValue: 0,
+        type: '',
+      }, /* ...*/ ],
+      containerInstanceArn: '',
+      versionInfo: /*Sq*/{
+        agentVersion: '',
+        agentHash: '',
+        dockerVersion: '',
+      },
+      ec2InstanceId: '',
+      pendingTasksCount: 0,
+      agentConnected: false,
+      attributes: /*Sy*/[ /*Sz*/{
+        name: '',
+        value: '',
       }, /* ...*/ ],
       status: '',
     },
@@ -1069,8 +983,8 @@ module.exports.DeregisterTaskDefinition = function DeregisterTaskDefinition(aws)
 };
 // -----------------------------------
 module.exports.DescribeServices = function DescribeServices(aws) {
-  var services = aws.params['services'];
-  var cluster = aws.params['cluster'];
+  var services = aws.params.services;
+  var cluster = aws.params.cluster;
   if (!services) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter services'];
   }
@@ -1079,45 +993,131 @@ module.exports.DescribeServices = function DescribeServices(aws) {
   // TODO implement code
 
   var ret = {
-    failures: /*S1v*/[ {
-      reason: '',
-      arn: '',
-    }, /* ...*/ ],
     services: [ /*Sc*/{
-      serviceName: '',
-      loadBalancers: /*S7*/[ {
-        containerName: '',
-        containerPort: 0,
-        loadBalancerName: '',
-      }, /* ...*/ ],
-      pendingCount: 0,
-      clusterArn: '',
-      roleArn: '',
-      desiredCount: 0,
-      deploymentConfiguration: /*Sa*/{
-        maximumPercent: 0,
-        minimumHealthyPercent: 0,
-      },
       serviceArn: '',
+      runningCount: 0,
+      desiredCount: 0,
       status: '',
-      deployments: [ {
-        id: '',
-        pendingCount: 0,
-        status: '',
-        taskDefinition: '',
-        desiredCount: 0,
-        createdAt: awsCommon.timestamp(),
-        runningCount: 0,
-        updatedAt: awsCommon.timestamp(),
-      }, /* ...*/ ],
+      taskDefinition: '',
+      clusterArn: '',
       events: [ {
         id: '',
         createdAt: awsCommon.timestamp(),
         message: '',
       }, /* ...*/ ],
-      taskDefinition: '',
-      runningCount: 0,
+      roleArn: '',
+      deploymentConfiguration: /*Sa*/{
+        maximumPercent: 0,
+        minimumHealthyPercent: 0,
+      },
+      pendingCount: 0,
+      loadBalancers: /*S7*/[ {
+        containerName: '',
+        containerPort: 0,
+        loadBalancerName: '',
+      }, /* ...*/ ],
+      deployments: [ {
+        createdAt: awsCommon.timestamp(),
+        runningCount: 0,
+        desiredCount: 0,
+        id: '',
+        pendingCount: 0,
+        updatedAt: awsCommon.timestamp(),
+        taskDefinition: '',
+        status: '',
+      }, /* ...*/ ],
+      serviceName: '',
     }, /* ...*/ ],
+    failures: /*S1v*/[ {
+      arn: '',
+      reason: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RegisterTaskDefinition = function RegisterTaskDefinition(aws) {
+  var volumes = aws.params.volumes;
+  var containerDefinitions = aws.params.containerDefinitions;
+  var family = aws.params.family;
+  if (!family) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter family'];
+  }
+  if (!containerDefinitions) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter containerDefinitions'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    taskDefinition: /*S12*/{
+      volumes: /*S1n*/[ {
+        name: '',
+        host: {
+          sourcePath: '',
+        },
+      }, /* ...*/ ],
+      revision: 0,
+      taskDefinitionArn: '',
+      family: '',
+      requiresAttributes: [ /*Sz*/{
+        name: '',
+        value: '',
+      }, /* ...*/ ],
+      containerDefinitions: /*S13*/[ {
+        links: /*Sv*/[ '', /* ...*/ ],
+        portMappings: [ {
+          hostPort: 0,
+          protocol: '',
+          containerPort: 0,
+        }, /* ...*/ ],
+        image: '',
+        ulimits: [ {
+          name: '',
+          softLimit: 0,
+          hardLimit: 0,
+        }, /* ...*/ ],
+        memory: 0,
+        logConfiguration: {
+          options: {} /*Map*/,
+          logDriver: '',
+        },
+        essential: false,
+        hostname: '',
+        dockerLabels: {} /*Map*/,
+        entryPoint: /*Sv*/[ '', /* ...*/ ],
+        disableNetworking: false,
+        privileged: false,
+        cpu: 0,
+        workingDirectory: '',
+        environment: /*S18*/[ {
+          name: '',
+          value: '',
+        }, /* ...*/ ],
+        extraHosts: [ {
+          ipAddress: '',
+          hostname: '',
+        }, /* ...*/ ],
+        volumesFrom: [ {
+          readOnly: false,
+          sourceContainer: '',
+        }, /* ...*/ ],
+        dnsServers: /*Sv*/[ '', /* ...*/ ],
+        readonlyRootFilesystem: false,
+        user: '',
+        name: '',
+        dockerSecurityOptions: /*Sv*/[ '', /* ...*/ ],
+        command: /*Sv*/[ '', /* ...*/ ],
+        mountPoints: [ {
+          sourceVolume: '',
+          readOnly: false,
+          containerPath: '',
+        }, /* ...*/ ],
+        dnsSearchDomains: /*Sv*/[ '', /* ...*/ ],
+      }, /* ...*/ ],
+      status: '',
+    },
   };
   return [200, ret];
 };

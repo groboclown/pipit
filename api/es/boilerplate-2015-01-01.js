@@ -10,115 +10,400 @@ const awsCommon = require('../../lib/aws-common');
  */
 
 // Setup input and output to use AWS protocol rest-json
-require('../../lib/aws-common/shape_http')('rest-json', module.exports, null)
+require('../../lib/aws-common/shape_http')('rest-json', module.exports, null);
 // -----------------------------------
 module.exports.UpdateElasticsearchDomainConfig = awsCommon.as(
   '/2015-01-01/es/domain/:DomainName/config',
   function UpdateElasticsearchDomainConfig(aws) {
-  var AdvancedOptions = aws.params['AdvancedOptions'];
-  var SnapshotOptions = aws.params['SnapshotOptions'];
-  var AccessPolicies = aws.params['AccessPolicies'];
-  var DomainName = aws.reqParams['DomainName'];
-  var ElasticsearchClusterConfig = aws.params['ElasticsearchClusterConfig'];
-  var EBSOptions = aws.params['EBSOptions'];
-  if (!DomainName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
-  }
+    var domainName = aws.reqParams.DomainName;
+    var snapshotOptions = aws.params.SnapshotOptions;
+    var advancedOptions = aws.params.AdvancedOptions;
+    var elasticsearchClusterConfig = aws.params.ElasticsearchClusterConfig;
+    var accessPolicies = aws.params.AccessPolicies;
+    var eBSOptions = aws.params.EBSOptions;
+    if (!domainName) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
+    }
 
 
-  // TODO implement code
+    // TODO implement code
 
-  var ret = {
-    DomainConfig: /*St*/{
-      SnapshotOptions: {
-        Options: /*Sg*/{
+    var ret = {
+      DomainConfig: /*St*/{
+        ElasticsearchClusterConfig: {
+          Status: /*Sv*/{
+            UpdateVersion: 0,
+            CreationDate: awsCommon.timestamp(),
+            PendingDeletion: false,
+            UpdateDate: awsCommon.timestamp(),
+            State: '',
+          },
+          Options: /*S9*/{
+            InstanceType: '',
+            ZoneAwarenessEnabled: false,
+            DedicatedMasterEnabled: false,
+            InstanceCount: 0,
+            DedicatedMasterCount: 0,
+            DedicatedMasterType: '',
+          },
+        },
+        SnapshotOptions: {
+          Status: /*Sv*/{
+            UpdateVersion: 0,
+            CreationDate: awsCommon.timestamp(),
+            PendingDeletion: false,
+            UpdateDate: awsCommon.timestamp(),
+            State: '',
+          },
+          Options: /*Sg*/{
+            AutomatedSnapshotStartHour: 0,
+          },
+        },
+        AccessPolicies: {
+          Status: /*Sv*/{
+            UpdateVersion: 0,
+            CreationDate: awsCommon.timestamp(),
+            PendingDeletion: false,
+            UpdateDate: awsCommon.timestamp(),
+            State: '',
+          },
+          Options: '',
+        },
+        AdvancedOptions: {
+          Status: /*Sv*/{
+            UpdateVersion: 0,
+            CreationDate: awsCommon.timestamp(),
+            PendingDeletion: false,
+            UpdateDate: awsCommon.timestamp(),
+            State: '',
+          },
+          Options: /*Sh*/{} /*Map*/,
+        },
+        EBSOptions: {
+          Status: /*Sv*/{
+            UpdateVersion: 0,
+            CreationDate: awsCommon.timestamp(),
+            PendingDeletion: false,
+            UpdateDate: awsCommon.timestamp(),
+            State: '',
+          },
+          Options: /*Sd*/{
+            VolumeSize: 0,
+            Iops: 0,
+            VolumeType: '',
+            EBSEnabled: false,
+          },
+        },
+      },
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.DescribeElasticsearchDomainConfig = awsCommon.as(
+  'GET',
+  '/2015-01-01/es/domain/:DomainName/config',
+  function DescribeElasticsearchDomainConfig(aws) {
+    var domainName = aws.reqParams.DomainName;
+    if (!domainName) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      DomainConfig: /*St*/{
+        ElasticsearchClusterConfig: {
+          Status: /*Sv*/{
+            UpdateVersion: 0,
+            CreationDate: awsCommon.timestamp(),
+            PendingDeletion: false,
+            UpdateDate: awsCommon.timestamp(),
+            State: '',
+          },
+          Options: /*S9*/{
+            InstanceType: '',
+            ZoneAwarenessEnabled: false,
+            DedicatedMasterEnabled: false,
+            InstanceCount: 0,
+            DedicatedMasterCount: 0,
+            DedicatedMasterType: '',
+          },
+        },
+        SnapshotOptions: {
+          Status: /*Sv*/{
+            UpdateVersion: 0,
+            CreationDate: awsCommon.timestamp(),
+            PendingDeletion: false,
+            UpdateDate: awsCommon.timestamp(),
+            State: '',
+          },
+          Options: /*Sg*/{
+            AutomatedSnapshotStartHour: 0,
+          },
+        },
+        AccessPolicies: {
+          Status: /*Sv*/{
+            UpdateVersion: 0,
+            CreationDate: awsCommon.timestamp(),
+            PendingDeletion: false,
+            UpdateDate: awsCommon.timestamp(),
+            State: '',
+          },
+          Options: '',
+        },
+        AdvancedOptions: {
+          Status: /*Sv*/{
+            UpdateVersion: 0,
+            CreationDate: awsCommon.timestamp(),
+            PendingDeletion: false,
+            UpdateDate: awsCommon.timestamp(),
+            State: '',
+          },
+          Options: /*Sh*/{} /*Map*/,
+        },
+        EBSOptions: {
+          Status: /*Sv*/{
+            UpdateVersion: 0,
+            CreationDate: awsCommon.timestamp(),
+            PendingDeletion: false,
+            UpdateDate: awsCommon.timestamp(),
+            State: '',
+          },
+          Options: /*Sd*/{
+            VolumeSize: 0,
+            Iops: 0,
+            VolumeType: '',
+            EBSEnabled: false,
+          },
+        },
+      },
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.DescribeElasticsearchDomains = awsCommon.as(
+  '/2015-01-01/es/domain-info',
+  function DescribeElasticsearchDomains(aws) {
+    var domainNames = aws.params.DomainNames /* Type list */;
+    if (!domainNames) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainNames'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      DomainStatusList: [ /*Sk*/{
+        DomainId: '',
+        SnapshotOptions: /*Sg*/{
           AutomatedSnapshotStartHour: 0,
         },
-        Status: /*Sv*/{
-          State: '',
-          UpdateDate: awsCommon.timestamp(),
-          PendingDeletion: false,
-          UpdateVersion: 0,
-          CreationDate: awsCommon.timestamp(),
-        },
-      },
-      AccessPolicies: {
-        Options: '',
-        Status: /*Sv*/{
-          State: '',
-          UpdateDate: awsCommon.timestamp(),
-          PendingDeletion: false,
-          UpdateVersion: 0,
-          CreationDate: awsCommon.timestamp(),
-        },
-      },
-      ElasticsearchClusterConfig: {
-        Options: /*S9*/{
+        Endpoint: '',
+        AdvancedOptions: /*Sh*/{} /*Map*/,
+        ElasticsearchClusterConfig: /*S9*/{
           InstanceType: '',
-          DedicatedMasterType: '',
+          ZoneAwarenessEnabled: false,
           DedicatedMasterEnabled: false,
           InstanceCount: 0,
-          ZoneAwarenessEnabled: false,
           DedicatedMasterCount: 0,
+          DedicatedMasterType: '',
         },
-        Status: /*Sv*/{
-          State: '',
-          UpdateDate: awsCommon.timestamp(),
-          PendingDeletion: false,
-          UpdateVersion: 0,
-          CreationDate: awsCommon.timestamp(),
-        },
-      },
-      EBSOptions: {
-        Options: /*Sd*/{
-          Iops: 0,
-          EBSEnabled: false,
+        Deleted: false,
+        AccessPolicies: '',
+        Created: false,
+        EBSOptions: /*Sd*/{
           VolumeSize: 0,
+          Iops: 0,
           VolumeType: '',
+          EBSEnabled: false,
         },
-        Status: /*Sv*/{
-          State: '',
-          UpdateDate: awsCommon.timestamp(),
-          PendingDeletion: false,
-          UpdateVersion: 0,
-          CreationDate: awsCommon.timestamp(),
+        DomainName: '',
+        ARN: '',
+        Processing: false,
+      }, /* ...*/ ],
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.CreateElasticsearchDomain = awsCommon.as(
+  '/2015-01-01/es/domain',
+  function CreateElasticsearchDomain(aws) {
+    var domainName = aws.params.DomainName;
+    var snapshotOptions = aws.params.SnapshotOptions;
+    var advancedOptions = aws.params.AdvancedOptions;
+    var elasticsearchClusterConfig = aws.params.ElasticsearchClusterConfig;
+    var accessPolicies = aws.params.AccessPolicies;
+    var eBSOptions = aws.params.EBSOptions;
+    if (!domainName) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      DomainStatus: /*Sk*/{
+        DomainId: '',
+        SnapshotOptions: /*Sg*/{
+          AutomatedSnapshotStartHour: 0,
         },
+        Endpoint: '',
+        AdvancedOptions: /*Sh*/{} /*Map*/,
+        ElasticsearchClusterConfig: /*S9*/{
+          InstanceType: '',
+          ZoneAwarenessEnabled: false,
+          DedicatedMasterEnabled: false,
+          InstanceCount: 0,
+          DedicatedMasterCount: 0,
+          DedicatedMasterType: '',
+        },
+        Deleted: false,
+        AccessPolicies: '',
+        Created: false,
+        EBSOptions: /*Sd*/{
+          VolumeSize: 0,
+          Iops: 0,
+          VolumeType: '',
+          EBSEnabled: false,
+        },
+        DomainName: '',
+        ARN: '',
+        Processing: false,
       },
-      AdvancedOptions: {
-        Options: /*Sh*/{} /*Map*/,
-        Status: /*Sv*/{
-          State: '',
-          UpdateDate: awsCommon.timestamp(),
-          PendingDeletion: false,
-          UpdateVersion: 0,
-          CreationDate: awsCommon.timestamp(),
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.DescribeElasticsearchDomain = awsCommon.as(
+  'GET',
+  '/2015-01-01/es/domain/:DomainName',
+  function DescribeElasticsearchDomain(aws) {
+    var domainName = aws.reqParams.DomainName;
+    if (!domainName) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      DomainStatus: /*Sk*/{
+        DomainId: '',
+        SnapshotOptions: /*Sg*/{
+          AutomatedSnapshotStartHour: 0,
         },
+        Endpoint: '',
+        AdvancedOptions: /*Sh*/{} /*Map*/,
+        ElasticsearchClusterConfig: /*S9*/{
+          InstanceType: '',
+          ZoneAwarenessEnabled: false,
+          DedicatedMasterEnabled: false,
+          InstanceCount: 0,
+          DedicatedMasterCount: 0,
+          DedicatedMasterType: '',
+        },
+        Deleted: false,
+        AccessPolicies: '',
+        Created: false,
+        EBSOptions: /*Sd*/{
+          VolumeSize: 0,
+          Iops: 0,
+          VolumeType: '',
+          EBSEnabled: false,
+        },
+        DomainName: '',
+        ARN: '',
+        Processing: false,
       },
-    },
-  };
-  return [200, ret];
-});
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.DeleteElasticsearchDomain = awsCommon.as(
+  'DELETE',
+  '/2015-01-01/es/domain/:DomainName',
+  function DeleteElasticsearchDomain(aws) {
+    var domainName = aws.reqParams.DomainName;
+    if (!domainName) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      DomainStatus: /*Sk*/{
+        DomainId: '',
+        SnapshotOptions: /*Sg*/{
+          AutomatedSnapshotStartHour: 0,
+        },
+        Endpoint: '',
+        AdvancedOptions: /*Sh*/{} /*Map*/,
+        ElasticsearchClusterConfig: /*S9*/{
+          InstanceType: '',
+          ZoneAwarenessEnabled: false,
+          DedicatedMasterEnabled: false,
+          InstanceCount: 0,
+          DedicatedMasterCount: 0,
+          DedicatedMasterType: '',
+        },
+        Deleted: false,
+        AccessPolicies: '',
+        Created: false,
+        EBSOptions: /*Sd*/{
+          VolumeSize: 0,
+          Iops: 0,
+          VolumeType: '',
+          EBSEnabled: false,
+        },
+        DomainName: '',
+        ARN: '',
+        Processing: false,
+      },
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.RemoveTags = awsCommon.as(
+  '/2015-01-01/tags-removal',
+  function RemoveTags(aws) {
+    var tagKeys = aws.params.TagKeys /* Type list */;
+    var aRN = aws.params.ARN;
+    if (!aRN) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ARN'];
+    }
+    if (!tagKeys) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TagKeys'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {};
+    return [200, ret];
+  });
 // -----------------------------------
 module.exports.ListTags = awsCommon.as(
   'GET',
   '/2015-01-01/tags/',
   function ListTags(aws) {
-  var ARN = aws.params['ARN'];
-  if (!ARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ARN'];
-  }
+    var aRN = aws.params.ARN;
+    if (!aRN) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ARN'];
+    }
 
 
-  // TODO implement code
+    // TODO implement code
 
-  var ret = {
-    TagList: /*S3*/[ {
-      Key: '',
-      Value: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-});
+    var ret = {
+      TagList: /*S3*/[ {
+        Value: '',
+        Key: '',
+      }, /* ...*/ ],
+    };
+    return [200, ret];
+  });
 // -----------------------------------
 module.exports.ListDomainNames = awsCommon.as(
   'GET',
@@ -126,316 +411,31 @@ module.exports.ListDomainNames = awsCommon.as(
   function ListDomainNames(aws) {
 
 
-  // TODO implement code
+    // TODO implement code
 
-  var ret = {
-    DomainNames: [ {
-      DomainName: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.DescribeElasticsearchDomainConfig = awsCommon.as(
-  'GET',
-  '/2015-01-01/es/domain/:DomainName/config',
-  function DescribeElasticsearchDomainConfig(aws) {
-  var DomainName = aws.reqParams['DomainName'];
-  if (!DomainName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    DomainConfig: /*St*/{
-      SnapshotOptions: {
-        Options: /*Sg*/{
-          AutomatedSnapshotStartHour: 0,
-        },
-        Status: /*Sv*/{
-          State: '',
-          UpdateDate: awsCommon.timestamp(),
-          PendingDeletion: false,
-          UpdateVersion: 0,
-          CreationDate: awsCommon.timestamp(),
-        },
-      },
-      AccessPolicies: {
-        Options: '',
-        Status: /*Sv*/{
-          State: '',
-          UpdateDate: awsCommon.timestamp(),
-          PendingDeletion: false,
-          UpdateVersion: 0,
-          CreationDate: awsCommon.timestamp(),
-        },
-      },
-      ElasticsearchClusterConfig: {
-        Options: /*S9*/{
-          InstanceType: '',
-          DedicatedMasterType: '',
-          DedicatedMasterEnabled: false,
-          InstanceCount: 0,
-          ZoneAwarenessEnabled: false,
-          DedicatedMasterCount: 0,
-        },
-        Status: /*Sv*/{
-          State: '',
-          UpdateDate: awsCommon.timestamp(),
-          PendingDeletion: false,
-          UpdateVersion: 0,
-          CreationDate: awsCommon.timestamp(),
-        },
-      },
-      EBSOptions: {
-        Options: /*Sd*/{
-          Iops: 0,
-          EBSEnabled: false,
-          VolumeSize: 0,
-          VolumeType: '',
-        },
-        Status: /*Sv*/{
-          State: '',
-          UpdateDate: awsCommon.timestamp(),
-          PendingDeletion: false,
-          UpdateVersion: 0,
-          CreationDate: awsCommon.timestamp(),
-        },
-      },
-      AdvancedOptions: {
-        Options: /*Sh*/{} /*Map*/,
-        Status: /*Sv*/{
-          State: '',
-          UpdateDate: awsCommon.timestamp(),
-          PendingDeletion: false,
-          UpdateVersion: 0,
-          CreationDate: awsCommon.timestamp(),
-        },
-      },
-    },
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.CreateElasticsearchDomain = awsCommon.as(
-  '/2015-01-01/es/domain',
-  function CreateElasticsearchDomain(aws) {
-  var AdvancedOptions = aws.params['AdvancedOptions'];
-  var SnapshotOptions = aws.params['SnapshotOptions'];
-  var AccessPolicies = aws.params['AccessPolicies'];
-  var DomainName = aws.params['DomainName'];
-  var ElasticsearchClusterConfig = aws.params['ElasticsearchClusterConfig'];
-  var EBSOptions = aws.params['EBSOptions'];
-  if (!DomainName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    DomainStatus: /*Sk*/{
-      Endpoint: '',
-      Deleted: false,
-      SnapshotOptions: /*Sg*/{
-        AutomatedSnapshotStartHour: 0,
-      },
-      AccessPolicies: '',
-      DomainName: '',
-      EBSOptions: /*Sd*/{
-        Iops: 0,
-        EBSEnabled: false,
-        VolumeSize: 0,
-        VolumeType: '',
-      },
-      ElasticsearchClusterConfig: /*S9*/{
-        InstanceType: '',
-        DedicatedMasterType: '',
-        DedicatedMasterEnabled: false,
-        InstanceCount: 0,
-        ZoneAwarenessEnabled: false,
-        DedicatedMasterCount: 0,
-      },
-      DomainId: '',
-      Created: false,
-      Processing: false,
-      ARN: '',
-      AdvancedOptions: /*Sh*/{} /*Map*/,
-    },
-  };
-  return [200, ret];
-});
+    var ret = {
+      DomainNames: [ {
+        DomainName: '',
+      }, /* ...*/ ],
+    };
+    return [200, ret];
+  });
 // -----------------------------------
 module.exports.AddTags = awsCommon.as(
   '/2015-01-01/tags',
   function AddTags(aws) {
-  var TagList = aws.params['TagList'];
-  var ARN = aws.params['ARN'];
-  if (!ARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ARN'];
-  }
-  if (!TagList) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TagList'];
-  }
+    var tagList = aws.params.TagList;
+    var aRN = aws.params.ARN;
+    if (!aRN) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ARN'];
+    }
+    if (!tagList) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TagList'];
+    }
 
 
-  // TODO implement code
+    // TODO implement code
 
-  var ret = {};
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.DescribeElasticsearchDomains = awsCommon.as(
-  '/2015-01-01/es/domain-info',
-  function DescribeElasticsearchDomains(aws) {
-  var DomainNames = aws.params['DomainNames'] /* Type list */;
-  if (!DomainNames) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainNames'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    DomainStatusList: [ /*Sk*/{
-      Endpoint: '',
-      Deleted: false,
-      SnapshotOptions: /*Sg*/{
-        AutomatedSnapshotStartHour: 0,
-      },
-      AccessPolicies: '',
-      DomainName: '',
-      EBSOptions: /*Sd*/{
-        Iops: 0,
-        EBSEnabled: false,
-        VolumeSize: 0,
-        VolumeType: '',
-      },
-      ElasticsearchClusterConfig: /*S9*/{
-        InstanceType: '',
-        DedicatedMasterType: '',
-        DedicatedMasterEnabled: false,
-        InstanceCount: 0,
-        ZoneAwarenessEnabled: false,
-        DedicatedMasterCount: 0,
-      },
-      DomainId: '',
-      Created: false,
-      Processing: false,
-      ARN: '',
-      AdvancedOptions: /*Sh*/{} /*Map*/,
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.DescribeElasticsearchDomain = awsCommon.as(
-  'GET',
-  '/2015-01-01/es/domain/:DomainName',
-  function DescribeElasticsearchDomain(aws) {
-  var DomainName = aws.reqParams['DomainName'];
-  if (!DomainName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    DomainStatus: /*Sk*/{
-      Endpoint: '',
-      Deleted: false,
-      SnapshotOptions: /*Sg*/{
-        AutomatedSnapshotStartHour: 0,
-      },
-      AccessPolicies: '',
-      DomainName: '',
-      EBSOptions: /*Sd*/{
-        Iops: 0,
-        EBSEnabled: false,
-        VolumeSize: 0,
-        VolumeType: '',
-      },
-      ElasticsearchClusterConfig: /*S9*/{
-        InstanceType: '',
-        DedicatedMasterType: '',
-        DedicatedMasterEnabled: false,
-        InstanceCount: 0,
-        ZoneAwarenessEnabled: false,
-        DedicatedMasterCount: 0,
-      },
-      DomainId: '',
-      Created: false,
-      Processing: false,
-      ARN: '',
-      AdvancedOptions: /*Sh*/{} /*Map*/,
-    },
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.RemoveTags = awsCommon.as(
-  '/2015-01-01/tags-removal',
-  function RemoveTags(aws) {
-  var TagKeys = aws.params['TagKeys'] /* Type list */;
-  var ARN = aws.params['ARN'];
-  if (!ARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ARN'];
-  }
-  if (!TagKeys) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TagKeys'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.DeleteElasticsearchDomain = awsCommon.as(
-  'DELETE',
-  '/2015-01-01/es/domain/:DomainName',
-  function DeleteElasticsearchDomain(aws) {
-  var DomainName = aws.reqParams['DomainName'];
-  if (!DomainName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    DomainStatus: /*Sk*/{
-      Endpoint: '',
-      Deleted: false,
-      SnapshotOptions: /*Sg*/{
-        AutomatedSnapshotStartHour: 0,
-      },
-      AccessPolicies: '',
-      DomainName: '',
-      EBSOptions: /*Sd*/{
-        Iops: 0,
-        EBSEnabled: false,
-        VolumeSize: 0,
-        VolumeType: '',
-      },
-      ElasticsearchClusterConfig: /*S9*/{
-        InstanceType: '',
-        DedicatedMasterType: '',
-        DedicatedMasterEnabled: false,
-        InstanceCount: 0,
-        ZoneAwarenessEnabled: false,
-        DedicatedMasterCount: 0,
-      },
-      DomainId: '',
-      Created: false,
-      Processing: false,
-      ARN: '',
-      AdvancedOptions: /*Sh*/{} /*Map*/,
-    },
-  };
-  return [200, ret];
-});
+    var ret = {};
+    return [200, ret];
+  });

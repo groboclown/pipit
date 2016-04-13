@@ -10,21 +10,115 @@ const awsCommon = require('../../lib/aws-common');
  */
 
 // Setup input and output to use AWS protocol json
-require('../../lib/aws-common/shape_http')('json', module.exports, null)
+require('../../lib/aws-common/shape_http')('json', module.exports, null);
 // -----------------------------------
-module.exports.UpdateDestination = function UpdateDestination(aws) {
-  var DestinationId = aws.params['DestinationId'];
-  var DeliveryStreamName = aws.params['DeliveryStreamName'];
-  var RedshiftDestinationUpdate = aws.params['RedshiftDestinationUpdate'] /* Type structure */;
-  var CurrentDeliveryStreamVersionId = aws.params['CurrentDeliveryStreamVersionId'];
-  var S3DestinationUpdate = aws.params['S3DestinationUpdate'];
-  if (!DeliveryStreamName) {
+module.exports.DescribeDeliveryStream = function DescribeDeliveryStream(aws) {
+  var exclusiveStartDestinationId = aws.params.ExclusiveStartDestinationId;
+  var limit = aws.params.Limit /* Type integer */;
+  var deliveryStreamName = aws.params.DeliveryStreamName;
+  if (!deliveryStreamName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DeliveryStreamName'];
   }
-  if (!CurrentDeliveryStreamVersionId) {
+
+
+  // TODO implement code
+
+  var ret = {
+    DeliveryStreamDescription: {
+      Destinations: [ {
+        S3DestinationDescription: /*S11*/{
+          BufferingHints: /*S7*/{
+            IntervalInSeconds: 0,
+            SizeInMBs: 0,
+          },
+          BucketARN: '',
+          EncryptionConfiguration: /*Sb*/{
+            NoEncryptionConfig: '',
+            KMSEncryptionConfig: {
+              AWSKMSKeyARN: '',
+            },
+          },
+          Prefix: '',
+          RoleARN: '',
+          CompressionFormat: '',
+        },
+        DestinationId: '',
+        RedshiftDestinationDescription: {
+          S3DestinationDescription: /*S11*/{
+          BufferingHints: /*S7*/{
+            IntervalInSeconds: 0,
+            SizeInMBs: 0,
+          },
+          BucketARN: '',
+          EncryptionConfiguration: /*Sb*/{
+            NoEncryptionConfig: '',
+            KMSEncryptionConfig: {
+              AWSKMSKeyARN: '',
+            },
+          },
+          Prefix: '',
+          RoleARN: '',
+          CompressionFormat: '',
+        },
+          Username: /*Sl*/'',
+          ClusterJDBCURL: '',
+          CopyCommand: /*Sh*/{
+            DataTableColumns: '',
+            DataTableName: '',
+            CopyOptions: '',
+          },
+          RoleARN: '',
+        },
+      }, /* ...*/ ],
+      LastUpdateTimestamp: awsCommon.timestamp(),
+      DeliveryStreamName: '',
+      CreateTimestamp: awsCommon.timestamp(),
+      HasMoreDestinations: false,
+      DeliveryStreamARN: '',
+      DeliveryStreamStatus: '',
+      VersionId: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.PutRecordBatch = function PutRecordBatch(aws) {
+  var records = aws.params.Records /* Type list */;
+  var deliveryStreamName = aws.params.DeliveryStreamName;
+  if (!deliveryStreamName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DeliveryStreamName'];
+  }
+  if (!records) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Records'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    RequestResponses: [ {
+      ErrorCode: '',
+      RecordId: '',
+      ErrorMessage: '',
+    }, /* ...*/ ],
+    FailedPutCount: 0,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateDestination = function UpdateDestination(aws) {
+  var redshiftDestinationUpdate = aws.params.RedshiftDestinationUpdate /* Type structure */;
+  var destinationId = aws.params.DestinationId;
+  var currentDeliveryStreamVersionId = aws.params.CurrentDeliveryStreamVersionId;
+  var deliveryStreamName = aws.params.DeliveryStreamName;
+  var s3DestinationUpdate = aws.params.S3DestinationUpdate;
+  if (!deliveryStreamName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DeliveryStreamName'];
+  }
+  if (!currentDeliveryStreamVersionId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CurrentDeliveryStreamVersionId'];
   }
-  if (!DestinationId) {
+  if (!destinationId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DestinationId'];
   }
 
@@ -37,54 +131,26 @@ module.exports.UpdateDestination = function UpdateDestination(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.PutRecordBatch = function PutRecordBatch(aws) {
-  var DeliveryStreamName = aws.params['DeliveryStreamName'];
-  var Records = aws.params['Records'] /* Type list */;
-  if (!DeliveryStreamName) {
+module.exports.DeleteDeliveryStream = function DeleteDeliveryStream(aws) {
+  var deliveryStreamName = aws.params.DeliveryStreamName;
+  if (!deliveryStreamName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DeliveryStreamName'];
-  }
-  if (!Records) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Records'];
   }
 
 
   // TODO implement code
 
   var ret = {
-    FailedPutCount: 0,
-    RequestResponses: [ {
-      ErrorCode: '',
-      ErrorMessage: '',
-      RecordId: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.PutRecord = function PutRecord(aws) {
-  var DeliveryStreamName = aws.params['DeliveryStreamName'];
-  var Record = aws.params['Record'];
-  if (!DeliveryStreamName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DeliveryStreamName'];
-  }
-  if (!Record) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Record'];
-  }
 
-
-  // TODO implement code
-
-  var ret = {
-    RecordId: '',
   };
   return [200, ret];
 };
 // -----------------------------------
 module.exports.CreateDeliveryStream = function CreateDeliveryStream(aws) {
-  var S3DestinationConfiguration = aws.params['S3DestinationConfiguration'];
-  var DeliveryStreamName = aws.params['DeliveryStreamName'];
-  var RedshiftDestinationConfiguration = aws.params['RedshiftDestinationConfiguration'] /* Type structure */;
-  if (!DeliveryStreamName) {
+  var redshiftDestinationConfiguration = aws.params.RedshiftDestinationConfiguration /* Type structure */;
+  var deliveryStreamName = aws.params.DeliveryStreamName;
+  var s3DestinationConfiguration = aws.params.S3DestinationConfiguration;
+  if (!deliveryStreamName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DeliveryStreamName'];
   }
 
@@ -98,100 +164,34 @@ module.exports.CreateDeliveryStream = function CreateDeliveryStream(aws) {
 };
 // -----------------------------------
 module.exports.ListDeliveryStreams = function ListDeliveryStreams(aws) {
-  var ExclusiveStartDeliveryStreamName = aws.params['ExclusiveStartDeliveryStreamName'];
-  var Limit = aws.params['Limit'] /* Type integer */;
+  var limit = aws.params.Limit /* Type integer */;
+  var exclusiveStartDeliveryStreamName = aws.params.ExclusiveStartDeliveryStreamName;
 
 
   // TODO implement code
 
   var ret = {
-    HasMoreDeliveryStreams: false,
     DeliveryStreamNames: [ '', /* ...*/ ],
+    HasMoreDeliveryStreams: false,
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DeleteDeliveryStream = function DeleteDeliveryStream(aws) {
-  var DeliveryStreamName = aws.params['DeliveryStreamName'];
-  if (!DeliveryStreamName) {
+module.exports.PutRecord = function PutRecord(aws) {
+  var record = aws.params.Record;
+  var deliveryStreamName = aws.params.DeliveryStreamName;
+  if (!deliveryStreamName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DeliveryStreamName'];
+  }
+  if (!record) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Record'];
   }
 
 
   // TODO implement code
 
   var ret = {
-
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeDeliveryStream = function DescribeDeliveryStream(aws) {
-  var DeliveryStreamName = aws.params['DeliveryStreamName'];
-  var ExclusiveStartDestinationId = aws.params['ExclusiveStartDestinationId'];
-  var Limit = aws.params['Limit'] /* Type integer */;
-  if (!DeliveryStreamName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DeliveryStreamName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    DeliveryStreamDescription: {
-      VersionId: '',
-      DeliveryStreamStatus: '',
-      CreateTimestamp: awsCommon.timestamp(),
-      HasMoreDestinations: false,
-      DeliveryStreamName: '',
-      Destinations: [ {
-        DestinationId: '',
-        RedshiftDestinationDescription: {
-          CopyCommand: /*Sh*/{
-            DataTableColumns: '',
-            DataTableName: '',
-            CopyOptions: '',
-          },
-          ClusterJDBCURL: '',
-          RoleARN: '',
-          Username: /*Sl*/'',
-          S3DestinationDescription: /*S11*/{
-            Prefix: '',
-            BucketARN: '',
-            EncryptionConfiguration: /*Sb*/{
-              NoEncryptionConfig: '',
-              KMSEncryptionConfig: {
-                AWSKMSKeyARN: '',
-              },
-            },
-            BufferingHints: /*S7*/{
-              IntervalInSeconds: 0,
-              SizeInMBs: 0,
-            },
-            RoleARN: '',
-            CompressionFormat: '',
-          },
-        },
-        S3DestinationDescription: /*S11*/{
-            Prefix: '',
-            BucketARN: '',
-            EncryptionConfiguration: /*Sb*/{
-              NoEncryptionConfig: '',
-              KMSEncryptionConfig: {
-                AWSKMSKeyARN: '',
-              },
-            },
-            BufferingHints: /*S7*/{
-              IntervalInSeconds: 0,
-              SizeInMBs: 0,
-            },
-            RoleARN: '',
-            CompressionFormat: '',
-          },
-      }, /* ...*/ ],
-      LastUpdateTimestamp: awsCommon.timestamp(),
-      DeliveryStreamARN: '',
-    },
+    RecordId: '',
   };
   return [200, ret];
 };

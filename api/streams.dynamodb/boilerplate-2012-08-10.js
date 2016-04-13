@@ -10,12 +10,31 @@ const awsCommon = require('../../lib/aws-common');
  */
 
 // Setup input and output to use AWS protocol json
-require('../../lib/aws-common/shape_http')('json', module.exports, null)
+require('../../lib/aws-common/shape_http')('json', module.exports, null);
+// -----------------------------------
+module.exports.ListStreams = function ListStreams(aws) {
+  var tableName = aws.params.TableName;
+  var limit = aws.params.Limit /* Type integer */;
+  var exclusiveStartStreamArn = aws.params.ExclusiveStartStreamArn;
+
+
+  // TODO implement code
+
+  var ret = {
+    Streams: [ {
+      TableName: '',
+      StreamLabel: '',
+      StreamArn: '',
+    }, /* ...*/ ],
+    LastEvaluatedStreamArn: '',
+  };
+  return [200, ret];
+};
 // -----------------------------------
 module.exports.GetRecords = function GetRecords(aws) {
-  var ShardIterator = aws.params['ShardIterator'];
-  var Limit = aws.params['Limit'] /* Type integer */;
-  if (!ShardIterator) {
+  var limit = aws.params.Limit /* Type integer */;
+  var shardIterator = aws.params.ShardIterator;
+  if (!shardIterator) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ShardIterator'];
   }
 
@@ -25,36 +44,36 @@ module.exports.GetRecords = function GetRecords(aws) {
   var ret = {
     NextShardIterator: '',
     Records: [ {
-      eventSource: '',
-      awsRegion: '',
       dynamodb: {
-        StreamViewType: '',
+        NewImage: /*Sr*/{} /*Map*/,
         SizeBytes: 0 /*Long*/,
         OldImage: /*Sr*/{} /*Map*/,
-        SequenceNumber: '',
+        StreamViewType: '',
         Keys: /*Sr*/{} /*Map*/,
-        NewImage: /*Sr*/{} /*Map*/,
+        SequenceNumber: '',
       },
+      awsRegion: '',
       eventID: '',
-      eventVersion: '',
       eventName: '',
+      eventSource: '',
+      eventVersion: '',
     }, /* ...*/ ],
   };
   return [200, ret];
 };
 // -----------------------------------
 module.exports.GetShardIterator = function GetShardIterator(aws) {
-  var ShardIteratorType = aws.params['ShardIteratorType'];
-  var StreamArn = aws.params['StreamArn'];
-  var SequenceNumber = aws.params['SequenceNumber'];
-  var ShardId = aws.params['ShardId'];
-  if (!StreamArn) {
+  var sequenceNumber = aws.params.SequenceNumber;
+  var shardId = aws.params.ShardId;
+  var shardIteratorType = aws.params.ShardIteratorType;
+  var streamArn = aws.params.StreamArn;
+  if (!streamArn) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StreamArn'];
   }
-  if (!ShardId) {
+  if (!shardId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ShardId'];
   }
-  if (!ShardIteratorType) {
+  if (!shardIteratorType) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ShardIteratorType'];
   }
 
@@ -67,30 +86,11 @@ module.exports.GetShardIterator = function GetShardIterator(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.ListStreams = function ListStreams(aws) {
-  var ExclusiveStartStreamArn = aws.params['ExclusiveStartStreamArn'];
-  var Limit = aws.params['Limit'] /* Type integer */;
-  var TableName = aws.params['TableName'];
-
-
-  // TODO implement code
-
-  var ret = {
-    Streams: [ {
-      StreamArn: '',
-      StreamLabel: '',
-      TableName: '',
-    }, /* ...*/ ],
-    LastEvaluatedStreamArn: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
 module.exports.DescribeStream = function DescribeStream(aws) {
-  var StreamArn = aws.params['StreamArn'];
-  var Limit = aws.params['Limit'] /* Type integer */;
-  var ExclusiveStartShardId = aws.params['ExclusiveStartShardId'];
-  if (!StreamArn) {
+  var limit = aws.params.Limit /* Type integer */;
+  var exclusiveStartShardId = aws.params.ExclusiveStartShardId;
+  var streamArn = aws.params.StreamArn;
+  if (!streamArn) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StreamArn'];
   }
 
@@ -99,25 +99,25 @@ module.exports.DescribeStream = function DescribeStream(aws) {
 
   var ret = {
     StreamDescription: {
-      StreamViewType: '',
+      TableName: '',
       KeySchema: [ {
-        KeyType: '',
         AttributeName: '',
+        KeyType: '',
       }, /* ...*/ ],
-      StreamArn: '',
-      StreamLabel: '',
-      CreationRequestDateTime: awsCommon.timestamp(),
-      StreamStatus: '',
-      LastEvaluatedShardId: '',
       Shards: [ {
-        ParentShardId: '',
-        ShardId: '',
         SequenceNumberRange: {
           StartingSequenceNumber: '',
           EndingSequenceNumber: '',
         },
+        ParentShardId: '',
+        ShardId: '',
       }, /* ...*/ ],
-      TableName: '',
+      StreamViewType: '',
+      CreationRequestDateTime: awsCommon.timestamp(),
+      LastEvaluatedShardId: '',
+      StreamLabel: '',
+      StreamArn: '',
+      StreamStatus: '',
     },
   };
   return [200, ret];

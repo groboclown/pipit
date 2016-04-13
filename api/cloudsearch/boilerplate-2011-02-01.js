@@ -10,566 +10,15 @@ const awsCommon = require('../../lib/aws-common');
  */
 
 // Setup input and output to use AWS protocol query
-require('../../lib/aws-common/shape_http')('query', module.exports, 'http://cloudsearch.amazonaws.com/doc/2011-02-01/')
-// -----------------------------------
-module.exports.DefineIndexField = function DefineIndexField(aws) {
-  var DomainName = aws.params['DomainName'];
-  var IndexField = aws.params['IndexField'];
-  if (!DomainName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
-  }
-  if (!IndexField) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter IndexField'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    IndexField: /*Sx*/{
-      Options: /*Sf*/{
-        LiteralOptions: {
-          ResultEnabled: false,
-          FacetEnabled: false,
-          DefaultValue: '',
-          SearchEnabled: false,
-        },
-        IndexFieldType: '',
-        IndexFieldName: '',
-        TextOptions: {
-          ResultEnabled: false,
-          TextProcessor: '',
-          FacetEnabled: false,
-          DefaultValue: '',
-        },
-        SourceAttributes: [ {
-          SourceDataTrimTitle: {
-            SourceName: '',
-            Separator: '',
-            DefaultValue: '',
-            Language: '',
-          },
-          SourceDataFunction: '',
-          SourceDataMap: {
-            SourceName: '',
-            Cases: {} /*Map*/,
-            DefaultValue: '',
-          },
-          SourceDataCopy: {
-            SourceName: '',
-            DefaultValue: '',
-          },
-        }, /* ...*/ ],
-        UIntOptions: {
-          DefaultValue: 0,
-        },
-      },
-      Status: /*Sy*/{
-        State: '',
-        UpdateDate: awsCommon.timestamp(),
-        PendingDeletion: false,
-        UpdateVersion: 0,
-        CreationDate: awsCommon.timestamp(),
-      },
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeStemmingOptions = function DescribeStemmingOptions(aws) {
-  var DomainName = aws.params['DomainName'];
-  if (!DomainName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Stems: /*S20*/{
-      Options: '',
-      Status: /*Sy*/{
-        State: '',
-        UpdateDate: awsCommon.timestamp(),
-        PendingDeletion: false,
-        UpdateVersion: 0,
-        CreationDate: awsCommon.timestamp(),
-      },
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeRankExpressions = function DescribeRankExpressions(aws) {
-  var RankNames = aws.params['RankNames'];
-  var DomainName = aws.params['DomainName'];
-  if (!DomainName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    RankExpressions: [ /*S15*/{
-      Options: /*S12*/{
-        RankName: '',
-        RankExpression: '',
-      },
-      Status: /*Sy*/{
-        State: '',
-        UpdateDate: awsCommon.timestamp(),
-        PendingDeletion: false,
-        UpdateVersion: 0,
-        CreationDate: awsCommon.timestamp(),
-      },
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteDomain = function DeleteDomain(aws) {
-  var DomainName = aws.params['DomainName'];
-  if (!DomainName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    DomainStatus: /*S4*/{
-      SearchService: /*S8*/{
-        Endpoint: '',
-        Arn: '',
-      },
-      Deleted: false,
-      DomainName: '',
-      NumSearchableDocs: 0 /*Long*/,
-      DocService: /*S8*/{
-        Endpoint: '',
-        Arn: '',
-      },
-      SearchInstanceType: '',
-      RequiresIndexDocuments: false,
-      DomainId: '',
-      SearchInstanceCount: 0,
-      Created: false,
-      Processing: false,
-      SearchPartitionCount: 0,
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeSynonymOptions = function DescribeSynonymOptions(aws) {
-  var DomainName = aws.params['DomainName'];
-  if (!DomainName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Synonyms: /*S28*/{
-      Options: '',
-      Status: /*Sy*/{
-        State: '',
-        UpdateDate: awsCommon.timestamp(),
-        PendingDeletion: false,
-        UpdateVersion: 0,
-        CreationDate: awsCommon.timestamp(),
-      },
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeIndexFields = function DescribeIndexFields(aws) {
-  var FieldNames = aws.params['FieldNames'];
-  var DomainName = aws.params['DomainName'];
-  if (!DomainName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    IndexFields: [ /*Sx*/{
-      Options: /*Sf*/{
-        LiteralOptions: {
-          ResultEnabled: false,
-          FacetEnabled: false,
-          DefaultValue: '',
-          SearchEnabled: false,
-        },
-        IndexFieldType: '',
-        IndexFieldName: '',
-        TextOptions: {
-          ResultEnabled: false,
-          TextProcessor: '',
-          FacetEnabled: false,
-          DefaultValue: '',
-        },
-        SourceAttributes: [ {
-          SourceDataTrimTitle: {
-            SourceName: '',
-            Separator: '',
-            DefaultValue: '',
-            Language: '',
-          },
-          SourceDataFunction: '',
-          SourceDataMap: {
-            SourceName: '',
-            Cases: {} /*Map*/,
-            DefaultValue: '',
-          },
-          SourceDataCopy: {
-            SourceName: '',
-            DefaultValue: '',
-          },
-        }, /* ...*/ ],
-        UIntOptions: {
-          DefaultValue: 0,
-        },
-      },
-      Status: /*Sy*/{
-        State: '',
-        UpdateDate: awsCommon.timestamp(),
-        PendingDeletion: false,
-        UpdateVersion: 0,
-        CreationDate: awsCommon.timestamp(),
-      },
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteIndexField = function DeleteIndexField(aws) {
-  var IndexFieldName = aws.params['IndexFieldName'];
-  var DomainName = aws.params['DomainName'];
-  if (!DomainName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
-  }
-  if (!IndexFieldName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter IndexFieldName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    IndexField: /*Sx*/{
-      Options: /*Sf*/{
-        LiteralOptions: {
-          ResultEnabled: false,
-          FacetEnabled: false,
-          DefaultValue: '',
-          SearchEnabled: false,
-        },
-        IndexFieldType: '',
-        IndexFieldName: '',
-        TextOptions: {
-          ResultEnabled: false,
-          TextProcessor: '',
-          FacetEnabled: false,
-          DefaultValue: '',
-        },
-        SourceAttributes: [ {
-          SourceDataTrimTitle: {
-            SourceName: '',
-            Separator: '',
-            DefaultValue: '',
-            Language: '',
-          },
-          SourceDataFunction: '',
-          SourceDataMap: {
-            SourceName: '',
-            Cases: {} /*Map*/,
-            DefaultValue: '',
-          },
-          SourceDataCopy: {
-            SourceName: '',
-            DefaultValue: '',
-          },
-        }, /* ...*/ ],
-        UIntOptions: {
-          DefaultValue: 0,
-        },
-      },
-      Status: /*Sy*/{
-        State: '',
-        UpdateDate: awsCommon.timestamp(),
-        PendingDeletion: false,
-        UpdateVersion: 0,
-        CreationDate: awsCommon.timestamp(),
-      },
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DefineRankExpression = function DefineRankExpression(aws) {
-  var RankExpression = aws.params['RankExpression'];
-  var DomainName = aws.params['DomainName'];
-  if (!DomainName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
-  }
-  if (!RankExpression) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RankExpression'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    RankExpression: /*S15*/{
-      Options: /*S12*/{
-        RankName: '',
-        RankExpression: '',
-      },
-      Status: /*Sy*/{
-        State: '',
-        UpdateDate: awsCommon.timestamp(),
-        PendingDeletion: false,
-        UpdateVersion: 0,
-        CreationDate: awsCommon.timestamp(),
-      },
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeAvailabilityOptions = function DescribeAvailabilityOptions(aws) {
-  var DomainName = aws.params['DomainName'];
-  if (!DomainName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    AvailabilityOptions: /*S1e*/{
-      Options: false,
-      Status: /*Sy*/{
-        State: '',
-        UpdateDate: awsCommon.timestamp(),
-        PendingDeletion: false,
-        UpdateVersion: 0,
-        CreationDate: awsCommon.timestamp(),
-      },
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.UpdateDefaultSearchField = function UpdateDefaultSearchField(aws) {
-  var DomainName = aws.params['DomainName'];
-  var DefaultSearchField = aws.params['DefaultSearchField'];
-  if (!DomainName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
-  }
-  if (!DefaultSearchField) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DefaultSearchField'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    DefaultSearchField: /*S1i*/{
-      Options: '',
-      Status: /*Sy*/{
-        State: '',
-        UpdateDate: awsCommon.timestamp(),
-        PendingDeletion: false,
-        UpdateVersion: 0,
-        CreationDate: awsCommon.timestamp(),
-      },
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.UpdateAvailabilityOptions = function UpdateAvailabilityOptions(aws) {
-  var DomainName = aws.params['DomainName'];
-  var MultiAZ = aws.params['MultiAZ'] /* Type boolean */;
-  if (!DomainName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
-  }
-  if (!MultiAZ) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MultiAZ'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    AvailabilityOptions: /*S1e*/{
-      Options: false,
-      Status: /*Sy*/{
-        State: '',
-        UpdateDate: awsCommon.timestamp(),
-        PendingDeletion: false,
-        UpdateVersion: 0,
-        CreationDate: awsCommon.timestamp(),
-      },
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateDomain = function CreateDomain(aws) {
-  var DomainName = aws.params['DomainName'];
-  if (!DomainName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    DomainStatus: /*S4*/{
-      SearchService: /*S8*/{
-        Endpoint: '',
-        Arn: '',
-      },
-      Deleted: false,
-      DomainName: '',
-      NumSearchableDocs: 0 /*Long*/,
-      DocService: /*S8*/{
-        Endpoint: '',
-        Arn: '',
-      },
-      SearchInstanceType: '',
-      RequiresIndexDocuments: false,
-      DomainId: '',
-      SearchInstanceCount: 0,
-      Created: false,
-      Processing: false,
-      SearchPartitionCount: 0,
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.UpdateServiceAccessPolicies = function UpdateServiceAccessPolicies(aws) {
-  var AccessPolicies = aws.params['AccessPolicies'];
-  var DomainName = aws.params['DomainName'];
-  if (!DomainName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
-  }
-  if (!AccessPolicies) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AccessPolicies'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    AccessPolicies: /*S1w*/{
-      Options: '',
-      Status: /*Sy*/{
-        State: '',
-        UpdateDate: awsCommon.timestamp(),
-        PendingDeletion: false,
-        UpdateVersion: 0,
-        CreationDate: awsCommon.timestamp(),
-      },
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeServiceAccessPolicies = function DescribeServiceAccessPolicies(aws) {
-  var DomainName = aws.params['DomainName'];
-  if (!DomainName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    AccessPolicies: /*S1w*/{
-      Options: '',
-      Status: /*Sy*/{
-        State: '',
-        UpdateDate: awsCommon.timestamp(),
-        PendingDeletion: false,
-        UpdateVersion: 0,
-        CreationDate: awsCommon.timestamp(),
-      },
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteRankExpression = function DeleteRankExpression(aws) {
-  var RankName = aws.params['RankName'];
-  var DomainName = aws.params['DomainName'];
-  if (!DomainName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
-  }
-  if (!RankName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RankName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    RankExpression: /*S15*/{
-      Options: /*S12*/{
-        RankName: '',
-        RankExpression: '',
-      },
-      Status: /*Sy*/{
-        State: '',
-        UpdateDate: awsCommon.timestamp(),
-        PendingDeletion: false,
-        UpdateVersion: 0,
-        CreationDate: awsCommon.timestamp(),
-      },
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeStopwordOptions = function DescribeStopwordOptions(aws) {
-  var DomainName = aws.params['DomainName'];
-  if (!DomainName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Stopwords: /*S24*/{
-      Options: '',
-      Status: /*Sy*/{
-        State: '',
-        UpdateDate: awsCommon.timestamp(),
-        PendingDeletion: false,
-        UpdateVersion: 0,
-        CreationDate: awsCommon.timestamp(),
-      },
-    },
-  };
-  return [200, ret];
-};
+require('../../lib/aws-common/shape_http')('query', module.exports, 'http://cloudsearch.amazonaws.com/doc/2011-02-01/');
 // -----------------------------------
 module.exports.UpdateStemmingOptions = function UpdateStemmingOptions(aws) {
-  var Stems = aws.params['Stems'];
-  var DomainName = aws.params['DomainName'];
-  if (!DomainName) {
+  var domainName = aws.params.DomainName;
+  var stems = aws.params.Stems;
+  if (!domainName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
   }
-  if (!Stems) {
+  if (!stems) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Stems'];
   }
 
@@ -578,53 +27,50 @@ module.exports.UpdateStemmingOptions = function UpdateStemmingOptions(aws) {
 
   var ret = {
     Stems: /*S20*/{
-      Options: '',
       Status: /*Sy*/{
-        State: '',
-        UpdateDate: awsCommon.timestamp(),
-        PendingDeletion: false,
         UpdateVersion: 0,
         CreationDate: awsCommon.timestamp(),
+        PendingDeletion: false,
+        UpdateDate: awsCommon.timestamp(),
+        State: '',
       },
+      Options: '',
     },
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DescribeDomains = function DescribeDomains(aws) {
-  var DomainNames = aws.params['DomainNames'] /* Type list */;
+module.exports.UpdateAvailabilityOptions = function UpdateAvailabilityOptions(aws) {
+  var domainName = aws.params.DomainName;
+  var multiAZ = aws.params.MultiAZ /* Type boolean */;
+  if (!domainName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
+  }
+  if (!multiAZ) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MultiAZ'];
+  }
 
 
   // TODO implement code
 
   var ret = {
-    DomainStatusList: [ /*S4*/{
-      SearchService: /*S8*/{
-        Endpoint: '',
-        Arn: '',
+    AvailabilityOptions: /*S1e*/{
+      Status: /*Sy*/{
+        UpdateVersion: 0,
+        CreationDate: awsCommon.timestamp(),
+        PendingDeletion: false,
+        UpdateDate: awsCommon.timestamp(),
+        State: '',
       },
-      Deleted: false,
-      DomainName: '',
-      NumSearchableDocs: 0 /*Long*/,
-      DocService: /*S8*/{
-        Endpoint: '',
-        Arn: '',
-      },
-      SearchInstanceType: '',
-      RequiresIndexDocuments: false,
-      DomainId: '',
-      SearchInstanceCount: 0,
-      Created: false,
-      Processing: false,
-      SearchPartitionCount: 0,
-    }, /* ...*/ ],
+      Options: false,
+    },
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DescribeDefaultSearchField = function DescribeDefaultSearchField(aws) {
-  var DomainName = aws.params['DomainName'];
-  if (!DomainName) {
+module.exports.DescribeServiceAccessPolicies = function DescribeServiceAccessPolicies(aws) {
+  var domainName = aws.params.DomainName;
+  if (!domainName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
   }
 
@@ -632,55 +78,27 @@ module.exports.DescribeDefaultSearchField = function DescribeDefaultSearchField(
   // TODO implement code
 
   var ret = {
-    DefaultSearchField: /*S1i*/{
-      Options: '',
+    AccessPolicies: /*S1w*/{
       Status: /*Sy*/{
-        State: '',
-        UpdateDate: awsCommon.timestamp(),
-        PendingDeletion: false,
         UpdateVersion: 0,
         CreationDate: awsCommon.timestamp(),
-      },
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.UpdateSynonymOptions = function UpdateSynonymOptions(aws) {
-  var DomainName = aws.params['DomainName'];
-  var Synonyms = aws.params['Synonyms'];
-  if (!DomainName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
-  }
-  if (!Synonyms) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Synonyms'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Synonyms: /*S28*/{
-      Options: '',
-      Status: /*Sy*/{
-        State: '',
-        UpdateDate: awsCommon.timestamp(),
         PendingDeletion: false,
-        UpdateVersion: 0,
-        CreationDate: awsCommon.timestamp(),
+        UpdateDate: awsCommon.timestamp(),
+        State: '',
       },
+      Options: '',
     },
   };
   return [200, ret];
 };
 // -----------------------------------
 module.exports.UpdateStopwordOptions = function UpdateStopwordOptions(aws) {
-  var Stopwords = aws.params['Stopwords'];
-  var DomainName = aws.params['DomainName'];
-  if (!DomainName) {
+  var domainName = aws.params.DomainName;
+  var stopwords = aws.params.Stopwords;
+  if (!domainName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
   }
-  if (!Stopwords) {
+  if (!stopwords) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Stopwords'];
   }
 
@@ -689,22 +107,264 @@ module.exports.UpdateStopwordOptions = function UpdateStopwordOptions(aws) {
 
   var ret = {
     Stopwords: /*S24*/{
-      Options: '',
       Status: /*Sy*/{
-        State: '',
-        UpdateDate: awsCommon.timestamp(),
-        PendingDeletion: false,
         UpdateVersion: 0,
         CreationDate: awsCommon.timestamp(),
+        PendingDeletion: false,
+        UpdateDate: awsCommon.timestamp(),
+        State: '',
+      },
+      Options: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateDomain = function CreateDomain(aws) {
+  var domainName = aws.params.DomainName;
+  if (!domainName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    DomainStatus: /*S4*/{
+      DocService: /*S8*/{
+        Arn: '',
+        Endpoint: '',
+      },
+      RequiresIndexDocuments: false,
+      DomainId: '',
+      Deleted: false,
+      SearchService: /*S8*/{
+        Arn: '',
+        Endpoint: '',
+      },
+      Created: false,
+      DomainName: '',
+      SearchInstanceType: '',
+      SearchInstanceCount: 0,
+      NumSearchableDocs: 0 /*Long*/,
+      SearchPartitionCount: 0,
+      Processing: false,
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeAvailabilityOptions = function DescribeAvailabilityOptions(aws) {
+  var domainName = aws.params.DomainName;
+  if (!domainName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    AvailabilityOptions: /*S1e*/{
+      Status: /*Sy*/{
+        UpdateVersion: 0,
+        CreationDate: awsCommon.timestamp(),
+        PendingDeletion: false,
+        UpdateDate: awsCommon.timestamp(),
+        State: '',
+      },
+      Options: false,
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteIndexField = function DeleteIndexField(aws) {
+  var indexFieldName = aws.params.IndexFieldName;
+  var domainName = aws.params.DomainName;
+  if (!domainName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
+  }
+  if (!indexFieldName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter IndexFieldName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    IndexField: /*Sx*/{
+      Status: /*Sy*/{
+        UpdateVersion: 0,
+        CreationDate: awsCommon.timestamp(),
+        PendingDeletion: false,
+        UpdateDate: awsCommon.timestamp(),
+        State: '',
+      },
+      Options: /*Sf*/{
+        IndexFieldType: '',
+        LiteralOptions: {
+          SearchEnabled: false,
+          FacetEnabled: false,
+          DefaultValue: '',
+          ResultEnabled: false,
+        },
+        TextOptions: {
+          FacetEnabled: false,
+          DefaultValue: '',
+          ResultEnabled: false,
+          TextProcessor: '',
+        },
+        SourceAttributes: [ {
+          SourceDataMap: {
+            DefaultValue: '',
+            Cases: {} /*Map*/,
+            SourceName: '',
+          },
+          SourceDataCopy: {
+            DefaultValue: '',
+            SourceName: '',
+          },
+          SourceDataTrimTitle: {
+            Separator: '',
+            DefaultValue: '',
+            Language: '',
+            SourceName: '',
+          },
+          SourceDataFunction: '',
+        }, /* ...*/ ],
+        IndexFieldName: '',
+        UIntOptions: {
+          DefaultValue: 0,
+        },
       },
     },
   };
   return [200, ret];
 };
 // -----------------------------------
+module.exports.DefineRankExpression = function DefineRankExpression(aws) {
+  var domainName = aws.params.DomainName;
+  var rankExpression = aws.params.RankExpression;
+  if (!domainName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
+  }
+  if (!rankExpression) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RankExpression'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    RankExpression: /*S15*/{
+      Status: /*Sy*/{
+        UpdateVersion: 0,
+        CreationDate: awsCommon.timestamp(),
+        PendingDeletion: false,
+        UpdateDate: awsCommon.timestamp(),
+        State: '',
+      },
+      Options: /*S12*/{
+        RankExpression: '',
+        RankName: '',
+      },
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeIndexFields = function DescribeIndexFields(aws) {
+  var domainName = aws.params.DomainName;
+  var fieldNames = aws.params.FieldNames;
+  if (!domainName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    IndexFields: [ /*Sx*/{
+      Status: /*Sy*/{
+        UpdateVersion: 0,
+        CreationDate: awsCommon.timestamp(),
+        PendingDeletion: false,
+        UpdateDate: awsCommon.timestamp(),
+        State: '',
+      },
+      Options: /*Sf*/{
+        IndexFieldType: '',
+        LiteralOptions: {
+          SearchEnabled: false,
+          FacetEnabled: false,
+          DefaultValue: '',
+          ResultEnabled: false,
+        },
+        TextOptions: {
+          FacetEnabled: false,
+          DefaultValue: '',
+          ResultEnabled: false,
+          TextProcessor: '',
+        },
+        SourceAttributes: [ {
+          SourceDataMap: {
+            DefaultValue: '',
+            Cases: {} /*Map*/,
+            SourceName: '',
+          },
+          SourceDataCopy: {
+            DefaultValue: '',
+            SourceName: '',
+          },
+          SourceDataTrimTitle: {
+            Separator: '',
+            DefaultValue: '',
+            Language: '',
+            SourceName: '',
+          },
+          SourceDataFunction: '',
+        }, /* ...*/ ],
+        IndexFieldName: '',
+        UIntOptions: {
+          DefaultValue: 0,
+        },
+      },
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeRankExpressions = function DescribeRankExpressions(aws) {
+  var domainName = aws.params.DomainName;
+  var rankNames = aws.params.RankNames;
+  if (!domainName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    RankExpressions: [ /*S15*/{
+      Status: /*Sy*/{
+        UpdateVersion: 0,
+        CreationDate: awsCommon.timestamp(),
+        PendingDeletion: false,
+        UpdateDate: awsCommon.timestamp(),
+        State: '',
+      },
+      Options: /*S12*/{
+        RankExpression: '',
+        RankName: '',
+      },
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.IndexDocuments = function IndexDocuments(aws) {
-  var DomainName = aws.params['DomainName'];
-  if (!DomainName) {
+  var domainName = aws.params.DomainName;
+  if (!domainName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
   }
 
@@ -713,6 +373,346 @@ module.exports.IndexDocuments = function IndexDocuments(aws) {
 
   var ret = {
     FieldNames: /*S1o*/[ '', /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteDomain = function DeleteDomain(aws) {
+  var domainName = aws.params.DomainName;
+  if (!domainName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    DomainStatus: /*S4*/{
+      DocService: /*S8*/{
+        Arn: '',
+        Endpoint: '',
+      },
+      RequiresIndexDocuments: false,
+      DomainId: '',
+      Deleted: false,
+      SearchService: /*S8*/{
+        Arn: '',
+        Endpoint: '',
+      },
+      Created: false,
+      DomainName: '',
+      SearchInstanceType: '',
+      SearchInstanceCount: 0,
+      NumSearchableDocs: 0 /*Long*/,
+      SearchPartitionCount: 0,
+      Processing: false,
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeSynonymOptions = function DescribeSynonymOptions(aws) {
+  var domainName = aws.params.DomainName;
+  if (!domainName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Synonyms: /*S28*/{
+      Status: /*Sy*/{
+        UpdateVersion: 0,
+        CreationDate: awsCommon.timestamp(),
+        PendingDeletion: false,
+        UpdateDate: awsCommon.timestamp(),
+        State: '',
+      },
+      Options: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteRankExpression = function DeleteRankExpression(aws) {
+  var domainName = aws.params.DomainName;
+  var rankName = aws.params.RankName;
+  if (!domainName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
+  }
+  if (!rankName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RankName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    RankExpression: /*S15*/{
+      Status: /*Sy*/{
+        UpdateVersion: 0,
+        CreationDate: awsCommon.timestamp(),
+        PendingDeletion: false,
+        UpdateDate: awsCommon.timestamp(),
+        State: '',
+      },
+      Options: /*S12*/{
+        RankExpression: '',
+        RankName: '',
+      },
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeDomains = function DescribeDomains(aws) {
+  var domainNames = aws.params.DomainNames /* Type list */;
+
+
+  // TODO implement code
+
+  var ret = {
+    DomainStatusList: [ /*S4*/{
+      DocService: /*S8*/{
+        Arn: '',
+        Endpoint: '',
+      },
+      RequiresIndexDocuments: false,
+      DomainId: '',
+      Deleted: false,
+      SearchService: /*S8*/{
+        Arn: '',
+        Endpoint: '',
+      },
+      Created: false,
+      DomainName: '',
+      SearchInstanceType: '',
+      SearchInstanceCount: 0,
+      NumSearchableDocs: 0 /*Long*/,
+      SearchPartitionCount: 0,
+      Processing: false,
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeStopwordOptions = function DescribeStopwordOptions(aws) {
+  var domainName = aws.params.DomainName;
+  if (!domainName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Stopwords: /*S24*/{
+      Status: /*Sy*/{
+        UpdateVersion: 0,
+        CreationDate: awsCommon.timestamp(),
+        PendingDeletion: false,
+        UpdateDate: awsCommon.timestamp(),
+        State: '',
+      },
+      Options: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateServiceAccessPolicies = function UpdateServiceAccessPolicies(aws) {
+  var domainName = aws.params.DomainName;
+  var accessPolicies = aws.params.AccessPolicies;
+  if (!domainName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
+  }
+  if (!accessPolicies) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AccessPolicies'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    AccessPolicies: /*S1w*/{
+      Status: /*Sy*/{
+        UpdateVersion: 0,
+        CreationDate: awsCommon.timestamp(),
+        PendingDeletion: false,
+        UpdateDate: awsCommon.timestamp(),
+        State: '',
+      },
+      Options: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeStemmingOptions = function DescribeStemmingOptions(aws) {
+  var domainName = aws.params.DomainName;
+  if (!domainName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Stems: /*S20*/{
+      Status: /*Sy*/{
+        UpdateVersion: 0,
+        CreationDate: awsCommon.timestamp(),
+        PendingDeletion: false,
+        UpdateDate: awsCommon.timestamp(),
+        State: '',
+      },
+      Options: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeDefaultSearchField = function DescribeDefaultSearchField(aws) {
+  var domainName = aws.params.DomainName;
+  if (!domainName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    DefaultSearchField: /*S1i*/{
+      Status: /*Sy*/{
+        UpdateVersion: 0,
+        CreationDate: awsCommon.timestamp(),
+        PendingDeletion: false,
+        UpdateDate: awsCommon.timestamp(),
+        State: '',
+      },
+      Options: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DefineIndexField = function DefineIndexField(aws) {
+  var domainName = aws.params.DomainName;
+  var indexField = aws.params.IndexField;
+  if (!domainName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
+  }
+  if (!indexField) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter IndexField'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    IndexField: /*Sx*/{
+      Status: /*Sy*/{
+        UpdateVersion: 0,
+        CreationDate: awsCommon.timestamp(),
+        PendingDeletion: false,
+        UpdateDate: awsCommon.timestamp(),
+        State: '',
+      },
+      Options: /*Sf*/{
+        IndexFieldType: '',
+        LiteralOptions: {
+          SearchEnabled: false,
+          FacetEnabled: false,
+          DefaultValue: '',
+          ResultEnabled: false,
+        },
+        TextOptions: {
+          FacetEnabled: false,
+          DefaultValue: '',
+          ResultEnabled: false,
+          TextProcessor: '',
+        },
+        SourceAttributes: [ {
+          SourceDataMap: {
+            DefaultValue: '',
+            Cases: {} /*Map*/,
+            SourceName: '',
+          },
+          SourceDataCopy: {
+            DefaultValue: '',
+            SourceName: '',
+          },
+          SourceDataTrimTitle: {
+            Separator: '',
+            DefaultValue: '',
+            Language: '',
+            SourceName: '',
+          },
+          SourceDataFunction: '',
+        }, /* ...*/ ],
+        IndexFieldName: '',
+        UIntOptions: {
+          DefaultValue: 0,
+        },
+      },
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateDefaultSearchField = function UpdateDefaultSearchField(aws) {
+  var domainName = aws.params.DomainName;
+  var defaultSearchField = aws.params.DefaultSearchField;
+  if (!domainName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
+  }
+  if (!defaultSearchField) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DefaultSearchField'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    DefaultSearchField: /*S1i*/{
+      Status: /*Sy*/{
+        UpdateVersion: 0,
+        CreationDate: awsCommon.timestamp(),
+        PendingDeletion: false,
+        UpdateDate: awsCommon.timestamp(),
+        State: '',
+      },
+      Options: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateSynonymOptions = function UpdateSynonymOptions(aws) {
+  var domainName = aws.params.DomainName;
+  var synonyms = aws.params.Synonyms;
+  if (!domainName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
+  }
+  if (!synonyms) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Synonyms'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Synonyms: /*S28*/{
+      Status: /*Sy*/{
+        UpdateVersion: 0,
+        CreationDate: awsCommon.timestamp(),
+        PendingDeletion: false,
+        UpdateDate: awsCommon.timestamp(),
+        State: '',
+      },
+      Options: '',
+    },
   };
   return [200, ret];
 };

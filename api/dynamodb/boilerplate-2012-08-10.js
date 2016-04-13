@@ -10,26 +10,11 @@ const awsCommon = require('../../lib/aws-common');
  */
 
 // Setup input and output to use AWS protocol json
-require('../../lib/aws-common/shape_http')('json', module.exports, null)
+require('../../lib/aws-common/shape_http')('json', module.exports, null);
 // -----------------------------------
-module.exports.Scan = function Scan(aws) {
-  var ExclusiveStartKey = aws.params['ExclusiveStartKey'];
-  var ReturnConsumedCapacity = aws.params['ReturnConsumedCapacity'];
-  var Select = aws.params['Select'];
-  var Limit = aws.params['Limit'] /* Type integer */;
-  var AttributesToGet = aws.params['AttributesToGet'];
-  var ConditionalOperator = aws.params['ConditionalOperator'];
-  var ExpressionAttributeNames = aws.params['ExpressionAttributeNames'];
-  var ConsistentRead = aws.params['ConsistentRead'] /* Type boolean */;
-  var IndexName = aws.params['IndexName'];
-  var ScanFilter = aws.params['ScanFilter'];
-  var ProjectionExpression = aws.params['ProjectionExpression'];
-  var TotalSegments = aws.params['TotalSegments'] /* Type integer */;
-  var FilterExpression = aws.params['FilterExpression'];
-  var ExpressionAttributeValues = aws.params['ExpressionAttributeValues'];
-  var Segment = aws.params['Segment'] /* Type integer */;
-  var TableName = aws.params['TableName'];
-  if (!TableName) {
+module.exports.DeleteTable = function DeleteTable(aws) {
+  var tableName = aws.params.TableName;
+  if (!tableName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TableName'];
   }
 
@@ -37,26 +22,208 @@ module.exports.Scan = function Scan(aws) {
   // TODO implement code
 
   var ret = {
-    ConsumedCapacity: /*Su*/{
-      GlobalSecondaryIndexes: /*Sx*/{} /*Map*/,
-      CapacityUnits: 0.0 /*Double*/,
+    TableDescription: /*S20*/{
+      LatestStreamLabel: '',
+      TableSizeBytes: 0 /*Long*/,
+      TableName: '',
+      KeySchema: /*S1j*/[ {
+        AttributeName: '',
+        KeyType: '',
+      }, /* ...*/ ],
+      StreamSpecification: /*S1w*/{
+        StreamEnabled: false,
+        StreamViewType: '',
+      },
+      ItemCount: 0 /*Long*/,
+      ProvisionedThroughput: /*S23*/{
+        LastIncreaseDateTime: awsCommon.timestamp(),
+        LastDecreaseDateTime: awsCommon.timestamp(),
+        NumberOfDecreasesToday: 0 /*Long*/,
+        WriteCapacityUnits: 0 /*Long*/,
+        ReadCapacityUnits: 0 /*Long*/,
+      },
+      LocalSecondaryIndexes: [ {
+        ItemCount: 0 /*Long*/,
+        Projection: /*S1o*/{
+          ProjectionType: '',
+          NonKeyAttributes: [ '', /* ...*/ ],
+        },
+        KeySchema: /*S1j*/[ {
+        AttributeName: '',
+        KeyType: '',
+      }, /* ...*/ ],
+        IndexSizeBytes: 0 /*Long*/,
+        IndexName: '',
+        IndexArn: '',
+      }, /* ...*/ ],
+      LatestStreamArn: '',
+      CreationDateTime: awsCommon.timestamp(),
+      GlobalSecondaryIndexes: [ {
+        ItemCount: 0 /*Long*/,
+        Projection: /*S1o*/{
+          ProjectionType: '',
+          NonKeyAttributes: [ '', /* ...*/ ],
+        },
+        IndexStatus: '',
+        KeySchema: /*S1j*/[ {
+        AttributeName: '',
+        KeyType: '',
+      }, /* ...*/ ],
+        ProvisionedThroughput: /*S23*/{
+        LastIncreaseDateTime: awsCommon.timestamp(),
+        LastDecreaseDateTime: awsCommon.timestamp(),
+        NumberOfDecreasesToday: 0 /*Long*/,
+        WriteCapacityUnits: 0 /*Long*/,
+        ReadCapacityUnits: 0 /*Long*/,
+      },
+        Backfilling: false,
+        IndexName: '',
+        IndexArn: '',
+        IndexSizeBytes: 0 /*Long*/,
+      }, /* ...*/ ],
+      TableArn: '',
+      AttributeDefinitions: /*S1f*/[ {
+        AttributeName: '',
+        AttributeType: '',
+      }, /* ...*/ ],
+      TableStatus: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.BatchGetItem = function BatchGetItem(aws) {
+  var returnConsumedCapacity = aws.params.ReturnConsumedCapacity;
+  var requestItems = aws.params.RequestItems;
+  if (!requestItems) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RequestItems'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    UnprocessedKeys: /*S2*/{} /*Map*/,
+    Responses: {} /*Map*/,
+    ConsumedCapacity: /*St*/[ /*Su*/{
       Table: /*Sw*/{
         CapacityUnits: 0.0 /*Double*/,
       },
-      LocalSecondaryIndexes: /*Sx*/{} /*Map*/,
+      GlobalSecondaryIndexes: /*Sx*/{} /*Map*/,
       TableName: '',
+      LocalSecondaryIndexes: /*Sx*/{} /*Map*/,
+      CapacityUnits: 0.0 /*Double*/,
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.BatchWriteItem = function BatchWriteItem(aws) {
+  var returnConsumedCapacity = aws.params.ReturnConsumedCapacity;
+  var returnItemCollectionMetrics = aws.params.ReturnItemCollectionMetrics;
+  var requestItems = aws.params.RequestItems;
+  if (!requestItems) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RequestItems'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    UnprocessedItems: /*S10*/{} /*Map*/,
+    ItemCollectionMetrics: {} /*Map*/,
+    ConsumedCapacity: /*St*/[ /*Su*/{
+      Table: /*Sw*/{
+        CapacityUnits: 0.0 /*Double*/,
+      },
+      GlobalSecondaryIndexes: /*Sx*/{} /*Map*/,
+      TableName: '',
+      LocalSecondaryIndexes: /*Sx*/{} /*Map*/,
+      CapacityUnits: 0.0 /*Double*/,
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetItem = function GetItem(aws) {
+  var consistentRead = aws.params.ConsistentRead /* Type boolean */;
+  var projectionExpression = aws.params.ProjectionExpression;
+  var tableName = aws.params.TableName;
+  var key = aws.params.Key;
+  var attributesToGet = aws.params.AttributesToGet;
+  var expressionAttributeNames = aws.params.ExpressionAttributeNames;
+  var returnConsumedCapacity = aws.params.ReturnConsumedCapacity;
+  if (!tableName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TableName'];
+  }
+  if (!key) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Key'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Item: /*Ss*/{} /*Map*/,
+    ConsumedCapacity: /*Su*/{
+      Table: /*Sw*/{
+        CapacityUnits: 0.0 /*Double*/,
+      },
+      GlobalSecondaryIndexes: /*Sx*/{} /*Map*/,
+      TableName: '',
+      LocalSecondaryIndexes: /*Sx*/{} /*Map*/,
+      CapacityUnits: 0.0 /*Double*/,
     },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.Query = function Query(aws) {
+  var projectionExpression = aws.params.ProjectionExpression;
+  var tableName = aws.params.TableName;
+  var select = aws.params.Select;
+  var scanIndexForward = aws.params.ScanIndexForward /* Type boolean */;
+  var expressionAttributeValues = aws.params.ExpressionAttributeValues;
+  var attributesToGet = aws.params.AttributesToGet;
+  var expressionAttributeNames = aws.params.ExpressionAttributeNames;
+  var indexName = aws.params.IndexName;
+  var queryFilter = aws.params.QueryFilter;
+  var filterExpression = aws.params.FilterExpression;
+  var keyConditions = aws.params.KeyConditions /* Type map */;
+  var consistentRead = aws.params.ConsistentRead /* Type boolean */;
+  var keyConditionExpression = aws.params.KeyConditionExpression;
+  var limit = aws.params.Limit /* Type integer */;
+  var returnConsumedCapacity = aws.params.ReturnConsumedCapacity;
+  var exclusiveStartKey = aws.params.ExclusiveStartKey;
+  var conditionalOperator = aws.params.ConditionalOperator;
+  if (!tableName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TableName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
     LastEvaluatedKey: /*S6*/{} /*Map*/,
-    ScannedCount: 0,
-    Items: /*Sr*/[ /*Ss*/{} /*Map*/, /* ...*/ ],
     Count: 0,
+    Items: /*Sr*/[ /*Ss*/{} /*Map*/, /* ...*/ ],
+    ConsumedCapacity: /*Su*/{
+      Table: /*Sw*/{
+        CapacityUnits: 0.0 /*Double*/,
+      },
+      GlobalSecondaryIndexes: /*Sx*/{} /*Map*/,
+      TableName: '',
+      LocalSecondaryIndexes: /*Sx*/{} /*Map*/,
+      CapacityUnits: 0.0 /*Double*/,
+    },
+    ScannedCount: 0,
   };
   return [200, ret];
 };
 // -----------------------------------
 module.exports.ListTables = function ListTables(aws) {
-  var ExclusiveStartTableName = aws.params['ExclusiveStartTableName'];
-  var Limit = aws.params['Limit'] /* Type integer */;
+  var exclusiveStartTableName = aws.params.ExclusiveStartTableName;
+  var limit = aws.params.Limit /* Type integer */;
 
 
   // TODO implement code
@@ -69,20 +236,20 @@ module.exports.ListTables = function ListTables(aws) {
 };
 // -----------------------------------
 module.exports.DeleteItem = function DeleteItem(aws) {
-  var ConditionalOperator = aws.params['ConditionalOperator'];
-  var Expected = aws.params['Expected'];
-  var ExpressionAttributeValues = aws.params['ExpressionAttributeValues'];
-  var ConditionExpression = aws.params['ConditionExpression'];
-  var ReturnConsumedCapacity = aws.params['ReturnConsumedCapacity'];
-  var ExpressionAttributeNames = aws.params['ExpressionAttributeNames'];
-  var Key = aws.params['Key'];
-  var ReturnItemCollectionMetrics = aws.params['ReturnItemCollectionMetrics'];
-  var ReturnValues = aws.params['ReturnValues'];
-  var TableName = aws.params['TableName'];
-  if (!TableName) {
+  var tableName = aws.params.TableName;
+  var returnItemCollectionMetrics = aws.params.ReturnItemCollectionMetrics;
+  var key = aws.params.Key;
+  var expressionAttributeValues = aws.params.ExpressionAttributeValues;
+  var returnValues = aws.params.ReturnValues;
+  var expressionAttributeNames = aws.params.ExpressionAttributeNames;
+  var conditionExpression = aws.params.ConditionExpression;
+  var returnConsumedCapacity = aws.params.ReturnConsumedCapacity;
+  var expected = aws.params.Expected;
+  var conditionalOperator = aws.params.ConditionalOperator;
+  if (!tableName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TableName'];
   }
-  if (!Key) {
+  if (!key) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Key'];
   }
 
@@ -90,27 +257,27 @@ module.exports.DeleteItem = function DeleteItem(aws) {
   // TODO implement code
 
   var ret = {
+    Attributes: /*Ss*/{} /*Map*/,
     ItemCollectionMetrics: /*S1a*/{
-      SizeEstimateRangeGB: [ 0.0 /*Double*/, /* ...*/ ],
       ItemCollectionKey: {} /*Map*/,
+      SizeEstimateRangeGB: [ 0.0 /*Double*/, /* ...*/ ],
     },
     ConsumedCapacity: /*Su*/{
-      GlobalSecondaryIndexes: /*Sx*/{} /*Map*/,
-      CapacityUnits: 0.0 /*Double*/,
       Table: /*Sw*/{
         CapacityUnits: 0.0 /*Double*/,
       },
-      LocalSecondaryIndexes: /*Sx*/{} /*Map*/,
+      GlobalSecondaryIndexes: /*Sx*/{} /*Map*/,
       TableName: '',
+      LocalSecondaryIndexes: /*Sx*/{} /*Map*/,
+      CapacityUnits: 0.0 /*Double*/,
     },
-    Attributes: /*Ss*/{} /*Map*/,
   };
   return [200, ret];
 };
 // -----------------------------------
 module.exports.DescribeTable = function DescribeTable(aws) {
-  var TableName = aws.params['TableName'];
-  if (!TableName) {
+  var tableName = aws.params.TableName;
+  if (!tableName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TableName'];
   }
 
@@ -119,90 +286,90 @@ module.exports.DescribeTable = function DescribeTable(aws) {
 
   var ret = {
     Table: /*S20*/{
-      KeySchema: /*S1j*/[ {
-        KeyType: '',
-        AttributeName: '',
-      }, /* ...*/ ],
-      CreationDateTime: awsCommon.timestamp(),
-      ProvisionedThroughput: /*S23*/{
-        LastDecreaseDateTime: awsCommon.timestamp(),
-        LastIncreaseDateTime: awsCommon.timestamp(),
-        WriteCapacityUnits: 0 /*Long*/,
-        ReadCapacityUnits: 0 /*Long*/,
-        NumberOfDecreasesToday: 0 /*Long*/,
-      },
-      LatestStreamArn: '',
-      StreamSpecification: /*S1w*/{
-        StreamViewType: '',
-        StreamEnabled: false,
-      },
-      TableSizeBytes: 0 /*Long*/,
-      AttributeDefinitions: /*S1f*/[ {
-        AttributeType: '',
-        AttributeName: '',
-      }, /* ...*/ ],
-      GlobalSecondaryIndexes: [ {
-        IndexName: '',
-        KeySchema: /*S1j*/[ {
-        KeyType: '',
-        AttributeName: '',
-      }, /* ...*/ ],
-        Backfilling: false,
-        ProvisionedThroughput: /*S23*/{
-        LastDecreaseDateTime: awsCommon.timestamp(),
-        LastIncreaseDateTime: awsCommon.timestamp(),
-        WriteCapacityUnits: 0 /*Long*/,
-        ReadCapacityUnits: 0 /*Long*/,
-        NumberOfDecreasesToday: 0 /*Long*/,
-      },
-        ItemCount: 0 /*Long*/,
-        IndexStatus: '',
-        IndexArn: '',
-        Projection: /*S1o*/{
-          NonKeyAttributes: [ '', /* ...*/ ],
-          ProjectionType: '',
-        },
-        IndexSizeBytes: 0 /*Long*/,
-      }, /* ...*/ ],
-      ItemCount: 0 /*Long*/,
       LatestStreamLabel: '',
-      LocalSecondaryIndexes: [ {
-        IndexName: '',
-        KeySchema: /*S1j*/[ {
-        KeyType: '',
+      TableSizeBytes: 0 /*Long*/,
+      TableName: '',
+      KeySchema: /*S1j*/[ {
         AttributeName: '',
+        KeyType: '',
+      }, /* ...*/ ],
+      StreamSpecification: /*S1w*/{
+        StreamEnabled: false,
+        StreamViewType: '',
+      },
+      ItemCount: 0 /*Long*/,
+      ProvisionedThroughput: /*S23*/{
+        LastIncreaseDateTime: awsCommon.timestamp(),
+        LastDecreaseDateTime: awsCommon.timestamp(),
+        NumberOfDecreasesToday: 0 /*Long*/,
+        WriteCapacityUnits: 0 /*Long*/,
+        ReadCapacityUnits: 0 /*Long*/,
+      },
+      LocalSecondaryIndexes: [ {
+        ItemCount: 0 /*Long*/,
+        Projection: /*S1o*/{
+          ProjectionType: '',
+          NonKeyAttributes: [ '', /* ...*/ ],
+        },
+        KeySchema: /*S1j*/[ {
+        AttributeName: '',
+        KeyType: '',
       }, /* ...*/ ],
         IndexSizeBytes: 0 /*Long*/,
-        ItemCount: 0 /*Long*/,
+        IndexName: '',
         IndexArn: '',
+      }, /* ...*/ ],
+      LatestStreamArn: '',
+      CreationDateTime: awsCommon.timestamp(),
+      GlobalSecondaryIndexes: [ {
+        ItemCount: 0 /*Long*/,
         Projection: /*S1o*/{
-          NonKeyAttributes: [ '', /* ...*/ ],
           ProjectionType: '',
+          NonKeyAttributes: [ '', /* ...*/ ],
         },
+        IndexStatus: '',
+        KeySchema: /*S1j*/[ {
+        AttributeName: '',
+        KeyType: '',
+      }, /* ...*/ ],
+        ProvisionedThroughput: /*S23*/{
+        LastIncreaseDateTime: awsCommon.timestamp(),
+        LastDecreaseDateTime: awsCommon.timestamp(),
+        NumberOfDecreasesToday: 0 /*Long*/,
+        WriteCapacityUnits: 0 /*Long*/,
+        ReadCapacityUnits: 0 /*Long*/,
+      },
+        Backfilling: false,
+        IndexName: '',
+        IndexArn: '',
+        IndexSizeBytes: 0 /*Long*/,
       }, /* ...*/ ],
       TableArn: '',
+      AttributeDefinitions: /*S1f*/[ {
+        AttributeName: '',
+        AttributeType: '',
+      }, /* ...*/ ],
       TableStatus: '',
-      TableName: '',
     },
   };
   return [200, ret];
 };
 // -----------------------------------
 module.exports.PutItem = function PutItem(aws) {
-  var ConditionExpression = aws.params['ConditionExpression'];
-  var ConditionalOperator = aws.params['ConditionalOperator'];
-  var Expected = aws.params['Expected'];
-  var ExpressionAttributeValues = aws.params['ExpressionAttributeValues'];
-  var Item = aws.params['Item'];
-  var ReturnValues = aws.params['ReturnValues'];
-  var ExpressionAttributeNames = aws.params['ExpressionAttributeNames'];
-  var ReturnItemCollectionMetrics = aws.params['ReturnItemCollectionMetrics'];
-  var ReturnConsumedCapacity = aws.params['ReturnConsumedCapacity'];
-  var TableName = aws.params['TableName'];
-  if (!TableName) {
+  var tableName = aws.params.TableName;
+  var item = aws.params.Item;
+  var expressionAttributeValues = aws.params.ExpressionAttributeValues;
+  var expressionAttributeNames = aws.params.ExpressionAttributeNames;
+  var returnValues = aws.params.ReturnValues;
+  var returnItemCollectionMetrics = aws.params.ReturnItemCollectionMetrics;
+  var conditionExpression = aws.params.ConditionExpression;
+  var returnConsumedCapacity = aws.params.ReturnConsumedCapacity;
+  var expected = aws.params.Expected;
+  var conditionalOperator = aws.params.ConditionalOperator;
+  if (!tableName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TableName'];
   }
-  if (!Item) {
+  if (!item) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Item'];
   }
 
@@ -210,42 +377,210 @@ module.exports.PutItem = function PutItem(aws) {
   // TODO implement code
 
   var ret = {
+    Attributes: /*Ss*/{} /*Map*/,
     ItemCollectionMetrics: /*S1a*/{
-      SizeEstimateRangeGB: [ 0.0 /*Double*/, /* ...*/ ],
       ItemCollectionKey: {} /*Map*/,
+      SizeEstimateRangeGB: [ 0.0 /*Double*/, /* ...*/ ],
     },
     ConsumedCapacity: /*Su*/{
-      GlobalSecondaryIndexes: /*Sx*/{} /*Map*/,
-      CapacityUnits: 0.0 /*Double*/,
       Table: /*Sw*/{
         CapacityUnits: 0.0 /*Double*/,
       },
-      LocalSecondaryIndexes: /*Sx*/{} /*Map*/,
+      GlobalSecondaryIndexes: /*Sx*/{} /*Map*/,
       TableName: '',
+      LocalSecondaryIndexes: /*Sx*/{} /*Map*/,
+      CapacityUnits: 0.0 /*Double*/,
     },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateTable = function UpdateTable(aws) {
+  var tableName = aws.params.TableName;
+  var streamSpecification = aws.params.StreamSpecification;
+  var globalSecondaryIndexUpdates = aws.params.GlobalSecondaryIndexUpdates /* Type list */;
+  var attributeDefinitions = aws.params.AttributeDefinitions;
+  var provisionedThroughput = aws.params.ProvisionedThroughput;
+  if (!tableName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TableName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    TableDescription: /*S20*/{
+      LatestStreamLabel: '',
+      TableSizeBytes: 0 /*Long*/,
+      TableName: '',
+      KeySchema: /*S1j*/[ {
+        AttributeName: '',
+        KeyType: '',
+      }, /* ...*/ ],
+      StreamSpecification: /*S1w*/{
+        StreamEnabled: false,
+        StreamViewType: '',
+      },
+      ItemCount: 0 /*Long*/,
+      ProvisionedThroughput: /*S23*/{
+        LastIncreaseDateTime: awsCommon.timestamp(),
+        LastDecreaseDateTime: awsCommon.timestamp(),
+        NumberOfDecreasesToday: 0 /*Long*/,
+        WriteCapacityUnits: 0 /*Long*/,
+        ReadCapacityUnits: 0 /*Long*/,
+      },
+      LocalSecondaryIndexes: [ {
+        ItemCount: 0 /*Long*/,
+        Projection: /*S1o*/{
+          ProjectionType: '',
+          NonKeyAttributes: [ '', /* ...*/ ],
+        },
+        KeySchema: /*S1j*/[ {
+        AttributeName: '',
+        KeyType: '',
+      }, /* ...*/ ],
+        IndexSizeBytes: 0 /*Long*/,
+        IndexName: '',
+        IndexArn: '',
+      }, /* ...*/ ],
+      LatestStreamArn: '',
+      CreationDateTime: awsCommon.timestamp(),
+      GlobalSecondaryIndexes: [ {
+        ItemCount: 0 /*Long*/,
+        Projection: /*S1o*/{
+          ProjectionType: '',
+          NonKeyAttributes: [ '', /* ...*/ ],
+        },
+        IndexStatus: '',
+        KeySchema: /*S1j*/[ {
+        AttributeName: '',
+        KeyType: '',
+      }, /* ...*/ ],
+        ProvisionedThroughput: /*S23*/{
+        LastIncreaseDateTime: awsCommon.timestamp(),
+        LastDecreaseDateTime: awsCommon.timestamp(),
+        NumberOfDecreasesToday: 0 /*Long*/,
+        WriteCapacityUnits: 0 /*Long*/,
+        ReadCapacityUnits: 0 /*Long*/,
+      },
+        Backfilling: false,
+        IndexName: '',
+        IndexArn: '',
+        IndexSizeBytes: 0 /*Long*/,
+      }, /* ...*/ ],
+      TableArn: '',
+      AttributeDefinitions: /*S1f*/[ {
+        AttributeName: '',
+        AttributeType: '',
+      }, /* ...*/ ],
+      TableStatus: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateItem = function UpdateItem(aws) {
+  var tableName = aws.params.TableName;
+  var expected = aws.params.Expected;
+  var attributeUpdates = aws.params.AttributeUpdates /* Type map */;
+  var expressionAttributeNames = aws.params.ExpressionAttributeNames;
+  var conditionExpression = aws.params.ConditionExpression;
+  var updateExpression = aws.params.UpdateExpression;
+  var expressionAttributeValues = aws.params.ExpressionAttributeValues;
+  var returnItemCollectionMetrics = aws.params.ReturnItemCollectionMetrics;
+  var key = aws.params.Key;
+  var returnValues = aws.params.ReturnValues;
+  var returnConsumedCapacity = aws.params.ReturnConsumedCapacity;
+  var conditionalOperator = aws.params.ConditionalOperator;
+  if (!tableName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TableName'];
+  }
+  if (!key) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Key'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
     Attributes: /*Ss*/{} /*Map*/,
+    ItemCollectionMetrics: /*S1a*/{
+      ItemCollectionKey: {} /*Map*/,
+      SizeEstimateRangeGB: [ 0.0 /*Double*/, /* ...*/ ],
+    },
+    ConsumedCapacity: /*Su*/{
+      Table: /*Sw*/{
+        CapacityUnits: 0.0 /*Double*/,
+      },
+      GlobalSecondaryIndexes: /*Sx*/{} /*Map*/,
+      TableName: '',
+      LocalSecondaryIndexes: /*Sx*/{} /*Map*/,
+      CapacityUnits: 0.0 /*Double*/,
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.Scan = function Scan(aws) {
+  var projectionExpression = aws.params.ProjectionExpression;
+  var tableName = aws.params.TableName;
+  var select = aws.params.Select;
+  var attributesToGet = aws.params.AttributesToGet;
+  var totalSegments = aws.params.TotalSegments /* Type integer */;
+  var expressionAttributeNames = aws.params.ExpressionAttributeNames;
+  var indexName = aws.params.IndexName;
+  var filterExpression = aws.params.FilterExpression;
+  var consistentRead = aws.params.ConsistentRead /* Type boolean */;
+  var limit = aws.params.Limit /* Type integer */;
+  var expressionAttributeValues = aws.params.ExpressionAttributeValues;
+  var exclusiveStartKey = aws.params.ExclusiveStartKey;
+  var segment = aws.params.Segment /* Type integer */;
+  var returnConsumedCapacity = aws.params.ReturnConsumedCapacity;
+  var conditionalOperator = aws.params.ConditionalOperator;
+  var scanFilter = aws.params.ScanFilter;
+  if (!tableName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TableName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    LastEvaluatedKey: /*S6*/{} /*Map*/,
+    Count: 0,
+    Items: /*Sr*/[ /*Ss*/{} /*Map*/, /* ...*/ ],
+    ConsumedCapacity: /*Su*/{
+      Table: /*Sw*/{
+        CapacityUnits: 0.0 /*Double*/,
+      },
+      GlobalSecondaryIndexes: /*Sx*/{} /*Map*/,
+      TableName: '',
+      LocalSecondaryIndexes: /*Sx*/{} /*Map*/,
+      CapacityUnits: 0.0 /*Double*/,
+    },
+    ScannedCount: 0,
   };
   return [200, ret];
 };
 // -----------------------------------
 module.exports.CreateTable = function CreateTable(aws) {
-  var GlobalSecondaryIndexes = aws.params['GlobalSecondaryIndexes'] /* Type list */;
-  var KeySchema = aws.params['KeySchema'];
-  var ProvisionedThroughput = aws.params['ProvisionedThroughput'];
-  var LocalSecondaryIndexes = aws.params['LocalSecondaryIndexes'] /* Type list */;
-  var StreamSpecification = aws.params['StreamSpecification'];
-  var AttributeDefinitions = aws.params['AttributeDefinitions'];
-  var TableName = aws.params['TableName'];
-  if (!AttributeDefinitions) {
+  var localSecondaryIndexes = aws.params.LocalSecondaryIndexes /* Type list */;
+  var keySchema = aws.params.KeySchema;
+  var streamSpecification = aws.params.StreamSpecification;
+  var provisionedThroughput = aws.params.ProvisionedThroughput;
+  var globalSecondaryIndexes = aws.params.GlobalSecondaryIndexes /* Type list */;
+  var tableName = aws.params.TableName;
+  var attributeDefinitions = aws.params.AttributeDefinitions;
+  if (!attributeDefinitions) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AttributeDefinitions'];
   }
-  if (!TableName) {
+  if (!tableName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TableName'];
   }
-  if (!KeySchema) {
+  if (!keySchema) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter KeySchema'];
   }
-  if (!ProvisionedThroughput) {
+  if (!provisionedThroughput) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ProvisionedThroughput'];
   }
 
@@ -254,406 +589,71 @@ module.exports.CreateTable = function CreateTable(aws) {
 
   var ret = {
     TableDescription: /*S20*/{
-      KeySchema: /*S1j*/[ {
-        KeyType: '',
-        AttributeName: '',
-      }, /* ...*/ ],
-      CreationDateTime: awsCommon.timestamp(),
-      ProvisionedThroughput: /*S23*/{
-        LastDecreaseDateTime: awsCommon.timestamp(),
-        LastIncreaseDateTime: awsCommon.timestamp(),
-        WriteCapacityUnits: 0 /*Long*/,
-        ReadCapacityUnits: 0 /*Long*/,
-        NumberOfDecreasesToday: 0 /*Long*/,
-      },
-      LatestStreamArn: '',
-      StreamSpecification: /*S1w*/{
-        StreamViewType: '',
-        StreamEnabled: false,
-      },
-      TableSizeBytes: 0 /*Long*/,
-      AttributeDefinitions: /*S1f*/[ {
-        AttributeType: '',
-        AttributeName: '',
-      }, /* ...*/ ],
-      GlobalSecondaryIndexes: [ {
-        IndexName: '',
-        KeySchema: /*S1j*/[ {
-        KeyType: '',
-        AttributeName: '',
-      }, /* ...*/ ],
-        Backfilling: false,
-        ProvisionedThroughput: /*S23*/{
-        LastDecreaseDateTime: awsCommon.timestamp(),
-        LastIncreaseDateTime: awsCommon.timestamp(),
-        WriteCapacityUnits: 0 /*Long*/,
-        ReadCapacityUnits: 0 /*Long*/,
-        NumberOfDecreasesToday: 0 /*Long*/,
-      },
-        ItemCount: 0 /*Long*/,
-        IndexStatus: '',
-        IndexArn: '',
-        Projection: /*S1o*/{
-          NonKeyAttributes: [ '', /* ...*/ ],
-          ProjectionType: '',
-        },
-        IndexSizeBytes: 0 /*Long*/,
-      }, /* ...*/ ],
-      ItemCount: 0 /*Long*/,
       LatestStreamLabel: '',
-      LocalSecondaryIndexes: [ {
-        IndexName: '',
-        KeySchema: /*S1j*/[ {
-        KeyType: '',
+      TableSizeBytes: 0 /*Long*/,
+      TableName: '',
+      KeySchema: /*S1j*/[ {
         AttributeName: '',
+        KeyType: '',
+      }, /* ...*/ ],
+      StreamSpecification: /*S1w*/{
+        StreamEnabled: false,
+        StreamViewType: '',
+      },
+      ItemCount: 0 /*Long*/,
+      ProvisionedThroughput: /*S23*/{
+        LastIncreaseDateTime: awsCommon.timestamp(),
+        LastDecreaseDateTime: awsCommon.timestamp(),
+        NumberOfDecreasesToday: 0 /*Long*/,
+        WriteCapacityUnits: 0 /*Long*/,
+        ReadCapacityUnits: 0 /*Long*/,
+      },
+      LocalSecondaryIndexes: [ {
+        ItemCount: 0 /*Long*/,
+        Projection: /*S1o*/{
+          ProjectionType: '',
+          NonKeyAttributes: [ '', /* ...*/ ],
+        },
+        KeySchema: /*S1j*/[ {
+        AttributeName: '',
+        KeyType: '',
       }, /* ...*/ ],
         IndexSizeBytes: 0 /*Long*/,
-        ItemCount: 0 /*Long*/,
+        IndexName: '',
         IndexArn: '',
+      }, /* ...*/ ],
+      LatestStreamArn: '',
+      CreationDateTime: awsCommon.timestamp(),
+      GlobalSecondaryIndexes: [ {
+        ItemCount: 0 /*Long*/,
         Projection: /*S1o*/{
-          NonKeyAttributes: [ '', /* ...*/ ],
           ProjectionType: '',
+          NonKeyAttributes: [ '', /* ...*/ ],
         },
+        IndexStatus: '',
+        KeySchema: /*S1j*/[ {
+        AttributeName: '',
+        KeyType: '',
+      }, /* ...*/ ],
+        ProvisionedThroughput: /*S23*/{
+        LastIncreaseDateTime: awsCommon.timestamp(),
+        LastDecreaseDateTime: awsCommon.timestamp(),
+        NumberOfDecreasesToday: 0 /*Long*/,
+        WriteCapacityUnits: 0 /*Long*/,
+        ReadCapacityUnits: 0 /*Long*/,
+      },
+        Backfilling: false,
+        IndexName: '',
+        IndexArn: '',
+        IndexSizeBytes: 0 /*Long*/,
       }, /* ...*/ ],
       TableArn: '',
-      TableStatus: '',
-      TableName: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.UpdateTable = function UpdateTable(aws) {
-  var StreamSpecification = aws.params['StreamSpecification'];
-  var ProvisionedThroughput = aws.params['ProvisionedThroughput'];
-  var GlobalSecondaryIndexUpdates = aws.params['GlobalSecondaryIndexUpdates'] /* Type list */;
-  var AttributeDefinitions = aws.params['AttributeDefinitions'];
-  var TableName = aws.params['TableName'];
-  if (!TableName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TableName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    TableDescription: /*S20*/{
-      KeySchema: /*S1j*/[ {
-        KeyType: '',
-        AttributeName: '',
-      }, /* ...*/ ],
-      CreationDateTime: awsCommon.timestamp(),
-      ProvisionedThroughput: /*S23*/{
-        LastDecreaseDateTime: awsCommon.timestamp(),
-        LastIncreaseDateTime: awsCommon.timestamp(),
-        WriteCapacityUnits: 0 /*Long*/,
-        ReadCapacityUnits: 0 /*Long*/,
-        NumberOfDecreasesToday: 0 /*Long*/,
-      },
-      LatestStreamArn: '',
-      StreamSpecification: /*S1w*/{
-        StreamViewType: '',
-        StreamEnabled: false,
-      },
-      TableSizeBytes: 0 /*Long*/,
       AttributeDefinitions: /*S1f*/[ {
+        AttributeName: '',
         AttributeType: '',
-        AttributeName: '',
       }, /* ...*/ ],
-      GlobalSecondaryIndexes: [ {
-        IndexName: '',
-        KeySchema: /*S1j*/[ {
-        KeyType: '',
-        AttributeName: '',
-      }, /* ...*/ ],
-        Backfilling: false,
-        ProvisionedThroughput: /*S23*/{
-        LastDecreaseDateTime: awsCommon.timestamp(),
-        LastIncreaseDateTime: awsCommon.timestamp(),
-        WriteCapacityUnits: 0 /*Long*/,
-        ReadCapacityUnits: 0 /*Long*/,
-        NumberOfDecreasesToday: 0 /*Long*/,
-      },
-        ItemCount: 0 /*Long*/,
-        IndexStatus: '',
-        IndexArn: '',
-        Projection: /*S1o*/{
-          NonKeyAttributes: [ '', /* ...*/ ],
-          ProjectionType: '',
-        },
-        IndexSizeBytes: 0 /*Long*/,
-      }, /* ...*/ ],
-      ItemCount: 0 /*Long*/,
-      LatestStreamLabel: '',
-      LocalSecondaryIndexes: [ {
-        IndexName: '',
-        KeySchema: /*S1j*/[ {
-        KeyType: '',
-        AttributeName: '',
-      }, /* ...*/ ],
-        IndexSizeBytes: 0 /*Long*/,
-        ItemCount: 0 /*Long*/,
-        IndexArn: '',
-        Projection: /*S1o*/{
-          NonKeyAttributes: [ '', /* ...*/ ],
-          ProjectionType: '',
-        },
-      }, /* ...*/ ],
-      TableArn: '',
       TableStatus: '',
-      TableName: '',
     },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.Query = function Query(aws) {
-  var ExclusiveStartKey = aws.params['ExclusiveStartKey'];
-  var ReturnConsumedCapacity = aws.params['ReturnConsumedCapacity'];
-  var Select = aws.params['Select'];
-  var Limit = aws.params['Limit'] /* Type integer */;
-  var AttributesToGet = aws.params['AttributesToGet'];
-  var ConditionalOperator = aws.params['ConditionalOperator'];
-  var ExpressionAttributeNames = aws.params['ExpressionAttributeNames'];
-  var KeyConditionExpression = aws.params['KeyConditionExpression'];
-  var ProjectionExpression = aws.params['ProjectionExpression'];
-  var ConsistentRead = aws.params['ConsistentRead'] /* Type boolean */;
-  var IndexName = aws.params['IndexName'];
-  var ScanIndexForward = aws.params['ScanIndexForward'] /* Type boolean */;
-  var QueryFilter = aws.params['QueryFilter'];
-  var KeyConditions = aws.params['KeyConditions'] /* Type map */;
-  var FilterExpression = aws.params['FilterExpression'];
-  var ExpressionAttributeValues = aws.params['ExpressionAttributeValues'];
-  var TableName = aws.params['TableName'];
-  if (!TableName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TableName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    ConsumedCapacity: /*Su*/{
-      GlobalSecondaryIndexes: /*Sx*/{} /*Map*/,
-      CapacityUnits: 0.0 /*Double*/,
-      Table: /*Sw*/{
-        CapacityUnits: 0.0 /*Double*/,
-      },
-      LocalSecondaryIndexes: /*Sx*/{} /*Map*/,
-      TableName: '',
-    },
-    LastEvaluatedKey: /*S6*/{} /*Map*/,
-    ScannedCount: 0,
-    Items: /*Sr*/[ /*Ss*/{} /*Map*/, /* ...*/ ],
-    Count: 0,
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.UpdateItem = function UpdateItem(aws) {
-  var ConditionalOperator = aws.params['ConditionalOperator'];
-  var ReturnConsumedCapacity = aws.params['ReturnConsumedCapacity'];
-  var AttributeUpdates = aws.params['AttributeUpdates'] /* Type map */;
-  var ExpressionAttributeNames = aws.params['ExpressionAttributeNames'];
-  var Key = aws.params['Key'];
-  var ReturnItemCollectionMetrics = aws.params['ReturnItemCollectionMetrics'];
-  var ReturnValues = aws.params['ReturnValues'];
-  var Expected = aws.params['Expected'];
-  var ConditionExpression = aws.params['ConditionExpression'];
-  var UpdateExpression = aws.params['UpdateExpression'];
-  var ExpressionAttributeValues = aws.params['ExpressionAttributeValues'];
-  var TableName = aws.params['TableName'];
-  if (!TableName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TableName'];
-  }
-  if (!Key) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Key'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    ItemCollectionMetrics: /*S1a*/{
-      SizeEstimateRangeGB: [ 0.0 /*Double*/, /* ...*/ ],
-      ItemCollectionKey: {} /*Map*/,
-    },
-    ConsumedCapacity: /*Su*/{
-      GlobalSecondaryIndexes: /*Sx*/{} /*Map*/,
-      CapacityUnits: 0.0 /*Double*/,
-      Table: /*Sw*/{
-        CapacityUnits: 0.0 /*Double*/,
-      },
-      LocalSecondaryIndexes: /*Sx*/{} /*Map*/,
-      TableName: '',
-    },
-    Attributes: /*Ss*/{} /*Map*/,
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.BatchGetItem = function BatchGetItem(aws) {
-  var ReturnConsumedCapacity = aws.params['ReturnConsumedCapacity'];
-  var RequestItems = aws.params['RequestItems'];
-  if (!RequestItems) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RequestItems'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Responses: {} /*Map*/,
-    UnprocessedKeys: /*S2*/{} /*Map*/,
-    ConsumedCapacity: /*St*/[ /*Su*/{
-      GlobalSecondaryIndexes: /*Sx*/{} /*Map*/,
-      CapacityUnits: 0.0 /*Double*/,
-      Table: /*Sw*/{
-        CapacityUnits: 0.0 /*Double*/,
-      },
-      LocalSecondaryIndexes: /*Sx*/{} /*Map*/,
-      TableName: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.BatchWriteItem = function BatchWriteItem(aws) {
-  var ReturnConsumedCapacity = aws.params['ReturnConsumedCapacity'];
-  var ReturnItemCollectionMetrics = aws.params['ReturnItemCollectionMetrics'];
-  var RequestItems = aws.params['RequestItems'];
-  if (!RequestItems) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RequestItems'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    UnprocessedItems: /*S10*/{} /*Map*/,
-    ItemCollectionMetrics: {} /*Map*/,
-    ConsumedCapacity: /*St*/[ /*Su*/{
-      GlobalSecondaryIndexes: /*Sx*/{} /*Map*/,
-      CapacityUnits: 0.0 /*Double*/,
-      Table: /*Sw*/{
-        CapacityUnits: 0.0 /*Double*/,
-      },
-      LocalSecondaryIndexes: /*Sx*/{} /*Map*/,
-      TableName: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteTable = function DeleteTable(aws) {
-  var TableName = aws.params['TableName'];
-  if (!TableName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TableName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    TableDescription: /*S20*/{
-      KeySchema: /*S1j*/[ {
-        KeyType: '',
-        AttributeName: '',
-      }, /* ...*/ ],
-      CreationDateTime: awsCommon.timestamp(),
-      ProvisionedThroughput: /*S23*/{
-        LastDecreaseDateTime: awsCommon.timestamp(),
-        LastIncreaseDateTime: awsCommon.timestamp(),
-        WriteCapacityUnits: 0 /*Long*/,
-        ReadCapacityUnits: 0 /*Long*/,
-        NumberOfDecreasesToday: 0 /*Long*/,
-      },
-      LatestStreamArn: '',
-      StreamSpecification: /*S1w*/{
-        StreamViewType: '',
-        StreamEnabled: false,
-      },
-      TableSizeBytes: 0 /*Long*/,
-      AttributeDefinitions: /*S1f*/[ {
-        AttributeType: '',
-        AttributeName: '',
-      }, /* ...*/ ],
-      GlobalSecondaryIndexes: [ {
-        IndexName: '',
-        KeySchema: /*S1j*/[ {
-        KeyType: '',
-        AttributeName: '',
-      }, /* ...*/ ],
-        Backfilling: false,
-        ProvisionedThroughput: /*S23*/{
-        LastDecreaseDateTime: awsCommon.timestamp(),
-        LastIncreaseDateTime: awsCommon.timestamp(),
-        WriteCapacityUnits: 0 /*Long*/,
-        ReadCapacityUnits: 0 /*Long*/,
-        NumberOfDecreasesToday: 0 /*Long*/,
-      },
-        ItemCount: 0 /*Long*/,
-        IndexStatus: '',
-        IndexArn: '',
-        Projection: /*S1o*/{
-          NonKeyAttributes: [ '', /* ...*/ ],
-          ProjectionType: '',
-        },
-        IndexSizeBytes: 0 /*Long*/,
-      }, /* ...*/ ],
-      ItemCount: 0 /*Long*/,
-      LatestStreamLabel: '',
-      LocalSecondaryIndexes: [ {
-        IndexName: '',
-        KeySchema: /*S1j*/[ {
-        KeyType: '',
-        AttributeName: '',
-      }, /* ...*/ ],
-        IndexSizeBytes: 0 /*Long*/,
-        ItemCount: 0 /*Long*/,
-        IndexArn: '',
-        Projection: /*S1o*/{
-          NonKeyAttributes: [ '', /* ...*/ ],
-          ProjectionType: '',
-        },
-      }, /* ...*/ ],
-      TableArn: '',
-      TableStatus: '',
-      TableName: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.GetItem = function GetItem(aws) {
-  var ReturnConsumedCapacity = aws.params['ReturnConsumedCapacity'];
-  var ProjectionExpression = aws.params['ProjectionExpression'];
-  var AttributesToGet = aws.params['AttributesToGet'];
-  var ExpressionAttributeNames = aws.params['ExpressionAttributeNames'];
-  var Key = aws.params['Key'];
-  var TableName = aws.params['TableName'];
-  var ConsistentRead = aws.params['ConsistentRead'] /* Type boolean */;
-  if (!TableName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TableName'];
-  }
-  if (!Key) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Key'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    ConsumedCapacity: /*Su*/{
-      GlobalSecondaryIndexes: /*Sx*/{} /*Map*/,
-      CapacityUnits: 0.0 /*Double*/,
-      Table: /*Sw*/{
-        CapacityUnits: 0.0 /*Double*/,
-      },
-      LocalSecondaryIndexes: /*Sx*/{} /*Map*/,
-      TableName: '',
-    },
-    Item: /*Ss*/{} /*Map*/,
   };
   return [200, ret];
 };

@@ -10,1671 +10,1671 @@ const awsCommon = require('../../lib/aws-common');
  */
 
 // Setup input and output to use AWS protocol rest-json
-require('../../lib/aws-common/shape_http')('rest-json', module.exports, null)
-// -----------------------------------
-module.exports.ListPipelines = awsCommon.as(
-  'GET',
-  '/2012-09-25/pipelines',
-  function ListPipelines(aws) {
-  var Ascending = aws.params['Ascending'];
-  var PageToken = aws.params['PageToken'];
-
-
-  // TODO implement code
-
-  var ret = {
-    NextPageToken: '',
-    Pipelines: [ /*S2i*/{
-      InputBucket: '',
-      ContentConfig: /*S29*/{
-        StorageClass: '',
-        Bucket: '',
-        Permissions: [ {
-          GranteeType: '',
-          Access: [ '', /* ...*/ ],
-          Grantee: '',
-        }, /* ...*/ ],
-      },
-      Role: '',
-      Status: '',
-      Name: '',
-      ThumbnailConfig: /*S29*/{
-        StorageClass: '',
-        Bucket: '',
-        Permissions: [ {
-          GranteeType: '',
-          Access: [ '', /* ...*/ ],
-          Grantee: '',
-        }, /* ...*/ ],
-      },
-      Arn: '',
-      Notifications: /*S27*/{
-        Completed: '',
-        Error: '',
-        Progressing: '',
-        Warning: '',
-      },
-      OutputBucket: '',
-      Id: '',
-      AwsKmsKeyArn: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.DeletePreset = awsCommon.as(
-  'DELETE',
-  '/2012-09-25/presets/:Id',
-  function DeletePreset(aws) {
-  var Id = aws.reqParams['Id'];
-  if (!Id) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-
-  };
-  return [202, ret];
-});
-// -----------------------------------
-module.exports.ReadJob = awsCommon.as(
-  'GET',
-  '/2012-09-25/jobs/:Id',
-  function ReadJob(aws) {
-  var Id = aws.reqParams['Id'];
-  if (!Id) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Job: /*S1v*/{
-      Playlists: [ {
-        StatusDetail: '',
-        OutputKeys: /*S1i*/[ '', /* ...*/ ],
-        Status: '',
-        Name: '',
-        PlayReadyDrm: /*S1n*/{
-          LicenseAcquisitionUrl: '',
-          KeyId: '',
-          Format: '',
-          Key: '',
-          KeyMd5: '',
-          InitializationVector: '',
-        },
-        Format: '',
-        HlsContentProtection: /*S1j*/{
-          LicenseAcquisitionUrl: '',
-          Method: '',
-          Key: '',
-          KeyStoragePolicy: '',
-          KeyMd5: '',
-          InitializationVector: '',
-        },
-      }, /* ...*/ ],
-      Timing: {
-        SubmitTimeMillis: 0 /*Long*/,
-        FinishTimeMillis: 0 /*Long*/,
-        StartTimeMillis: 0 /*Long*/,
-      },
-      Input: /*S5*/{
-        Interlaced: '',
-        AspectRatio: '',
-        Encryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-        DetectedProperties: {
-          FileSize: 0 /*Long*/,
-          Height: 0,
-          Width: 0,
-          FrameRate: '',
-          DurationMillis: 0 /*Long*/,
-        },
-        Key: '',
-        Resolution: '',
-        FrameRate: '',
-        Container: '',
-      },
-      OutputKeyPrefix: '',
-      Status: '',
-      Output: /*S1w*/{
-        Captions: /*S13*/{
-          CaptionFormats: [ {
-            Encryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-            Pattern: '',
-            Format: '',
-          }, /* ...*/ ],
-          MergePolicy: '',
-          CaptionSources: [ {
-            Encryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-            Label: '',
-            Key: '',
-            TimeOffset: '',
-            Language: '',
-          }, /* ...*/ ],
-        },
-        Rotate: '',
-        PresetId: '',
-        Width: 0,
-        StatusDetail: '',
-        AlbumArt: /*Sr*/{
-          Artwork: [ {
-            SizingPolicy: '',
-            Encryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-            PaddingPolicy: '',
-            MaxWidth: '',
-            InputKey: '',
-            MaxHeight: '',
-            AlbumArtFormat: '',
-          }, /* ...*/ ],
-          MergePolicy: '',
-        },
-        Key: '',
-        Height: 0,
-        FileSize: 0 /*Long*/,
-        FrameRate: '',
-        Watermarks: /*Sn*/[ {
-          InputKey: '',
-          Encryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-          PresetWatermarkId: '',
-        }, /* ...*/ ],
-        SegmentDuration: '',
-        ThumbnailPattern: '',
-        DurationMillis: 0 /*Long*/,
-        Status: '',
-        Encryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-        AppliedColorSpaceConversion: '',
-        ThumbnailEncryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-        Duration: 0 /*Long*/,
-        Id: '',
-        Composition: /*Sz*/[ {
-          TimeSpan: {
-            Duration: '',
-            StartTime: '',
-          },
-        }, /* ...*/ ],
-      },
-      Arn: '',
-      UserMetadata: /*S1s*/{} /*Map*/,
-      Outputs: [ /*S1w*/{
-        Captions: /*S13*/{
-          CaptionFormats: [ {
-            Encryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-            Pattern: '',
-            Format: '',
-          }, /* ...*/ ],
-          MergePolicy: '',
-          CaptionSources: [ {
-            Encryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-            Label: '',
-            Key: '',
-            TimeOffset: '',
-            Language: '',
-          }, /* ...*/ ],
-        },
-        Rotate: '',
-        PresetId: '',
-        Width: 0,
-        StatusDetail: '',
-        AlbumArt: /*Sr*/{
-          Artwork: [ {
-            SizingPolicy: '',
-            Encryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-            PaddingPolicy: '',
-            MaxWidth: '',
-            InputKey: '',
-            MaxHeight: '',
-            AlbumArtFormat: '',
-          }, /* ...*/ ],
-          MergePolicy: '',
-        },
-        Key: '',
-        Height: 0,
-        FileSize: 0 /*Long*/,
-        FrameRate: '',
-        Watermarks: /*Sn*/[ {
-          InputKey: '',
-          Encryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-          PresetWatermarkId: '',
-        }, /* ...*/ ],
-        SegmentDuration: '',
-        ThumbnailPattern: '',
-        DurationMillis: 0 /*Long*/,
-        Status: '',
-        Encryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-        AppliedColorSpaceConversion: '',
-        ThumbnailEncryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-        Duration: 0 /*Long*/,
-        Id: '',
-        Composition: /*Sz*/[ {
-          TimeSpan: {
-            Duration: '',
-            StartTime: '',
-          },
-        }, /* ...*/ ],
-      }, /* ...*/ ],
-      Id: '',
-      PipelineId: '',
-    },
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.UpdatePipelineNotifications = awsCommon.as(
-  '/2012-09-25/pipelines/:Id/notifications',
-  function UpdatePipelineNotifications(aws) {
-  var Id = aws.reqParams['Id'];
-  var Notifications = aws.params['Notifications'];
-  if (!Id) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
-  }
-  if (!Notifications) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Notifications'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Pipeline: /*S2i*/{
-      InputBucket: '',
-      ContentConfig: /*S29*/{
-        StorageClass: '',
-        Bucket: '',
-        Permissions: [ {
-          GranteeType: '',
-          Access: [ '', /* ...*/ ],
-          Grantee: '',
-        }, /* ...*/ ],
-      },
-      Role: '',
-      Status: '',
-      Name: '',
-      ThumbnailConfig: /*S29*/{
-        StorageClass: '',
-        Bucket: '',
-        Permissions: [ {
-          GranteeType: '',
-          Access: [ '', /* ...*/ ],
-          Grantee: '',
-        }, /* ...*/ ],
-      },
-      Arn: '',
-      Notifications: /*S27*/{
-        Completed: '',
-        Error: '',
-        Progressing: '',
-        Warning: '',
-      },
-      OutputBucket: '',
-      Id: '',
-      AwsKmsKeyArn: '',
-    },
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.TestRole = awsCommon.as(
-  '/2012-09-25/roleTests',
-  function TestRole(aws) {
-  var InputBucket = aws.params['InputBucket'];
-  var Role = aws.params['Role'];
-  var OutputBucket = aws.params['OutputBucket'];
-  var Topics = aws.params['Topics'] /* Type list */;
-  if (!Role) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Role'];
-  }
-  if (!InputBucket) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InputBucket'];
-  }
-  if (!OutputBucket) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter OutputBucket'];
-  }
-  if (!Topics) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Topics'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Success: '',
-    Messages: [ '', /* ...*/ ],
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.CreateJob = awsCommon.as(
-  '/2012-09-25/jobs',
-  function CreateJob(aws) {
-  var Playlists = aws.params['Playlists'] /* Type list */;
-  var Input = aws.params['Input'];
-  var Output = aws.params['Output'];
-  var Outputs = aws.params['Outputs'] /* Type list */;
-  var UserMetadata = aws.params['UserMetadata'];
-  var OutputKeyPrefix = aws.params['OutputKeyPrefix'];
-  var PipelineId = aws.params['PipelineId'];
-  if (!PipelineId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PipelineId'];
-  }
-  if (!Input) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Input'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Job: /*S1v*/{
-      Playlists: [ {
-        StatusDetail: '',
-        OutputKeys: /*S1i*/[ '', /* ...*/ ],
-        Status: '',
-        Name: '',
-        PlayReadyDrm: /*S1n*/{
-          LicenseAcquisitionUrl: '',
-          KeyId: '',
-          Format: '',
-          Key: '',
-          KeyMd5: '',
-          InitializationVector: '',
-        },
-        Format: '',
-        HlsContentProtection: /*S1j*/{
-          LicenseAcquisitionUrl: '',
-          Method: '',
-          Key: '',
-          KeyStoragePolicy: '',
-          KeyMd5: '',
-          InitializationVector: '',
-        },
-      }, /* ...*/ ],
-      Timing: {
-        SubmitTimeMillis: 0 /*Long*/,
-        FinishTimeMillis: 0 /*Long*/,
-        StartTimeMillis: 0 /*Long*/,
-      },
-      Input: /*S5*/{
-        Interlaced: '',
-        AspectRatio: '',
-        Encryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-        DetectedProperties: {
-          FileSize: 0 /*Long*/,
-          Height: 0,
-          Width: 0,
-          FrameRate: '',
-          DurationMillis: 0 /*Long*/,
-        },
-        Key: '',
-        Resolution: '',
-        FrameRate: '',
-        Container: '',
-      },
-      OutputKeyPrefix: '',
-      Status: '',
-      Output: /*S1w*/{
-        Captions: /*S13*/{
-          CaptionFormats: [ {
-            Encryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-            Pattern: '',
-            Format: '',
-          }, /* ...*/ ],
-          MergePolicy: '',
-          CaptionSources: [ {
-            Encryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-            Label: '',
-            Key: '',
-            TimeOffset: '',
-            Language: '',
-          }, /* ...*/ ],
-        },
-        Rotate: '',
-        PresetId: '',
-        Width: 0,
-        StatusDetail: '',
-        AlbumArt: /*Sr*/{
-          Artwork: [ {
-            SizingPolicy: '',
-            Encryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-            PaddingPolicy: '',
-            MaxWidth: '',
-            InputKey: '',
-            MaxHeight: '',
-            AlbumArtFormat: '',
-          }, /* ...*/ ],
-          MergePolicy: '',
-        },
-        Key: '',
-        Height: 0,
-        FileSize: 0 /*Long*/,
-        FrameRate: '',
-        Watermarks: /*Sn*/[ {
-          InputKey: '',
-          Encryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-          PresetWatermarkId: '',
-        }, /* ...*/ ],
-        SegmentDuration: '',
-        ThumbnailPattern: '',
-        DurationMillis: 0 /*Long*/,
-        Status: '',
-        Encryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-        AppliedColorSpaceConversion: '',
-        ThumbnailEncryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-        Duration: 0 /*Long*/,
-        Id: '',
-        Composition: /*Sz*/[ {
-          TimeSpan: {
-            Duration: '',
-            StartTime: '',
-          },
-        }, /* ...*/ ],
-      },
-      Arn: '',
-      UserMetadata: /*S1s*/{} /*Map*/,
-      Outputs: [ /*S1w*/{
-        Captions: /*S13*/{
-          CaptionFormats: [ {
-            Encryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-            Pattern: '',
-            Format: '',
-          }, /* ...*/ ],
-          MergePolicy: '',
-          CaptionSources: [ {
-            Encryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-            Label: '',
-            Key: '',
-            TimeOffset: '',
-            Language: '',
-          }, /* ...*/ ],
-        },
-        Rotate: '',
-        PresetId: '',
-        Width: 0,
-        StatusDetail: '',
-        AlbumArt: /*Sr*/{
-          Artwork: [ {
-            SizingPolicy: '',
-            Encryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-            PaddingPolicy: '',
-            MaxWidth: '',
-            InputKey: '',
-            MaxHeight: '',
-            AlbumArtFormat: '',
-          }, /* ...*/ ],
-          MergePolicy: '',
-        },
-        Key: '',
-        Height: 0,
-        FileSize: 0 /*Long*/,
-        FrameRate: '',
-        Watermarks: /*Sn*/[ {
-          InputKey: '',
-          Encryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-          PresetWatermarkId: '',
-        }, /* ...*/ ],
-        SegmentDuration: '',
-        ThumbnailPattern: '',
-        DurationMillis: 0 /*Long*/,
-        Status: '',
-        Encryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-        AppliedColorSpaceConversion: '',
-        ThumbnailEncryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-        Duration: 0 /*Long*/,
-        Id: '',
-        Composition: /*Sz*/[ {
-          TimeSpan: {
-            Duration: '',
-            StartTime: '',
-          },
-        }, /* ...*/ ],
-      }, /* ...*/ ],
-      Id: '',
-      PipelineId: '',
-    },
-  };
-  return [201, ret];
-});
-// -----------------------------------
-module.exports.CreatePreset = awsCommon.as(
-  '/2012-09-25/presets',
-  function CreatePreset(aws) {
-  var Video = aws.params['Video'];
-  var Description = aws.params['Description'];
-  var Thumbnails = aws.params['Thumbnails'];
-  var Name = aws.params['Name'];
-  var Audio = aws.params['Audio'];
-  var Container = aws.params['Container'];
-  if (!Name) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
-  }
-  if (!Container) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Container'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Preset: /*S3j*/{
-      Video: /*S2o*/{
-        Codec: '',
-        DisplayAspectRatio: '',
-        FixedGOP: '',
-        CodecOptions: {} /*Map*/,
-        SizingPolicy: '',
-        Watermarks: [ {
-          SizingPolicy: '',
-          HorizontalOffset: '',
-          HorizontalAlign: '',
-          MaxWidth: '',
-          VerticalOffset: '',
-          MaxHeight: '',
-          Target: '',
-          VerticalAlign: '',
-          Id: '',
-          Opacity: '',
-        }, /* ...*/ ],
-        FrameRate: '',
-        MaxFrameRate: '',
-        PaddingPolicy: '',
-        MaxWidth: '',
-        KeyframesMaxDist: '',
-        AspectRatio: '',
-        BitRate: '',
-        Resolution: '',
-        MaxHeight: '',
-      },
-      Description: '',
-      Thumbnails: /*S3f*/{
-        SizingPolicy: '',
-        PaddingPolicy: '',
-        MaxWidth: '',
-        Format: '',
-        MaxHeight: '',
-        Resolution: '',
-        Interval: '',
-        AspectRatio: '',
-      },
-      Name: '',
-      Arn: '',
-      Audio: /*S34*/{
-        Codec: '',
-        SampleRate: '',
-        CodecOptions: {
-          BitOrder: '',
-          BitDepth: '',
-          Signed: '',
-          Profile: '',
-        },
-        BitRate: '',
-        Channels: '',
-        AudioPackingMode: '',
-      },
-      Container: '',
-      Id: '',
-      Type: '',
-    },
-    Warning: '',
-  };
-  return [201, ret];
-});
-// -----------------------------------
-module.exports.CreatePipeline = awsCommon.as(
-  '/2012-09-25/pipelines',
-  function CreatePipeline(aws) {
-  var InputBucket = aws.params['InputBucket'];
-  var ContentConfig = aws.params['ContentConfig'];
-  var Name = aws.params['Name'];
-  var ThumbnailConfig = aws.params['ThumbnailConfig'];
-  var OutputBucket = aws.params['OutputBucket'];
-  var Notifications = aws.params['Notifications'];
-  var Role = aws.params['Role'];
-  var AwsKmsKeyArn = aws.params['AwsKmsKeyArn'];
-  if (!Name) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
-  }
-  if (!InputBucket) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InputBucket'];
-  }
-  if (!Role) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Role'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Pipeline: /*S2i*/{
-      InputBucket: '',
-      ContentConfig: /*S29*/{
-        StorageClass: '',
-        Bucket: '',
-        Permissions: [ {
-          GranteeType: '',
-          Access: [ '', /* ...*/ ],
-          Grantee: '',
-        }, /* ...*/ ],
-      },
-      Role: '',
-      Status: '',
-      Name: '',
-      ThumbnailConfig: /*S29*/{
-        StorageClass: '',
-        Bucket: '',
-        Permissions: [ {
-          GranteeType: '',
-          Access: [ '', /* ...*/ ],
-          Grantee: '',
-        }, /* ...*/ ],
-      },
-      Arn: '',
-      Notifications: /*S27*/{
-        Completed: '',
-        Error: '',
-        Progressing: '',
-        Warning: '',
-      },
-      OutputBucket: '',
-      Id: '',
-      AwsKmsKeyArn: '',
-    },
-    Warnings: /*S2k*/[ {
-      Message: '',
-      Code: '',
-    }, /* ...*/ ],
-  };
-  return [201, ret];
-});
-// -----------------------------------
-module.exports.ListJobsByStatus = awsCommon.as(
-  'GET',
-  '/2012-09-25/jobsByStatus/:Status',
-  function ListJobsByStatus(aws) {
-  var Ascending = aws.params['Ascending'];
-  var PageToken = aws.params['PageToken'];
-  var Status = aws.reqParams['Status'];
-  if (!Status) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Status'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    NextPageToken: '',
-    Jobs: /*S3s*/[ /*S1v*/{
-      Playlists: [ {
-        StatusDetail: '',
-        OutputKeys: /*S1i*/[ '', /* ...*/ ],
-        Status: '',
-        Name: '',
-        PlayReadyDrm: /*S1n*/{
-          LicenseAcquisitionUrl: '',
-          KeyId: '',
-          Format: '',
-          Key: '',
-          KeyMd5: '',
-          InitializationVector: '',
-        },
-        Format: '',
-        HlsContentProtection: /*S1j*/{
-          LicenseAcquisitionUrl: '',
-          Method: '',
-          Key: '',
-          KeyStoragePolicy: '',
-          KeyMd5: '',
-          InitializationVector: '',
-        },
-      }, /* ...*/ ],
-      Timing: {
-        SubmitTimeMillis: 0 /*Long*/,
-        FinishTimeMillis: 0 /*Long*/,
-        StartTimeMillis: 0 /*Long*/,
-      },
-      Input: /*S5*/{
-        Interlaced: '',
-        AspectRatio: '',
-        Encryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-        DetectedProperties: {
-          FileSize: 0 /*Long*/,
-          Height: 0,
-          Width: 0,
-          FrameRate: '',
-          DurationMillis: 0 /*Long*/,
-        },
-        Key: '',
-        Resolution: '',
-        FrameRate: '',
-        Container: '',
-      },
-      OutputKeyPrefix: '',
-      Status: '',
-      Output: /*S1w*/{
-        Captions: /*S13*/{
-          CaptionFormats: [ {
-            Encryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-            Pattern: '',
-            Format: '',
-          }, /* ...*/ ],
-          MergePolicy: '',
-          CaptionSources: [ {
-            Encryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-            Label: '',
-            Key: '',
-            TimeOffset: '',
-            Language: '',
-          }, /* ...*/ ],
-        },
-        Rotate: '',
-        PresetId: '',
-        Width: 0,
-        StatusDetail: '',
-        AlbumArt: /*Sr*/{
-          Artwork: [ {
-            SizingPolicy: '',
-            Encryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-            PaddingPolicy: '',
-            MaxWidth: '',
-            InputKey: '',
-            MaxHeight: '',
-            AlbumArtFormat: '',
-          }, /* ...*/ ],
-          MergePolicy: '',
-        },
-        Key: '',
-        Height: 0,
-        FileSize: 0 /*Long*/,
-        FrameRate: '',
-        Watermarks: /*Sn*/[ {
-          InputKey: '',
-          Encryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-          PresetWatermarkId: '',
-        }, /* ...*/ ],
-        SegmentDuration: '',
-        ThumbnailPattern: '',
-        DurationMillis: 0 /*Long*/,
-        Status: '',
-        Encryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-        AppliedColorSpaceConversion: '',
-        ThumbnailEncryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-        Duration: 0 /*Long*/,
-        Id: '',
-        Composition: /*Sz*/[ {
-          TimeSpan: {
-            Duration: '',
-            StartTime: '',
-          },
-        }, /* ...*/ ],
-      },
-      Arn: '',
-      UserMetadata: /*S1s*/{} /*Map*/,
-      Outputs: [ /*S1w*/{
-        Captions: /*S13*/{
-          CaptionFormats: [ {
-            Encryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-            Pattern: '',
-            Format: '',
-          }, /* ...*/ ],
-          MergePolicy: '',
-          CaptionSources: [ {
-            Encryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-            Label: '',
-            Key: '',
-            TimeOffset: '',
-            Language: '',
-          }, /* ...*/ ],
-        },
-        Rotate: '',
-        PresetId: '',
-        Width: 0,
-        StatusDetail: '',
-        AlbumArt: /*Sr*/{
-          Artwork: [ {
-            SizingPolicy: '',
-            Encryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-            PaddingPolicy: '',
-            MaxWidth: '',
-            InputKey: '',
-            MaxHeight: '',
-            AlbumArtFormat: '',
-          }, /* ...*/ ],
-          MergePolicy: '',
-        },
-        Key: '',
-        Height: 0,
-        FileSize: 0 /*Long*/,
-        FrameRate: '',
-        Watermarks: /*Sn*/[ {
-          InputKey: '',
-          Encryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-          PresetWatermarkId: '',
-        }, /* ...*/ ],
-        SegmentDuration: '',
-        ThumbnailPattern: '',
-        DurationMillis: 0 /*Long*/,
-        Status: '',
-        Encryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-        AppliedColorSpaceConversion: '',
-        ThumbnailEncryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-        Duration: 0 /*Long*/,
-        Id: '',
-        Composition: /*Sz*/[ {
-          TimeSpan: {
-            Duration: '',
-            StartTime: '',
-          },
-        }, /* ...*/ ],
-      }, /* ...*/ ],
-      Id: '',
-      PipelineId: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-});
+require('../../lib/aws-common/shape_http')('rest-json', module.exports, null);
 // -----------------------------------
 module.exports.ReadPreset = awsCommon.as(
   'GET',
   '/2012-09-25/presets/:Id',
   function ReadPreset(aws) {
-  var Id = aws.reqParams['Id'];
-  if (!Id) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
-  }
+    var id = aws.reqParams.Id;
+    if (!id) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
+    }
 
 
-  // TODO implement code
+    // TODO implement code
 
-  var ret = {
-    Preset: /*S3j*/{
-      Video: /*S2o*/{
-        Codec: '',
-        DisplayAspectRatio: '',
-        FixedGOP: '',
-        CodecOptions: {} /*Map*/,
-        SizingPolicy: '',
-        Watermarks: [ {
-          SizingPolicy: '',
-          HorizontalOffset: '',
-          HorizontalAlign: '',
+    var ret = {
+      Preset: /*S3j*/{
+        Container: '',
+        Video: /*S2o*/{
+          KeyframesMaxDist: '',
           MaxWidth: '',
-          VerticalOffset: '',
-          MaxHeight: '',
-          Target: '',
-          VerticalAlign: '',
-          Id: '',
-          Opacity: '',
-        }, /* ...*/ ],
-        FrameRate: '',
-        MaxFrameRate: '',
-        PaddingPolicy: '',
-        MaxWidth: '',
-        KeyframesMaxDist: '',
-        AspectRatio: '',
-        BitRate: '',
-        Resolution: '',
-        MaxHeight: '',
-      },
-      Description: '',
-      Thumbnails: /*S3f*/{
-        SizingPolicy: '',
-        PaddingPolicy: '',
-        MaxWidth: '',
-        Format: '',
-        MaxHeight: '',
-        Resolution: '',
-        Interval: '',
-        AspectRatio: '',
-      },
-      Name: '',
-      Arn: '',
-      Audio: /*S34*/{
-        Codec: '',
-        SampleRate: '',
-        CodecOptions: {
-          BitOrder: '',
-          BitDepth: '',
-          Signed: '',
-          Profile: '',
-        },
-        BitRate: '',
-        Channels: '',
-        AudioPackingMode: '',
-      },
-      Container: '',
-      Id: '',
-      Type: '',
-    },
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.UpdatePipelineStatus = awsCommon.as(
-  '/2012-09-25/pipelines/:Id/status',
-  function UpdatePipelineStatus(aws) {
-  var Status = aws.params['Status'];
-  var Id = aws.reqParams['Id'];
-  if (!Id) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
-  }
-  if (!Status) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Status'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Pipeline: /*S2i*/{
-      InputBucket: '',
-      ContentConfig: /*S29*/{
-        StorageClass: '',
-        Bucket: '',
-        Permissions: [ {
-          GranteeType: '',
-          Access: [ '', /* ...*/ ],
-          Grantee: '',
-        }, /* ...*/ ],
-      },
-      Role: '',
-      Status: '',
-      Name: '',
-      ThumbnailConfig: /*S29*/{
-        StorageClass: '',
-        Bucket: '',
-        Permissions: [ {
-          GranteeType: '',
-          Access: [ '', /* ...*/ ],
-          Grantee: '',
-        }, /* ...*/ ],
-      },
-      Arn: '',
-      Notifications: /*S27*/{
-        Completed: '',
-        Error: '',
-        Progressing: '',
-        Warning: '',
-      },
-      OutputBucket: '',
-      Id: '',
-      AwsKmsKeyArn: '',
-    },
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.ListPresets = awsCommon.as(
-  'GET',
-  '/2012-09-25/presets',
-  function ListPresets(aws) {
-  var Ascending = aws.params['Ascending'];
-  var PageToken = aws.params['PageToken'];
-
-
-  // TODO implement code
-
-  var ret = {
-    NextPageToken: '',
-    Presets: [ /*S3j*/{
-      Video: /*S2o*/{
-        Codec: '',
-        DisplayAspectRatio: '',
-        FixedGOP: '',
-        CodecOptions: {} /*Map*/,
-        SizingPolicy: '',
-        Watermarks: [ {
+          Codec: '',
+          BitRate: '',
+          CodecOptions: {} /*Map*/,
+          PaddingPolicy: '',
+          FixedGOP: '',
+          Resolution: '',
+          AspectRatio: '',
           SizingPolicy: '',
-          HorizontalOffset: '',
-          HorizontalAlign: '',
-          MaxWidth: '',
-          VerticalOffset: '',
           MaxHeight: '',
-          Target: '',
-          VerticalAlign: '',
-          Id: '',
-          Opacity: '',
-        }, /* ...*/ ],
-        FrameRate: '',
-        MaxFrameRate: '',
-        PaddingPolicy: '',
-        MaxWidth: '',
-        KeyframesMaxDist: '',
-        AspectRatio: '',
-        BitRate: '',
-        Resolution: '',
-        MaxHeight: '',
-      },
-      Description: '',
-      Thumbnails: /*S3f*/{
-        SizingPolicy: '',
-        PaddingPolicy: '',
-        MaxWidth: '',
-        Format: '',
-        MaxHeight: '',
-        Resolution: '',
-        Interval: '',
-        AspectRatio: '',
-      },
-      Name: '',
-      Arn: '',
-      Audio: /*S34*/{
-        Codec: '',
-        SampleRate: '',
-        CodecOptions: {
-          BitOrder: '',
-          BitDepth: '',
-          Signed: '',
-          Profile: '',
+          DisplayAspectRatio: '',
+          Watermarks: [ {
+            VerticalOffset: '',
+            MaxWidth: '',
+            HorizontalAlign: '',
+            SizingPolicy: '',
+            MaxHeight: '',
+            VerticalAlign: '',
+            Id: '',
+            Opacity: '',
+            HorizontalOffset: '',
+            Target: '',
+          }, /* ...*/ ],
+          MaxFrameRate: '',
+          FrameRate: '',
         },
-        BitRate: '',
-        Channels: '',
-        AudioPackingMode: '',
+        Type: '',
+        Description: '',
+        Name: '',
+        Id: '',
+        Audio: /*S34*/{
+          BitRate: '',
+          Codec: '',
+          Channels: '',
+          SampleRate: '',
+          AudioPackingMode: '',
+          CodecOptions: {
+            BitDepth: '',
+            Profile: '',
+            Signed: '',
+            BitOrder: '',
+          },
+        },
+        Arn: '',
+        Thumbnails: /*S3f*/{
+          Resolution: '',
+          Format: '',
+          AspectRatio: '',
+          SizingPolicy: '',
+          MaxHeight: '',
+          PaddingPolicy: '',
+          MaxWidth: '',
+          Interval: '',
+        },
       },
-      Container: '',
-      Id: '',
-      Type: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-});
+    };
+    return [200, ret];
+  });
 // -----------------------------------
-module.exports.ReadPipeline = awsCommon.as(
+module.exports.ListJobsByStatus = awsCommon.as(
   'GET',
-  '/2012-09-25/pipelines/:Id',
-  function ReadPipeline(aws) {
-  var Id = aws.reqParams['Id'];
-  if (!Id) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
-  }
+  '/2012-09-25/jobsByStatus/:Status',
+  function ListJobsByStatus(aws) {
+    var pageToken = aws.params.PageToken;
+    var ascending = aws.params.Ascending;
+    var status = aws.reqParams.Status;
+    if (!status) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Status'];
+    }
 
 
-  // TODO implement code
+    // TODO implement code
 
-  var ret = {
-    Pipeline: /*S2i*/{
-      InputBucket: '',
-      ContentConfig: /*S29*/{
-        StorageClass: '',
-        Bucket: '',
-        Permissions: [ {
-          GranteeType: '',
-          Access: [ '', /* ...*/ ],
-          Grantee: '',
+    var ret = {
+      NextPageToken: '',
+      Jobs: /*S3s*/[ /*S1v*/{
+        Timing: {
+          FinishTimeMillis: 0 /*Long*/,
+          StartTimeMillis: 0 /*Long*/,
+          SubmitTimeMillis: 0 /*Long*/,
+        },
+        UserMetadata: /*S1s*/{} /*Map*/,
+        OutputKeyPrefix: '',
+        Input: /*S5*/{
+          Container: '',
+          Interlaced: '',
+          Resolution: '',
+          AspectRatio: '',
+          DetectedProperties: {
+            DurationMillis: 0 /*Long*/,
+            FileSize: 0 /*Long*/,
+            Width: 0,
+            Height: 0,
+            FrameRate: '',
+          },
+          Key: '',
+          Encryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+          FrameRate: '',
+        },
+        Status: '',
+        Outputs: [ /*S1w*/{
+          DurationMillis: 0 /*Long*/,
+          FileSize: 0 /*Long*/,
+          SegmentDuration: '',
+          ThumbnailPattern: '',
+          Watermarks: /*Sn*/[ {
+            Encryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+            InputKey: '',
+            PresetWatermarkId: '',
+          }, /* ...*/ ],
+          ThumbnailEncryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+          Status: '',
+          Rotate: '',
+          StatusDetail: '',
+          AppliedColorSpaceConversion: '',
+          Duration: 0 /*Long*/,
+          Height: 0,
+          Composition: /*Sz*/[ {
+            TimeSpan: {
+              Duration: '',
+              StartTime: '',
+            },
+          }, /* ...*/ ],
+          Captions: /*S13*/{
+            CaptionFormats: [ {
+              Pattern: '',
+              Format: '',
+              Encryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+            }, /* ...*/ ],
+            CaptionSources: [ {
+              Encryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+              TimeOffset: '',
+              Key: '',
+              Label: '',
+              Language: '',
+            }, /* ...*/ ],
+            MergePolicy: '',
+          },
+          Width: 0,
+          Key: '',
+          PresetId: '',
+          AlbumArt: /*Sr*/{
+            Artwork: [ {
+              MaxWidth: '',
+              Encryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+              SizingPolicy: '',
+              MaxHeight: '',
+              AlbumArtFormat: '',
+              PaddingPolicy: '',
+              InputKey: '',
+            }, /* ...*/ ],
+            MergePolicy: '',
+          },
+          Id: '',
+          Encryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+          FrameRate: '',
+        }, /* ...*/ ],
+        Id: '',
+        Output: /*S1w*/{
+          DurationMillis: 0 /*Long*/,
+          FileSize: 0 /*Long*/,
+          SegmentDuration: '',
+          ThumbnailPattern: '',
+          Watermarks: /*Sn*/[ {
+            Encryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+            InputKey: '',
+            PresetWatermarkId: '',
+          }, /* ...*/ ],
+          ThumbnailEncryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+          Status: '',
+          Rotate: '',
+          StatusDetail: '',
+          AppliedColorSpaceConversion: '',
+          Duration: 0 /*Long*/,
+          Height: 0,
+          Composition: /*Sz*/[ {
+            TimeSpan: {
+              Duration: '',
+              StartTime: '',
+            },
+          }, /* ...*/ ],
+          Captions: /*S13*/{
+            CaptionFormats: [ {
+              Pattern: '',
+              Format: '',
+              Encryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+            }, /* ...*/ ],
+            CaptionSources: [ {
+              Encryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+              TimeOffset: '',
+              Key: '',
+              Label: '',
+              Language: '',
+            }, /* ...*/ ],
+            MergePolicy: '',
+          },
+          Width: 0,
+          Key: '',
+          PresetId: '',
+          AlbumArt: /*Sr*/{
+            Artwork: [ {
+              MaxWidth: '',
+              Encryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+              SizingPolicy: '',
+              MaxHeight: '',
+              AlbumArtFormat: '',
+              PaddingPolicy: '',
+              InputKey: '',
+            }, /* ...*/ ],
+            MergePolicy: '',
+          },
+          Id: '',
+          Encryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+          FrameRate: '',
+        },
+        Arn: '',
+        PipelineId: '',
+        Playlists: [ {
+          StatusDetail: '',
+          Format: '',
+          Status: '',
+          PlayReadyDrm: /*S1n*/{
+            Format: '',
+            KeyMd5: '',
+            LicenseAcquisitionUrl: '',
+            Key: '',
+            InitializationVector: '',
+            KeyId: '',
+          },
+          HlsContentProtection: /*S1j*/{
+            Key: '',
+            LicenseAcquisitionUrl: '',
+            KeyStoragePolicy: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Method: '',
+          },
+          Name: '',
+          OutputKeys: /*S1i*/[ '', /* ...*/ ],
+        }, /* ...*/ ],
+      }, /* ...*/ ],
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.CreatePipeline = awsCommon.as(
+  '/2012-09-25/pipelines',
+  function CreatePipeline(aws) {
+    var inputBucket = aws.params.InputBucket;
+    var contentConfig = aws.params.ContentConfig;
+    var role = aws.params.Role;
+    var thumbnailConfig = aws.params.ThumbnailConfig;
+    var outputBucket = aws.params.OutputBucket;
+    var name = aws.params.Name;
+    var awsKmsKeyArn = aws.params.AwsKmsKeyArn;
+    var notifications = aws.params.Notifications;
+    if (!name) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
+    }
+    if (!inputBucket) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InputBucket'];
+    }
+    if (!role) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Role'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      Pipeline: /*S2i*/{
+        InputBucket: '',
+        ContentConfig: /*S29*/{
+          StorageClass: '',
+          Bucket: '',
+          Permissions: [ {
+            Access: [ '', /* ...*/ ],
+            Grantee: '',
+            GranteeType: '',
+          }, /* ...*/ ],
+        },
+        Notifications: /*S27*/{
+          Warning: '',
+          Error: '',
+          Completed: '',
+          Progressing: '',
+        },
+        Role: '',
+        OutputBucket: '',
+        Status: '',
+        Name: '',
+        Id: '',
+        Arn: '',
+        AwsKmsKeyArn: '',
+        ThumbnailConfig: /*S29*/{
+          StorageClass: '',
+          Bucket: '',
+          Permissions: [ {
+            Access: [ '', /* ...*/ ],
+            Grantee: '',
+            GranteeType: '',
+          }, /* ...*/ ],
+        },
+      },
+      Warnings: /*S2k*/[ {
+        Code: '',
+        Message: '',
+      }, /* ...*/ ],
+    };
+    return [201, ret];
+  });
+// -----------------------------------
+module.exports.TestRole = awsCommon.as(
+  '/2012-09-25/roleTests',
+  function TestRole(aws) {
+    var inputBucket = aws.params.InputBucket;
+    var topics = aws.params.Topics /* Type list */;
+    var role = aws.params.Role;
+    var outputBucket = aws.params.OutputBucket;
+    if (!role) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Role'];
+    }
+    if (!inputBucket) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InputBucket'];
+    }
+    if (!outputBucket) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter OutputBucket'];
+    }
+    if (!topics) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Topics'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      Messages: [ '', /* ...*/ ],
+      Success: '',
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.CreateJob = awsCommon.as(
+  '/2012-09-25/jobs',
+  function CreateJob(aws) {
+    var userMetadata = aws.params.UserMetadata;
+    var outputKeyPrefix = aws.params.OutputKeyPrefix;
+    var input = aws.params.Input;
+    var outputs = aws.params.Outputs /* Type list */;
+    var pipelineId = aws.params.PipelineId;
+    var output = aws.params.Output;
+    var playlists = aws.params.Playlists /* Type list */;
+    if (!pipelineId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PipelineId'];
+    }
+    if (!input) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Input'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      Job: /*S1v*/{
+        Timing: {
+          FinishTimeMillis: 0 /*Long*/,
+          StartTimeMillis: 0 /*Long*/,
+          SubmitTimeMillis: 0 /*Long*/,
+        },
+        UserMetadata: /*S1s*/{} /*Map*/,
+        OutputKeyPrefix: '',
+        Input: /*S5*/{
+          Container: '',
+          Interlaced: '',
+          Resolution: '',
+          AspectRatio: '',
+          DetectedProperties: {
+            DurationMillis: 0 /*Long*/,
+            FileSize: 0 /*Long*/,
+            Width: 0,
+            Height: 0,
+            FrameRate: '',
+          },
+          Key: '',
+          Encryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+          FrameRate: '',
+        },
+        Status: '',
+        Outputs: [ /*S1w*/{
+          DurationMillis: 0 /*Long*/,
+          FileSize: 0 /*Long*/,
+          SegmentDuration: '',
+          ThumbnailPattern: '',
+          Watermarks: /*Sn*/[ {
+            Encryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+            InputKey: '',
+            PresetWatermarkId: '',
+          }, /* ...*/ ],
+          ThumbnailEncryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+          Status: '',
+          Rotate: '',
+          StatusDetail: '',
+          AppliedColorSpaceConversion: '',
+          Duration: 0 /*Long*/,
+          Height: 0,
+          Composition: /*Sz*/[ {
+            TimeSpan: {
+              Duration: '',
+              StartTime: '',
+            },
+          }, /* ...*/ ],
+          Captions: /*S13*/{
+            CaptionFormats: [ {
+              Pattern: '',
+              Format: '',
+              Encryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+            }, /* ...*/ ],
+            CaptionSources: [ {
+              Encryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+              TimeOffset: '',
+              Key: '',
+              Label: '',
+              Language: '',
+            }, /* ...*/ ],
+            MergePolicy: '',
+          },
+          Width: 0,
+          Key: '',
+          PresetId: '',
+          AlbumArt: /*Sr*/{
+            Artwork: [ {
+              MaxWidth: '',
+              Encryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+              SizingPolicy: '',
+              MaxHeight: '',
+              AlbumArtFormat: '',
+              PaddingPolicy: '',
+              InputKey: '',
+            }, /* ...*/ ],
+            MergePolicy: '',
+          },
+          Id: '',
+          Encryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+          FrameRate: '',
+        }, /* ...*/ ],
+        Id: '',
+        Output: /*S1w*/{
+          DurationMillis: 0 /*Long*/,
+          FileSize: 0 /*Long*/,
+          SegmentDuration: '',
+          ThumbnailPattern: '',
+          Watermarks: /*Sn*/[ {
+            Encryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+            InputKey: '',
+            PresetWatermarkId: '',
+          }, /* ...*/ ],
+          ThumbnailEncryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+          Status: '',
+          Rotate: '',
+          StatusDetail: '',
+          AppliedColorSpaceConversion: '',
+          Duration: 0 /*Long*/,
+          Height: 0,
+          Composition: /*Sz*/[ {
+            TimeSpan: {
+              Duration: '',
+              StartTime: '',
+            },
+          }, /* ...*/ ],
+          Captions: /*S13*/{
+            CaptionFormats: [ {
+              Pattern: '',
+              Format: '',
+              Encryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+            }, /* ...*/ ],
+            CaptionSources: [ {
+              Encryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+              TimeOffset: '',
+              Key: '',
+              Label: '',
+              Language: '',
+            }, /* ...*/ ],
+            MergePolicy: '',
+          },
+          Width: 0,
+          Key: '',
+          PresetId: '',
+          AlbumArt: /*Sr*/{
+            Artwork: [ {
+              MaxWidth: '',
+              Encryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+              SizingPolicy: '',
+              MaxHeight: '',
+              AlbumArtFormat: '',
+              PaddingPolicy: '',
+              InputKey: '',
+            }, /* ...*/ ],
+            MergePolicy: '',
+          },
+          Id: '',
+          Encryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+          FrameRate: '',
+        },
+        Arn: '',
+        PipelineId: '',
+        Playlists: [ {
+          StatusDetail: '',
+          Format: '',
+          Status: '',
+          PlayReadyDrm: /*S1n*/{
+            Format: '',
+            KeyMd5: '',
+            LicenseAcquisitionUrl: '',
+            Key: '',
+            InitializationVector: '',
+            KeyId: '',
+          },
+          HlsContentProtection: /*S1j*/{
+            Key: '',
+            LicenseAcquisitionUrl: '',
+            KeyStoragePolicy: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Method: '',
+          },
+          Name: '',
+          OutputKeys: /*S1i*/[ '', /* ...*/ ],
         }, /* ...*/ ],
       },
-      Role: '',
-      Status: '',
-      Name: '',
-      ThumbnailConfig: /*S29*/{
-        StorageClass: '',
-        Bucket: '',
-        Permissions: [ {
-          GranteeType: '',
-          Access: [ '', /* ...*/ ],
-          Grantee: '',
-        }, /* ...*/ ],
+    };
+    return [201, ret];
+  });
+// -----------------------------------
+module.exports.UpdatePipelineNotifications = awsCommon.as(
+  '/2012-09-25/pipelines/:Id/notifications',
+  function UpdatePipelineNotifications(aws) {
+    var id = aws.reqParams.Id;
+    var notifications = aws.params.Notifications;
+    if (!id) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
+    }
+    if (!notifications) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Notifications'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      Pipeline: /*S2i*/{
+        InputBucket: '',
+        ContentConfig: /*S29*/{
+          StorageClass: '',
+          Bucket: '',
+          Permissions: [ {
+            Access: [ '', /* ...*/ ],
+            Grantee: '',
+            GranteeType: '',
+          }, /* ...*/ ],
+        },
+        Notifications: /*S27*/{
+          Warning: '',
+          Error: '',
+          Completed: '',
+          Progressing: '',
+        },
+        Role: '',
+        OutputBucket: '',
+        Status: '',
+        Name: '',
+        Id: '',
+        Arn: '',
+        AwsKmsKeyArn: '',
+        ThumbnailConfig: /*S29*/{
+          StorageClass: '',
+          Bucket: '',
+          Permissions: [ {
+            Access: [ '', /* ...*/ ],
+            Grantee: '',
+            GranteeType: '',
+          }, /* ...*/ ],
+        },
       },
-      Arn: '',
-      Notifications: /*S27*/{
-        Completed: '',
-        Error: '',
-        Progressing: '',
-        Warning: '',
-      },
-      OutputBucket: '',
-      Id: '',
-      AwsKmsKeyArn: '',
-    },
-    Warnings: /*S2k*/[ {
-      Message: '',
-      Code: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-});
+    };
+    return [200, ret];
+  });
 // -----------------------------------
 module.exports.DeletePipeline = awsCommon.as(
   'DELETE',
   '/2012-09-25/pipelines/:Id',
   function DeletePipeline(aws) {
-  var Id = aws.reqParams['Id'];
-  if (!Id) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
-  }
+    var id = aws.reqParams.Id;
+    if (!id) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
+    }
 
 
-  // TODO implement code
+    // TODO implement code
 
-  var ret = {
+    var ret = {
 
-  };
-  return [202, ret];
-});
+    };
+    return [202, ret];
+  });
 // -----------------------------------
-module.exports.CancelJob = awsCommon.as(
-  'DELETE',
+module.exports.ReadJob = awsCommon.as(
+  'GET',
   '/2012-09-25/jobs/:Id',
-  function CancelJob(aws) {
-  var Id = aws.reqParams['Id'];
-  if (!Id) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
-  }
+  function ReadJob(aws) {
+    var id = aws.reqParams.Id;
+    if (!id) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
+    }
 
 
-  // TODO implement code
+    // TODO implement code
 
-  var ret = {
-
-  };
-  return [202, ret];
-});
+    var ret = {
+      Job: /*S1v*/{
+        Timing: {
+          FinishTimeMillis: 0 /*Long*/,
+          StartTimeMillis: 0 /*Long*/,
+          SubmitTimeMillis: 0 /*Long*/,
+        },
+        UserMetadata: /*S1s*/{} /*Map*/,
+        OutputKeyPrefix: '',
+        Input: /*S5*/{
+          Container: '',
+          Interlaced: '',
+          Resolution: '',
+          AspectRatio: '',
+          DetectedProperties: {
+            DurationMillis: 0 /*Long*/,
+            FileSize: 0 /*Long*/,
+            Width: 0,
+            Height: 0,
+            FrameRate: '',
+          },
+          Key: '',
+          Encryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+          FrameRate: '',
+        },
+        Status: '',
+        Outputs: [ /*S1w*/{
+          DurationMillis: 0 /*Long*/,
+          FileSize: 0 /*Long*/,
+          SegmentDuration: '',
+          ThumbnailPattern: '',
+          Watermarks: /*Sn*/[ {
+            Encryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+            InputKey: '',
+            PresetWatermarkId: '',
+          }, /* ...*/ ],
+          ThumbnailEncryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+          Status: '',
+          Rotate: '',
+          StatusDetail: '',
+          AppliedColorSpaceConversion: '',
+          Duration: 0 /*Long*/,
+          Height: 0,
+          Composition: /*Sz*/[ {
+            TimeSpan: {
+              Duration: '',
+              StartTime: '',
+            },
+          }, /* ...*/ ],
+          Captions: /*S13*/{
+            CaptionFormats: [ {
+              Pattern: '',
+              Format: '',
+              Encryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+            }, /* ...*/ ],
+            CaptionSources: [ {
+              Encryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+              TimeOffset: '',
+              Key: '',
+              Label: '',
+              Language: '',
+            }, /* ...*/ ],
+            MergePolicy: '',
+          },
+          Width: 0,
+          Key: '',
+          PresetId: '',
+          AlbumArt: /*Sr*/{
+            Artwork: [ {
+              MaxWidth: '',
+              Encryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+              SizingPolicy: '',
+              MaxHeight: '',
+              AlbumArtFormat: '',
+              PaddingPolicy: '',
+              InputKey: '',
+            }, /* ...*/ ],
+            MergePolicy: '',
+          },
+          Id: '',
+          Encryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+          FrameRate: '',
+        }, /* ...*/ ],
+        Id: '',
+        Output: /*S1w*/{
+          DurationMillis: 0 /*Long*/,
+          FileSize: 0 /*Long*/,
+          SegmentDuration: '',
+          ThumbnailPattern: '',
+          Watermarks: /*Sn*/[ {
+            Encryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+            InputKey: '',
+            PresetWatermarkId: '',
+          }, /* ...*/ ],
+          ThumbnailEncryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+          Status: '',
+          Rotate: '',
+          StatusDetail: '',
+          AppliedColorSpaceConversion: '',
+          Duration: 0 /*Long*/,
+          Height: 0,
+          Composition: /*Sz*/[ {
+            TimeSpan: {
+              Duration: '',
+              StartTime: '',
+            },
+          }, /* ...*/ ],
+          Captions: /*S13*/{
+            CaptionFormats: [ {
+              Pattern: '',
+              Format: '',
+              Encryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+            }, /* ...*/ ],
+            CaptionSources: [ {
+              Encryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+              TimeOffset: '',
+              Key: '',
+              Label: '',
+              Language: '',
+            }, /* ...*/ ],
+            MergePolicy: '',
+          },
+          Width: 0,
+          Key: '',
+          PresetId: '',
+          AlbumArt: /*Sr*/{
+            Artwork: [ {
+              MaxWidth: '',
+              Encryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+              SizingPolicy: '',
+              MaxHeight: '',
+              AlbumArtFormat: '',
+              PaddingPolicy: '',
+              InputKey: '',
+            }, /* ...*/ ],
+            MergePolicy: '',
+          },
+          Id: '',
+          Encryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+          FrameRate: '',
+        },
+        Arn: '',
+        PipelineId: '',
+        Playlists: [ {
+          StatusDetail: '',
+          Format: '',
+          Status: '',
+          PlayReadyDrm: /*S1n*/{
+            Format: '',
+            KeyMd5: '',
+            LicenseAcquisitionUrl: '',
+            Key: '',
+            InitializationVector: '',
+            KeyId: '',
+          },
+          HlsContentProtection: /*S1j*/{
+            Key: '',
+            LicenseAcquisitionUrl: '',
+            KeyStoragePolicy: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Method: '',
+          },
+          Name: '',
+          OutputKeys: /*S1i*/[ '', /* ...*/ ],
+        }, /* ...*/ ],
+      },
+    };
+    return [200, ret];
+  });
 // -----------------------------------
-module.exports.UpdatePipeline = awsCommon.as(
-  'PUT',
+module.exports.ReadPipeline = awsCommon.as(
+  'GET',
   '/2012-09-25/pipelines/:Id',
-  function UpdatePipeline(aws) {
-  var InputBucket = aws.params['InputBucket'];
-  var ThumbnailConfig = aws.params['ThumbnailConfig'];
-  var Name = aws.params['Name'];
-  var Role = aws.params['Role'];
-  var Notifications = aws.params['Notifications'];
-  var ContentConfig = aws.params['ContentConfig'];
-  var Id = aws.reqParams['Id'];
-  var AwsKmsKeyArn = aws.params['AwsKmsKeyArn'];
-  if (!Id) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
-  }
+  function ReadPipeline(aws) {
+    var id = aws.reqParams.Id;
+    if (!id) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
+    }
 
 
-  // TODO implement code
+    // TODO implement code
 
-  var ret = {
-    Pipeline: /*S2i*/{
-      InputBucket: '',
-      ContentConfig: /*S29*/{
-        StorageClass: '',
-        Bucket: '',
-        Permissions: [ {
-          GranteeType: '',
-          Access: [ '', /* ...*/ ],
-          Grantee: '',
-        }, /* ...*/ ],
+    var ret = {
+      Pipeline: /*S2i*/{
+        InputBucket: '',
+        ContentConfig: /*S29*/{
+          StorageClass: '',
+          Bucket: '',
+          Permissions: [ {
+            Access: [ '', /* ...*/ ],
+            Grantee: '',
+            GranteeType: '',
+          }, /* ...*/ ],
+        },
+        Notifications: /*S27*/{
+          Warning: '',
+          Error: '',
+          Completed: '',
+          Progressing: '',
+        },
+        Role: '',
+        OutputBucket: '',
+        Status: '',
+        Name: '',
+        Id: '',
+        Arn: '',
+        AwsKmsKeyArn: '',
+        ThumbnailConfig: /*S29*/{
+          StorageClass: '',
+          Bucket: '',
+          Permissions: [ {
+            Access: [ '', /* ...*/ ],
+            Grantee: '',
+            GranteeType: '',
+          }, /* ...*/ ],
+        },
       },
-      Role: '',
-      Status: '',
-      Name: '',
-      ThumbnailConfig: /*S29*/{
-        StorageClass: '',
-        Bucket: '',
-        Permissions: [ {
-          GranteeType: '',
-          Access: [ '', /* ...*/ ],
-          Grantee: '',
-        }, /* ...*/ ],
-      },
-      Arn: '',
-      Notifications: /*S27*/{
-        Completed: '',
-        Error: '',
-        Progressing: '',
-        Warning: '',
-      },
-      OutputBucket: '',
-      Id: '',
-      AwsKmsKeyArn: '',
-    },
-    Warnings: /*S2k*/[ {
-      Message: '',
-      Code: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-});
+      Warnings: /*S2k*/[ {
+        Code: '',
+        Message: '',
+      }, /* ...*/ ],
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.DeletePreset = awsCommon.as(
+  'DELETE',
+  '/2012-09-25/presets/:Id',
+  function DeletePreset(aws) {
+    var id = aws.reqParams.Id;
+    if (!id) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+
+    };
+    return [202, ret];
+  });
+// -----------------------------------
+module.exports.ListPresets = awsCommon.as(
+  'GET',
+  '/2012-09-25/presets',
+  function ListPresets(aws) {
+    var pageToken = aws.params.PageToken;
+    var ascending = aws.params.Ascending;
+
+
+    // TODO implement code
+
+    var ret = {
+      NextPageToken: '',
+      Presets: [ /*S3j*/{
+        Container: '',
+        Video: /*S2o*/{
+          KeyframesMaxDist: '',
+          MaxWidth: '',
+          Codec: '',
+          BitRate: '',
+          CodecOptions: {} /*Map*/,
+          PaddingPolicy: '',
+          FixedGOP: '',
+          Resolution: '',
+          AspectRatio: '',
+          SizingPolicy: '',
+          MaxHeight: '',
+          DisplayAspectRatio: '',
+          Watermarks: [ {
+            VerticalOffset: '',
+            MaxWidth: '',
+            HorizontalAlign: '',
+            SizingPolicy: '',
+            MaxHeight: '',
+            VerticalAlign: '',
+            Id: '',
+            Opacity: '',
+            HorizontalOffset: '',
+            Target: '',
+          }, /* ...*/ ],
+          MaxFrameRate: '',
+          FrameRate: '',
+        },
+        Type: '',
+        Description: '',
+        Name: '',
+        Id: '',
+        Audio: /*S34*/{
+          BitRate: '',
+          Codec: '',
+          Channels: '',
+          SampleRate: '',
+          AudioPackingMode: '',
+          CodecOptions: {
+            BitDepth: '',
+            Profile: '',
+            Signed: '',
+            BitOrder: '',
+          },
+        },
+        Arn: '',
+        Thumbnails: /*S3f*/{
+          Resolution: '',
+          Format: '',
+          AspectRatio: '',
+          SizingPolicy: '',
+          MaxHeight: '',
+          PaddingPolicy: '',
+          MaxWidth: '',
+          Interval: '',
+        },
+      }, /* ...*/ ],
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.ListPipelines = awsCommon.as(
+  'GET',
+  '/2012-09-25/pipelines',
+  function ListPipelines(aws) {
+    var pageToken = aws.params.PageToken;
+    var ascending = aws.params.Ascending;
+
+
+    // TODO implement code
+
+    var ret = {
+      Pipelines: [ /*S2i*/{
+        InputBucket: '',
+        ContentConfig: /*S29*/{
+          StorageClass: '',
+          Bucket: '',
+          Permissions: [ {
+            Access: [ '', /* ...*/ ],
+            Grantee: '',
+            GranteeType: '',
+          }, /* ...*/ ],
+        },
+        Notifications: /*S27*/{
+          Warning: '',
+          Error: '',
+          Completed: '',
+          Progressing: '',
+        },
+        Role: '',
+        OutputBucket: '',
+        Status: '',
+        Name: '',
+        Id: '',
+        Arn: '',
+        AwsKmsKeyArn: '',
+        ThumbnailConfig: /*S29*/{
+          StorageClass: '',
+          Bucket: '',
+          Permissions: [ {
+            Access: [ '', /* ...*/ ],
+            Grantee: '',
+            GranteeType: '',
+          }, /* ...*/ ],
+        },
+      }, /* ...*/ ],
+      NextPageToken: '',
+    };
+    return [200, ret];
+  });
 // -----------------------------------
 module.exports.ListJobsByPipeline = awsCommon.as(
   'GET',
   '/2012-09-25/jobsByPipeline/:PipelineId',
   function ListJobsByPipeline(aws) {
-  var Ascending = aws.params['Ascending'];
-  var PageToken = aws.params['PageToken'];
-  var PipelineId = aws.reqParams['PipelineId'];
-  if (!PipelineId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PipelineId'];
-  }
+    var pipelineId = aws.reqParams.PipelineId;
+    var pageToken = aws.params.PageToken;
+    var ascending = aws.params.Ascending;
+    if (!pipelineId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PipelineId'];
+    }
 
 
-  // TODO implement code
+    // TODO implement code
 
-  var ret = {
-    NextPageToken: '',
-    Jobs: /*S3s*/[ /*S1v*/{
-      Playlists: [ {
-        StatusDetail: '',
-        OutputKeys: /*S1i*/[ '', /* ...*/ ],
+    var ret = {
+      NextPageToken: '',
+      Jobs: /*S3s*/[ /*S1v*/{
+        Timing: {
+          FinishTimeMillis: 0 /*Long*/,
+          StartTimeMillis: 0 /*Long*/,
+          SubmitTimeMillis: 0 /*Long*/,
+        },
+        UserMetadata: /*S1s*/{} /*Map*/,
+        OutputKeyPrefix: '',
+        Input: /*S5*/{
+          Container: '',
+          Interlaced: '',
+          Resolution: '',
+          AspectRatio: '',
+          DetectedProperties: {
+            DurationMillis: 0 /*Long*/,
+            FileSize: 0 /*Long*/,
+            Width: 0,
+            Height: 0,
+            FrameRate: '',
+          },
+          Key: '',
+          Encryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+          FrameRate: '',
+        },
+        Status: '',
+        Outputs: [ /*S1w*/{
+          DurationMillis: 0 /*Long*/,
+          FileSize: 0 /*Long*/,
+          SegmentDuration: '',
+          ThumbnailPattern: '',
+          Watermarks: /*Sn*/[ {
+            Encryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+            InputKey: '',
+            PresetWatermarkId: '',
+          }, /* ...*/ ],
+          ThumbnailEncryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+          Status: '',
+          Rotate: '',
+          StatusDetail: '',
+          AppliedColorSpaceConversion: '',
+          Duration: 0 /*Long*/,
+          Height: 0,
+          Composition: /*Sz*/[ {
+            TimeSpan: {
+              Duration: '',
+              StartTime: '',
+            },
+          }, /* ...*/ ],
+          Captions: /*S13*/{
+            CaptionFormats: [ {
+              Pattern: '',
+              Format: '',
+              Encryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+            }, /* ...*/ ],
+            CaptionSources: [ {
+              Encryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+              TimeOffset: '',
+              Key: '',
+              Label: '',
+              Language: '',
+            }, /* ...*/ ],
+            MergePolicy: '',
+          },
+          Width: 0,
+          Key: '',
+          PresetId: '',
+          AlbumArt: /*Sr*/{
+            Artwork: [ {
+              MaxWidth: '',
+              Encryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+              SizingPolicy: '',
+              MaxHeight: '',
+              AlbumArtFormat: '',
+              PaddingPolicy: '',
+              InputKey: '',
+            }, /* ...*/ ],
+            MergePolicy: '',
+          },
+          Id: '',
+          Encryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+          FrameRate: '',
+        }, /* ...*/ ],
+        Id: '',
+        Output: /*S1w*/{
+          DurationMillis: 0 /*Long*/,
+          FileSize: 0 /*Long*/,
+          SegmentDuration: '',
+          ThumbnailPattern: '',
+          Watermarks: /*Sn*/[ {
+            Encryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+            InputKey: '',
+            PresetWatermarkId: '',
+          }, /* ...*/ ],
+          ThumbnailEncryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+          Status: '',
+          Rotate: '',
+          StatusDetail: '',
+          AppliedColorSpaceConversion: '',
+          Duration: 0 /*Long*/,
+          Height: 0,
+          Composition: /*Sz*/[ {
+            TimeSpan: {
+              Duration: '',
+              StartTime: '',
+            },
+          }, /* ...*/ ],
+          Captions: /*S13*/{
+            CaptionFormats: [ {
+              Pattern: '',
+              Format: '',
+              Encryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+            }, /* ...*/ ],
+            CaptionSources: [ {
+              Encryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+              TimeOffset: '',
+              Key: '',
+              Label: '',
+              Language: '',
+            }, /* ...*/ ],
+            MergePolicy: '',
+          },
+          Width: 0,
+          Key: '',
+          PresetId: '',
+          AlbumArt: /*Sr*/{
+            Artwork: [ {
+              MaxWidth: '',
+              Encryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+              SizingPolicy: '',
+              MaxHeight: '',
+              AlbumArtFormat: '',
+              PaddingPolicy: '',
+              InputKey: '',
+            }, /* ...*/ ],
+            MergePolicy: '',
+          },
+          Id: '',
+          Encryption: /*Sc*/{
+            Mode: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Key: '',
+          },
+          FrameRate: '',
+        },
+        Arn: '',
+        PipelineId: '',
+        Playlists: [ {
+          StatusDetail: '',
+          Format: '',
+          Status: '',
+          PlayReadyDrm: /*S1n*/{
+            Format: '',
+            KeyMd5: '',
+            LicenseAcquisitionUrl: '',
+            Key: '',
+            InitializationVector: '',
+            KeyId: '',
+          },
+          HlsContentProtection: /*S1j*/{
+            Key: '',
+            LicenseAcquisitionUrl: '',
+            KeyStoragePolicy: '',
+            KeyMd5: '',
+            InitializationVector: '',
+            Method: '',
+          },
+          Name: '',
+          OutputKeys: /*S1i*/[ '', /* ...*/ ],
+        }, /* ...*/ ],
+      }, /* ...*/ ],
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.UpdatePipelineStatus = awsCommon.as(
+  '/2012-09-25/pipelines/:Id/status',
+  function UpdatePipelineStatus(aws) {
+    var id = aws.reqParams.Id;
+    var status = aws.params.Status;
+    if (!id) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
+    }
+    if (!status) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Status'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      Pipeline: /*S2i*/{
+        InputBucket: '',
+        ContentConfig: /*S29*/{
+          StorageClass: '',
+          Bucket: '',
+          Permissions: [ {
+            Access: [ '', /* ...*/ ],
+            Grantee: '',
+            GranteeType: '',
+          }, /* ...*/ ],
+        },
+        Notifications: /*S27*/{
+          Warning: '',
+          Error: '',
+          Completed: '',
+          Progressing: '',
+        },
+        Role: '',
+        OutputBucket: '',
         Status: '',
         Name: '',
-        PlayReadyDrm: /*S1n*/{
-          LicenseAcquisitionUrl: '',
-          KeyId: '',
-          Format: '',
-          Key: '',
-          KeyMd5: '',
-          InitializationVector: '',
+        Id: '',
+        Arn: '',
+        AwsKmsKeyArn: '',
+        ThumbnailConfig: /*S29*/{
+          StorageClass: '',
+          Bucket: '',
+          Permissions: [ {
+            Access: [ '', /* ...*/ ],
+            Grantee: '',
+            GranteeType: '',
+          }, /* ...*/ ],
         },
-        Format: '',
-        HlsContentProtection: /*S1j*/{
-          LicenseAcquisitionUrl: '',
-          Method: '',
-          Key: '',
-          KeyStoragePolicy: '',
-          KeyMd5: '',
-          InitializationVector: '',
-        },
-      }, /* ...*/ ],
-      Timing: {
-        SubmitTimeMillis: 0 /*Long*/,
-        FinishTimeMillis: 0 /*Long*/,
-        StartTimeMillis: 0 /*Long*/,
       },
-      Input: /*S5*/{
-        Interlaced: '',
-        AspectRatio: '',
-        Encryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-        DetectedProperties: {
-          FileSize: 0 /*Long*/,
-          Height: 0,
-          Width: 0,
-          FrameRate: '',
-          DurationMillis: 0 /*Long*/,
-        },
-        Key: '',
-        Resolution: '',
-        FrameRate: '',
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.CancelJob = awsCommon.as(
+  'DELETE',
+  '/2012-09-25/jobs/:Id',
+  function CancelJob(aws) {
+    var id = aws.reqParams.Id;
+    if (!id) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+
+    };
+    return [202, ret];
+  });
+// -----------------------------------
+module.exports.CreatePreset = awsCommon.as(
+  '/2012-09-25/presets',
+  function CreatePreset(aws) {
+    var container = aws.params.Container;
+    var video = aws.params.Video;
+    var description = aws.params.Description;
+    var name = aws.params.Name;
+    var audio = aws.params.Audio;
+    var thumbnails = aws.params.Thumbnails;
+    if (!name) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
+    }
+    if (!container) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Container'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      Preset: /*S3j*/{
         Container: '',
-      },
-      OutputKeyPrefix: '',
-      Status: '',
-      Output: /*S1w*/{
-        Captions: /*S13*/{
-          CaptionFormats: [ {
-            Encryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-            Pattern: '',
-            Format: '',
-          }, /* ...*/ ],
-          MergePolicy: '',
-          CaptionSources: [ {
-            Encryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-            Label: '',
-            Key: '',
-            TimeOffset: '',
-            Language: '',
-          }, /* ...*/ ],
-        },
-        Rotate: '',
-        PresetId: '',
-        Width: 0,
-        StatusDetail: '',
-        AlbumArt: /*Sr*/{
-          Artwork: [ {
-            SizingPolicy: '',
-            Encryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-            PaddingPolicy: '',
+        Video: /*S2o*/{
+          KeyframesMaxDist: '',
+          MaxWidth: '',
+          Codec: '',
+          BitRate: '',
+          CodecOptions: {} /*Map*/,
+          PaddingPolicy: '',
+          FixedGOP: '',
+          Resolution: '',
+          AspectRatio: '',
+          SizingPolicy: '',
+          MaxHeight: '',
+          DisplayAspectRatio: '',
+          Watermarks: [ {
+            VerticalOffset: '',
             MaxWidth: '',
-            InputKey: '',
-            MaxHeight: '',
-            AlbumArtFormat: '',
-          }, /* ...*/ ],
-          MergePolicy: '',
-        },
-        Key: '',
-        Height: 0,
-        FileSize: 0 /*Long*/,
-        FrameRate: '',
-        Watermarks: /*Sn*/[ {
-          InputKey: '',
-          Encryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-          PresetWatermarkId: '',
-        }, /* ...*/ ],
-        SegmentDuration: '',
-        ThumbnailPattern: '',
-        DurationMillis: 0 /*Long*/,
-        Status: '',
-        Encryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-        AppliedColorSpaceConversion: '',
-        ThumbnailEncryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-        Duration: 0 /*Long*/,
-        Id: '',
-        Composition: /*Sz*/[ {
-          TimeSpan: {
-            Duration: '',
-            StartTime: '',
-          },
-        }, /* ...*/ ],
-      },
-      Arn: '',
-      UserMetadata: /*S1s*/{} /*Map*/,
-      Outputs: [ /*S1w*/{
-        Captions: /*S13*/{
-          CaptionFormats: [ {
-            Encryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-            Pattern: '',
-            Format: '',
-          }, /* ...*/ ],
-          MergePolicy: '',
-          CaptionSources: [ {
-            Encryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-            Label: '',
-            Key: '',
-            TimeOffset: '',
-            Language: '',
-          }, /* ...*/ ],
-        },
-        Rotate: '',
-        PresetId: '',
-        Width: 0,
-        StatusDetail: '',
-        AlbumArt: /*Sr*/{
-          Artwork: [ {
+            HorizontalAlign: '',
             SizingPolicy: '',
-            Encryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-            PaddingPolicy: '',
-            MaxWidth: '',
-            InputKey: '',
             MaxHeight: '',
-            AlbumArtFormat: '',
+            VerticalAlign: '',
+            Id: '',
+            Opacity: '',
+            HorizontalOffset: '',
+            Target: '',
           }, /* ...*/ ],
-          MergePolicy: '',
+          MaxFrameRate: '',
+          FrameRate: '',
         },
-        Key: '',
-        Height: 0,
-        FileSize: 0 /*Long*/,
-        FrameRate: '',
-        Watermarks: /*Sn*/[ {
-          InputKey: '',
-          Encryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-          PresetWatermarkId: '',
-        }, /* ...*/ ],
-        SegmentDuration: '',
-        ThumbnailPattern: '',
-        DurationMillis: 0 /*Long*/,
-        Status: '',
-        Encryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-        AppliedColorSpaceConversion: '',
-        ThumbnailEncryption: /*Sc*/{
-          Key: '',
-          InitializationVector: '',
-          KeyMd5: '',
-          Mode: '',
-        },
-        Duration: 0 /*Long*/,
+        Type: '',
+        Description: '',
+        Name: '',
         Id: '',
-        Composition: /*Sz*/[ {
-          TimeSpan: {
-            Duration: '',
-            StartTime: '',
+        Audio: /*S34*/{
+          BitRate: '',
+          Codec: '',
+          Channels: '',
+          SampleRate: '',
+          AudioPackingMode: '',
+          CodecOptions: {
+            BitDepth: '',
+            Profile: '',
+            Signed: '',
+            BitOrder: '',
           },
-        }, /* ...*/ ],
+        },
+        Arn: '',
+        Thumbnails: /*S3f*/{
+          Resolution: '',
+          Format: '',
+          AspectRatio: '',
+          SizingPolicy: '',
+          MaxHeight: '',
+          PaddingPolicy: '',
+          MaxWidth: '',
+          Interval: '',
+        },
+      },
+      Warning: '',
+    };
+    return [201, ret];
+  });
+// -----------------------------------
+module.exports.UpdatePipeline = awsCommon.as(
+  'PUT',
+  '/2012-09-25/pipelines/:Id',
+  function UpdatePipeline(aws) {
+    var inputBucket = aws.params.InputBucket;
+    var contentConfig = aws.params.ContentConfig;
+    var role = aws.params.Role;
+    var thumbnailConfig = aws.params.ThumbnailConfig;
+    var name = aws.params.Name;
+    var id = aws.reqParams.Id;
+    var notifications = aws.params.Notifications;
+    var awsKmsKeyArn = aws.params.AwsKmsKeyArn;
+    if (!id) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      Pipeline: /*S2i*/{
+        InputBucket: '',
+        ContentConfig: /*S29*/{
+          StorageClass: '',
+          Bucket: '',
+          Permissions: [ {
+            Access: [ '', /* ...*/ ],
+            Grantee: '',
+            GranteeType: '',
+          }, /* ...*/ ],
+        },
+        Notifications: /*S27*/{
+          Warning: '',
+          Error: '',
+          Completed: '',
+          Progressing: '',
+        },
+        Role: '',
+        OutputBucket: '',
+        Status: '',
+        Name: '',
+        Id: '',
+        Arn: '',
+        AwsKmsKeyArn: '',
+        ThumbnailConfig: /*S29*/{
+          StorageClass: '',
+          Bucket: '',
+          Permissions: [ {
+            Access: [ '', /* ...*/ ],
+            Grantee: '',
+            GranteeType: '',
+          }, /* ...*/ ],
+        },
+      },
+      Warnings: /*S2k*/[ {
+        Code: '',
+        Message: '',
       }, /* ...*/ ],
-      Id: '',
-      PipelineId: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-});
+    };
+    return [200, ret];
+  });

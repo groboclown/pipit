@@ -10,224 +10,27 @@ const awsCommon = require('../../lib/aws-common');
  */
 
 // Setup input and output to use AWS protocol query
-require('../../lib/aws-common/shape_http')('query', module.exports, 'http://rds.amazonaws.com/doc/2013-02-12/')
-// -----------------------------------
-module.exports.ModifyOptionGroup = function ModifyOptionGroup(aws) {
-  var OptionsToRemove = aws.params['OptionsToRemove'] /* Type list */;
-  var ApplyImmediately = aws.params['ApplyImmediately'] /* Type boolean */;
-  var OptionGroupName = aws.params['OptionGroupName'];
-  var OptionsToInclude = aws.params['OptionsToInclude'] /* Type list */;
-  if (!OptionGroupName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter OptionGroupName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    OptionGroup: /*S1p*/{
-      AllowsVpcAndNonVpcInstanceMemberships: false,
-      OptionGroupName: '',
-      VpcId: '',
-      Options: [ {
-        OptionName: '',
-        OptionDescription: '',
-        Persistent: false,
-        DBSecurityGroupMemberships: /*Sv*/[ {
-          Status: '',
-          DBSecurityGroupName: '',
-        }, /* ...*/ ],
-        VpcSecurityGroupMemberships: /*Sx*/[ {
-          VpcSecurityGroupId: '',
-          Status: '',
-        }, /* ...*/ ],
-        OptionSettings: [ /*S1t*/{
-          IsModifiable: false,
-          Description: '',
-          Name: '',
-          IsCollection: false,
-          Value: '',
-          DataType: '',
-          AllowedValues: '',
-          DefaultValue: '',
-          ApplyType: '',
-        }, /* ...*/ ],
-        Port: 0,
-      }, /* ...*/ ],
-      MajorEngineVersion: '',
-      EngineName: '',
-      OptionGroupDescription: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteEventSubscription = function DeleteEventSubscription(aws) {
-  var SubscriptionName = aws.params['SubscriptionName'];
-  if (!SubscriptionName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SubscriptionName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    EventSubscription: /*S4*/{
-      CustSubscriptionId: '',
-      SourceType: '',
-      Status: '',
-      Enabled: false,
-      SnsTopicArn: '',
-      EventCategoriesList: /*S6*/[ '', /* ...*/ ],
-      SourceIdsList: /*S5*/[ '', /* ...*/ ],
-      CustomerAwsId: '',
-      SubscriptionCreationTime: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateOptionGroup = function CreateOptionGroup(aws) {
-  var OptionGroupName = aws.params['OptionGroupName'];
-  var EngineName = aws.params['EngineName'];
-  var MajorEngineVersion = aws.params['MajorEngineVersion'];
-  var OptionGroupDescription = aws.params['OptionGroupDescription'];
-  if (!OptionGroupName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter OptionGroupName'];
-  }
-  if (!EngineName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter EngineName'];
-  }
-  if (!MajorEngineVersion) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MajorEngineVersion'];
-  }
-  if (!OptionGroupDescription) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter OptionGroupDescription'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    OptionGroup: /*S1p*/{
-      AllowsVpcAndNonVpcInstanceMemberships: false,
-      OptionGroupName: '',
-      VpcId: '',
-      Options: [ {
-        OptionName: '',
-        OptionDescription: '',
-        Persistent: false,
-        DBSecurityGroupMemberships: /*Sv*/[ {
-          Status: '',
-          DBSecurityGroupName: '',
-        }, /* ...*/ ],
-        VpcSecurityGroupMemberships: /*Sx*/[ {
-          VpcSecurityGroupId: '',
-          Status: '',
-        }, /* ...*/ ],
-        OptionSettings: [ /*S1t*/{
-          IsModifiable: false,
-          Description: '',
-          Name: '',
-          IsCollection: false,
-          Value: '',
-          DataType: '',
-          AllowedValues: '',
-          DefaultValue: '',
-          ApplyType: '',
-        }, /* ...*/ ],
-        Port: 0,
-      }, /* ...*/ ],
-      MajorEngineVersion: '',
-      EngineName: '',
-      OptionGroupDescription: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.RevokeDBSecurityGroupIngress = function RevokeDBSecurityGroupIngress(aws) {
-  var CIDRIP = aws.params['CIDRIP'];
-  var EC2SecurityGroupOwnerId = aws.params['EC2SecurityGroupOwnerId'];
-  var EC2SecurityGroupName = aws.params['EC2SecurityGroupName'];
-  var DBSecurityGroupName = aws.params['DBSecurityGroupName'];
-  var EC2SecurityGroupId = aws.params['EC2SecurityGroupId'];
-  if (!DBSecurityGroupName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBSecurityGroupName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    DBSecurityGroup: /*Sd*/{
-      VpcId: '',
-      IPRanges: [ {
-        CIDRIP: '',
-        Status: '',
-      }, /* ...*/ ],
-      DBSecurityGroupDescription: '',
-      OwnerId: '',
-      DBSecurityGroupName: '',
-      EC2SecurityGroups: [ {
-        EC2SecurityGroupName: '',
-        EC2SecurityGroupId: '',
-        Status: '',
-        EC2SecurityGroupOwnerId: '',
-      }, /* ...*/ ],
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.RemoveSourceIdentifierFromSubscription = function RemoveSourceIdentifierFromSubscription(aws) {
-  var SourceIdentifier = aws.params['SourceIdentifier'];
-  var SubscriptionName = aws.params['SubscriptionName'];
-  if (!SubscriptionName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SubscriptionName'];
-  }
-  if (!SourceIdentifier) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SourceIdentifier'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    EventSubscription: /*S4*/{
-      CustSubscriptionId: '',
-      SourceType: '',
-      Status: '',
-      Enabled: false,
-      SnsTopicArn: '',
-      EventCategoriesList: /*S6*/[ '', /* ...*/ ],
-      SourceIdsList: /*S5*/[ '', /* ...*/ ],
-      CustomerAwsId: '',
-      SubscriptionCreationTime: '',
-    },
-  };
-  return [200, ret];
-};
+require('../../lib/aws-common/shape_http')('query', module.exports, 'http://rds.amazonaws.com/doc/2013-02-12/');
 // -----------------------------------
 module.exports.RestoreDBInstanceFromDBSnapshot = function RestoreDBInstanceFromDBSnapshot(aws) {
-  var OptionGroupName = aws.params['OptionGroupName'];
-  var PubliclyAccessible = aws.params['PubliclyAccessible'] /* Type boolean */;
-  var DBName = aws.params['DBName'];
-  var DBSubnetGroupName = aws.params['DBSubnetGroupName'];
-  var Iops = aws.params['Iops'] /* Type integer */;
-  var MultiAZ = aws.params['MultiAZ'] /* Type boolean */;
-  var AvailabilityZone = aws.params['AvailabilityZone'];
-  var Engine = aws.params['Engine'];
-  var LicenseModel = aws.params['LicenseModel'];
-  var DBSnapshotIdentifier = aws.params['DBSnapshotIdentifier'];
-  var Port = aws.params['Port'] /* Type integer */;
-  var AutoMinorVersionUpgrade = aws.params['AutoMinorVersionUpgrade'] /* Type boolean */;
-  var DBInstanceIdentifier = aws.params['DBInstanceIdentifier'];
-  var DBInstanceClass = aws.params['DBInstanceClass'];
-  if (!DBInstanceIdentifier) {
+  var dBSnapshotIdentifier = aws.params.DBSnapshotIdentifier;
+  var dBInstanceIdentifier = aws.params.DBInstanceIdentifier;
+  var optionGroupName = aws.params.OptionGroupName;
+  var port = aws.params.Port /* Type integer */;
+  var dBName = aws.params.DBName;
+  var engine = aws.params.Engine;
+  var iops = aws.params.Iops /* Type integer */;
+  var dBInstanceClass = aws.params.DBInstanceClass;
+  var dBSubnetGroupName = aws.params.DBSubnetGroupName;
+  var publiclyAccessible = aws.params.PubliclyAccessible /* Type boolean */;
+  var licenseModel = aws.params.LicenseModel;
+  var multiAZ = aws.params.MultiAZ /* Type boolean */;
+  var autoMinorVersionUpgrade = aws.params.AutoMinorVersionUpgrade /* Type boolean */;
+  var availabilityZone = aws.params.AvailabilityZone;
+  if (!dBInstanceIdentifier) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBInstanceIdentifier'];
   }
-  if (!DBSnapshotIdentifier) {
+  if (!dBSnapshotIdentifier) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBSnapshotIdentifier'];
   }
 
@@ -236,168 +39,386 @@ module.exports.RestoreDBInstanceFromDBSnapshot = function RestoreDBInstanceFromD
 
   var ret = {
     DBInstance: /*St*/{
-      Engine: '',
-      PreferredMaintenanceWindow: '',
-      MasterUsername: '',
-      MultiAZ: false,
-      DBInstanceStatus: '',
-      VpcSecurityGroups: /*Sx*/[ {
-        VpcSecurityGroupId: '',
+      PreferredBackupWindow: '',
+      DBSecurityGroups: /*Sv*/[ {
+        DBSecurityGroupName: '',
         Status: '',
       }, /* ...*/ ],
-      BackupRetentionPeriod: 0,
-      AllocatedStorage: 0,
-      EngineVersion: '',
+      DBName: '',
       SecondaryAvailabilityZone: '',
+      Iops: 0,
       LicenseModel: '',
-      CharacterSetName: '',
+      EngineVersion: '',
+      PubliclyAccessible: false,
+      ReadReplicaSourceDBInstanceIdentifier: '',
+      ReadReplicaDBInstanceIdentifiers: [ '', /* ...*/ ],
+      DBInstanceClass: '',
       OptionGroupMemberships: [ {
         OptionGroupName: '',
         Status: '',
       }, /* ...*/ ],
-      LatestRestorableTime: awsCommon.timestamp(),
-      InstanceCreateTime: awsCommon.timestamp(),
-      DBSecurityGroups: /*Sv*/[ {
-        Status: '',
-        DBSecurityGroupName: '',
-      }, /* ...*/ ],
-      PendingModifiedValues: {
-        BackupRetentionPeriod: 0,
-        Iops: 0,
-        DBInstanceClass: '',
-        MultiAZ: false,
-        DBInstanceIdentifier: '',
-        EngineVersion: '',
-        Port: 0,
-        AllocatedStorage: 0,
-        MasterUserPassword: '',
-      },
-      Endpoint: {
-        Port: 0,
-        Address: '',
-      },
-      DBName: '',
-      Iops: 0,
+      MasterUsername: '',
       AvailabilityZone: '',
       DBSubnetGroup: /*S11*/{
         DBSubnetGroupDescription: '',
-        DBSubnetGroupName: '',
-        VpcId: '',
         SubnetGroupStatus: '',
         Subnets: [ {
-          SubnetStatus: '',
-          SubnetIdentifier: '',
           SubnetAvailabilityZone: /*S14*/{
-            ProvisionedIopsCapable: false,
             Name: '',
+            ProvisionedIopsCapable: false,
           },
+          SubnetIdentifier: '',
+          SubnetStatus: '',
         }, /* ...*/ ],
+        VpcId: '',
+        DBSubnetGroupName: '',
       },
-      PubliclyAccessible: false,
-      AutoMinorVersionUpgrade: false,
       DBInstanceIdentifier: '',
-      ReadReplicaSourceDBInstanceIdentifier: '',
-      DBParameterGroups: [ {
-        DBParameterGroupName: '',
-        ParameterApplyStatus: '',
+      Endpoint: {
+        Address: '',
+        Port: 0,
+      },
+      VpcSecurityGroups: /*Sx*/[ {
+        VpcSecurityGroupId: '',
+        Status: '',
       }, /* ...*/ ],
-      ReadReplicaDBInstanceIdentifiers: [ '', /* ...*/ ],
-      PreferredBackupWindow: '',
-      DBInstanceClass: '',
+      Engine: '',
+      AllocatedStorage: 0,
+      DBParameterGroups: [ {
+        ParameterApplyStatus: '',
+        DBParameterGroupName: '',
+      }, /* ...*/ ],
+      PreferredMaintenanceWindow: '',
+      PendingModifiedValues: {
+        MultiAZ: false,
+        Iops: 0,
+        EngineVersion: '',
+        Port: 0,
+        MasterUserPassword: '',
+        AllocatedStorage: 0,
+        DBInstanceIdentifier: '',
+        DBInstanceClass: '',
+        BackupRetentionPeriod: 0,
+      },
+      InstanceCreateTime: awsCommon.timestamp(),
+      CharacterSetName: '',
+      DBInstanceStatus: '',
+      BackupRetentionPeriod: 0,
+      LatestRestorableTime: awsCommon.timestamp(),
+      AutoMinorVersionUpgrade: false,
+      MultiAZ: false,
     },
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DescribeDBEngineVersions = function DescribeDBEngineVersions(aws) {
-  var Marker = aws.params['Marker'];
-  var Engine = aws.params['Engine'];
-  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
-  var ListSupportedCharacterSets = aws.params['ListSupportedCharacterSets'] /* Type boolean */;
-  var DBParameterGroupFamily = aws.params['DBParameterGroupFamily'];
-  var DefaultOnly = aws.params['DefaultOnly'] /* Type boolean */;
-  var EngineVersion = aws.params['EngineVersion'];
-
-
-  // TODO implement code
-
-  var ret = {
-    Marker: '',
-    DBEngineVersions: [ {
-      Engine: '',
-      DBParameterGroupFamily: '',
-      DefaultCharacterSet: /*S28*/{
-        CharacterSetName: '',
-        CharacterSetDescription: '',
-      },
-      DBEngineDescription: '',
-      SupportedCharacterSets: [ /*S28*/{
-        CharacterSetName: '',
-        CharacterSetDescription: '',
-      }, /* ...*/ ],
-      DBEngineVersionDescription: '',
-      EngineVersion: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeReservedDBInstancesOfferings = function DescribeReservedDBInstancesOfferings(aws) {
-  var Marker = aws.params['Marker'];
-  var ProductDescription = aws.params['ProductDescription'];
-  var MultiAZ = aws.params['MultiAZ'] /* Type boolean */;
-  var OfferingType = aws.params['OfferingType'];
-  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
-  var Duration = aws.params['Duration'];
-  var ReservedDBInstancesOfferingId = aws.params['ReservedDBInstancesOfferingId'];
-  var DBInstanceClass = aws.params['DBInstanceClass'];
-
-
-  // TODO implement code
-
-  var ret = {
-    Marker: '',
-    ReservedDBInstancesOfferings: [ {
-      CurrencyCode: '',
-      ProductDescription: '',
-      RecurringCharges: /*S3y*/[ {
-        RecurringChargeAmount: 0.0 /*Double*/,
-        RecurringChargeFrequency: '',
-      }, /* ...*/ ],
-      FixedPrice: 0.0 /*Double*/,
-      OfferingType: '',
-      Duration: 0,
-      MultiAZ: false,
-      ReservedDBInstancesOfferingId: '',
-      DBInstanceClass: '',
-      UsagePrice: 0.0 /*Double*/,
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.RestoreDBInstanceToPointInTime = function RestoreDBInstanceToPointInTime(aws) {
-  var OptionGroupName = aws.params['OptionGroupName'];
-  var UseLatestRestorableTime = aws.params['UseLatestRestorableTime'] /* Type boolean */;
-  var DBName = aws.params['DBName'];
-  var DBSubnetGroupName = aws.params['DBSubnetGroupName'];
-  var Iops = aws.params['Iops'] /* Type integer */;
-  var MultiAZ = aws.params['MultiAZ'] /* Type boolean */;
-  var RestoreTime = aws.params['RestoreTime'] /* Type timestamp */;
-  var AvailabilityZone = aws.params['AvailabilityZone'];
-  var Engine = aws.params['Engine'];
-  var LicenseModel = aws.params['LicenseModel'];
-  var SourceDBInstanceIdentifier = aws.params['SourceDBInstanceIdentifier'];
-  var PubliclyAccessible = aws.params['PubliclyAccessible'] /* Type boolean */;
-  var Port = aws.params['Port'] /* Type integer */;
-  var AutoMinorVersionUpgrade = aws.params['AutoMinorVersionUpgrade'] /* Type boolean */;
-  var TargetDBInstanceIdentifier = aws.params['TargetDBInstanceIdentifier'];
-  var DBInstanceClass = aws.params['DBInstanceClass'];
-  if (!SourceDBInstanceIdentifier) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SourceDBInstanceIdentifier'];
+module.exports.CopyDBSnapshot = function CopyDBSnapshot(aws) {
+  var sourceDBSnapshotIdentifier = aws.params.SourceDBSnapshotIdentifier;
+  var targetDBSnapshotIdentifier = aws.params.TargetDBSnapshotIdentifier;
+  if (!sourceDBSnapshotIdentifier) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SourceDBSnapshotIdentifier'];
   }
-  if (!TargetDBInstanceIdentifier) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TargetDBInstanceIdentifier'];
+  if (!targetDBSnapshotIdentifier) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TargetDBSnapshotIdentifier'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    DBSnapshot: /*Sk*/{
+      DBSnapshotIdentifier: '',
+      DBInstanceIdentifier: '',
+      Iops: 0,
+      OptionGroupName: '',
+      Port: 0,
+      Status: '',
+      Engine: '',
+      AllocatedStorage: 0,
+      LicenseModel: '',
+      EngineVersion: '',
+      InstanceCreateTime: awsCommon.timestamp(),
+      SnapshotType: '',
+      SnapshotCreateTime: awsCommon.timestamp(),
+      VpcId: '',
+      MasterUsername: '',
+      AvailabilityZone: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeDBSnapshots = function DescribeDBSnapshots(aws) {
+  var marker = aws.params.Marker;
+  var dBSnapshotIdentifier = aws.params.DBSnapshotIdentifier;
+  var dBInstanceIdentifier = aws.params.DBInstanceIdentifier;
+  var snapshotType = aws.params.SnapshotType;
+  var maxRecords = aws.params.MaxRecords /* Type integer */;
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    DBSnapshots: [ /*Sk*/{
+      DBSnapshotIdentifier: '',
+      DBInstanceIdentifier: '',
+      Iops: 0,
+      OptionGroupName: '',
+      Port: 0,
+      Status: '',
+      Engine: '',
+      AllocatedStorage: 0,
+      LicenseModel: '',
+      EngineVersion: '',
+      InstanceCreateTime: awsCommon.timestamp(),
+      SnapshotType: '',
+      SnapshotCreateTime: awsCommon.timestamp(),
+      VpcId: '',
+      MasterUsername: '',
+      AvailabilityZone: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RemoveTagsFromResource = function RemoveTagsFromResource(aws) {
+  var resourceName = aws.params.ResourceName;
+  var tagKeys = aws.params.TagKeys /* Type list */;
+  if (!resourceName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ResourceName'];
+  }
+  if (!tagKeys) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TagKeys'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateOptionGroup = function CreateOptionGroup(aws) {
+  var engineName = aws.params.EngineName;
+  var optionGroupDescription = aws.params.OptionGroupDescription;
+  var optionGroupName = aws.params.OptionGroupName;
+  var majorEngineVersion = aws.params.MajorEngineVersion;
+  if (!optionGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter OptionGroupName'];
+  }
+  if (!engineName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter EngineName'];
+  }
+  if (!majorEngineVersion) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MajorEngineVersion'];
+  }
+  if (!optionGroupDescription) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter OptionGroupDescription'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    OptionGroup: /*S1p*/{
+      OptionGroupDescription: '',
+      OptionGroupName: '',
+      MajorEngineVersion: '',
+      EngineName: '',
+      AllowsVpcAndNonVpcInstanceMemberships: false,
+      Options: [ {
+        Persistent: false,
+        VpcSecurityGroupMemberships: /*Sx*/[ {
+          VpcSecurityGroupId: '',
+          Status: '',
+        }, /* ...*/ ],
+        DBSecurityGroupMemberships: /*Sv*/[ {
+          DBSecurityGroupName: '',
+          Status: '',
+        }, /* ...*/ ],
+        Port: 0,
+        OptionSettings: [ /*S1t*/{
+          DataType: '',
+          DefaultValue: '',
+          Value: '',
+          Description: '',
+          Name: '',
+          IsCollection: false,
+          ApplyType: '',
+          AllowedValues: '',
+          IsModifiable: false,
+        }, /* ...*/ ],
+        OptionDescription: '',
+        OptionName: '',
+      }, /* ...*/ ],
+      VpcId: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeOrderableDBInstanceOptions = function DescribeOrderableDBInstanceOptions(aws) {
+  var licenseModel = aws.params.LicenseModel;
+  var engineVersion = aws.params.EngineVersion;
+  var marker = aws.params.Marker;
+  var engine = aws.params.Engine;
+  var vpc = aws.params.Vpc /* Type boolean */;
+  var dBInstanceClass = aws.params.DBInstanceClass;
+  var maxRecords = aws.params.MaxRecords /* Type integer */;
+  if (!engine) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Engine'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    OrderableDBInstanceOptions: [ {
+      MultiAZCapable: false,
+      LicenseModel: '',
+      EngineVersion: '',
+      AvailabilityZones: [ /*S14*/{
+        Name: '',
+        ProvisionedIopsCapable: false,
+      }, /* ...*/ ],
+      ReadReplicaCapable: false,
+      Engine: '',
+      Vpc: false,
+      DBInstanceClass: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteDBSecurityGroup = function DeleteDBSecurityGroup(aws) {
+  var dBSecurityGroupName = aws.params.DBSecurityGroupName;
+  if (!dBSecurityGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBSecurityGroupName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeEventSubscriptions = function DescribeEventSubscriptions(aws) {
+  var marker = aws.params.Marker;
+  var subscriptionName = aws.params.SubscriptionName;
+  var maxRecords = aws.params.MaxRecords /* Type integer */;
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    EventSubscriptionsList: [ /*S4*/{
+      EventCategoriesList: /*S6*/[ '', /* ...*/ ],
+      Enabled: false,
+      SourceType: '',
+      CustSubscriptionId: '',
+      Status: '',
+      SnsTopicArn: '',
+      SourceIdsList: /*S5*/[ '', /* ...*/ ],
+      SubscriptionCreationTime: '',
+      CustomerAwsId: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.AddTagsToResource = function AddTagsToResource(aws) {
+  var resourceName = aws.params.ResourceName;
+  var tags = aws.params.Tags;
+  if (!resourceName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ResourceName'];
+  }
+  if (!tags) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Tags'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ModifyDBSubnetGroup = function ModifyDBSubnetGroup(aws) {
+  var dBSubnetGroupDescription = aws.params.DBSubnetGroupDescription;
+  var subnetIds = aws.params.SubnetIds;
+  var dBSubnetGroupName = aws.params.DBSubnetGroupName;
+  if (!dBSubnetGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBSubnetGroupName'];
+  }
+  if (!subnetIds) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SubnetIds'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    DBSubnetGroup: /*S11*/{
+      DBSubnetGroupDescription: '',
+      SubnetGroupStatus: '',
+      Subnets: [ {
+        SubnetAvailabilityZone: /*S14*/{
+          Name: '',
+          ProvisionedIopsCapable: false,
+        },
+        SubnetIdentifier: '',
+        SubnetStatus: '',
+      }, /* ...*/ ],
+      VpcId: '',
+      DBSubnetGroupName: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateEventSubscription = function CreateEventSubscription(aws) {
+  var enabled = aws.params.Enabled /* Type boolean */;
+  var sourceType = aws.params.SourceType;
+  var sourceIds = aws.params.SourceIds;
+  var snsTopicArn = aws.params.SnsTopicArn;
+  var subscriptionName = aws.params.SubscriptionName;
+  var eventCategories = aws.params.EventCategories;
+  if (!subscriptionName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SubscriptionName'];
+  }
+  if (!snsTopicArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SnsTopicArn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    EventSubscription: /*S4*/{
+      EventCategoriesList: /*S6*/[ '', /* ...*/ ],
+      Enabled: false,
+      SourceType: '',
+      CustSubscriptionId: '',
+      Status: '',
+      SnsTopicArn: '',
+      SourceIdsList: /*S5*/[ '', /* ...*/ ],
+      SubscriptionCreationTime: '',
+      CustomerAwsId: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.PromoteReadReplica = function PromoteReadReplica(aws) {
+  var preferredBackupWindow = aws.params.PreferredBackupWindow;
+  var dBInstanceIdentifier = aws.params.DBInstanceIdentifier;
+  var backupRetentionPeriod = aws.params.BackupRetentionPeriod /* Type integer */;
+  if (!dBInstanceIdentifier) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBInstanceIdentifier'];
   }
 
 
@@ -405,84 +426,279 @@ module.exports.RestoreDBInstanceToPointInTime = function RestoreDBInstanceToPoin
 
   var ret = {
     DBInstance: /*St*/{
-      Engine: '',
-      PreferredMaintenanceWindow: '',
-      MasterUsername: '',
-      MultiAZ: false,
-      DBInstanceStatus: '',
-      VpcSecurityGroups: /*Sx*/[ {
-        VpcSecurityGroupId: '',
+      PreferredBackupWindow: '',
+      DBSecurityGroups: /*Sv*/[ {
+        DBSecurityGroupName: '',
         Status: '',
       }, /* ...*/ ],
-      BackupRetentionPeriod: 0,
-      AllocatedStorage: 0,
-      EngineVersion: '',
+      DBName: '',
       SecondaryAvailabilityZone: '',
+      Iops: 0,
       LicenseModel: '',
-      CharacterSetName: '',
+      EngineVersion: '',
+      PubliclyAccessible: false,
+      ReadReplicaSourceDBInstanceIdentifier: '',
+      ReadReplicaDBInstanceIdentifiers: [ '', /* ...*/ ],
+      DBInstanceClass: '',
       OptionGroupMemberships: [ {
         OptionGroupName: '',
         Status: '',
       }, /* ...*/ ],
-      LatestRestorableTime: awsCommon.timestamp(),
-      InstanceCreateTime: awsCommon.timestamp(),
-      DBSecurityGroups: /*Sv*/[ {
-        Status: '',
-        DBSecurityGroupName: '',
-      }, /* ...*/ ],
-      PendingModifiedValues: {
-        BackupRetentionPeriod: 0,
-        Iops: 0,
-        DBInstanceClass: '',
-        MultiAZ: false,
-        DBInstanceIdentifier: '',
-        EngineVersion: '',
-        Port: 0,
-        AllocatedStorage: 0,
-        MasterUserPassword: '',
-      },
-      Endpoint: {
-        Port: 0,
-        Address: '',
-      },
-      DBName: '',
-      Iops: 0,
+      MasterUsername: '',
       AvailabilityZone: '',
       DBSubnetGroup: /*S11*/{
         DBSubnetGroupDescription: '',
-        DBSubnetGroupName: '',
-        VpcId: '',
         SubnetGroupStatus: '',
         Subnets: [ {
-          SubnetStatus: '',
-          SubnetIdentifier: '',
           SubnetAvailabilityZone: /*S14*/{
-            ProvisionedIopsCapable: false,
             Name: '',
+            ProvisionedIopsCapable: false,
           },
+          SubnetIdentifier: '',
+          SubnetStatus: '',
         }, /* ...*/ ],
+        VpcId: '',
+        DBSubnetGroupName: '',
       },
-      PubliclyAccessible: false,
-      AutoMinorVersionUpgrade: false,
       DBInstanceIdentifier: '',
-      ReadReplicaSourceDBInstanceIdentifier: '',
-      DBParameterGroups: [ {
-        DBParameterGroupName: '',
-        ParameterApplyStatus: '',
+      Endpoint: {
+        Address: '',
+        Port: 0,
+      },
+      VpcSecurityGroups: /*Sx*/[ {
+        VpcSecurityGroupId: '',
+        Status: '',
       }, /* ...*/ ],
-      ReadReplicaDBInstanceIdentifiers: [ '', /* ...*/ ],
-      PreferredBackupWindow: '',
-      DBInstanceClass: '',
+      Engine: '',
+      AllocatedStorage: 0,
+      DBParameterGroups: [ {
+        ParameterApplyStatus: '',
+        DBParameterGroupName: '',
+      }, /* ...*/ ],
+      PreferredMaintenanceWindow: '',
+      PendingModifiedValues: {
+        MultiAZ: false,
+        Iops: 0,
+        EngineVersion: '',
+        Port: 0,
+        MasterUserPassword: '',
+        AllocatedStorage: 0,
+        DBInstanceIdentifier: '',
+        DBInstanceClass: '',
+        BackupRetentionPeriod: 0,
+      },
+      InstanceCreateTime: awsCommon.timestamp(),
+      CharacterSetName: '',
+      DBInstanceStatus: '',
+      BackupRetentionPeriod: 0,
+      LatestRestorableTime: awsCommon.timestamp(),
+      AutoMinorVersionUpgrade: false,
+      MultiAZ: false,
     },
   };
   return [200, ret];
 };
 // -----------------------------------
+module.exports.DeleteEventSubscription = function DeleteEventSubscription(aws) {
+  var subscriptionName = aws.params.SubscriptionName;
+  if (!subscriptionName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SubscriptionName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    EventSubscription: /*S4*/{
+      EventCategoriesList: /*S6*/[ '', /* ...*/ ],
+      Enabled: false,
+      SourceType: '',
+      CustSubscriptionId: '',
+      Status: '',
+      SnsTopicArn: '',
+      SourceIdsList: /*S5*/[ '', /* ...*/ ],
+      SubscriptionCreationTime: '',
+      CustomerAwsId: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeEvents = function DescribeEvents(aws) {
+  var endTime = aws.params.EndTime /* Type timestamp */;
+  var sourceType = aws.params.SourceType;
+  var startTime = aws.params.StartTime /* Type timestamp */;
+  var sourceIdentifier = aws.params.SourceIdentifier;
+  var marker = aws.params.Marker;
+  var duration = aws.params.Duration /* Type integer */;
+  var maxRecords = aws.params.MaxRecords /* Type integer */;
+  var eventCategories = aws.params.EventCategories;
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    Events: [ {
+      Message: '',
+      SourceType: '',
+      Date: awsCommon.timestamp(),
+      SourceIdentifier: '',
+      EventCategories: /*S6*/[ '', /* ...*/ ],
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.PurchaseReservedDBInstancesOffering = function PurchaseReservedDBInstancesOffering(aws) {
+  var dBInstanceCount = aws.params.DBInstanceCount /* Type integer */;
+  var reservedDBInstanceId = aws.params.ReservedDBInstanceId;
+  var reservedDBInstancesOfferingId = aws.params.ReservedDBInstancesOfferingId;
+  if (!reservedDBInstancesOfferingId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ReservedDBInstancesOfferingId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ReservedDBInstance: /*S3w*/{
+      UsagePrice: 0.0 /*Double*/,
+      StartTime: awsCommon.timestamp(),
+      CurrencyCode: '',
+      OfferingType: '',
+      Duration: 0,
+      DBInstanceClass: '',
+      ProductDescription: '',
+      DBInstanceCount: 0,
+      RecurringCharges: /*S3y*/[ {
+        RecurringChargeFrequency: '',
+        RecurringChargeAmount: 0.0 /*Double*/,
+      }, /* ...*/ ],
+      FixedPrice: 0.0 /*Double*/,
+      MultiAZ: false,
+      ReservedDBInstanceId: '',
+      State: '',
+      ReservedDBInstancesOfferingId: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListTagsForResource = function ListTagsForResource(aws) {
+  var resourceName = aws.params.ResourceName;
+  if (!resourceName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ResourceName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    TagList: /*S9*/[ {
+      Value: '',
+      Key: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteOptionGroup = function DeleteOptionGroup(aws) {
+  var optionGroupName = aws.params.OptionGroupName;
+  if (!optionGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter OptionGroupName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RemoveSourceIdentifierFromSubscription = function RemoveSourceIdentifierFromSubscription(aws) {
+  var subscriptionName = aws.params.SubscriptionName;
+  var sourceIdentifier = aws.params.SourceIdentifier;
+  if (!subscriptionName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SubscriptionName'];
+  }
+  if (!sourceIdentifier) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SourceIdentifier'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    EventSubscription: /*S4*/{
+      EventCategoriesList: /*S6*/[ '', /* ...*/ ],
+      Enabled: false,
+      SourceType: '',
+      CustSubscriptionId: '',
+      Status: '',
+      SnsTopicArn: '',
+      SourceIdsList: /*S5*/[ '', /* ...*/ ],
+      SubscriptionCreationTime: '',
+      CustomerAwsId: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeDBSecurityGroups = function DescribeDBSecurityGroups(aws) {
+  var marker = aws.params.Marker;
+  var dBSecurityGroupName = aws.params.DBSecurityGroupName;
+  var maxRecords = aws.params.MaxRecords /* Type integer */;
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    DBSecurityGroups: [ /*Sd*/{
+      EC2SecurityGroups: [ {
+        EC2SecurityGroupId: '',
+        EC2SecurityGroupName: '',
+        EC2SecurityGroupOwnerId: '',
+        Status: '',
+      }, /* ...*/ ],
+      OwnerId: '',
+      DBSecurityGroupName: '',
+      IPRanges: [ {
+        CIDRIP: '',
+        Status: '',
+      }, /* ...*/ ],
+      VpcId: '',
+      DBSecurityGroupDescription: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ModifyDBParameterGroup = function ModifyDBParameterGroup(aws) {
+  var parameters = aws.params.Parameters;
+  var dBParameterGroupName = aws.params.DBParameterGroupName;
+  if (!dBParameterGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBParameterGroupName'];
+  }
+  if (!parameters) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Parameters'];
+  }
+
+
+  // TODO implement code
+
+  var ret = /*S4b*/{
+    DBParameterGroupName: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.ResetDBParameterGroup = function ResetDBParameterGroup(aws) {
-  var ResetAllParameters = aws.params['ResetAllParameters'] /* Type boolean */;
-  var DBParameterGroupName = aws.params['DBParameterGroupName'];
-  var Parameters = aws.params['Parameters'];
-  if (!DBParameterGroupName) {
+  var parameters = aws.params.Parameters;
+  var resetAllParameters = aws.params.ResetAllParameters /* Type boolean */;
+  var dBParameterGroupName = aws.params.DBParameterGroupName;
+  if (!dBParameterGroupName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBParameterGroupName'];
   }
 
@@ -495,36 +711,13 @@ module.exports.ResetDBParameterGroup = function ResetDBParameterGroup(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DownloadDBLogFilePortion = function DownloadDBLogFilePortion(aws) {
-  var Marker = aws.params['Marker'];
-  var LogFileName = aws.params['LogFileName'];
-  var DBInstanceIdentifier = aws.params['DBInstanceIdentifier'];
-  var NumberOfLines = aws.params['NumberOfLines'] /* Type integer */;
-  if (!DBInstanceIdentifier) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBInstanceIdentifier'];
-  }
-  if (!LogFileName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LogFileName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Marker: '',
-    AdditionalDataPending: false,
-    LogFileData: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
 module.exports.CreateDBSecurityGroup = function CreateDBSecurityGroup(aws) {
-  var DBSecurityGroupDescription = aws.params['DBSecurityGroupDescription'];
-  var DBSecurityGroupName = aws.params['DBSecurityGroupName'];
-  if (!DBSecurityGroupName) {
+  var dBSecurityGroupName = aws.params.DBSecurityGroupName;
+  var dBSecurityGroupDescription = aws.params.DBSecurityGroupDescription;
+  if (!dBSecurityGroupName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBSecurityGroupName'];
   }
-  if (!DBSecurityGroupDescription) {
+  if (!dBSecurityGroupDescription) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBSecurityGroupDescription'];
   }
 
@@ -533,126 +726,141 @@ module.exports.CreateDBSecurityGroup = function CreateDBSecurityGroup(aws) {
 
   var ret = {
     DBSecurityGroup: /*Sd*/{
-      VpcId: '',
+      EC2SecurityGroups: [ {
+        EC2SecurityGroupId: '',
+        EC2SecurityGroupName: '',
+        EC2SecurityGroupOwnerId: '',
+        Status: '',
+      }, /* ...*/ ],
+      OwnerId: '',
+      DBSecurityGroupName: '',
       IPRanges: [ {
         CIDRIP: '',
         Status: '',
       }, /* ...*/ ],
-      DBSecurityGroupDescription: '',
-      OwnerId: '',
-      DBSecurityGroupName: '',
-      EC2SecurityGroups: [ {
-        EC2SecurityGroupName: '',
-        EC2SecurityGroupId: '',
-        Status: '',
-        EC2SecurityGroupOwnerId: '',
-      }, /* ...*/ ],
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteDBSnapshot = function DeleteDBSnapshot(aws) {
-  var DBSnapshotIdentifier = aws.params['DBSnapshotIdentifier'];
-  if (!DBSnapshotIdentifier) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBSnapshotIdentifier'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    DBSnapshot: /*Sk*/{
-      Engine: '',
       VpcId: '',
-      MasterUsername: '',
-      SnapshotCreateTime: awsCommon.timestamp(),
-      AvailabilityZone: '',
-      AllocatedStorage: 0,
-      EngineVersion: '',
-      DBSnapshotIdentifier: '',
-      SnapshotType: '',
-      Port: 0,
-      OptionGroupName: '',
-      DBInstanceIdentifier: '',
-      LicenseModel: '',
-      Status: '',
-      Iops: 0,
-      InstanceCreateTime: awsCommon.timestamp(),
+      DBSecurityGroupDescription: '',
     },
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DeleteDBParameterGroup = function DeleteDBParameterGroup(aws) {
-  var DBParameterGroupName = aws.params['DBParameterGroupName'];
-  if (!DBParameterGroupName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBParameterGroupName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteOptionGroup = function DeleteOptionGroup(aws) {
-  var OptionGroupName = aws.params['OptionGroupName'];
-  if (!OptionGroupName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter OptionGroupName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeEngineDefaultParameters = function DescribeEngineDefaultParameters(aws) {
-  var Marker = aws.params['Marker'];
-  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
-  var DBParameterGroupFamily = aws.params['DBParameterGroupFamily'];
-  if (!DBParameterGroupFamily) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBParameterGroupFamily'];
+module.exports.ModifyEventSubscription = function ModifyEventSubscription(aws) {
+  var snsTopicArn = aws.params.SnsTopicArn;
+  var subscriptionName = aws.params.SubscriptionName;
+  var sourceType = aws.params.SourceType;
+  var enabled = aws.params.Enabled /* Type boolean */;
+  var eventCategories = aws.params.EventCategories;
+  if (!subscriptionName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SubscriptionName'];
   }
 
 
   // TODO implement code
 
   var ret = {
-    EngineDefaults: {
-      Marker: '',
-      Parameters: /*S2n*/[ {
-        ApplyMethod: '',
-        ParameterValue: '',
-        MinimumEngineVersion: '',
-        IsModifiable: false,
-        ParameterName: '',
-        DataType: '',
-        AllowedValues: '',
-        Description: '',
-        Source: '',
-        ApplyType: '',
-      }, /* ...*/ ],
-      DBParameterGroupFamily: '',
+    EventSubscription: /*S4*/{
+      EventCategoriesList: /*S6*/[ '', /* ...*/ ],
+      Enabled: false,
+      SourceType: '',
+      CustSubscriptionId: '',
+      Status: '',
+      SnsTopicArn: '',
+      SourceIdsList: /*S5*/[ '', /* ...*/ ],
+      SubscriptionCreationTime: '',
+      CustomerAwsId: '',
     },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeDBSubnetGroups = function DescribeDBSubnetGroups(aws) {
+  var marker = aws.params.Marker;
+  var maxRecords = aws.params.MaxRecords /* Type integer */;
+  var dBSubnetGroupName = aws.params.DBSubnetGroupName;
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    DBSubnetGroups: [ /*S11*/{
+      DBSubnetGroupDescription: '',
+      SubnetGroupStatus: '',
+      Subnets: [ {
+        SubnetAvailabilityZone: /*S14*/{
+          Name: '',
+          ProvisionedIopsCapable: false,
+        },
+        SubnetIdentifier: '',
+        SubnetStatus: '',
+      }, /* ...*/ ],
+      VpcId: '',
+      DBSubnetGroupName: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DownloadDBLogFilePortion = function DownloadDBLogFilePortion(aws) {
+  var marker = aws.params.Marker;
+  var numberOfLines = aws.params.NumberOfLines /* Type integer */;
+  var dBInstanceIdentifier = aws.params.DBInstanceIdentifier;
+  var logFileName = aws.params.LogFileName;
+  if (!dBInstanceIdentifier) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBInstanceIdentifier'];
+  }
+  if (!logFileName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LogFileName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    LogFileData: '',
+    Marker: '',
+    AdditionalDataPending: false,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeDBLogFiles = function DescribeDBLogFiles(aws) {
+  var filenameContains = aws.params.FilenameContains;
+  var fileSize = aws.params.FileSize /* Type long */;
+  var dBInstanceIdentifier = aws.params.DBInstanceIdentifier;
+  var marker = aws.params.Marker;
+  var fileLastWritten = aws.params.FileLastWritten /* Type long */;
+  var maxRecords = aws.params.MaxRecords /* Type integer */;
+  if (!dBInstanceIdentifier) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBInstanceIdentifier'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    DescribeDBLogFiles: [ {
+      Size: 0 /*Long*/,
+      LastWritten: 0 /*Long*/,
+      LogFileName: '',
+    }, /* ...*/ ],
+    Marker: '',
   };
   return [200, ret];
 };
 // -----------------------------------
 module.exports.CreateDBSubnetGroup = function CreateDBSubnetGroup(aws) {
-  var DBSubnetGroupDescription = aws.params['DBSubnetGroupDescription'];
-  var DBSubnetGroupName = aws.params['DBSubnetGroupName'];
-  var SubnetIds = aws.params['SubnetIds'];
-  if (!DBSubnetGroupName) {
+  var dBSubnetGroupDescription = aws.params.DBSubnetGroupDescription;
+  var subnetIds = aws.params.SubnetIds;
+  var dBSubnetGroupName = aws.params.DBSubnetGroupName;
+  if (!dBSubnetGroupName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBSubnetGroupName'];
   }
-  if (!DBSubnetGroupDescription) {
+  if (!dBSubnetGroupDescription) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBSubnetGroupDescription'];
   }
-  if (!SubnetIds) {
+  if (!subnetIds) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SubnetIds'];
   }
 
@@ -662,230 +870,96 @@ module.exports.CreateDBSubnetGroup = function CreateDBSubnetGroup(aws) {
   var ret = {
     DBSubnetGroup: /*S11*/{
       DBSubnetGroupDescription: '',
-      DBSubnetGroupName: '',
-      VpcId: '',
       SubnetGroupStatus: '',
       Subnets: [ {
-        SubnetStatus: '',
-        SubnetIdentifier: '',
         SubnetAvailabilityZone: /*S14*/{
-          ProvisionedIopsCapable: false,
           Name: '',
+          ProvisionedIopsCapable: false,
         },
+        SubnetIdentifier: '',
+        SubnetStatus: '',
+      }, /* ...*/ ],
+      VpcId: '',
+      DBSubnetGroupName: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeEngineDefaultParameters = function DescribeEngineDefaultParameters(aws) {
+  var dBParameterGroupFamily = aws.params.DBParameterGroupFamily;
+  var marker = aws.params.Marker;
+  var maxRecords = aws.params.MaxRecords /* Type integer */;
+  if (!dBParameterGroupFamily) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBParameterGroupFamily'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    EngineDefaults: {
+      DBParameterGroupFamily: '',
+      Marker: '',
+      Parameters: /*S2n*/[ {
+        ParameterValue: '',
+        Description: '',
+        Source: '',
+        MinimumEngineVersion: '',
+        ParameterName: '',
+        ApplyMethod: '',
+        ApplyType: '',
+        AllowedValues: '',
+        DataType: '',
+        IsModifiable: false,
       }, /* ...*/ ],
     },
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DescribeEvents = function DescribeEvents(aws) {
-  var Marker = aws.params['Marker'];
-  var EventCategories = aws.params['EventCategories'];
-  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
-  var SourceType = aws.params['SourceType'];
-  var Duration = aws.params['Duration'] /* Type integer */;
-  var EndTime = aws.params['EndTime'] /* Type timestamp */;
-  var StartTime = aws.params['StartTime'] /* Type timestamp */;
-  var SourceIdentifier = aws.params['SourceIdentifier'];
-
-
-  // TODO implement code
-
-  var ret = {
-    Marker: '',
-    Events: [ {
-      SourceType: '',
-      EventCategories: /*S6*/[ '', /* ...*/ ],
-      Date: awsCommon.timestamp(),
-      Message: '',
-      SourceIdentifier: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.PurchaseReservedDBInstancesOffering = function PurchaseReservedDBInstancesOffering(aws) {
-  var DBInstanceCount = aws.params['DBInstanceCount'] /* Type integer */;
-  var ReservedDBInstanceId = aws.params['ReservedDBInstanceId'];
-  var ReservedDBInstancesOfferingId = aws.params['ReservedDBInstancesOfferingId'];
-  if (!ReservedDBInstancesOfferingId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ReservedDBInstancesOfferingId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    ReservedDBInstance: /*S3w*/{
-      DBInstanceCount: 0,
-      RecurringCharges: /*S3y*/[ {
-        RecurringChargeAmount: 0.0 /*Double*/,
-        RecurringChargeFrequency: '',
-      }, /* ...*/ ],
-      FixedPrice: 0.0 /*Double*/,
-      Duration: 0,
-      ReservedDBInstanceId: '',
-      ReservedDBInstancesOfferingId: '',
-      UsagePrice: 0.0 /*Double*/,
-      CurrencyCode: '',
-      ProductDescription: '',
-      StartTime: awsCommon.timestamp(),
-      MultiAZ: false,
-      OfferingType: '',
-      State: '',
-      DBInstanceClass: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CopyDBSnapshot = function CopyDBSnapshot(aws) {
-  var TargetDBSnapshotIdentifier = aws.params['TargetDBSnapshotIdentifier'];
-  var SourceDBSnapshotIdentifier = aws.params['SourceDBSnapshotIdentifier'];
-  if (!SourceDBSnapshotIdentifier) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SourceDBSnapshotIdentifier'];
-  }
-  if (!TargetDBSnapshotIdentifier) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TargetDBSnapshotIdentifier'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    DBSnapshot: /*Sk*/{
-      Engine: '',
-      VpcId: '',
-      MasterUsername: '',
-      SnapshotCreateTime: awsCommon.timestamp(),
-      AvailabilityZone: '',
-      AllocatedStorage: 0,
-      EngineVersion: '',
-      DBSnapshotIdentifier: '',
-      SnapshotType: '',
-      Port: 0,
-      OptionGroupName: '',
-      DBInstanceIdentifier: '',
-      LicenseModel: '',
-      Status: '',
-      Iops: 0,
-      InstanceCreateTime: awsCommon.timestamp(),
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateEventSubscription = function CreateEventSubscription(aws) {
-  var SourceType = aws.params['SourceType'];
-  var EventCategories = aws.params['EventCategories'];
-  var SubscriptionName = aws.params['SubscriptionName'];
-  var SnsTopicArn = aws.params['SnsTopicArn'];
-  var SourceIds = aws.params['SourceIds'];
-  var Enabled = aws.params['Enabled'] /* Type boolean */;
-  if (!SubscriptionName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SubscriptionName'];
-  }
-  if (!SnsTopicArn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SnsTopicArn'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    EventSubscription: /*S4*/{
-      CustSubscriptionId: '',
-      SourceType: '',
-      Status: '',
-      Enabled: false,
-      SnsTopicArn: '',
-      EventCategoriesList: /*S6*/[ '', /* ...*/ ],
-      SourceIdsList: /*S5*/[ '', /* ...*/ ],
-      CustomerAwsId: '',
-      SubscriptionCreationTime: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.AddSourceIdentifierToSubscription = function AddSourceIdentifierToSubscription(aws) {
-  var SourceIdentifier = aws.params['SourceIdentifier'];
-  var SubscriptionName = aws.params['SubscriptionName'];
-  if (!SubscriptionName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SubscriptionName'];
-  }
-  if (!SourceIdentifier) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SourceIdentifier'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    EventSubscription: /*S4*/{
-      CustSubscriptionId: '',
-      SourceType: '',
-      Status: '',
-      Enabled: false,
-      SnsTopicArn: '',
-      EventCategoriesList: /*S6*/[ '', /* ...*/ ],
-      SourceIdsList: /*S5*/[ '', /* ...*/ ],
-      CustomerAwsId: '',
-      SubscriptionCreationTime: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeDBSnapshots = function DescribeDBSnapshots(aws) {
-  var DBSnapshotIdentifier = aws.params['DBSnapshotIdentifier'];
-  var SnapshotType = aws.params['SnapshotType'];
-  var Marker = aws.params['Marker'];
-  var DBInstanceIdentifier = aws.params['DBInstanceIdentifier'];
-  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
-
-
-  // TODO implement code
-
-  var ret = {
-    Marker: '',
-    DBSnapshots: [ /*Sk*/{
-      Engine: '',
-      VpcId: '',
-      MasterUsername: '',
-      SnapshotCreateTime: awsCommon.timestamp(),
-      AvailabilityZone: '',
-      AllocatedStorage: 0,
-      EngineVersion: '',
-      DBSnapshotIdentifier: '',
-      SnapshotType: '',
-      Port: 0,
-      OptionGroupName: '',
-      DBInstanceIdentifier: '',
-      LicenseModel: '',
-      Status: '',
-      Iops: 0,
-      InstanceCreateTime: awsCommon.timestamp(),
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateDBInstanceReadReplica = function CreateDBInstanceReadReplica(aws) {
-  var OptionGroupName = aws.params['OptionGroupName'];
-  var PubliclyAccessible = aws.params['PubliclyAccessible'] /* Type boolean */;
-  var Port = aws.params['Port'] /* Type integer */;
-  var AutoMinorVersionUpgrade = aws.params['AutoMinorVersionUpgrade'] /* Type boolean */;
-  var DBInstanceIdentifier = aws.params['DBInstanceIdentifier'];
-  var Iops = aws.params['Iops'] /* Type integer */;
-  var AvailabilityZone = aws.params['AvailabilityZone'];
-  var DBInstanceClass = aws.params['DBInstanceClass'];
-  var SourceDBInstanceIdentifier = aws.params['SourceDBInstanceIdentifier'];
-  if (!DBInstanceIdentifier) {
+module.exports.CreateDBInstance = function CreateDBInstance(aws) {
+  var preferredBackupWindow = aws.params.PreferredBackupWindow;
+  var dBSecurityGroups = aws.params.DBSecurityGroups;
+  var dBName = aws.params.DBName;
+  var iops = aws.params.Iops /* Type integer */;
+  var engineVersion = aws.params.EngineVersion;
+  var publiclyAccessible = aws.params.PubliclyAccessible /* Type boolean */;
+  var characterSetName = aws.params.CharacterSetName;
+  var dBInstanceClass = aws.params.DBInstanceClass;
+  var masterUserPassword = aws.params.MasterUserPassword;
+  var masterUsername = aws.params.MasterUsername;
+  var availabilityZone = aws.params.AvailabilityZone;
+  var optionGroupName = aws.params.OptionGroupName;
+  var dBInstanceIdentifier = aws.params.DBInstanceIdentifier;
+  var port = aws.params.Port /* Type integer */;
+  var vpcSecurityGroupIds = aws.params.VpcSecurityGroupIds;
+  var engine = aws.params.Engine;
+  var allocatedStorage = aws.params.AllocatedStorage /* Type integer */;
+  var preferredMaintenanceWindow = aws.params.PreferredMaintenanceWindow;
+  var dBSubnetGroupName = aws.params.DBSubnetGroupName;
+  var licenseModel = aws.params.LicenseModel;
+  var backupRetentionPeriod = aws.params.BackupRetentionPeriod /* Type integer */;
+  var dBParameterGroupName = aws.params.DBParameterGroupName;
+  var autoMinorVersionUpgrade = aws.params.AutoMinorVersionUpgrade /* Type boolean */;
+  var multiAZ = aws.params.MultiAZ /* Type boolean */;
+  if (!dBInstanceIdentifier) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBInstanceIdentifier'];
   }
-  if (!SourceDBInstanceIdentifier) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SourceDBInstanceIdentifier'];
+  if (!allocatedStorage) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AllocatedStorage'];
+  }
+  if (!dBInstanceClass) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBInstanceClass'];
+  }
+  if (!engine) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Engine'];
+  }
+  if (!masterUsername) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MasterUsername'];
+  }
+  if (!masterUserPassword) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MasterUserPassword'];
   }
 
 
@@ -893,115 +967,354 @@ module.exports.CreateDBInstanceReadReplica = function CreateDBInstanceReadReplic
 
   var ret = {
     DBInstance: /*St*/{
-      Engine: '',
-      PreferredMaintenanceWindow: '',
-      MasterUsername: '',
-      MultiAZ: false,
-      DBInstanceStatus: '',
-      VpcSecurityGroups: /*Sx*/[ {
-        VpcSecurityGroupId: '',
+      PreferredBackupWindow: '',
+      DBSecurityGroups: /*Sv*/[ {
+        DBSecurityGroupName: '',
         Status: '',
       }, /* ...*/ ],
-      BackupRetentionPeriod: 0,
-      AllocatedStorage: 0,
-      EngineVersion: '',
+      DBName: '',
       SecondaryAvailabilityZone: '',
+      Iops: 0,
       LicenseModel: '',
-      CharacterSetName: '',
+      EngineVersion: '',
+      PubliclyAccessible: false,
+      ReadReplicaSourceDBInstanceIdentifier: '',
+      ReadReplicaDBInstanceIdentifiers: [ '', /* ...*/ ],
+      DBInstanceClass: '',
       OptionGroupMemberships: [ {
         OptionGroupName: '',
         Status: '',
       }, /* ...*/ ],
-      LatestRestorableTime: awsCommon.timestamp(),
-      InstanceCreateTime: awsCommon.timestamp(),
-      DBSecurityGroups: /*Sv*/[ {
-        Status: '',
-        DBSecurityGroupName: '',
-      }, /* ...*/ ],
-      PendingModifiedValues: {
-        BackupRetentionPeriod: 0,
-        Iops: 0,
-        DBInstanceClass: '',
-        MultiAZ: false,
-        DBInstanceIdentifier: '',
-        EngineVersion: '',
-        Port: 0,
-        AllocatedStorage: 0,
-        MasterUserPassword: '',
-      },
-      Endpoint: {
-        Port: 0,
-        Address: '',
-      },
-      DBName: '',
-      Iops: 0,
+      MasterUsername: '',
       AvailabilityZone: '',
       DBSubnetGroup: /*S11*/{
         DBSubnetGroupDescription: '',
-        DBSubnetGroupName: '',
-        VpcId: '',
         SubnetGroupStatus: '',
         Subnets: [ {
-          SubnetStatus: '',
-          SubnetIdentifier: '',
           SubnetAvailabilityZone: /*S14*/{
-            ProvisionedIopsCapable: false,
             Name: '',
+            ProvisionedIopsCapable: false,
           },
+          SubnetIdentifier: '',
+          SubnetStatus: '',
         }, /* ...*/ ],
+        VpcId: '',
+        DBSubnetGroupName: '',
       },
-      PubliclyAccessible: false,
-      AutoMinorVersionUpgrade: false,
       DBInstanceIdentifier: '',
-      ReadReplicaSourceDBInstanceIdentifier: '',
-      DBParameterGroups: [ {
-        DBParameterGroupName: '',
-        ParameterApplyStatus: '',
+      Endpoint: {
+        Address: '',
+        Port: 0,
+      },
+      VpcSecurityGroups: /*Sx*/[ {
+        VpcSecurityGroupId: '',
+        Status: '',
       }, /* ...*/ ],
-      ReadReplicaDBInstanceIdentifiers: [ '', /* ...*/ ],
-      PreferredBackupWindow: '',
-      DBInstanceClass: '',
+      Engine: '',
+      AllocatedStorage: 0,
+      DBParameterGroups: [ {
+        ParameterApplyStatus: '',
+        DBParameterGroupName: '',
+      }, /* ...*/ ],
+      PreferredMaintenanceWindow: '',
+      PendingModifiedValues: {
+        MultiAZ: false,
+        Iops: 0,
+        EngineVersion: '',
+        Port: 0,
+        MasterUserPassword: '',
+        AllocatedStorage: 0,
+        DBInstanceIdentifier: '',
+        DBInstanceClass: '',
+        BackupRetentionPeriod: 0,
+      },
+      InstanceCreateTime: awsCommon.timestamp(),
+      CharacterSetName: '',
+      DBInstanceStatus: '',
+      BackupRetentionPeriod: 0,
+      LatestRestorableTime: awsCommon.timestamp(),
+      AutoMinorVersionUpgrade: false,
+      MultiAZ: false,
     },
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.AuthorizeDBSecurityGroupIngress = function AuthorizeDBSecurityGroupIngress(aws) {
-  var CIDRIP = aws.params['CIDRIP'];
-  var EC2SecurityGroupOwnerId = aws.params['EC2SecurityGroupOwnerId'];
-  var EC2SecurityGroupName = aws.params['EC2SecurityGroupName'];
-  var DBSecurityGroupName = aws.params['DBSecurityGroupName'];
-  var EC2SecurityGroupId = aws.params['EC2SecurityGroupId'];
-  if (!DBSecurityGroupName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBSecurityGroupName'];
+module.exports.DescribeOptionGroupOptions = function DescribeOptionGroupOptions(aws) {
+  var marker = aws.params.Marker;
+  var engineName = aws.params.EngineName;
+  var maxRecords = aws.params.MaxRecords /* Type integer */;
+  var majorEngineVersion = aws.params.MajorEngineVersion;
+  if (!engineName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter EngineName'];
   }
 
 
   // TODO implement code
 
   var ret = {
-    DBSecurityGroup: /*Sd*/{
+    Marker: '',
+    OptionGroupOptions: [ {
+      Persistent: false,
+      EngineName: '',
+      MinimumRequiredMinorEngineVersion: '',
+      PortRequired: false,
+      OptionGroupOptionSettings: [ {
+        SettingDescription: '',
+        DefaultValue: '',
+        SettingName: '',
+        ApplyType: '',
+        AllowedValues: '',
+        IsModifiable: false,
+      }, /* ...*/ ],
+      MajorEngineVersion: '',
+      Description: '',
+      Name: '',
+      OptionsDependedOn: [ '', /* ...*/ ],
+      DefaultPort: 0,
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteDBSubnetGroup = function DeleteDBSubnetGroup(aws) {
+  var dBSubnetGroupName = aws.params.DBSubnetGroupName;
+  if (!dBSubnetGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBSubnetGroupName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ModifyOptionGroup = function ModifyOptionGroup(aws) {
+  var applyImmediately = aws.params.ApplyImmediately /* Type boolean */;
+  var optionGroupName = aws.params.OptionGroupName;
+  var optionsToRemove = aws.params.OptionsToRemove /* Type list */;
+  var optionsToInclude = aws.params.OptionsToInclude /* Type list */;
+  if (!optionGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter OptionGroupName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    OptionGroup: /*S1p*/{
+      OptionGroupDescription: '',
+      OptionGroupName: '',
+      MajorEngineVersion: '',
+      EngineName: '',
+      AllowsVpcAndNonVpcInstanceMemberships: false,
+      Options: [ {
+        Persistent: false,
+        VpcSecurityGroupMemberships: /*Sx*/[ {
+          VpcSecurityGroupId: '',
+          Status: '',
+        }, /* ...*/ ],
+        DBSecurityGroupMemberships: /*Sv*/[ {
+          DBSecurityGroupName: '',
+          Status: '',
+        }, /* ...*/ ],
+        Port: 0,
+        OptionSettings: [ /*S1t*/{
+          DataType: '',
+          DefaultValue: '',
+          Value: '',
+          Description: '',
+          Name: '',
+          IsCollection: false,
+          ApplyType: '',
+          AllowedValues: '',
+          IsModifiable: false,
+        }, /* ...*/ ],
+        OptionDescription: '',
+        OptionName: '',
+      }, /* ...*/ ],
       VpcId: '',
-      IPRanges: [ {
-        CIDRIP: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RestoreDBInstanceToPointInTime = function RestoreDBInstanceToPointInTime(aws) {
+  var targetDBInstanceIdentifier = aws.params.TargetDBInstanceIdentifier;
+  var publiclyAccessible = aws.params.PubliclyAccessible /* Type boolean */;
+  var optionGroupName = aws.params.OptionGroupName;
+  var port = aws.params.Port /* Type integer */;
+  var dBName = aws.params.DBName;
+  var useLatestRestorableTime = aws.params.UseLatestRestorableTime /* Type boolean */;
+  var engine = aws.params.Engine;
+  var iops = aws.params.Iops /* Type integer */;
+  var restoreTime = aws.params.RestoreTime /* Type timestamp */;
+  var dBInstanceClass = aws.params.DBInstanceClass;
+  var dBSubnetGroupName = aws.params.DBSubnetGroupName;
+  var sourceDBInstanceIdentifier = aws.params.SourceDBInstanceIdentifier;
+  var licenseModel = aws.params.LicenseModel;
+  var multiAZ = aws.params.MultiAZ /* Type boolean */;
+  var autoMinorVersionUpgrade = aws.params.AutoMinorVersionUpgrade /* Type boolean */;
+  var availabilityZone = aws.params.AvailabilityZone;
+  if (!sourceDBInstanceIdentifier) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SourceDBInstanceIdentifier'];
+  }
+  if (!targetDBInstanceIdentifier) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TargetDBInstanceIdentifier'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    DBInstance: /*St*/{
+      PreferredBackupWindow: '',
+      DBSecurityGroups: /*Sv*/[ {
+        DBSecurityGroupName: '',
         Status: '',
       }, /* ...*/ ],
-      DBSecurityGroupDescription: '',
-      OwnerId: '',
-      DBSecurityGroupName: '',
-      EC2SecurityGroups: [ {
-        EC2SecurityGroupName: '',
-        EC2SecurityGroupId: '',
+      DBName: '',
+      SecondaryAvailabilityZone: '',
+      Iops: 0,
+      LicenseModel: '',
+      EngineVersion: '',
+      PubliclyAccessible: false,
+      ReadReplicaSourceDBInstanceIdentifier: '',
+      ReadReplicaDBInstanceIdentifiers: [ '', /* ...*/ ],
+      DBInstanceClass: '',
+      OptionGroupMemberships: [ {
+        OptionGroupName: '',
         Status: '',
-        EC2SecurityGroupOwnerId: '',
       }, /* ...*/ ],
+      MasterUsername: '',
+      AvailabilityZone: '',
+      DBSubnetGroup: /*S11*/{
+        DBSubnetGroupDescription: '',
+        SubnetGroupStatus: '',
+        Subnets: [ {
+          SubnetAvailabilityZone: /*S14*/{
+            Name: '',
+            ProvisionedIopsCapable: false,
+          },
+          SubnetIdentifier: '',
+          SubnetStatus: '',
+        }, /* ...*/ ],
+        VpcId: '',
+        DBSubnetGroupName: '',
+      },
+      DBInstanceIdentifier: '',
+      Endpoint: {
+        Address: '',
+        Port: 0,
+      },
+      VpcSecurityGroups: /*Sx*/[ {
+        VpcSecurityGroupId: '',
+        Status: '',
+      }, /* ...*/ ],
+      Engine: '',
+      AllocatedStorage: 0,
+      DBParameterGroups: [ {
+        ParameterApplyStatus: '',
+        DBParameterGroupName: '',
+      }, /* ...*/ ],
+      PreferredMaintenanceWindow: '',
+      PendingModifiedValues: {
+        MultiAZ: false,
+        Iops: 0,
+        EngineVersion: '',
+        Port: 0,
+        MasterUserPassword: '',
+        AllocatedStorage: 0,
+        DBInstanceIdentifier: '',
+        DBInstanceClass: '',
+        BackupRetentionPeriod: 0,
+      },
+      InstanceCreateTime: awsCommon.timestamp(),
+      CharacterSetName: '',
+      DBInstanceStatus: '',
+      BackupRetentionPeriod: 0,
+      LatestRestorableTime: awsCommon.timestamp(),
+      AutoMinorVersionUpgrade: false,
+      MultiAZ: false,
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeReservedDBInstances = function DescribeReservedDBInstances(aws) {
+  var maxRecords = aws.params.MaxRecords /* Type integer */;
+  var duration = aws.params.Duration;
+  var multiAZ = aws.params.MultiAZ /* Type boolean */;
+  var reservedDBInstanceId = aws.params.ReservedDBInstanceId;
+  var marker = aws.params.Marker;
+  var offeringType = aws.params.OfferingType;
+  var reservedDBInstancesOfferingId = aws.params.ReservedDBInstancesOfferingId;
+  var dBInstanceClass = aws.params.DBInstanceClass;
+  var productDescription = aws.params.ProductDescription;
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    ReservedDBInstances: [ /*S3w*/{
+      UsagePrice: 0.0 /*Double*/,
+      StartTime: awsCommon.timestamp(),
+      CurrencyCode: '',
+      OfferingType: '',
+      Duration: 0,
+      DBInstanceClass: '',
+      ProductDescription: '',
+      DBInstanceCount: 0,
+      RecurringCharges: /*S3y*/[ {
+        RecurringChargeFrequency: '',
+        RecurringChargeAmount: 0.0 /*Double*/,
+      }, /* ...*/ ],
+      FixedPrice: 0.0 /*Double*/,
+      MultiAZ: false,
+      ReservedDBInstanceId: '',
+      State: '',
+      ReservedDBInstancesOfferingId: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteDBSnapshot = function DeleteDBSnapshot(aws) {
+  var dBSnapshotIdentifier = aws.params.DBSnapshotIdentifier;
+  if (!dBSnapshotIdentifier) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBSnapshotIdentifier'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    DBSnapshot: /*Sk*/{
+      DBSnapshotIdentifier: '',
+      DBInstanceIdentifier: '',
+      Iops: 0,
+      OptionGroupName: '',
+      Port: 0,
+      Status: '',
+      Engine: '',
+      AllocatedStorage: 0,
+      LicenseModel: '',
+      EngineVersion: '',
+      InstanceCreateTime: awsCommon.timestamp(),
+      SnapshotType: '',
+      SnapshotCreateTime: awsCommon.timestamp(),
+      VpcId: '',
+      MasterUsername: '',
+      AvailabilityZone: '',
     },
   };
   return [200, ret];
 };
 // -----------------------------------
 module.exports.DescribeEventCategories = function DescribeEventCategories(aws) {
-  var SourceType = aws.params['SourceType'];
+  var sourceType = aws.params.SourceType;
 
 
   // TODO implement code
@@ -1015,684 +1328,13 @@ module.exports.DescribeEventCategories = function DescribeEventCategories(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.ModifyDBInstance = function ModifyDBInstance(aws) {
-  var OptionGroupName = aws.params['OptionGroupName'];
-  var BackupRetentionPeriod = aws.params['BackupRetentionPeriod'] /* Type integer */;
-  var Iops = aws.params['Iops'] /* Type integer */;
-  var AllowMajorVersionUpgrade = aws.params['AllowMajorVersionUpgrade'] /* Type boolean */;
-  var MultiAZ = aws.params['MultiAZ'] /* Type boolean */;
-  var VpcSecurityGroupIds = aws.params['VpcSecurityGroupIds'];
-  var DBParameterGroupName = aws.params['DBParameterGroupName'];
-  var PreferredMaintenanceWindow = aws.params['PreferredMaintenanceWindow'];
-  var MasterUserPassword = aws.params['MasterUserPassword'];
-  var AllocatedStorage = aws.params['AllocatedStorage'] /* Type integer */;
-  var EngineVersion = aws.params['EngineVersion'];
-  var ApplyImmediately = aws.params['ApplyImmediately'] /* Type boolean */;
-  var AutoMinorVersionUpgrade = aws.params['AutoMinorVersionUpgrade'] /* Type boolean */;
-  var DBInstanceIdentifier = aws.params['DBInstanceIdentifier'];
-  var NewDBInstanceIdentifier = aws.params['NewDBInstanceIdentifier'];
-  var PreferredBackupWindow = aws.params['PreferredBackupWindow'];
-  var DBInstanceClass = aws.params['DBInstanceClass'];
-  var DBSecurityGroups = aws.params['DBSecurityGroups'];
-  if (!DBInstanceIdentifier) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBInstanceIdentifier'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    DBInstance: /*St*/{
-      Engine: '',
-      PreferredMaintenanceWindow: '',
-      MasterUsername: '',
-      MultiAZ: false,
-      DBInstanceStatus: '',
-      VpcSecurityGroups: /*Sx*/[ {
-        VpcSecurityGroupId: '',
-        Status: '',
-      }, /* ...*/ ],
-      BackupRetentionPeriod: 0,
-      AllocatedStorage: 0,
-      EngineVersion: '',
-      SecondaryAvailabilityZone: '',
-      LicenseModel: '',
-      CharacterSetName: '',
-      OptionGroupMemberships: [ {
-        OptionGroupName: '',
-        Status: '',
-      }, /* ...*/ ],
-      LatestRestorableTime: awsCommon.timestamp(),
-      InstanceCreateTime: awsCommon.timestamp(),
-      DBSecurityGroups: /*Sv*/[ {
-        Status: '',
-        DBSecurityGroupName: '',
-      }, /* ...*/ ],
-      PendingModifiedValues: {
-        BackupRetentionPeriod: 0,
-        Iops: 0,
-        DBInstanceClass: '',
-        MultiAZ: false,
-        DBInstanceIdentifier: '',
-        EngineVersion: '',
-        Port: 0,
-        AllocatedStorage: 0,
-        MasterUserPassword: '',
-      },
-      Endpoint: {
-        Port: 0,
-        Address: '',
-      },
-      DBName: '',
-      Iops: 0,
-      AvailabilityZone: '',
-      DBSubnetGroup: /*S11*/{
-        DBSubnetGroupDescription: '',
-        DBSubnetGroupName: '',
-        VpcId: '',
-        SubnetGroupStatus: '',
-        Subnets: [ {
-          SubnetStatus: '',
-          SubnetIdentifier: '',
-          SubnetAvailabilityZone: /*S14*/{
-            ProvisionedIopsCapable: false,
-            Name: '',
-          },
-        }, /* ...*/ ],
-      },
-      PubliclyAccessible: false,
-      AutoMinorVersionUpgrade: false,
-      DBInstanceIdentifier: '',
-      ReadReplicaSourceDBInstanceIdentifier: '',
-      DBParameterGroups: [ {
-        DBParameterGroupName: '',
-        ParameterApplyStatus: '',
-      }, /* ...*/ ],
-      ReadReplicaDBInstanceIdentifiers: [ '', /* ...*/ ],
-      PreferredBackupWindow: '',
-      DBInstanceClass: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeDBParameterGroups = function DescribeDBParameterGroups(aws) {
-  var Marker = aws.params['Marker'];
-  var DBParameterGroupName = aws.params['DBParameterGroupName'];
-  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
-
-
-  // TODO implement code
-
-  var ret = {
-    Marker: '',
-    DBParameterGroups: [ /*S1d*/{
-      DBParameterGroupName: '',
-      DBParameterGroupFamily: '',
-      Description: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeOptionGroups = function DescribeOptionGroups(aws) {
-  var Marker = aws.params['Marker'];
-  var EngineName = aws.params['EngineName'];
-  var OptionGroupName = aws.params['OptionGroupName'];
-  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
-  var MajorEngineVersion = aws.params['MajorEngineVersion'];
-
-
-  // TODO implement code
-
-  var ret = {
-    Marker: '',
-    OptionGroupsList: [ /*S1p*/{
-      AllowsVpcAndNonVpcInstanceMemberships: false,
-      OptionGroupName: '',
-      VpcId: '',
-      Options: [ {
-        OptionName: '',
-        OptionDescription: '',
-        Persistent: false,
-        DBSecurityGroupMemberships: /*Sv*/[ {
-          Status: '',
-          DBSecurityGroupName: '',
-        }, /* ...*/ ],
-        VpcSecurityGroupMemberships: /*Sx*/[ {
-          VpcSecurityGroupId: '',
-          Status: '',
-        }, /* ...*/ ],
-        OptionSettings: [ /*S1t*/{
-          IsModifiable: false,
-          Description: '',
-          Name: '',
-          IsCollection: false,
-          Value: '',
-          DataType: '',
-          AllowedValues: '',
-          DefaultValue: '',
-          ApplyType: '',
-        }, /* ...*/ ],
-        Port: 0,
-      }, /* ...*/ ],
-      MajorEngineVersion: '',
-      EngineName: '',
-      OptionGroupDescription: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeDBInstances = function DescribeDBInstances(aws) {
-  var Marker = aws.params['Marker'];
-  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
-  var DBInstanceIdentifier = aws.params['DBInstanceIdentifier'];
-
-
-  // TODO implement code
-
-  var ret = {
-    Marker: '',
-    DBInstances: [ /*St*/{
-      Engine: '',
-      PreferredMaintenanceWindow: '',
-      MasterUsername: '',
-      MultiAZ: false,
-      DBInstanceStatus: '',
-      VpcSecurityGroups: /*Sx*/[ {
-        VpcSecurityGroupId: '',
-        Status: '',
-      }, /* ...*/ ],
-      BackupRetentionPeriod: 0,
-      AllocatedStorage: 0,
-      EngineVersion: '',
-      SecondaryAvailabilityZone: '',
-      LicenseModel: '',
-      CharacterSetName: '',
-      OptionGroupMemberships: [ {
-        OptionGroupName: '',
-        Status: '',
-      }, /* ...*/ ],
-      LatestRestorableTime: awsCommon.timestamp(),
-      InstanceCreateTime: awsCommon.timestamp(),
-      DBSecurityGroups: /*Sv*/[ {
-        Status: '',
-        DBSecurityGroupName: '',
-      }, /* ...*/ ],
-      PendingModifiedValues: {
-        BackupRetentionPeriod: 0,
-        Iops: 0,
-        DBInstanceClass: '',
-        MultiAZ: false,
-        DBInstanceIdentifier: '',
-        EngineVersion: '',
-        Port: 0,
-        AllocatedStorage: 0,
-        MasterUserPassword: '',
-      },
-      Endpoint: {
-        Port: 0,
-        Address: '',
-      },
-      DBName: '',
-      Iops: 0,
-      AvailabilityZone: '',
-      DBSubnetGroup: /*S11*/{
-        DBSubnetGroupDescription: '',
-        DBSubnetGroupName: '',
-        VpcId: '',
-        SubnetGroupStatus: '',
-        Subnets: [ {
-          SubnetStatus: '',
-          SubnetIdentifier: '',
-          SubnetAvailabilityZone: /*S14*/{
-            ProvisionedIopsCapable: false,
-            Name: '',
-          },
-        }, /* ...*/ ],
-      },
-      PubliclyAccessible: false,
-      AutoMinorVersionUpgrade: false,
-      DBInstanceIdentifier: '',
-      ReadReplicaSourceDBInstanceIdentifier: '',
-      DBParameterGroups: [ {
-        DBParameterGroupName: '',
-        ParameterApplyStatus: '',
-      }, /* ...*/ ],
-      ReadReplicaDBInstanceIdentifiers: [ '', /* ...*/ ],
-      PreferredBackupWindow: '',
-      DBInstanceClass: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeDBSecurityGroups = function DescribeDBSecurityGroups(aws) {
-  var Marker = aws.params['Marker'];
-  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
-  var DBSecurityGroupName = aws.params['DBSecurityGroupName'];
-
-
-  // TODO implement code
-
-  var ret = {
-    Marker: '',
-    DBSecurityGroups: [ /*Sd*/{
-      VpcId: '',
-      IPRanges: [ {
-        CIDRIP: '',
-        Status: '',
-      }, /* ...*/ ],
-      DBSecurityGroupDescription: '',
-      OwnerId: '',
-      DBSecurityGroupName: '',
-      EC2SecurityGroups: [ {
-        EC2SecurityGroupName: '',
-        EC2SecurityGroupId: '',
-        Status: '',
-        EC2SecurityGroupOwnerId: '',
-      }, /* ...*/ ],
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.AddTagsToResource = function AddTagsToResource(aws) {
-  var ResourceName = aws.params['ResourceName'];
-  var Tags = aws.params['Tags'];
-  if (!ResourceName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ResourceName'];
-  }
-  if (!Tags) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Tags'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteDBSubnetGroup = function DeleteDBSubnetGroup(aws) {
-  var DBSubnetGroupName = aws.params['DBSubnetGroupName'];
-  if (!DBSubnetGroupName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBSubnetGroupName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteDBSecurityGroup = function DeleteDBSecurityGroup(aws) {
-  var DBSecurityGroupName = aws.params['DBSecurityGroupName'];
-  if (!DBSecurityGroupName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBSecurityGroupName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ModifyDBSubnetGroup = function ModifyDBSubnetGroup(aws) {
-  var DBSubnetGroupDescription = aws.params['DBSubnetGroupDescription'];
-  var DBSubnetGroupName = aws.params['DBSubnetGroupName'];
-  var SubnetIds = aws.params['SubnetIds'];
-  if (!DBSubnetGroupName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBSubnetGroupName'];
-  }
-  if (!SubnetIds) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SubnetIds'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    DBSubnetGroup: /*S11*/{
-      DBSubnetGroupDescription: '',
-      DBSubnetGroupName: '',
-      VpcId: '',
-      SubnetGroupStatus: '',
-      Subnets: [ {
-        SubnetStatus: '',
-        SubnetIdentifier: '',
-        SubnetAvailabilityZone: /*S14*/{
-          ProvisionedIopsCapable: false,
-          Name: '',
-        },
-      }, /* ...*/ ],
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListTagsForResource = function ListTagsForResource(aws) {
-  var ResourceName = aws.params['ResourceName'];
-  if (!ResourceName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ResourceName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    TagList: /*S9*/[ {
-      Key: '',
-      Value: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateDBParameterGroup = function CreateDBParameterGroup(aws) {
-  var DBParameterGroupName = aws.params['DBParameterGroupName'];
-  var DBParameterGroupFamily = aws.params['DBParameterGroupFamily'];
-  var Description = aws.params['Description'];
-  if (!DBParameterGroupName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBParameterGroupName'];
-  }
-  if (!DBParameterGroupFamily) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBParameterGroupFamily'];
-  }
-  if (!Description) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Description'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    DBParameterGroup: /*S1d*/{
-      DBParameterGroupName: '',
-      DBParameterGroupFamily: '',
-      Description: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeOrderableDBInstanceOptions = function DescribeOrderableDBInstanceOptions(aws) {
-  var Marker = aws.params['Marker'];
-  var Engine = aws.params['Engine'];
-  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
-  var Vpc = aws.params['Vpc'] /* Type boolean */;
-  var DBInstanceClass = aws.params['DBInstanceClass'];
-  var LicenseModel = aws.params['LicenseModel'];
-  var EngineVersion = aws.params['EngineVersion'];
-  if (!Engine) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Engine'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    OrderableDBInstanceOptions: [ {
-      Engine: '',
-      ReadReplicaCapable: false,
-      DBInstanceClass: '',
-      MultiAZCapable: false,
-      AvailabilityZones: [ /*S14*/{
-        ProvisionedIopsCapable: false,
-        Name: '',
-      }, /* ...*/ ],
-      Vpc: false,
-      LicenseModel: '',
-      EngineVersion: '',
-    }, /* ...*/ ],
-    Marker: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteDBInstance = function DeleteDBInstance(aws) {
-  var SkipFinalSnapshot = aws.params['SkipFinalSnapshot'] /* Type boolean */;
-  var FinalDBSnapshotIdentifier = aws.params['FinalDBSnapshotIdentifier'];
-  var DBInstanceIdentifier = aws.params['DBInstanceIdentifier'];
-  if (!DBInstanceIdentifier) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBInstanceIdentifier'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    DBInstance: /*St*/{
-      Engine: '',
-      PreferredMaintenanceWindow: '',
-      MasterUsername: '',
-      MultiAZ: false,
-      DBInstanceStatus: '',
-      VpcSecurityGroups: /*Sx*/[ {
-        VpcSecurityGroupId: '',
-        Status: '',
-      }, /* ...*/ ],
-      BackupRetentionPeriod: 0,
-      AllocatedStorage: 0,
-      EngineVersion: '',
-      SecondaryAvailabilityZone: '',
-      LicenseModel: '',
-      CharacterSetName: '',
-      OptionGroupMemberships: [ {
-        OptionGroupName: '',
-        Status: '',
-      }, /* ...*/ ],
-      LatestRestorableTime: awsCommon.timestamp(),
-      InstanceCreateTime: awsCommon.timestamp(),
-      DBSecurityGroups: /*Sv*/[ {
-        Status: '',
-        DBSecurityGroupName: '',
-      }, /* ...*/ ],
-      PendingModifiedValues: {
-        BackupRetentionPeriod: 0,
-        Iops: 0,
-        DBInstanceClass: '',
-        MultiAZ: false,
-        DBInstanceIdentifier: '',
-        EngineVersion: '',
-        Port: 0,
-        AllocatedStorage: 0,
-        MasterUserPassword: '',
-      },
-      Endpoint: {
-        Port: 0,
-        Address: '',
-      },
-      DBName: '',
-      Iops: 0,
-      AvailabilityZone: '',
-      DBSubnetGroup: /*S11*/{
-        DBSubnetGroupDescription: '',
-        DBSubnetGroupName: '',
-        VpcId: '',
-        SubnetGroupStatus: '',
-        Subnets: [ {
-          SubnetStatus: '',
-          SubnetIdentifier: '',
-          SubnetAvailabilityZone: /*S14*/{
-            ProvisionedIopsCapable: false,
-            Name: '',
-          },
-        }, /* ...*/ ],
-      },
-      PubliclyAccessible: false,
-      AutoMinorVersionUpgrade: false,
-      DBInstanceIdentifier: '',
-      ReadReplicaSourceDBInstanceIdentifier: '',
-      DBParameterGroups: [ {
-        DBParameterGroupName: '',
-        ParameterApplyStatus: '',
-      }, /* ...*/ ],
-      ReadReplicaDBInstanceIdentifiers: [ '', /* ...*/ ],
-      PreferredBackupWindow: '',
-      DBInstanceClass: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeOptionGroupOptions = function DescribeOptionGroupOptions(aws) {
-  var Marker = aws.params['Marker'];
-  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
-  var EngineName = aws.params['EngineName'];
-  var MajorEngineVersion = aws.params['MajorEngineVersion'];
-  if (!EngineName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter EngineName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Marker: '',
-    OptionGroupOptions: [ {
-      PortRequired: false,
-      Description: '',
-      OptionGroupOptionSettings: [ {
-        SettingDescription: '',
-        IsModifiable: false,
-        SettingName: '',
-        AllowedValues: '',
-        DefaultValue: '',
-        ApplyType: '',
-      }, /* ...*/ ],
-      Persistent: false,
-      MajorEngineVersion: '',
-      Name: '',
-      OptionsDependedOn: [ '', /* ...*/ ],
-      DefaultPort: 0,
-      MinimumRequiredMinorEngineVersion: '',
-      EngineName: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.RebootDBInstance = function RebootDBInstance(aws) {
-  var DBInstanceIdentifier = aws.params['DBInstanceIdentifier'];
-  var ForceFailover = aws.params['ForceFailover'] /* Type boolean */;
-  if (!DBInstanceIdentifier) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBInstanceIdentifier'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    DBInstance: /*St*/{
-      Engine: '',
-      PreferredMaintenanceWindow: '',
-      MasterUsername: '',
-      MultiAZ: false,
-      DBInstanceStatus: '',
-      VpcSecurityGroups: /*Sx*/[ {
-        VpcSecurityGroupId: '',
-        Status: '',
-      }, /* ...*/ ],
-      BackupRetentionPeriod: 0,
-      AllocatedStorage: 0,
-      EngineVersion: '',
-      SecondaryAvailabilityZone: '',
-      LicenseModel: '',
-      CharacterSetName: '',
-      OptionGroupMemberships: [ {
-        OptionGroupName: '',
-        Status: '',
-      }, /* ...*/ ],
-      LatestRestorableTime: awsCommon.timestamp(),
-      InstanceCreateTime: awsCommon.timestamp(),
-      DBSecurityGroups: /*Sv*/[ {
-        Status: '',
-        DBSecurityGroupName: '',
-      }, /* ...*/ ],
-      PendingModifiedValues: {
-        BackupRetentionPeriod: 0,
-        Iops: 0,
-        DBInstanceClass: '',
-        MultiAZ: false,
-        DBInstanceIdentifier: '',
-        EngineVersion: '',
-        Port: 0,
-        AllocatedStorage: 0,
-        MasterUserPassword: '',
-      },
-      Endpoint: {
-        Port: 0,
-        Address: '',
-      },
-      DBName: '',
-      Iops: 0,
-      AvailabilityZone: '',
-      DBSubnetGroup: /*S11*/{
-        DBSubnetGroupDescription: '',
-        DBSubnetGroupName: '',
-        VpcId: '',
-        SubnetGroupStatus: '',
-        Subnets: [ {
-          SubnetStatus: '',
-          SubnetIdentifier: '',
-          SubnetAvailabilityZone: /*S14*/{
-            ProvisionedIopsCapable: false,
-            Name: '',
-          },
-        }, /* ...*/ ],
-      },
-      PubliclyAccessible: false,
-      AutoMinorVersionUpgrade: false,
-      DBInstanceIdentifier: '',
-      ReadReplicaSourceDBInstanceIdentifier: '',
-      DBParameterGroups: [ {
-        DBParameterGroupName: '',
-        ParameterApplyStatus: '',
-      }, /* ...*/ ],
-      ReadReplicaDBInstanceIdentifiers: [ '', /* ...*/ ],
-      PreferredBackupWindow: '',
-      DBInstanceClass: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeEventSubscriptions = function DescribeEventSubscriptions(aws) {
-  var Marker = aws.params['Marker'];
-  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
-  var SubscriptionName = aws.params['SubscriptionName'];
-
-
-  // TODO implement code
-
-  var ret = {
-    Marker: '',
-    EventSubscriptionsList: [ /*S4*/{
-      CustSubscriptionId: '',
-      SourceType: '',
-      Status: '',
-      Enabled: false,
-      SnsTopicArn: '',
-      EventCategoriesList: /*S6*/[ '', /* ...*/ ],
-      SourceIdsList: /*S5*/[ '', /* ...*/ ],
-      CustomerAwsId: '',
-      SubscriptionCreationTime: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
 module.exports.CreateDBSnapshot = function CreateDBSnapshot(aws) {
-  var DBSnapshotIdentifier = aws.params['DBSnapshotIdentifier'];
-  var DBInstanceIdentifier = aws.params['DBInstanceIdentifier'];
-  if (!DBSnapshotIdentifier) {
+  var dBSnapshotIdentifier = aws.params.DBSnapshotIdentifier;
+  var dBInstanceIdentifier = aws.params.DBInstanceIdentifier;
+  if (!dBSnapshotIdentifier) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBSnapshotIdentifier'];
   }
-  if (!DBInstanceIdentifier) {
+  if (!dBInstanceIdentifier) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBInstanceIdentifier'];
   }
 
@@ -1701,69 +1343,153 @@ module.exports.CreateDBSnapshot = function CreateDBSnapshot(aws) {
 
   var ret = {
     DBSnapshot: /*Sk*/{
+      DBSnapshotIdentifier: '',
+      DBInstanceIdentifier: '',
+      Iops: 0,
+      OptionGroupName: '',
+      Port: 0,
+      Status: '',
       Engine: '',
+      AllocatedStorage: 0,
+      LicenseModel: '',
+      EngineVersion: '',
+      InstanceCreateTime: awsCommon.timestamp(),
+      SnapshotType: '',
+      SnapshotCreateTime: awsCommon.timestamp(),
       VpcId: '',
       MasterUsername: '',
-      SnapshotCreateTime: awsCommon.timestamp(),
       AvailabilityZone: '',
-      AllocatedStorage: 0,
-      EngineVersion: '',
-      DBSnapshotIdentifier: '',
-      SnapshotType: '',
-      Port: 0,
-      OptionGroupName: '',
-      DBInstanceIdentifier: '',
-      LicenseModel: '',
-      Status: '',
-      Iops: 0,
-      InstanceCreateTime: awsCommon.timestamp(),
     },
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.CreateDBInstance = function CreateDBInstance(aws) {
-  var Engine = aws.params['Engine'];
-  var PreferredMaintenanceWindow = aws.params['PreferredMaintenanceWindow'];
-  var MasterUsername = aws.params['MasterUsername'];
-  var MultiAZ = aws.params['MultiAZ'] /* Type boolean */;
-  var DBParameterGroupName = aws.params['DBParameterGroupName'];
-  var MasterUserPassword = aws.params['MasterUserPassword'];
-  var LicenseModel = aws.params['LicenseModel'];
-  var EngineVersion = aws.params['EngineVersion'];
-  var Port = aws.params['Port'] /* Type integer */;
-  var OptionGroupName = aws.params['OptionGroupName'];
-  var AllocatedStorage = aws.params['AllocatedStorage'] /* Type integer */;
-  var CharacterSetName = aws.params['CharacterSetName'];
-  var DBSecurityGroups = aws.params['DBSecurityGroups'];
-  var BackupRetentionPeriod = aws.params['BackupRetentionPeriod'] /* Type integer */;
-  var DBSubnetGroupName = aws.params['DBSubnetGroupName'];
-  var Iops = aws.params['Iops'] /* Type integer */;
-  var VpcSecurityGroupIds = aws.params['VpcSecurityGroupIds'];
-  var DBName = aws.params['DBName'];
-  var AvailabilityZone = aws.params['AvailabilityZone'];
-  var PubliclyAccessible = aws.params['PubliclyAccessible'] /* Type boolean */;
-  var AutoMinorVersionUpgrade = aws.params['AutoMinorVersionUpgrade'] /* Type boolean */;
-  var DBInstanceIdentifier = aws.params['DBInstanceIdentifier'];
-  var PreferredBackupWindow = aws.params['PreferredBackupWindow'];
-  var DBInstanceClass = aws.params['DBInstanceClass'];
-  if (!DBInstanceIdentifier) {
+module.exports.AddSourceIdentifierToSubscription = function AddSourceIdentifierToSubscription(aws) {
+  var subscriptionName = aws.params.SubscriptionName;
+  var sourceIdentifier = aws.params.SourceIdentifier;
+  if (!subscriptionName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SubscriptionName'];
+  }
+  if (!sourceIdentifier) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SourceIdentifier'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    EventSubscription: /*S4*/{
+      EventCategoriesList: /*S6*/[ '', /* ...*/ ],
+      Enabled: false,
+      SourceType: '',
+      CustSubscriptionId: '',
+      Status: '',
+      SnsTopicArn: '',
+      SourceIdsList: /*S5*/[ '', /* ...*/ ],
+      SubscriptionCreationTime: '',
+      CustomerAwsId: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateDBParameterGroup = function CreateDBParameterGroup(aws) {
+  var dBParameterGroupFamily = aws.params.DBParameterGroupFamily;
+  var description = aws.params.Description;
+  var dBParameterGroupName = aws.params.DBParameterGroupName;
+  if (!dBParameterGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBParameterGroupName'];
+  }
+  if (!dBParameterGroupFamily) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBParameterGroupFamily'];
+  }
+  if (!description) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Description'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    DBParameterGroup: /*S1d*/{
+      DBParameterGroupFamily: '',
+      Description: '',
+      DBParameterGroupName: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeOptionGroups = function DescribeOptionGroups(aws) {
+  var marker = aws.params.Marker;
+  var engineName = aws.params.EngineName;
+  var majorEngineVersion = aws.params.MajorEngineVersion;
+  var optionGroupName = aws.params.OptionGroupName;
+  var maxRecords = aws.params.MaxRecords /* Type integer */;
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    OptionGroupsList: [ /*S1p*/{
+      OptionGroupDescription: '',
+      OptionGroupName: '',
+      MajorEngineVersion: '',
+      EngineName: '',
+      AllowsVpcAndNonVpcInstanceMemberships: false,
+      Options: [ {
+        Persistent: false,
+        VpcSecurityGroupMemberships: /*Sx*/[ {
+          VpcSecurityGroupId: '',
+          Status: '',
+        }, /* ...*/ ],
+        DBSecurityGroupMemberships: /*Sv*/[ {
+          DBSecurityGroupName: '',
+          Status: '',
+        }, /* ...*/ ],
+        Port: 0,
+        OptionSettings: [ /*S1t*/{
+          DataType: '',
+          DefaultValue: '',
+          Value: '',
+          Description: '',
+          Name: '',
+          IsCollection: false,
+          ApplyType: '',
+          AllowedValues: '',
+          IsModifiable: false,
+        }, /* ...*/ ],
+        OptionDescription: '',
+        OptionName: '',
+      }, /* ...*/ ],
+      VpcId: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ModifyDBInstance = function ModifyDBInstance(aws) {
+  var applyImmediately = aws.params.ApplyImmediately /* Type boolean */;
+  var preferredBackupWindow = aws.params.PreferredBackupWindow;
+  var dBInstanceIdentifier = aws.params.DBInstanceIdentifier;
+  var dBSecurityGroups = aws.params.DBSecurityGroups;
+  var engineVersion = aws.params.EngineVersion;
+  var allocatedStorage = aws.params.AllocatedStorage /* Type integer */;
+  var vpcSecurityGroupIds = aws.params.VpcSecurityGroupIds;
+  var masterUserPassword = aws.params.MasterUserPassword;
+  var preferredMaintenanceWindow = aws.params.PreferredMaintenanceWindow;
+  var dBInstanceClass = aws.params.DBInstanceClass;
+  var newDBInstanceIdentifier = aws.params.NewDBInstanceIdentifier;
+  var multiAZ = aws.params.MultiAZ /* Type boolean */;
+  var autoMinorVersionUpgrade = aws.params.AutoMinorVersionUpgrade /* Type boolean */;
+  var optionGroupName = aws.params.OptionGroupName;
+  var dBParameterGroupName = aws.params.DBParameterGroupName;
+  var iops = aws.params.Iops /* Type integer */;
+  var allowMajorVersionUpgrade = aws.params.AllowMajorVersionUpgrade /* Type boolean */;
+  var backupRetentionPeriod = aws.params.BackupRetentionPeriod /* Type integer */;
+  if (!dBInstanceIdentifier) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBInstanceIdentifier'];
-  }
-  if (!AllocatedStorage) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AllocatedStorage'];
-  }
-  if (!DBInstanceClass) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBInstanceClass'];
-  }
-  if (!Engine) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Engine'];
-  }
-  if (!MasterUsername) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MasterUsername'];
-  }
-  if (!MasterUserPassword) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MasterUserPassword'];
   }
 
 
@@ -1771,85 +1497,537 @@ module.exports.CreateDBInstance = function CreateDBInstance(aws) {
 
   var ret = {
     DBInstance: /*St*/{
-      Engine: '',
-      PreferredMaintenanceWindow: '',
-      MasterUsername: '',
-      MultiAZ: false,
-      DBInstanceStatus: '',
-      VpcSecurityGroups: /*Sx*/[ {
-        VpcSecurityGroupId: '',
+      PreferredBackupWindow: '',
+      DBSecurityGroups: /*Sv*/[ {
+        DBSecurityGroupName: '',
         Status: '',
       }, /* ...*/ ],
-      BackupRetentionPeriod: 0,
-      AllocatedStorage: 0,
-      EngineVersion: '',
+      DBName: '',
       SecondaryAvailabilityZone: '',
+      Iops: 0,
       LicenseModel: '',
-      CharacterSetName: '',
+      EngineVersion: '',
+      PubliclyAccessible: false,
+      ReadReplicaSourceDBInstanceIdentifier: '',
+      ReadReplicaDBInstanceIdentifiers: [ '', /* ...*/ ],
+      DBInstanceClass: '',
       OptionGroupMemberships: [ {
         OptionGroupName: '',
         Status: '',
       }, /* ...*/ ],
-      LatestRestorableTime: awsCommon.timestamp(),
-      InstanceCreateTime: awsCommon.timestamp(),
-      DBSecurityGroups: /*Sv*/[ {
-        Status: '',
-        DBSecurityGroupName: '',
-      }, /* ...*/ ],
-      PendingModifiedValues: {
-        BackupRetentionPeriod: 0,
-        Iops: 0,
-        DBInstanceClass: '',
-        MultiAZ: false,
-        DBInstanceIdentifier: '',
-        EngineVersion: '',
-        Port: 0,
-        AllocatedStorage: 0,
-        MasterUserPassword: '',
-      },
-      Endpoint: {
-        Port: 0,
-        Address: '',
-      },
-      DBName: '',
-      Iops: 0,
+      MasterUsername: '',
       AvailabilityZone: '',
       DBSubnetGroup: /*S11*/{
         DBSubnetGroupDescription: '',
-        DBSubnetGroupName: '',
-        VpcId: '',
         SubnetGroupStatus: '',
         Subnets: [ {
-          SubnetStatus: '',
-          SubnetIdentifier: '',
           SubnetAvailabilityZone: /*S14*/{
-            ProvisionedIopsCapable: false,
             Name: '',
+            ProvisionedIopsCapable: false,
           },
+          SubnetIdentifier: '',
+          SubnetStatus: '',
         }, /* ...*/ ],
+        VpcId: '',
+        DBSubnetGroupName: '',
       },
-      PubliclyAccessible: false,
-      AutoMinorVersionUpgrade: false,
       DBInstanceIdentifier: '',
-      ReadReplicaSourceDBInstanceIdentifier: '',
-      DBParameterGroups: [ {
-        DBParameterGroupName: '',
-        ParameterApplyStatus: '',
+      Endpoint: {
+        Address: '',
+        Port: 0,
+      },
+      VpcSecurityGroups: /*Sx*/[ {
+        VpcSecurityGroupId: '',
+        Status: '',
       }, /* ...*/ ],
-      ReadReplicaDBInstanceIdentifiers: [ '', /* ...*/ ],
-      PreferredBackupWindow: '',
-      DBInstanceClass: '',
+      Engine: '',
+      AllocatedStorage: 0,
+      DBParameterGroups: [ {
+        ParameterApplyStatus: '',
+        DBParameterGroupName: '',
+      }, /* ...*/ ],
+      PreferredMaintenanceWindow: '',
+      PendingModifiedValues: {
+        MultiAZ: false,
+        Iops: 0,
+        EngineVersion: '',
+        Port: 0,
+        MasterUserPassword: '',
+        AllocatedStorage: 0,
+        DBInstanceIdentifier: '',
+        DBInstanceClass: '',
+        BackupRetentionPeriod: 0,
+      },
+      InstanceCreateTime: awsCommon.timestamp(),
+      CharacterSetName: '',
+      DBInstanceStatus: '',
+      BackupRetentionPeriod: 0,
+      LatestRestorableTime: awsCommon.timestamp(),
+      AutoMinorVersionUpgrade: false,
+      MultiAZ: false,
     },
   };
   return [200, ret];
 };
 // -----------------------------------
+module.exports.AuthorizeDBSecurityGroupIngress = function AuthorizeDBSecurityGroupIngress(aws) {
+  var eC2SecurityGroupId = aws.params.EC2SecurityGroupId;
+  var cIDRIP = aws.params.CIDRIP;
+  var eC2SecurityGroupName = aws.params.EC2SecurityGroupName;
+  var dBSecurityGroupName = aws.params.DBSecurityGroupName;
+  var eC2SecurityGroupOwnerId = aws.params.EC2SecurityGroupOwnerId;
+  if (!dBSecurityGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBSecurityGroupName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    DBSecurityGroup: /*Sd*/{
+      EC2SecurityGroups: [ {
+        EC2SecurityGroupId: '',
+        EC2SecurityGroupName: '',
+        EC2SecurityGroupOwnerId: '',
+        Status: '',
+      }, /* ...*/ ],
+      OwnerId: '',
+      DBSecurityGroupName: '',
+      IPRanges: [ {
+        CIDRIP: '',
+        Status: '',
+      }, /* ...*/ ],
+      VpcId: '',
+      DBSecurityGroupDescription: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeReservedDBInstancesOfferings = function DescribeReservedDBInstancesOfferings(aws) {
+  var maxRecords = aws.params.MaxRecords /* Type integer */;
+  var multiAZ = aws.params.MultiAZ /* Type boolean */;
+  var reservedDBInstancesOfferingId = aws.params.ReservedDBInstancesOfferingId;
+  var marker = aws.params.Marker;
+  var offeringType = aws.params.OfferingType;
+  var duration = aws.params.Duration;
+  var dBInstanceClass = aws.params.DBInstanceClass;
+  var productDescription = aws.params.ProductDescription;
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    ReservedDBInstancesOfferings: [ {
+      UsagePrice: 0.0 /*Double*/,
+      ProductDescription: '',
+      FixedPrice: 0.0 /*Double*/,
+      MultiAZ: false,
+      CurrencyCode: '',
+      RecurringCharges: /*S3y*/[ {
+        RecurringChargeFrequency: '',
+        RecurringChargeAmount: 0.0 /*Double*/,
+      }, /* ...*/ ],
+      OfferingType: '',
+      Duration: 0,
+      DBInstanceClass: '',
+      ReservedDBInstancesOfferingId: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateDBInstanceReadReplica = function CreateDBInstanceReadReplica(aws) {
+  var sourceDBInstanceIdentifier = aws.params.SourceDBInstanceIdentifier;
+  var optionGroupName = aws.params.OptionGroupName;
+  var dBInstanceIdentifier = aws.params.DBInstanceIdentifier;
+  var publiclyAccessible = aws.params.PubliclyAccessible /* Type boolean */;
+  var port = aws.params.Port /* Type integer */;
+  var autoMinorVersionUpgrade = aws.params.AutoMinorVersionUpgrade /* Type boolean */;
+  var iops = aws.params.Iops /* Type integer */;
+  var dBInstanceClass = aws.params.DBInstanceClass;
+  var availabilityZone = aws.params.AvailabilityZone;
+  if (!dBInstanceIdentifier) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBInstanceIdentifier'];
+  }
+  if (!sourceDBInstanceIdentifier) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SourceDBInstanceIdentifier'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    DBInstance: /*St*/{
+      PreferredBackupWindow: '',
+      DBSecurityGroups: /*Sv*/[ {
+        DBSecurityGroupName: '',
+        Status: '',
+      }, /* ...*/ ],
+      DBName: '',
+      SecondaryAvailabilityZone: '',
+      Iops: 0,
+      LicenseModel: '',
+      EngineVersion: '',
+      PubliclyAccessible: false,
+      ReadReplicaSourceDBInstanceIdentifier: '',
+      ReadReplicaDBInstanceIdentifiers: [ '', /* ...*/ ],
+      DBInstanceClass: '',
+      OptionGroupMemberships: [ {
+        OptionGroupName: '',
+        Status: '',
+      }, /* ...*/ ],
+      MasterUsername: '',
+      AvailabilityZone: '',
+      DBSubnetGroup: /*S11*/{
+        DBSubnetGroupDescription: '',
+        SubnetGroupStatus: '',
+        Subnets: [ {
+          SubnetAvailabilityZone: /*S14*/{
+            Name: '',
+            ProvisionedIopsCapable: false,
+          },
+          SubnetIdentifier: '',
+          SubnetStatus: '',
+        }, /* ...*/ ],
+        VpcId: '',
+        DBSubnetGroupName: '',
+      },
+      DBInstanceIdentifier: '',
+      Endpoint: {
+        Address: '',
+        Port: 0,
+      },
+      VpcSecurityGroups: /*Sx*/[ {
+        VpcSecurityGroupId: '',
+        Status: '',
+      }, /* ...*/ ],
+      Engine: '',
+      AllocatedStorage: 0,
+      DBParameterGroups: [ {
+        ParameterApplyStatus: '',
+        DBParameterGroupName: '',
+      }, /* ...*/ ],
+      PreferredMaintenanceWindow: '',
+      PendingModifiedValues: {
+        MultiAZ: false,
+        Iops: 0,
+        EngineVersion: '',
+        Port: 0,
+        MasterUserPassword: '',
+        AllocatedStorage: 0,
+        DBInstanceIdentifier: '',
+        DBInstanceClass: '',
+        BackupRetentionPeriod: 0,
+      },
+      InstanceCreateTime: awsCommon.timestamp(),
+      CharacterSetName: '',
+      DBInstanceStatus: '',
+      BackupRetentionPeriod: 0,
+      LatestRestorableTime: awsCommon.timestamp(),
+      AutoMinorVersionUpgrade: false,
+      MultiAZ: false,
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RebootDBInstance = function RebootDBInstance(aws) {
+  var forceFailover = aws.params.ForceFailover /* Type boolean */;
+  var dBInstanceIdentifier = aws.params.DBInstanceIdentifier;
+  if (!dBInstanceIdentifier) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBInstanceIdentifier'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    DBInstance: /*St*/{
+      PreferredBackupWindow: '',
+      DBSecurityGroups: /*Sv*/[ {
+        DBSecurityGroupName: '',
+        Status: '',
+      }, /* ...*/ ],
+      DBName: '',
+      SecondaryAvailabilityZone: '',
+      Iops: 0,
+      LicenseModel: '',
+      EngineVersion: '',
+      PubliclyAccessible: false,
+      ReadReplicaSourceDBInstanceIdentifier: '',
+      ReadReplicaDBInstanceIdentifiers: [ '', /* ...*/ ],
+      DBInstanceClass: '',
+      OptionGroupMemberships: [ {
+        OptionGroupName: '',
+        Status: '',
+      }, /* ...*/ ],
+      MasterUsername: '',
+      AvailabilityZone: '',
+      DBSubnetGroup: /*S11*/{
+        DBSubnetGroupDescription: '',
+        SubnetGroupStatus: '',
+        Subnets: [ {
+          SubnetAvailabilityZone: /*S14*/{
+            Name: '',
+            ProvisionedIopsCapable: false,
+          },
+          SubnetIdentifier: '',
+          SubnetStatus: '',
+        }, /* ...*/ ],
+        VpcId: '',
+        DBSubnetGroupName: '',
+      },
+      DBInstanceIdentifier: '',
+      Endpoint: {
+        Address: '',
+        Port: 0,
+      },
+      VpcSecurityGroups: /*Sx*/[ {
+        VpcSecurityGroupId: '',
+        Status: '',
+      }, /* ...*/ ],
+      Engine: '',
+      AllocatedStorage: 0,
+      DBParameterGroups: [ {
+        ParameterApplyStatus: '',
+        DBParameterGroupName: '',
+      }, /* ...*/ ],
+      PreferredMaintenanceWindow: '',
+      PendingModifiedValues: {
+        MultiAZ: false,
+        Iops: 0,
+        EngineVersion: '',
+        Port: 0,
+        MasterUserPassword: '',
+        AllocatedStorage: 0,
+        DBInstanceIdentifier: '',
+        DBInstanceClass: '',
+        BackupRetentionPeriod: 0,
+      },
+      InstanceCreateTime: awsCommon.timestamp(),
+      CharacterSetName: '',
+      DBInstanceStatus: '',
+      BackupRetentionPeriod: 0,
+      LatestRestorableTime: awsCommon.timestamp(),
+      AutoMinorVersionUpgrade: false,
+      MultiAZ: false,
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RevokeDBSecurityGroupIngress = function RevokeDBSecurityGroupIngress(aws) {
+  var eC2SecurityGroupId = aws.params.EC2SecurityGroupId;
+  var cIDRIP = aws.params.CIDRIP;
+  var eC2SecurityGroupName = aws.params.EC2SecurityGroupName;
+  var dBSecurityGroupName = aws.params.DBSecurityGroupName;
+  var eC2SecurityGroupOwnerId = aws.params.EC2SecurityGroupOwnerId;
+  if (!dBSecurityGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBSecurityGroupName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    DBSecurityGroup: /*Sd*/{
+      EC2SecurityGroups: [ {
+        EC2SecurityGroupId: '',
+        EC2SecurityGroupName: '',
+        EC2SecurityGroupOwnerId: '',
+        Status: '',
+      }, /* ...*/ ],
+      OwnerId: '',
+      DBSecurityGroupName: '',
+      IPRanges: [ {
+        CIDRIP: '',
+        Status: '',
+      }, /* ...*/ ],
+      VpcId: '',
+      DBSecurityGroupDescription: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteDBInstance = function DeleteDBInstance(aws) {
+  var finalDBSnapshotIdentifier = aws.params.FinalDBSnapshotIdentifier;
+  var dBInstanceIdentifier = aws.params.DBInstanceIdentifier;
+  var skipFinalSnapshot = aws.params.SkipFinalSnapshot /* Type boolean */;
+  if (!dBInstanceIdentifier) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBInstanceIdentifier'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    DBInstance: /*St*/{
+      PreferredBackupWindow: '',
+      DBSecurityGroups: /*Sv*/[ {
+        DBSecurityGroupName: '',
+        Status: '',
+      }, /* ...*/ ],
+      DBName: '',
+      SecondaryAvailabilityZone: '',
+      Iops: 0,
+      LicenseModel: '',
+      EngineVersion: '',
+      PubliclyAccessible: false,
+      ReadReplicaSourceDBInstanceIdentifier: '',
+      ReadReplicaDBInstanceIdentifiers: [ '', /* ...*/ ],
+      DBInstanceClass: '',
+      OptionGroupMemberships: [ {
+        OptionGroupName: '',
+        Status: '',
+      }, /* ...*/ ],
+      MasterUsername: '',
+      AvailabilityZone: '',
+      DBSubnetGroup: /*S11*/{
+        DBSubnetGroupDescription: '',
+        SubnetGroupStatus: '',
+        Subnets: [ {
+          SubnetAvailabilityZone: /*S14*/{
+            Name: '',
+            ProvisionedIopsCapable: false,
+          },
+          SubnetIdentifier: '',
+          SubnetStatus: '',
+        }, /* ...*/ ],
+        VpcId: '',
+        DBSubnetGroupName: '',
+      },
+      DBInstanceIdentifier: '',
+      Endpoint: {
+        Address: '',
+        Port: 0,
+      },
+      VpcSecurityGroups: /*Sx*/[ {
+        VpcSecurityGroupId: '',
+        Status: '',
+      }, /* ...*/ ],
+      Engine: '',
+      AllocatedStorage: 0,
+      DBParameterGroups: [ {
+        ParameterApplyStatus: '',
+        DBParameterGroupName: '',
+      }, /* ...*/ ],
+      PreferredMaintenanceWindow: '',
+      PendingModifiedValues: {
+        MultiAZ: false,
+        Iops: 0,
+        EngineVersion: '',
+        Port: 0,
+        MasterUserPassword: '',
+        AllocatedStorage: 0,
+        DBInstanceIdentifier: '',
+        DBInstanceClass: '',
+        BackupRetentionPeriod: 0,
+      },
+      InstanceCreateTime: awsCommon.timestamp(),
+      CharacterSetName: '',
+      DBInstanceStatus: '',
+      BackupRetentionPeriod: 0,
+      LatestRestorableTime: awsCommon.timestamp(),
+      AutoMinorVersionUpgrade: false,
+      MultiAZ: false,
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeDBInstances = function DescribeDBInstances(aws) {
+  var marker = aws.params.Marker;
+  var dBInstanceIdentifier = aws.params.DBInstanceIdentifier;
+  var maxRecords = aws.params.MaxRecords /* Type integer */;
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    DBInstances: [ /*St*/{
+      PreferredBackupWindow: '',
+      DBSecurityGroups: /*Sv*/[ {
+        DBSecurityGroupName: '',
+        Status: '',
+      }, /* ...*/ ],
+      DBName: '',
+      SecondaryAvailabilityZone: '',
+      Iops: 0,
+      LicenseModel: '',
+      EngineVersion: '',
+      PubliclyAccessible: false,
+      ReadReplicaSourceDBInstanceIdentifier: '',
+      ReadReplicaDBInstanceIdentifiers: [ '', /* ...*/ ],
+      DBInstanceClass: '',
+      OptionGroupMemberships: [ {
+        OptionGroupName: '',
+        Status: '',
+      }, /* ...*/ ],
+      MasterUsername: '',
+      AvailabilityZone: '',
+      DBSubnetGroup: /*S11*/{
+        DBSubnetGroupDescription: '',
+        SubnetGroupStatus: '',
+        Subnets: [ {
+          SubnetAvailabilityZone: /*S14*/{
+            Name: '',
+            ProvisionedIopsCapable: false,
+          },
+          SubnetIdentifier: '',
+          SubnetStatus: '',
+        }, /* ...*/ ],
+        VpcId: '',
+        DBSubnetGroupName: '',
+      },
+      DBInstanceIdentifier: '',
+      Endpoint: {
+        Address: '',
+        Port: 0,
+      },
+      VpcSecurityGroups: /*Sx*/[ {
+        VpcSecurityGroupId: '',
+        Status: '',
+      }, /* ...*/ ],
+      Engine: '',
+      AllocatedStorage: 0,
+      DBParameterGroups: [ {
+        ParameterApplyStatus: '',
+        DBParameterGroupName: '',
+      }, /* ...*/ ],
+      PreferredMaintenanceWindow: '',
+      PendingModifiedValues: {
+        MultiAZ: false,
+        Iops: 0,
+        EngineVersion: '',
+        Port: 0,
+        MasterUserPassword: '',
+        AllocatedStorage: 0,
+        DBInstanceIdentifier: '',
+        DBInstanceClass: '',
+        BackupRetentionPeriod: 0,
+      },
+      InstanceCreateTime: awsCommon.timestamp(),
+      CharacterSetName: '',
+      DBInstanceStatus: '',
+      BackupRetentionPeriod: 0,
+      LatestRestorableTime: awsCommon.timestamp(),
+      AutoMinorVersionUpgrade: false,
+      MultiAZ: false,
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.DescribeDBParameters = function DescribeDBParameters(aws) {
-  var Marker = aws.params['Marker'];
-  var DBParameterGroupName = aws.params['DBParameterGroupName'];
-  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
-  var Source = aws.params['Source'];
-  if (!DBParameterGroupName) {
+  var source = aws.params.Source;
+  var marker = aws.params.Marker;
+  var maxRecords = aws.params.MaxRecords /* Type integer */;
+  var dBParameterGroupName = aws.params.DBParameterGroupName;
+  if (!dBParameterGroupName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBParameterGroupName'];
   }
 
@@ -1859,168 +2037,44 @@ module.exports.DescribeDBParameters = function DescribeDBParameters(aws) {
   var ret = {
     Marker: '',
     Parameters: /*S2n*/[ {
-      ApplyMethod: '',
       ParameterValue: '',
-      MinimumEngineVersion: '',
-      IsModifiable: false,
-      ParameterName: '',
-      DataType: '',
-      AllowedValues: '',
       Description: '',
       Source: '',
+      MinimumEngineVersion: '',
+      ParameterName: '',
+      ApplyMethod: '',
       ApplyType: '',
+      AllowedValues: '',
+      DataType: '',
+      IsModifiable: false,
     }, /* ...*/ ],
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.PromoteReadReplica = function PromoteReadReplica(aws) {
-  var BackupRetentionPeriod = aws.params['BackupRetentionPeriod'] /* Type integer */;
-  var DBInstanceIdentifier = aws.params['DBInstanceIdentifier'];
-  var PreferredBackupWindow = aws.params['PreferredBackupWindow'];
-  if (!DBInstanceIdentifier) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBInstanceIdentifier'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    DBInstance: /*St*/{
-      Engine: '',
-      PreferredMaintenanceWindow: '',
-      MasterUsername: '',
-      MultiAZ: false,
-      DBInstanceStatus: '',
-      VpcSecurityGroups: /*Sx*/[ {
-        VpcSecurityGroupId: '',
-        Status: '',
-      }, /* ...*/ ],
-      BackupRetentionPeriod: 0,
-      AllocatedStorage: 0,
-      EngineVersion: '',
-      SecondaryAvailabilityZone: '',
-      LicenseModel: '',
-      CharacterSetName: '',
-      OptionGroupMemberships: [ {
-        OptionGroupName: '',
-        Status: '',
-      }, /* ...*/ ],
-      LatestRestorableTime: awsCommon.timestamp(),
-      InstanceCreateTime: awsCommon.timestamp(),
-      DBSecurityGroups: /*Sv*/[ {
-        Status: '',
-        DBSecurityGroupName: '',
-      }, /* ...*/ ],
-      PendingModifiedValues: {
-        BackupRetentionPeriod: 0,
-        Iops: 0,
-        DBInstanceClass: '',
-        MultiAZ: false,
-        DBInstanceIdentifier: '',
-        EngineVersion: '',
-        Port: 0,
-        AllocatedStorage: 0,
-        MasterUserPassword: '',
-      },
-      Endpoint: {
-        Port: 0,
-        Address: '',
-      },
-      DBName: '',
-      Iops: 0,
-      AvailabilityZone: '',
-      DBSubnetGroup: /*S11*/{
-        DBSubnetGroupDescription: '',
-        DBSubnetGroupName: '',
-        VpcId: '',
-        SubnetGroupStatus: '',
-        Subnets: [ {
-          SubnetStatus: '',
-          SubnetIdentifier: '',
-          SubnetAvailabilityZone: /*S14*/{
-            ProvisionedIopsCapable: false,
-            Name: '',
-          },
-        }, /* ...*/ ],
-      },
-      PubliclyAccessible: false,
-      AutoMinorVersionUpgrade: false,
-      DBInstanceIdentifier: '',
-      ReadReplicaSourceDBInstanceIdentifier: '',
-      DBParameterGroups: [ {
-        DBParameterGroupName: '',
-        ParameterApplyStatus: '',
-      }, /* ...*/ ],
-      ReadReplicaDBInstanceIdentifiers: [ '', /* ...*/ ],
-      PreferredBackupWindow: '',
-      DBInstanceClass: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeDBSubnetGroups = function DescribeDBSubnetGroups(aws) {
-  var Marker = aws.params['Marker'];
-  var DBSubnetGroupName = aws.params['DBSubnetGroupName'];
-  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
+module.exports.DescribeDBParameterGroups = function DescribeDBParameterGroups(aws) {
+  var marker = aws.params.Marker;
+  var maxRecords = aws.params.MaxRecords /* Type integer */;
+  var dBParameterGroupName = aws.params.DBParameterGroupName;
 
 
   // TODO implement code
 
   var ret = {
     Marker: '',
-    DBSubnetGroups: [ /*S11*/{
-      DBSubnetGroupDescription: '',
-      DBSubnetGroupName: '',
-      VpcId: '',
-      SubnetGroupStatus: '',
-      Subnets: [ {
-        SubnetStatus: '',
-        SubnetIdentifier: '',
-        SubnetAvailabilityZone: /*S14*/{
-          ProvisionedIopsCapable: false,
-          Name: '',
-        },
-      }, /* ...*/ ],
+    DBParameterGroups: [ /*S1d*/{
+      DBParameterGroupFamily: '',
+      Description: '',
+      DBParameterGroupName: '',
     }, /* ...*/ ],
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DescribeDBLogFiles = function DescribeDBLogFiles(aws) {
-  var Marker = aws.params['Marker'];
-  var FileSize = aws.params['FileSize'] /* Type long */;
-  var DBInstanceIdentifier = aws.params['DBInstanceIdentifier'];
-  var FileLastWritten = aws.params['FileLastWritten'] /* Type long */;
-  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
-  var FilenameContains = aws.params['FilenameContains'];
-  if (!DBInstanceIdentifier) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBInstanceIdentifier'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    DescribeDBLogFiles: [ {
-      LogFileName: '',
-      Size: 0 /*Long*/,
-      LastWritten: 0 /*Long*/,
-    }, /* ...*/ ],
-    Marker: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.RemoveTagsFromResource = function RemoveTagsFromResource(aws) {
-  var ResourceName = aws.params['ResourceName'];
-  var TagKeys = aws.params['TagKeys'] /* Type list */;
-  if (!ResourceName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ResourceName'];
-  }
-  if (!TagKeys) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TagKeys'];
+module.exports.DeleteDBParameterGroup = function DeleteDBParameterGroup(aws) {
+  var dBParameterGroupName = aws.params.DBParameterGroupName;
+  if (!dBParameterGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBParameterGroupName'];
   }
 
 
@@ -2030,88 +2084,34 @@ module.exports.RemoveTagsFromResource = function RemoveTagsFromResource(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.ModifyEventSubscription = function ModifyEventSubscription(aws) {
-  var SnsTopicArn = aws.params['SnsTopicArn'];
-  var SourceType = aws.params['SourceType'];
-  var EventCategories = aws.params['EventCategories'];
-  var Enabled = aws.params['Enabled'] /* Type boolean */;
-  var SubscriptionName = aws.params['SubscriptionName'];
-  if (!SubscriptionName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SubscriptionName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    EventSubscription: /*S4*/{
-      CustSubscriptionId: '',
-      SourceType: '',
-      Status: '',
-      Enabled: false,
-      SnsTopicArn: '',
-      EventCategoriesList: /*S6*/[ '', /* ...*/ ],
-      SourceIdsList: /*S5*/[ '', /* ...*/ ],
-      CustomerAwsId: '',
-      SubscriptionCreationTime: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ModifyDBParameterGroup = function ModifyDBParameterGroup(aws) {
-  var Parameters = aws.params['Parameters'];
-  var DBParameterGroupName = aws.params['DBParameterGroupName'];
-  if (!DBParameterGroupName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DBParameterGroupName'];
-  }
-  if (!Parameters) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Parameters'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*S4b*/{
-    DBParameterGroupName: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeReservedDBInstances = function DescribeReservedDBInstances(aws) {
-  var Marker = aws.params['Marker'];
-  var ProductDescription = aws.params['ProductDescription'];
-  var MultiAZ = aws.params['MultiAZ'] /* Type boolean */;
-  var OfferingType = aws.params['OfferingType'];
-  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
-  var Duration = aws.params['Duration'];
-  var ReservedDBInstanceId = aws.params['ReservedDBInstanceId'];
-  var ReservedDBInstancesOfferingId = aws.params['ReservedDBInstancesOfferingId'];
-  var DBInstanceClass = aws.params['DBInstanceClass'];
+module.exports.DescribeDBEngineVersions = function DescribeDBEngineVersions(aws) {
+  var dBParameterGroupFamily = aws.params.DBParameterGroupFamily;
+  var defaultOnly = aws.params.DefaultOnly /* Type boolean */;
+  var listSupportedCharacterSets = aws.params.ListSupportedCharacterSets /* Type boolean */;
+  var marker = aws.params.Marker;
+  var engine = aws.params.Engine;
+  var engineVersion = aws.params.EngineVersion;
+  var maxRecords = aws.params.MaxRecords /* Type integer */;
 
 
   // TODO implement code
 
   var ret = {
     Marker: '',
-    ReservedDBInstances: [ /*S3w*/{
-      DBInstanceCount: 0,
-      RecurringCharges: /*S3y*/[ {
-        RecurringChargeAmount: 0.0 /*Double*/,
-        RecurringChargeFrequency: '',
+    DBEngineVersions: [ {
+      DBParameterGroupFamily: '',
+      DBEngineDescription: '',
+      SupportedCharacterSets: [ /*S28*/{
+        CharacterSetDescription: '',
+        CharacterSetName: '',
       }, /* ...*/ ],
-      FixedPrice: 0.0 /*Double*/,
-      Duration: 0,
-      ReservedDBInstanceId: '',
-      ReservedDBInstancesOfferingId: '',
-      UsagePrice: 0.0 /*Double*/,
-      CurrencyCode: '',
-      ProductDescription: '',
-      StartTime: awsCommon.timestamp(),
-      MultiAZ: false,
-      OfferingType: '',
-      State: '',
-      DBInstanceClass: '',
+      DefaultCharacterSet: /*S28*/{
+        CharacterSetDescription: '',
+        CharacterSetName: '',
+      },
+      Engine: '',
+      DBEngineVersionDescription: '',
+      EngineVersion: '',
     }, /* ...*/ ],
   };
   return [200, ret];

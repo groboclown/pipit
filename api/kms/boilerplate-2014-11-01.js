@@ -10,12 +10,17 @@ const awsCommon = require('../../lib/aws-common');
  */
 
 // Setup input and output to use AWS protocol json
-require('../../lib/aws-common/shape_http')('json', module.exports, null)
+require('../../lib/aws-common/shape_http')('json', module.exports, null);
 // -----------------------------------
-module.exports.RetireGrant = function RetireGrant(aws) {
-  var KeyId = aws.params['KeyId'];
-  var GrantId = aws.params['GrantId'];
-  var GrantToken = aws.params['GrantToken'];
+module.exports.RevokeGrant = function RevokeGrant(aws) {
+  var keyId = aws.params.KeyId;
+  var grantId = aws.params.GrantId;
+  if (!keyId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter KeyId'];
+  }
+  if (!grantId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GrantId'];
+  }
 
 
   // TODO implement code
@@ -24,13 +29,30 @@ module.exports.RetireGrant = function RetireGrant(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.GenerateDataKey = function GenerateDataKey(aws) {
-  var KeySpec = aws.params['KeySpec'];
-  var GrantTokens = aws.params['GrantTokens'];
-  var KeyId = aws.params['KeyId'];
-  var NumberOfBytes = aws.params['NumberOfBytes'] /* Type integer */;
-  var EncryptionContext = aws.params['EncryptionContext'];
-  if (!KeyId) {
+module.exports.UpdateAlias = function UpdateAlias(aws) {
+  var targetKeyId = aws.params.TargetKeyId;
+  var aliasName = aws.params.AliasName;
+  if (!aliasName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AliasName'];
+  }
+  if (!targetKeyId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TargetKeyId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GenerateDataKeyWithoutPlaintext = function GenerateDataKeyWithoutPlaintext(aws) {
+  var keySpec = aws.params.KeySpec;
+  var keyId = aws.params.KeyId;
+  var numberOfBytes = aws.params.NumberOfBytes /* Type integer */;
+  var encryptionContext = aws.params.EncryptionContext;
+  var grantTokens = aws.params.GrantTokens;
+  if (!keyId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter KeyId'];
   }
 
@@ -40,18 +62,197 @@ module.exports.GenerateDataKey = function GenerateDataKey(aws) {
   var ret = {
     KeyId: '',
     CiphertextBlob: null /*Blob*/,
-    Plaintext: /*Sx*/null /*Blob*/,
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.UpdateAlias = function UpdateAlias(aws) {
-  var AliasName = aws.params['AliasName'];
-  var TargetKeyId = aws.params['TargetKeyId'];
-  if (!AliasName) {
+module.exports.RetireGrant = function RetireGrant(aws) {
+  var grantToken = aws.params.GrantToken;
+  var keyId = aws.params.KeyId;
+  var grantId = aws.params.GrantId;
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.EnableKey = function EnableKey(aws) {
+  var keyId = aws.params.KeyId;
+  if (!keyId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter KeyId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateKey = function CreateKey(aws) {
+  var description = aws.params.Description;
+  var policy = aws.params.Policy;
+  var keyUsage = aws.params.KeyUsage;
+
+
+  // TODO implement code
+
+  var ret = {
+    KeyMetadata: /*So*/{
+      AWSAccountId: '',
+      KeyUsage: '',
+      DeletionDate: awsCommon.timestamp(),
+      Enabled: false,
+      Description: '',
+      CreationDate: awsCommon.timestamp(),
+      KeyId: '',
+      Arn: '',
+      KeyState: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListKeys = function ListKeys(aws) {
+  var marker = aws.params.Marker;
+  var limit = aws.params.Limit /* Type integer */;
+
+
+  // TODO implement code
+
+  var ret = {
+    NextMarker: '',
+    Keys: [ {
+      KeyId: '',
+      KeyArn: '',
+    }, /* ...*/ ],
+    Truncated: false,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListRetirableGrants = function ListRetirableGrants(aws) {
+  var marker = aws.params.Marker;
+  var limit = aws.params.Limit /* Type integer */;
+  var retiringPrincipal = aws.params.RetiringPrincipal;
+  if (!retiringPrincipal) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RetiringPrincipal'];
+  }
+
+
+  // TODO implement code
+
+  var ret = /*S1r*/{
+    NextMarker: '',
+    Grants: [ {
+      GranteePrincipal: '',
+      Operations: /*S8*/[ '', /* ...*/ ],
+      IssuingAccount: '',
+      GrantId: '',
+      Name: '',
+      CreationDate: awsCommon.timestamp(),
+      KeyId: '',
+      RetiringPrincipal: '',
+      Constraints: /*Sa*/{
+        EncryptionContextSubset: /*Sb*/{} /*Map*/,
+        EncryptionContextEquals: /*Sb*/{} /*Map*/,
+      },
+    }, /* ...*/ ],
+    Truncated: false,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DisableKey = function DisableKey(aws) {
+  var keyId = aws.params.KeyId;
+  if (!keyId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter KeyId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CancelKeyDeletion = function CancelKeyDeletion(aws) {
+  var keyId = aws.params.KeyId;
+  if (!keyId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter KeyId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    KeyId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListGrants = function ListGrants(aws) {
+  var marker = aws.params.Marker;
+  var limit = aws.params.Limit /* Type integer */;
+  var keyId = aws.params.KeyId;
+  if (!keyId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter KeyId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = /*S1r*/{
+    NextMarker: '',
+    Grants: [ {
+      GranteePrincipal: '',
+      Operations: /*S8*/[ '', /* ...*/ ],
+      IssuingAccount: '',
+      GrantId: '',
+      Name: '',
+      CreationDate: awsCommon.timestamp(),
+      KeyId: '',
+      RetiringPrincipal: '',
+      Constraints: /*Sa*/{
+        EncryptionContextSubset: /*Sb*/{} /*Map*/,
+        EncryptionContextEquals: /*Sb*/{} /*Map*/,
+      },
+    }, /* ...*/ ],
+    Truncated: false,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.PutKeyPolicy = function PutKeyPolicy(aws) {
+  var policy = aws.params.Policy;
+  var keyId = aws.params.KeyId;
+  var policyName = aws.params.PolicyName;
+  if (!keyId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter KeyId'];
+  }
+  if (!policyName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyName'];
+  }
+  if (!policy) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Policy'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateAlias = function CreateAlias(aws) {
+  var targetKeyId = aws.params.TargetKeyId;
+  var aliasName = aws.params.AliasName;
+  if (!aliasName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AliasName'];
   }
-  if (!TargetKeyId) {
+  if (!targetKeyId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TargetKeyId'];
   }
 
@@ -63,9 +264,9 @@ module.exports.UpdateAlias = function UpdateAlias(aws) {
 };
 // -----------------------------------
 module.exports.ScheduleKeyDeletion = function ScheduleKeyDeletion(aws) {
-  var KeyId = aws.params['KeyId'];
-  var PendingWindowInDays = aws.params['PendingWindowInDays'] /* Type integer */;
-  if (!KeyId) {
+  var keyId = aws.params.KeyId;
+  var pendingWindowInDays = aws.params.PendingWindowInDays /* Type integer */;
+  if (!keyId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter KeyId'];
   }
 
@@ -79,171 +280,30 @@ module.exports.ScheduleKeyDeletion = function ScheduleKeyDeletion(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.ListRetirableGrants = function ListRetirableGrants(aws) {
-  var Marker = aws.params['Marker'];
-  var RetiringPrincipal = aws.params['RetiringPrincipal'];
-  var Limit = aws.params['Limit'] /* Type integer */;
-  if (!RetiringPrincipal) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RetiringPrincipal'];
+module.exports.ListKeyPolicies = function ListKeyPolicies(aws) {
+  var marker = aws.params.Marker;
+  var keyId = aws.params.KeyId;
+  var limit = aws.params.Limit /* Type integer */;
+  if (!keyId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter KeyId'];
   }
 
 
   // TODO implement code
 
-  var ret = /*S1r*/{
+  var ret = {
     NextMarker: '',
+    PolicyNames: [ '', /* ...*/ ],
     Truncated: false,
-    Grants: [ {
-      Operations: /*S8*/[ '', /* ...*/ ],
-      IssuingAccount: '',
-      KeyId: '',
-      GranteePrincipal: '',
-      RetiringPrincipal: '',
-      Name: '',
-      Constraints: /*Sa*/{
-        EncryptionContextEquals: /*Sb*/{} /*Map*/,
-        EncryptionContextSubset: /*Sb*/{} /*Map*/,
-      },
-      GrantId: '',
-      CreationDate: awsCommon.timestamp(),
-    }, /* ...*/ ],
   };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.GetKeyPolicy = function GetKeyPolicy(aws) {
-  var PolicyName = aws.params['PolicyName'];
-  var KeyId = aws.params['KeyId'];
-  if (!KeyId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter KeyId'];
-  }
-  if (!PolicyName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Policy: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.GenerateDataKeyWithoutPlaintext = function GenerateDataKeyWithoutPlaintext(aws) {
-  var KeySpec = aws.params['KeySpec'];
-  var GrantTokens = aws.params['GrantTokens'];
-  var KeyId = aws.params['KeyId'];
-  var NumberOfBytes = aws.params['NumberOfBytes'] /* Type integer */;
-  var EncryptionContext = aws.params['EncryptionContext'];
-  if (!KeyId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter KeyId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    KeyId: '',
-    CiphertextBlob: null /*Blob*/,
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeKey = function DescribeKey(aws) {
-  var GrantTokens = aws.params['GrantTokens'];
-  var KeyId = aws.params['KeyId'];
-  if (!KeyId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter KeyId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    KeyMetadata: /*So*/{
-      Description: '',
-      KeyId: '',
-      DeletionDate: awsCommon.timestamp(),
-      Enabled: false,
-      KeyState: '',
-      Arn: '',
-      AWSAccountId: '',
-      KeyUsage: '',
-      CreationDate: awsCommon.timestamp(),
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.PutKeyPolicy = function PutKeyPolicy(aws) {
-  var PolicyName = aws.params['PolicyName'];
-  var KeyId = aws.params['KeyId'];
-  var Policy = aws.params['Policy'];
-  if (!KeyId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter KeyId'];
-  }
-  if (!PolicyName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyName'];
-  }
-  if (!Policy) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Policy'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.EnableKeyRotation = function EnableKeyRotation(aws) {
-  var KeyId = aws.params['KeyId'];
-  if (!KeyId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter KeyId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.GenerateRandom = function GenerateRandom(aws) {
-  var NumberOfBytes = aws.params['NumberOfBytes'] /* Type integer */;
-
-
-  // TODO implement code
-
-  var ret = {
-    Plaintext: /*Sx*/null /*Blob*/,
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.UpdateKeyDescription = function UpdateKeyDescription(aws) {
-  var Description = aws.params['Description'];
-  var KeyId = aws.params['KeyId'];
-  if (!KeyId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter KeyId'];
-  }
-  if (!Description) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Description'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
   return [200, ret];
 };
 // -----------------------------------
 module.exports.Decrypt = function Decrypt(aws) {
-  var GrantTokens = aws.params['GrantTokens'];
-  var CiphertextBlob = aws.params['CiphertextBlob'] /* Type blob */;
-  var EncryptionContext = aws.params['EncryptionContext'];
-  if (!CiphertextBlob) {
+  var encryptionContext = aws.params.EncryptionContext;
+  var ciphertextBlob = aws.params.CiphertextBlob /* Type blob */;
+  var grantTokens = aws.params.GrantTokens;
+  if (!ciphertextBlob) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CiphertextBlob'];
   }
 
@@ -257,216 +317,9 @@ module.exports.Decrypt = function Decrypt(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.CancelKeyDeletion = function CancelKeyDeletion(aws) {
-  var KeyId = aws.params['KeyId'];
-  if (!KeyId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter KeyId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    KeyId: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListKeys = function ListKeys(aws) {
-  var Marker = aws.params['Marker'];
-  var Limit = aws.params['Limit'] /* Type integer */;
-
-
-  // TODO implement code
-
-  var ret = {
-    NextMarker: '',
-    Truncated: false,
-    Keys: [ {
-      KeyId: '',
-      KeyArn: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListGrants = function ListGrants(aws) {
-  var Marker = aws.params['Marker'];
-  var KeyId = aws.params['KeyId'];
-  var Limit = aws.params['Limit'] /* Type integer */;
-  if (!KeyId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter KeyId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*S1r*/{
-    NextMarker: '',
-    Truncated: false,
-    Grants: [ {
-      Operations: /*S8*/[ '', /* ...*/ ],
-      IssuingAccount: '',
-      KeyId: '',
-      GranteePrincipal: '',
-      RetiringPrincipal: '',
-      Name: '',
-      Constraints: /*Sa*/{
-        EncryptionContextEquals: /*Sb*/{} /*Map*/,
-        EncryptionContextSubset: /*Sb*/{} /*Map*/,
-      },
-      GrantId: '',
-      CreationDate: awsCommon.timestamp(),
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DisableKeyRotation = function DisableKeyRotation(aws) {
-  var KeyId = aws.params['KeyId'];
-  if (!KeyId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter KeyId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DisableKey = function DisableKey(aws) {
-  var KeyId = aws.params['KeyId'];
-  if (!KeyId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter KeyId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.RevokeGrant = function RevokeGrant(aws) {
-  var KeyId = aws.params['KeyId'];
-  var GrantId = aws.params['GrantId'];
-  if (!KeyId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter KeyId'];
-  }
-  if (!GrantId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GrantId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListAliases = function ListAliases(aws) {
-  var Marker = aws.params['Marker'];
-  var Limit = aws.params['Limit'] /* Type integer */;
-
-
-  // TODO implement code
-
-  var ret = {
-    NextMarker: '',
-    Aliases: [ {
-      AliasName: '',
-      AliasArn: '',
-      TargetKeyId: '',
-    }, /* ...*/ ],
-    Truncated: false,
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListKeyPolicies = function ListKeyPolicies(aws) {
-  var Marker = aws.params['Marker'];
-  var KeyId = aws.params['KeyId'];
-  var Limit = aws.params['Limit'] /* Type integer */;
-  if (!KeyId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter KeyId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    PolicyNames: [ '', /* ...*/ ],
-    NextMarker: '',
-    Truncated: false,
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateKey = function CreateKey(aws) {
-  var Description = aws.params['Description'];
-  var Policy = aws.params['Policy'];
-  var KeyUsage = aws.params['KeyUsage'];
-
-
-  // TODO implement code
-
-  var ret = {
-    KeyMetadata: /*So*/{
-      Description: '',
-      KeyId: '',
-      DeletionDate: awsCommon.timestamp(),
-      Enabled: false,
-      KeyState: '',
-      Arn: '',
-      AWSAccountId: '',
-      KeyUsage: '',
-      CreationDate: awsCommon.timestamp(),
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ReEncrypt = function ReEncrypt(aws) {
-  var DestinationKeyId = aws.params['DestinationKeyId'];
-  var GrantTokens = aws.params['GrantTokens'];
-  var DestinationEncryptionContext = aws.params['DestinationEncryptionContext'];
-  var SourceEncryptionContext = aws.params['SourceEncryptionContext'];
-  var CiphertextBlob = aws.params['CiphertextBlob'] /* Type blob */;
-  if (!CiphertextBlob) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CiphertextBlob'];
-  }
-  if (!DestinationKeyId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DestinationKeyId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    KeyId: '',
-    SourceKeyId: '',
-    CiphertextBlob: null /*Blob*/,
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.EnableKey = function EnableKey(aws) {
-  var KeyId = aws.params['KeyId'];
-  if (!KeyId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter KeyId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
 module.exports.GetKeyRotationStatus = function GetKeyRotationStatus(aws) {
-  var KeyId = aws.params['KeyId'];
-  if (!KeyId) {
+  var keyId = aws.params.KeyId;
+  if (!keyId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter KeyId'];
   }
 
@@ -479,40 +332,124 @@ module.exports.GetKeyRotationStatus = function GetKeyRotationStatus(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.CreateGrant = function CreateGrant(aws) {
-  var GrantTokens = aws.params['GrantTokens'];
-  var Operations = aws.params['Operations'];
-  var KeyId = aws.params['KeyId'];
-  var GranteePrincipal = aws.params['GranteePrincipal'];
-  var Constraints = aws.params['Constraints'];
-  var Name = aws.params['Name'];
-  var RetiringPrincipal = aws.params['RetiringPrincipal'];
-  if (!KeyId) {
+module.exports.DescribeKey = function DescribeKey(aws) {
+  var keyId = aws.params.KeyId;
+  var grantTokens = aws.params.GrantTokens;
+  if (!keyId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter KeyId'];
-  }
-  if (!GranteePrincipal) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GranteePrincipal'];
   }
 
 
   // TODO implement code
 
   var ret = {
-    GrantId: '',
-    GrantToken: '',
+    KeyMetadata: /*So*/{
+      AWSAccountId: '',
+      KeyUsage: '',
+      DeletionDate: awsCommon.timestamp(),
+      Enabled: false,
+      Description: '',
+      CreationDate: awsCommon.timestamp(),
+      KeyId: '',
+      Arn: '',
+      KeyState: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ReEncrypt = function ReEncrypt(aws) {
+  var sourceEncryptionContext = aws.params.SourceEncryptionContext;
+  var grantTokens = aws.params.GrantTokens;
+  var destinationEncryptionContext = aws.params.DestinationEncryptionContext;
+  var ciphertextBlob = aws.params.CiphertextBlob /* Type blob */;
+  var destinationKeyId = aws.params.DestinationKeyId;
+  if (!ciphertextBlob) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CiphertextBlob'];
+  }
+  if (!destinationKeyId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DestinationKeyId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    SourceKeyId: '',
+    KeyId: '',
+    CiphertextBlob: null /*Blob*/,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GenerateDataKey = function GenerateDataKey(aws) {
+  var keySpec = aws.params.KeySpec;
+  var keyId = aws.params.KeyId;
+  var numberOfBytes = aws.params.NumberOfBytes /* Type integer */;
+  var encryptionContext = aws.params.EncryptionContext;
+  var grantTokens = aws.params.GrantTokens;
+  if (!keyId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter KeyId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    KeyId: '',
+    Plaintext: /*Sx*/null /*Blob*/,
+    CiphertextBlob: null /*Blob*/,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.EnableKeyRotation = function EnableKeyRotation(aws) {
+  var keyId = aws.params.KeyId;
+  if (!keyId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter KeyId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DisableKeyRotation = function DisableKeyRotation(aws) {
+  var keyId = aws.params.KeyId;
+  if (!keyId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter KeyId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GenerateRandom = function GenerateRandom(aws) {
+  var numberOfBytes = aws.params.NumberOfBytes /* Type integer */;
+
+
+  // TODO implement code
+
+  var ret = {
+    Plaintext: /*Sx*/null /*Blob*/,
   };
   return [200, ret];
 };
 // -----------------------------------
 module.exports.Encrypt = function Encrypt(aws) {
-  var GrantTokens = aws.params['GrantTokens'];
-  var KeyId = aws.params['KeyId'];
-  var EncryptionContext = aws.params['EncryptionContext'];
-  var Plaintext = aws.params['Plaintext'];
-  if (!KeyId) {
+  var keyId = aws.params.KeyId;
+  var encryptionContext = aws.params.EncryptionContext;
+  var plaintext = aws.params.Plaintext;
+  var grantTokens = aws.params.GrantTokens;
+  if (!keyId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter KeyId'];
   }
-  if (!Plaintext) {
+  if (!plaintext) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Plaintext'];
   }
 
@@ -526,9 +463,45 @@ module.exports.Encrypt = function Encrypt(aws) {
   return [200, ret];
 };
 // -----------------------------------
+module.exports.ListAliases = function ListAliases(aws) {
+  var marker = aws.params.Marker;
+  var limit = aws.params.Limit /* Type integer */;
+
+
+  // TODO implement code
+
+  var ret = {
+    NextMarker: '',
+    Aliases: [ {
+      AliasArn: '',
+      TargetKeyId: '',
+      AliasName: '',
+    }, /* ...*/ ],
+    Truncated: false,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateKeyDescription = function UpdateKeyDescription(aws) {
+  var description = aws.params.Description;
+  var keyId = aws.params.KeyId;
+  if (!keyId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter KeyId'];
+  }
+  if (!description) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Description'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.DeleteAlias = function DeleteAlias(aws) {
-  var AliasName = aws.params['AliasName'];
-  if (!AliasName) {
+  var aliasName = aws.params.AliasName;
+  if (!aliasName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AliasName'];
   }
 
@@ -539,19 +512,46 @@ module.exports.DeleteAlias = function DeleteAlias(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.CreateAlias = function CreateAlias(aws) {
-  var AliasName = aws.params['AliasName'];
-  var TargetKeyId = aws.params['TargetKeyId'];
-  if (!AliasName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AliasName'];
+module.exports.CreateGrant = function CreateGrant(aws) {
+  var name = aws.params.Name;
+  var granteePrincipal = aws.params.GranteePrincipal;
+  var grantTokens = aws.params.GrantTokens;
+  var constraints = aws.params.Constraints;
+  var operations = aws.params.Operations;
+  var keyId = aws.params.KeyId;
+  var retiringPrincipal = aws.params.RetiringPrincipal;
+  if (!keyId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter KeyId'];
   }
-  if (!TargetKeyId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TargetKeyId'];
+  if (!granteePrincipal) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GranteePrincipal'];
   }
 
 
   // TODO implement code
 
-  var ret = {};
+  var ret = {
+    GrantToken: '',
+    GrantId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetKeyPolicy = function GetKeyPolicy(aws) {
+  var keyId = aws.params.KeyId;
+  var policyName = aws.params.PolicyName;
+  if (!keyId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter KeyId'];
+  }
+  if (!policyName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Policy: '',
+  };
   return [200, ret];
 };

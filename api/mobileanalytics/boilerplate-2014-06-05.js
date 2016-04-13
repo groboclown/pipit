@@ -10,24 +10,24 @@ const awsCommon = require('../../lib/aws-common');
  */
 
 // Setup input and output to use AWS protocol rest-json
-require('../../lib/aws-common/shape_http')('rest-json', module.exports, null)
+require('../../lib/aws-common/shape_http')('rest-json', module.exports, null);
 // -----------------------------------
 module.exports.PutEvents = awsCommon.as(
   '/2014-06-05/events',
   function PutEvents(aws) {
-  var events = aws.params['events'] /* Type list */;
-  var clientContext = aws.params['clientContext'];
-  var clientContextEncoding = aws.params['clientContextEncoding'];
-  if (!events) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter events'];
-  }
-  if (!clientContext) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter clientContext'];
-  }
+    var events = aws.params.events /* Type list */;
+    var clientContext = aws.params.clientContext;
+    var clientContextEncoding = aws.params.clientContextEncoding;
+    if (!events) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter events'];
+    }
+    if (!clientContext) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter clientContext'];
+    }
 
 
-  // TODO implement code
+    // TODO implement code
 
-  var ret = {};
-  return [202, ret];
-});
+    var ret = {};
+    return [202, ret];
+  });

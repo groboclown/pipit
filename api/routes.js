@@ -10,8 +10,8 @@ const normalizeVersions = normalize.normalizeVersions;
 module.exports = {
   '/sqs': normalize(require('./sqs')),
   '/swf': normalize(require('./swf/index-2012-01-25.js')),
-  //'/lambda/2014-11-13': normalizeVersions('2014-11-13', [require('./lambda/index-2015-03-31.js')]),
-  //'/lambda/2015-03-31': normalizeVersions('2015-03-31', [require('./lambda/index-2015-03-31.js')]),
+  // '/lambda/2014-11-13': normalizeVersions('2014-11-13', [require('./lambda/index-2015-03-31.js')]),
+  // '/lambda/2015-03-31': normalizeVersions('2015-03-31', [require('./lambda/index-2015-03-31.js')]),
 
   '/acm': normalize(require('./acm/boilerplate-2015-12-08.js')),
   '/apigateway': normalize(require('./apigateway/boilerplate-2015-07-09.js')),
@@ -74,5 +74,5 @@ module.exports = {
   '/support': normalize(require('./support/boilerplate-2013-04-15.js')),
   // '/swf': normalize(require('./swf/boilerplate-2012-01-25.js')),
   '/waf': normalize(require('./waf/boilerplate-2015-08-24.js')),
-  '/workspaces': normalize(require('./workspaces/boilerplate-2015-04-08.js'))
+  '/workspaces': normalize(require('./workspaces/boilerplate-2015-04-08.js')),
 };

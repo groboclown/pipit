@@ -10,179 +10,179 @@ const awsCommon = require('../../lib/aws-common');
  */
 
 // Setup input and output to use AWS protocol query
-require('../../lib/aws-common/shape_http')('query', module.exports, 'http://importexport.amazonaws.com/doc/2010-06-01/')
-// -----------------------------------
-module.exports.GetStatus = awsCommon.as(
-  '/?Operation=GetStatus',
-  function GetStatus(aws) {
-  var APIVersion = aws.params['APIVersion'];
-  var JobId = aws.params['JobId'];
-  if (!JobId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter JobId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    CurrentManifest: '',
-    CreationDate: awsCommon.timestamp(),
-    LocationMessage: '',
-    JobId: '',
-    ErrorCount: 0,
-    LocationCode: '',
-    ProgressCode: '',
-    SignatureFileContents: '',
-    Signature: '',
-    JobType: '',
-    ArtifactList: /*Sf*/[ {
-      Description: '',
-      URL: '',
-    }, /* ...*/ ],
-    ProgressMessage: '',
-    LogKey: '',
-    LogBucket: '',
-    Carrier: '',
-    TrackingNumber: '',
-  };
-  return [200, ret];
-});
+require('../../lib/aws-common/shape_http')('query', module.exports, 'http://importexport.amazonaws.com/doc/2010-06-01/');
 // -----------------------------------
 module.exports.UpdateJob = awsCommon.as(
   '/?Operation=UpdateJob',
   function UpdateJob(aws) {
-  var JobType = aws.params['JobType'];
-  var Manifest = aws.params['Manifest'];
-  var ValidateOnly = aws.params['ValidateOnly'] /* Type boolean */;
-  var APIVersion = aws.params['APIVersion'];
-  var JobId = aws.params['JobId'];
-  if (!JobId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter JobId'];
-  }
-  if (!Manifest) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Manifest'];
-  }
-  if (!JobType) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter JobType'];
-  }
-  if (!ValidateOnly) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ValidateOnly'];
-  }
+    var validateOnly = aws.params.ValidateOnly /* Type boolean */;
+    var manifest = aws.params.Manifest;
+    var jobType = aws.params.JobType;
+    var jobId = aws.params.JobId;
+    var aPIVersion = aws.params.APIVersion;
+    if (!jobId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter JobId'];
+    }
+    if (!manifest) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Manifest'];
+    }
+    if (!jobType) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter JobType'];
+    }
+    if (!validateOnly) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ValidateOnly'];
+    }
 
 
-  // TODO implement code
+    // TODO implement code
 
-  var ret = {
-    ArtifactList: /*Sf*/[ {
-      Description: '',
-      URL: '',
-    }, /* ...*/ ],
-    Success: false,
-    WarningMessage: '',
-  };
-  return [200, ret];
-});
+    var ret = {
+      ArtifactList: /*Sf*/[ {
+        Description: '',
+        URL: '',
+      }, /* ...*/ ],
+      WarningMessage: '',
+      Success: false,
+    };
+    return [200, ret];
+  });
 // -----------------------------------
 module.exports.GetShippingLabel = awsCommon.as(
   '/?Operation=GetShippingLabel',
   function GetShippingLabel(aws) {
-  var city = aws.params['city'];
-  var stateOrProvince = aws.params['stateOrProvince'];
-  var name = aws.params['name'];
-  var company = aws.params['company'];
-  var postalCode = aws.params['postalCode'];
-  var phoneNumber = aws.params['phoneNumber'];
-  var street2 = aws.params['street2'];
-  var street3 = aws.params['street3'];
-  var street1 = aws.params['street1'];
-  var country = aws.params['country'];
-  var APIVersion = aws.params['APIVersion'];
-  var jobIds = aws.params['jobIds'] /* Type list */;
-  if (!jobIds) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter jobIds'];
-  }
+    var city = aws.params.city;
+    var aPIVersion = aws.params.APIVersion;
+    var postalCode = aws.params.postalCode;
+    var street1 = aws.params.street1;
+    var phoneNumber = aws.params.phoneNumber;
+    var jobIds = aws.params.jobIds /* Type list */;
+    var company = aws.params.company;
+    var street3 = aws.params.street3;
+    var name = aws.params.name;
+    var country = aws.params.country;
+    var stateOrProvince = aws.params.stateOrProvince;
+    var street2 = aws.params.street2;
+    if (!jobIds) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter jobIds'];
+    }
 
 
-  // TODO implement code
+    // TODO implement code
 
-  var ret = {
-    ShippingLabelURL: '',
-    Warning: '',
-  };
-  return [200, ret];
-});
+    var ret = {
+      Warning: '',
+      ShippingLabelURL: '',
+    };
+    return [200, ret];
+  });
 // -----------------------------------
-module.exports.CreateJob = awsCommon.as(
-  '/?Operation=CreateJob',
-  function CreateJob(aws) {
-  var JobType = aws.params['JobType'];
-  var Manifest = aws.params['Manifest'];
-  var ValidateOnly = aws.params['ValidateOnly'] /* Type boolean */;
-  var ManifestAddendum = aws.params['ManifestAddendum'];
-  var APIVersion = aws.params['APIVersion'];
-  if (!JobType) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter JobType'];
-  }
-  if (!Manifest) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Manifest'];
-  }
-  if (!ValidateOnly) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ValidateOnly'];
-  }
+module.exports.GetStatus = awsCommon.as(
+  '/?Operation=GetStatus',
+  function GetStatus(aws) {
+    var jobId = aws.params.JobId;
+    var aPIVersion = aws.params.APIVersion;
+    if (!jobId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter JobId'];
+    }
 
 
-  // TODO implement code
+    // TODO implement code
 
-  var ret = {
-    JobType: '',
-    ArtifactList: /*Sf*/[ {
-      Description: '',
-      URL: '',
-    }, /* ...*/ ],
-    JobId: '',
-    WarningMessage: '',
-    SignatureFileContents: '',
-    Signature: '',
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.ListJobs = awsCommon.as(
-  '/?Operation=ListJobs',
-  function ListJobs(aws) {
-  var Marker = aws.params['Marker'];
-  var APIVersion = aws.params['APIVersion'];
-  var MaxJobs = aws.params['MaxJobs'] /* Type integer */;
-
-
-  // TODO implement code
-
-  var ret = {
-    Jobs: [ {
+    var ret = {
+      LogBucket: '',
+      LogKey: '',
+      ProgressCode: '',
+      ErrorCount: 0,
+      ArtifactList: /*Sf*/[ {
+        Description: '',
+        URL: '',
+      }, /* ...*/ ],
+      LocationMessage: '',
+      Carrier: '',
       JobType: '',
-      IsCanceled: false,
-      JobId: '',
+      ProgressMessage: '',
+      Signature: '',
+      LocationCode: '',
+      SignatureFileContents: '',
       CreationDate: awsCommon.timestamp(),
-    }, /* ...*/ ],
-    IsTruncated: false,
-  };
-  return [200, ret];
-});
+      JobId: '',
+      TrackingNumber: '',
+      CurrentManifest: '',
+    };
+    return [200, ret];
+  });
 // -----------------------------------
 module.exports.CancelJob = awsCommon.as(
   '/?Operation=CancelJob',
   function CancelJob(aws) {
-  var APIVersion = aws.params['APIVersion'];
-  var JobId = aws.params['JobId'];
-  if (!JobId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter JobId'];
-  }
+    var jobId = aws.params.JobId;
+    var aPIVersion = aws.params.APIVersion;
+    if (!jobId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter JobId'];
+    }
 
 
-  // TODO implement code
+    // TODO implement code
 
-  var ret = {
-    Success: false,
-  };
-  return [200, ret];
-});
+    var ret = {
+      Success: false,
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.ListJobs = awsCommon.as(
+  '/?Operation=ListJobs',
+  function ListJobs(aws) {
+    var marker = aws.params.Marker;
+    var aPIVersion = aws.params.APIVersion;
+    var maxJobs = aws.params.MaxJobs /* Type integer */;
+
+
+    // TODO implement code
+
+    var ret = {
+      Jobs: [ {
+        CreationDate: awsCommon.timestamp(),
+        JobType: '',
+        JobId: '',
+        IsCanceled: false,
+      }, /* ...*/ ],
+      IsTruncated: false,
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.CreateJob = awsCommon.as(
+  '/?Operation=CreateJob',
+  function CreateJob(aws) {
+    var manifestAddendum = aws.params.ManifestAddendum;
+    var manifest = aws.params.Manifest;
+    var validateOnly = aws.params.ValidateOnly /* Type boolean */;
+    var jobType = aws.params.JobType;
+    var aPIVersion = aws.params.APIVersion;
+    if (!jobType) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter JobType'];
+    }
+    if (!manifest) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Manifest'];
+    }
+    if (!validateOnly) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ValidateOnly'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      ArtifactList: /*Sf*/[ {
+        Description: '',
+        URL: '',
+      }, /* ...*/ ],
+      SignatureFileContents: '',
+      Signature: '',
+      JobType: '',
+      WarningMessage: '',
+      JobId: '',
+    };
+    return [200, ret];
+  });

@@ -10,26 +10,31 @@ const awsCommon = require('../../lib/aws-common');
  */
 
 // Setup input and output to use AWS protocol json
-require('../../lib/aws-common/shape_http')('json', module.exports, null)
+require('../../lib/aws-common/shape_http')('json', module.exports, null);
 // -----------------------------------
-module.exports.EnableRule = function EnableRule(aws) {
-  var Name = aws.params['Name'];
-  if (!Name) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
+module.exports.ListRuleNamesByTarget = function ListRuleNamesByTarget(aws) {
+  var nextToken = aws.params.NextToken;
+  var limit = aws.params.Limit /* Type integer */;
+  var targetArn = aws.params.TargetArn;
+  if (!targetArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TargetArn'];
   }
 
 
   // TODO implement code
 
-  var ret = {};
+  var ret = {
+    NextToken: '',
+    RuleNames: [ '', /* ...*/ ],
+  };
   return [200, ret];
 };
 // -----------------------------------
 module.exports.ListTargetsByRule = function ListTargetsByRule(aws) {
-  var Limit = aws.params['Limit'] /* Type integer */;
-  var NextToken = aws.params['NextToken'];
-  var Rule = aws.params['Rule'];
-  if (!Rule) {
+  var nextToken = aws.params.NextToken;
+  var limit = aws.params.Limit /* Type integer */;
+  var rule = aws.params.Rule;
+  if (!rule) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Rule'];
   }
 
@@ -39,58 +44,42 @@ module.exports.ListTargetsByRule = function ListTargetsByRule(aws) {
   var ret = {
     Targets: /*Sp*/[ {
       InputPath: '',
+      Id: '',
       Arn: '',
       Input: '',
-      Id: '',
     }, /* ...*/ ],
     NextToken: '',
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DisableRule = function DisableRule(aws) {
-  var Name = aws.params['Name'];
-  if (!Name) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
+module.exports.PutEvents = function PutEvents(aws) {
+  var entries = aws.params.Entries /* Type list */;
+  if (!entries) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Entries'];
   }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListRules = function ListRules(aws) {
-  var NextToken = aws.params['NextToken'];
-  var NamePrefix = aws.params['NamePrefix'];
-  var Limit = aws.params['Limit'] /* Type integer */;
 
 
   // TODO implement code
 
   var ret = {
-    Rules: [ {
-      Description: '',
-      RoleArn: '',
-      EventPattern: '',
-      Name: '',
-      Arn: '',
-      ScheduleExpression: '',
-      State: '',
+    Entries: [ {
+      ErrorCode: '',
+      EventId: '',
+      ErrorMessage: '',
     }, /* ...*/ ],
-    NextToken: '',
+    FailedEntryCount: 0,
   };
   return [200, ret];
 };
 // -----------------------------------
 module.exports.TestEventPattern = function TestEventPattern(aws) {
-  var Event = aws.params['Event'];
-  var EventPattern = aws.params['EventPattern'];
-  if (!EventPattern) {
+  var eventPattern = aws.params.EventPattern;
+  var event = aws.params.Event;
+  if (!eventPattern) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter EventPattern'];
   }
-  if (!Event) {
+  if (!event) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Event'];
   }
 
@@ -103,48 +92,9 @@ module.exports.TestEventPattern = function TestEventPattern(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DescribeRule = function DescribeRule(aws) {
-  var Name = aws.params['Name'];
-  if (!Name) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Description: '',
-    RoleArn: '',
-    EventPattern: '',
-    Name: '',
-    Arn: '',
-    ScheduleExpression: '',
-    State: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListRuleNamesByTarget = function ListRuleNamesByTarget(aws) {
-  var Limit = aws.params['Limit'] /* Type integer */;
-  var NextToken = aws.params['NextToken'];
-  var TargetArn = aws.params['TargetArn'];
-  if (!TargetArn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TargetArn'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    RuleNames: [ '', /* ...*/ ],
-    NextToken: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
 module.exports.DeleteRule = function DeleteRule(aws) {
-  var Name = aws.params['Name'];
-  if (!Name) {
+  var name = aws.params.Name;
+  if (!name) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
   }
 
@@ -155,14 +105,132 @@ module.exports.DeleteRule = function DeleteRule(aws) {
   return [200, ret];
 };
 // -----------------------------------
+module.exports.PutTargets = function PutTargets(aws) {
+  var targets = aws.params.Targets;
+  var rule = aws.params.Rule;
+  if (!rule) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Rule'];
+  }
+  if (!targets) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Targets'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    FailedEntries: [ {
+      TargetId: '',
+      ErrorCode: '',
+      ErrorMessage: '',
+    }, /* ...*/ ],
+    FailedEntryCount: 0,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeRule = function DescribeRule(aws) {
+  var name = aws.params.Name;
+  if (!name) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    EventPattern: '',
+    RoleArn: '',
+    State: '',
+    Description: '',
+    Name: '',
+    ScheduleExpression: '',
+    Arn: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DisableRule = function DisableRule(aws) {
+  var name = aws.params.Name;
+  if (!name) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RemoveTargets = function RemoveTargets(aws) {
+  var ids = aws.params.Ids /* Type list */;
+  var rule = aws.params.Rule;
+  if (!rule) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Rule'];
+  }
+  if (!ids) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Ids'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    FailedEntries: [ {
+      TargetId: '',
+      ErrorCode: '',
+      ErrorMessage: '',
+    }, /* ...*/ ],
+    FailedEntryCount: 0,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.EnableRule = function EnableRule(aws) {
+  var name = aws.params.Name;
+  if (!name) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListRules = function ListRules(aws) {
+  var nextToken = aws.params.NextToken;
+  var limit = aws.params.Limit /* Type integer */;
+  var namePrefix = aws.params.NamePrefix;
+
+
+  // TODO implement code
+
+  var ret = {
+    NextToken: '',
+    Rules: [ {
+      EventPattern: '',
+      RoleArn: '',
+      State: '',
+      Description: '',
+      Name: '',
+      ScheduleExpression: '',
+      Arn: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.PutRule = function PutRule(aws) {
-  var Description = aws.params['Description'];
-  var RoleArn = aws.params['RoleArn'];
-  var EventPattern = aws.params['EventPattern'];
-  var Name = aws.params['Name'];
-  var ScheduleExpression = aws.params['ScheduleExpression'];
-  var State = aws.params['State'];
-  if (!Name) {
+  var eventPattern = aws.params.EventPattern;
+  var roleArn = aws.params.RoleArn;
+  var state = aws.params.State;
+  var description = aws.params.Description;
+  var name = aws.params.Name;
+  var scheduleExpression = aws.params.ScheduleExpression;
+  if (!name) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
   }
 
@@ -171,74 +239,6 @@ module.exports.PutRule = function PutRule(aws) {
 
   var ret = {
     RuleArn: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.PutEvents = function PutEvents(aws) {
-  var Entries = aws.params['Entries'] /* Type list */;
-  if (!Entries) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Entries'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Entries: [ {
-      ErrorCode: '',
-      ErrorMessage: '',
-      EventId: '',
-    }, /* ...*/ ],
-    FailedEntryCount: 0,
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.PutTargets = function PutTargets(aws) {
-  var Targets = aws.params['Targets'];
-  var Rule = aws.params['Rule'];
-  if (!Rule) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Rule'];
-  }
-  if (!Targets) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Targets'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    FailedEntryCount: 0,
-    FailedEntries: [ {
-      ErrorCode: '',
-      ErrorMessage: '',
-      TargetId: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.RemoveTargets = function RemoveTargets(aws) {
-  var Ids = aws.params['Ids'] /* Type list */;
-  var Rule = aws.params['Rule'];
-  if (!Rule) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Rule'];
-  }
-  if (!Ids) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Ids'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    FailedEntryCount: 0,
-    FailedEntries: [ {
-      ErrorCode: '',
-      ErrorMessage: '',
-      TargetId: '',
-    }, /* ...*/ ],
   };
   return [200, ret];
 };

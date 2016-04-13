@@ -10,138 +10,16 @@ const awsCommon = require('../../lib/aws-common');
  */
 
 // Setup input and output to use AWS protocol query
-require('../../lib/aws-common/shape_http')('query', module.exports, 'http://ses.amazonaws.com/doc/2010-12-01/')
+require('../../lib/aws-common/shape_http')('query', module.exports, 'http://ses.amazonaws.com/doc/2010-12-01/');
 // -----------------------------------
-module.exports.CreateReceiptFilter = function CreateReceiptFilter(aws) {
-  var Filter = aws.params['Filter'];
-  if (!Filter) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Filter'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListReceiptRuleSets = function ListReceiptRuleSets(aws) {
-  var NextToken = aws.params['NextToken'];
-
-
-  // TODO implement code
-
-  var ret = {
-    RuleSets: [ /*S1k*/{
-      CreatedTimestamp: awsCommon.timestamp(),
-      Name: '',
-    }, /* ...*/ ],
-    NextToken: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.VerifyEmailIdentity = function VerifyEmailIdentity(aws) {
-  var EmailAddress = aws.params['EmailAddress'];
-  if (!EmailAddress) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter EmailAddress'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.VerifyDomainDkim = function VerifyDomainDkim(aws) {
-  var Domain = aws.params['Domain'];
-  if (!Domain) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Domain'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    DkimTokens: /*S1x*/[ '', /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.SendBounce = function SendBounce(aws) {
-  var Explanation = aws.params['Explanation'];
-  var MessageDsn = aws.params['MessageDsn'] /* Type structure */;
-  var OriginalMessageId = aws.params['OriginalMessageId'];
-  var BounceSenderArn = aws.params['BounceSenderArn'];
-  var BounceSender = aws.params['BounceSender'];
-  var BouncedRecipientInfoList = aws.params['BouncedRecipientInfoList'] /* Type list */;
-  if (!OriginalMessageId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter OriginalMessageId'];
-  }
-  if (!BounceSender) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter BounceSender'];
-  }
-  if (!BouncedRecipientInfoList) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter BouncedRecipientInfoList'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    MessageId: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.VerifyDomainIdentity = function VerifyDomainIdentity(aws) {
-  var Domain = aws.params['Domain'];
-  if (!Domain) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Domain'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    VerificationToken: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CloneReceiptRuleSet = function CloneReceiptRuleSet(aws) {
-  var OriginalRuleSetName = aws.params['OriginalRuleSetName'];
-  var RuleSetName = aws.params['RuleSetName'];
-  if (!RuleSetName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RuleSetName'];
-  }
-  if (!OriginalRuleSetName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter OriginalRuleSetName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.SetIdentityNotificationTopic = function SetIdentityNotificationTopic(aws) {
-  var NotificationType = aws.params['NotificationType'];
-  var SnsTopic = aws.params['SnsTopic'];
-  var Identity = aws.params['Identity'];
-  if (!Identity) {
+module.exports.DeleteIdentityPolicy = function DeleteIdentityPolicy(aws) {
+  var identity = aws.params.Identity;
+  var policyName = aws.params.PolicyName;
+  if (!identity) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Identity'];
   }
-  if (!NotificationType) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter NotificationType'];
+  if (!policyName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyName'];
   }
 
 
@@ -149,245 +27,12 @@ module.exports.SetIdentityNotificationTopic = function SetIdentityNotificationTo
 
   var ret = {
 
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.GetIdentityNotificationAttributes = function GetIdentityNotificationAttributes(aws) {
-  var Identities = aws.params['Identities'];
-  if (!Identities) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Identities'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    NotificationAttributes: {} /*Map*/,
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateReceiptRuleSet = function CreateReceiptRuleSet(aws) {
-  var RuleSetName = aws.params['RuleSetName'];
-  if (!RuleSetName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RuleSetName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeReceiptRule = function DescribeReceiptRule(aws) {
-  var RuleSetName = aws.params['RuleSetName'];
-  var RuleName = aws.params['RuleName'];
-  if (!RuleSetName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RuleSetName'];
-  }
-  if (!RuleName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RuleName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Rule: /*Sd*/{
-      ScanEnabled: false,
-      Name: '',
-      TlsPolicy: '',
-      Actions: [ {
-        SNSAction: {
-          TopicArn: '',
-        },
-        BounceAction: {
-          StatusCode: '',
-          TopicArn: '',
-          Sender: '',
-          Message: '',
-          SmtpReplyCode: '',
-        },
-        S3Action: {
-          KmsKeyArn: '',
-          TopicArn: '',
-          ObjectKeyPrefix: '',
-          BucketName: '',
-        },
-        AddHeaderAction: {
-          HeaderValue: '',
-          HeaderName: '',
-        },
-        StopAction: {
-          Scope: '',
-          TopicArn: '',
-        },
-        WorkmailAction: {
-          TopicArn: '',
-          OrganizationArn: '',
-        },
-        LambdaAction: {
-          InvocationType: '',
-          TopicArn: '',
-          FunctionArn: '',
-        },
-      }, /* ...*/ ],
-      Enabled: false,
-      Recipients: [ '', /* ...*/ ],
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListIdentityPolicies = function ListIdentityPolicies(aws) {
-  var Identity = aws.params['Identity'];
-  if (!Identity) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Identity'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    PolicyNames: /*S25*/[ '', /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.VerifyEmailAddress = function VerifyEmailAddress(aws) {
-  var EmailAddress = aws.params['EmailAddress'];
-  if (!EmailAddress) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter EmailAddress'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.SendEmail = function SendEmail(aws) {
-  var Destination = aws.params['Destination'] /* Type structure */;
-  var ReturnPath = aws.params['ReturnPath'];
-  var ReturnPathArn = aws.params['ReturnPathArn'];
-  var SourceArn = aws.params['SourceArn'];
-  var Message = aws.params['Message'] /* Type structure */;
-  var Source = aws.params['Source'];
-  var ReplyToAddresses = aws.params['ReplyToAddresses'];
-  if (!Source) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Source'];
-  }
-  if (!Destination) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Destination'];
-  }
-  if (!Message) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Message'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    MessageId: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.SetIdentityDkimEnabled = function SetIdentityDkimEnabled(aws) {
-  var DkimEnabled = aws.params['DkimEnabled'] /* Type boolean */;
-  var Identity = aws.params['Identity'];
-  if (!Identity) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Identity'];
-  }
-  if (!DkimEnabled) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DkimEnabled'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteIdentity = function DeleteIdentity(aws) {
-  var Identity = aws.params['Identity'];
-  if (!Identity) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Identity'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.UpdateReceiptRule = function UpdateReceiptRule(aws) {
-  var RuleSetName = aws.params['RuleSetName'];
-  var Rule = aws.params['Rule'];
-  if (!RuleSetName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RuleSetName'];
-  }
-  if (!Rule) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Rule'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListIdentities = function ListIdentities(aws) {
-  var IdentityType = aws.params['IdentityType'];
-  var NextToken = aws.params['NextToken'];
-  var MaxItems = aws.params['MaxItems'] /* Type integer */;
-
-
-  // TODO implement code
-
-  var ret = {
-    Identities: /*S1s*/[ '', /* ...*/ ],
-    NextToken: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.SendRawEmail = function SendRawEmail(aws) {
-  var ReturnPathArn = aws.params['ReturnPathArn'];
-  var SourceArn = aws.params['SourceArn'];
-  var FromArn = aws.params['FromArn'];
-  var Destinations = aws.params['Destinations'];
-  var RawMessage = aws.params['RawMessage'] /* Type structure */;
-  var Source = aws.params['Source'];
-  if (!RawMessage) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RawMessage'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    MessageId: '',
   };
   return [200, ret];
 };
 // -----------------------------------
 module.exports.SetActiveReceiptRuleSet = function SetActiveReceiptRuleSet(aws) {
-  var RuleSetName = aws.params['RuleSetName'];
+  var ruleSetName = aws.params.RuleSetName;
 
 
   // TODO implement code
@@ -399,8 +44,8 @@ module.exports.SetActiveReceiptRuleSet = function SetActiveReceiptRuleSet(aws) {
 };
 // -----------------------------------
 module.exports.GetIdentityDkimAttributes = function GetIdentityDkimAttributes(aws) {
-  var Identities = aws.params['Identities'];
-  if (!Identities) {
+  var identities = aws.params.Identities;
+  if (!identities) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Identities'];
   }
 
@@ -413,13 +58,232 @@ module.exports.GetIdentityDkimAttributes = function GetIdentityDkimAttributes(aw
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DeleteReceiptRule = function DeleteReceiptRule(aws) {
-  var RuleSetName = aws.params['RuleSetName'];
-  var RuleName = aws.params['RuleName'];
-  if (!RuleSetName) {
+module.exports.SendEmail = function SendEmail(aws) {
+  var source = aws.params.Source;
+  var returnPathArn = aws.params.ReturnPathArn;
+  var message = aws.params.Message /* Type structure */;
+  var destination = aws.params.Destination /* Type structure */;
+  var sourceArn = aws.params.SourceArn;
+  var returnPath = aws.params.ReturnPath;
+  var replyToAddresses = aws.params.ReplyToAddresses;
+  if (!source) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Source'];
+  }
+  if (!destination) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Destination'];
+  }
+  if (!message) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Message'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    MessageId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListVerifiedEmailAddresses = function ListVerifiedEmailAddresses(aws) {
+
+
+  // TODO implement code
+
+  var ret = {
+    VerifiedEmailAddresses: /*S2z*/[ '', /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateReceiptFilter = function CreateReceiptFilter(aws) {
+  var filter = aws.params.Filter;
+  if (!filter) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Filter'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteIdentity = function DeleteIdentity(aws) {
+  var identity = aws.params.Identity;
+  if (!identity) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Identity'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.SetIdentityNotificationTopic = function SetIdentityNotificationTopic(aws) {
+  var snsTopic = aws.params.SnsTopic;
+  var notificationType = aws.params.NotificationType;
+  var identity = aws.params.Identity;
+  if (!identity) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Identity'];
+  }
+  if (!notificationType) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter NotificationType'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListReceiptFilters = function ListReceiptFilters(aws) {
+
+
+  // TODO implement code
+
+  var ret = {
+    Filters: [ /*S5*/{
+      Name: '',
+      IpFilter: {
+        Policy: '',
+        Cidr: '',
+      },
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListIdentityPolicies = function ListIdentityPolicies(aws) {
+  var identity = aws.params.Identity;
+  if (!identity) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Identity'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    PolicyNames: /*S25*/[ '', /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.PutIdentityPolicy = function PutIdentityPolicy(aws) {
+  var policy = aws.params.Policy;
+  var identity = aws.params.Identity;
+  var policyName = aws.params.PolicyName;
+  if (!identity) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Identity'];
+  }
+  if (!policyName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyName'];
+  }
+  if (!policy) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Policy'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeReceiptRuleSet = function DescribeReceiptRuleSet(aws) {
+  var ruleSetName = aws.params.RuleSetName;
+  if (!ruleSetName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RuleSetName'];
   }
-  if (!RuleName) {
+
+
+  // TODO implement code
+
+  var ret = {
+    Rules: /*S1m*/[ /*Sd*/{
+      Enabled: false,
+      Recipients: [ '', /* ...*/ ],
+      TlsPolicy: '',
+      ScanEnabled: false,
+      Name: '',
+      Actions: [ {
+        SNSAction: {
+          TopicArn: '',
+        },
+        WorkmailAction: {
+          OrganizationArn: '',
+          TopicArn: '',
+        },
+        StopAction: {
+          TopicArn: '',
+          Scope: '',
+        },
+        BounceAction: {
+          SmtpReplyCode: '',
+          StatusCode: '',
+          Message: '',
+          TopicArn: '',
+          Sender: '',
+        },
+        LambdaAction: {
+          InvocationType: '',
+          TopicArn: '',
+          FunctionArn: '',
+        },
+        S3Action: {
+          BucketName: '',
+          KmsKeyArn: '',
+          TopicArn: '',
+          ObjectKeyPrefix: '',
+        },
+        AddHeaderAction: {
+          HeaderName: '',
+          HeaderValue: '',
+        },
+      }, /* ...*/ ],
+    }, /* ...*/ ],
+    Metadata: /*S1k*/{
+      Name: '',
+      CreatedTimestamp: awsCommon.timestamp(),
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetIdentityNotificationAttributes = function GetIdentityNotificationAttributes(aws) {
+  var identities = aws.params.Identities;
+  if (!identities) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Identities'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    NotificationAttributes: {} /*Map*/,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.SetReceiptRulePosition = function SetReceiptRulePosition(aws) {
+  var ruleSetName = aws.params.RuleSetName;
+  var ruleName = aws.params.RuleName;
+  var after = aws.params.After;
+  if (!ruleSetName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RuleSetName'];
+  }
+  if (!ruleName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RuleName'];
   }
 
@@ -432,14 +296,52 @@ module.exports.DeleteReceiptRule = function DeleteReceiptRule(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.CreateReceiptRule = function CreateReceiptRule(aws) {
-  var RuleSetName = aws.params['RuleSetName'];
-  var After = aws.params['After'];
-  var Rule = aws.params['Rule'];
-  if (!RuleSetName) {
+module.exports.DeleteReceiptRule = function DeleteReceiptRule(aws) {
+  var ruleSetName = aws.params.RuleSetName;
+  var ruleName = aws.params.RuleName;
+  if (!ruleSetName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RuleSetName'];
   }
-  if (!Rule) {
+  if (!ruleName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RuleName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CloneReceiptRuleSet = function CloneReceiptRuleSet(aws) {
+  var ruleSetName = aws.params.RuleSetName;
+  var originalRuleSetName = aws.params.OriginalRuleSetName;
+  if (!ruleSetName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RuleSetName'];
+  }
+  if (!originalRuleSetName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter OriginalRuleSetName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateReceiptRule = function CreateReceiptRule(aws) {
+  var ruleSetName = aws.params.RuleSetName;
+  var rule = aws.params.Rule;
+  var after = aws.params.After;
+  if (!ruleSetName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RuleSetName'];
+  }
+  if (!rule) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Rule'];
   }
 
@@ -452,46 +354,124 @@ module.exports.CreateReceiptRule = function CreateReceiptRule(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.GetSendQuota = function GetSendQuota(aws) {
+module.exports.DeleteVerifiedEmailAddress = function DeleteVerifiedEmailAddress(aws) {
+  var emailAddress = aws.params.EmailAddress;
+  if (!emailAddress) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter EmailAddress'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeActiveReceiptRuleSet = function DescribeActiveReceiptRuleSet(aws) {
 
 
   // TODO implement code
 
   var ret = {
-    MaxSendRate: 0.0 /*Double*/,
-    Max24HourSend: 0.0 /*Double*/,
-    SentLast24Hours: 0.0 /*Double*/,
+    Rules: /*S1m*/[ /*Sd*/{
+      Enabled: false,
+      Recipients: [ '', /* ...*/ ],
+      TlsPolicy: '',
+      ScanEnabled: false,
+      Name: '',
+      Actions: [ {
+        SNSAction: {
+          TopicArn: '',
+        },
+        WorkmailAction: {
+          OrganizationArn: '',
+          TopicArn: '',
+        },
+        StopAction: {
+          TopicArn: '',
+          Scope: '',
+        },
+        BounceAction: {
+          SmtpReplyCode: '',
+          StatusCode: '',
+          Message: '',
+          TopicArn: '',
+          Sender: '',
+        },
+        LambdaAction: {
+          InvocationType: '',
+          TopicArn: '',
+          FunctionArn: '',
+        },
+        S3Action: {
+          BucketName: '',
+          KmsKeyArn: '',
+          TopicArn: '',
+          ObjectKeyPrefix: '',
+        },
+        AddHeaderAction: {
+          HeaderName: '',
+          HeaderValue: '',
+        },
+      }, /* ...*/ ],
+    }, /* ...*/ ],
+    Metadata: /*S1k*/{
+      Name: '',
+      CreatedTimestamp: awsCommon.timestamp(),
+    },
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.GetIdentityVerificationAttributes = function GetIdentityVerificationAttributes(aws) {
-  var Identities = aws.params['Identities'];
-  if (!Identities) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Identities'];
+module.exports.SendBounce = function SendBounce(aws) {
+  var bounceSender = aws.params.BounceSender;
+  var messageDsn = aws.params.MessageDsn /* Type structure */;
+  var bouncedRecipientInfoList = aws.params.BouncedRecipientInfoList /* Type list */;
+  var originalMessageId = aws.params.OriginalMessageId;
+  var explanation = aws.params.Explanation;
+  var bounceSenderArn = aws.params.BounceSenderArn;
+  if (!originalMessageId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter OriginalMessageId'];
+  }
+  if (!bounceSender) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter BounceSender'];
+  }
+  if (!bouncedRecipientInfoList) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter BouncedRecipientInfoList'];
   }
 
 
   // TODO implement code
 
   var ret = {
-    VerificationAttributes: {} /*Map*/,
+    MessageId: '',
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.PutIdentityPolicy = function PutIdentityPolicy(aws) {
-  var PolicyName = aws.params['PolicyName'];
-  var Policy = aws.params['Policy'];
-  var Identity = aws.params['Identity'];
-  if (!Identity) {
+module.exports.ListIdentities = function ListIdentities(aws) {
+  var nextToken = aws.params.NextToken;
+  var identityType = aws.params.IdentityType;
+  var maxItems = aws.params.MaxItems /* Type integer */;
+
+
+  // TODO implement code
+
+  var ret = {
+    Identities: /*S1s*/[ '', /* ...*/ ],
+    NextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.SetIdentityFeedbackForwardingEnabled = function SetIdentityFeedbackForwardingEnabled(aws) {
+  var forwardingEnabled = aws.params.ForwardingEnabled /* Type boolean */;
+  var identity = aws.params.Identity;
+  if (!identity) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Identity'];
   }
-  if (!PolicyName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyName'];
-  }
-  if (!Policy) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Policy'];
+  if (!forwardingEnabled) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ForwardingEnabled'];
   }
 
 
@@ -510,25 +490,24 @@ module.exports.GetSendStatistics = function GetSendStatistics(aws) {
 
   var ret = {
     SendDataPoints: [ {
-      Complaints: 0 /*Long*/,
+      Timestamp: awsCommon.timestamp(),
       DeliveryAttempts: 0 /*Long*/,
       Rejects: 0 /*Long*/,
+      Complaints: 0 /*Long*/,
       Bounces: 0 /*Long*/,
-      Timestamp: awsCommon.timestamp(),
     }, /* ...*/ ],
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.SetReceiptRulePosition = function SetReceiptRulePosition(aws) {
-  var RuleSetName = aws.params['RuleSetName'];
-  var RuleName = aws.params['RuleName'];
-  var After = aws.params['After'];
-  if (!RuleSetName) {
+module.exports.UpdateReceiptRule = function UpdateReceiptRule(aws) {
+  var ruleSetName = aws.params.RuleSetName;
+  var rule = aws.params.Rule;
+  if (!ruleSetName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RuleSetName'];
   }
-  if (!RuleName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RuleName'];
+  if (!rule) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Rule'];
   }
 
 
@@ -540,10 +519,14 @@ module.exports.SetReceiptRulePosition = function SetReceiptRulePosition(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DeleteReceiptFilter = function DeleteReceiptFilter(aws) {
-  var FilterName = aws.params['FilterName'];
-  if (!FilterName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter FilterName'];
+module.exports.SetIdentityDkimEnabled = function SetIdentityDkimEnabled(aws) {
+  var identity = aws.params.Identity;
+  var dkimEnabled = aws.params.DkimEnabled /* Type boolean */;
+  if (!identity) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Identity'];
+  }
+  if (!dkimEnabled) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DkimEnabled'];
   }
 
 
@@ -555,14 +538,51 @@ module.exports.DeleteReceiptFilter = function DeleteReceiptFilter(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.ReorderReceiptRuleSet = function ReorderReceiptRuleSet(aws) {
-  var RuleSetName = aws.params['RuleSetName'];
-  var RuleNames = aws.params['RuleNames'] /* Type list */;
-  if (!RuleSetName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RuleSetName'];
+module.exports.VerifyDomainDkim = function VerifyDomainDkim(aws) {
+  var domain = aws.params.Domain;
+  if (!domain) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Domain'];
   }
-  if (!RuleNames) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RuleNames'];
+
+
+  // TODO implement code
+
+  var ret = {
+    DkimTokens: /*S1x*/[ '', /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.VerifyEmailAddress = function VerifyEmailAddress(aws) {
+  var emailAddress = aws.params.EmailAddress;
+  if (!emailAddress) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter EmailAddress'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetSendQuota = function GetSendQuota(aws) {
+
+
+  // TODO implement code
+
+  var ret = {
+    MaxSendRate: 0.0 /*Double*/,
+    Max24HourSend: 0.0 /*Double*/,
+    SentLast24Hours: 0.0 /*Double*/,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteReceiptRuleSet = function DeleteReceiptRuleSet(aws) {
+  var ruleSetName = aws.params.RuleSetName;
+  if (!ruleSetName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RuleSetName'];
   }
 
 
@@ -575,12 +595,12 @@ module.exports.ReorderReceiptRuleSet = function ReorderReceiptRuleSet(aws) {
 };
 // -----------------------------------
 module.exports.GetIdentityPolicies = function GetIdentityPolicies(aws) {
-  var PolicyNames = aws.params['PolicyNames'];
-  var Identity = aws.params['Identity'];
-  if (!Identity) {
+  var policyNames = aws.params.PolicyNames;
+  var identity = aws.params.Identity;
+  if (!identity) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Identity'];
   }
-  if (!PolicyNames) {
+  if (!policyNames) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyNames'];
   }
 
@@ -593,212 +613,192 @@ module.exports.GetIdentityPolicies = function GetIdentityPolicies(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DescribeActiveReceiptRuleSet = function DescribeActiveReceiptRuleSet(aws) {
+module.exports.SendRawEmail = function SendRawEmail(aws) {
+  var source = aws.params.Source;
+  var destinations = aws.params.Destinations;
+  var fromArn = aws.params.FromArn;
+  var returnPathArn = aws.params.ReturnPathArn;
+  var sourceArn = aws.params.SourceArn;
+  var rawMessage = aws.params.RawMessage /* Type structure */;
+  if (!rawMessage) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RawMessage'];
+  }
 
 
   // TODO implement code
 
   var ret = {
-    Rules: /*S1m*/[ /*Sd*/{
+    MessageId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.VerifyDomainIdentity = function VerifyDomainIdentity(aws) {
+  var domain = aws.params.Domain;
+  if (!domain) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Domain'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    VerificationToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListReceiptRuleSets = function ListReceiptRuleSets(aws) {
+  var nextToken = aws.params.NextToken;
+
+
+  // TODO implement code
+
+  var ret = {
+    NextToken: '',
+    RuleSets: [ /*S1k*/{
+      Name: '',
+      CreatedTimestamp: awsCommon.timestamp(),
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteReceiptFilter = function DeleteReceiptFilter(aws) {
+  var filterName = aws.params.FilterName;
+  if (!filterName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter FilterName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeReceiptRule = function DescribeReceiptRule(aws) {
+  var ruleSetName = aws.params.RuleSetName;
+  var ruleName = aws.params.RuleName;
+  if (!ruleSetName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RuleSetName'];
+  }
+  if (!ruleName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RuleName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Rule: /*Sd*/{
+      Enabled: false,
+      Recipients: [ '', /* ...*/ ],
+      TlsPolicy: '',
       ScanEnabled: false,
       Name: '',
-      TlsPolicy: '',
       Actions: [ {
         SNSAction: {
           TopicArn: '',
         },
-        BounceAction: {
-          StatusCode: '',
+        WorkmailAction: {
+          OrganizationArn: '',
           TopicArn: '',
-          Sender: '',
-          Message: '',
-          SmtpReplyCode: '',
-        },
-        S3Action: {
-          KmsKeyArn: '',
-          TopicArn: '',
-          ObjectKeyPrefix: '',
-          BucketName: '',
-        },
-        AddHeaderAction: {
-          HeaderValue: '',
-          HeaderName: '',
         },
         StopAction: {
+          TopicArn: '',
           Scope: '',
-          TopicArn: '',
         },
-        WorkmailAction: {
+        BounceAction: {
+          SmtpReplyCode: '',
+          StatusCode: '',
+          Message: '',
           TopicArn: '',
-          OrganizationArn: '',
+          Sender: '',
         },
         LambdaAction: {
           InvocationType: '',
           TopicArn: '',
           FunctionArn: '',
         },
+        S3Action: {
+          BucketName: '',
+          KmsKeyArn: '',
+          TopicArn: '',
+          ObjectKeyPrefix: '',
+        },
+        AddHeaderAction: {
+          HeaderName: '',
+          HeaderValue: '',
+        },
       }, /* ...*/ ],
-      Enabled: false,
-      Recipients: [ '', /* ...*/ ],
-    }, /* ...*/ ],
-    Metadata: /*S1k*/{
-      CreatedTimestamp: awsCommon.timestamp(),
-      Name: '',
     },
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DeleteVerifiedEmailAddress = function DeleteVerifiedEmailAddress(aws) {
-  var EmailAddress = aws.params['EmailAddress'];
-  if (!EmailAddress) {
+module.exports.CreateReceiptRuleSet = function CreateReceiptRuleSet(aws) {
+  var ruleSetName = aws.params.RuleSetName;
+  if (!ruleSetName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RuleSetName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetIdentityVerificationAttributes = function GetIdentityVerificationAttributes(aws) {
+  var identities = aws.params.Identities;
+  if (!identities) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Identities'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    VerificationAttributes: {} /*Map*/,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ReorderReceiptRuleSet = function ReorderReceiptRuleSet(aws) {
+  var ruleSetName = aws.params.RuleSetName;
+  var ruleNames = aws.params.RuleNames /* Type list */;
+  if (!ruleSetName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RuleSetName'];
+  }
+  if (!ruleNames) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RuleNames'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.VerifyEmailIdentity = function VerifyEmailIdentity(aws) {
+  var emailAddress = aws.params.EmailAddress;
+  if (!emailAddress) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter EmailAddress'];
   }
 
 
   // TODO implement code
 
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteIdentityPolicy = function DeleteIdentityPolicy(aws) {
-  var PolicyName = aws.params['PolicyName'];
-  var Identity = aws.params['Identity'];
-  if (!Identity) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Identity'];
-  }
-  if (!PolicyName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyName'];
-  }
-
-
-  // TODO implement code
-
   var ret = {
 
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteReceiptRuleSet = function DeleteReceiptRuleSet(aws) {
-  var RuleSetName = aws.params['RuleSetName'];
-  if (!RuleSetName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RuleSetName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.SetIdentityFeedbackForwardingEnabled = function SetIdentityFeedbackForwardingEnabled(aws) {
-  var ForwardingEnabled = aws.params['ForwardingEnabled'] /* Type boolean */;
-  var Identity = aws.params['Identity'];
-  if (!Identity) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Identity'];
-  }
-  if (!ForwardingEnabled) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ForwardingEnabled'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeReceiptRuleSet = function DescribeReceiptRuleSet(aws) {
-  var RuleSetName = aws.params['RuleSetName'];
-  if (!RuleSetName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RuleSetName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Rules: /*S1m*/[ /*Sd*/{
-      ScanEnabled: false,
-      Name: '',
-      TlsPolicy: '',
-      Actions: [ {
-        SNSAction: {
-          TopicArn: '',
-        },
-        BounceAction: {
-          StatusCode: '',
-          TopicArn: '',
-          Sender: '',
-          Message: '',
-          SmtpReplyCode: '',
-        },
-        S3Action: {
-          KmsKeyArn: '',
-          TopicArn: '',
-          ObjectKeyPrefix: '',
-          BucketName: '',
-        },
-        AddHeaderAction: {
-          HeaderValue: '',
-          HeaderName: '',
-        },
-        StopAction: {
-          Scope: '',
-          TopicArn: '',
-        },
-        WorkmailAction: {
-          TopicArn: '',
-          OrganizationArn: '',
-        },
-        LambdaAction: {
-          InvocationType: '',
-          TopicArn: '',
-          FunctionArn: '',
-        },
-      }, /* ...*/ ],
-      Enabled: false,
-      Recipients: [ '', /* ...*/ ],
-    }, /* ...*/ ],
-    Metadata: /*S1k*/{
-      CreatedTimestamp: awsCommon.timestamp(),
-      Name: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListReceiptFilters = function ListReceiptFilters(aws) {
-
-
-  // TODO implement code
-
-  var ret = {
-    Filters: [ /*S5*/{
-      IpFilter: {
-        Cidr: '',
-        Policy: '',
-      },
-      Name: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListVerifiedEmailAddresses = function ListVerifiedEmailAddresses(aws) {
-
-
-  // TODO implement code
-
-  var ret = {
-    VerifiedEmailAddresses: /*S2z*/[ '', /* ...*/ ],
   };
   return [200, ret];
 };

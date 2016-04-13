@@ -10,11 +10,170 @@ const awsCommon = require('../../lib/aws-common');
  */
 
 // Setup input and output to use AWS protocol query
-require('../../lib/aws-common/shape_http')('query', module.exports, 'http://elasticbeanstalk.amazonaws.com/docs/2010-12-01/')
+require('../../lib/aws-common/shape_http')('query', module.exports, 'http://elasticbeanstalk.amazonaws.com/docs/2010-12-01/');
 // -----------------------------------
-module.exports.AbortEnvironmentUpdate = function AbortEnvironmentUpdate(aws) {
-  var EnvironmentId = aws.params['EnvironmentId'];
-  var EnvironmentName = aws.params['EnvironmentName'];
+module.exports.TerminateEnvironment = function TerminateEnvironment(aws) {
+  var terminateResources = aws.params.TerminateResources /* Type boolean */;
+  var forceTerminate = aws.params.ForceTerminate /* Type boolean */;
+  var environmentId = aws.params.EnvironmentId;
+  var environmentName = aws.params.EnvironmentName;
+
+
+  // TODO implement code
+
+  var ret = /*Sg*/{
+    ApplicationName: '',
+    Tier: /*Sx*/{
+      Name: '',
+      Version: '',
+      Type: '',
+    },
+    EndpointURL: '',
+    EnvironmentLinks: [ {
+      LinkName: '',
+      EnvironmentName: '',
+    }, /* ...*/ ],
+    Status: '',
+    HealthStatus: '',
+    DateUpdated: awsCommon.timestamp(),
+    CNAME: '',
+    Resources: {
+      LoadBalancer: {
+        Listeners: [ {
+          Port: 0,
+          Protocol: '',
+        }, /* ...*/ ],
+        Domain: '',
+        LoadBalancerName: '',
+      },
+    },
+    DateCreated: awsCommon.timestamp(),
+    EnvironmentId: '',
+    AbortableOperationInProgress: false,
+    Health: '',
+    SolutionStackName: '',
+    TemplateName: '',
+    Description: '',
+    EnvironmentName: '',
+    VersionLabel: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeConfigurationOptions = function DescribeConfigurationOptions(aws) {
+  var applicationName = aws.params.ApplicationName;
+  var options = aws.params.Options;
+  var environmentName = aws.params.EnvironmentName;
+  var solutionStackName = aws.params.SolutionStackName;
+  var templateName = aws.params.TemplateName;
+
+
+  // TODO implement code
+
+  var ret = {
+    Options: [ {
+      MaxLength: 0,
+      DefaultValue: '',
+      ValueType: '',
+      UserDefined: false,
+      Namespace: '',
+      Regex: {
+        Pattern: '',
+        Label: '',
+      },
+      MinValue: 0,
+      ValueOptions: [ '', /* ...*/ ],
+      Name: '',
+      MaxValue: 0,
+      ChangeSeverity: '',
+    }, /* ...*/ ],
+    SolutionStackName: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeInstancesHealth = function DescribeInstancesHealth(aws) {
+  var nextToken = aws.params.NextToken;
+  var attributeNames = aws.params.AttributeNames /* Type list */;
+  var environmentName = aws.params.EnvironmentName;
+  var environmentId = aws.params.EnvironmentId;
+
+
+  // TODO implement code
+
+  var ret = {
+    NextToken: '',
+    InstanceHealthList: [ {
+      Causes: /*S2w*/[ '', /* ...*/ ],
+      Color: '',
+      ApplicationMetrics: /*S2y*/{
+        RequestCount: 0,
+        StatusCodes: {
+          Status3xx: 0,
+          Status5xx: 0,
+          Status2xx: 0,
+          Status4xx: 0,
+        },
+        Duration: 0,
+        Latency: {
+          P99: 0.0 /*Double*/,
+          P85: 0.0 /*Double*/,
+          P10: 0.0 /*Double*/,
+          P50: 0.0 /*Double*/,
+          P95: 0.0 /*Double*/,
+          P999: 0.0 /*Double*/,
+          P90: 0.0 /*Double*/,
+          P75: 0.0 /*Double*/,
+        },
+      },
+      LaunchedAt: awsCommon.timestamp(),
+      HealthStatus: '',
+      System: {
+        CPUUtilization: {
+          SoftIRQ: 0.0 /*Double*/,
+          User: 0.0 /*Double*/,
+          IRQ: 0.0 /*Double*/,
+          IOWait: 0.0 /*Double*/,
+          Idle: 0.0 /*Double*/,
+          System: 0.0 /*Double*/,
+          Nice: 0.0 /*Double*/,
+        },
+        LoadAverage: [ 0.0 /*Double*/, /* ...*/ ],
+      },
+      InstanceId: '',
+    }, /* ...*/ ],
+    RefreshedAt: awsCommon.timestamp(),
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeApplicationVersions = function DescribeApplicationVersions(aws) {
+  var applicationName = aws.params.ApplicationName;
+  var versionLabels = aws.params.VersionLabels;
+
+
+  // TODO implement code
+
+  var ret = {
+    ApplicationVersions: [ /*S1c*/{
+      ApplicationName: '',
+      VersionLabel: '',
+      Status: '',
+      Description: '',
+      DateUpdated: awsCommon.timestamp(),
+      DateCreated: awsCommon.timestamp(),
+      SourceBundle: /*S16*/{
+        S3Key: '',
+        S3Bucket: '',
+      },
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RestartAppServer = function RestartAppServer(aws) {
+  var environmentId = aws.params.EnvironmentId;
+  var environmentName = aws.params.EnvironmentName;
 
 
   // TODO implement code
@@ -23,66 +182,59 @@ module.exports.AbortEnvironmentUpdate = function AbortEnvironmentUpdate(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.UpdateEnvironment = function UpdateEnvironment(aws) {
-  var EnvironmentId = aws.params['EnvironmentId'];
-  var OptionsToRemove = aws.params['OptionsToRemove'];
-  var Description = aws.params['Description'];
-  var SolutionStackName = aws.params['SolutionStackName'];
-  var EnvironmentName = aws.params['EnvironmentName'];
-  var TemplateName = aws.params['TemplateName'];
-  var GroupName = aws.params['GroupName'];
-  var VersionLabel = aws.params['VersionLabel'];
-  var Tier = aws.params['Tier'];
-  var OptionSettings = aws.params['OptionSettings'];
-  var ApplicationName = aws.params['ApplicationName'];
+module.exports.RetrieveEnvironmentInfo = function RetrieveEnvironmentInfo(aws) {
+  var infoType = aws.params.InfoType;
+  var environmentId = aws.params.EnvironmentId;
+  var environmentName = aws.params.EnvironmentName;
+  if (!infoType) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InfoType'];
+  }
 
 
   // TODO implement code
 
-  var ret = /*Sg*/{
-    DateUpdated: awsCommon.timestamp(),
-    Description: '',
-    EnvironmentLinks: [ {
-      LinkName: '',
-      EnvironmentName: '',
+  var ret = {
+    EnvironmentInfo: [ {
+      InfoType: '',
+      Message: '',
+      Ec2InstanceId: '',
+      SampleTimestamp: awsCommon.timestamp(),
     }, /* ...*/ ],
-    SolutionStackName: '',
-    Tier: /*Sx*/{
-      Type: '',
-      Version: '',
-      Name: '',
-    },
-    EnvironmentName: '',
-    CNAME: '',
-    EndpointURL: '',
-    ApplicationName: '',
-    EnvironmentId: '',
-    DateCreated: awsCommon.timestamp(),
-    Status: '',
-    AbortableOperationInProgress: false,
-    TemplateName: '',
-    VersionLabel: '',
-    Health: '',
-    HealthStatus: '',
-    Resources: {
-      LoadBalancer: {
-        Domain: '',
-        Listeners: [ {
-          Protocol: '',
-          Port: 0,
-        }, /* ...*/ ],
-        LoadBalancerName: '',
-      },
-    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ValidateConfigurationSettings = function ValidateConfigurationSettings(aws) {
+  var applicationName = aws.params.ApplicationName;
+  var environmentName = aws.params.EnvironmentName;
+  var optionSettings = aws.params.OptionSettings;
+  var templateName = aws.params.TemplateName;
+  if (!applicationName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ApplicationName'];
+  }
+  if (!optionSettings) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter OptionSettings'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Messages: [ {
+      Message: '',
+      Namespace: '',
+      OptionName: '',
+      Severity: '',
+    }, /* ...*/ ],
   };
   return [200, ret];
 };
 // -----------------------------------
 module.exports.DescribeConfigurationSettings = function DescribeConfigurationSettings(aws) {
-  var TemplateName = aws.params['TemplateName'];
-  var EnvironmentName = aws.params['EnvironmentName'];
-  var ApplicationName = aws.params['ApplicationName'];
-  if (!ApplicationName) {
+  var applicationName = aws.params.ApplicationName;
+  var environmentName = aws.params.EnvironmentName;
+  var templateName = aws.params.TemplateName;
+  if (!applicationName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ApplicationName'];
   }
 
@@ -91,20 +243,20 @@ module.exports.DescribeConfigurationSettings = function DescribeConfigurationSet
 
   var ret = {
     ConfigurationSettings: [ /*S1m*/{
-      DeploymentStatus: '',
-      DateUpdated: awsCommon.timestamp(),
-      Description: '',
-      SolutionStackName: '',
-      EnvironmentName: '',
-      TemplateName: '',
+      ApplicationName: '',
       DateCreated: awsCommon.timestamp(),
       OptionSettings: /*S1g*/[ {
-        Namespace: '',
-        OptionName: '',
         ResourceName: '',
         Value: '',
+        Namespace: '',
+        OptionName: '',
       }, /* ...*/ ],
-      ApplicationName: '',
+      DateUpdated: awsCommon.timestamp(),
+      Description: '',
+      TemplateName: '',
+      DeploymentStatus: '',
+      EnvironmentName: '',
+      SolutionStackName: '',
     }, /* ...*/ ],
   };
   return [200, ret];
@@ -121,88 +273,14 @@ module.exports.CreateStorageLocation = function CreateStorageLocation(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.UpdateApplicationVersion = function UpdateApplicationVersion(aws) {
-  var Description = aws.params['Description'];
-  var VersionLabel = aws.params['VersionLabel'];
-  var ApplicationName = aws.params['ApplicationName'];
-  if (!ApplicationName) {
+module.exports.DeleteConfigurationTemplate = function DeleteConfigurationTemplate(aws) {
+  var applicationName = aws.params.ApplicationName;
+  var templateName = aws.params.TemplateName;
+  if (!applicationName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ApplicationName'];
   }
-  if (!VersionLabel) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VersionLabel'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*S1b*/{
-    ApplicationVersion: /*S1c*/{
-      SourceBundle: /*S16*/{
-        S3Key: '',
-        S3Bucket: '',
-      },
-      DateUpdated: awsCommon.timestamp(),
-      Description: '',
-      DateCreated: awsCommon.timestamp(),
-      Status: '',
-      ApplicationName: '',
-      VersionLabel: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateApplication = function CreateApplication(aws) {
-  var Description = aws.params['Description'];
-  var ApplicationName = aws.params['ApplicationName'];
-  if (!ApplicationName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ApplicationName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*S11*/{
-    Application: /*S12*/{
-      DateUpdated: awsCommon.timestamp(),
-      Description: '',
-      ConfigurationTemplates: [ '', /* ...*/ ],
-      DateCreated: awsCommon.timestamp(),
-      Versions: /*S13*/[ '', /* ...*/ ],
-      ApplicationName: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeApplications = function DescribeApplications(aws) {
-  var ApplicationNames = aws.params['ApplicationNames'] /* Type list */;
-
-
-  // TODO implement code
-
-  var ret = {
-    Applications: [ /*S12*/{
-      DateUpdated: awsCommon.timestamp(),
-      Description: '',
-      ConfigurationTemplates: [ '', /* ...*/ ],
-      DateCreated: awsCommon.timestamp(),
-      Versions: /*S13*/[ '', /* ...*/ ],
-      ApplicationName: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteApplicationVersion = function DeleteApplicationVersion(aws) {
-  var DeleteSourceBundle = aws.params['DeleteSourceBundle'] /* Type boolean */;
-  var VersionLabel = aws.params['VersionLabel'];
-  var ApplicationName = aws.params['ApplicationName'];
-  if (!ApplicationName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ApplicationName'];
-  }
-  if (!VersionLabel) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VersionLabel'];
+  if (!templateName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TemplateName'];
   }
 
 
@@ -212,10 +290,10 @@ module.exports.DeleteApplicationVersion = function DeleteApplicationVersion(aws)
   return [200, ret];
 };
 // -----------------------------------
-module.exports.UpdateApplication = function UpdateApplication(aws) {
-  var Description = aws.params['Description'];
-  var ApplicationName = aws.params['ApplicationName'];
-  if (!ApplicationName) {
+module.exports.CreateApplication = function CreateApplication(aws) {
+  var description = aws.params.Description;
+  var applicationName = aws.params.ApplicationName;
+  if (!applicationName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ApplicationName'];
   }
 
@@ -224,103 +302,98 @@ module.exports.UpdateApplication = function UpdateApplication(aws) {
 
   var ret = /*S11*/{
     Application: /*S12*/{
-      DateUpdated: awsCommon.timestamp(),
-      Description: '',
-      ConfigurationTemplates: [ '', /* ...*/ ],
-      DateCreated: awsCommon.timestamp(),
-      Versions: /*S13*/[ '', /* ...*/ ],
       ApplicationName: '',
+      ConfigurationTemplates: [ '', /* ...*/ ],
+      Versions: /*S13*/[ '', /* ...*/ ],
+      Description: '',
+      DateUpdated: awsCommon.timestamp(),
+      DateCreated: awsCommon.timestamp(),
     },
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DescribeApplicationVersions = function DescribeApplicationVersions(aws) {
-  var VersionLabels = aws.params['VersionLabels'];
-  var ApplicationName = aws.params['ApplicationName'];
+module.exports.UpdateApplicationVersion = function UpdateApplicationVersion(aws) {
+  var description = aws.params.Description;
+  var applicationName = aws.params.ApplicationName;
+  var versionLabel = aws.params.VersionLabel;
+  if (!applicationName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ApplicationName'];
+  }
+  if (!versionLabel) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VersionLabel'];
+  }
 
 
   // TODO implement code
 
-  var ret = {
-    ApplicationVersions: [ /*S1c*/{
+  var ret = /*S1b*/{
+    ApplicationVersion: /*S1c*/{
+      ApplicationName: '',
+      VersionLabel: '',
+      Status: '',
+      Description: '',
+      DateUpdated: awsCommon.timestamp(),
+      DateCreated: awsCommon.timestamp(),
       SourceBundle: /*S16*/{
         S3Key: '',
         S3Bucket: '',
       },
-      DateUpdated: awsCommon.timestamp(),
-      Description: '',
-      DateCreated: awsCommon.timestamp(),
-      Status: '',
-      ApplicationName: '',
-      VersionLabel: '',
-    }, /* ...*/ ],
+    },
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.RetrieveEnvironmentInfo = function RetrieveEnvironmentInfo(aws) {
-  var EnvironmentId = aws.params['EnvironmentId'];
-  var InfoType = aws.params['InfoType'];
-  var EnvironmentName = aws.params['EnvironmentName'];
-  if (!InfoType) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InfoType'];
-  }
+module.exports.SwapEnvironmentCNAMEs = function SwapEnvironmentCNAMEs(aws) {
+  var sourceEnvironmentId = aws.params.SourceEnvironmentId;
+  var destinationEnvironmentName = aws.params.DestinationEnvironmentName;
+  var destinationEnvironmentId = aws.params.DestinationEnvironmentId;
+  var sourceEnvironmentName = aws.params.SourceEnvironmentName;
 
 
   // TODO implement code
 
-  var ret = {
-    EnvironmentInfo: [ {
-      SampleTimestamp: awsCommon.timestamp(),
-      Ec2InstanceId: '',
-      InfoType: '',
-      Message: '',
-    }, /* ...*/ ],
-  };
+  var ret = {};
   return [200, ret];
 };
 // -----------------------------------
-module.exports.CreateConfigurationTemplate = function CreateConfigurationTemplate(aws) {
-  var EnvironmentId = aws.params['EnvironmentId'];
-  var Description = aws.params['Description'];
-  var SourceConfiguration = aws.params['SourceConfiguration'] /* Type structure */;
-  var TemplateName = aws.params['TemplateName'];
-  var SolutionStackName = aws.params['SolutionStackName'];
-  var OptionSettings = aws.params['OptionSettings'];
-  var ApplicationName = aws.params['ApplicationName'];
-  if (!ApplicationName) {
+module.exports.CreateApplicationVersion = function CreateApplicationVersion(aws) {
+  var applicationName = aws.params.ApplicationName;
+  var description = aws.params.Description;
+  var sourceBundle = aws.params.SourceBundle;
+  var process = aws.params.Process /* Type boolean */;
+  var versionLabel = aws.params.VersionLabel;
+  var autoCreateApplication = aws.params.AutoCreateApplication /* Type boolean */;
+  if (!applicationName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ApplicationName'];
   }
-  if (!TemplateName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TemplateName'];
+  if (!versionLabel) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VersionLabel'];
   }
 
 
   // TODO implement code
 
-  var ret = /*S1m*/{
-    DeploymentStatus: '',
-    DateUpdated: awsCommon.timestamp(),
-    Description: '',
-    SolutionStackName: '',
-    EnvironmentName: '',
-    TemplateName: '',
-    DateCreated: awsCommon.timestamp(),
-    OptionSettings: /*S1g*/[ {
-      Namespace: '',
-      OptionName: '',
-      ResourceName: '',
-      Value: '',
-    }, /* ...*/ ],
-    ApplicationName: '',
+  var ret = /*S1b*/{
+    ApplicationVersion: /*S1c*/{
+      ApplicationName: '',
+      VersionLabel: '',
+      Status: '',
+      Description: '',
+      DateUpdated: awsCommon.timestamp(),
+      DateCreated: awsCommon.timestamp(),
+      SourceBundle: /*S16*/{
+        S3Key: '',
+        S3Bucket: '',
+      },
+    },
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.RestartAppServer = function RestartAppServer(aws) {
-  var EnvironmentId = aws.params['EnvironmentId'];
-  var EnvironmentName = aws.params['EnvironmentName'];
+module.exports.RebuildEnvironment = function RebuildEnvironment(aws) {
+  var environmentId = aws.params.EnvironmentId;
+  var environmentName = aws.params.EnvironmentName;
 
 
   // TODO implement code
@@ -330,12 +403,12 @@ module.exports.RestartAppServer = function RestartAppServer(aws) {
 };
 // -----------------------------------
 module.exports.DeleteEnvironmentConfiguration = function DeleteEnvironmentConfiguration(aws) {
-  var EnvironmentName = aws.params['EnvironmentName'];
-  var ApplicationName = aws.params['ApplicationName'];
-  if (!ApplicationName) {
+  var applicationName = aws.params.ApplicationName;
+  var environmentName = aws.params.EnvironmentName;
+  if (!applicationName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ApplicationName'];
   }
-  if (!EnvironmentName) {
+  if (!environmentName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter EnvironmentName'];
   }
 
@@ -346,9 +419,16 @@ module.exports.DeleteEnvironmentConfiguration = function DeleteEnvironmentConfig
   return [200, ret];
 };
 // -----------------------------------
-module.exports.RebuildEnvironment = function RebuildEnvironment(aws) {
-  var EnvironmentId = aws.params['EnvironmentId'];
-  var EnvironmentName = aws.params['EnvironmentName'];
+module.exports.DeleteApplicationVersion = function DeleteApplicationVersion(aws) {
+  var applicationName = aws.params.ApplicationName;
+  var deleteSourceBundle = aws.params.DeleteSourceBundle /* Type boolean */;
+  var versionLabel = aws.params.VersionLabel;
+  if (!applicationName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ApplicationName'];
+  }
+  if (!versionLabel) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VersionLabel'];
+  }
 
 
   // TODO implement code
@@ -357,63 +437,414 @@ module.exports.RebuildEnvironment = function RebuildEnvironment(aws) {
   return [200, ret];
 };
 // -----------------------------------
+module.exports.DescribeEnvironmentResources = function DescribeEnvironmentResources(aws) {
+  var environmentId = aws.params.EnvironmentId;
+  var environmentName = aws.params.EnvironmentName;
+
+
+  // TODO implement code
+
+  var ret = {
+    EnvironmentResources: {
+      Instances: [ {
+        Id: '',
+      }, /* ...*/ ],
+      LaunchConfigurations: [ {
+        Name: '',
+      }, /* ...*/ ],
+      Queues: [ {
+        Name: '',
+        URL: '',
+      }, /* ...*/ ],
+      Triggers: [ {
+        Name: '',
+      }, /* ...*/ ],
+      LoadBalancers: [ {
+        Name: '',
+      }, /* ...*/ ],
+      AutoScalingGroups: [ {
+        Name: '',
+      }, /* ...*/ ],
+      EnvironmentName: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeEvents = function DescribeEvents(aws) {
+  var endTime = aws.params.EndTime /* Type timestamp */;
+  var applicationName = aws.params.ApplicationName;
+  var startTime = aws.params.StartTime /* Type timestamp */;
+  var maxRecords = aws.params.MaxRecords /* Type integer */;
+  var nextToken = aws.params.NextToken;
+  var templateName = aws.params.TemplateName;
+  var requestId = aws.params.RequestId;
+  var severity = aws.params.Severity;
+  var environmentName = aws.params.EnvironmentName;
+  var versionLabel = aws.params.VersionLabel;
+  var environmentId = aws.params.EnvironmentId;
+
+
+  // TODO implement code
+
+  var ret = {
+    NextToken: '',
+    Events: [ {
+      ApplicationName: '',
+      Message: '',
+      TemplateName: '',
+      RequestId: '',
+      EventDate: awsCommon.timestamp(),
+      EnvironmentName: '',
+      VersionLabel: '',
+      Severity: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateEnvironment = function UpdateEnvironment(aws) {
+  var applicationName = aws.params.ApplicationName;
+  var tier = aws.params.Tier;
+  var solutionStackName = aws.params.SolutionStackName;
+  var optionSettings = aws.params.OptionSettings;
+  var optionsToRemove = aws.params.OptionsToRemove;
+  var description = aws.params.Description;
+  var templateName = aws.params.TemplateName;
+  var groupName = aws.params.GroupName;
+  var environmentId = aws.params.EnvironmentId;
+  var versionLabel = aws.params.VersionLabel;
+  var environmentName = aws.params.EnvironmentName;
+
+
+  // TODO implement code
+
+  var ret = /*Sg*/{
+    ApplicationName: '',
+    Tier: /*Sx*/{
+      Name: '',
+      Version: '',
+      Type: '',
+    },
+    EndpointURL: '',
+    EnvironmentLinks: [ {
+      LinkName: '',
+      EnvironmentName: '',
+    }, /* ...*/ ],
+    Status: '',
+    HealthStatus: '',
+    DateUpdated: awsCommon.timestamp(),
+    CNAME: '',
+    Resources: {
+      LoadBalancer: {
+        Listeners: [ {
+          Port: 0,
+          Protocol: '',
+        }, /* ...*/ ],
+        Domain: '',
+        LoadBalancerName: '',
+      },
+    },
+    DateCreated: awsCommon.timestamp(),
+    EnvironmentId: '',
+    AbortableOperationInProgress: false,
+    Health: '',
+    SolutionStackName: '',
+    TemplateName: '',
+    Description: '',
+    EnvironmentName: '',
+    VersionLabel: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateConfigurationTemplate = function UpdateConfigurationTemplate(aws) {
+  var description = aws.params.Description;
+  var applicationName = aws.params.ApplicationName;
+  var optionsToRemove = aws.params.OptionsToRemove;
+  var optionSettings = aws.params.OptionSettings;
+  var templateName = aws.params.TemplateName;
+  if (!applicationName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ApplicationName'];
+  }
+  if (!templateName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TemplateName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = /*S1m*/{
+    ApplicationName: '',
+    DateCreated: awsCommon.timestamp(),
+    OptionSettings: /*S1g*/[ {
+      ResourceName: '',
+      Value: '',
+      Namespace: '',
+      OptionName: '',
+    }, /* ...*/ ],
+    DateUpdated: awsCommon.timestamp(),
+    Description: '',
+    TemplateName: '',
+    DeploymentStatus: '',
+    EnvironmentName: '',
+    SolutionStackName: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.DescribeEnvironments = function DescribeEnvironments(aws) {
-  var IncludeDeleted = aws.params['IncludeDeleted'] /* Type boolean */;
-  var IncludedDeletedBackTo = aws.params['IncludedDeletedBackTo'] /* Type timestamp */;
-  var EnvironmentNames = aws.params['EnvironmentNames'] /* Type list */;
-  var ApplicationName = aws.params['ApplicationName'];
-  var EnvironmentIds = aws.params['EnvironmentIds'] /* Type list */;
-  var VersionLabel = aws.params['VersionLabel'];
+  var applicationName = aws.params.ApplicationName;
+  var includeDeleted = aws.params.IncludeDeleted /* Type boolean */;
+  var includedDeletedBackTo = aws.params.IncludedDeletedBackTo /* Type timestamp */;
+  var environmentNames = aws.params.EnvironmentNames /* Type list */;
+  var environmentIds = aws.params.EnvironmentIds /* Type list */;
+  var versionLabel = aws.params.VersionLabel;
 
 
   // TODO implement code
 
   var ret = /*Se*/{
     Environments: [ /*Sg*/{
-      DateUpdated: awsCommon.timestamp(),
-      Description: '',
+      ApplicationName: '',
+      Tier: /*Sx*/{
+        Name: '',
+        Version: '',
+        Type: '',
+      },
+      EndpointURL: '',
       EnvironmentLinks: [ {
         LinkName: '',
         EnvironmentName: '',
       }, /* ...*/ ],
-      SolutionStackName: '',
-      Tier: /*Sx*/{
-        Type: '',
-        Version: '',
-        Name: '',
-      },
-      EnvironmentName: '',
-      CNAME: '',
-      EndpointURL: '',
-      ApplicationName: '',
-      EnvironmentId: '',
-      DateCreated: awsCommon.timestamp(),
       Status: '',
-      AbortableOperationInProgress: false,
-      TemplateName: '',
-      VersionLabel: '',
-      Health: '',
       HealthStatus: '',
+      DateUpdated: awsCommon.timestamp(),
+      CNAME: '',
       Resources: {
         LoadBalancer: {
-          Domain: '',
           Listeners: [ {
-            Protocol: '',
             Port: 0,
+            Protocol: '',
           }, /* ...*/ ],
+          Domain: '',
           LoadBalancerName: '',
         },
       },
+      DateCreated: awsCommon.timestamp(),
+      EnvironmentId: '',
+      AbortableOperationInProgress: false,
+      Health: '',
+      SolutionStackName: '',
+      TemplateName: '',
+      Description: '',
+      EnvironmentName: '',
+      VersionLabel: '',
     }, /* ...*/ ],
   };
   return [200, ret];
 };
 // -----------------------------------
+module.exports.DescribeApplications = function DescribeApplications(aws) {
+  var applicationNames = aws.params.ApplicationNames /* Type list */;
+
+
+  // TODO implement code
+
+  var ret = {
+    Applications: [ /*S12*/{
+      ApplicationName: '',
+      ConfigurationTemplates: [ '', /* ...*/ ],
+      Versions: /*S13*/[ '', /* ...*/ ],
+      Description: '',
+      DateUpdated: awsCommon.timestamp(),
+      DateCreated: awsCommon.timestamp(),
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CheckDNSAvailability = function CheckDNSAvailability(aws) {
+  var cNAMEPrefix = aws.params.CNAMEPrefix;
+  if (!cNAMEPrefix) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CNAMEPrefix'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    FullyQualifiedCNAME: '',
+    Available: false,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeEnvironmentHealth = function DescribeEnvironmentHealth(aws) {
+  var attributeNames = aws.params.AttributeNames /* Type list */;
+  var environmentName = aws.params.EnvironmentName;
+  var environmentId = aws.params.EnvironmentId;
+
+
+  // TODO implement code
+
+  var ret = {
+    Causes: /*S2w*/[ '', /* ...*/ ],
+    Color: '',
+    ApplicationMetrics: /*S2y*/{
+      RequestCount: 0,
+      StatusCodes: {
+        Status3xx: 0,
+        Status5xx: 0,
+        Status2xx: 0,
+        Status4xx: 0,
+      },
+      Duration: 0,
+      Latency: {
+        P99: 0.0 /*Double*/,
+        P85: 0.0 /*Double*/,
+        P10: 0.0 /*Double*/,
+        P50: 0.0 /*Double*/,
+        P95: 0.0 /*Double*/,
+        P999: 0.0 /*Double*/,
+        P90: 0.0 /*Double*/,
+        P75: 0.0 /*Double*/,
+      },
+    },
+    Status: '',
+    HealthStatus: '',
+    InstancesHealth: {
+      Pending: 0,
+      Warning: 0,
+      Info: 0,
+      Degraded: 0,
+      Ok: 0,
+      NoData: 0,
+      Unknown: 0,
+      Severe: 0,
+    },
+    EnvironmentName: '',
+    RefreshedAt: awsCommon.timestamp(),
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ComposeEnvironments = function ComposeEnvironments(aws) {
+  var applicationName = aws.params.ApplicationName;
+  var groupName = aws.params.GroupName;
+  var versionLabels = aws.params.VersionLabels /* Type list */;
+
+
+  // TODO implement code
+
+  var ret = /*Se*/{
+    Environments: [ /*Sg*/{
+      ApplicationName: '',
+      Tier: /*Sx*/{
+        Name: '',
+        Version: '',
+        Type: '',
+      },
+      EndpointURL: '',
+      EnvironmentLinks: [ {
+        LinkName: '',
+        EnvironmentName: '',
+      }, /* ...*/ ],
+      Status: '',
+      HealthStatus: '',
+      DateUpdated: awsCommon.timestamp(),
+      CNAME: '',
+      Resources: {
+        LoadBalancer: {
+          Listeners: [ {
+            Port: 0,
+            Protocol: '',
+          }, /* ...*/ ],
+          Domain: '',
+          LoadBalancerName: '',
+        },
+      },
+      DateCreated: awsCommon.timestamp(),
+      EnvironmentId: '',
+      AbortableOperationInProgress: false,
+      Health: '',
+      SolutionStackName: '',
+      TemplateName: '',
+      Description: '',
+      EnvironmentName: '',
+      VersionLabel: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.AbortEnvironmentUpdate = function AbortEnvironmentUpdate(aws) {
+  var environmentId = aws.params.EnvironmentId;
+  var environmentName = aws.params.EnvironmentName;
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteApplication = function DeleteApplication(aws) {
+  var terminateEnvByForce = aws.params.TerminateEnvByForce /* Type boolean */;
+  var applicationName = aws.params.ApplicationName;
+  if (!applicationName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ApplicationName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateConfigurationTemplate = function CreateConfigurationTemplate(aws) {
+  var applicationName = aws.params.ApplicationName;
+  var optionSettings = aws.params.OptionSettings;
+  var description = aws.params.Description;
+  var templateName = aws.params.TemplateName;
+  var sourceConfiguration = aws.params.SourceConfiguration /* Type structure */;
+  var environmentId = aws.params.EnvironmentId;
+  var solutionStackName = aws.params.SolutionStackName;
+  if (!applicationName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ApplicationName'];
+  }
+  if (!templateName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TemplateName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = /*S1m*/{
+    ApplicationName: '',
+    DateCreated: awsCommon.timestamp(),
+    OptionSettings: /*S1g*/[ {
+      ResourceName: '',
+      Value: '',
+      Namespace: '',
+      OptionName: '',
+    }, /* ...*/ ],
+    DateUpdated: awsCommon.timestamp(),
+    Description: '',
+    TemplateName: '',
+    DeploymentStatus: '',
+    EnvironmentName: '',
+    SolutionStackName: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.RequestEnvironmentInfo = function RequestEnvironmentInfo(aws) {
-  var EnvironmentId = aws.params['EnvironmentId'];
-  var InfoType = aws.params['InfoType'];
-  var EnvironmentName = aws.params['EnvironmentName'];
-  if (!InfoType) {
+  var infoType = aws.params.InfoType;
+  var environmentId = aws.params.EnvironmentId;
+  var environmentName = aws.params.EnvironmentName;
+  if (!infoType) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InfoType'];
   }
 
@@ -424,85 +855,61 @@ module.exports.RequestEnvironmentInfo = function RequestEnvironmentInfo(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.CreateApplicationVersion = function CreateApplicationVersion(aws) {
-  var SourceBundle = aws.params['SourceBundle'];
-  var Description = aws.params['Description'];
-  var Process = aws.params['Process'] /* Type boolean */;
-  var AutoCreateApplication = aws.params['AutoCreateApplication'] /* Type boolean */;
-  var ApplicationName = aws.params['ApplicationName'];
-  var VersionLabel = aws.params['VersionLabel'];
-  if (!ApplicationName) {
+module.exports.CreateEnvironment = function CreateEnvironment(aws) {
+  var applicationName = aws.params.ApplicationName;
+  var tier = aws.params.Tier;
+  var optionSettings = aws.params.OptionSettings;
+  var templateName = aws.params.TemplateName;
+  var groupName = aws.params.GroupName;
+  var tags = aws.params.Tags /* Type list */;
+  var optionsToRemove = aws.params.OptionsToRemove;
+  var versionLabel = aws.params.VersionLabel;
+  var description = aws.params.Description;
+  var cNAMEPrefix = aws.params.CNAMEPrefix;
+  var environmentName = aws.params.EnvironmentName;
+  var solutionStackName = aws.params.SolutionStackName;
+  if (!applicationName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ApplicationName'];
   }
-  if (!VersionLabel) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VersionLabel'];
-  }
 
 
   // TODO implement code
 
-  var ret = /*S1b*/{
-    ApplicationVersion: /*S1c*/{
-      SourceBundle: /*S16*/{
-        S3Key: '',
-        S3Bucket: '',
-      },
-      DateUpdated: awsCommon.timestamp(),
-      Description: '',
-      DateCreated: awsCommon.timestamp(),
-      Status: '',
-      ApplicationName: '',
-      VersionLabel: '',
+  var ret = /*Sg*/{
+    ApplicationName: '',
+    Tier: /*Sx*/{
+      Name: '',
+      Version: '',
+      Type: '',
     },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ComposeEnvironments = function ComposeEnvironments(aws) {
-  var GroupName = aws.params['GroupName'];
-  var VersionLabels = aws.params['VersionLabels'] /* Type list */;
-  var ApplicationName = aws.params['ApplicationName'];
-
-
-  // TODO implement code
-
-  var ret = /*Se*/{
-    Environments: [ /*Sg*/{
-      DateUpdated: awsCommon.timestamp(),
-      Description: '',
-      EnvironmentLinks: [ {
-        LinkName: '',
-        EnvironmentName: '',
-      }, /* ...*/ ],
-      SolutionStackName: '',
-      Tier: /*Sx*/{
-        Type: '',
-        Version: '',
-        Name: '',
-      },
+    EndpointURL: '',
+    EnvironmentLinks: [ {
+      LinkName: '',
       EnvironmentName: '',
-      CNAME: '',
-      EndpointURL: '',
-      ApplicationName: '',
-      EnvironmentId: '',
-      DateCreated: awsCommon.timestamp(),
-      Status: '',
-      AbortableOperationInProgress: false,
-      TemplateName: '',
-      VersionLabel: '',
-      Health: '',
-      HealthStatus: '',
-      Resources: {
-        LoadBalancer: {
-          Domain: '',
-          Listeners: [ {
-            Protocol: '',
-            Port: 0,
-          }, /* ...*/ ],
-          LoadBalancerName: '',
-        },
-      },
     }, /* ...*/ ],
+    Status: '',
+    HealthStatus: '',
+    DateUpdated: awsCommon.timestamp(),
+    CNAME: '',
+    Resources: {
+      LoadBalancer: {
+        Listeners: [ {
+          Port: 0,
+          Protocol: '',
+        }, /* ...*/ ],
+        Domain: '',
+        LoadBalancerName: '',
+      },
+    },
+    DateCreated: awsCommon.timestamp(),
+    EnvironmentId: '',
+    AbortableOperationInProgress: false,
+    Health: '',
+    SolutionStackName: '',
+    TemplateName: '',
+    Description: '',
+    EnvironmentName: '',
+    VersionLabel: '',
   };
   return [200, ret];
 };
@@ -522,432 +929,25 @@ module.exports.ListAvailableSolutionStacks = function ListAvailableSolutionStack
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DeleteConfigurationTemplate = function DeleteConfigurationTemplate(aws) {
-  var TemplateName = aws.params['TemplateName'];
-  var ApplicationName = aws.params['ApplicationName'];
-  if (!ApplicationName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ApplicationName'];
-  }
-  if (!TemplateName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TemplateName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.TerminateEnvironment = function TerminateEnvironment(aws) {
-  var EnvironmentId = aws.params['EnvironmentId'];
-  var ForceTerminate = aws.params['ForceTerminate'] /* Type boolean */;
-  var TerminateResources = aws.params['TerminateResources'] /* Type boolean */;
-  var EnvironmentName = aws.params['EnvironmentName'];
-
-
-  // TODO implement code
-
-  var ret = /*Sg*/{
-    DateUpdated: awsCommon.timestamp(),
-    Description: '',
-    EnvironmentLinks: [ {
-      LinkName: '',
-      EnvironmentName: '',
-    }, /* ...*/ ],
-    SolutionStackName: '',
-    Tier: /*Sx*/{
-      Type: '',
-      Version: '',
-      Name: '',
-    },
-    EnvironmentName: '',
-    CNAME: '',
-    EndpointURL: '',
-    ApplicationName: '',
-    EnvironmentId: '',
-    DateCreated: awsCommon.timestamp(),
-    Status: '',
-    AbortableOperationInProgress: false,
-    TemplateName: '',
-    VersionLabel: '',
-    Health: '',
-    HealthStatus: '',
-    Resources: {
-      LoadBalancer: {
-        Domain: '',
-        Listeners: [ {
-          Protocol: '',
-          Port: 0,
-        }, /* ...*/ ],
-        LoadBalancerName: '',
-      },
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateEnvironment = function CreateEnvironment(aws) {
-  var Description = aws.params['Description'];
-  var Tags = aws.params['Tags'] /* Type list */;
-  var SolutionStackName = aws.params['SolutionStackName'];
-  var EnvironmentName = aws.params['EnvironmentName'];
-  var OptionsToRemove = aws.params['OptionsToRemove'];
-  var GroupName = aws.params['GroupName'];
-  var Tier = aws.params['Tier'];
-  var VersionLabel = aws.params['VersionLabel'];
-  var TemplateName = aws.params['TemplateName'];
-  var ApplicationName = aws.params['ApplicationName'];
-  var OptionSettings = aws.params['OptionSettings'];
-  var CNAMEPrefix = aws.params['CNAMEPrefix'];
-  if (!ApplicationName) {
+module.exports.UpdateApplication = function UpdateApplication(aws) {
+  var description = aws.params.Description;
+  var applicationName = aws.params.ApplicationName;
+  if (!applicationName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ApplicationName'];
   }
 
 
   // TODO implement code
 
-  var ret = /*Sg*/{
-    DateUpdated: awsCommon.timestamp(),
-    Description: '',
-    EnvironmentLinks: [ {
-      LinkName: '',
-      EnvironmentName: '',
-    }, /* ...*/ ],
-    SolutionStackName: '',
-    Tier: /*Sx*/{
-      Type: '',
-      Version: '',
-      Name: '',
-    },
-    EnvironmentName: '',
-    CNAME: '',
-    EndpointURL: '',
-    ApplicationName: '',
-    EnvironmentId: '',
-    DateCreated: awsCommon.timestamp(),
-    Status: '',
-    AbortableOperationInProgress: false,
-    TemplateName: '',
-    VersionLabel: '',
-    Health: '',
-    HealthStatus: '',
-    Resources: {
-      LoadBalancer: {
-        Domain: '',
-        Listeners: [ {
-          Protocol: '',
-          Port: 0,
-        }, /* ...*/ ],
-        LoadBalancerName: '',
-      },
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeConfigurationOptions = function DescribeConfigurationOptions(aws) {
-  var TemplateName = aws.params['TemplateName'];
-  var EnvironmentName = aws.params['EnvironmentName'];
-  var SolutionStackName = aws.params['SolutionStackName'];
-  var Options = aws.params['Options'];
-  var ApplicationName = aws.params['ApplicationName'];
-
-
-  // TODO implement code
-
-  var ret = {
-    SolutionStackName: '',
-    Options: [ {
-      ValueType: '',
-      UserDefined: false,
-      MinValue: 0,
-      Regex: {
-        Label: '',
-        Pattern: '',
-      },
-      Name: '',
-      Namespace: '',
-      ValueOptions: [ '', /* ...*/ ],
-      MaxLength: 0,
-      DefaultValue: '',
-      ChangeSeverity: '',
-      MaxValue: 0,
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeEvents = function DescribeEvents(aws) {
-  var EnvironmentId = aws.params['EnvironmentId'];
-  var Severity = aws.params['Severity'];
-  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
-  var EnvironmentName = aws.params['EnvironmentName'];
-  var TemplateName = aws.params['TemplateName'];
-  var EndTime = aws.params['EndTime'] /* Type timestamp */;
-  var ApplicationName = aws.params['ApplicationName'];
-  var RequestId = aws.params['RequestId'];
-  var NextToken = aws.params['NextToken'];
-  var StartTime = aws.params['StartTime'] /* Type timestamp */;
-  var VersionLabel = aws.params['VersionLabel'];
-
-
-  // TODO implement code
-
-  var ret = {
-    Events: [ {
-      EventDate: awsCommon.timestamp(),
-      Severity: '',
-      EnvironmentName: '',
-      TemplateName: '',
+  var ret = /*S11*/{
+    Application: /*S12*/{
       ApplicationName: '',
-      RequestId: '',
-      Message: '',
-      VersionLabel: '',
-    }, /* ...*/ ],
-    NextToken: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ValidateConfigurationSettings = function ValidateConfigurationSettings(aws) {
-  var TemplateName = aws.params['TemplateName'];
-  var EnvironmentName = aws.params['EnvironmentName'];
-  var OptionSettings = aws.params['OptionSettings'];
-  var ApplicationName = aws.params['ApplicationName'];
-  if (!ApplicationName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ApplicationName'];
-  }
-  if (!OptionSettings) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter OptionSettings'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Messages: [ {
-      Namespace: '',
-      OptionName: '',
-      Severity: '',
-      Message: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CheckDNSAvailability = function CheckDNSAvailability(aws) {
-  var CNAMEPrefix = aws.params['CNAMEPrefix'];
-  if (!CNAMEPrefix) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CNAMEPrefix'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Available: false,
-    FullyQualifiedCNAME: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeEnvironmentHealth = function DescribeEnvironmentHealth(aws) {
-  var EnvironmentId = aws.params['EnvironmentId'];
-  var AttributeNames = aws.params['AttributeNames'] /* Type list */;
-  var EnvironmentName = aws.params['EnvironmentName'];
-
-
-  // TODO implement code
-
-  var ret = {
-    InstancesHealth: {
-      Info: 0,
-      Pending: 0,
-      Severe: 0,
-      Degraded: 0,
-      Warning: 0,
-      NoData: 0,
-      Ok: 0,
-      Unknown: 0,
+      ConfigurationTemplates: [ '', /* ...*/ ],
+      Versions: /*S13*/[ '', /* ...*/ ],
+      Description: '',
+      DateUpdated: awsCommon.timestamp(),
+      DateCreated: awsCommon.timestamp(),
     },
-    Status: '',
-    EnvironmentName: '',
-    Causes: /*S2w*/[ '', /* ...*/ ],
-    ApplicationMetrics: /*S2y*/{
-      RequestCount: 0,
-      Duration: 0,
-      StatusCodes: {
-        Status2xx: 0,
-        Status4xx: 0,
-        Status5xx: 0,
-        Status3xx: 0,
-      },
-      Latency: {
-        P50: 0.0 /*Double*/,
-        P95: 0.0 /*Double*/,
-        P99: 0.0 /*Double*/,
-        P75: 0.0 /*Double*/,
-        P999: 0.0 /*Double*/,
-        P90: 0.0 /*Double*/,
-        P85: 0.0 /*Double*/,
-        P10: 0.0 /*Double*/,
-      },
-    },
-    Color: '',
-    HealthStatus: '',
-    RefreshedAt: awsCommon.timestamp(),
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteApplication = function DeleteApplication(aws) {
-  var TerminateEnvByForce = aws.params['TerminateEnvByForce'] /* Type boolean */;
-  var ApplicationName = aws.params['ApplicationName'];
-  if (!ApplicationName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ApplicationName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.SwapEnvironmentCNAMEs = function SwapEnvironmentCNAMEs(aws) {
-  var SourceEnvironmentId = aws.params['SourceEnvironmentId'];
-  var SourceEnvironmentName = aws.params['SourceEnvironmentName'];
-  var DestinationEnvironmentName = aws.params['DestinationEnvironmentName'];
-  var DestinationEnvironmentId = aws.params['DestinationEnvironmentId'];
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeEnvironmentResources = function DescribeEnvironmentResources(aws) {
-  var EnvironmentId = aws.params['EnvironmentId'];
-  var EnvironmentName = aws.params['EnvironmentName'];
-
-
-  // TODO implement code
-
-  var ret = {
-    EnvironmentResources: {
-      Triggers: [ {
-        Name: '',
-      }, /* ...*/ ],
-      Instances: [ {
-        Id: '',
-      }, /* ...*/ ],
-      LaunchConfigurations: [ {
-        Name: '',
-      }, /* ...*/ ],
-      LoadBalancers: [ {
-        Name: '',
-      }, /* ...*/ ],
-      EnvironmentName: '',
-      Queues: [ {
-        URL: '',
-        Name: '',
-      }, /* ...*/ ],
-      AutoScalingGroups: [ {
-        Name: '',
-      }, /* ...*/ ],
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeInstancesHealth = function DescribeInstancesHealth(aws) {
-  var EnvironmentId = aws.params['EnvironmentId'];
-  var AttributeNames = aws.params['AttributeNames'] /* Type list */;
-  var NextToken = aws.params['NextToken'];
-  var EnvironmentName = aws.params['EnvironmentName'];
-
-
-  // TODO implement code
-
-  var ret = {
-    RefreshedAt: awsCommon.timestamp(),
-    NextToken: '',
-    InstanceHealthList: [ {
-      System: {
-        CPUUtilization: {
-          IRQ: 0.0 /*Double*/,
-          System: 0.0 /*Double*/,
-          Nice: 0.0 /*Double*/,
-          Idle: 0.0 /*Double*/,
-          SoftIRQ: 0.0 /*Double*/,
-          IOWait: 0.0 /*Double*/,
-          User: 0.0 /*Double*/,
-        },
-        LoadAverage: [ 0.0 /*Double*/, /* ...*/ ],
-      },
-      InstanceId: '',
-      Causes: /*S2w*/[ '', /* ...*/ ],
-      ApplicationMetrics: /*S2y*/{
-        RequestCount: 0,
-        Duration: 0,
-        StatusCodes: {
-          Status2xx: 0,
-          Status4xx: 0,
-          Status5xx: 0,
-          Status3xx: 0,
-        },
-        Latency: {
-          P50: 0.0 /*Double*/,
-          P95: 0.0 /*Double*/,
-          P99: 0.0 /*Double*/,
-          P75: 0.0 /*Double*/,
-          P999: 0.0 /*Double*/,
-          P90: 0.0 /*Double*/,
-          P85: 0.0 /*Double*/,
-          P10: 0.0 /*Double*/,
-        },
-      },
-      Color: '',
-      HealthStatus: '',
-      LaunchedAt: awsCommon.timestamp(),
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.UpdateConfigurationTemplate = function UpdateConfigurationTemplate(aws) {
-  var TemplateName = aws.params['TemplateName'];
-  var OptionsToRemove = aws.params['OptionsToRemove'];
-  var Description = aws.params['Description'];
-  var OptionSettings = aws.params['OptionSettings'];
-  var ApplicationName = aws.params['ApplicationName'];
-  if (!ApplicationName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ApplicationName'];
-  }
-  if (!TemplateName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TemplateName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*S1m*/{
-    DeploymentStatus: '',
-    DateUpdated: awsCommon.timestamp(),
-    Description: '',
-    SolutionStackName: '',
-    EnvironmentName: '',
-    TemplateName: '',
-    DateCreated: awsCommon.timestamp(),
-    OptionSettings: /*S1g*/[ {
-      Namespace: '',
-      OptionName: '',
-      ResourceName: '',
-      Value: '',
-    }, /* ...*/ ],
-    ApplicationName: '',
   };
   return [200, ret];
 };

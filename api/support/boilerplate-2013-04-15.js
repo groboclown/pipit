@@ -10,10 +10,205 @@ const awsCommon = require('../../lib/aws-common');
  */
 
 // Setup input and output to use AWS protocol json
-require('../../lib/aws-common/shape_http')('json', module.exports, null)
+require('../../lib/aws-common/shape_http')('json', module.exports, null);
+// -----------------------------------
+module.exports.AddCommunicationToCase = function AddCommunicationToCase(aws) {
+  var communicationBody = aws.params.communicationBody;
+  var ccEmailAddresses = aws.params.ccEmailAddresses;
+  var attachmentSetId = aws.params.attachmentSetId;
+  var caseId = aws.params.caseId;
+  if (!communicationBody) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter communicationBody'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    result: false,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeTrustedAdvisorChecks = function DescribeTrustedAdvisorChecks(aws) {
+  var language = aws.params.language;
+  if (!language) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter language'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    checks: [ {
+      name: '',
+      id: '',
+      metadata: /*S1t*/[ '', /* ...*/ ],
+      category: '',
+      description: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeCases = function DescribeCases(aws) {
+  var includeResolvedCases = aws.params.includeResolvedCases /* Type boolean */;
+  var beforeTime = aws.params.beforeTime;
+  var caseIdList = aws.params.caseIdList /* Type list */;
+  var includeCommunications = aws.params.includeCommunications /* Type boolean */;
+  var maxResults = aws.params.maxResults /* Type integer */;
+  var afterTime = aws.params.afterTime;
+  var displayId = aws.params.displayId;
+  var language = aws.params.language;
+  var nextToken = aws.params.nextToken;
+
+
+  // TODO implement code
+
+  var ret = {
+    cases: [ {
+      timeCreated: '',
+      subject: '',
+      recentCommunications: {
+        communications: /*S17*/[ {
+          body: '',
+          timeCreated: '',
+          attachmentSet: [ {
+            attachmentId: '',
+            fileName: '',
+          }, /* ...*/ ],
+          submittedBy: '',
+          caseId: '',
+        }, /* ...*/ ],
+        nextToken: '',
+      },
+      serviceCode: '',
+      displayId: '',
+      language: '',
+      status: '',
+      ccEmailAddresses: /*Sc*/[ '', /* ...*/ ],
+      categoryCode: '',
+      submittedBy: '',
+      caseId: '',
+      severityCode: '',
+    }, /* ...*/ ],
+    nextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RefreshTrustedAdvisorCheck = function RefreshTrustedAdvisorCheck(aws) {
+  var checkId = aws.params.checkId;
+  if (!checkId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter checkId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    status: /*S1x*/{
+      checkId: '',
+      millisUntilNextRefreshable: 0 /*Long*/,
+      status: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.AddAttachmentsToSet = function AddAttachmentsToSet(aws) {
+  var attachments = aws.params.attachments /* Type list */;
+  var attachmentSetId = aws.params.attachmentSetId;
+  if (!attachments) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter attachments'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    expiryTime: '',
+    attachmentSetId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeCommunications = function DescribeCommunications(aws) {
+  var maxResults = aws.params.maxResults /* Type integer */;
+  var afterTime = aws.params.afterTime;
+  var nextToken = aws.params.nextToken;
+  var beforeTime = aws.params.beforeTime;
+  var caseId = aws.params.caseId;
+  if (!caseId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter caseId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    communications: /*S17*/[ {
+      body: '',
+      timeCreated: '',
+      attachmentSet: [ {
+        attachmentId: '',
+        fileName: '',
+      }, /* ...*/ ],
+      submittedBy: '',
+      caseId: '',
+    }, /* ...*/ ],
+    nextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeTrustedAdvisorCheckSummaries = function DescribeTrustedAdvisorCheckSummaries(aws) {
+  var checkIds = aws.params.checkIds;
+  if (!checkIds) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter checkIds'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    summaries: [ {
+      hasFlaggedResources: false,
+      checkId: '',
+      resourcesSummary: /*S22*/{
+        resourcesSuppressed: 0 /*Long*/,
+        resourcesProcessed: 0 /*Long*/,
+        resourcesIgnored: 0 /*Long*/,
+        resourcesFlagged: 0 /*Long*/,
+      },
+      categorySpecificSummary: /*S23*/{
+        costOptimizing: {
+          estimatedMonthlySavings: 0.0 /*Double*/,
+          estimatedPercentMonthlySavings: 0.0 /*Double*/,
+        },
+      },
+      timestamp: '',
+      status: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ResolveCase = function ResolveCase(aws) {
+  var caseId = aws.params.caseId;
+
+
+  // TODO implement code
+
+  var ret = {
+    initialCaseStatus: '',
+    finalCaseStatus: '',
+  };
+  return [200, ret];
+};
 // -----------------------------------
 module.exports.DescribeAttachment = function DescribeAttachment(aws) {
-  var attachmentId = aws.params['attachmentId'];
+  var attachmentId = aws.params.attachmentId;
   if (!attachmentId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter attachmentId'];
   }
@@ -30,138 +225,16 @@ module.exports.DescribeAttachment = function DescribeAttachment(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DescribeCases = function DescribeCases(aws) {
-  var nextToken = aws.params['nextToken'];
-  var includeCommunications = aws.params['includeCommunications'] /* Type boolean */;
-  var maxResults = aws.params['maxResults'] /* Type integer */;
-  var language = aws.params['language'];
-  var caseIdList = aws.params['caseIdList'] /* Type list */;
-  var includeResolvedCases = aws.params['includeResolvedCases'] /* Type boolean */;
-  var afterTime = aws.params['afterTime'];
-  var displayId = aws.params['displayId'];
-  var beforeTime = aws.params['beforeTime'];
-
-
-  // TODO implement code
-
-  var ret = {
-    nextToken: '',
-    cases: [ {
-      ccEmailAddresses: /*Sc*/[ '', /* ...*/ ],
-      displayId: '',
-      serviceCode: '',
-      severityCode: '',
-      caseId: '',
-      subject: '',
-      language: '',
-      status: '',
-      timeCreated: '',
-      submittedBy: '',
-      recentCommunications: {
-        communications: /*S17*/[ {
-          caseId: '',
-          body: '',
-          attachmentSet: [ {
-            attachmentId: '',
-            fileName: '',
-          }, /* ...*/ ],
-          submittedBy: '',
-          timeCreated: '',
-        }, /* ...*/ ],
-        nextToken: '',
-      },
-      categoryCode: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.RefreshTrustedAdvisorCheck = function RefreshTrustedAdvisorCheck(aws) {
-  var checkId = aws.params['checkId'];
-  if (!checkId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter checkId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    status: /*S1x*/{
-      millisUntilNextRefreshable: 0 /*Long*/,
-      checkId: '',
-      status: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeTrustedAdvisorCheckRefreshStatuses = function DescribeTrustedAdvisorCheckRefreshStatuses(aws) {
-  var checkIds = aws.params['checkIds'];
-  if (!checkIds) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter checkIds'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    statuses: [ /*S1x*/{
-      millisUntilNextRefreshable: 0 /*Long*/,
-      checkId: '',
-      status: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.AddAttachmentsToSet = function AddAttachmentsToSet(aws) {
-  var attachments = aws.params['attachments'] /* Type list */;
-  var attachmentSetId = aws.params['attachmentSetId'];
-  if (!attachments) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter attachments'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    expiryTime: '',
-    attachmentSetId: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeTrustedAdvisorChecks = function DescribeTrustedAdvisorChecks(aws) {
-  var language = aws.params['language'];
-  if (!language) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter language'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    checks: [ {
-      metadata: /*S1t*/[ '', /* ...*/ ],
-      id: '',
-      name: '',
-      category: '',
-      description: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
 module.exports.CreateCase = function CreateCase(aws) {
-  var ccEmailAddresses = aws.params['ccEmailAddresses'];
-  var subject = aws.params['subject'];
-  var language = aws.params['language'];
-  var categoryCode = aws.params['categoryCode'];
-  var communicationBody = aws.params['communicationBody'];
-  var serviceCode = aws.params['serviceCode'];
-  var attachmentSetId = aws.params['attachmentSetId'];
-  var issueType = aws.params['issueType'];
-  var severityCode = aws.params['severityCode'];
+  var communicationBody = aws.params.communicationBody;
+  var categoryCode = aws.params.categoryCode;
+  var subject = aws.params.subject;
+  var ccEmailAddresses = aws.params.ccEmailAddresses;
+  var severityCode = aws.params.severityCode;
+  var serviceCode = aws.params.serviceCode;
+  var issueType = aws.params.issueType;
+  var language = aws.params.language;
+  var attachmentSetId = aws.params.attachmentSetId;
   if (!subject) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter subject'];
   }
@@ -178,22 +251,44 @@ module.exports.CreateCase = function CreateCase(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.ResolveCase = function ResolveCase(aws) {
-  var caseId = aws.params['caseId'];
+module.exports.DescribeSeverityLevels = function DescribeSeverityLevels(aws) {
+  var language = aws.params.language;
 
 
   // TODO implement code
 
   var ret = {
-    finalCaseStatus: '',
-    initialCaseStatus: '',
+    severityLevels: [ {
+      name: '',
+      code: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeServices = function DescribeServices(aws) {
+  var serviceCodeList = aws.params.serviceCodeList /* Type list */;
+  var language = aws.params.language;
+
+
+  // TODO implement code
+
+  var ret = {
+    services: [ {
+      name: '',
+      categories: [ {
+        name: '',
+        code: '',
+      }, /* ...*/ ],
+      code: '',
+    }, /* ...*/ ],
   };
   return [200, ret];
 };
 // -----------------------------------
 module.exports.DescribeTrustedAdvisorCheckResult = function DescribeTrustedAdvisorCheckResult(aws) {
-  var language = aws.params['language'];
-  var checkId = aws.params['checkId'];
+  var checkId = aws.params.checkId;
+  var language = aws.params.language;
   if (!checkId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter checkId'];
   }
@@ -203,35 +298,35 @@ module.exports.DescribeTrustedAdvisorCheckResult = function DescribeTrustedAdvis
 
   var ret = {
     result: {
-      timestamp: '',
-      status: '',
       flaggedResources: [ {
-        metadata: /*S1t*/[ '', /* ...*/ ],
-        resourceId: '',
-        status: '',
         region: '',
+        resourceId: '',
         isSuppressed: false,
+        metadata: /*S1t*/[ '', /* ...*/ ],
+        status: '',
       }, /* ...*/ ],
       checkId: '',
+      resourcesSummary: /*S22*/{
+        resourcesSuppressed: 0 /*Long*/,
+        resourcesProcessed: 0 /*Long*/,
+        resourcesIgnored: 0 /*Long*/,
+        resourcesFlagged: 0 /*Long*/,
+      },
       categorySpecificSummary: /*S23*/{
         costOptimizing: {
           estimatedMonthlySavings: 0.0 /*Double*/,
           estimatedPercentMonthlySavings: 0.0 /*Double*/,
         },
       },
-      resourcesSummary: /*S22*/{
-        resourcesSuppressed: 0 /*Long*/,
-        resourcesIgnored: 0 /*Long*/,
-        resourcesFlagged: 0 /*Long*/,
-        resourcesProcessed: 0 /*Long*/,
-      },
+      timestamp: '',
+      status: '',
     },
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DescribeTrustedAdvisorCheckSummaries = function DescribeTrustedAdvisorCheckSummaries(aws) {
-  var checkIds = aws.params['checkIds'];
+module.exports.DescribeTrustedAdvisorCheckRefreshStatuses = function DescribeTrustedAdvisorCheckRefreshStatuses(aws) {
+  var checkIds = aws.params.checkIds;
   if (!checkIds) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter checkIds'];
   }
@@ -240,105 +335,10 @@ module.exports.DescribeTrustedAdvisorCheckSummaries = function DescribeTrustedAd
   // TODO implement code
 
   var ret = {
-    summaries: [ {
-      timestamp: '',
-      status: '',
+    statuses: [ /*S1x*/{
       checkId: '',
-      hasFlaggedResources: false,
-      categorySpecificSummary: /*S23*/{
-        costOptimizing: {
-          estimatedMonthlySavings: 0.0 /*Double*/,
-          estimatedPercentMonthlySavings: 0.0 /*Double*/,
-        },
-      },
-      resourcesSummary: /*S22*/{
-        resourcesSuppressed: 0 /*Long*/,
-        resourcesIgnored: 0 /*Long*/,
-        resourcesFlagged: 0 /*Long*/,
-        resourcesProcessed: 0 /*Long*/,
-      },
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeSeverityLevels = function DescribeSeverityLevels(aws) {
-  var language = aws.params['language'];
-
-
-  // TODO implement code
-
-  var ret = {
-    severityLevels: [ {
-      code: '',
-      name: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.AddCommunicationToCase = function AddCommunicationToCase(aws) {
-  var caseId = aws.params['caseId'];
-  var communicationBody = aws.params['communicationBody'];
-  var attachmentSetId = aws.params['attachmentSetId'];
-  var ccEmailAddresses = aws.params['ccEmailAddresses'];
-  if (!communicationBody) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter communicationBody'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    result: false,
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeCommunications = function DescribeCommunications(aws) {
-  var caseId = aws.params['caseId'];
-  var nextToken = aws.params['nextToken'];
-  var afterTime = aws.params['afterTime'];
-  var maxResults = aws.params['maxResults'] /* Type integer */;
-  var beforeTime = aws.params['beforeTime'];
-  if (!caseId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter caseId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    communications: /*S17*/[ {
-      caseId: '',
-      body: '',
-      attachmentSet: [ {
-        attachmentId: '',
-        fileName: '',
-      }, /* ...*/ ],
-      submittedBy: '',
-      timeCreated: '',
-    }, /* ...*/ ],
-    nextToken: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeServices = function DescribeServices(aws) {
-  var serviceCodeList = aws.params['serviceCodeList'] /* Type list */;
-  var language = aws.params['language'];
-
-
-  // TODO implement code
-
-  var ret = {
-    services: [ {
-      code: '',
-      name: '',
-      categories: [ {
-        code: '',
-        name: '',
-      }, /* ...*/ ],
+      millisUntilNextRefreshable: 0 /*Long*/,
+      status: '',
     }, /* ...*/ ],
   };
   return [200, ret];

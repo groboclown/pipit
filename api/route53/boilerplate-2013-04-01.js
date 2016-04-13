@@ -10,628 +10,108 @@ const awsCommon = require('../../lib/aws-common');
  */
 
 // Setup input and output to use AWS protocol rest-xml
-require('../../lib/aws-common/shape_http')('rest-xml', module.exports, null)
-// -----------------------------------
-module.exports.DisassociateVPCFromHostedZone = awsCommon.as(
-  '/2013-04-01/hostedzone/:Id/disassociatevpc',
-  function DisassociateVPCFromHostedZone(aws) {
-  var HostedZoneId = aws.reqParams['Id'];
-  var Comment = aws.params['Comment'];
-  var VPC = aws.params['VPC'];
-  if (!HostedZoneId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HostedZoneId'];
-  }
-  if (!VPC) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VPC'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    ChangeInfo: /*S8*/{
-      SubmittedAt: awsCommon.timestamp(),
-      Comment: '',
-      Status: '',
-      Id: '',
-    },
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.GetChangeDetails = awsCommon.as(
-  'GET',
-  '/2013-04-01/changedetails/:Id',
-  function GetChangeDetails(aws) {
-  var Id = aws.reqParams['Id'];
-  if (!Id) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    ChangeBatchRecord: /*S30*/{
-      Changes: /*Se*/[ {
-        Action: '',
-        ResourceRecordSet: /*Sh*/{
-          AliasTarget: {
-            HostedZoneId: '',
-            EvaluateTargetHealth: false,
-            DNSName: '',
-          },
-          ResourceRecords: [ {
-            Value: '',
-          }, /* ...*/ ],
-          Name: '',
-          TrafficPolicyInstanceId: '',
-          GeoLocation: {
-            SubdivisionCode: '',
-            CountryCode: '',
-            ContinentCode: '',
-          },
-          TTL: 0 /*Long*/,
-          Failover: '',
-          SetIdentifier: '',
-          Region: '',
-          HealthCheckId: '',
-          Weight: 0 /*Long*/,
-          Type: '',
-        },
-      }, /* ...*/ ],
-      Id: '',
-      SubmittedAt: awsCommon.timestamp(),
-      Comment: '',
-      Submitter: '',
-      Status: '',
-    },
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.DeleteTrafficPolicy = awsCommon.as(
-  'DELETE',
-  '/2013-04-01/trafficpolicy/:Id/:Version',
-  function DeleteTrafficPolicy(aws) {
-  var Version = aws.reqParams['Version'] /* Type integer */;
-  var Id = aws.reqParams['Id'];
-  if (!Id) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
-  }
-  if (!Version) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Version'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.ChangeResourceRecordSets = awsCommon.as(
-  '/2013-04-01/hostedzone/:Id/rrset/',
-  function ChangeResourceRecordSets(aws) {
-  var HostedZoneId = aws.reqParams['Id'];
-  var ChangeBatch = aws.params['ChangeBatch'] /* Type structure */;
-  if (!HostedZoneId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HostedZoneId'];
-  }
-  if (!ChangeBatch) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ChangeBatch'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    ChangeInfo: /*S8*/{
-      SubmittedAt: awsCommon.timestamp(),
-      Comment: '',
-      Status: '',
-      Id: '',
-    },
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.CreateTrafficPolicyInstance = awsCommon.as(
-  '/2013-04-01/trafficpolicyinstance',
-  function CreateTrafficPolicyInstance(aws) {
-  var HostedZoneId = aws.params['HostedZoneId'];
-  var TTL = aws.params['TTL'] /* Type long */;
-  var TrafficPolicyVersion = aws.params['TrafficPolicyVersion'] /* Type integer */;
-  var TrafficPolicyId = aws.params['TrafficPolicyId'];
-  var Name = aws.params['Name'];
-  if (!HostedZoneId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HostedZoneId'];
-  }
-  if (!Name) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
-  }
-  if (!TTL) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TTL'];
-  }
-  if (!TrafficPolicyId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TrafficPolicyId'];
-  }
-  if (!TrafficPolicyVersion) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TrafficPolicyVersion'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    TrafficPolicyInstance: /*S2e*/{
-      TTL: 0 /*Long*/,
-      TrafficPolicyId: '',
-      Name: '',
-      HostedZoneId: '',
-      TrafficPolicyType: '',
-      TrafficPolicyVersion: 0,
-      Message: '',
-      Id: '',
-      State: '',
-    },
-    Location: '',
-  };
-  return [201, ret];
-});
-// -----------------------------------
-module.exports.GetHealthCheckLastFailureReason = awsCommon.as(
-  'GET',
-  '/2013-04-01/healthcheck/:HealthCheckId/lastfailurereason',
-  function GetHealthCheckLastFailureReason(aws) {
-  var HealthCheckId = aws.reqParams['HealthCheckId'];
-  if (!HealthCheckId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HealthCheckId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    HealthCheckObservations: /*S3j*/[ {
-      StatusReport: {
-        CheckedTime: awsCommon.timestamp(),
-        Status: '',
-      },
-      IPAddress: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.DeleteTrafficPolicyInstance = awsCommon.as(
-  'DELETE',
-  '/2013-04-01/trafficpolicyinstance/:Id',
-  function DeleteTrafficPolicyInstance(aws) {
-  var Id = aws.reqParams['Id'];
-  if (!Id) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.ListChangeBatchesByHostedZone = awsCommon.as(
-  'GET',
-  '/2013-04-01/hostedzone/:Id/changes',
-  function ListChangeBatchesByHostedZone(aws) {
-  var Marker = aws.params['Marker'];
-  var HostedZoneId = aws.reqParams['Id'];
-  var StartDate = aws.params['StartDate'];
-  var MaxItems = aws.params['MaxItems'];
-  var EndDate = aws.params['EndDate'];
-  if (!HostedZoneId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HostedZoneId'];
-  }
-  if (!StartDate) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StartDate'];
-  }
-  if (!EndDate) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter EndDate'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Marker: '',
-    NextMarker: '',
-    IsTruncated: false,
-    ChangeBatchRecords: /*S4a*/[ /*S30*/{
-      Changes: /*Se*/[ {
-        Action: '',
-        ResourceRecordSet: /*Sh*/{
-          AliasTarget: {
-            HostedZoneId: '',
-            EvaluateTargetHealth: false,
-            DNSName: '',
-          },
-          ResourceRecords: [ {
-            Value: '',
-          }, /* ...*/ ],
-          Name: '',
-          TrafficPolicyInstanceId: '',
-          GeoLocation: {
-            SubdivisionCode: '',
-            CountryCode: '',
-            ContinentCode: '',
-          },
-          TTL: 0 /*Long*/,
-          Failover: '',
-          SetIdentifier: '',
-          Region: '',
-          HealthCheckId: '',
-          Weight: 0 /*Long*/,
-          Type: '',
-        },
-      }, /* ...*/ ],
-      Id: '',
-      SubmittedAt: awsCommon.timestamp(),
-      Comment: '',
-      Submitter: '',
-      Status: '',
-    }, /* ...*/ ],
-    MaxItems: '',
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.GetTrafficPolicyInstance = awsCommon.as(
-  'GET',
-  '/2013-04-01/trafficpolicyinstance/:Id',
-  function GetTrafficPolicyInstance(aws) {
-  var Id = aws.reqParams['Id'];
-  if (!Id) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    TrafficPolicyInstance: /*S2e*/{
-      TTL: 0 /*Long*/,
-      TrafficPolicyId: '',
-      Name: '',
-      HostedZoneId: '',
-      TrafficPolicyType: '',
-      TrafficPolicyVersion: 0,
-      Message: '',
-      Id: '',
-      State: '',
-    },
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.GetHealthCheck = awsCommon.as(
-  'GET',
-  '/2013-04-01/healthcheck/:HealthCheckId',
-  function GetHealthCheck(aws) {
-  var HealthCheckId = aws.reqParams['HealthCheckId'];
-  if (!HealthCheckId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HealthCheckId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    HealthCheck: /*S1q*/{
-      CallerReference: '',
-      HealthCheckVersion: 0 /*Long*/,
-      HealthCheckConfig: /*S1c*/{
-        RequestInterval: 0,
-        ChildHealthChecks: /*S1o*/[ '', /* ...*/ ],
-        IPAddress: '',
-        MeasureLatency: false,
-        FullyQualifiedDomainName: '',
-        Port: 0,
-        HealthThreshold: 0,
-        FailureThreshold: 0,
-        ResourcePath: '',
-        Inverted: false,
-        Type: '',
-        SearchString: '',
-      },
-      Id: '',
-    },
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.UpdateHostedZoneComment = awsCommon.as(
-  '/2013-04-01/hostedzone/:Id',
-  function UpdateHostedZoneComment(aws) {
-  var Comment = aws.params['Comment'];
-  var Id = aws.reqParams['Id'];
-  if (!Id) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    HostedZone: /*S1y*/{
-      CallerReference: '',
-      ResourceRecordSetCount: 0 /*Long*/,
-      Config: /*S1v*/{
-        Comment: '',
-        PrivateZone: false,
-      },
-      Id: '',
-      Name: '',
-    },
-  };
-  return [200, ret];
-});
+require('../../lib/aws-common/shape_http')('rest-xml', module.exports, null);
 // -----------------------------------
 module.exports.GetChange = awsCommon.as(
   'GET',
   '/2013-04-01/change/:Id',
   function GetChange(aws) {
-  var Id = aws.reqParams['Id'];
-  if (!Id) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
-  }
+    var id = aws.reqParams.Id;
+    if (!id) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
+    }
 
 
-  // TODO implement code
+    // TODO implement code
 
-  var ret = {
-    ChangeInfo: /*S8*/{
-      SubmittedAt: awsCommon.timestamp(),
-      Comment: '',
-      Status: '',
-      Id: '',
-    },
-  };
-  return [200, ret];
-});
+    var ret = {
+      ChangeInfo: /*S8*/{
+        Id: '',
+        Comment: '',
+        Status: '',
+        SubmittedAt: awsCommon.timestamp(),
+      },
+    };
+    return [200, ret];
+  });
 // -----------------------------------
-module.exports.DeleteHostedZone = awsCommon.as(
-  'DELETE',
-  '/2013-04-01/hostedzone/:Id',
-  function DeleteHostedZone(aws) {
-  var Id = aws.reqParams['Id'];
-  if (!Id) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    ChangeInfo: /*S8*/{
-      SubmittedAt: awsCommon.timestamp(),
-      Comment: '',
-      Status: '',
-      Id: '',
-    },
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.GetTrafficPolicy = awsCommon.as(
+module.exports.GetGeoLocation = awsCommon.as(
   'GET',
-  '/2013-04-01/trafficpolicy/:Id/:Version',
-  function GetTrafficPolicy(aws) {
-  var Version = aws.reqParams['Version'] /* Type integer */;
-  var Id = aws.reqParams['Id'];
-  if (!Id) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
-  }
-  if (!Version) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Version'];
-  }
+  '/2013-04-01/geolocation',
+  function GetGeoLocation(aws) {
+    var subdivisionCode = aws.params.SubdivisionCode;
+    var continentCode = aws.params.ContinentCode;
+    var countryCode = aws.params.CountryCode;
 
 
-  // TODO implement code
+    // TODO implement code
 
-  var ret = {
-    TrafficPolicy: /*S29*/{
-      Version: 0,
-      Name: '',
-      Comment: '',
-      Document: '',
-      Type: '',
-      Id: '',
-    },
-  };
-  return [200, ret];
-});
+    var ret = {
+      GeoLocationDetails: /*S38*/{
+        SubdivisionName: '',
+        SubdivisionCode: '',
+        CountryCode: '',
+        ContinentName: '',
+        ContinentCode: '',
+        CountryName: '',
+      },
+    };
+    return [200, ret];
+  });
 // -----------------------------------
 module.exports.ListHostedZones = awsCommon.as(
   'GET',
   '/2013-04-01/hostedzone',
   function ListHostedZones(aws) {
-  var Marker = aws.params['Marker'];
-  var DelegationSetId = aws.params['DelegationSetId'];
-  var MaxItems = aws.params['MaxItems'];
+    var marker = aws.params.Marker;
+    var maxItems = aws.params.MaxItems;
+    var delegationSetId = aws.params.DelegationSetId;
 
 
-  // TODO implement code
+    // TODO implement code
 
-  var ret = {
-    Marker: '',
-    NextMarker: '',
-    IsTruncated: false,
-    HostedZones: /*S4l*/[ /*S1y*/{
-      CallerReference: '',
-      ResourceRecordSetCount: 0 /*Long*/,
-      Config: /*S1v*/{
-        Comment: '',
-        PrivateZone: false,
-      },
-      Id: '',
-      Name: '',
-    }, /* ...*/ ],
-    MaxItems: '',
-  };
-  return [200, ret];
-});
+    var ret = {
+      Marker: '',
+      NextMarker: '',
+      IsTruncated: false,
+      HostedZones: /*S4l*/[ /*S1y*/{
+        Config: /*S1v*/{
+          PrivateZone: false,
+          Comment: '',
+        },
+        Name: '',
+        Id: '',
+        CallerReference: '',
+        ResourceRecordSetCount: 0 /*Long*/,
+      }, /* ...*/ ],
+      MaxItems: '',
+    };
+    return [200, ret];
+  });
 // -----------------------------------
-module.exports.DeleteHealthCheck = awsCommon.as(
-  'DELETE',
-  '/2013-04-01/healthcheck/:HealthCheckId',
-  function DeleteHealthCheck(aws) {
-  var HealthCheckId = aws.reqParams['HealthCheckId'];
-  if (!HealthCheckId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HealthCheckId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.GetReusableDelegationSet = awsCommon.as(
+module.exports.GetHealthCheckLastFailureReason = awsCommon.as(
   'GET',
-  '/2013-04-01/delegationset/:Id',
-  function GetReusableDelegationSet(aws) {
-  var Id = aws.reqParams['Id'];
-  if (!Id) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
-  }
+  '/2013-04-01/healthcheck/:HealthCheckId/lastfailurereason',
+  function GetHealthCheckLastFailureReason(aws) {
+    var healthCheckId = aws.reqParams.HealthCheckId;
+    if (!healthCheckId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HealthCheckId'];
+    }
 
 
-  // TODO implement code
+    // TODO implement code
 
-  var ret = {
-    DelegationSet: /*S20*/{
-      CallerReference: '',
-      Id: '',
-      NameServers: [ '', /* ...*/ ],
-    },
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.ListTrafficPolicyInstances = awsCommon.as(
-  'GET',
-  '/2013-04-01/trafficpolicyinstances',
-  function ListTrafficPolicyInstances(aws) {
-  var TrafficPolicyInstanceNameMarker = aws.params['TrafficPolicyInstanceNameMarker'];
-  var HostedZoneIdMarker = aws.params['HostedZoneIdMarker'];
-  var TrafficPolicyInstanceTypeMarker = aws.params['TrafficPolicyInstanceTypeMarker'];
-  var MaxItems = aws.params['MaxItems'];
-
-
-  // TODO implement code
-
-  var ret = {
-    TrafficPolicyInstanceNameMarker: '',
-    HostedZoneIdMarker: '',
-    TrafficPolicyInstanceTypeMarker: '',
-    TrafficPolicyInstances: /*S57*/[ /*S2e*/{
-      TTL: 0 /*Long*/,
-      TrafficPolicyId: '',
-      Name: '',
-      HostedZoneId: '',
-      TrafficPolicyType: '',
-      TrafficPolicyVersion: 0,
-      Message: '',
-      Id: '',
-      State: '',
-    }, /* ...*/ ],
-    IsTruncated: false,
-    MaxItems: '',
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.GetHealthCheckStatus = awsCommon.as(
-  'GET',
-  '/2013-04-01/healthcheck/:HealthCheckId/status',
-  function GetHealthCheckStatus(aws) {
-  var HealthCheckId = aws.reqParams['HealthCheckId'];
-  if (!HealthCheckId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HealthCheckId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    HealthCheckObservations: /*S3j*/[ {
-      StatusReport: {
-        CheckedTime: awsCommon.timestamp(),
-        Status: '',
-      },
-      IPAddress: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.GetHealthCheckCount = awsCommon.as(
-  'GET',
-  '/2013-04-01/healthcheckcount',
-  function GetHealthCheckCount(aws) {
-
-
-  // TODO implement code
-
-  var ret = {
-    HealthCheckCount: 0 /*Long*/,
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.GetHostedZoneCount = awsCommon.as(
-  'GET',
-  '/2013-04-01/hostedzonecount',
-  function GetHostedZoneCount(aws) {
-
-
-  // TODO implement code
-
-  var ret = {
-    HostedZoneCount: 0 /*Long*/,
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.ChangeTagsForResource = awsCommon.as(
-  '/2013-04-01/tags/:ResourceType/:ResourceId',
-  function ChangeTagsForResource(aws) {
-  var ResourceType = aws.reqParams['ResourceType'];
-  var ResourceId = aws.reqParams['ResourceId'];
-  var RemoveTagKeys = aws.params['RemoveTagKeys'] /* Type list */;
-  var AddTags = aws.params['AddTags'];
-  if (!ResourceType) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ResourceType'];
-  }
-  if (!ResourceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ResourceId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-
-  };
-  return [200, ret];
-});
+    var ret = {
+      HealthCheckObservations: /*S3j*/[ {
+        StatusReport: {
+          CheckedTime: awsCommon.timestamp(),
+          Status: '',
+        },
+        IPAddress: '',
+      }, /* ...*/ ],
+    };
+    return [200, ret];
+  });
 // -----------------------------------
 module.exports.GetTrafficPolicyInstanceCount = awsCommon.as(
   'GET',
@@ -639,817 +119,350 @@ module.exports.GetTrafficPolicyInstanceCount = awsCommon.as(
   function GetTrafficPolicyInstanceCount(aws) {
 
 
-  // TODO implement code
+    // TODO implement code
 
-  var ret = {
-    TrafficPolicyInstanceCount: 0,
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.DeleteReusableDelegationSet = awsCommon.as(
-  'DELETE',
-  '/2013-04-01/delegationset/:Id',
-  function DeleteReusableDelegationSet(aws) {
-  var Id = aws.reqParams['Id'];
-  if (!Id) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.ListReusableDelegationSets = awsCommon.as(
-  'GET',
-  '/2013-04-01/delegationset',
-  function ListReusableDelegationSets(aws) {
-  var Marker = aws.params['Marker'];
-  var MaxItems = aws.params['MaxItems'];
-
-
-  // TODO implement code
-
-  var ret = {
-    Marker: '',
-    NextMarker: '',
-    IsTruncated: false,
-    DelegationSets: [ /*S20*/{
-      CallerReference: '',
-      Id: '',
-      NameServers: [ '', /* ...*/ ],
-    }, /* ...*/ ],
-    MaxItems: '',
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.CreateHostedZone = awsCommon.as(
-  '/2013-04-01/hostedzone',
-  function CreateHostedZone(aws) {
-  var VPC = aws.params['VPC'];
-  var DelegationSetId = aws.params['DelegationSetId'];
-  var CallerReference = aws.params['CallerReference'];
-  var HostedZoneConfig = aws.params['HostedZoneConfig'];
-  var Name = aws.params['Name'];
-  if (!Name) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
-  }
-  if (!CallerReference) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CallerReference'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    VPC: /*S3*/{
-      VPCRegion: '',
-      VPCId: '',
-    },
-    Location: '',
-    DelegationSet: /*S20*/{
-      CallerReference: '',
-      Id: '',
-      NameServers: [ '', /* ...*/ ],
-    },
-    ChangeInfo: /*S8*/{
-      SubmittedAt: awsCommon.timestamp(),
-      Comment: '',
-      Status: '',
-      Id: '',
-    },
-    HostedZone: /*S1y*/{
-      CallerReference: '',
-      ResourceRecordSetCount: 0 /*Long*/,
-      Config: /*S1v*/{
-        Comment: '',
-        PrivateZone: false,
-      },
-      Id: '',
-      Name: '',
-    },
-  };
-  return [201, ret];
-});
-// -----------------------------------
-module.exports.CreateHealthCheck = awsCommon.as(
-  '/2013-04-01/healthcheck',
-  function CreateHealthCheck(aws) {
-  var CallerReference = aws.params['CallerReference'];
-  var HealthCheckConfig = aws.params['HealthCheckConfig'];
-  if (!CallerReference) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CallerReference'];
-  }
-  if (!HealthCheckConfig) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HealthCheckConfig'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    HealthCheck: /*S1q*/{
-      CallerReference: '',
-      HealthCheckVersion: 0 /*Long*/,
-      HealthCheckConfig: /*S1c*/{
-        RequestInterval: 0,
-        ChildHealthChecks: /*S1o*/[ '', /* ...*/ ],
-        IPAddress: '',
-        MeasureLatency: false,
-        FullyQualifiedDomainName: '',
-        Port: 0,
-        HealthThreshold: 0,
-        FailureThreshold: 0,
-        ResourcePath: '',
-        Inverted: false,
-        Type: '',
-        SearchString: '',
-      },
-      Id: '',
-    },
-    Location: '',
-  };
-  return [201, ret];
-});
-// -----------------------------------
-module.exports.ListHealthChecks = awsCommon.as(
-  'GET',
-  '/2013-04-01/healthcheck',
-  function ListHealthChecks(aws) {
-  var Marker = aws.params['Marker'];
-  var MaxItems = aws.params['MaxItems'];
-
-
-  // TODO implement code
-
-  var ret = {
-    Marker: '',
-    HealthChecks: [ /*S1q*/{
-      CallerReference: '',
-      HealthCheckVersion: 0 /*Long*/,
-      HealthCheckConfig: /*S1c*/{
-        RequestInterval: 0,
-        ChildHealthChecks: /*S1o*/[ '', /* ...*/ ],
-        IPAddress: '',
-        MeasureLatency: false,
-        FullyQualifiedDomainName: '',
-        Port: 0,
-        HealthThreshold: 0,
-        FailureThreshold: 0,
-        ResourcePath: '',
-        Inverted: false,
-        Type: '',
-        SearchString: '',
-      },
-      Id: '',
-    }, /* ...*/ ],
-    IsTruncated: false,
-    NextMarker: '',
-    MaxItems: '',
-  };
-  return [200, ret];
-});
+    var ret = {
+      TrafficPolicyInstanceCount: 0,
+    };
+    return [200, ret];
+  });
 // -----------------------------------
 module.exports.ListHostedZonesByName = awsCommon.as(
   'GET',
   '/2013-04-01/hostedzonesbyname',
   function ListHostedZonesByName(aws) {
-  var HostedZoneId = aws.params['HostedZoneId'];
-  var MaxItems = aws.params['MaxItems'];
-  var DNSName = aws.params['DNSName'];
+    var dNSName = aws.params.DNSName;
+    var hostedZoneId = aws.params.HostedZoneId;
+    var maxItems = aws.params.MaxItems;
 
 
-  // TODO implement code
+    // TODO implement code
 
-  var ret = {
-    NextDNSName: '',
-    NextHostedZoneId: '',
-    HostedZoneId: '',
-    IsTruncated: false,
-    HostedZones: /*S4l*/[ /*S1y*/{
-      CallerReference: '',
-      ResourceRecordSetCount: 0 /*Long*/,
-      Config: /*S1v*/{
-        Comment: '',
-        PrivateZone: false,
-      },
-      Id: '',
-      Name: '',
-    }, /* ...*/ ],
-    MaxItems: '',
-    DNSName: '',
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.ListTrafficPolicyInstancesByHostedZone = awsCommon.as(
-  'GET',
-  '/2013-04-01/trafficpolicyinstances/hostedzone',
-  function ListTrafficPolicyInstancesByHostedZone(aws) {
-  var HostedZoneId = aws.params['HostedZoneId'];
-  var TrafficPolicyInstanceTypeMarker = aws.params['TrafficPolicyInstanceTypeMarker'];
-  var MaxItems = aws.params['MaxItems'];
-  var TrafficPolicyInstanceNameMarker = aws.params['TrafficPolicyInstanceNameMarker'];
-  if (!HostedZoneId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HostedZoneId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    TrafficPolicyInstanceNameMarker: '',
-    IsTruncated: false,
-    TrafficPolicyInstanceTypeMarker: '',
-    MaxItems: '',
-    TrafficPolicyInstances: /*S57*/[ /*S2e*/{
-      TTL: 0 /*Long*/,
-      TrafficPolicyId: '',
-      Name: '',
+    var ret = {
       HostedZoneId: '',
-      TrafficPolicyType: '',
-      TrafficPolicyVersion: 0,
-      Message: '',
-      Id: '',
-      State: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.ListResourceRecordSets = awsCommon.as(
-  'GET',
-  '/2013-04-01/hostedzone/:Id/rrset',
-  function ListResourceRecordSets(aws) {
-  var StartRecordIdentifier = aws.params['StartRecordIdentifier'];
-  var HostedZoneId = aws.reqParams['Id'];
-  var StartRecordName = aws.params['StartRecordName'];
-  var MaxItems = aws.params['MaxItems'];
-  var StartRecordType = aws.params['StartRecordType'];
-  if (!HostedZoneId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HostedZoneId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    ResourceRecordSets: [ /*Sh*/{
-      AliasTarget: {
-        HostedZoneId: '',
-        EvaluateTargetHealth: false,
-        DNSName: '',
-      },
-      ResourceRecords: [ {
-        Value: '',
-      }, /* ...*/ ],
-      Name: '',
-      TrafficPolicyInstanceId: '',
-      GeoLocation: {
-        SubdivisionCode: '',
-        CountryCode: '',
-        ContinentCode: '',
-      },
-      TTL: 0 /*Long*/,
-      Failover: '',
-      SetIdentifier: '',
-      Region: '',
-      HealthCheckId: '',
-      Weight: 0 /*Long*/,
-      Type: '',
-    }, /* ...*/ ],
-    NextRecordIdentifier: '',
-    IsTruncated: false,
-    NextRecordType: '',
-    MaxItems: '',
-    NextRecordName: '',
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.ListGeoLocations = awsCommon.as(
-  'GET',
-  '/2013-04-01/geolocations',
-  function ListGeoLocations(aws) {
-  var StartCountryCode = aws.params['StartCountryCode'];
-  var StartContinentCode = aws.params['StartContinentCode'];
-  var StartSubdivisionCode = aws.params['StartSubdivisionCode'];
-  var MaxItems = aws.params['MaxItems'];
-
-
-  // TODO implement code
-
-  var ret = {
-    GeoLocationDetailsList: [ /*S38*/{
-      ContinentName: '',
-      SubdivisionCode: '',
-      SubdivisionName: '',
-      ContinentCode: '',
-      CountryCode: '',
-      CountryName: '',
-    }, /* ...*/ ],
-    NextSubdivisionCode: '',
-    NextContinentCode: '',
-    IsTruncated: false,
-    NextCountryCode: '',
-    MaxItems: '',
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.CreateReusableDelegationSet = awsCommon.as(
-  '/2013-04-01/delegationset',
-  function CreateReusableDelegationSet(aws) {
-  var CallerReference = aws.params['CallerReference'];
-  var HostedZoneId = aws.params['HostedZoneId'];
-  if (!CallerReference) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CallerReference'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Location: '',
-    DelegationSet: /*S20*/{
-      CallerReference: '',
-      Id: '',
-      NameServers: [ '', /* ...*/ ],
-    },
-  };
-  return [201, ret];
-});
-// -----------------------------------
-module.exports.ListChangeBatchesByRRSet = awsCommon.as(
-  'GET',
-  '/2013-04-01/hostedzone/:Id/rrsChanges',
-  function ListChangeBatchesByRRSet(aws) {
-  var Marker = aws.params['Marker'];
-  var SetIdentifier = aws.params['SetIdentifier'];
-  var Name = aws.params['Name'];
-  var HostedZoneId = aws.reqParams['Id'];
-  var EndDate = aws.params['EndDate'];
-  var Type = aws.params['Type'];
-  var MaxItems = aws.params['MaxItems'];
-  var StartDate = aws.params['StartDate'];
-  if (!HostedZoneId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HostedZoneId'];
-  }
-  if (!Name) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
-  }
-  if (!Type) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Type'];
-  }
-  if (!StartDate) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StartDate'];
-  }
-  if (!EndDate) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter EndDate'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Marker: '',
-    NextMarker: '',
-    IsTruncated: false,
-    ChangeBatchRecords: /*S4a*/[ /*S30*/{
-      Changes: /*Se*/[ {
-        Action: '',
-        ResourceRecordSet: /*Sh*/{
-          AliasTarget: {
-            HostedZoneId: '',
-            EvaluateTargetHealth: false,
-            DNSName: '',
-          },
-          ResourceRecords: [ {
-            Value: '',
-          }, /* ...*/ ],
-          Name: '',
-          TrafficPolicyInstanceId: '',
-          GeoLocation: {
-            SubdivisionCode: '',
-            CountryCode: '',
-            ContinentCode: '',
-          },
-          TTL: 0 /*Long*/,
-          Failover: '',
-          SetIdentifier: '',
-          Region: '',
-          HealthCheckId: '',
-          Weight: 0 /*Long*/,
-          Type: '',
+      NextHostedZoneId: '',
+      IsTruncated: false,
+      MaxItems: '',
+      DNSName: '',
+      NextDNSName: '',
+      HostedZones: /*S4l*/[ /*S1y*/{
+        Config: /*S1v*/{
+          PrivateZone: false,
+          Comment: '',
         },
+        Name: '',
+        Id: '',
+        CallerReference: '',
+        ResourceRecordSetCount: 0 /*Long*/,
       }, /* ...*/ ],
-      Id: '',
-      SubmittedAt: awsCommon.timestamp(),
-      Comment: '',
-      Submitter: '',
-      Status: '',
-    }, /* ...*/ ],
-    MaxItems: '',
-  };
-  return [200, ret];
-});
+    };
+    return [200, ret];
+  });
 // -----------------------------------
-module.exports.ListTagsForResource = awsCommon.as(
+module.exports.CreateHostedZone = awsCommon.as(
+  '/2013-04-01/hostedzone',
+  function CreateHostedZone(aws) {
+    var name = aws.params.Name;
+    var delegationSetId = aws.params.DelegationSetId;
+    var callerReference = aws.params.CallerReference;
+    var vPC = aws.params.VPC;
+    var hostedZoneConfig = aws.params.HostedZoneConfig;
+    if (!name) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
+    }
+    if (!callerReference) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CallerReference'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      ChangeInfo: /*S8*/{
+        Id: '',
+        Comment: '',
+        Status: '',
+        SubmittedAt: awsCommon.timestamp(),
+      },
+      HostedZone: /*S1y*/{
+        Config: /*S1v*/{
+          PrivateZone: false,
+          Comment: '',
+        },
+        Name: '',
+        Id: '',
+        CallerReference: '',
+        ResourceRecordSetCount: 0 /*Long*/,
+      },
+      VPC: /*S3*/{
+        VPCId: '',
+        VPCRegion: '',
+      },
+      DelegationSet: /*S20*/{
+        Id: '',
+        CallerReference: '',
+        NameServers: [ '', /* ...*/ ],
+      },
+      Location: '',
+    };
+    return [201, ret];
+  });
+// -----------------------------------
+module.exports.ListReusableDelegationSets = awsCommon.as(
   'GET',
-  '/2013-04-01/tags/:ResourceType/:ResourceId',
-  function ListTagsForResource(aws) {
-  var ResourceType = aws.reqParams['ResourceType'];
-  var ResourceId = aws.reqParams['ResourceId'];
-  if (!ResourceType) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ResourceType'];
-  }
-  if (!ResourceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ResourceId'];
-  }
+  '/2013-04-01/delegationset',
+  function ListReusableDelegationSets(aws) {
+    var marker = aws.params.Marker;
+    var maxItems = aws.params.MaxItems;
 
 
-  // TODO implement code
+    // TODO implement code
 
-  var ret = {
-    ResourceTagSet: /*S4w*/{
-      ResourceType: '',
-      ResourceId: '',
-      Tags: /*S14*/[ {
-        Key: '',
-        Value: '',
+    var ret = {
+      Marker: '',
+      NextMarker: '',
+      DelegationSets: [ /*S20*/{
+        Id: '',
+        CallerReference: '',
+        NameServers: [ '', /* ...*/ ],
       }, /* ...*/ ],
-    },
-  };
-  return [200, ret];
-});
+      IsTruncated: false,
+      MaxItems: '',
+    };
+    return [200, ret];
+  });
 // -----------------------------------
-module.exports.ListTrafficPolicyInstancesByPolicy = awsCommon.as(
-  'GET',
-  '/2013-04-01/trafficpolicyinstances/trafficpolicy',
-  function ListTrafficPolicyInstancesByPolicy(aws) {
-  var TrafficPolicyInstanceNameMarker = aws.params['TrafficPolicyInstanceNameMarker'];
-  var HostedZoneIdMarker = aws.params['HostedZoneIdMarker'];
-  var TrafficPolicyInstanceTypeMarker = aws.params['TrafficPolicyInstanceTypeMarker'];
-  var MaxItems = aws.params['MaxItems'];
-  var TrafficPolicyVersion = aws.params['TrafficPolicyVersion'] /* Type integer */;
-  var TrafficPolicyId = aws.params['TrafficPolicyId'];
-  if (!TrafficPolicyId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TrafficPolicyId'];
-  }
-  if (!TrafficPolicyVersion) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TrafficPolicyVersion'];
-  }
+module.exports.UpdateHostedZoneComment = awsCommon.as(
+  '/2013-04-01/hostedzone/:Id',
+  function UpdateHostedZoneComment(aws) {
+    var id = aws.reqParams.Id;
+    var comment = aws.params.Comment;
+    if (!id) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
+    }
 
 
-  // TODO implement code
+    // TODO implement code
 
-  var ret = {
-    TrafficPolicyInstanceNameMarker: '',
-    HostedZoneIdMarker: '',
-    TrafficPolicyInstanceTypeMarker: '',
-    TrafficPolicyInstances: /*S57*/[ /*S2e*/{
-      TTL: 0 /*Long*/,
-      TrafficPolicyId: '',
-      Name: '',
-      HostedZoneId: '',
-      TrafficPolicyType: '',
-      TrafficPolicyVersion: 0,
-      Message: '',
-      Id: '',
-      State: '',
-    }, /* ...*/ ],
-    IsTruncated: false,
-    MaxItems: '',
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.CreateTrafficPolicy = awsCommon.as(
-  '/2013-04-01/trafficpolicy',
-  function CreateTrafficPolicy(aws) {
-  var Comment = aws.params['Comment'];
-  var Document = aws.params['Document'];
-  var Name = aws.params['Name'];
-  if (!Name) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
-  }
-  if (!Document) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Document'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    TrafficPolicy: /*S29*/{
-      Version: 0,
-      Name: '',
-      Comment: '',
-      Document: '',
-      Type: '',
-      Id: '',
-    },
-    Location: '',
-  };
-  return [201, ret];
-});
-// -----------------------------------
-module.exports.CreateTrafficPolicyVersion = awsCommon.as(
-  '/2013-04-01/trafficpolicy/:Id',
-  function CreateTrafficPolicyVersion(aws) {
-  var Comment = aws.params['Comment'];
-  var Document = aws.params['Document'];
-  var Id = aws.reqParams['Id'];
-  if (!Id) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
-  }
-  if (!Document) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Document'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    TrafficPolicy: /*S29*/{
-      Version: 0,
-      Name: '',
-      Comment: '',
-      Document: '',
-      Type: '',
-      Id: '',
-    },
-    Location: '',
-  };
-  return [201, ret];
-});
-// -----------------------------------
-module.exports.UpdateTrafficPolicyComment = awsCommon.as(
-  '/2013-04-01/trafficpolicy/:Id/:Version',
-  function UpdateTrafficPolicyComment(aws) {
-  var Comment = aws.params['Comment'];
-  var Version = aws.reqParams['Version'] /* Type integer */;
-  var Id = aws.reqParams['Id'];
-  if (!Id) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
-  }
-  if (!Version) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Version'];
-  }
-  if (!Comment) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Comment'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    TrafficPolicy: /*S29*/{
-      Version: 0,
-      Name: '',
-      Comment: '',
-      Document: '',
-      Type: '',
-      Id: '',
-    },
-  };
-  return [200, ret];
-});
+    var ret = {
+      HostedZone: /*S1y*/{
+        Config: /*S1v*/{
+          PrivateZone: false,
+          Comment: '',
+        },
+        Name: '',
+        Id: '',
+        CallerReference: '',
+        ResourceRecordSetCount: 0 /*Long*/,
+      },
+    };
+    return [200, ret];
+  });
 // -----------------------------------
 module.exports.GetHostedZone = awsCommon.as(
   'GET',
   '/2013-04-01/hostedzone/:Id',
   function GetHostedZone(aws) {
-  var Id = aws.reqParams['Id'];
-  if (!Id) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
-  }
+    var id = aws.reqParams.Id;
+    if (!id) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
+    }
 
 
-  // TODO implement code
+    // TODO implement code
 
-  var ret = {
-    VPCs: [ /*S3*/{
-      VPCRegion: '',
-      VPCId: '',
-    }, /* ...*/ ],
-    DelegationSet: /*S20*/{
-      CallerReference: '',
-      Id: '',
-      NameServers: [ '', /* ...*/ ],
-    },
-    HostedZone: /*S1y*/{
-      CallerReference: '',
-      ResourceRecordSetCount: 0 /*Long*/,
-      Config: /*S1v*/{
-        Comment: '',
-        PrivateZone: false,
-      },
-      Id: '',
-      Name: '',
-    },
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.ListTagsForResources = awsCommon.as(
-  '/2013-04-01/tags/:ResourceType',
-  function ListTagsForResources(aws) {
-  var ResourceType = aws.reqParams['ResourceType'];
-  var ResourceIds = aws.params['ResourceIds'] /* Type list */;
-  if (!ResourceType) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ResourceType'];
-  }
-  if (!ResourceIds) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ResourceIds'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    ResourceTagSets: [ /*S4w*/{
-      ResourceType: '',
-      ResourceId: '',
-      Tags: /*S14*/[ {
-        Key: '',
-        Value: '',
+    var ret = {
+      VPCs: [ /*S3*/{
+        VPCId: '',
+        VPCRegion: '',
       }, /* ...*/ ],
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.UpdateTrafficPolicyInstance = awsCommon.as(
-  '/2013-04-01/trafficpolicyinstance/:Id',
-  function UpdateTrafficPolicyInstance(aws) {
-  var TTL = aws.params['TTL'] /* Type long */;
-  var TrafficPolicyVersion = aws.params['TrafficPolicyVersion'] /* Type integer */;
-  var TrafficPolicyId = aws.params['TrafficPolicyId'];
-  var Id = aws.reqParams['Id'];
-  if (!Id) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
-  }
-  if (!TTL) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TTL'];
-  }
-  if (!TrafficPolicyId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TrafficPolicyId'];
-  }
-  if (!TrafficPolicyVersion) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TrafficPolicyVersion'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    TrafficPolicyInstance: /*S2e*/{
-      TTL: 0 /*Long*/,
-      TrafficPolicyId: '',
-      Name: '',
-      HostedZoneId: '',
-      TrafficPolicyType: '',
-      TrafficPolicyVersion: 0,
-      Message: '',
-      Id: '',
-      State: '',
-    },
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.ListTrafficPolicyVersions = awsCommon.as(
-  'GET',
-  '/2013-04-01/trafficpolicies/:Id/versions',
-  function ListTrafficPolicyVersions(aws) {
-  var TrafficPolicyVersionMarker = aws.params['TrafficPolicyVersionMarker'];
-  var MaxItems = aws.params['MaxItems'];
-  var Id = aws.reqParams['Id'];
-  if (!Id) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    TrafficPolicyVersionMarker: '',
-    IsTruncated: false,
-    TrafficPolicies: [ /*S29*/{
-      Version: 0,
-      Name: '',
-      Comment: '',
-      Document: '',
-      Type: '',
-      Id: '',
-    }, /* ...*/ ],
-    MaxItems: '',
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.UpdateHealthCheck = awsCommon.as(
-  '/2013-04-01/healthcheck/:HealthCheckId',
-  function UpdateHealthCheck(aws) {
-  var FullyQualifiedDomainName = aws.params['FullyQualifiedDomainName'];
-  var Port = aws.params['Port'] /* Type integer */;
-  var ChildHealthChecks = aws.params['ChildHealthChecks'];
-  var IPAddress = aws.params['IPAddress'];
-  var HealthThreshold = aws.params['HealthThreshold'] /* Type integer */;
-  var FailureThreshold = aws.params['FailureThreshold'] /* Type integer */;
-  var HealthCheckId = aws.reqParams['HealthCheckId'];
-  var HealthCheckVersion = aws.params['HealthCheckVersion'] /* Type long */;
-  var ResourcePath = aws.params['ResourcePath'];
-  var Inverted = aws.params['Inverted'] /* Type boolean */;
-  var SearchString = aws.params['SearchString'];
-  if (!HealthCheckId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HealthCheckId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    HealthCheck: /*S1q*/{
-      CallerReference: '',
-      HealthCheckVersion: 0 /*Long*/,
-      HealthCheckConfig: /*S1c*/{
-        RequestInterval: 0,
-        ChildHealthChecks: /*S1o*/[ '', /* ...*/ ],
-        IPAddress: '',
-        MeasureLatency: false,
-        FullyQualifiedDomainName: '',
-        Port: 0,
-        HealthThreshold: 0,
-        FailureThreshold: 0,
-        ResourcePath: '',
-        Inverted: false,
-        Type: '',
-        SearchString: '',
+      HostedZone: /*S1y*/{
+        Config: /*S1v*/{
+          PrivateZone: false,
+          Comment: '',
+        },
+        Name: '',
+        Id: '',
+        CallerReference: '',
+        ResourceRecordSetCount: 0 /*Long*/,
       },
-      Id: '',
-    },
-  };
-  return [200, ret];
-});
+      DelegationSet: /*S20*/{
+        Id: '',
+        CallerReference: '',
+        NameServers: [ '', /* ...*/ ],
+      },
+    };
+    return [200, ret];
+  });
 // -----------------------------------
-module.exports.GetGeoLocation = awsCommon.as(
+module.exports.DisassociateVPCFromHostedZone = awsCommon.as(
+  '/2013-04-01/hostedzone/:Id/disassociatevpc',
+  function DisassociateVPCFromHostedZone(aws) {
+    var hostedZoneId = aws.reqParams.Id;
+    var comment = aws.params.Comment;
+    var vPC = aws.params.VPC;
+    if (!hostedZoneId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HostedZoneId'];
+    }
+    if (!vPC) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VPC'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      ChangeInfo: /*S8*/{
+        Id: '',
+        Comment: '',
+        Status: '',
+        SubmittedAt: awsCommon.timestamp(),
+      },
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.GetChangeDetails = awsCommon.as(
   'GET',
-  '/2013-04-01/geolocation',
-  function GetGeoLocation(aws) {
-  var SubdivisionCode = aws.params['SubdivisionCode'];
-  var CountryCode = aws.params['CountryCode'];
-  var ContinentCode = aws.params['ContinentCode'];
+  '/2013-04-01/changedetails/:Id',
+  function GetChangeDetails(aws) {
+    var id = aws.reqParams.Id;
+    if (!id) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
+    }
 
 
-  // TODO implement code
+    // TODO implement code
 
-  var ret = {
-    GeoLocationDetails: /*S38*/{
-      ContinentName: '',
-      SubdivisionCode: '',
-      SubdivisionName: '',
-      ContinentCode: '',
-      CountryCode: '',
-      CountryName: '',
-    },
-  };
-  return [200, ret];
-});
+    var ret = {
+      ChangeBatchRecord: /*S30*/{
+        Changes: /*Se*/[ {
+          ResourceRecordSet: /*Sh*/{
+            Region: '',
+            Weight: 0 /*Long*/,
+            Failover: '',
+            SetIdentifier: '',
+            GeoLocation: {
+              SubdivisionCode: '',
+              ContinentCode: '',
+              CountryCode: '',
+            },
+            TrafficPolicyInstanceId: '',
+            HealthCheckId: '',
+            Type: '',
+            TTL: 0 /*Long*/,
+            ResourceRecords: [ {
+              Value: '',
+            }, /* ...*/ ],
+            AliasTarget: {
+              DNSName: '',
+              HostedZoneId: '',
+              EvaluateTargetHealth: false,
+            },
+            Name: '',
+          },
+          Action: '',
+        }, /* ...*/ ],
+        Comment: '',
+        Status: '',
+        Submitter: '',
+        Id: '',
+        SubmittedAt: awsCommon.timestamp(),
+      },
+    };
+    return [200, ret];
+  });
 // -----------------------------------
-module.exports.AssociateVPCWithHostedZone = awsCommon.as(
-  '/2013-04-01/hostedzone/:Id/associatevpc',
-  function AssociateVPCWithHostedZone(aws) {
-  var HostedZoneId = aws.reqParams['Id'];
-  var Comment = aws.params['Comment'];
-  var VPC = aws.params['VPC'];
-  if (!HostedZoneId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HostedZoneId'];
-  }
-  if (!VPC) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VPC'];
-  }
+module.exports.DeleteTrafficPolicyInstance = awsCommon.as(
+  'DELETE',
+  '/2013-04-01/trafficpolicyinstance/:Id',
+  function DeleteTrafficPolicyInstance(aws) {
+    var id = aws.reqParams.Id;
+    if (!id) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
+    }
 
 
-  // TODO implement code
+    // TODO implement code
 
-  var ret = {
-    ChangeInfo: /*S8*/{
-      SubmittedAt: awsCommon.timestamp(),
-      Comment: '',
-      Status: '',
-      Id: '',
-    },
-  };
-  return [200, ret];
-});
+    var ret = {
+
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.CreateTrafficPolicyInstance = awsCommon.as(
+  '/2013-04-01/trafficpolicyinstance',
+  function CreateTrafficPolicyInstance(aws) {
+    var hostedZoneId = aws.params.HostedZoneId;
+    var tTL = aws.params.TTL /* Type long */;
+    var trafficPolicyVersion = aws.params.TrafficPolicyVersion /* Type integer */;
+    var trafficPolicyId = aws.params.TrafficPolicyId;
+    var name = aws.params.Name;
+    if (!hostedZoneId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HostedZoneId'];
+    }
+    if (!name) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
+    }
+    if (!tTL) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TTL'];
+    }
+    if (!trafficPolicyId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TrafficPolicyId'];
+    }
+    if (!trafficPolicyVersion) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TrafficPolicyVersion'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      TrafficPolicyInstance: /*S2e*/{
+        HostedZoneId: '',
+        TTL: 0 /*Long*/,
+        TrafficPolicyType: '',
+        TrafficPolicyVersion: 0,
+        Name: '',
+        State: '',
+        Id: '',
+        Message: '',
+        TrafficPolicyId: '',
+      },
+      Location: '',
+    };
+    return [201, ret];
+  });
+// -----------------------------------
+module.exports.ListTagsForResource = awsCommon.as(
+  'GET',
+  '/2013-04-01/tags/:ResourceType/:ResourceId',
+  function ListTagsForResource(aws) {
+    var resourceId = aws.reqParams.ResourceId;
+    var resourceType = aws.reqParams.ResourceType;
+    if (!resourceType) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ResourceType'];
+    }
+    if (!resourceId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ResourceId'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      ResourceTagSet: /*S4w*/{
+        ResourceId: '',
+        ResourceType: '',
+        Tags: /*S14*/[ {
+          Value: '',
+          Key: '',
+        }, /* ...*/ ],
+      },
+    };
+    return [200, ret];
+  });
 // -----------------------------------
 module.exports.GetCheckerIpRanges = awsCommon.as(
   'GET',
@@ -1457,35 +470,1022 @@ module.exports.GetCheckerIpRanges = awsCommon.as(
   function GetCheckerIpRanges(aws) {
 
 
-  // TODO implement code
+    // TODO implement code
 
-  var ret = {
-    CheckerIpRanges: [ '', /* ...*/ ],
-  };
-  return [200, ret];
-});
+    var ret = {
+      CheckerIpRanges: [ '', /* ...*/ ],
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.CreateTrafficPolicy = awsCommon.as(
+  '/2013-04-01/trafficpolicy',
+  function CreateTrafficPolicy(aws) {
+    var name = aws.params.Name;
+    var comment = aws.params.Comment;
+    var document = aws.params.Document;
+    if (!name) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
+    }
+    if (!document) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Document'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      TrafficPolicy: /*S29*/{
+        Comment: '',
+        Version: 0,
+        Name: '',
+        Id: '',
+        Document: '',
+        Type: '',
+      },
+      Location: '',
+    };
+    return [201, ret];
+  });
+// -----------------------------------
+module.exports.UpdateTrafficPolicyInstance = awsCommon.as(
+  '/2013-04-01/trafficpolicyinstance/:Id',
+  function UpdateTrafficPolicyInstance(aws) {
+    var trafficPolicyVersion = aws.params.TrafficPolicyVersion /* Type integer */;
+    var id = aws.reqParams.Id;
+    var tTL = aws.params.TTL /* Type long */;
+    var trafficPolicyId = aws.params.TrafficPolicyId;
+    if (!id) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
+    }
+    if (!tTL) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TTL'];
+    }
+    if (!trafficPolicyId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TrafficPolicyId'];
+    }
+    if (!trafficPolicyVersion) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TrafficPolicyVersion'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      TrafficPolicyInstance: /*S2e*/{
+        HostedZoneId: '',
+        TTL: 0 /*Long*/,
+        TrafficPolicyType: '',
+        TrafficPolicyVersion: 0,
+        Name: '',
+        State: '',
+        Id: '',
+        Message: '',
+        TrafficPolicyId: '',
+      },
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.CreateReusableDelegationSet = awsCommon.as(
+  '/2013-04-01/delegationset',
+  function CreateReusableDelegationSet(aws) {
+    var hostedZoneId = aws.params.HostedZoneId;
+    var callerReference = aws.params.CallerReference;
+    if (!callerReference) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CallerReference'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      DelegationSet: /*S20*/{
+        Id: '',
+        CallerReference: '',
+        NameServers: [ '', /* ...*/ ],
+      },
+      Location: '',
+    };
+    return [201, ret];
+  });
+// -----------------------------------
+module.exports.ListTrafficPolicyVersions = awsCommon.as(
+  'GET',
+  '/2013-04-01/trafficpolicies/:Id/versions',
+  function ListTrafficPolicyVersions(aws) {
+    var trafficPolicyVersionMarker = aws.params.TrafficPolicyVersionMarker;
+    var id = aws.reqParams.Id;
+    var maxItems = aws.params.MaxItems;
+    if (!id) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      TrafficPolicyVersionMarker: '',
+      TrafficPolicies: [ /*S29*/{
+        Comment: '',
+        Version: 0,
+        Name: '',
+        Id: '',
+        Document: '',
+        Type: '',
+      }, /* ...*/ ],
+      IsTruncated: false,
+      MaxItems: '',
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.ListHealthChecks = awsCommon.as(
+  'GET',
+  '/2013-04-01/healthcheck',
+  function ListHealthChecks(aws) {
+    var marker = aws.params.Marker;
+    var maxItems = aws.params.MaxItems;
+
+
+    // TODO implement code
+
+    var ret = {
+      Marker: '',
+      NextMarker: '',
+      IsTruncated: false,
+      HealthChecks: [ /*S1q*/{
+        Id: '',
+        CallerReference: '',
+        HealthCheckConfig: /*S1c*/{
+          FailureThreshold: 0,
+          IPAddress: '',
+          ChildHealthChecks: /*S1o*/[ '', /* ...*/ ],
+          SearchString: '',
+          RequestInterval: 0,
+          HealthThreshold: 0,
+          MeasureLatency: false,
+          Inverted: false,
+          ResourcePath: '',
+          FullyQualifiedDomainName: '',
+          Type: '',
+          Port: 0,
+        },
+        HealthCheckVersion: 0 /*Long*/,
+      }, /* ...*/ ],
+      MaxItems: '',
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.ChangeResourceRecordSets = awsCommon.as(
+  '/2013-04-01/hostedzone/:Id/rrset/',
+  function ChangeResourceRecordSets(aws) {
+    var hostedZoneId = aws.reqParams.Id;
+    var changeBatch = aws.params.ChangeBatch /* Type structure */;
+    if (!hostedZoneId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HostedZoneId'];
+    }
+    if (!changeBatch) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ChangeBatch'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      ChangeInfo: /*S8*/{
+        Id: '',
+        Comment: '',
+        Status: '',
+        SubmittedAt: awsCommon.timestamp(),
+      },
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.ListTrafficPolicyInstancesByHostedZone = awsCommon.as(
+  'GET',
+  '/2013-04-01/trafficpolicyinstances/hostedzone',
+  function ListTrafficPolicyInstancesByHostedZone(aws) {
+    var hostedZoneId = aws.params.HostedZoneId;
+    var trafficPolicyInstanceTypeMarker = aws.params.TrafficPolicyInstanceTypeMarker;
+    var trafficPolicyInstanceNameMarker = aws.params.TrafficPolicyInstanceNameMarker;
+    var maxItems = aws.params.MaxItems;
+    if (!hostedZoneId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HostedZoneId'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      MaxItems: '',
+      TrafficPolicyInstanceTypeMarker: '',
+      IsTruncated: false,
+      TrafficPolicyInstanceNameMarker: '',
+      TrafficPolicyInstances: /*S57*/[ /*S2e*/{
+        HostedZoneId: '',
+        TTL: 0 /*Long*/,
+        TrafficPolicyType: '',
+        TrafficPolicyVersion: 0,
+        Name: '',
+        State: '',
+        Id: '',
+        Message: '',
+        TrafficPolicyId: '',
+      }, /* ...*/ ],
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.DeleteHostedZone = awsCommon.as(
+  'DELETE',
+  '/2013-04-01/hostedzone/:Id',
+  function DeleteHostedZone(aws) {
+    var id = aws.reqParams.Id;
+    if (!id) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      ChangeInfo: /*S8*/{
+        Id: '',
+        Comment: '',
+        Status: '',
+        SubmittedAt: awsCommon.timestamp(),
+      },
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.GetHostedZoneCount = awsCommon.as(
+  'GET',
+  '/2013-04-01/hostedzonecount',
+  function GetHostedZoneCount(aws) {
+
+
+    // TODO implement code
+
+    var ret = {
+      HostedZoneCount: 0 /*Long*/,
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.GetHealthCheck = awsCommon.as(
+  'GET',
+  '/2013-04-01/healthcheck/:HealthCheckId',
+  function GetHealthCheck(aws) {
+    var healthCheckId = aws.reqParams.HealthCheckId;
+    if (!healthCheckId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HealthCheckId'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      HealthCheck: /*S1q*/{
+        Id: '',
+        CallerReference: '',
+        HealthCheckConfig: /*S1c*/{
+          FailureThreshold: 0,
+          IPAddress: '',
+          ChildHealthChecks: /*S1o*/[ '', /* ...*/ ],
+          SearchString: '',
+          RequestInterval: 0,
+          HealthThreshold: 0,
+          MeasureLatency: false,
+          Inverted: false,
+          ResourcePath: '',
+          FullyQualifiedDomainName: '',
+          Type: '',
+          Port: 0,
+        },
+        HealthCheckVersion: 0 /*Long*/,
+      },
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.ListChangeBatchesByRRSet = awsCommon.as(
+  'GET',
+  '/2013-04-01/hostedzone/:Id/rrsChanges',
+  function ListChangeBatchesByRRSet(aws) {
+    var hostedZoneId = aws.reqParams.Id;
+    var startDate = aws.params.StartDate;
+    var marker = aws.params.Marker;
+    var maxItems = aws.params.MaxItems;
+    var setIdentifier = aws.params.SetIdentifier;
+    var name = aws.params.Name;
+    var endDate = aws.params.EndDate;
+    var type = aws.params.Type;
+    if (!hostedZoneId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HostedZoneId'];
+    }
+    if (!name) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
+    }
+    if (!type) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Type'];
+    }
+    if (!startDate) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StartDate'];
+    }
+    if (!endDate) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter EndDate'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      Marker: '',
+      MaxItems: '',
+      NextMarker: '',
+      IsTruncated: false,
+      ChangeBatchRecords: /*S4a*/[ /*S30*/{
+        Changes: /*Se*/[ {
+          ResourceRecordSet: /*Sh*/{
+            Region: '',
+            Weight: 0 /*Long*/,
+            Failover: '',
+            SetIdentifier: '',
+            GeoLocation: {
+              SubdivisionCode: '',
+              ContinentCode: '',
+              CountryCode: '',
+            },
+            TrafficPolicyInstanceId: '',
+            HealthCheckId: '',
+            Type: '',
+            TTL: 0 /*Long*/,
+            ResourceRecords: [ {
+              Value: '',
+            }, /* ...*/ ],
+            AliasTarget: {
+              DNSName: '',
+              HostedZoneId: '',
+              EvaluateTargetHealth: false,
+            },
+            Name: '',
+          },
+          Action: '',
+        }, /* ...*/ ],
+        Comment: '',
+        Status: '',
+        Submitter: '',
+        Id: '',
+        SubmittedAt: awsCommon.timestamp(),
+      }, /* ...*/ ],
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.AssociateVPCWithHostedZone = awsCommon.as(
+  '/2013-04-01/hostedzone/:Id/associatevpc',
+  function AssociateVPCWithHostedZone(aws) {
+    var hostedZoneId = aws.reqParams.Id;
+    var comment = aws.params.Comment;
+    var vPC = aws.params.VPC;
+    if (!hostedZoneId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HostedZoneId'];
+    }
+    if (!vPC) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VPC'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      ChangeInfo: /*S8*/{
+        Id: '',
+        Comment: '',
+        Status: '',
+        SubmittedAt: awsCommon.timestamp(),
+      },
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.GetHealthCheckStatus = awsCommon.as(
+  'GET',
+  '/2013-04-01/healthcheck/:HealthCheckId/status',
+  function GetHealthCheckStatus(aws) {
+    var healthCheckId = aws.reqParams.HealthCheckId;
+    if (!healthCheckId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HealthCheckId'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      HealthCheckObservations: /*S3j*/[ {
+        StatusReport: {
+          CheckedTime: awsCommon.timestamp(),
+          Status: '',
+        },
+        IPAddress: '',
+      }, /* ...*/ ],
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.CreateHealthCheck = awsCommon.as(
+  '/2013-04-01/healthcheck',
+  function CreateHealthCheck(aws) {
+    var callerReference = aws.params.CallerReference;
+    var healthCheckConfig = aws.params.HealthCheckConfig;
+    if (!callerReference) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CallerReference'];
+    }
+    if (!healthCheckConfig) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HealthCheckConfig'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      HealthCheck: /*S1q*/{
+        Id: '',
+        CallerReference: '',
+        HealthCheckConfig: /*S1c*/{
+          FailureThreshold: 0,
+          IPAddress: '',
+          ChildHealthChecks: /*S1o*/[ '', /* ...*/ ],
+          SearchString: '',
+          RequestInterval: 0,
+          HealthThreshold: 0,
+          MeasureLatency: false,
+          Inverted: false,
+          ResourcePath: '',
+          FullyQualifiedDomainName: '',
+          Type: '',
+          Port: 0,
+        },
+        HealthCheckVersion: 0 /*Long*/,
+      },
+      Location: '',
+    };
+    return [201, ret];
+  });
+// -----------------------------------
+module.exports.GetTrafficPolicy = awsCommon.as(
+  'GET',
+  '/2013-04-01/trafficpolicy/:Id/:Version',
+  function GetTrafficPolicy(aws) {
+    var id = aws.reqParams.Id;
+    var version = aws.reqParams.Version /* Type integer */;
+    if (!id) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
+    }
+    if (!version) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Version'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      TrafficPolicy: /*S29*/{
+        Comment: '',
+        Version: 0,
+        Name: '',
+        Id: '',
+        Document: '',
+        Type: '',
+      },
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.ListResourceRecordSets = awsCommon.as(
+  'GET',
+  '/2013-04-01/hostedzone/:Id/rrset',
+  function ListResourceRecordSets(aws) {
+    var hostedZoneId = aws.reqParams.Id;
+    var startRecordIdentifier = aws.params.StartRecordIdentifier;
+    var maxItems = aws.params.MaxItems;
+    var startRecordType = aws.params.StartRecordType;
+    var startRecordName = aws.params.StartRecordName;
+    if (!hostedZoneId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HostedZoneId'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      MaxItems: '',
+      NextRecordType: '',
+      IsTruncated: false,
+      ResourceRecordSets: [ /*Sh*/{
+        Region: '',
+        Weight: 0 /*Long*/,
+        Failover: '',
+        SetIdentifier: '',
+        GeoLocation: {
+          SubdivisionCode: '',
+          ContinentCode: '',
+          CountryCode: '',
+        },
+        TrafficPolicyInstanceId: '',
+        HealthCheckId: '',
+        Type: '',
+        TTL: 0 /*Long*/,
+        ResourceRecords: [ {
+          Value: '',
+        }, /* ...*/ ],
+        AliasTarget: {
+          DNSName: '',
+          HostedZoneId: '',
+          EvaluateTargetHealth: false,
+        },
+        Name: '',
+      }, /* ...*/ ],
+      NextRecordIdentifier: '',
+      NextRecordName: '',
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.ChangeTagsForResource = awsCommon.as(
+  '/2013-04-01/tags/:ResourceType/:ResourceId',
+  function ChangeTagsForResource(aws) {
+    var resourceId = aws.reqParams.ResourceId;
+    var resourceType = aws.reqParams.ResourceType;
+    var removeTagKeys = aws.params.RemoveTagKeys /* Type list */;
+    var addTags = aws.params.AddTags;
+    if (!resourceType) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ResourceType'];
+    }
+    if (!resourceId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ResourceId'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.CreateTrafficPolicyVersion = awsCommon.as(
+  '/2013-04-01/trafficpolicy/:Id',
+  function CreateTrafficPolicyVersion(aws) {
+    var id = aws.reqParams.Id;
+    var comment = aws.params.Comment;
+    var document = aws.params.Document;
+    if (!id) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
+    }
+    if (!document) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Document'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      TrafficPolicy: /*S29*/{
+        Comment: '',
+        Version: 0,
+        Name: '',
+        Id: '',
+        Document: '',
+        Type: '',
+      },
+      Location: '',
+    };
+    return [201, ret];
+  });
+// -----------------------------------
+module.exports.GetTrafficPolicyInstance = awsCommon.as(
+  'GET',
+  '/2013-04-01/trafficpolicyinstance/:Id',
+  function GetTrafficPolicyInstance(aws) {
+    var id = aws.reqParams.Id;
+    if (!id) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      TrafficPolicyInstance: /*S2e*/{
+        HostedZoneId: '',
+        TTL: 0 /*Long*/,
+        TrafficPolicyType: '',
+        TrafficPolicyVersion: 0,
+        Name: '',
+        State: '',
+        Id: '',
+        Message: '',
+        TrafficPolicyId: '',
+      },
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.UpdateHealthCheck = awsCommon.as(
+  '/2013-04-01/healthcheck/:HealthCheckId',
+  function UpdateHealthCheck(aws) {
+    var healthThreshold = aws.params.HealthThreshold /* Type integer */;
+    var searchString = aws.params.SearchString;
+    var resourcePath = aws.params.ResourcePath;
+    var port = aws.params.Port /* Type integer */;
+    var failureThreshold = aws.params.FailureThreshold /* Type integer */;
+    var inverted = aws.params.Inverted /* Type boolean */;
+    var fullyQualifiedDomainName = aws.params.FullyQualifiedDomainName;
+    var childHealthChecks = aws.params.ChildHealthChecks;
+    var healthCheckVersion = aws.params.HealthCheckVersion /* Type long */;
+    var healthCheckId = aws.reqParams.HealthCheckId;
+    var iPAddress = aws.params.IPAddress;
+    if (!healthCheckId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HealthCheckId'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      HealthCheck: /*S1q*/{
+        Id: '',
+        CallerReference: '',
+        HealthCheckConfig: /*S1c*/{
+          FailureThreshold: 0,
+          IPAddress: '',
+          ChildHealthChecks: /*S1o*/[ '', /* ...*/ ],
+          SearchString: '',
+          RequestInterval: 0,
+          HealthThreshold: 0,
+          MeasureLatency: false,
+          Inverted: false,
+          ResourcePath: '',
+          FullyQualifiedDomainName: '',
+          Type: '',
+          Port: 0,
+        },
+        HealthCheckVersion: 0 /*Long*/,
+      },
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.GetReusableDelegationSet = awsCommon.as(
+  'GET',
+  '/2013-04-01/delegationset/:Id',
+  function GetReusableDelegationSet(aws) {
+    var id = aws.reqParams.Id;
+    if (!id) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      DelegationSet: /*S20*/{
+        Id: '',
+        CallerReference: '',
+        NameServers: [ '', /* ...*/ ],
+      },
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.ListGeoLocations = awsCommon.as(
+  'GET',
+  '/2013-04-01/geolocations',
+  function ListGeoLocations(aws) {
+    var maxItems = aws.params.MaxItems;
+    var startCountryCode = aws.params.StartCountryCode;
+    var startContinentCode = aws.params.StartContinentCode;
+    var startSubdivisionCode = aws.params.StartSubdivisionCode;
+
+
+    // TODO implement code
+
+    var ret = {
+      MaxItems: '',
+      NextContinentCode: '',
+      IsTruncated: false,
+      NextSubdivisionCode: '',
+      GeoLocationDetailsList: [ /*S38*/{
+        SubdivisionName: '',
+        SubdivisionCode: '',
+        CountryCode: '',
+        ContinentName: '',
+        ContinentCode: '',
+        CountryName: '',
+      }, /* ...*/ ],
+      NextCountryCode: '',
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.ListTrafficPolicyInstances = awsCommon.as(
+  'GET',
+  '/2013-04-01/trafficpolicyinstances',
+  function ListTrafficPolicyInstances(aws) {
+    var maxItems = aws.params.MaxItems;
+    var trafficPolicyInstanceTypeMarker = aws.params.TrafficPolicyInstanceTypeMarker;
+    var hostedZoneIdMarker = aws.params.HostedZoneIdMarker;
+    var trafficPolicyInstanceNameMarker = aws.params.TrafficPolicyInstanceNameMarker;
+
+
+    // TODO implement code
+
+    var ret = {
+      MaxItems: '',
+      IsTruncated: false,
+      HostedZoneIdMarker: '',
+      TrafficPolicyInstanceTypeMarker: '',
+      TrafficPolicyInstances: /*S57*/[ /*S2e*/{
+        HostedZoneId: '',
+        TTL: 0 /*Long*/,
+        TrafficPolicyType: '',
+        TrafficPolicyVersion: 0,
+        Name: '',
+        State: '',
+        Id: '',
+        Message: '',
+        TrafficPolicyId: '',
+      }, /* ...*/ ],
+      TrafficPolicyInstanceNameMarker: '',
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.UpdateTrafficPolicyComment = awsCommon.as(
+  '/2013-04-01/trafficpolicy/:Id/:Version',
+  function UpdateTrafficPolicyComment(aws) {
+    var id = aws.reqParams.Id;
+    var comment = aws.params.Comment;
+    var version = aws.reqParams.Version /* Type integer */;
+    if (!id) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
+    }
+    if (!version) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Version'];
+    }
+    if (!comment) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Comment'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      TrafficPolicy: /*S29*/{
+        Comment: '',
+        Version: 0,
+        Name: '',
+        Id: '',
+        Document: '',
+        Type: '',
+      },
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.GetHealthCheckCount = awsCommon.as(
+  'GET',
+  '/2013-04-01/healthcheckcount',
+  function GetHealthCheckCount(aws) {
+
+
+    // TODO implement code
+
+    var ret = {
+      HealthCheckCount: 0 /*Long*/,
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.DeleteHealthCheck = awsCommon.as(
+  'DELETE',
+  '/2013-04-01/healthcheck/:HealthCheckId',
+  function DeleteHealthCheck(aws) {
+    var healthCheckId = aws.reqParams.HealthCheckId;
+    if (!healthCheckId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HealthCheckId'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.ListTrafficPolicyInstancesByPolicy = awsCommon.as(
+  'GET',
+  '/2013-04-01/trafficpolicyinstances/trafficpolicy',
+  function ListTrafficPolicyInstancesByPolicy(aws) {
+    var trafficPolicyVersion = aws.params.TrafficPolicyVersion /* Type integer */;
+    var hostedZoneIdMarker = aws.params.HostedZoneIdMarker;
+    var maxItems = aws.params.MaxItems;
+    var trafficPolicyInstanceTypeMarker = aws.params.TrafficPolicyInstanceTypeMarker;
+    var trafficPolicyId = aws.params.TrafficPolicyId;
+    var trafficPolicyInstanceNameMarker = aws.params.TrafficPolicyInstanceNameMarker;
+    if (!trafficPolicyId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TrafficPolicyId'];
+    }
+    if (!trafficPolicyVersion) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TrafficPolicyVersion'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      MaxItems: '',
+      IsTruncated: false,
+      HostedZoneIdMarker: '',
+      TrafficPolicyInstanceTypeMarker: '',
+      TrafficPolicyInstances: /*S57*/[ /*S2e*/{
+        HostedZoneId: '',
+        TTL: 0 /*Long*/,
+        TrafficPolicyType: '',
+        TrafficPolicyVersion: 0,
+        Name: '',
+        State: '',
+        Id: '',
+        Message: '',
+        TrafficPolicyId: '',
+      }, /* ...*/ ],
+      TrafficPolicyInstanceNameMarker: '',
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.ListTagsForResources = awsCommon.as(
+  '/2013-04-01/tags/:ResourceType',
+  function ListTagsForResources(aws) {
+    var resourceIds = aws.params.ResourceIds /* Type list */;
+    var resourceType = aws.reqParams.ResourceType;
+    if (!resourceType) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ResourceType'];
+    }
+    if (!resourceIds) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ResourceIds'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      ResourceTagSets: [ /*S4w*/{
+        ResourceId: '',
+        ResourceType: '',
+        Tags: /*S14*/[ {
+          Value: '',
+          Key: '',
+        }, /* ...*/ ],
+      }, /* ...*/ ],
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.ListChangeBatchesByHostedZone = awsCommon.as(
+  'GET',
+  '/2013-04-01/hostedzone/:Id/changes',
+  function ListChangeBatchesByHostedZone(aws) {
+    var startDate = aws.params.StartDate;
+    var hostedZoneId = aws.reqParams.Id;
+    var endDate = aws.params.EndDate;
+    var marker = aws.params.Marker;
+    var maxItems = aws.params.MaxItems;
+    if (!hostedZoneId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HostedZoneId'];
+    }
+    if (!startDate) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StartDate'];
+    }
+    if (!endDate) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter EndDate'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      Marker: '',
+      MaxItems: '',
+      NextMarker: '',
+      IsTruncated: false,
+      ChangeBatchRecords: /*S4a*/[ /*S30*/{
+        Changes: /*Se*/[ {
+          ResourceRecordSet: /*Sh*/{
+            Region: '',
+            Weight: 0 /*Long*/,
+            Failover: '',
+            SetIdentifier: '',
+            GeoLocation: {
+              SubdivisionCode: '',
+              ContinentCode: '',
+              CountryCode: '',
+            },
+            TrafficPolicyInstanceId: '',
+            HealthCheckId: '',
+            Type: '',
+            TTL: 0 /*Long*/,
+            ResourceRecords: [ {
+              Value: '',
+            }, /* ...*/ ],
+            AliasTarget: {
+              DNSName: '',
+              HostedZoneId: '',
+              EvaluateTargetHealth: false,
+            },
+            Name: '',
+          },
+          Action: '',
+        }, /* ...*/ ],
+        Comment: '',
+        Status: '',
+        Submitter: '',
+        Id: '',
+        SubmittedAt: awsCommon.timestamp(),
+      }, /* ...*/ ],
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.DeleteReusableDelegationSet = awsCommon.as(
+  'DELETE',
+  '/2013-04-01/delegationset/:Id',
+  function DeleteReusableDelegationSet(aws) {
+    var id = aws.reqParams.Id;
+    if (!id) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.DeleteTrafficPolicy = awsCommon.as(
+  'DELETE',
+  '/2013-04-01/trafficpolicy/:Id/:Version',
+  function DeleteTrafficPolicy(aws) {
+    var id = aws.reqParams.Id;
+    var version = aws.reqParams.Version /* Type integer */;
+    if (!id) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Id'];
+    }
+    if (!version) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Version'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+
+    };
+    return [200, ret];
+  });
 // -----------------------------------
 module.exports.ListTrafficPolicies = awsCommon.as(
   'GET',
   '/2013-04-01/trafficpolicies',
   function ListTrafficPolicies(aws) {
-  var MaxItems = aws.params['MaxItems'];
-  var TrafficPolicyIdMarker = aws.params['TrafficPolicyIdMarker'];
+    var maxItems = aws.params.MaxItems;
+    var trafficPolicyIdMarker = aws.params.TrafficPolicyIdMarker;
 
 
-  // TODO implement code
+    // TODO implement code
 
-  var ret = {
-    TrafficPolicySummaries: [ {
-      TrafficPolicyCount: 0,
-      LatestVersion: 0,
-      Type: '',
-      Id: '',
-      Name: '',
-    }, /* ...*/ ],
-    IsTruncated: false,
-    MaxItems: '',
-    TrafficPolicyIdMarker: '',
-  };
-  return [200, ret];
-});
+    var ret = {
+      IsTruncated: false,
+      TrafficPolicySummaries: [ {
+        LatestVersion: 0,
+        Name: '',
+        Id: '',
+        TrafficPolicyCount: 0,
+        Type: '',
+      }, /* ...*/ ],
+      TrafficPolicyIdMarker: '',
+      MaxItems: '',
+    };
+    return [200, ret];
+  });

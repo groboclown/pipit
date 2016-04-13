@@ -10,389 +10,15 @@ const awsCommon = require('../../lib/aws-common');
  */
 
 // Setup input and output to use AWS protocol query
-require('../../lib/aws-common/shape_http')('query', module.exports, 'http://elasticache.amazonaws.com/doc/2015-02-02/')
-// -----------------------------------
-module.exports.CreateCacheSubnetGroup = function CreateCacheSubnetGroup(aws) {
-  var CacheSubnetGroupDescription = aws.params['CacheSubnetGroupDescription'];
-  var CacheSubnetGroupName = aws.params['CacheSubnetGroupName'];
-  var SubnetIds = aws.params['SubnetIds'];
-  if (!CacheSubnetGroupName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CacheSubnetGroupName'];
-  }
-  if (!CacheSubnetGroupDescription) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CacheSubnetGroupDescription'];
-  }
-  if (!SubnetIds) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SubnetIds'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    CacheSubnetGroup: /*S1c*/{
-      VpcId: '',
-      CacheSubnetGroupDescription: '',
-      CacheSubnetGroupName: '',
-      Subnets: [ {
-        SubnetIdentifier: '',
-        SubnetAvailabilityZone: {
-          Name: '',
-        },
-      }, /* ...*/ ],
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.RebootCacheCluster = function RebootCacheCluster(aws) {
-  var CacheNodeIdsToReboot = aws.params['CacheNodeIdsToReboot'];
-  var CacheClusterId = aws.params['CacheClusterId'];
-  if (!CacheClusterId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CacheClusterId'];
-  }
-  if (!CacheNodeIdsToReboot) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CacheNodeIdsToReboot'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    CacheCluster: /*Sr*/{
-      ReplicationGroupId: '',
-      Engine: '',
-      SnapshotRetentionLimit: 0,
-      CacheNodes: [ {
-        CacheNodeId: '',
-        Endpoint: /*Ss*/{
-          Port: 0,
-          Address: '',
-        },
-        SourceCacheNodeId: '',
-        CacheNodeCreateTime: awsCommon.timestamp(),
-        ParameterGroupStatus: '',
-        CacheNodeStatus: '',
-        CustomerAvailabilityZone: '',
-      }, /* ...*/ ],
-      SecurityGroups: [ {
-        SecurityGroupId: '',
-        Status: '',
-      }, /* ...*/ ],
-      CacheSubnetGroupName: '',
-      SnapshotWindow: '',
-      EngineVersion: '',
-      NumCacheNodes: 0,
-      CacheSecurityGroups: [ {
-        Status: '',
-        CacheSecurityGroupName: '',
-      }, /* ...*/ ],
-      ConfigurationEndpoint: /*Ss*/{
-          Port: 0,
-          Address: '',
-        },
-      CacheParameterGroup: {
-        CacheNodeIdsToReboot: /*Sv*/[ '', /* ...*/ ],
-        CacheParameterGroupName: '',
-        ParameterApplyStatus: '',
-      },
-      ClientDownloadLandingPage: '',
-      PendingModifiedValues: {
-        CacheNodeIdsToRemove: /*Sv*/[ '', /* ...*/ ],
-        NumCacheNodes: 0,
-        EngineVersion: '',
-      },
-      CacheClusterId: '',
-      CacheClusterCreateTime: awsCommon.timestamp(),
-      PreferredMaintenanceWindow: '',
-      PreferredAvailabilityZone: '',
-      CacheClusterStatus: '',
-      AutoMinorVersionUpgrade: false,
-      NotificationConfiguration: {
-        TopicArn: '',
-        TopicStatus: '',
-      },
-      CacheNodeType: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.RevokeCacheSecurityGroupIngress = function RevokeCacheSecurityGroupIngress(aws) {
-  var EC2SecurityGroupName = aws.params['EC2SecurityGroupName'];
-  var EC2SecurityGroupOwnerId = aws.params['EC2SecurityGroupOwnerId'];
-  var CacheSecurityGroupName = aws.params['CacheSecurityGroupName'];
-  if (!CacheSecurityGroupName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CacheSecurityGroupName'];
-  }
-  if (!EC2SecurityGroupName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter EC2SecurityGroupName'];
-  }
-  if (!EC2SecurityGroupOwnerId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter EC2SecurityGroupOwnerId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    CacheSecurityGroup: /*S8*/{
-      Description: '',
-      EC2SecurityGroups: [ {
-        EC2SecurityGroupName: '',
-        Status: '',
-        EC2SecurityGroupOwnerId: '',
-      }, /* ...*/ ],
-      OwnerId: '',
-      CacheSecurityGroupName: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateCacheParameterGroup = function CreateCacheParameterGroup(aws) {
-  var CacheParameterGroupName = aws.params['CacheParameterGroupName'];
-  var Description = aws.params['Description'];
-  var CacheParameterGroupFamily = aws.params['CacheParameterGroupFamily'];
-  if (!CacheParameterGroupName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CacheParameterGroupName'];
-  }
-  if (!CacheParameterGroupFamily) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CacheParameterGroupFamily'];
-  }
-  if (!Description) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Description'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    CacheParameterGroup: /*S16*/{
-      CacheParameterGroupName: '',
-      Description: '',
-      CacheParameterGroupFamily: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ModifyReplicationGroup = function ModifyReplicationGroup(aws) {
-  var ReplicationGroupId = aws.params['ReplicationGroupId'];
-  var SecurityGroupIds = aws.params['SecurityGroupIds'];
-  var AutomaticFailoverEnabled = aws.params['AutomaticFailoverEnabled'] /* Type boolean */;
-  var PrimaryClusterId = aws.params['PrimaryClusterId'];
-  var ApplyImmediately = aws.params['ApplyImmediately'] /* Type boolean */;
-  var NotificationTopicStatus = aws.params['NotificationTopicStatus'];
-  var PreferredMaintenanceWindow = aws.params['PreferredMaintenanceWindow'];
-  var SnapshotWindow = aws.params['SnapshotWindow'];
-  var EngineVersion = aws.params['EngineVersion'];
-  var SnapshottingClusterId = aws.params['SnapshottingClusterId'];
-  var ReplicationGroupDescription = aws.params['ReplicationGroupDescription'];
-  var AutoMinorVersionUpgrade = aws.params['AutoMinorVersionUpgrade'] /* Type boolean */;
-  var CacheSecurityGroupNames = aws.params['CacheSecurityGroupNames'];
-  var CacheParameterGroupName = aws.params['CacheParameterGroupName'];
-  var NotificationTopicArn = aws.params['NotificationTopicArn'];
-  var SnapshotRetentionLimit = aws.params['SnapshotRetentionLimit'] /* Type integer */;
-  if (!ReplicationGroupId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ReplicationGroupId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    ReplicationGroup: /*S1j*/{
-      ReplicationGroupId: '',
-      PendingModifiedValues: {
-        PrimaryClusterId: '',
-        AutomaticFailoverStatus: '',
-      },
-      Description: '',
-      SnapshottingClusterId: '',
-      Status: '',
-      MemberClusters: [ '', /* ...*/ ],
-      AutomaticFailover: '',
-      NodeGroups: [ {
-        NodeGroupId: '',
-        NodeGroupMembers: [ {
-          CacheNodeId: '',
-          ReadEndpoint: /*Ss*/{
-            Port: 0,
-            Address: '',
-          },
-          CacheClusterId: '',
-          PreferredAvailabilityZone: '',
-          CurrentRole: '',
-        }, /* ...*/ ],
-        Status: '',
-        PrimaryEndpoint: /*Ss*/{
-            Port: 0,
-            Address: '',
-          },
-      }, /* ...*/ ],
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeCacheEngineVersions = function DescribeCacheEngineVersions(aws) {
-  var Marker = aws.params['Marker'];
-  var Engine = aws.params['Engine'];
-  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
-  var CacheParameterGroupFamily = aws.params['CacheParameterGroupFamily'];
-  var DefaultOnly = aws.params['DefaultOnly'] /* Type boolean */;
-  var EngineVersion = aws.params['EngineVersion'];
-
-
-  // TODO implement code
-
-  var ret = {
-    Marker: '',
-    CacheEngineVersions: [ {
-      CacheEngineVersionDescription: '',
-      Engine: '',
-      CacheParameterGroupFamily: '',
-      CacheEngineDescription: '',
-      EngineVersion: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteSnapshot = function DeleteSnapshot(aws) {
-  var SnapshotName = aws.params['SnapshotName'];
-  if (!SnapshotName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SnapshotName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Snapshot: /*Sd*/{
-      SnapshotRetentionLimit: 0,
-      NodeSnapshots: [ {
-        CacheNodeId: '',
-        CacheSize: '',
-        CacheNodeCreateTime: awsCommon.timestamp(),
-        SnapshotCreateTime: awsCommon.timestamp(),
-      }, /* ...*/ ],
-      SnapshotName: '',
-      TopicArn: '',
-      VpcId: '',
-      CacheClusterCreateTime: awsCommon.timestamp(),
-      SnapshotWindow: '',
-      AutoMinorVersionUpgrade: false,
-      PreferredMaintenanceWindow: '',
-      CacheSubnetGroupName: '',
-      PreferredAvailabilityZone: '',
-      Engine: '',
-      EngineVersion: '',
-      SnapshotStatus: '',
-      Port: 0,
-      NumCacheNodes: 0,
-      CacheParameterGroupName: '',
-      CacheClusterId: '',
-      CacheNodeType: '',
-      SnapshotSource: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListTagsForResource = function ListTagsForResource(aws) {
-  var ResourceName = aws.params['ResourceName'];
-  if (!ResourceName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ResourceName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*S5*/{
-    TagList: /*S3*/[ {
-      Key: '',
-      Value: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeEvents = function DescribeEvents(aws) {
-  var Marker = aws.params['Marker'];
-  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
-  var SourceType = aws.params['SourceType'];
-  var Duration = aws.params['Duration'] /* Type integer */;
-  var EndTime = aws.params['EndTime'] /* Type timestamp */;
-  var StartTime = aws.params['StartTime'] /* Type timestamp */;
-  var SourceIdentifier = aws.params['SourceIdentifier'];
-
-
-  // TODO implement code
-
-  var ret = {
-    Marker: '',
-    Events: [ {
-      SourceType: '',
-      Date: awsCommon.timestamp(),
-      Message: '',
-      SourceIdentifier: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeSnapshots = function DescribeSnapshots(aws) {
-  var Marker = aws.params['Marker'];
-  var SnapshotName = aws.params['SnapshotName'];
-  var CacheClusterId = aws.params['CacheClusterId'];
-  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
-  var SnapshotSource = aws.params['SnapshotSource'];
-
-
-  // TODO implement code
-
-  var ret = {
-    Marker: '',
-    Snapshots: [ /*Sd*/{
-      SnapshotRetentionLimit: 0,
-      NodeSnapshots: [ {
-        CacheNodeId: '',
-        CacheSize: '',
-        CacheNodeCreateTime: awsCommon.timestamp(),
-        SnapshotCreateTime: awsCommon.timestamp(),
-      }, /* ...*/ ],
-      SnapshotName: '',
-      TopicArn: '',
-      VpcId: '',
-      CacheClusterCreateTime: awsCommon.timestamp(),
-      SnapshotWindow: '',
-      AutoMinorVersionUpgrade: false,
-      PreferredMaintenanceWindow: '',
-      CacheSubnetGroupName: '',
-      PreferredAvailabilityZone: '',
-      Engine: '',
-      EngineVersion: '',
-      SnapshotStatus: '',
-      Port: 0,
-      NumCacheNodes: 0,
-      CacheParameterGroupName: '',
-      CacheClusterId: '',
-      CacheNodeType: '',
-      SnapshotSource: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
+require('../../lib/aws-common/shape_http')('query', module.exports, 'http://elasticache.amazonaws.com/doc/2015-02-02/');
 // -----------------------------------
 module.exports.CreateSnapshot = function CreateSnapshot(aws) {
-  var SnapshotName = aws.params['SnapshotName'];
-  var CacheClusterId = aws.params['CacheClusterId'];
-  if (!CacheClusterId) {
+  var snapshotName = aws.params.SnapshotName;
+  var cacheClusterId = aws.params.CacheClusterId;
+  if (!cacheClusterId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CacheClusterId'];
   }
-  if (!SnapshotName) {
+  if (!snapshotName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SnapshotName'];
   }
 
@@ -401,42 +27,42 @@ module.exports.CreateSnapshot = function CreateSnapshot(aws) {
 
   var ret = {
     Snapshot: /*Sd*/{
+      SnapshotName: '',
       SnapshotRetentionLimit: 0,
       NodeSnapshots: [ {
         CacheNodeId: '',
-        CacheSize: '',
         CacheNodeCreateTime: awsCommon.timestamp(),
+        CacheSize: '',
         SnapshotCreateTime: awsCommon.timestamp(),
       }, /* ...*/ ],
-      SnapshotName: '',
-      TopicArn: '',
-      VpcId: '',
       CacheClusterCreateTime: awsCommon.timestamp(),
       SnapshotWindow: '',
-      AutoMinorVersionUpgrade: false,
-      PreferredMaintenanceWindow: '',
-      CacheSubnetGroupName: '',
-      PreferredAvailabilityZone: '',
-      Engine: '',
-      EngineVersion: '',
-      SnapshotStatus: '',
-      Port: 0,
-      NumCacheNodes: 0,
-      CacheParameterGroupName: '',
       CacheClusterId: '',
+      Engine: '',
+      PreferredAvailabilityZone: '',
+      CacheSubnetGroupName: '',
+      PreferredMaintenanceWindow: '',
+      EngineVersion: '',
+      VpcId: '',
+      Port: 0,
       CacheNodeType: '',
+      SnapshotStatus: '',
+      CacheParameterGroupName: '',
+      TopicArn: '',
       SnapshotSource: '',
+      AutoMinorVersionUpgrade: false,
+      NumCacheNodes: 0,
     },
   };
   return [200, ret];
 };
 // -----------------------------------
 module.exports.DescribeCacheParameters = function DescribeCacheParameters(aws) {
-  var Marker = aws.params['Marker'];
-  var CacheParameterGroupName = aws.params['CacheParameterGroupName'];
-  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
-  var Source = aws.params['Source'];
-  if (!CacheParameterGroupName) {
+  var source = aws.params.Source;
+  var cacheParameterGroupName = aws.params.CacheParameterGroupName;
+  var marker = aws.params.Marker;
+  var maxRecords = aws.params.MaxRecords /* Type integer */;
+  if (!cacheParameterGroupName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CacheParameterGroupName'];
   }
 
@@ -445,484 +71,38 @@ module.exports.DescribeCacheParameters = function DescribeCacheParameters(aws) {
 
   var ret = {
     Marker: '',
-    Parameters: /*S2f*/[ {
-      ParameterValue: '',
-      MinimumEngineVersion: '',
-      IsModifiable: false,
-      ParameterName: '',
-      DataType: '',
-      AllowedValues: '',
-      Description: '',
-      Source: '',
-    }, /* ...*/ ],
     CacheNodeTypeSpecificParameters: /*S2h*/[ {
+      Source: '',
+      Description: '',
+      DataType: '',
       CacheNodeTypeSpecificValues: [ {
         Value: '',
         CacheNodeType: '',
       }, /* ...*/ ],
+      MinimumEngineVersion: '',
+      ParameterName: '',
+      AllowedValues: '',
+      IsModifiable: false,
+    }, /* ...*/ ],
+    Parameters: /*S2f*/[ {
+      ParameterValue: '',
+      DataType: '',
       Description: '',
       MinimumEngineVersion: '',
-      IsModifiable: false,
       ParameterName: '',
-      DataType: '',
-      AllowedValues: '',
       Source: '',
+      AllowedValues: '',
+      IsModifiable: false,
     }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ResetCacheParameterGroup = function ResetCacheParameterGroup(aws) {
-  var ParameterNameValues = aws.params['ParameterNameValues'];
-  var ResetAllParameters = aws.params['ResetAllParameters'] /* Type boolean */;
-  var CacheParameterGroupName = aws.params['CacheParameterGroupName'];
-  if (!CacheParameterGroupName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CacheParameterGroupName'];
-  }
-  if (!ParameterNameValues) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ParameterNameValues'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*S3m*/{
-    CacheParameterGroupName: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeReservedCacheNodes = function DescribeReservedCacheNodes(aws) {
-  var Marker = aws.params['Marker'];
-  var ProductDescription = aws.params['ProductDescription'];
-  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
-  var OfferingType = aws.params['OfferingType'];
-  var ReservedCacheNodeId = aws.params['ReservedCacheNodeId'];
-  var ReservedCacheNodesOfferingId = aws.params['ReservedCacheNodesOfferingId'];
-  var CacheNodeType = aws.params['CacheNodeType'];
-  var Duration = aws.params['Duration'];
-
-
-  // TODO implement code
-
-  var ret = {
-    Marker: '',
-    ReservedCacheNodes: [ /*S35*/{
-      FixedPrice: 0.0 /*Double*/,
-      UsagePrice: 0.0 /*Double*/,
-      ReservedCacheNodesOfferingId: '',
-      ReservedCacheNodeId: '',
-      State: '',
-      ProductDescription: '',
-      RecurringCharges: /*S37*/[ {
-        RecurringChargeAmount: 0.0 /*Double*/,
-        RecurringChargeFrequency: '',
-      }, /* ...*/ ],
-      OfferingType: '',
-      CacheNodeCount: 0,
-      CacheNodeType: '',
-      Duration: 0,
-      StartTime: awsCommon.timestamp(),
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteCacheParameterGroup = function DeleteCacheParameterGroup(aws) {
-  var CacheParameterGroupName = aws.params['CacheParameterGroupName'];
-  if (!CacheParameterGroupName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CacheParameterGroupName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteCacheSecurityGroup = function DeleteCacheSecurityGroup(aws) {
-  var CacheSecurityGroupName = aws.params['CacheSecurityGroupName'];
-  if (!CacheSecurityGroupName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CacheSecurityGroupName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeCacheSubnetGroups = function DescribeCacheSubnetGroups(aws) {
-  var Marker = aws.params['Marker'];
-  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
-  var CacheSubnetGroupName = aws.params['CacheSubnetGroupName'];
-
-
-  // TODO implement code
-
-  var ret = {
-    Marker: '',
-    CacheSubnetGroups: [ /*S1c*/{
-      VpcId: '',
-      CacheSubnetGroupDescription: '',
-      CacheSubnetGroupName: '',
-      Subnets: [ {
-        SubnetIdentifier: '',
-        SubnetAvailabilityZone: {
-          Name: '',
-        },
-      }, /* ...*/ ],
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ModifyCacheParameterGroup = function ModifyCacheParameterGroup(aws) {
-  var ParameterNameValues = aws.params['ParameterNameValues'];
-  var CacheParameterGroupName = aws.params['CacheParameterGroupName'];
-  if (!CacheParameterGroupName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CacheParameterGroupName'];
-  }
-  if (!ParameterNameValues) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ParameterNameValues'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*S3m*/{
-    CacheParameterGroupName: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CopySnapshot = function CopySnapshot(aws) {
-  var TargetSnapshotName = aws.params['TargetSnapshotName'];
-  var SourceSnapshotName = aws.params['SourceSnapshotName'];
-  if (!SourceSnapshotName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SourceSnapshotName'];
-  }
-  if (!TargetSnapshotName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TargetSnapshotName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Snapshot: /*Sd*/{
-      SnapshotRetentionLimit: 0,
-      NodeSnapshots: [ {
-        CacheNodeId: '',
-        CacheSize: '',
-        CacheNodeCreateTime: awsCommon.timestamp(),
-        SnapshotCreateTime: awsCommon.timestamp(),
-      }, /* ...*/ ],
-      SnapshotName: '',
-      TopicArn: '',
-      VpcId: '',
-      CacheClusterCreateTime: awsCommon.timestamp(),
-      SnapshotWindow: '',
-      AutoMinorVersionUpgrade: false,
-      PreferredMaintenanceWindow: '',
-      CacheSubnetGroupName: '',
-      PreferredAvailabilityZone: '',
-      Engine: '',
-      EngineVersion: '',
-      SnapshotStatus: '',
-      Port: 0,
-      NumCacheNodes: 0,
-      CacheParameterGroupName: '',
-      CacheClusterId: '',
-      CacheNodeType: '',
-      SnapshotSource: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateCacheCluster = function CreateCacheCluster(aws) {
-  var AZMode = aws.params['AZMode'];
-  var Engine = aws.params['Engine'];
-  var SnapshotRetentionLimit = aws.params['SnapshotRetentionLimit'] /* Type integer */;
-  var SnapshotWindow = aws.params['SnapshotWindow'];
-  var CacheSubnetGroupName = aws.params['CacheSubnetGroupName'];
-  var SnapshotName = aws.params['SnapshotName'];
-  var EngineVersion = aws.params['EngineVersion'];
-  var NotificationTopicArn = aws.params['NotificationTopicArn'];
-  var Port = aws.params['Port'] /* Type integer */;
-  var NumCacheNodes = aws.params['NumCacheNodes'] /* Type integer */;
-  var CacheClusterId = aws.params['CacheClusterId'];
-  var SecurityGroupIds = aws.params['SecurityGroupIds'];
-  var PreferredAvailabilityZones = aws.params['PreferredAvailabilityZones'];
-  var ReplicationGroupId = aws.params['ReplicationGroupId'];
-  var Tags = aws.params['Tags'];
-  var SnapshotArns = aws.params['SnapshotArns'];
-  var PreferredMaintenanceWindow = aws.params['PreferredMaintenanceWindow'];
-  var PreferredAvailabilityZone = aws.params['PreferredAvailabilityZone'];
-  var AutoMinorVersionUpgrade = aws.params['AutoMinorVersionUpgrade'] /* Type boolean */;
-  var CacheSecurityGroupNames = aws.params['CacheSecurityGroupNames'];
-  var CacheParameterGroupName = aws.params['CacheParameterGroupName'];
-  var CacheNodeType = aws.params['CacheNodeType'];
-  if (!CacheClusterId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CacheClusterId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    CacheCluster: /*Sr*/{
-      ReplicationGroupId: '',
-      Engine: '',
-      SnapshotRetentionLimit: 0,
-      CacheNodes: [ {
-        CacheNodeId: '',
-        Endpoint: /*Ss*/{
-          Port: 0,
-          Address: '',
-        },
-        SourceCacheNodeId: '',
-        CacheNodeCreateTime: awsCommon.timestamp(),
-        ParameterGroupStatus: '',
-        CacheNodeStatus: '',
-        CustomerAvailabilityZone: '',
-      }, /* ...*/ ],
-      SecurityGroups: [ {
-        SecurityGroupId: '',
-        Status: '',
-      }, /* ...*/ ],
-      CacheSubnetGroupName: '',
-      SnapshotWindow: '',
-      EngineVersion: '',
-      NumCacheNodes: 0,
-      CacheSecurityGroups: [ {
-        Status: '',
-        CacheSecurityGroupName: '',
-      }, /* ...*/ ],
-      ConfigurationEndpoint: /*Ss*/{
-          Port: 0,
-          Address: '',
-        },
-      CacheParameterGroup: {
-        CacheNodeIdsToReboot: /*Sv*/[ '', /* ...*/ ],
-        CacheParameterGroupName: '',
-        ParameterApplyStatus: '',
-      },
-      ClientDownloadLandingPage: '',
-      PendingModifiedValues: {
-        CacheNodeIdsToRemove: /*Sv*/[ '', /* ...*/ ],
-        NumCacheNodes: 0,
-        EngineVersion: '',
-      },
-      CacheClusterId: '',
-      CacheClusterCreateTime: awsCommon.timestamp(),
-      PreferredMaintenanceWindow: '',
-      PreferredAvailabilityZone: '',
-      CacheClusterStatus: '',
-      AutoMinorVersionUpgrade: false,
-      NotificationConfiguration: {
-        TopicArn: '',
-        TopicStatus: '',
-      },
-      CacheNodeType: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteCacheCluster = function DeleteCacheCluster(aws) {
-  var CacheClusterId = aws.params['CacheClusterId'];
-  var FinalSnapshotIdentifier = aws.params['FinalSnapshotIdentifier'];
-  if (!CacheClusterId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CacheClusterId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    CacheCluster: /*Sr*/{
-      ReplicationGroupId: '',
-      Engine: '',
-      SnapshotRetentionLimit: 0,
-      CacheNodes: [ {
-        CacheNodeId: '',
-        Endpoint: /*Ss*/{
-          Port: 0,
-          Address: '',
-        },
-        SourceCacheNodeId: '',
-        CacheNodeCreateTime: awsCommon.timestamp(),
-        ParameterGroupStatus: '',
-        CacheNodeStatus: '',
-        CustomerAvailabilityZone: '',
-      }, /* ...*/ ],
-      SecurityGroups: [ {
-        SecurityGroupId: '',
-        Status: '',
-      }, /* ...*/ ],
-      CacheSubnetGroupName: '',
-      SnapshotWindow: '',
-      EngineVersion: '',
-      NumCacheNodes: 0,
-      CacheSecurityGroups: [ {
-        Status: '',
-        CacheSecurityGroupName: '',
-      }, /* ...*/ ],
-      ConfigurationEndpoint: /*Ss*/{
-          Port: 0,
-          Address: '',
-        },
-      CacheParameterGroup: {
-        CacheNodeIdsToReboot: /*Sv*/[ '', /* ...*/ ],
-        CacheParameterGroupName: '',
-        ParameterApplyStatus: '',
-      },
-      ClientDownloadLandingPage: '',
-      PendingModifiedValues: {
-        CacheNodeIdsToRemove: /*Sv*/[ '', /* ...*/ ],
-        NumCacheNodes: 0,
-        EngineVersion: '',
-      },
-      CacheClusterId: '',
-      CacheClusterCreateTime: awsCommon.timestamp(),
-      PreferredMaintenanceWindow: '',
-      PreferredAvailabilityZone: '',
-      CacheClusterStatus: '',
-      AutoMinorVersionUpgrade: false,
-      NotificationConfiguration: {
-        TopicArn: '',
-        TopicStatus: '',
-      },
-      CacheNodeType: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeEngineDefaultParameters = function DescribeEngineDefaultParameters(aws) {
-  var Marker = aws.params['Marker'];
-  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
-  var CacheParameterGroupFamily = aws.params['CacheParameterGroupFamily'];
-  if (!CacheParameterGroupFamily) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CacheParameterGroupFamily'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    EngineDefaults: {
-      Marker: '',
-      Parameters: /*S2f*/[ {
-        ParameterValue: '',
-        MinimumEngineVersion: '',
-        IsModifiable: false,
-        ParameterName: '',
-        DataType: '',
-        AllowedValues: '',
-        Description: '',
-        Source: '',
-      }, /* ...*/ ],
-      CacheNodeTypeSpecificParameters: /*S2h*/[ {
-        CacheNodeTypeSpecificValues: [ {
-          Value: '',
-          CacheNodeType: '',
-        }, /* ...*/ ],
-        Description: '',
-        MinimumEngineVersion: '',
-        IsModifiable: false,
-        ParameterName: '',
-        DataType: '',
-        AllowedValues: '',
-        Source: '',
-      }, /* ...*/ ],
-      CacheParameterGroupFamily: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteCacheSubnetGroup = function DeleteCacheSubnetGroup(aws) {
-  var CacheSubnetGroupName = aws.params['CacheSubnetGroupName'];
-  if (!CacheSubnetGroupName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CacheSubnetGroupName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.AuthorizeCacheSecurityGroupIngress = function AuthorizeCacheSecurityGroupIngress(aws) {
-  var EC2SecurityGroupName = aws.params['EC2SecurityGroupName'];
-  var EC2SecurityGroupOwnerId = aws.params['EC2SecurityGroupOwnerId'];
-  var CacheSecurityGroupName = aws.params['CacheSecurityGroupName'];
-  if (!CacheSecurityGroupName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CacheSecurityGroupName'];
-  }
-  if (!EC2SecurityGroupName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter EC2SecurityGroupName'];
-  }
-  if (!EC2SecurityGroupOwnerId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter EC2SecurityGroupOwnerId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    CacheSecurityGroup: /*S8*/{
-      Description: '',
-      EC2SecurityGroups: [ {
-        EC2SecurityGroupName: '',
-        Status: '',
-        EC2SecurityGroupOwnerId: '',
-      }, /* ...*/ ],
-      OwnerId: '',
-      CacheSecurityGroupName: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ModifyCacheSubnetGroup = function ModifyCacheSubnetGroup(aws) {
-  var CacheSubnetGroupDescription = aws.params['CacheSubnetGroupDescription'];
-  var CacheSubnetGroupName = aws.params['CacheSubnetGroupName'];
-  var SubnetIds = aws.params['SubnetIds'];
-  if (!CacheSubnetGroupName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CacheSubnetGroupName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    CacheSubnetGroup: /*S1c*/{
-      VpcId: '',
-      CacheSubnetGroupDescription: '',
-      CacheSubnetGroupName: '',
-      Subnets: [ {
-        SubnetIdentifier: '',
-        SubnetAvailabilityZone: {
-          Name: '',
-        },
-      }, /* ...*/ ],
-    },
   };
   return [200, ret];
 };
 // -----------------------------------
 module.exports.DeleteReplicationGroup = function DeleteReplicationGroup(aws) {
-  var ReplicationGroupId = aws.params['ReplicationGroupId'];
-  var FinalSnapshotIdentifier = aws.params['FinalSnapshotIdentifier'];
-  var RetainPrimaryCluster = aws.params['RetainPrimaryCluster'] /* Type boolean */;
-  if (!ReplicationGroupId) {
+  var replicationGroupId = aws.params.ReplicationGroupId;
+  var finalSnapshotIdentifier = aws.params.FinalSnapshotIdentifier;
+  var retainPrimaryCluster = aws.params.RetainPrimaryCluster /* Type boolean */;
+  if (!replicationGroupId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ReplicationGroupId'];
   }
 
@@ -932,337 +112,43 @@ module.exports.DeleteReplicationGroup = function DeleteReplicationGroup(aws) {
   var ret = {
     ReplicationGroup: /*S1j*/{
       ReplicationGroupId: '',
+      AutomaticFailover: '',
+      SnapshottingClusterId: '',
+      Status: '',
+      Description: '',
+      MemberClusters: [ '', /* ...*/ ],
       PendingModifiedValues: {
         PrimaryClusterId: '',
         AutomaticFailoverStatus: '',
       },
-      Description: '',
-      SnapshottingClusterId: '',
-      Status: '',
-      MemberClusters: [ '', /* ...*/ ],
-      AutomaticFailover: '',
       NodeGroups: [ {
         NodeGroupId: '',
         NodeGroupMembers: [ {
           CacheNodeId: '',
-          ReadEndpoint: /*Ss*/{
-            Port: 0,
-            Address: '',
-          },
           CacheClusterId: '',
           PreferredAvailabilityZone: '',
           CurrentRole: '',
-        }, /* ...*/ ],
-        Status: '',
-        PrimaryEndpoint: /*Ss*/{
-            Port: 0,
-            Address: '',
-          },
-      }, /* ...*/ ],
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.RemoveTagsFromResource = function RemoveTagsFromResource(aws) {
-  var ResourceName = aws.params['ResourceName'];
-  var TagKeys = aws.params['TagKeys'] /* Type list */;
-  if (!ResourceName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ResourceName'];
-  }
-  if (!TagKeys) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TagKeys'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*S5*/{
-    TagList: /*S3*/[ {
-      Key: '',
-      Value: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeReservedCacheNodesOfferings = function DescribeReservedCacheNodesOfferings(aws) {
-  var Marker = aws.params['Marker'];
-  var ProductDescription = aws.params['ProductDescription'];
-  var OfferingType = aws.params['OfferingType'];
-  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
-  var ReservedCacheNodesOfferingId = aws.params['ReservedCacheNodesOfferingId'];
-  var CacheNodeType = aws.params['CacheNodeType'];
-  var Duration = aws.params['Duration'];
-
-
-  // TODO implement code
-
-  var ret = {
-    Marker: '',
-    ReservedCacheNodesOfferings: [ {
-      ProductDescription: '',
-      RecurringCharges: /*S37*/[ {
-        RecurringChargeAmount: 0.0 /*Double*/,
-        RecurringChargeFrequency: '',
-      }, /* ...*/ ],
-      FixedPrice: 0.0 /*Double*/,
-      OfferingType: '',
-      ReservedCacheNodesOfferingId: '',
-      CacheNodeType: '',
-      Duration: 0,
-      UsagePrice: 0.0 /*Double*/,
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeReplicationGroups = function DescribeReplicationGroups(aws) {
-  var ReplicationGroupId = aws.params['ReplicationGroupId'];
-  var Marker = aws.params['Marker'];
-  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
-
-
-  // TODO implement code
-
-  var ret = {
-    Marker: '',
-    ReplicationGroups: [ /*S1j*/{
-      ReplicationGroupId: '',
-      PendingModifiedValues: {
-        PrimaryClusterId: '',
-        AutomaticFailoverStatus: '',
-      },
-      Description: '',
-      SnapshottingClusterId: '',
-      Status: '',
-      MemberClusters: [ '', /* ...*/ ],
-      AutomaticFailover: '',
-      NodeGroups: [ {
-        NodeGroupId: '',
-        NodeGroupMembers: [ {
-          CacheNodeId: '',
           ReadEndpoint: /*Ss*/{
-            Port: 0,
             Address: '',
+            Port: 0,
           },
-          CacheClusterId: '',
-          PreferredAvailabilityZone: '',
-          CurrentRole: '',
         }, /* ...*/ ],
         Status: '',
         PrimaryEndpoint: /*Ss*/{
-            Port: 0,
             Address: '',
+            Port: 0,
           },
       }, /* ...*/ ],
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeCacheSecurityGroups = function DescribeCacheSecurityGroups(aws) {
-  var Marker = aws.params['Marker'];
-  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
-  var CacheSecurityGroupName = aws.params['CacheSecurityGroupName'];
-
-
-  // TODO implement code
-
-  var ret = {
-    Marker: '',
-    CacheSecurityGroups: [ /*S8*/{
-      Description: '',
-      EC2SecurityGroups: [ {
-        EC2SecurityGroupName: '',
-        Status: '',
-        EC2SecurityGroupOwnerId: '',
-      }, /* ...*/ ],
-      OwnerId: '',
-      CacheSecurityGroupName: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ModifyCacheCluster = function ModifyCacheCluster(aws) {
-  var SecurityGroupIds = aws.params['SecurityGroupIds'];
-  var AZMode = aws.params['AZMode'];
-  var SnapshotRetentionLimit = aws.params['SnapshotRetentionLimit'] /* Type integer */;
-  var NotificationTopicStatus = aws.params['NotificationTopicStatus'];
-  var AutoMinorVersionUpgrade = aws.params['AutoMinorVersionUpgrade'] /* Type boolean */;
-  var PreferredMaintenanceWindow = aws.params['PreferredMaintenanceWindow'];
-  var SnapshotWindow = aws.params['SnapshotWindow'];
-  var EngineVersion = aws.params['EngineVersion'];
-  var NotificationTopicArn = aws.params['NotificationTopicArn'];
-  var ApplyImmediately = aws.params['ApplyImmediately'] /* Type boolean */;
-  var NumCacheNodes = aws.params['NumCacheNodes'] /* Type integer */;
-  var NewAvailabilityZones = aws.params['NewAvailabilityZones'];
-  var CacheSecurityGroupNames = aws.params['CacheSecurityGroupNames'];
-  var CacheNodeIdsToRemove = aws.params['CacheNodeIdsToRemove'];
-  var CacheParameterGroupName = aws.params['CacheParameterGroupName'];
-  var CacheClusterId = aws.params['CacheClusterId'];
-  if (!CacheClusterId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CacheClusterId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    CacheCluster: /*Sr*/{
-      ReplicationGroupId: '',
-      Engine: '',
-      SnapshotRetentionLimit: 0,
-      CacheNodes: [ {
-        CacheNodeId: '',
-        Endpoint: /*Ss*/{
-          Port: 0,
-          Address: '',
-        },
-        SourceCacheNodeId: '',
-        CacheNodeCreateTime: awsCommon.timestamp(),
-        ParameterGroupStatus: '',
-        CacheNodeStatus: '',
-        CustomerAvailabilityZone: '',
-      }, /* ...*/ ],
-      SecurityGroups: [ {
-        SecurityGroupId: '',
-        Status: '',
-      }, /* ...*/ ],
-      CacheSubnetGroupName: '',
-      SnapshotWindow: '',
-      EngineVersion: '',
-      NumCacheNodes: 0,
-      CacheSecurityGroups: [ {
-        Status: '',
-        CacheSecurityGroupName: '',
-      }, /* ...*/ ],
-      ConfigurationEndpoint: /*Ss*/{
-          Port: 0,
-          Address: '',
-        },
-      CacheParameterGroup: {
-        CacheNodeIdsToReboot: /*Sv*/[ '', /* ...*/ ],
-        CacheParameterGroupName: '',
-        ParameterApplyStatus: '',
-      },
-      ClientDownloadLandingPage: '',
-      PendingModifiedValues: {
-        CacheNodeIdsToRemove: /*Sv*/[ '', /* ...*/ ],
-        NumCacheNodes: 0,
-        EngineVersion: '',
-      },
-      CacheClusterId: '',
-      CacheClusterCreateTime: awsCommon.timestamp(),
-      PreferredMaintenanceWindow: '',
-      PreferredAvailabilityZone: '',
-      CacheClusterStatus: '',
-      AutoMinorVersionUpgrade: false,
-      NotificationConfiguration: {
-        TopicArn: '',
-        TopicStatus: '',
-      },
-      CacheNodeType: '',
     },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeCacheClusters = function DescribeCacheClusters(aws) {
-  var Marker = aws.params['Marker'];
-  var ShowCacheNodeInfo = aws.params['ShowCacheNodeInfo'] /* Type boolean */;
-  var CacheClusterId = aws.params['CacheClusterId'];
-  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
-
-
-  // TODO implement code
-
-  var ret = {
-    Marker: '',
-    CacheClusters: [ /*Sr*/{
-      ReplicationGroupId: '',
-      Engine: '',
-      SnapshotRetentionLimit: 0,
-      CacheNodes: [ {
-        CacheNodeId: '',
-        Endpoint: /*Ss*/{
-          Port: 0,
-          Address: '',
-        },
-        SourceCacheNodeId: '',
-        CacheNodeCreateTime: awsCommon.timestamp(),
-        ParameterGroupStatus: '',
-        CacheNodeStatus: '',
-        CustomerAvailabilityZone: '',
-      }, /* ...*/ ],
-      SecurityGroups: [ {
-        SecurityGroupId: '',
-        Status: '',
-      }, /* ...*/ ],
-      CacheSubnetGroupName: '',
-      SnapshotWindow: '',
-      EngineVersion: '',
-      NumCacheNodes: 0,
-      CacheSecurityGroups: [ {
-        Status: '',
-        CacheSecurityGroupName: '',
-      }, /* ...*/ ],
-      ConfigurationEndpoint: /*Ss*/{
-          Port: 0,
-          Address: '',
-        },
-      CacheParameterGroup: {
-        CacheNodeIdsToReboot: /*Sv*/[ '', /* ...*/ ],
-        CacheParameterGroupName: '',
-        ParameterApplyStatus: '',
-      },
-      ClientDownloadLandingPage: '',
-      PendingModifiedValues: {
-        CacheNodeIdsToRemove: /*Sv*/[ '', /* ...*/ ],
-        NumCacheNodes: 0,
-        EngineVersion: '',
-      },
-      CacheClusterId: '',
-      CacheClusterCreateTime: awsCommon.timestamp(),
-      PreferredMaintenanceWindow: '',
-      PreferredAvailabilityZone: '',
-      CacheClusterStatus: '',
-      AutoMinorVersionUpgrade: false,
-      NotificationConfiguration: {
-        TopicArn: '',
-        TopicStatus: '',
-      },
-      CacheNodeType: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeCacheParameterGroups = function DescribeCacheParameterGroups(aws) {
-  var Marker = aws.params['Marker'];
-  var CacheParameterGroupName = aws.params['CacheParameterGroupName'];
-  var MaxRecords = aws.params['MaxRecords'] /* Type integer */;
-
-
-  // TODO implement code
-
-  var ret = {
-    Marker: '',
-    CacheParameterGroups: [ /*S16*/{
-      CacheParameterGroupName: '',
-      Description: '',
-      CacheParameterGroupFamily: '',
-    }, /* ...*/ ],
   };
   return [200, ret];
 };
 // -----------------------------------
 module.exports.PurchaseReservedCacheNodesOffering = function PurchaseReservedCacheNodesOffering(aws) {
-  var ReservedCacheNodesOfferingId = aws.params['ReservedCacheNodesOfferingId'];
-  var CacheNodeCount = aws.params['CacheNodeCount'] /* Type integer */;
-  var ReservedCacheNodeId = aws.params['ReservedCacheNodeId'];
-  if (!ReservedCacheNodesOfferingId) {
+  var reservedCacheNodeId = aws.params.ReservedCacheNodeId;
+  var reservedCacheNodesOfferingId = aws.params.ReservedCacheNodesOfferingId;
+  var cacheNodeCount = aws.params.CacheNodeCount /* Type integer */;
+  if (!reservedCacheNodesOfferingId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ReservedCacheNodesOfferingId'];
   }
 
@@ -1271,33 +157,256 @@ module.exports.PurchaseReservedCacheNodesOffering = function PurchaseReservedCac
 
   var ret = {
     ReservedCacheNode: /*S35*/{
-      FixedPrice: 0.0 /*Double*/,
-      UsagePrice: 0.0 /*Double*/,
-      ReservedCacheNodesOfferingId: '',
       ReservedCacheNodeId: '',
-      State: '',
-      ProductDescription: '',
-      RecurringCharges: /*S37*/[ {
-        RecurringChargeAmount: 0.0 /*Double*/,
-        RecurringChargeFrequency: '',
-      }, /* ...*/ ],
-      OfferingType: '',
-      CacheNodeCount: 0,
-      CacheNodeType: '',
-      Duration: 0,
+      UsagePrice: 0.0 /*Double*/,
       StartTime: awsCommon.timestamp(),
+      OfferingType: '',
+      Duration: 0,
+      ProductDescription: '',
+      ReservedCacheNodesOfferingId: '',
+      RecurringCharges: /*S37*/[ {
+        RecurringChargeFrequency: '',
+        RecurringChargeAmount: 0.0 /*Double*/,
+      }, /* ...*/ ],
+      FixedPrice: 0.0 /*Double*/,
+      State: '',
+      CacheNodeType: '',
+      CacheNodeCount: 0,
     },
   };
   return [200, ret];
 };
 // -----------------------------------
+module.exports.DescribeReplicationGroups = function DescribeReplicationGroups(aws) {
+  var marker = aws.params.Marker;
+  var replicationGroupId = aws.params.ReplicationGroupId;
+  var maxRecords = aws.params.MaxRecords /* Type integer */;
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    ReplicationGroups: [ /*S1j*/{
+      ReplicationGroupId: '',
+      AutomaticFailover: '',
+      SnapshottingClusterId: '',
+      Status: '',
+      Description: '',
+      MemberClusters: [ '', /* ...*/ ],
+      PendingModifiedValues: {
+        PrimaryClusterId: '',
+        AutomaticFailoverStatus: '',
+      },
+      NodeGroups: [ {
+        NodeGroupId: '',
+        NodeGroupMembers: [ {
+          CacheNodeId: '',
+          CacheClusterId: '',
+          PreferredAvailabilityZone: '',
+          CurrentRole: '',
+          ReadEndpoint: /*Ss*/{
+            Address: '',
+            Port: 0,
+          },
+        }, /* ...*/ ],
+        Status: '',
+        PrimaryEndpoint: /*Ss*/{
+            Address: '',
+            Port: 0,
+          },
+      }, /* ...*/ ],
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeReservedCacheNodes = function DescribeReservedCacheNodes(aws) {
+  var reservedCacheNodeId = aws.params.ReservedCacheNodeId;
+  var reservedCacheNodesOfferingId = aws.params.ReservedCacheNodesOfferingId;
+  var cacheNodeType = aws.params.CacheNodeType;
+  var maxRecords = aws.params.MaxRecords /* Type integer */;
+  var marker = aws.params.Marker;
+  var offeringType = aws.params.OfferingType;
+  var duration = aws.params.Duration;
+  var productDescription = aws.params.ProductDescription;
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    ReservedCacheNodes: [ /*S35*/{
+      ReservedCacheNodeId: '',
+      UsagePrice: 0.0 /*Double*/,
+      StartTime: awsCommon.timestamp(),
+      OfferingType: '',
+      Duration: 0,
+      ProductDescription: '',
+      ReservedCacheNodesOfferingId: '',
+      RecurringCharges: /*S37*/[ {
+        RecurringChargeFrequency: '',
+        RecurringChargeAmount: 0.0 /*Double*/,
+      }, /* ...*/ ],
+      FixedPrice: 0.0 /*Double*/,
+      State: '',
+      CacheNodeType: '',
+      CacheNodeCount: 0,
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateCacheParameterGroup = function CreateCacheParameterGroup(aws) {
+  var description = aws.params.Description;
+  var cacheParameterGroupName = aws.params.CacheParameterGroupName;
+  var cacheParameterGroupFamily = aws.params.CacheParameterGroupFamily;
+  if (!cacheParameterGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CacheParameterGroupName'];
+  }
+  if (!cacheParameterGroupFamily) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CacheParameterGroupFamily'];
+  }
+  if (!description) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Description'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    CacheParameterGroup: /*S16*/{
+      Description: '',
+      CacheParameterGroupName: '',
+      CacheParameterGroupFamily: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeCacheClusters = function DescribeCacheClusters(aws) {
+  var marker = aws.params.Marker;
+  var cacheClusterId = aws.params.CacheClusterId;
+  var showCacheNodeInfo = aws.params.ShowCacheNodeInfo /* Type boolean */;
+  var maxRecords = aws.params.MaxRecords /* Type integer */;
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    CacheClusters: [ /*Sr*/{
+      ReplicationGroupId: '',
+      PreferredAvailabilityZone: '',
+      NumCacheNodes: 0,
+      SnapshotRetentionLimit: 0,
+      SecurityGroups: [ {
+        Status: '',
+        SecurityGroupId: '',
+      }, /* ...*/ ],
+      EngineVersion: '',
+      CacheSecurityGroups: [ {
+        CacheSecurityGroupName: '',
+        Status: '',
+      }, /* ...*/ ],
+      CacheNodeType: '',
+      NotificationConfiguration: {
+        TopicStatus: '',
+        TopicArn: '',
+      },
+      CacheParameterGroup: {
+        CacheParameterGroupName: '',
+        CacheNodeIdsToReboot: /*Sv*/[ '', /* ...*/ ],
+        ParameterApplyStatus: '',
+      },
+      ConfigurationEndpoint: /*Ss*/{
+        Address: '',
+        Port: 0,
+      },
+      CacheNodes: [ {
+        CacheNodeId: '',
+        ParameterGroupStatus: '',
+        CustomerAvailabilityZone: '',
+        Endpoint: /*Ss*/{
+        Address: '',
+        Port: 0,
+      },
+        CacheNodeCreateTime: awsCommon.timestamp(),
+        CacheNodeStatus: '',
+        SourceCacheNodeId: '',
+      }, /* ...*/ ],
+      CacheClusterCreateTime: awsCommon.timestamp(),
+      CacheClusterId: '',
+      Engine: '',
+      PreferredMaintenanceWindow: '',
+      CacheClusterStatus: '',
+      ClientDownloadLandingPage: '',
+      SnapshotWindow: '',
+      CacheSubnetGroupName: '',
+      PendingModifiedValues: {
+        NumCacheNodes: 0,
+        EngineVersion: '',
+        CacheNodeIdsToRemove: /*Sv*/[ '', /* ...*/ ],
+      },
+      AutoMinorVersionUpgrade: false,
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateCacheSubnetGroup = function CreateCacheSubnetGroup(aws) {
+  var cacheSubnetGroupDescription = aws.params.CacheSubnetGroupDescription;
+  var subnetIds = aws.params.SubnetIds;
+  var cacheSubnetGroupName = aws.params.CacheSubnetGroupName;
+  if (!cacheSubnetGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CacheSubnetGroupName'];
+  }
+  if (!cacheSubnetGroupDescription) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CacheSubnetGroupDescription'];
+  }
+  if (!subnetIds) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SubnetIds'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    CacheSubnetGroup: /*S1c*/{
+      CacheSubnetGroupDescription: '',
+      Subnets: [ {
+        SubnetAvailabilityZone: {
+          Name: '',
+        },
+        SubnetIdentifier: '',
+      }, /* ...*/ ],
+      VpcId: '',
+      CacheSubnetGroupName: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteCacheParameterGroup = function DeleteCacheParameterGroup(aws) {
+  var cacheParameterGroupName = aws.params.CacheParameterGroupName;
+  if (!cacheParameterGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CacheParameterGroupName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.AddTagsToResource = function AddTagsToResource(aws) {
-  var ResourceName = aws.params['ResourceName'];
-  var Tags = aws.params['Tags'];
-  if (!ResourceName) {
+  var resourceName = aws.params.ResourceName;
+  var tags = aws.params.Tags;
+  if (!resourceName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ResourceName'];
   }
-  if (!Tags) {
+  if (!tags) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Tags'];
   }
 
@@ -1306,40 +415,474 @@ module.exports.AddTagsToResource = function AddTagsToResource(aws) {
 
   var ret = /*S5*/{
     TagList: /*S3*/[ {
-      Key: '',
       Value: '',
+      Key: '',
     }, /* ...*/ ],
   };
   return [200, ret];
 };
 // -----------------------------------
+module.exports.DescribeCacheSecurityGroups = function DescribeCacheSecurityGroups(aws) {
+  var cacheSecurityGroupName = aws.params.CacheSecurityGroupName;
+  var marker = aws.params.Marker;
+  var maxRecords = aws.params.MaxRecords /* Type integer */;
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    CacheSecurityGroups: [ /*S8*/{
+      CacheSecurityGroupName: '',
+      Description: '',
+      OwnerId: '',
+      EC2SecurityGroups: [ {
+        EC2SecurityGroupName: '',
+        EC2SecurityGroupOwnerId: '',
+        Status: '',
+      }, /* ...*/ ],
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ModifyCacheParameterGroup = function ModifyCacheParameterGroup(aws) {
+  var cacheParameterGroupName = aws.params.CacheParameterGroupName;
+  var parameterNameValues = aws.params.ParameterNameValues;
+  if (!cacheParameterGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CacheParameterGroupName'];
+  }
+  if (!parameterNameValues) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ParameterNameValues'];
+  }
+
+
+  // TODO implement code
+
+  var ret = /*S3m*/{
+    CacheParameterGroupName: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeCacheEngineVersions = function DescribeCacheEngineVersions(aws) {
+  var cacheParameterGroupFamily = aws.params.CacheParameterGroupFamily;
+  var defaultOnly = aws.params.DefaultOnly /* Type boolean */;
+  var marker = aws.params.Marker;
+  var engine = aws.params.Engine;
+  var engineVersion = aws.params.EngineVersion;
+  var maxRecords = aws.params.MaxRecords /* Type integer */;
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    CacheEngineVersions: [ {
+      CacheEngineDescription: '',
+      Engine: '',
+      CacheParameterGroupFamily: '',
+      EngineVersion: '',
+      CacheEngineVersionDescription: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteCacheSecurityGroup = function DeleteCacheSecurityGroup(aws) {
+  var cacheSecurityGroupName = aws.params.CacheSecurityGroupName;
+  if (!cacheSecurityGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CacheSecurityGroupName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ResetCacheParameterGroup = function ResetCacheParameterGroup(aws) {
+  var cacheParameterGroupName = aws.params.CacheParameterGroupName;
+  var parameterNameValues = aws.params.ParameterNameValues;
+  var resetAllParameters = aws.params.ResetAllParameters /* Type boolean */;
+  if (!cacheParameterGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CacheParameterGroupName'];
+  }
+  if (!parameterNameValues) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ParameterNameValues'];
+  }
+
+
+  // TODO implement code
+
+  var ret = /*S3m*/{
+    CacheParameterGroupName: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeEvents = function DescribeEvents(aws) {
+  var endTime = aws.params.EndTime /* Type timestamp */;
+  var sourceType = aws.params.SourceType;
+  var startTime = aws.params.StartTime /* Type timestamp */;
+  var sourceIdentifier = aws.params.SourceIdentifier;
+  var marker = aws.params.Marker;
+  var duration = aws.params.Duration /* Type integer */;
+  var maxRecords = aws.params.MaxRecords /* Type integer */;
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    Events: [ {
+      Message: '',
+      SourceType: '',
+      Date: awsCommon.timestamp(),
+      SourceIdentifier: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CopySnapshot = function CopySnapshot(aws) {
+  var targetSnapshotName = aws.params.TargetSnapshotName;
+  var sourceSnapshotName = aws.params.SourceSnapshotName;
+  if (!sourceSnapshotName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SourceSnapshotName'];
+  }
+  if (!targetSnapshotName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TargetSnapshotName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Snapshot: /*Sd*/{
+      SnapshotName: '',
+      SnapshotRetentionLimit: 0,
+      NodeSnapshots: [ {
+        CacheNodeId: '',
+        CacheNodeCreateTime: awsCommon.timestamp(),
+        CacheSize: '',
+        SnapshotCreateTime: awsCommon.timestamp(),
+      }, /* ...*/ ],
+      CacheClusterCreateTime: awsCommon.timestamp(),
+      SnapshotWindow: '',
+      CacheClusterId: '',
+      Engine: '',
+      PreferredAvailabilityZone: '',
+      CacheSubnetGroupName: '',
+      PreferredMaintenanceWindow: '',
+      EngineVersion: '',
+      VpcId: '',
+      Port: 0,
+      CacheNodeType: '',
+      SnapshotStatus: '',
+      CacheParameterGroupName: '',
+      TopicArn: '',
+      SnapshotSource: '',
+      AutoMinorVersionUpgrade: false,
+      NumCacheNodes: 0,
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateCacheSecurityGroup = function CreateCacheSecurityGroup(aws) {
+  var cacheSecurityGroupName = aws.params.CacheSecurityGroupName;
+  var description = aws.params.Description;
+  if (!cacheSecurityGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CacheSecurityGroupName'];
+  }
+  if (!description) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Description'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    CacheSecurityGroup: /*S8*/{
+      CacheSecurityGroupName: '',
+      Description: '',
+      OwnerId: '',
+      EC2SecurityGroups: [ {
+        EC2SecurityGroupName: '',
+        EC2SecurityGroupOwnerId: '',
+        Status: '',
+      }, /* ...*/ ],
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RevokeCacheSecurityGroupIngress = function RevokeCacheSecurityGroupIngress(aws) {
+  var cacheSecurityGroupName = aws.params.CacheSecurityGroupName;
+  var eC2SecurityGroupName = aws.params.EC2SecurityGroupName;
+  var eC2SecurityGroupOwnerId = aws.params.EC2SecurityGroupOwnerId;
+  if (!cacheSecurityGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CacheSecurityGroupName'];
+  }
+  if (!eC2SecurityGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter EC2SecurityGroupName'];
+  }
+  if (!eC2SecurityGroupOwnerId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter EC2SecurityGroupOwnerId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    CacheSecurityGroup: /*S8*/{
+      CacheSecurityGroupName: '',
+      Description: '',
+      OwnerId: '',
+      EC2SecurityGroups: [ {
+        EC2SecurityGroupName: '',
+        EC2SecurityGroupOwnerId: '',
+        Status: '',
+      }, /* ...*/ ],
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListTagsForResource = function ListTagsForResource(aws) {
+  var resourceName = aws.params.ResourceName;
+  if (!resourceName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ResourceName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = /*S5*/{
+    TagList: /*S3*/[ {
+      Value: '',
+      Key: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateCacheCluster = function CreateCacheCluster(aws) {
+  var replicationGroupId = aws.params.ReplicationGroupId;
+  var numCacheNodes = aws.params.NumCacheNodes /* Type integer */;
+  var snapshotRetentionLimit = aws.params.SnapshotRetentionLimit /* Type integer */;
+  var preferredAvailabilityZone = aws.params.PreferredAvailabilityZone;
+  var engineVersion = aws.params.EngineVersion;
+  var preferredMaintenanceWindow = aws.params.PreferredMaintenanceWindow;
+  var cacheNodeType = aws.params.CacheNodeType;
+  var notificationTopicArn = aws.params.NotificationTopicArn;
+  var securityGroupIds = aws.params.SecurityGroupIds;
+  var snapshotName = aws.params.SnapshotName;
+  var port = aws.params.Port /* Type integer */;
+  var aZMode = aws.params.AZMode;
+  var cacheParameterGroupName = aws.params.CacheParameterGroupName;
+  var preferredAvailabilityZones = aws.params.PreferredAvailabilityZones;
+  var cacheClusterId = aws.params.CacheClusterId;
+  var tags = aws.params.Tags;
+  var snapshotWindow = aws.params.SnapshotWindow;
+  var cacheSubnetGroupName = aws.params.CacheSubnetGroupName;
+  var snapshotArns = aws.params.SnapshotArns;
+  var cacheSecurityGroupNames = aws.params.CacheSecurityGroupNames;
+  var engine = aws.params.Engine;
+  var autoMinorVersionUpgrade = aws.params.AutoMinorVersionUpgrade /* Type boolean */;
+  if (!cacheClusterId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CacheClusterId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    CacheCluster: /*Sr*/{
+      ReplicationGroupId: '',
+      PreferredAvailabilityZone: '',
+      NumCacheNodes: 0,
+      SnapshotRetentionLimit: 0,
+      SecurityGroups: [ {
+        Status: '',
+        SecurityGroupId: '',
+      }, /* ...*/ ],
+      EngineVersion: '',
+      CacheSecurityGroups: [ {
+        CacheSecurityGroupName: '',
+        Status: '',
+      }, /* ...*/ ],
+      CacheNodeType: '',
+      NotificationConfiguration: {
+        TopicStatus: '',
+        TopicArn: '',
+      },
+      CacheParameterGroup: {
+        CacheParameterGroupName: '',
+        CacheNodeIdsToReboot: /*Sv*/[ '', /* ...*/ ],
+        ParameterApplyStatus: '',
+      },
+      ConfigurationEndpoint: /*Ss*/{
+        Address: '',
+        Port: 0,
+      },
+      CacheNodes: [ {
+        CacheNodeId: '',
+        ParameterGroupStatus: '',
+        CustomerAvailabilityZone: '',
+        Endpoint: /*Ss*/{
+        Address: '',
+        Port: 0,
+      },
+        CacheNodeCreateTime: awsCommon.timestamp(),
+        CacheNodeStatus: '',
+        SourceCacheNodeId: '',
+      }, /* ...*/ ],
+      CacheClusterCreateTime: awsCommon.timestamp(),
+      CacheClusterId: '',
+      Engine: '',
+      PreferredMaintenanceWindow: '',
+      CacheClusterStatus: '',
+      ClientDownloadLandingPage: '',
+      SnapshotWindow: '',
+      CacheSubnetGroupName: '',
+      PendingModifiedValues: {
+        NumCacheNodes: 0,
+        EngineVersion: '',
+        CacheNodeIdsToRemove: /*Sv*/[ '', /* ...*/ ],
+      },
+      AutoMinorVersionUpgrade: false,
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteCacheCluster = function DeleteCacheCluster(aws) {
+  var cacheClusterId = aws.params.CacheClusterId;
+  var finalSnapshotIdentifier = aws.params.FinalSnapshotIdentifier;
+  if (!cacheClusterId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CacheClusterId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    CacheCluster: /*Sr*/{
+      ReplicationGroupId: '',
+      PreferredAvailabilityZone: '',
+      NumCacheNodes: 0,
+      SnapshotRetentionLimit: 0,
+      SecurityGroups: [ {
+        Status: '',
+        SecurityGroupId: '',
+      }, /* ...*/ ],
+      EngineVersion: '',
+      CacheSecurityGroups: [ {
+        CacheSecurityGroupName: '',
+        Status: '',
+      }, /* ...*/ ],
+      CacheNodeType: '',
+      NotificationConfiguration: {
+        TopicStatus: '',
+        TopicArn: '',
+      },
+      CacheParameterGroup: {
+        CacheParameterGroupName: '',
+        CacheNodeIdsToReboot: /*Sv*/[ '', /* ...*/ ],
+        ParameterApplyStatus: '',
+      },
+      ConfigurationEndpoint: /*Ss*/{
+        Address: '',
+        Port: 0,
+      },
+      CacheNodes: [ {
+        CacheNodeId: '',
+        ParameterGroupStatus: '',
+        CustomerAvailabilityZone: '',
+        Endpoint: /*Ss*/{
+        Address: '',
+        Port: 0,
+      },
+        CacheNodeCreateTime: awsCommon.timestamp(),
+        CacheNodeStatus: '',
+        SourceCacheNodeId: '',
+      }, /* ...*/ ],
+      CacheClusterCreateTime: awsCommon.timestamp(),
+      CacheClusterId: '',
+      Engine: '',
+      PreferredMaintenanceWindow: '',
+      CacheClusterStatus: '',
+      ClientDownloadLandingPage: '',
+      SnapshotWindow: '',
+      CacheSubnetGroupName: '',
+      PendingModifiedValues: {
+        NumCacheNodes: 0,
+        EngineVersion: '',
+        CacheNodeIdsToRemove: /*Sv*/[ '', /* ...*/ ],
+      },
+      AutoMinorVersionUpgrade: false,
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ModifyCacheSubnetGroup = function ModifyCacheSubnetGroup(aws) {
+  var cacheSubnetGroupDescription = aws.params.CacheSubnetGroupDescription;
+  var subnetIds = aws.params.SubnetIds;
+  var cacheSubnetGroupName = aws.params.CacheSubnetGroupName;
+  if (!cacheSubnetGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CacheSubnetGroupName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    CacheSubnetGroup: /*S1c*/{
+      CacheSubnetGroupDescription: '',
+      Subnets: [ {
+        SubnetAvailabilityZone: {
+          Name: '',
+        },
+        SubnetIdentifier: '',
+      }, /* ...*/ ],
+      VpcId: '',
+      CacheSubnetGroupName: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.CreateReplicationGroup = function CreateReplicationGroup(aws) {
-  var NumCacheClusters = aws.params['NumCacheClusters'] /* Type integer */;
-  var Engine = aws.params['Engine'];
-  var PrimaryClusterId = aws.params['PrimaryClusterId'];
-  var SnapshotWindow = aws.params['SnapshotWindow'];
-  var AutomaticFailoverEnabled = aws.params['AutomaticFailoverEnabled'] /* Type boolean */;
-  var CacheSubnetGroupName = aws.params['CacheSubnetGroupName'];
-  var SnapshotName = aws.params['SnapshotName'];
-  var EngineVersion = aws.params['EngineVersion'];
-  var NotificationTopicArn = aws.params['NotificationTopicArn'];
-  var ReplicationGroupDescription = aws.params['ReplicationGroupDescription'];
-  var Port = aws.params['Port'] /* Type integer */;
-  var SecurityGroupIds = aws.params['SecurityGroupIds'];
-  var SnapshotRetentionLimit = aws.params['SnapshotRetentionLimit'] /* Type integer */;
-  var ReplicationGroupId = aws.params['ReplicationGroupId'];
-  var Tags = aws.params['Tags'];
-  var SnapshotArns = aws.params['SnapshotArns'];
-  var PreferredMaintenanceWindow = aws.params['PreferredMaintenanceWindow'];
-  var PreferredCacheClusterAZs = aws.params['PreferredCacheClusterAZs'] /* Type list */;
-  var AutoMinorVersionUpgrade = aws.params['AutoMinorVersionUpgrade'] /* Type boolean */;
-  var CacheSecurityGroupNames = aws.params['CacheSecurityGroupNames'];
-  var CacheParameterGroupName = aws.params['CacheParameterGroupName'];
-  var CacheNodeType = aws.params['CacheNodeType'];
-  if (!ReplicationGroupId) {
+  var replicationGroupId = aws.params.ReplicationGroupId;
+  var automaticFailoverEnabled = aws.params.AutomaticFailoverEnabled /* Type boolean */;
+  var cacheSecurityGroupNames = aws.params.CacheSecurityGroupNames;
+  var snapshotRetentionLimit = aws.params.SnapshotRetentionLimit /* Type integer */;
+  var engineVersion = aws.params.EngineVersion;
+  var tags = aws.params.Tags;
+  var cacheNodeType = aws.params.CacheNodeType;
+  var primaryClusterId = aws.params.PrimaryClusterId;
+  var notificationTopicArn = aws.params.NotificationTopicArn;
+  var securityGroupIds = aws.params.SecurityGroupIds;
+  var snapshotName = aws.params.SnapshotName;
+  var port = aws.params.Port /* Type integer */;
+  var preferredCacheClusterAZs = aws.params.PreferredCacheClusterAZs /* Type list */;
+  var cacheParameterGroupName = aws.params.CacheParameterGroupName;
+  var engine = aws.params.Engine;
+  var preferredMaintenanceWindow = aws.params.PreferredMaintenanceWindow;
+  var snapshotWindow = aws.params.SnapshotWindow;
+  var replicationGroupDescription = aws.params.ReplicationGroupDescription;
+  var cacheSubnetGroupName = aws.params.CacheSubnetGroupName;
+  var snapshotArns = aws.params.SnapshotArns;
+  var numCacheClusters = aws.params.NumCacheClusters /* Type integer */;
+  var autoMinorVersionUpgrade = aws.params.AutoMinorVersionUpgrade /* Type boolean */;
+  if (!replicationGroupId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ReplicationGroupId'];
   }
-  if (!ReplicationGroupDescription) {
+  if (!replicationGroupDescription) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ReplicationGroupDescription'];
   }
 
@@ -1349,31 +892,31 @@ module.exports.CreateReplicationGroup = function CreateReplicationGroup(aws) {
   var ret = {
     ReplicationGroup: /*S1j*/{
       ReplicationGroupId: '',
+      AutomaticFailover: '',
+      SnapshottingClusterId: '',
+      Status: '',
+      Description: '',
+      MemberClusters: [ '', /* ...*/ ],
       PendingModifiedValues: {
         PrimaryClusterId: '',
         AutomaticFailoverStatus: '',
       },
-      Description: '',
-      SnapshottingClusterId: '',
-      Status: '',
-      MemberClusters: [ '', /* ...*/ ],
-      AutomaticFailover: '',
       NodeGroups: [ {
         NodeGroupId: '',
         NodeGroupMembers: [ {
           CacheNodeId: '',
-          ReadEndpoint: /*Ss*/{
-            Port: 0,
-            Address: '',
-          },
           CacheClusterId: '',
           PreferredAvailabilityZone: '',
           CurrentRole: '',
+          ReadEndpoint: /*Ss*/{
+            Address: '',
+            Port: 0,
+          },
         }, /* ...*/ ],
         Status: '',
         PrimaryEndpoint: /*Ss*/{
-            Port: 0,
             Address: '',
+            Port: 0,
           },
       }, /* ...*/ ],
     },
@@ -1381,14 +924,210 @@ module.exports.CreateReplicationGroup = function CreateReplicationGroup(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.CreateCacheSecurityGroup = function CreateCacheSecurityGroup(aws) {
-  var Description = aws.params['Description'];
-  var CacheSecurityGroupName = aws.params['CacheSecurityGroupName'];
-  if (!CacheSecurityGroupName) {
+module.exports.RemoveTagsFromResource = function RemoveTagsFromResource(aws) {
+  var resourceName = aws.params.ResourceName;
+  var tagKeys = aws.params.TagKeys /* Type list */;
+  if (!resourceName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ResourceName'];
+  }
+  if (!tagKeys) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TagKeys'];
+  }
+
+
+  // TODO implement code
+
+  var ret = /*S5*/{
+    TagList: /*S3*/[ {
+      Value: '',
+      Key: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteCacheSubnetGroup = function DeleteCacheSubnetGroup(aws) {
+  var cacheSubnetGroupName = aws.params.CacheSubnetGroupName;
+  if (!cacheSubnetGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CacheSubnetGroupName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeSnapshots = function DescribeSnapshots(aws) {
+  var snapshotName = aws.params.SnapshotName;
+  var cacheClusterId = aws.params.CacheClusterId;
+  var marker = aws.params.Marker;
+  var snapshotSource = aws.params.SnapshotSource;
+  var maxRecords = aws.params.MaxRecords /* Type integer */;
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    Snapshots: [ /*Sd*/{
+      SnapshotName: '',
+      SnapshotRetentionLimit: 0,
+      NodeSnapshots: [ {
+        CacheNodeId: '',
+        CacheNodeCreateTime: awsCommon.timestamp(),
+        CacheSize: '',
+        SnapshotCreateTime: awsCommon.timestamp(),
+      }, /* ...*/ ],
+      CacheClusterCreateTime: awsCommon.timestamp(),
+      SnapshotWindow: '',
+      CacheClusterId: '',
+      Engine: '',
+      PreferredAvailabilityZone: '',
+      CacheSubnetGroupName: '',
+      PreferredMaintenanceWindow: '',
+      EngineVersion: '',
+      VpcId: '',
+      Port: 0,
+      CacheNodeType: '',
+      SnapshotStatus: '',
+      CacheParameterGroupName: '',
+      TopicArn: '',
+      SnapshotSource: '',
+      AutoMinorVersionUpgrade: false,
+      NumCacheNodes: 0,
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RebootCacheCluster = function RebootCacheCluster(aws) {
+  var cacheClusterId = aws.params.CacheClusterId;
+  var cacheNodeIdsToReboot = aws.params.CacheNodeIdsToReboot;
+  if (!cacheClusterId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CacheClusterId'];
+  }
+  if (!cacheNodeIdsToReboot) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CacheNodeIdsToReboot'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    CacheCluster: /*Sr*/{
+      ReplicationGroupId: '',
+      PreferredAvailabilityZone: '',
+      NumCacheNodes: 0,
+      SnapshotRetentionLimit: 0,
+      SecurityGroups: [ {
+        Status: '',
+        SecurityGroupId: '',
+      }, /* ...*/ ],
+      EngineVersion: '',
+      CacheSecurityGroups: [ {
+        CacheSecurityGroupName: '',
+        Status: '',
+      }, /* ...*/ ],
+      CacheNodeType: '',
+      NotificationConfiguration: {
+        TopicStatus: '',
+        TopicArn: '',
+      },
+      CacheParameterGroup: {
+        CacheParameterGroupName: '',
+        CacheNodeIdsToReboot: /*Sv*/[ '', /* ...*/ ],
+        ParameterApplyStatus: '',
+      },
+      ConfigurationEndpoint: /*Ss*/{
+        Address: '',
+        Port: 0,
+      },
+      CacheNodes: [ {
+        CacheNodeId: '',
+        ParameterGroupStatus: '',
+        CustomerAvailabilityZone: '',
+        Endpoint: /*Ss*/{
+        Address: '',
+        Port: 0,
+      },
+        CacheNodeCreateTime: awsCommon.timestamp(),
+        CacheNodeStatus: '',
+        SourceCacheNodeId: '',
+      }, /* ...*/ ],
+      CacheClusterCreateTime: awsCommon.timestamp(),
+      CacheClusterId: '',
+      Engine: '',
+      PreferredMaintenanceWindow: '',
+      CacheClusterStatus: '',
+      ClientDownloadLandingPage: '',
+      SnapshotWindow: '',
+      CacheSubnetGroupName: '',
+      PendingModifiedValues: {
+        NumCacheNodes: 0,
+        EngineVersion: '',
+        CacheNodeIdsToRemove: /*Sv*/[ '', /* ...*/ ],
+      },
+      AutoMinorVersionUpgrade: false,
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteSnapshot = function DeleteSnapshot(aws) {
+  var snapshotName = aws.params.SnapshotName;
+  if (!snapshotName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SnapshotName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Snapshot: /*Sd*/{
+      SnapshotName: '',
+      SnapshotRetentionLimit: 0,
+      NodeSnapshots: [ {
+        CacheNodeId: '',
+        CacheNodeCreateTime: awsCommon.timestamp(),
+        CacheSize: '',
+        SnapshotCreateTime: awsCommon.timestamp(),
+      }, /* ...*/ ],
+      CacheClusterCreateTime: awsCommon.timestamp(),
+      SnapshotWindow: '',
+      CacheClusterId: '',
+      Engine: '',
+      PreferredAvailabilityZone: '',
+      CacheSubnetGroupName: '',
+      PreferredMaintenanceWindow: '',
+      EngineVersion: '',
+      VpcId: '',
+      Port: 0,
+      CacheNodeType: '',
+      SnapshotStatus: '',
+      CacheParameterGroupName: '',
+      TopicArn: '',
+      SnapshotSource: '',
+      AutoMinorVersionUpgrade: false,
+      NumCacheNodes: 0,
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.AuthorizeCacheSecurityGroupIngress = function AuthorizeCacheSecurityGroupIngress(aws) {
+  var cacheSecurityGroupName = aws.params.CacheSecurityGroupName;
+  var eC2SecurityGroupName = aws.params.EC2SecurityGroupName;
+  var eC2SecurityGroupOwnerId = aws.params.EC2SecurityGroupOwnerId;
+  if (!cacheSecurityGroupName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CacheSecurityGroupName'];
   }
-  if (!Description) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Description'];
+  if (!eC2SecurityGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter EC2SecurityGroupName'];
+  }
+  if (!eC2SecurityGroupOwnerId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter EC2SecurityGroupOwnerId'];
   }
 
 
@@ -1396,14 +1135,275 @@ module.exports.CreateCacheSecurityGroup = function CreateCacheSecurityGroup(aws)
 
   var ret = {
     CacheSecurityGroup: /*S8*/{
+      CacheSecurityGroupName: '',
       Description: '',
+      OwnerId: '',
       EC2SecurityGroups: [ {
         EC2SecurityGroupName: '',
-        Status: '',
         EC2SecurityGroupOwnerId: '',
+        Status: '',
       }, /* ...*/ ],
-      OwnerId: '',
-      CacheSecurityGroupName: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeCacheParameterGroups = function DescribeCacheParameterGroups(aws) {
+  var marker = aws.params.Marker;
+  var cacheParameterGroupName = aws.params.CacheParameterGroupName;
+  var maxRecords = aws.params.MaxRecords /* Type integer */;
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    CacheParameterGroups: [ /*S16*/{
+      Description: '',
+      CacheParameterGroupName: '',
+      CacheParameterGroupFamily: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeReservedCacheNodesOfferings = function DescribeReservedCacheNodesOfferings(aws) {
+  var maxRecords = aws.params.MaxRecords /* Type integer */;
+  var reservedCacheNodesOfferingId = aws.params.ReservedCacheNodesOfferingId;
+  var cacheNodeType = aws.params.CacheNodeType;
+  var marker = aws.params.Marker;
+  var offeringType = aws.params.OfferingType;
+  var duration = aws.params.Duration;
+  var productDescription = aws.params.ProductDescription;
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    ReservedCacheNodesOfferings: [ {
+      OfferingType: '',
+      ReservedCacheNodesOfferingId: '',
+      RecurringCharges: /*S37*/[ {
+        RecurringChargeFrequency: '',
+        RecurringChargeAmount: 0.0 /*Double*/,
+      }, /* ...*/ ],
+      CacheNodeType: '',
+      UsagePrice: 0.0 /*Double*/,
+      FixedPrice: 0.0 /*Double*/,
+      Duration: 0,
+      ProductDescription: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeEngineDefaultParameters = function DescribeEngineDefaultParameters(aws) {
+  var marker = aws.params.Marker;
+  var cacheParameterGroupFamily = aws.params.CacheParameterGroupFamily;
+  var maxRecords = aws.params.MaxRecords /* Type integer */;
+  if (!cacheParameterGroupFamily) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CacheParameterGroupFamily'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    EngineDefaults: {
+      Marker: '',
+      CacheParameterGroupFamily: '',
+      CacheNodeTypeSpecificParameters: /*S2h*/[ {
+        Source: '',
+        Description: '',
+        DataType: '',
+        CacheNodeTypeSpecificValues: [ {
+          Value: '',
+          CacheNodeType: '',
+        }, /* ...*/ ],
+        MinimumEngineVersion: '',
+        ParameterName: '',
+        AllowedValues: '',
+        IsModifiable: false,
+      }, /* ...*/ ],
+      Parameters: /*S2f*/[ {
+        ParameterValue: '',
+        DataType: '',
+        Description: '',
+        MinimumEngineVersion: '',
+        ParameterName: '',
+        Source: '',
+        AllowedValues: '',
+        IsModifiable: false,
+      }, /* ...*/ ],
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ModifyCacheCluster = function ModifyCacheCluster(aws) {
+  var applyImmediately = aws.params.ApplyImmediately /* Type boolean */;
+  var snapshotRetentionLimit = aws.params.SnapshotRetentionLimit /* Type integer */;
+  var notificationTopicStatus = aws.params.NotificationTopicStatus;
+  var aZMode = aws.params.AZMode;
+  var cacheParameterGroupName = aws.params.CacheParameterGroupName;
+  var preferredMaintenanceWindow = aws.params.PreferredMaintenanceWindow;
+  var engineVersion = aws.params.EngineVersion;
+  var cacheNodeIdsToRemove = aws.params.CacheNodeIdsToRemove;
+  var securityGroupIds = aws.params.SecurityGroupIds;
+  var snapshotWindow = aws.params.SnapshotWindow;
+  var cacheClusterId = aws.params.CacheClusterId;
+  var newAvailabilityZones = aws.params.NewAvailabilityZones;
+  var notificationTopicArn = aws.params.NotificationTopicArn;
+  var cacheSecurityGroupNames = aws.params.CacheSecurityGroupNames;
+  var autoMinorVersionUpgrade = aws.params.AutoMinorVersionUpgrade /* Type boolean */;
+  var numCacheNodes = aws.params.NumCacheNodes /* Type integer */;
+  if (!cacheClusterId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CacheClusterId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    CacheCluster: /*Sr*/{
+      ReplicationGroupId: '',
+      PreferredAvailabilityZone: '',
+      NumCacheNodes: 0,
+      SnapshotRetentionLimit: 0,
+      SecurityGroups: [ {
+        Status: '',
+        SecurityGroupId: '',
+      }, /* ...*/ ],
+      EngineVersion: '',
+      CacheSecurityGroups: [ {
+        CacheSecurityGroupName: '',
+        Status: '',
+      }, /* ...*/ ],
+      CacheNodeType: '',
+      NotificationConfiguration: {
+        TopicStatus: '',
+        TopicArn: '',
+      },
+      CacheParameterGroup: {
+        CacheParameterGroupName: '',
+        CacheNodeIdsToReboot: /*Sv*/[ '', /* ...*/ ],
+        ParameterApplyStatus: '',
+      },
+      ConfigurationEndpoint: /*Ss*/{
+        Address: '',
+        Port: 0,
+      },
+      CacheNodes: [ {
+        CacheNodeId: '',
+        ParameterGroupStatus: '',
+        CustomerAvailabilityZone: '',
+        Endpoint: /*Ss*/{
+        Address: '',
+        Port: 0,
+      },
+        CacheNodeCreateTime: awsCommon.timestamp(),
+        CacheNodeStatus: '',
+        SourceCacheNodeId: '',
+      }, /* ...*/ ],
+      CacheClusterCreateTime: awsCommon.timestamp(),
+      CacheClusterId: '',
+      Engine: '',
+      PreferredMaintenanceWindow: '',
+      CacheClusterStatus: '',
+      ClientDownloadLandingPage: '',
+      SnapshotWindow: '',
+      CacheSubnetGroupName: '',
+      PendingModifiedValues: {
+        NumCacheNodes: 0,
+        EngineVersion: '',
+        CacheNodeIdsToRemove: /*Sv*/[ '', /* ...*/ ],
+      },
+      AutoMinorVersionUpgrade: false,
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeCacheSubnetGroups = function DescribeCacheSubnetGroups(aws) {
+  var marker = aws.params.Marker;
+  var maxRecords = aws.params.MaxRecords /* Type integer */;
+  var cacheSubnetGroupName = aws.params.CacheSubnetGroupName;
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    CacheSubnetGroups: [ /*S1c*/{
+      CacheSubnetGroupDescription: '',
+      Subnets: [ {
+        SubnetAvailabilityZone: {
+          Name: '',
+        },
+        SubnetIdentifier: '',
+      }, /* ...*/ ],
+      VpcId: '',
+      CacheSubnetGroupName: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ModifyReplicationGroup = function ModifyReplicationGroup(aws) {
+  var applyImmediately = aws.params.ApplyImmediately /* Type boolean */;
+  var replicationGroupId = aws.params.ReplicationGroupId;
+  var automaticFailoverEnabled = aws.params.AutomaticFailoverEnabled /* Type boolean */;
+  var notificationTopicStatus = aws.params.NotificationTopicStatus;
+  var snapshotRetentionLimit = aws.params.SnapshotRetentionLimit /* Type integer */;
+  var cacheParameterGroupName = aws.params.CacheParameterGroupName;
+  var preferredMaintenanceWindow = aws.params.PreferredMaintenanceWindow;
+  var engineVersion = aws.params.EngineVersion;
+  var securityGroupIds = aws.params.SecurityGroupIds;
+  var autoMinorVersionUpgrade = aws.params.AutoMinorVersionUpgrade /* Type boolean */;
+  var snapshotWindow = aws.params.SnapshotWindow;
+  var snapshottingClusterId = aws.params.SnapshottingClusterId;
+  var primaryClusterId = aws.params.PrimaryClusterId;
+  var notificationTopicArn = aws.params.NotificationTopicArn;
+  var cacheSecurityGroupNames = aws.params.CacheSecurityGroupNames;
+  var replicationGroupDescription = aws.params.ReplicationGroupDescription;
+  if (!replicationGroupId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ReplicationGroupId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ReplicationGroup: /*S1j*/{
+      ReplicationGroupId: '',
+      AutomaticFailover: '',
+      SnapshottingClusterId: '',
+      Status: '',
+      Description: '',
+      MemberClusters: [ '', /* ...*/ ],
+      PendingModifiedValues: {
+        PrimaryClusterId: '',
+        AutomaticFailoverStatus: '',
+      },
+      NodeGroups: [ {
+        NodeGroupId: '',
+        NodeGroupMembers: [ {
+          CacheNodeId: '',
+          CacheClusterId: '',
+          PreferredAvailabilityZone: '',
+          CurrentRole: '',
+          ReadEndpoint: /*Ss*/{
+            Address: '',
+            Port: 0,
+          },
+        }, /* ...*/ ],
+        Status: '',
+        PrimaryEndpoint: /*Ss*/{
+            Address: '',
+            Port: 0,
+          },
+      }, /* ...*/ ],
     },
   };
   return [200, ret];

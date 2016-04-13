@@ -10,11 +10,11 @@ const awsCommon = require('../../lib/aws-common');
  */
 
 // Setup input and output to use AWS protocol json
-require('../../lib/aws-common/shape_http')('json', module.exports, null)
+require('../../lib/aws-common/shape_http')('json', module.exports, null);
 // -----------------------------------
-module.exports.ListBranches = function ListBranches(aws) {
-  var nextToken = aws.params['nextToken'];
-  var repositoryName = aws.params['repositoryName'];
+module.exports.CreateRepository = function CreateRepository(aws) {
+  var repositoryDescription = aws.params.repositoryDescription;
+  var repositoryName = aws.params.repositoryName;
   if (!repositoryName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter repositoryName'];
   }
@@ -23,41 +23,38 @@ module.exports.ListBranches = function ListBranches(aws) {
   // TODO implement code
 
   var ret = {
-    nextToken: '',
-    branches: [ '', /* ...*/ ],
+    repositoryMetadata: /*S6*/{
+      Arn: '',
+      lastModifiedDate: awsCommon.timestamp(),
+      defaultBranch: '',
+      creationDate: awsCommon.timestamp(),
+      repositoryDescription: '',
+      repositoryId: '',
+      cloneUrlSsh: '',
+      repositoryName: '',
+      cloneUrlHttp: '',
+      accountId: '',
+    },
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.BatchGetRepositories = function BatchGetRepositories(aws) {
-  var repositoryNames = aws.params['repositoryNames'] /* Type list */;
-  if (!repositoryNames) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter repositoryNames'];
+module.exports.UpdateRepositoryDescription = function UpdateRepositoryDescription(aws) {
+  var repositoryDescription = aws.params.repositoryDescription;
+  var repositoryName = aws.params.repositoryName;
+  if (!repositoryName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter repositoryName'];
   }
 
 
   // TODO implement code
 
-  var ret = {
-    repositories: [ /*S6*/{
-      Arn: '',
-      creationDate: awsCommon.timestamp(),
-      repositoryId: '',
-      repositoryDescription: '',
-      lastModifiedDate: awsCommon.timestamp(),
-      cloneUrlSsh: '',
-      accountId: '',
-      repositoryName: '',
-      cloneUrlHttp: '',
-      defaultBranch: '',
-    }, /* ...*/ ],
-    repositoriesNotFound: [ '', /* ...*/ ],
-  };
+  var ret = {};
   return [200, ret];
 };
 // -----------------------------------
 module.exports.DeleteRepository = function DeleteRepository(aws) {
-  var repositoryName = aws.params['repositoryName'];
+  var repositoryName = aws.params.repositoryName;
   if (!repositoryName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter repositoryName'];
   }
@@ -71,11 +68,14 @@ module.exports.DeleteRepository = function DeleteRepository(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.UpdateRepositoryDescription = function UpdateRepositoryDescription(aws) {
-  var repositoryDescription = aws.params['repositoryDescription'];
-  var repositoryName = aws.params['repositoryName'];
+module.exports.UpdateDefaultBranch = function UpdateDefaultBranch(aws) {
+  var defaultBranchName = aws.params.defaultBranchName;
+  var repositoryName = aws.params.repositoryName;
   if (!repositoryName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter repositoryName'];
+  }
+  if (!defaultBranchName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter defaultBranchName'];
   }
 
 
@@ -86,68 +86,51 @@ module.exports.UpdateRepositoryDescription = function UpdateRepositoryDescriptio
 };
 // -----------------------------------
 module.exports.GetBranch = function GetBranch(aws) {
-  var repositoryName = aws.params['repositoryName'];
-  var branchName = aws.params['branchName'];
+  var repositoryName = aws.params.repositoryName;
+  var branchName = aws.params.branchName;
 
 
   // TODO implement code
 
   var ret = {
     branch: {
-      commitId: '',
       branchName: '',
+      commitId: '',
     },
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.ListRepositories = function ListRepositories(aws) {
-  var nextToken = aws.params['nextToken'];
-  var order = aws.params['order'];
-  var sortBy = aws.params['sortBy'];
-
-
-  // TODO implement code
-
-  var ret = {
-    repositories: [ {
-      repositoryId: '',
-      repositoryName: '',
-    }, /* ...*/ ],
-    nextToken: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.GetRepository = function GetRepository(aws) {
-  var repositoryName = aws.params['repositoryName'];
-  if (!repositoryName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter repositoryName'];
+module.exports.BatchGetRepositories = function BatchGetRepositories(aws) {
+  var repositoryNames = aws.params.repositoryNames /* Type list */;
+  if (!repositoryNames) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter repositoryNames'];
   }
 
 
   // TODO implement code
 
   var ret = {
-    repositoryMetadata: /*S6*/{
+    repositories: [ /*S6*/{
       Arn: '',
-      creationDate: awsCommon.timestamp(),
-      repositoryId: '',
-      repositoryDescription: '',
       lastModifiedDate: awsCommon.timestamp(),
+      defaultBranch: '',
+      creationDate: awsCommon.timestamp(),
+      repositoryDescription: '',
+      repositoryId: '',
       cloneUrlSsh: '',
-      accountId: '',
       repositoryName: '',
       cloneUrlHttp: '',
-      defaultBranch: '',
-    },
+      accountId: '',
+    }, /* ...*/ ],
+    repositoriesNotFound: [ '', /* ...*/ ],
   };
   return [200, ret];
 };
 // -----------------------------------
 module.exports.UpdateRepositoryName = function UpdateRepositoryName(aws) {
-  var oldName = aws.params['oldName'];
-  var newName = aws.params['newName'];
+  var newName = aws.params.newName;
+  var oldName = aws.params.oldName;
   if (!oldName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter oldName'];
   }
@@ -163,9 +146,9 @@ module.exports.UpdateRepositoryName = function UpdateRepositoryName(aws) {
 };
 // -----------------------------------
 module.exports.CreateBranch = function CreateBranch(aws) {
-  var commitId = aws.params['commitId'];
-  var repositoryName = aws.params['repositoryName'];
-  var branchName = aws.params['branchName'];
+  var repositoryName = aws.params.repositoryName;
+  var branchName = aws.params.branchName;
+  var commitId = aws.params.commitId;
   if (!repositoryName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter repositoryName'];
   }
@@ -183,26 +166,26 @@ module.exports.CreateBranch = function CreateBranch(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.UpdateDefaultBranch = function UpdateDefaultBranch(aws) {
-  var repositoryName = aws.params['repositoryName'];
-  var defaultBranchName = aws.params['defaultBranchName'];
-  if (!repositoryName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter repositoryName'];
-  }
-  if (!defaultBranchName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter defaultBranchName'];
-  }
+module.exports.ListRepositories = function ListRepositories(aws) {
+  var order = aws.params.order;
+  var sortBy = aws.params.sortBy;
+  var nextToken = aws.params.nextToken;
 
 
   // TODO implement code
 
-  var ret = {};
+  var ret = {
+    repositories: [ {
+      repositoryId: '',
+      repositoryName: '',
+    }, /* ...*/ ],
+    nextToken: '',
+  };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.CreateRepository = function CreateRepository(aws) {
-  var repositoryDescription = aws.params['repositoryDescription'];
-  var repositoryName = aws.params['repositoryName'];
+module.exports.GetRepository = function GetRepository(aws) {
+  var repositoryName = aws.params.repositoryName;
   if (!repositoryName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter repositoryName'];
   }
@@ -213,16 +196,33 @@ module.exports.CreateRepository = function CreateRepository(aws) {
   var ret = {
     repositoryMetadata: /*S6*/{
       Arn: '',
-      creationDate: awsCommon.timestamp(),
-      repositoryId: '',
-      repositoryDescription: '',
       lastModifiedDate: awsCommon.timestamp(),
+      defaultBranch: '',
+      creationDate: awsCommon.timestamp(),
+      repositoryDescription: '',
+      repositoryId: '',
       cloneUrlSsh: '',
-      accountId: '',
       repositoryName: '',
       cloneUrlHttp: '',
-      defaultBranch: '',
+      accountId: '',
     },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListBranches = function ListBranches(aws) {
+  var repositoryName = aws.params.repositoryName;
+  var nextToken = aws.params.nextToken;
+  if (!repositoryName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter repositoryName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    branches: [ '', /* ...*/ ],
+    nextToken: '',
   };
   return [200, ret];
 };

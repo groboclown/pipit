@@ -125,7 +125,7 @@ Inbox.prototype.reqGetAttributes = function reqGetAttributes() {
 };
 Inbox.prototype.changeMessageVisibilityByReceiptHandle = function changeMessageVisibilityByReceiptHandle(receiptHandle, visibilityTimeout) {
   var ret = this.inbox.matchBy(false, function mb(msg) {
-    return msg.value.isReceiptHandle(receiptHandle)
+    return msg.value.isReceiptHandle(receiptHandle);
   });
   if (!!ret) {
     ret.setVisibilityTimeout(visibilityTimeout);
@@ -135,7 +135,7 @@ Inbox.prototype.changeMessageVisibilityByReceiptHandle = function changeMessageV
 };
 Inbox.prototype.deleteMessageByReceiptHandle = function deleteMessageByReceiptHandle(receiptHandle) {
   return this.inbox.deleteBy(false, function db(msg) {
-    return msg.value.isReceiptHandle(receiptHandle)
+    return msg.value.isReceiptHandle(receiptHandle);
   });
 };
 
@@ -162,7 +162,7 @@ function AwsMessage(body, attributes, senderId) {
   // Need to figure out the right way to encode the attributes
   this.attributesMd5 = awsCommon.md5('1234'); // ???
   this.receiptHandles = [];
-};
+}
 AwsMessage.prototype.sentReceipt = function sentReceipt() {
   return {
     MD5OfMessageBody: this.bodyMd5,
@@ -191,7 +191,7 @@ AwsMessage.prototype.createReceiptHandle = function createReceiptHandle(parentMs
 AwsMessage.prototype.toReceiveForm = function toReceiveForm(parentMsg) {
   var messageAttributes = [];
   var tattr = this.attributes;
-  Object.keys(tattr).forEach(function (p) {
+  Object.keys(tattr).forEach(function fe(p) {
     var value = { DataType: tattr[p].DataType };
     var validKeys = ['BinaryListValues', 'BinaryValue', 'StringListValues', 'StringValue'];
     for (var j = 0; j < validKeys.length; j++) {
@@ -211,7 +211,7 @@ AwsMessage.prototype.toReceiveForm = function toReceiveForm(parentMsg) {
       { Name: 'SenderId', Value: this.senderId },
       { Name: 'SentTimestamp', Value: parentMsg.sentTime },
       { Name: 'ApproximateReceiveCount', Value: parentMsg.receivedCount },
-      { Name: 'ApproximateFirstReceiveTimestamp', Value: parentMsg.firstReceivedTime }
+      { Name: 'ApproximateFirstReceiveTimestamp', Value: parentMsg.firstReceivedTime },
     ],
     MD5OfMessageAttributes: this.attributesMd5,
     MessageAttributes: messageAttributes,
@@ -220,8 +220,8 @@ AwsMessage.prototype.toReceiveForm = function toReceiveForm(parentMsg) {
   // If no attributes are provided, then don't include
   // MessageAttributes or MD5OfMD5OfMessageAttributes
   if (!this.attributesMd5) {
-    delete ret['MD5OfMessageAttributes'];
-    delete ret['MessageAttributes'];
+    delete ret.MD5OfMessageAttributes;
+    delete ret.MessageAttributes;
   }
 
   return ret;

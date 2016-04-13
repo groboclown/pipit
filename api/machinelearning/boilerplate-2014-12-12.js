@@ -10,114 +10,89 @@ const awsCommon = require('../../lib/aws-common');
  */
 
 // Setup input and output to use AWS protocol json
-require('../../lib/aws-common/shape_http')('json', module.exports, null)
+require('../../lib/aws-common/shape_http')('json', module.exports, null);
 // -----------------------------------
-module.exports.DescribeBatchPredictions = function DescribeBatchPredictions(aws) {
-  var Prefix = aws.params['Prefix'];
-  var NE = aws.params['NE'];
-  var Limit = aws.params['Limit'] /* Type integer */;
-  var FilterVariable = aws.params['FilterVariable'];
-  var EQ = aws.params['EQ'];
-  var LT = aws.params['LT'];
-  var SortOrder = aws.params['SortOrder'];
-  var LE = aws.params['LE'];
-  var NextToken = aws.params['NextToken'];
-  var GE = aws.params['GE'];
-  var GT = aws.params['GT'];
-
-
-  // TODO implement code
-
-  var ret = {
-    Results: [ {
-      LastUpdatedAt: awsCommon.timestamp(),
-      Message: '',
-      BatchPredictionId: '',
-      Status: '',
-      MLModelId: '',
-      Name: '',
-      OutputUri: '',
-      BatchPredictionDataSourceId: '',
-      InputDataLocationS3: '',
-      CreatedByIamUser: '',
-      CreatedAt: awsCommon.timestamp(),
-    }, /* ...*/ ],
-    NextToken: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateRealtimeEndpoint = function CreateRealtimeEndpoint(aws) {
-  var MLModelId = aws.params['MLModelId'];
-  if (!MLModelId) {
+module.exports.CreateBatchPrediction = function CreateBatchPrediction(aws) {
+  var batchPredictionDataSourceId = aws.params.BatchPredictionDataSourceId;
+  var mLModelId = aws.params.MLModelId;
+  var outputUri = aws.params.OutputUri;
+  var batchPredictionId = aws.params.BatchPredictionId;
+  var batchPredictionName = aws.params.BatchPredictionName;
+  if (!batchPredictionId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter BatchPredictionId'];
+  }
+  if (!mLModelId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MLModelId'];
   }
+  if (!batchPredictionDataSourceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter BatchPredictionDataSourceId'];
+  }
+  if (!outputUri) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter OutputUri'];
+  }
 
 
   // TODO implement code
 
   var ret = {
-    RealtimeEndpointInfo: /*S1c*/{
-      PeakRequestsPerSecond: 0,
-      EndpointStatus: '',
-      CreatedAt: awsCommon.timestamp(),
-      EndpointUrl: '',
-    },
-    MLModelId: '',
+    BatchPredictionId: '',
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DeleteEvaluation = function DeleteEvaluation(aws) {
-  var EvaluationId = aws.params['EvaluationId'];
-  if (!EvaluationId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter EvaluationId'];
+module.exports.CreateDataSourceFromRDS = function CreateDataSourceFromRDS(aws) {
+  var computeStatistics = aws.params.ComputeStatistics /* Type boolean */;
+  var roleARN = aws.params.RoleARN;
+  var dataSourceId = aws.params.DataSourceId;
+  var dataSourceName = aws.params.DataSourceName;
+  var rDSData = aws.params.RDSData /* Type structure */;
+  if (!dataSourceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DataSourceId'];
+  }
+  if (!rDSData) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RDSData'];
+  }
+  if (!roleARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RoleARN'];
   }
 
 
   // TODO implement code
 
   var ret = {
-    EvaluationId: '',
+    DataSourceId: '',
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.Predict = function Predict(aws) {
-  var PredictEndpoint = aws.params['PredictEndpoint'];
-  var Record = aws.params['Record'] /* Type map */;
-  var MLModelId = aws.params['MLModelId'];
-  if (!MLModelId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MLModelId'];
+module.exports.CreateDataSourceFromS3 = function CreateDataSourceFromS3(aws) {
+  var computeStatistics = aws.params.ComputeStatistics /* Type boolean */;
+  var dataSourceId = aws.params.DataSourceId;
+  var dataSourceName = aws.params.DataSourceName;
+  var dataSpec = aws.params.DataSpec /* Type structure */;
+  if (!dataSourceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DataSourceId'];
   }
-  if (!Record) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Record'];
-  }
-  if (!PredictEndpoint) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PredictEndpoint'];
+  if (!dataSpec) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DataSpec'];
   }
 
 
   // TODO implement code
 
   var ret = {
-    Prediction: {
-      predictedLabel: '',
-      predictedScores: {} /*Map*/,
-      predictedValue: 9.0,
-      details: {} /*Map*/,
-    },
+    DataSourceId: '',
   };
   return [200, ret];
 };
 // -----------------------------------
 module.exports.UpdateDataSource = function UpdateDataSource(aws) {
-  var DataSourceId = aws.params['DataSourceId'];
-  var DataSourceName = aws.params['DataSourceName'];
-  if (!DataSourceId) {
+  var dataSourceId = aws.params.DataSourceId;
+  var dataSourceName = aws.params.DataSourceName;
+  if (!dataSourceId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DataSourceId'];
   }
-  if (!DataSourceName) {
+  if (!dataSourceName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DataSourceName'];
   }
 
@@ -130,49 +105,154 @@ module.exports.UpdateDataSource = function UpdateDataSource(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.GetEvaluation = function GetEvaluation(aws) {
-  var EvaluationId = aws.params['EvaluationId'];
-  if (!EvaluationId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter EvaluationId'];
+module.exports.DeleteDataSource = function DeleteDataSource(aws) {
+  var dataSourceId = aws.params.DataSourceId;
+  if (!dataSourceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DataSourceId'];
   }
 
 
   // TODO implement code
 
   var ret = {
-    LogUri: '',
-    EvaluationDataSourceId: '',
-    MLModelId: '',
-    Name: '',
-    PerformanceMetrics: /*S2g*/{
-      Properties: {} /*Map*/,
-    },
-    CreatedAt: awsCommon.timestamp(),
-    Message: '',
-    LastUpdatedAt: awsCommon.timestamp(),
-    Status: '',
-    EvaluationId: '',
+    DataSourceId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeMLModels = function DescribeMLModels(aws) {
+  var eQ = aws.params.EQ;
+  var gE = aws.params.GE;
+  var sortOrder = aws.params.SortOrder;
+  var gT = aws.params.GT;
+  var limit = aws.params.Limit /* Type integer */;
+  var nextToken = aws.params.NextToken;
+  var nE = aws.params.NE;
+  var lT = aws.params.LT;
+  var prefix = aws.params.Prefix;
+  var lE = aws.params.LE;
+  var filterVariable = aws.params.FilterVariable;
+
+
+  // TODO implement code
+
+  var ret = {
+    Results: [ {
+      InputDataLocationS3: '',
+      Message: '',
+      MLModelType: '',
+      Status: '',
+      MLModelId: '',
+      Algorithm: '',
+      ScoreThresholdLastUpdatedAt: awsCommon.timestamp(),
+      LastUpdatedAt: awsCommon.timestamp(),
+      CreatedAt: awsCommon.timestamp(),
+      Name: '',
+      SizeInBytes: 0 /*Long*/,
+      CreatedByIamUser: '',
+      EndpointInfo: /*S1c*/{
+        PeakRequestsPerSecond: 0,
+        CreatedAt: awsCommon.timestamp(),
+        EndpointUrl: '',
+        EndpointStatus: '',
+      },
+      TrainingParameters: /*S16*/{} /*Map*/,
+      TrainingDataSourceId: '',
+      ScoreThreshold: 9.0,
+    }, /* ...*/ ],
+    NextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetMLModel = function GetMLModel(aws) {
+  var verbose = aws.params.Verbose /* Type boolean */;
+  var mLModelId = aws.params.MLModelId;
+  if (!mLModelId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MLModelId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
     InputDataLocationS3: '',
+    Message: '',
+    MLModelType: '',
+    Recipe: '',
+    Status: '',
+    MLModelId: '',
+    Schema: '',
+    ScoreThresholdLastUpdatedAt: awsCommon.timestamp(),
+    LogUri: '',
+    LastUpdatedAt: awsCommon.timestamp(),
+    CreatedAt: awsCommon.timestamp(),
+    Name: '',
+    SizeInBytes: 0 /*Long*/,
     CreatedByIamUser: '',
+    EndpointInfo: /*S1c*/{
+      PeakRequestsPerSecond: 0,
+      CreatedAt: awsCommon.timestamp(),
+      EndpointUrl: '',
+      EndpointStatus: '',
+    },
+    TrainingParameters: /*S16*/{} /*Map*/,
+    TrainingDataSourceId: '',
+    ScoreThreshold: 9.0,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeBatchPredictions = function DescribeBatchPredictions(aws) {
+  var eQ = aws.params.EQ;
+  var gE = aws.params.GE;
+  var sortOrder = aws.params.SortOrder;
+  var gT = aws.params.GT;
+  var limit = aws.params.Limit /* Type integer */;
+  var nextToken = aws.params.NextToken;
+  var nE = aws.params.NE;
+  var lT = aws.params.LT;
+  var prefix = aws.params.Prefix;
+  var lE = aws.params.LE;
+  var filterVariable = aws.params.FilterVariable;
+
+
+  // TODO implement code
+
+  var ret = {
+    Results: [ {
+      OutputUri: '',
+      BatchPredictionDataSourceId: '',
+      Message: '',
+      LastUpdatedAt: awsCommon.timestamp(),
+      CreatedAt: awsCommon.timestamp(),
+      Status: '',
+      InputDataLocationS3: '',
+      Name: '',
+      CreatedByIamUser: '',
+      MLModelId: '',
+      BatchPredictionId: '',
+    }, /* ...*/ ],
+    NextToken: '',
   };
   return [200, ret];
 };
 // -----------------------------------
 module.exports.CreateMLModel = function CreateMLModel(aws) {
-  var Recipe = aws.params['Recipe'];
-  var Parameters = aws.params['Parameters'];
-  var RecipeUri = aws.params['RecipeUri'];
-  var MLModelId = aws.params['MLModelId'];
-  var MLModelName = aws.params['MLModelName'];
-  var TrainingDataSourceId = aws.params['TrainingDataSourceId'];
-  var MLModelType = aws.params['MLModelType'];
-  if (!MLModelId) {
+  var recipe = aws.params.Recipe;
+  var mLModelId = aws.params.MLModelId;
+  var mLModelType = aws.params.MLModelType;
+  var mLModelName = aws.params.MLModelName;
+  var recipeUri = aws.params.RecipeUri;
+  var trainingDataSourceId = aws.params.TrainingDataSourceId;
+  var parameters = aws.params.Parameters;
+  if (!mLModelId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MLModelId'];
   }
-  if (!MLModelType) {
+  if (!mLModelType) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MLModelType'];
   }
-  if (!TrainingDataSourceId) {
+  if (!trainingDataSourceId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TrainingDataSourceId'];
   }
 
@@ -185,95 +265,13 @@ module.exports.CreateMLModel = function CreateMLModel(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DescribeMLModels = function DescribeMLModels(aws) {
-  var Prefix = aws.params['Prefix'];
-  var NE = aws.params['NE'];
-  var Limit = aws.params['Limit'] /* Type integer */;
-  var FilterVariable = aws.params['FilterVariable'];
-  var EQ = aws.params['EQ'];
-  var LT = aws.params['LT'];
-  var SortOrder = aws.params['SortOrder'];
-  var LE = aws.params['LE'];
-  var NextToken = aws.params['NextToken'];
-  var GE = aws.params['GE'];
-  var GT = aws.params['GT'];
-
-
-  // TODO implement code
-
-  var ret = {
-    Results: [ {
-      Algorithm: '',
-      TrainingParameters: /*S16*/{} /*Map*/,
-      SizeInBytes: 0 /*Long*/,
-      MLModelId: '',
-      Name: '',
-      TrainingDataSourceId: '',
-      ScoreThreshold: 9.0,
-      Message: '',
-      CreatedAt: awsCommon.timestamp(),
-      EndpointInfo: /*S1c*/{
-        PeakRequestsPerSecond: 0,
-        EndpointStatus: '',
-        CreatedAt: awsCommon.timestamp(),
-        EndpointUrl: '',
-      },
-      LastUpdatedAt: awsCommon.timestamp(),
-      ScoreThresholdLastUpdatedAt: awsCommon.timestamp(),
-      Status: '',
-      MLModelType: '',
-      InputDataLocationS3: '',
-      CreatedByIamUser: '',
-    }, /* ...*/ ],
-    NextToken: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeEvaluations = function DescribeEvaluations(aws) {
-  var Prefix = aws.params['Prefix'];
-  var NE = aws.params['NE'];
-  var Limit = aws.params['Limit'] /* Type integer */;
-  var FilterVariable = aws.params['FilterVariable'];
-  var EQ = aws.params['EQ'];
-  var LT = aws.params['LT'];
-  var SortOrder = aws.params['SortOrder'];
-  var LE = aws.params['LE'];
-  var NextToken = aws.params['NextToken'];
-  var GE = aws.params['GE'];
-  var GT = aws.params['GT'];
-
-
-  // TODO implement code
-
-  var ret = {
-    Results: [ {
-      LastUpdatedAt: awsCommon.timestamp(),
-      EvaluationDataSourceId: '',
-      Status: '',
-      MLModelId: '',
-      Name: '',
-      PerformanceMetrics: /*S2g*/{
-        Properties: {} /*Map*/,
-      },
-      EvaluationId: '',
-      Message: '',
-      InputDataLocationS3: '',
-      CreatedByIamUser: '',
-      CreatedAt: awsCommon.timestamp(),
-    }, /* ...*/ ],
-    NextToken: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
 module.exports.UpdateEvaluation = function UpdateEvaluation(aws) {
-  var EvaluationName = aws.params['EvaluationName'];
-  var EvaluationId = aws.params['EvaluationId'];
-  if (!EvaluationId) {
+  var evaluationName = aws.params.EvaluationName;
+  var evaluationId = aws.params.EvaluationId;
+  if (!evaluationId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter EvaluationId'];
   }
-  if (!EvaluationName) {
+  if (!evaluationName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter EvaluationName'];
   }
 
@@ -286,10 +284,131 @@ module.exports.UpdateEvaluation = function UpdateEvaluation(aws) {
   return [200, ret];
 };
 // -----------------------------------
+module.exports.Predict = function Predict(aws) {
+  var record = aws.params.Record /* Type map */;
+  var predictEndpoint = aws.params.PredictEndpoint;
+  var mLModelId = aws.params.MLModelId;
+  if (!mLModelId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MLModelId'];
+  }
+  if (!record) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Record'];
+  }
+  if (!predictEndpoint) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PredictEndpoint'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Prediction: {
+      predictedValue: 9.0,
+      predictedLabel: '',
+      details: {} /*Map*/,
+      predictedScores: {} /*Map*/,
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeDataSources = function DescribeDataSources(aws) {
+  var eQ = aws.params.EQ;
+  var gE = aws.params.GE;
+  var sortOrder = aws.params.SortOrder;
+  var gT = aws.params.GT;
+  var limit = aws.params.Limit /* Type integer */;
+  var nextToken = aws.params.NextToken;
+  var nE = aws.params.NE;
+  var lT = aws.params.LT;
+  var prefix = aws.params.Prefix;
+  var lE = aws.params.LE;
+  var filterVariable = aws.params.FilterVariable;
+
+
+  // TODO implement code
+
+  var ret = {
+    Results: [ {
+      DataSizeInBytes: 0 /*Long*/,
+      Message: '',
+      RedshiftMetadata: /*S28*/{
+        RedshiftDatabase: /*Sr*/{
+          ClusterIdentifier: '',
+          DatabaseName: '',
+        },
+        SelectSqlQuery: '',
+        DatabaseUserName: '',
+      },
+      LastUpdatedAt: awsCommon.timestamp(),
+      Status: '',
+      ComputeStatistics: false,
+      NumberOfFiles: 0 /*Long*/,
+      DataSourceId: '',
+      RoleARN: '',
+      DataLocationS3: '',
+      CreatedAt: awsCommon.timestamp(),
+      Name: '',
+      CreatedByIamUser: '',
+      DataRearrangement: '',
+      RDSMetadata: /*S29*/{
+        Database: /*S8*/{
+          InstanceIdentifier: '',
+          DatabaseName: '',
+        },
+        ServiceRole: '',
+        ResourceRole: '',
+        SelectSqlQuery: '',
+        DataPipelineId: '',
+        DatabaseUserName: '',
+      },
+    }, /* ...*/ ],
+    NextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeEvaluations = function DescribeEvaluations(aws) {
+  var eQ = aws.params.EQ;
+  var gE = aws.params.GE;
+  var sortOrder = aws.params.SortOrder;
+  var gT = aws.params.GT;
+  var limit = aws.params.Limit /* Type integer */;
+  var nextToken = aws.params.NextToken;
+  var nE = aws.params.NE;
+  var lT = aws.params.LT;
+  var prefix = aws.params.Prefix;
+  var lE = aws.params.LE;
+  var filterVariable = aws.params.FilterVariable;
+
+
+  // TODO implement code
+
+  var ret = {
+    Results: [ {
+      InputDataLocationS3: '',
+      EvaluationDataSourceId: '',
+      LastUpdatedAt: awsCommon.timestamp(),
+      CreatedAt: awsCommon.timestamp(),
+      Status: '',
+      MLModelId: '',
+      PerformanceMetrics: /*S2g*/{
+        Properties: {} /*Map*/,
+      },
+      Name: '',
+      CreatedByIamUser: '',
+      Message: '',
+      EvaluationId: '',
+    }, /* ...*/ ],
+    NextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.GetDataSource = function GetDataSource(aws) {
-  var DataSourceId = aws.params['DataSourceId'];
-  var Verbose = aws.params['Verbose'] /* Type boolean */;
-  if (!DataSourceId) {
+  var dataSourceId = aws.params.DataSourceId;
+  var verbose = aws.params.Verbose /* Type boolean */;
+  if (!dataSourceId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DataSourceId'];
   }
 
@@ -297,57 +416,241 @@ module.exports.GetDataSource = function GetDataSource(aws) {
   // TODO implement code
 
   var ret = {
-    DataSourceId: '',
-    NumberOfFiles: 0 /*Long*/,
-    LogUri: '',
-    RDSMetadata: /*S29*/{
-      SelectSqlQuery: '',
-      ResourceRole: '',
-      ServiceRole: '',
-      DataPipelineId: '',
-      Database: /*S8*/{
-        InstanceIdentifier: '',
-        DatabaseName: '',
-      },
-      DatabaseUserName: '',
-    },
-    Name: '',
-    ComputeStatistics: false,
-    DataSourceSchema: '',
-    CreatedAt: awsCommon.timestamp(),
+    DataSizeInBytes: 0 /*Long*/,
     Message: '',
-    LastUpdatedAt: awsCommon.timestamp(),
-    CreatedByIamUser: '',
-    Status: '',
-    DataLocationS3: '',
-    DataRearrangement: '',
     RedshiftMetadata: /*S28*/{
-      SelectSqlQuery: '',
       RedshiftDatabase: /*Sr*/{
         ClusterIdentifier: '',
         DatabaseName: '',
       },
+      SelectSqlQuery: '',
       DatabaseUserName: '',
     },
+    LastUpdatedAt: awsCommon.timestamp(),
+    Status: '',
+    ComputeStatistics: false,
+    NumberOfFiles: 0 /*Long*/,
+    LogUri: '',
+    DataSourceId: '',
     RoleARN: '',
-    DataSizeInBytes: 0 /*Long*/,
+    DataSourceSchema: '',
+    DataLocationS3: '',
+    CreatedAt: awsCommon.timestamp(),
+    Name: '',
+    CreatedByIamUser: '',
+    DataRearrangement: '',
+    RDSMetadata: /*S29*/{
+      Database: /*S8*/{
+        InstanceIdentifier: '',
+        DatabaseName: '',
+      },
+      ServiceRole: '',
+      ResourceRole: '',
+      SelectSqlQuery: '',
+      DataPipelineId: '',
+      DatabaseUserName: '',
+    },
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.CreateDataSourceFromRDS = function CreateDataSourceFromRDS(aws) {
-  var DataSourceId = aws.params['DataSourceId'];
-  var ComputeStatistics = aws.params['ComputeStatistics'] /* Type boolean */;
-  var RoleARN = aws.params['RoleARN'];
-  var DataSourceName = aws.params['DataSourceName'];
-  var RDSData = aws.params['RDSData'] /* Type structure */;
-  if (!DataSourceId) {
+module.exports.DeleteBatchPrediction = function DeleteBatchPrediction(aws) {
+  var batchPredictionId = aws.params.BatchPredictionId;
+  if (!batchPredictionId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter BatchPredictionId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    BatchPredictionId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetBatchPrediction = function GetBatchPrediction(aws) {
+  var batchPredictionId = aws.params.BatchPredictionId;
+  if (!batchPredictionId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter BatchPredictionId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    BatchPredictionDataSourceId: '',
+    Message: '',
+    Status: '',
+    OutputUri: '',
+    InputDataLocationS3: '',
+    LogUri: '',
+    BatchPredictionId: '',
+    MLModelId: '',
+    LastUpdatedAt: awsCommon.timestamp(),
+    CreatedAt: awsCommon.timestamp(),
+    Name: '',
+    CreatedByIamUser: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateBatchPrediction = function UpdateBatchPrediction(aws) {
+  var batchPredictionId = aws.params.BatchPredictionId;
+  var batchPredictionName = aws.params.BatchPredictionName;
+  if (!batchPredictionId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter BatchPredictionId'];
+  }
+  if (!batchPredictionName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter BatchPredictionName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    BatchPredictionId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteEvaluation = function DeleteEvaluation(aws) {
+  var evaluationId = aws.params.EvaluationId;
+  if (!evaluationId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter EvaluationId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    EvaluationId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteMLModel = function DeleteMLModel(aws) {
+  var mLModelId = aws.params.MLModelId;
+  if (!mLModelId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MLModelId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    MLModelId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetEvaluation = function GetEvaluation(aws) {
+  var evaluationId = aws.params.EvaluationId;
+  if (!evaluationId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter EvaluationId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    InputDataLocationS3: '',
+    EvaluationDataSourceId: '',
+    Status: '',
+    MLModelId: '',
+    LogUri: '',
+    EvaluationId: '',
+    LastUpdatedAt: awsCommon.timestamp(),
+    CreatedAt: awsCommon.timestamp(),
+    PerformanceMetrics: /*S2g*/{
+      Properties: {} /*Map*/,
+    },
+    Name: '',
+    CreatedByIamUser: '',
+    Message: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateRealtimeEndpoint = function CreateRealtimeEndpoint(aws) {
+  var mLModelId = aws.params.MLModelId;
+  if (!mLModelId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MLModelId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    RealtimeEndpointInfo: /*S1c*/{
+      PeakRequestsPerSecond: 0,
+      CreatedAt: awsCommon.timestamp(),
+      EndpointUrl: '',
+      EndpointStatus: '',
+    },
+    MLModelId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateEvaluation = function CreateEvaluation(aws) {
+  var evaluationName = aws.params.EvaluationName;
+  var evaluationDataSourceId = aws.params.EvaluationDataSourceId;
+  var evaluationId = aws.params.EvaluationId;
+  var mLModelId = aws.params.MLModelId;
+  if (!evaluationId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter EvaluationId'];
+  }
+  if (!mLModelId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MLModelId'];
+  }
+  if (!evaluationDataSourceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter EvaluationDataSourceId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    EvaluationId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteRealtimeEndpoint = function DeleteRealtimeEndpoint(aws) {
+  var mLModelId = aws.params.MLModelId;
+  if (!mLModelId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MLModelId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    RealtimeEndpointInfo: /*S1c*/{
+      PeakRequestsPerSecond: 0,
+      CreatedAt: awsCommon.timestamp(),
+      EndpointUrl: '',
+      EndpointStatus: '',
+    },
+    MLModelId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateDataSourceFromRedshift = function CreateDataSourceFromRedshift(aws) {
+  var computeStatistics = aws.params.ComputeStatistics /* Type boolean */;
+  var roleARN = aws.params.RoleARN;
+  var dataSourceId = aws.params.DataSourceId;
+  var dataSourceName = aws.params.DataSourceName;
+  var dataSpec = aws.params.DataSpec /* Type structure */;
+  if (!dataSourceId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DataSourceId'];
   }
-  if (!RDSData) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RDSData'];
+  if (!dataSpec) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DataSpec'];
   }
-  if (!RoleARN) {
+  if (!roleARN) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RoleARN'];
   }
 
@@ -361,10 +664,10 @@ module.exports.CreateDataSourceFromRDS = function CreateDataSourceFromRDS(aws) {
 };
 // -----------------------------------
 module.exports.UpdateMLModel = function UpdateMLModel(aws) {
-  var ScoreThreshold = aws.params['ScoreThreshold'] /* Type float */;
-  var MLModelName = aws.params['MLModelName'];
-  var MLModelId = aws.params['MLModelId'];
-  if (!MLModelId) {
+  var mLModelName = aws.params.MLModelName;
+  var scoreThreshold = aws.params.ScoreThreshold /* Type float */;
+  var mLModelId = aws.params.MLModelId;
+  if (!mLModelId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MLModelId'];
   }
 
@@ -373,309 +676,6 @@ module.exports.UpdateMLModel = function UpdateMLModel(aws) {
 
   var ret = {
     MLModelId: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.GetBatchPrediction = function GetBatchPrediction(aws) {
-  var BatchPredictionId = aws.params['BatchPredictionId'];
-  if (!BatchPredictionId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter BatchPredictionId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    LogUri: '',
-    MLModelId: '',
-    Name: '',
-    BatchPredictionDataSourceId: '',
-    CreatedAt: awsCommon.timestamp(),
-    Message: '',
-    LastUpdatedAt: awsCommon.timestamp(),
-    BatchPredictionId: '',
-    Status: '',
-    OutputUri: '',
-    InputDataLocationS3: '',
-    CreatedByIamUser: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteMLModel = function DeleteMLModel(aws) {
-  var MLModelId = aws.params['MLModelId'];
-  if (!MLModelId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MLModelId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    MLModelId: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.UpdateBatchPrediction = function UpdateBatchPrediction(aws) {
-  var BatchPredictionName = aws.params['BatchPredictionName'];
-  var BatchPredictionId = aws.params['BatchPredictionId'];
-  if (!BatchPredictionId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter BatchPredictionId'];
-  }
-  if (!BatchPredictionName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter BatchPredictionName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    BatchPredictionId: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.GetMLModel = function GetMLModel(aws) {
-  var Verbose = aws.params['Verbose'] /* Type boolean */;
-  var MLModelId = aws.params['MLModelId'];
-  if (!MLModelId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MLModelId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Recipe: '',
-    TrainingParameters: /*S16*/{} /*Map*/,
-    SizeInBytes: 0 /*Long*/,
-    MLModelId: '',
-    Name: '',
-    TrainingDataSourceId: '',
-    ScoreThreshold: 9.0,
-    Message: '',
-    CreatedAt: awsCommon.timestamp(),
-    EndpointInfo: /*S1c*/{
-      PeakRequestsPerSecond: 0,
-      EndpointStatus: '',
-      CreatedAt: awsCommon.timestamp(),
-      EndpointUrl: '',
-    },
-    LastUpdatedAt: awsCommon.timestamp(),
-    Schema: '',
-    LogUri: '',
-    ScoreThresholdLastUpdatedAt: awsCommon.timestamp(),
-    Status: '',
-    MLModelType: '',
-    InputDataLocationS3: '',
-    CreatedByIamUser: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateDataSourceFromS3 = function CreateDataSourceFromS3(aws) {
-  var DataSourceId = aws.params['DataSourceId'];
-  var ComputeStatistics = aws.params['ComputeStatistics'] /* Type boolean */;
-  var DataSpec = aws.params['DataSpec'] /* Type structure */;
-  var DataSourceName = aws.params['DataSourceName'];
-  if (!DataSourceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DataSourceId'];
-  }
-  if (!DataSpec) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DataSpec'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    DataSourceId: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteDataSource = function DeleteDataSource(aws) {
-  var DataSourceId = aws.params['DataSourceId'];
-  if (!DataSourceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DataSourceId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    DataSourceId: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateDataSourceFromRedshift = function CreateDataSourceFromRedshift(aws) {
-  var DataSourceId = aws.params['DataSourceId'];
-  var RoleARN = aws.params['RoleARN'];
-  var DataSpec = aws.params['DataSpec'] /* Type structure */;
-  var DataSourceName = aws.params['DataSourceName'];
-  var ComputeStatistics = aws.params['ComputeStatistics'] /* Type boolean */;
-  if (!DataSourceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DataSourceId'];
-  }
-  if (!DataSpec) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DataSpec'];
-  }
-  if (!RoleARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RoleARN'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    DataSourceId: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteBatchPrediction = function DeleteBatchPrediction(aws) {
-  var BatchPredictionId = aws.params['BatchPredictionId'];
-  if (!BatchPredictionId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter BatchPredictionId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    BatchPredictionId: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteRealtimeEndpoint = function DeleteRealtimeEndpoint(aws) {
-  var MLModelId = aws.params['MLModelId'];
-  if (!MLModelId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MLModelId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    RealtimeEndpointInfo: /*S1c*/{
-      PeakRequestsPerSecond: 0,
-      EndpointStatus: '',
-      CreatedAt: awsCommon.timestamp(),
-      EndpointUrl: '',
-    },
-    MLModelId: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateEvaluation = function CreateEvaluation(aws) {
-  var EvaluationName = aws.params['EvaluationName'];
-  var EvaluationId = aws.params['EvaluationId'];
-  var EvaluationDataSourceId = aws.params['EvaluationDataSourceId'];
-  var MLModelId = aws.params['MLModelId'];
-  if (!EvaluationId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter EvaluationId'];
-  }
-  if (!MLModelId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MLModelId'];
-  }
-  if (!EvaluationDataSourceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter EvaluationDataSourceId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    EvaluationId: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateBatchPrediction = function CreateBatchPrediction(aws) {
-  var BatchPredictionDataSourceId = aws.params['BatchPredictionDataSourceId'];
-  var BatchPredictionName = aws.params['BatchPredictionName'];
-  var OutputUri = aws.params['OutputUri'];
-  var BatchPredictionId = aws.params['BatchPredictionId'];
-  var MLModelId = aws.params['MLModelId'];
-  if (!BatchPredictionId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter BatchPredictionId'];
-  }
-  if (!MLModelId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MLModelId'];
-  }
-  if (!BatchPredictionDataSourceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter BatchPredictionDataSourceId'];
-  }
-  if (!OutputUri) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter OutputUri'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    BatchPredictionId: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeDataSources = function DescribeDataSources(aws) {
-  var Prefix = aws.params['Prefix'];
-  var NE = aws.params['NE'];
-  var Limit = aws.params['Limit'] /* Type integer */;
-  var FilterVariable = aws.params['FilterVariable'];
-  var EQ = aws.params['EQ'];
-  var LT = aws.params['LT'];
-  var SortOrder = aws.params['SortOrder'];
-  var LE = aws.params['LE'];
-  var NextToken = aws.params['NextToken'];
-  var GE = aws.params['GE'];
-  var GT = aws.params['GT'];
-
-
-  // TODO implement code
-
-  var ret = {
-    Results: [ {
-      DataSourceId: '',
-      NumberOfFiles: 0 /*Long*/,
-      RDSMetadata: /*S29*/{
-        SelectSqlQuery: '',
-        ResourceRole: '',
-        ServiceRole: '',
-        DataPipelineId: '',
-        Database: /*S8*/{
-          InstanceIdentifier: '',
-          DatabaseName: '',
-        },
-        DatabaseUserName: '',
-      },
-      Name: '',
-      ComputeStatistics: false,
-      CreatedAt: awsCommon.timestamp(),
-      Message: '',
-      LastUpdatedAt: awsCommon.timestamp(),
-      CreatedByIamUser: '',
-      Status: '',
-      DataLocationS3: '',
-      DataRearrangement: '',
-      RedshiftMetadata: /*S28*/{
-        SelectSqlQuery: '',
-        RedshiftDatabase: /*Sr*/{
-          ClusterIdentifier: '',
-          DatabaseName: '',
-        },
-        DatabaseUserName: '',
-      },
-      RoleARN: '',
-      DataSizeInBytes: 0 /*Long*/,
-    }, /* ...*/ ],
-    NextToken: '',
   };
   return [200, ret];
 };

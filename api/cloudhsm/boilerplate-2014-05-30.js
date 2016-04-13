@@ -10,113 +10,11 @@ const awsCommon = require('../../lib/aws-common');
  */
 
 // Setup input and output to use AWS protocol json
-require('../../lib/aws-common/shape_http')('json', module.exports, null)
-// -----------------------------------
-module.exports.DescribeLunaClient = function DescribeLunaClient(aws) {
-  var CertificateFingerprint = aws.params['CertificateFingerprint'];
-  var ClientArn = aws.params['ClientArn'];
-
-
-  // TODO implement code
-
-  var ret = {
-    Label: '',
-    CertificateFingerprint: '',
-    LastModifiedTimestamp: '',
-    ClientArn: '',
-    Certificate: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.GetConfig = function GetConfig(aws) {
-  var ClientVersion = aws.params['ClientVersion'];
-  var ClientArn = aws.params['ClientArn'];
-  var HapgList = aws.params['HapgList'];
-  if (!ClientArn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClientArn'];
-  }
-  if (!ClientVersion) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClientVersion'];
-  }
-  if (!HapgList) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HapgList'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    ConfigFile: '',
-    ConfigCred: '',
-    ConfigType: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListLunaClients = function ListLunaClients(aws) {
-  var NextToken = aws.params['NextToken'];
-
-
-  // TODO implement code
-
-  var ret = {
-    ClientList: [ '', /* ...*/ ],
-    NextToken: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListHsms = function ListHsms(aws) {
-  var NextToken = aws.params['NextToken'];
-
-
-  // TODO implement code
-
-  var ret = {
-    NextToken: '',
-    HsmList: /*St*/[ '', /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteLunaClient = function DeleteLunaClient(aws) {
-  var ClientArn = aws.params['ClientArn'];
-  if (!ClientArn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClientArn'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Status: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ModifyLunaClient = function ModifyLunaClient(aws) {
-  var ClientArn = aws.params['ClientArn'];
-  var Certificate = aws.params['Certificate'];
-  if (!ClientArn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClientArn'];
-  }
-  if (!Certificate) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Certificate'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    ClientArn: '',
-  };
-  return [200, ret];
-};
+require('../../lib/aws-common/shape_http')('json', module.exports, null);
 // -----------------------------------
 module.exports.CreateHapg = function CreateHapg(aws) {
-  var Label = aws.params['Label'];
-  if (!Label) {
+  var label = aws.params.Label;
+  if (!label) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Label'];
   }
 
@@ -129,24 +27,52 @@ module.exports.CreateHapg = function CreateHapg(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DeleteHsm = function DeleteHsm(aws) {
-  var HsmArn = aws.params['HsmArn'];
-  if (!HsmArn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HsmArn'];
-  }
+module.exports.ListHsms = function ListHsms(aws) {
+  var nextToken = aws.params.NextToken;
 
 
   // TODO implement code
 
   var ret = {
-    Status: '',
+    NextToken: '',
+    HsmList: /*St*/[ '', /* ...*/ ],
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DeleteHapg = function DeleteHapg(aws) {
-  var HapgArn = aws.params['HapgArn'];
-  if (!HapgArn) {
+module.exports.DescribeLunaClient = function DescribeLunaClient(aws) {
+  var certificateFingerprint = aws.params.CertificateFingerprint;
+  var clientArn = aws.params.ClientArn;
+
+
+  // TODO implement code
+
+  var ret = {
+    Certificate: '',
+    LastModifiedTimestamp: '',
+    CertificateFingerprint: '',
+    Label: '',
+    ClientArn: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListHapgs = function ListHapgs(aws) {
+  var nextToken = aws.params.NextToken;
+
+
+  // TODO implement code
+
+  var ret = {
+    NextToken: '',
+    HapgList: /*S1c*/[ '', /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeHapg = function DescribeHapg(aws) {
+  var hapgArn = aws.params.HapgArn;
+  if (!hapgArn) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HapgArn'];
   }
 
@@ -154,64 +80,86 @@ module.exports.DeleteHapg = function DeleteHapg(aws) {
   // TODO implement code
 
   var ret = {
-    Status: '',
+    HsmsPendingRegistration: /*St*/[ '', /* ...*/ ],
+    LastModifiedTimestamp: '',
+    HsmsPendingDeletion: /*St*/[ '', /* ...*/ ],
+    HapgSerial: '',
+    Label: '',
+    PartitionSerialList: /*Sv*/[ '', /* ...*/ ],
+    State: '',
+    HapgArn: '',
+    HsmsLastActionFailed: /*St*/[ '', /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetConfig = function GetConfig(aws) {
+  var clientVersion = aws.params.ClientVersion;
+  var hapgList = aws.params.HapgList;
+  var clientArn = aws.params.ClientArn;
+  if (!clientArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClientArn'];
+  }
+  if (!clientVersion) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClientVersion'];
+  }
+  if (!hapgList) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HapgList'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ConfigCred: '',
+    ConfigType: '',
+    ConfigFile: '',
   };
   return [200, ret];
 };
 // -----------------------------------
 module.exports.DescribeHsm = function DescribeHsm(aws) {
-  var HsmArn = aws.params['HsmArn'];
-  var HsmSerialNumber = aws.params['HsmSerialNumber'];
+  var hsmSerialNumber = aws.params.HsmSerialNumber;
+  var hsmArn = aws.params.HsmArn;
 
 
   // TODO implement code
 
   var ret = {
-    SoftwareVersion: '',
+    HsmType: '',
+    ServerCertUri: '',
+    SshPublicKey: '',
     VendorName: '',
-    SubscriptionStartDate: '',
+    Status: '',
+    SubscriptionEndDate: '',
+    Partitions: [ '', /* ...*/ ],
+    SerialNumber: '',
     IamRoleArn: '',
+    EniId: '',
+    StatusDetails: '',
+    SshKeyLastUpdated: '',
+    SoftwareVersion: '',
     HsmArn: '',
     ServerCertLastUpdated: '',
     SubscriptionType: '',
-    SshPublicKey: '',
-    HsmType: '',
-    AvailabilityZone: '',
-    EniId: '',
-    SubscriptionEndDate: '',
-    SshKeyLastUpdated: '',
-    Status: '',
-    SerialNumber: '',
-    VpcId: '',
-    Partitions: [ '', /* ...*/ ],
-    SubnetId: '',
     EniIp: '',
-    ServerCertUri: '',
-    StatusDetails: '',
+    SubscriptionStartDate: '',
+    VpcId: '',
+    SubnetId: '',
+    AvailabilityZone: '',
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.CreateHsm = function CreateHsm(aws) {
-  var SubscriptionType = aws.params['SubscriptionType'];
-  var SyslogIp = aws.params['SyslogIp'];
-  var IamRoleArn = aws.params['IamRoleArn'];
-  var SshKey = aws.params['SshKey'];
-  var ExternalId = aws.params['ExternalId'];
-  var ClientToken = aws.params['ClientToken'];
-  var EniIp = aws.params['EniIp'];
-  var SubnetId = aws.params['SubnetId'];
-  if (!SubnetId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SubnetId'];
-  }
-  if (!SshKey) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SshKey'];
-  }
-  if (!IamRoleArn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter IamRoleArn'];
-  }
-  if (!SubscriptionType) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SubscriptionType'];
+module.exports.ModifyHsm = function ModifyHsm(aws) {
+  var syslogIp = aws.params.SyslogIp;
+  var hsmArn = aws.params.HsmArn;
+  var eniIp = aws.params.EniIp;
+  var iamRoleArn = aws.params.IamRoleArn;
+  var subnetId = aws.params.SubnetId;
+  var externalId = aws.params.ExternalId;
+  if (!hsmArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HsmArn'];
   }
 
 
@@ -223,10 +171,13 @@ module.exports.CreateHsm = function CreateHsm(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.CreateLunaClient = function CreateLunaClient(aws) {
-  var Label = aws.params['Label'];
-  var Certificate = aws.params['Certificate'];
-  if (!Certificate) {
+module.exports.ModifyLunaClient = function ModifyLunaClient(aws) {
+  var certificate = aws.params.Certificate;
+  var clientArn = aws.params.ClientArn;
+  if (!clientArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClientArn'];
+  }
+  if (!certificate) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Certificate'];
   }
 
@@ -235,26 +186,6 @@ module.exports.CreateLunaClient = function CreateLunaClient(aws) {
 
   var ret = {
     ClientArn: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ModifyHsm = function ModifyHsm(aws) {
-  var IamRoleArn = aws.params['IamRoleArn'];
-  var HsmArn = aws.params['HsmArn'];
-  var SyslogIp = aws.params['SyslogIp'];
-  var ExternalId = aws.params['ExternalId'];
-  var EniIp = aws.params['EniIp'];
-  var SubnetId = aws.params['SubnetId'];
-  if (!HsmArn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HsmArn'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    HsmArn: '',
   };
   return [200, ret];
 };
@@ -270,9 +201,9 @@ module.exports.ListAvailableZones = function ListAvailableZones(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DescribeHapg = function DescribeHapg(aws) {
-  var HapgArn = aws.params['HapgArn'];
-  if (!HapgArn) {
+module.exports.DeleteHapg = function DeleteHapg(aws) {
+  var hapgArn = aws.params.HapgArn;
+  if (!hapgArn) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HapgArn'];
   }
 
@@ -280,45 +211,114 @@ module.exports.DescribeHapg = function DescribeHapg(aws) {
   // TODO implement code
 
   var ret = {
-    HsmsPendingDeletion: /*St*/[ '', /* ...*/ ],
-    Label: '',
-    LastModifiedTimestamp: '',
-    HsmsLastActionFailed: /*St*/[ '', /* ...*/ ],
-    HapgSerial: '',
-    HapgArn: '',
-    PartitionSerialList: /*Sv*/[ '', /* ...*/ ],
-    HsmsPendingRegistration: /*St*/[ '', /* ...*/ ],
-    State: '',
+    Status: '',
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.ModifyHapg = function ModifyHapg(aws) {
-  var PartitionSerialList = aws.params['PartitionSerialList'];
-  var HapgArn = aws.params['HapgArn'];
-  var Label = aws.params['Label'];
-  if (!HapgArn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HapgArn'];
+module.exports.CreateHsm = function CreateHsm(aws) {
+  var sshKey = aws.params.SshKey;
+  var syslogIp = aws.params.SyslogIp;
+  var eniIp = aws.params.EniIp;
+  var subscriptionType = aws.params.SubscriptionType;
+  var clientToken = aws.params.ClientToken;
+  var iamRoleArn = aws.params.IamRoleArn;
+  var subnetId = aws.params.SubnetId;
+  var externalId = aws.params.ExternalId;
+  if (!subnetId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SubnetId'];
+  }
+  if (!sshKey) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SshKey'];
+  }
+  if (!iamRoleArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter IamRoleArn'];
+  }
+  if (!subscriptionType) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SubscriptionType'];
   }
 
 
   // TODO implement code
 
   var ret = {
-    HapgArn: '',
+    HsmArn: '',
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.ListHapgs = function ListHapgs(aws) {
-  var NextToken = aws.params['NextToken'];
+module.exports.DeleteHsm = function DeleteHsm(aws) {
+  var hsmArn = aws.params.HsmArn;
+  if (!hsmArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HsmArn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Status: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateLunaClient = function CreateLunaClient(aws) {
+  var certificate = aws.params.Certificate;
+  var label = aws.params.Label;
+  if (!certificate) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Certificate'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ClientArn: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteLunaClient = function DeleteLunaClient(aws) {
+  var clientArn = aws.params.ClientArn;
+  if (!clientArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClientArn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Status: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListLunaClients = function ListLunaClients(aws) {
+  var nextToken = aws.params.NextToken;
 
 
   // TODO implement code
 
   var ret = {
     NextToken: '',
-    HapgList: /*S1c*/[ '', /* ...*/ ],
+    ClientList: [ '', /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ModifyHapg = function ModifyHapg(aws) {
+  var partitionSerialList = aws.params.PartitionSerialList;
+  var hapgArn = aws.params.HapgArn;
+  var label = aws.params.Label;
+  if (!hapgArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HapgArn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    HapgArn: '',
   };
   return [200, ret];
 };

@@ -44,7 +44,7 @@ const awsCommon = require('../../lib/aws-common');
  */
 
 // Setup input and output to use AWS protocol {2}
-require('../../lib/aws-common/shape_http')('{2}', module.exports, {3})
+require('../../lib/aws-common/shape_http')('{2}', module.exports, {3});
 """.format(
             api_entry["api"]["metadata"]["serviceFullName"],
             api_entry["api"]["metadata"]["apiVersion"],
@@ -60,6 +60,7 @@ def build_action(operation_name, api):
     ret = '// -----------------------------------\nmodule.exports.' + operation_name + ' = '
     operation = api["operations"][operation_name]
     end = '}'
+    indent = '  '
     if "http" in operation:
         ret += 'awsCommon.as(\n'
         if "method" in operation["http"]:
@@ -70,64 +71,96 @@ def build_action(operation_name, api):
                 operation["http"]["requestUri"] = '/'
         # the {asdf} translates into :asdf
         ret += "  '" + operation["http"]["requestUri"].replace("{", ":").replace("}", "") + "',\n  "
-        end += ')'
+        end = '  })'
+        indent = '    '
     ret += 'function ' + operation_name + '(aws) {\n'
-    ret += build_arguments(operation_name, api)
-    ret += '\n\n  // TODO implement code\n\n'
-    ret += build_return(operation_name, api)
+    ret += build_arguments(operation_name, api, indent)
+    ret += '\n\n' + indent + '// TODO implement code\n\n'
+    ret += build_return(operation_name, api, indent)
     retcode = '200'
     if "http" in operation and "responseCode" in operation["http"]:
         retcode = operation["http"]["responseCode"]
     # retcode may have been parsed as a number
-    ret += '  return [{0}, ret];\n'.format(retcode)
+    ret += indent + 'return [{0}, ret];\n'.format(retcode)
     ret += end + ';\n'
     return ret
 
 
-def build_arguments(operation_name, api):
+def build_arguments(operation_name, api, indent):
     """Constructs the input arguments."""
     ret = ''
-    indent = '  '
     if "input" in api["operations"][operation_name]:
         if "members" in api["operations"][operation_name]["input"]:
             for k, v in api["operations"][operation_name]["input"]["members"].items():
-                vname = asJsVariable(k)
+                vname = as_js_variable(k)
                 if "location" in v and v["location"] == 'uri':
                     # It's in the actual url path
-                    ret += indent + 'var ' + vname + " = aws.reqParams['" + v["locationName"] + "']"
+                    if must_be_quoted(v["locationName"]):
+                        ret += indent + 'var ' + vname + " = aws.reqParams['" + v["locationName"] + "']"
+                    else:
+                        ret += indent + 'var ' + vname + " = aws.reqParams." + v["locationName"]
                 elif "location" in v and v["location"] == 'querystring':
                     # in the query string; should be the "params" due to some smarts
                     if "http" in api and "method" in api["http"] and api["http"]["method"] != 'GET':
                         raise Exception(operation_name + ' has non-GET with querystring parameters')
+                    if must_be_quoted(k):
+                        ret += indent + 'var ' + vname + " = aws.params['" + k + "']"
+                    else:
+                        ret += indent + 'var ' + vname + " = aws.params." + k
+                elif must_be_quoted(k):
                     ret += indent + 'var ' + vname + " = aws.params['" + k + "']"
                 else:
-                    ret += indent + 'var ' + vname + " = aws.params['" + k + "']"
+                    ret += indent + 'var ' + vname + " = aws.params." + k
                 if "type" in v:
                     ret += ' /* Type ' + v["type"] + ' */'
                 ret += ';\n'
         if "required" in api["operations"][operation_name]["input"]:
             for k in api["operations"][operation_name]["input"]["required"]:
-                ret += (indent + 'if (!' + k + ') {\n' +
+                vname = as_js_variable(k)
+                ret += (indent + 'if (!' + vname + ') {\n' +
                     indent + "  return [400, 'Sender', 'MissingParameter', 'Did not specify parameter " + k + "'];\n" +
                     indent + '}\n')
     return ret
 
 
-def asJsVariable(key):
-    if key in ['return', 'switch', 'case', 'if', 'else', 'for'] or not key[0].isidentifier():
-        return '_' + key
+VALID_JS_FIELD = re.compile(r'^[A-Za-z0-9]+$')
+def must_be_quoted(key):
+    return VALID_JS_FIELD.match(key) is None
+
+
+def as_js_variable(key):
+    # Replace _x with X, and force the first letter to be lower case
+    ok = key
+    key = ""
+    first = True
+    next_cap = False
+    for c in ok:
+        if first:
+            first = False
+            c = c.lower()
+        if next_cap:
+            next_cap = False
+            c = c.upper()
+        if c == '_':
+            next_cap = True
+        else:
+            key += c
+
+    # Ensure we don't have js keywords as variable names.
+    if key in ['return', 'switch', 'case', 'if', 'else', 'for', 'delete'] or not key[0].isidentifier():
+        key = '_' + key
 
     return key
 
 
-def build_return(operation_name, api):
+def build_return(operation_name, api, indent):
     """Constructs the empty return value."""
     if "output" in api["operations"][operation_name]:
         shape = api["operations"][operation_name]["output"]
-        return "  var ret = " + build_return_shape('  ', shape, api) + ';\n'
+        return indent + "var ret = " + build_return_shape(indent, shape, api) + ';\n'
     else:
         # print(" - no output for " + operation_name)
-        return "  var ret = {};\n"
+        return indent + "var ret = {};\n"
 
 def build_return_shape(indent, shape, api, found=None):
     if found is None:
@@ -137,7 +170,7 @@ def build_return_shape(indent, shape, api, found=None):
     if "shape" in shape:
         if shape["shape"] in found:
             if found[shape["shape"]] is None:
-                return "null/* recursive {0}*/".format(shape["shape"])
+                return "null /* Recursive {0}*/".format(shape["shape"])
             return found[shape["shape"]]
         found[shape["shape"]] = None
         ret = "/*{0}*/{1}".format(shape["shape"],
@@ -277,7 +310,7 @@ const normalizeVersions = normalize.normalizeVersions;
 * ----- AUTO-GENERATED CODE -----
 */
 module.exports = {
-  """ + ",\n  ".join(routeList) + """
+  """ + ",\n  ".join(routeList) + """,
 };""")
 
 

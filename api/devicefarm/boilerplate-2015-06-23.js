@@ -10,261 +10,12 @@ const awsCommon = require('../../lib/aws-common');
  */
 
 // Setup input and output to use AWS protocol json
-require('../../lib/aws-common/shape_http')('json', module.exports, null)
-// -----------------------------------
-module.exports.DeleteDevicePool = function DeleteDevicePool(aws) {
-  var arn = aws.params['arn'];
-  if (!arn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter arn'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteProject = function DeleteProject(aws) {
-  var arn = aws.params['arn'];
-  if (!arn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter arn'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.GetSuite = function GetSuite(aws) {
-  var arn = aws.params['arn'];
-  if (!arn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter arn'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    suite: /*S21*/{
-      message: '',
-      started: awsCommon.timestamp(),
-      name: '',
-      status: '',
-      type: '',
-      created: awsCommon.timestamp(),
-      counters: /*S1r*/{
-        total: 0,
-        warned: 0,
-        failed: 0,
-        errored: 0,
-        skipped: 0,
-        stopped: 0,
-        passed: 0,
-      },
-      result: '',
-      arn: '',
-      deviceMinutes: /*S1s*/{
-        total: 0.0 /*Double*/,
-        unmetered: 0.0 /*Double*/,
-        metered: 0.0 /*Double*/,
-      },
-      stopped: awsCommon.timestamp(),
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ScheduleRun = function ScheduleRun(aws) {
-  var name = aws.params['name'];
-  var appArn = aws.params['appArn'];
-  var projectArn = aws.params['projectArn'];
-  var configuration = aws.params['configuration'] /* Type structure */;
-  var devicePoolArn = aws.params['devicePoolArn'];
-  var test = aws.params['test'] /* Type structure */;
-  if (!projectArn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter projectArn'];
-  }
-  if (!devicePoolArn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter devicePoolArn'];
-  }
-  if (!test) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter test'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    run: /*S1x*/{
-      message: '',
-      started: awsCommon.timestamp(),
-      name: '',
-      arn: '',
-      counters: /*S1r*/{
-        total: 0,
-        warned: 0,
-        failed: 0,
-        errored: 0,
-        skipped: 0,
-        stopped: 0,
-        passed: 0,
-      },
-      created: awsCommon.timestamp(),
-      stopped: awsCommon.timestamp(),
-      deviceMinutes: /*S1s*/{
-        total: 0.0 /*Double*/,
-        unmetered: 0.0 /*Double*/,
-        metered: 0.0 /*Double*/,
-      },
-      status: '',
-      type: '',
-      platform: '',
-      totalJobs: 0,
-      result: '',
-      completedJobs: 0,
-      billingMethod: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteRun = function DeleteRun(aws) {
-  var arn = aws.params['arn'];
-  if (!arn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter arn'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.GetDevice = function GetDevice(aws) {
-  var arn = aws.params['arn'];
-  if (!arn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter arn'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    device: /*S16*/{
-      resolution: {
-        height: 0,
-        width: 0,
-      },
-      memory: 0 /*Long*/,
-      radio: '',
-      name: '',
-      os: '',
-      arn: '',
-      manufacturer: '',
-      carrier: '',
-      formFactor: '',
-      model: '',
-      cpu: {
-        clock: 0.0 /*Double*/,
-        architecture: '',
-        frequency: '',
-      },
-      platform: '',
-      heapSize: 0 /*Long*/,
-      image: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListProjects = function ListProjects(aws) {
-  var nextToken = aws.params['nextToken'];
-  var arn = aws.params['arn'];
-
-
-  // TODO implement code
-
-  var ret = {
-    nextToken: '',
-    projects: [ /*Sf*/{
-      created: awsCommon.timestamp(),
-      name: '',
-      arn: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteUpload = function DeleteUpload(aws) {
-  var arn = aws.params['arn'];
-  if (!arn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter arn'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListTests = function ListTests(aws) {
-  var nextToken = aws.params['nextToken'];
-  var arn = aws.params['arn'];
-  if (!arn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter arn'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    nextToken: '',
-    tests: [ /*S24*/{
-      message: '',
-      started: awsCommon.timestamp(),
-      name: '',
-      status: '',
-      type: '',
-      created: awsCommon.timestamp(),
-      counters: /*S1r*/{
-        total: 0,
-        warned: 0,
-        failed: 0,
-        errored: 0,
-        skipped: 0,
-        stopped: 0,
-        passed: 0,
-      },
-      result: '',
-      arn: '',
-      deviceMinutes: /*S1s*/{
-        total: 0.0 /*Double*/,
-        unmetered: 0.0 /*Double*/,
-        metered: 0.0 /*Double*/,
-      },
-      stopped: awsCommon.timestamp(),
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
+require('../../lib/aws-common/shape_http')('json', module.exports, null);
 // -----------------------------------
 module.exports.GetDevicePoolCompatibility = function GetDevicePoolCompatibility(aws) {
-  var testType = aws.params['testType'];
-  var devicePoolArn = aws.params['devicePoolArn'];
-  var appArn = aws.params['appArn'];
+  var devicePoolArn = aws.params.devicePoolArn;
+  var testType = aws.params.testType;
+  var appArn = aws.params.appArn;
   if (!devicePoolArn) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter devicePoolArn'];
   }
@@ -274,483 +25,65 @@ module.exports.GetDevicePoolCompatibility = function GetDevicePoolCompatibility(
 
   var ret = {
     compatibleDevices: /*S1h*/[ {
-      incompatibilityMessages: [ {
-        message: '',
-        type: '',
-      }, /* ...*/ ],
       device: /*S16*/{
+        platform: '',
+        manufacturer: '',
         resolution: {
           height: 0,
           width: 0,
         },
         memory: 0 /*Long*/,
-        radio: '',
-        name: '',
-        os: '',
-        arn: '',
-        manufacturer: '',
-        carrier: '',
-        formFactor: '',
-        model: '',
         cpu: {
           clock: 0.0 /*Double*/,
           architecture: '',
           frequency: '',
         },
-        platform: '',
         heapSize: 0 /*Long*/,
+        arn: '',
+        carrier: '',
+        model: '',
         image: '',
+        os: '',
+        name: '',
+        formFactor: '',
+        radio: '',
       },
+      incompatibilityMessages: [ {
+        message: '',
+        type: '',
+      }, /* ...*/ ],
       compatible: false,
     }, /* ...*/ ],
     incompatibleDevices: /*S1h*/[ {
+      device: /*S16*/{
+        platform: '',
+        manufacturer: '',
+        resolution: {
+          height: 0,
+          width: 0,
+        },
+        memory: 0 /*Long*/,
+        cpu: {
+          clock: 0.0 /*Double*/,
+          architecture: '',
+          frequency: '',
+        },
+        heapSize: 0 /*Long*/,
+        arn: '',
+        carrier: '',
+        model: '',
+        image: '',
+        os: '',
+        name: '',
+        formFactor: '',
+        radio: '',
+      },
       incompatibilityMessages: [ {
         message: '',
         type: '',
       }, /* ...*/ ],
-      device: /*S16*/{
-        resolution: {
-          height: 0,
-          width: 0,
-        },
-        memory: 0 /*Long*/,
-        radio: '',
-        name: '',
-        os: '',
-        arn: '',
-        manufacturer: '',
-        carrier: '',
-        formFactor: '',
-        model: '',
-        cpu: {
-          clock: 0.0 /*Double*/,
-          architecture: '',
-          frequency: '',
-        },
-        platform: '',
-        heapSize: 0 /*Long*/,
-        image: '',
-      },
       compatible: false,
     }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.GetDevicePool = function GetDevicePool(aws) {
-  var arn = aws.params['arn'];
-  if (!arn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter arn'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    devicePool: /*Sb*/{
-      rules: /*S5*/[ {
-        attribute: '',
-        value: '',
-        operator: '',
-      }, /* ...*/ ],
-      description: '',
-      name: '',
-      type: '',
-      arn: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateProject = function CreateProject(aws) {
-  var name = aws.params['name'];
-  if (!name) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter name'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    project: /*Sf*/{
-      created: awsCommon.timestamp(),
-      name: '',
-      arn: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListSamples = function ListSamples(aws) {
-  var nextToken = aws.params['nextToken'];
-  var arn = aws.params['arn'];
-  if (!arn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter arn'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    nextToken: '',
-    samples: [ {
-      url: '',
-      type: '',
-      arn: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListJobs = function ListJobs(aws) {
-  var nextToken = aws.params['nextToken'];
-  var arn = aws.params['arn'];
-  if (!arn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter arn'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    nextToken: '',
-    jobs: [ /*S1o*/{
-      message: '',
-      started: awsCommon.timestamp(),
-      name: '',
-      created: awsCommon.timestamp(),
-      counters: /*S1r*/{
-        total: 0,
-        warned: 0,
-        failed: 0,
-        errored: 0,
-        skipped: 0,
-        stopped: 0,
-        passed: 0,
-      },
-      arn: '',
-      stopped: awsCommon.timestamp(),
-      deviceMinutes: /*S1s*/{
-        total: 0.0 /*Double*/,
-        unmetered: 0.0 /*Double*/,
-        metered: 0.0 /*Double*/,
-      },
-      device: /*S16*/{
-        resolution: {
-          height: 0,
-          width: 0,
-        },
-        memory: 0 /*Long*/,
-        radio: '',
-        name: '',
-        os: '',
-        arn: '',
-        manufacturer: '',
-        carrier: '',
-        formFactor: '',
-        model: '',
-        cpu: {
-          clock: 0.0 /*Double*/,
-          architecture: '',
-          frequency: '',
-        },
-        platform: '',
-        heapSize: 0 /*Long*/,
-        image: '',
-      },
-      status: '',
-      type: '',
-      result: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListDevices = function ListDevices(aws) {
-  var nextToken = aws.params['nextToken'];
-  var arn = aws.params['arn'];
-
-
-  // TODO implement code
-
-  var ret = {
-    nextToken: '',
-    devices: [ /*S16*/{
-      resolution: {
-        height: 0,
-        width: 0,
-      },
-      memory: 0 /*Long*/,
-      radio: '',
-      name: '',
-      os: '',
-      arn: '',
-      manufacturer: '',
-      carrier: '',
-      formFactor: '',
-      model: '',
-      cpu: {
-        clock: 0.0 /*Double*/,
-        architecture: '',
-        frequency: '',
-      },
-      platform: '',
-      heapSize: 0 /*Long*/,
-      image: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.GetProject = function GetProject(aws) {
-  var arn = aws.params['arn'];
-  if (!arn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter arn'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    project: /*Sf*/{
-      created: awsCommon.timestamp(),
-      name: '',
-      arn: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListDevicePools = function ListDevicePools(aws) {
-  var nextToken = aws.params['nextToken'];
-  var type = aws.params['type'];
-  var arn = aws.params['arn'];
-  if (!arn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter arn'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    nextToken: '',
-    devicePools: [ /*Sb*/{
-      rules: /*S5*/[ {
-        attribute: '',
-        value: '',
-        operator: '',
-      }, /* ...*/ ],
-      description: '',
-      name: '',
-      type: '',
-      arn: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListUploads = function ListUploads(aws) {
-  var nextToken = aws.params['nextToken'];
-  var arn = aws.params['arn'];
-  if (!arn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter arn'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    nextToken: '',
-    uploads: [ /*Sl*/{
-      metadata: '',
-      contentType: '',
-      url: '',
-      name: '',
-      status: '',
-      type: '',
-      created: awsCommon.timestamp(),
-      arn: '',
-      message: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.GetUpload = function GetUpload(aws) {
-  var arn = aws.params['arn'];
-  if (!arn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter arn'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    upload: /*Sl*/{
-      metadata: '',
-      contentType: '',
-      url: '',
-      name: '',
-      status: '',
-      type: '',
-      created: awsCommon.timestamp(),
-      arn: '',
-      message: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListArtifacts = function ListArtifacts(aws) {
-  var nextToken = aws.params['nextToken'];
-  var type = aws.params['type'];
-  var arn = aws.params['arn'];
-  if (!arn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter arn'];
-  }
-  if (!type) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter type'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    nextToken: '',
-    artifacts: [ {
-      extension: '',
-      url: '',
-      name: '',
-      type: '',
-      arn: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListRuns = function ListRuns(aws) {
-  var nextToken = aws.params['nextToken'];
-  var arn = aws.params['arn'];
-  if (!arn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter arn'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    nextToken: '',
-    runs: [ /*S1x*/{
-      message: '',
-      started: awsCommon.timestamp(),
-      name: '',
-      arn: '',
-      counters: /*S1r*/{
-        total: 0,
-        warned: 0,
-        failed: 0,
-        errored: 0,
-        skipped: 0,
-        stopped: 0,
-        passed: 0,
-      },
-      created: awsCommon.timestamp(),
-      stopped: awsCommon.timestamp(),
-      deviceMinutes: /*S1s*/{
-        total: 0.0 /*Double*/,
-        unmetered: 0.0 /*Double*/,
-        metered: 0.0 /*Double*/,
-      },
-      status: '',
-      type: '',
-      platform: '',
-      totalJobs: 0,
-      result: '',
-      completedJobs: 0,
-      billingMethod: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.UpdateDevicePool = function UpdateDevicePool(aws) {
-  var rules = aws.params['rules'];
-  var description = aws.params['description'];
-  var name = aws.params['name'];
-  var arn = aws.params['arn'];
-  if (!arn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter arn'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    devicePool: /*Sb*/{
-      rules: /*S5*/[ {
-        attribute: '',
-        value: '',
-        operator: '',
-      }, /* ...*/ ],
-      description: '',
-      name: '',
-      type: '',
-      arn: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.UpdateProject = function UpdateProject(aws) {
-  var name = aws.params['name'];
-  var arn = aws.params['arn'];
-  if (!arn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter arn'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    project: /*Sf*/{
-      created: awsCommon.timestamp(),
-      name: '',
-      arn: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateDevicePool = function CreateDevicePool(aws) {
-  var rules = aws.params['rules'];
-  var name = aws.params['name'];
-  var projectArn = aws.params['projectArn'];
-  var description = aws.params['description'];
-  if (!projectArn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter projectArn'];
-  }
-  if (!name) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter name'];
-  }
-  if (!rules) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter rules'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    devicePool: /*Sb*/{
-      rules: /*S5*/[ {
-        attribute: '',
-        value: '',
-        operator: '',
-      }, /* ...*/ ],
-      description: '',
-      name: '',
-      type: '',
-      arn: '',
-    },
   };
   return [200, ret];
 };
@@ -769,8 +102,366 @@ module.exports.GetAccountSettings = function GetAccountSettings(aws) {
   return [200, ret];
 };
 // -----------------------------------
+module.exports.UpdateProject = function UpdateProject(aws) {
+  var arn = aws.params.arn;
+  var name = aws.params.name;
+  if (!arn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter arn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    project: /*Sf*/{
+      arn: '',
+      name: '',
+      created: awsCommon.timestamp(),
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetDevice = function GetDevice(aws) {
+  var arn = aws.params.arn;
+  if (!arn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter arn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    device: /*S16*/{
+      platform: '',
+      manufacturer: '',
+      resolution: {
+        height: 0,
+        width: 0,
+      },
+      memory: 0 /*Long*/,
+      cpu: {
+        clock: 0.0 /*Double*/,
+        architecture: '',
+        frequency: '',
+      },
+      heapSize: 0 /*Long*/,
+      arn: '',
+      carrier: '',
+      model: '',
+      image: '',
+      os: '',
+      name: '',
+      formFactor: '',
+      radio: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetUpload = function GetUpload(aws) {
+  var arn = aws.params.arn;
+  if (!arn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter arn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    upload: /*Sl*/{
+      arn: '',
+      message: '',
+      url: '',
+      name: '',
+      metadata: '',
+      created: awsCommon.timestamp(),
+      contentType: '',
+      type: '',
+      status: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListRuns = function ListRuns(aws) {
+  var arn = aws.params.arn;
+  var nextToken = aws.params.nextToken;
+  if (!arn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter arn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    runs: [ /*S1x*/{
+      platform: '',
+      totalJobs: 0,
+      created: awsCommon.timestamp(),
+      started: awsCommon.timestamp(),
+      billingMethod: '',
+      result: '',
+      counters: /*S1r*/{
+        skipped: 0,
+        warned: 0,
+        stopped: 0,
+        passed: 0,
+        failed: 0,
+        errored: 0,
+        total: 0,
+      },
+      status: '',
+      arn: '',
+      completedJobs: 0,
+      stopped: awsCommon.timestamp(),
+      name: '',
+      message: '',
+      deviceMinutes: /*S1s*/{
+        unmetered: 0.0 /*Double*/,
+        metered: 0.0 /*Double*/,
+        total: 0.0 /*Double*/,
+      },
+      type: '',
+    }, /* ...*/ ],
+    nextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListDevicePools = function ListDevicePools(aws) {
+  var arn = aws.params.arn;
+  var nextToken = aws.params.nextToken;
+  var type = aws.params.type;
+  if (!arn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter arn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    devicePools: [ /*Sb*/{
+      arn: '',
+      name: '',
+      type: '',
+      rules: /*S5*/[ {
+        attribute: '',
+        value: '',
+        operator: '',
+      }, /* ...*/ ],
+      description: '',
+    }, /* ...*/ ],
+    nextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListJobs = function ListJobs(aws) {
+  var arn = aws.params.arn;
+  var nextToken = aws.params.nextToken;
+  if (!arn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter arn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    jobs: [ /*S1o*/{
+      created: awsCommon.timestamp(),
+      started: awsCommon.timestamp(),
+      result: '',
+      deviceMinutes: /*S1s*/{
+        unmetered: 0.0 /*Double*/,
+        metered: 0.0 /*Double*/,
+        total: 0.0 /*Double*/,
+      },
+      counters: /*S1r*/{
+        skipped: 0,
+        warned: 0,
+        stopped: 0,
+        passed: 0,
+        failed: 0,
+        errored: 0,
+        total: 0,
+      },
+      status: '',
+      arn: '',
+      stopped: awsCommon.timestamp(),
+      name: '',
+      message: '',
+      device: /*S16*/{
+        platform: '',
+        manufacturer: '',
+        resolution: {
+          height: 0,
+          width: 0,
+        },
+        memory: 0 /*Long*/,
+        cpu: {
+          clock: 0.0 /*Double*/,
+          architecture: '',
+          frequency: '',
+        },
+        heapSize: 0 /*Long*/,
+        arn: '',
+        carrier: '',
+        model: '',
+        image: '',
+        os: '',
+        name: '',
+        formFactor: '',
+        radio: '',
+      },
+      type: '',
+    }, /* ...*/ ],
+    nextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteUpload = function DeleteUpload(aws) {
+  var arn = aws.params.arn;
+  if (!arn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter arn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateDevicePool = function CreateDevicePool(aws) {
+  var name = aws.params.name;
+  var rules = aws.params.rules;
+  var projectArn = aws.params.projectArn;
+  var description = aws.params.description;
+  if (!projectArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter projectArn'];
+  }
+  if (!name) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter name'];
+  }
+  if (!rules) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter rules'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    devicePool: /*Sb*/{
+      arn: '',
+      name: '',
+      type: '',
+      rules: /*S5*/[ {
+        attribute: '',
+        value: '',
+        operator: '',
+      }, /* ...*/ ],
+      description: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListDevices = function ListDevices(aws) {
+  var arn = aws.params.arn;
+  var nextToken = aws.params.nextToken;
+
+
+  // TODO implement code
+
+  var ret = {
+    nextToken: '',
+    devices: [ /*S16*/{
+      platform: '',
+      manufacturer: '',
+      resolution: {
+        height: 0,
+        width: 0,
+      },
+      memory: 0 /*Long*/,
+      cpu: {
+        clock: 0.0 /*Double*/,
+        architecture: '',
+        frequency: '',
+      },
+      heapSize: 0 /*Long*/,
+      arn: '',
+      carrier: '',
+      model: '',
+      image: '',
+      os: '',
+      name: '',
+      formFactor: '',
+      radio: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteProject = function DeleteProject(aws) {
+  var arn = aws.params.arn;
+  if (!arn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter arn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetSuite = function GetSuite(aws) {
+  var arn = aws.params.arn;
+  if (!arn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter arn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    suite: /*S21*/{
+      arn: '',
+      result: '',
+      started: awsCommon.timestamp(),
+      counters: /*S1r*/{
+        skipped: 0,
+        warned: 0,
+        stopped: 0,
+        passed: 0,
+        failed: 0,
+        errored: 0,
+        total: 0,
+      },
+      stopped: awsCommon.timestamp(),
+      name: '',
+      message: '',
+      created: awsCommon.timestamp(),
+      deviceMinutes: /*S1s*/{
+        unmetered: 0.0 /*Double*/,
+        metered: 0.0 /*Double*/,
+        total: 0.0 /*Double*/,
+      },
+      type: '',
+      status: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.GetRun = function GetRun(aws) {
-  var arn = aws.params['arn'];
+  var arn = aws.params.arn;
   if (!arn) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter arn'];
   }
@@ -780,80 +471,41 @@ module.exports.GetRun = function GetRun(aws) {
 
   var ret = {
     run: /*S1x*/{
-      message: '',
-      started: awsCommon.timestamp(),
-      name: '',
-      arn: '',
-      counters: /*S1r*/{
-        total: 0,
-        warned: 0,
-        failed: 0,
-        errored: 0,
-        skipped: 0,
-        stopped: 0,
-        passed: 0,
-      },
-      created: awsCommon.timestamp(),
-      stopped: awsCommon.timestamp(),
-      deviceMinutes: /*S1s*/{
-        total: 0.0 /*Double*/,
-        unmetered: 0.0 /*Double*/,
-        metered: 0.0 /*Double*/,
-      },
-      status: '',
-      type: '',
       platform: '',
       totalJobs: 0,
-      result: '',
-      completedJobs: 0,
+      created: awsCommon.timestamp(),
+      started: awsCommon.timestamp(),
       billingMethod: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.GetTest = function GetTest(aws) {
-  var arn = aws.params['arn'];
-  if (!arn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter arn'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    test: /*S24*/{
-      message: '',
-      started: awsCommon.timestamp(),
-      name: '',
-      status: '',
-      type: '',
-      created: awsCommon.timestamp(),
+      result: '',
       counters: /*S1r*/{
-        total: 0,
-        warned: 0,
-        failed: 0,
-        errored: 0,
         skipped: 0,
+        warned: 0,
         stopped: 0,
         passed: 0,
+        failed: 0,
+        errored: 0,
+        total: 0,
       },
-      result: '',
+      status: '',
       arn: '',
+      completedJobs: 0,
+      stopped: awsCommon.timestamp(),
+      name: '',
+      message: '',
       deviceMinutes: /*S1s*/{
-        total: 0.0 /*Double*/,
         unmetered: 0.0 /*Double*/,
         metered: 0.0 /*Double*/,
+        total: 0.0 /*Double*/,
       },
-      stopped: awsCommon.timestamp(),
+      type: '',
     },
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.ListUniqueProblems = function ListUniqueProblems(aws) {
-  var nextToken = aws.params['nextToken'];
-  var arn = aws.params['arn'];
+module.exports.ListSuites = function ListSuites(aws) {
+  var arn = aws.params.arn;
+  var nextToken = aws.params.nextToken;
   if (!arn) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter arn'];
   }
@@ -862,79 +514,41 @@ module.exports.ListUniqueProblems = function ListUniqueProblems(aws) {
   // TODO implement code
 
   var ret = {
+    suites: [ /*S21*/{
+      arn: '',
+      result: '',
+      started: awsCommon.timestamp(),
+      counters: /*S1r*/{
+        skipped: 0,
+        warned: 0,
+        stopped: 0,
+        passed: 0,
+        failed: 0,
+        errored: 0,
+        total: 0,
+      },
+      stopped: awsCommon.timestamp(),
+      name: '',
+      message: '',
+      created: awsCommon.timestamp(),
+      deviceMinutes: /*S1s*/{
+        unmetered: 0.0 /*Double*/,
+        metered: 0.0 /*Double*/,
+        total: 0.0 /*Double*/,
+      },
+      type: '',
+      status: '',
+    }, /* ...*/ ],
     nextToken: '',
-    uniqueProblems: {} /*Map*/,
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.GetJob = function GetJob(aws) {
-  var arn = aws.params['arn'];
-  if (!arn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter arn'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    job: /*S1o*/{
-      message: '',
-      started: awsCommon.timestamp(),
-      name: '',
-      created: awsCommon.timestamp(),
-      counters: /*S1r*/{
-        total: 0,
-        warned: 0,
-        failed: 0,
-        errored: 0,
-        skipped: 0,
-        stopped: 0,
-        passed: 0,
-      },
-      arn: '',
-      stopped: awsCommon.timestamp(),
-      deviceMinutes: /*S1s*/{
-        total: 0.0 /*Double*/,
-        unmetered: 0.0 /*Double*/,
-        metered: 0.0 /*Double*/,
-      },
-      device: /*S16*/{
-        resolution: {
-          height: 0,
-          width: 0,
-        },
-        memory: 0 /*Long*/,
-        radio: '',
-        name: '',
-        os: '',
-        arn: '',
-        manufacturer: '',
-        carrier: '',
-        formFactor: '',
-        model: '',
-        cpu: {
-          clock: 0.0 /*Double*/,
-          architecture: '',
-          frequency: '',
-        },
-        platform: '',
-        heapSize: 0 /*Long*/,
-        image: '',
-      },
-      status: '',
-      type: '',
-      result: '',
-    },
   };
   return [200, ret];
 };
 // -----------------------------------
 module.exports.CreateUpload = function CreateUpload(aws) {
-  var contentType = aws.params['contentType'];
-  var name = aws.params['name'];
-  var type = aws.params['type'];
-  var projectArn = aws.params['projectArn'];
+  var name = aws.params.name;
+  var contentType = aws.params.contentType;
+  var projectArn = aws.params.projectArn;
+  var type = aws.params.type;
   if (!projectArn) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter projectArn'];
   }
@@ -950,23 +564,49 @@ module.exports.CreateUpload = function CreateUpload(aws) {
 
   var ret = {
     upload: /*Sl*/{
-      metadata: '',
-      contentType: '',
-      url: '',
-      name: '',
-      status: '',
-      type: '',
-      created: awsCommon.timestamp(),
       arn: '',
       message: '',
+      url: '',
+      name: '',
+      metadata: '',
+      created: awsCommon.timestamp(),
+      contentType: '',
+      type: '',
+      status: '',
     },
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.ListSuites = function ListSuites(aws) {
-  var nextToken = aws.params['nextToken'];
-  var arn = aws.params['arn'];
+module.exports.ListArtifacts = function ListArtifacts(aws) {
+  var arn = aws.params.arn;
+  var nextToken = aws.params.nextToken;
+  var type = aws.params.type;
+  if (!arn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter arn'];
+  }
+  if (!type) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter type'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    artifacts: [ {
+      arn: '',
+      name: '',
+      extension: '',
+      url: '',
+      type: '',
+    }, /* ...*/ ],
+    nextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetJob = function GetJob(aws) {
+  var arn = aws.params.arn;
   if (!arn) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter arn'];
   }
@@ -975,32 +615,392 @@ module.exports.ListSuites = function ListSuites(aws) {
   // TODO implement code
 
   var ret = {
-    nextToken: '',
-    suites: [ /*S21*/{
-      message: '',
-      started: awsCommon.timestamp(),
-      name: '',
-      status: '',
-      type: '',
+    job: /*S1o*/{
       created: awsCommon.timestamp(),
-      counters: /*S1r*/{
-        total: 0,
-        warned: 0,
-        failed: 0,
-        errored: 0,
-        skipped: 0,
-        stopped: 0,
-        passed: 0,
-      },
+      started: awsCommon.timestamp(),
       result: '',
-      arn: '',
       deviceMinutes: /*S1s*/{
-        total: 0.0 /*Double*/,
         unmetered: 0.0 /*Double*/,
         metered: 0.0 /*Double*/,
+        total: 0.0 /*Double*/,
+      },
+      counters: /*S1r*/{
+        skipped: 0,
+        warned: 0,
+        stopped: 0,
+        passed: 0,
+        failed: 0,
+        errored: 0,
+        total: 0,
+      },
+      status: '',
+      arn: '',
+      stopped: awsCommon.timestamp(),
+      name: '',
+      message: '',
+      device: /*S16*/{
+        platform: '',
+        manufacturer: '',
+        resolution: {
+          height: 0,
+          width: 0,
+        },
+        memory: 0 /*Long*/,
+        cpu: {
+          clock: 0.0 /*Double*/,
+          architecture: '',
+          frequency: '',
+        },
+        heapSize: 0 /*Long*/,
+        arn: '',
+        carrier: '',
+        model: '',
+        image: '',
+        os: '',
+        name: '',
+        formFactor: '',
+        radio: '',
+      },
+      type: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ScheduleRun = function ScheduleRun(aws) {
+  var name = aws.params.name;
+  var projectArn = aws.params.projectArn;
+  var devicePoolArn = aws.params.devicePoolArn;
+  var configuration = aws.params.configuration /* Type structure */;
+  var appArn = aws.params.appArn;
+  var test = aws.params.test /* Type structure */;
+  if (!projectArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter projectArn'];
+  }
+  if (!devicePoolArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter devicePoolArn'];
+  }
+  if (!test) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter test'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    run: /*S1x*/{
+      platform: '',
+      totalJobs: 0,
+      created: awsCommon.timestamp(),
+      started: awsCommon.timestamp(),
+      billingMethod: '',
+      result: '',
+      counters: /*S1r*/{
+        skipped: 0,
+        warned: 0,
+        stopped: 0,
+        passed: 0,
+        failed: 0,
+        errored: 0,
+        total: 0,
+      },
+      status: '',
+      arn: '',
+      completedJobs: 0,
+      stopped: awsCommon.timestamp(),
+      name: '',
+      message: '',
+      deviceMinutes: /*S1s*/{
+        unmetered: 0.0 /*Double*/,
+        metered: 0.0 /*Double*/,
+        total: 0.0 /*Double*/,
+      },
+      type: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateProject = function CreateProject(aws) {
+  var name = aws.params.name;
+  if (!name) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter name'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    project: /*Sf*/{
+      arn: '',
+      name: '',
+      created: awsCommon.timestamp(),
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListTests = function ListTests(aws) {
+  var arn = aws.params.arn;
+  var nextToken = aws.params.nextToken;
+  if (!arn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter arn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    tests: [ /*S24*/{
+      arn: '',
+      result: '',
+      started: awsCommon.timestamp(),
+      counters: /*S1r*/{
+        skipped: 0,
+        warned: 0,
+        stopped: 0,
+        passed: 0,
+        failed: 0,
+        errored: 0,
+        total: 0,
       },
       stopped: awsCommon.timestamp(),
+      name: '',
+      message: '',
+      created: awsCommon.timestamp(),
+      deviceMinutes: /*S1s*/{
+        unmetered: 0.0 /*Double*/,
+        metered: 0.0 /*Double*/,
+        total: 0.0 /*Double*/,
+      },
+      type: '',
+      status: '',
     }, /* ...*/ ],
+    nextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetProject = function GetProject(aws) {
+  var arn = aws.params.arn;
+  if (!arn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter arn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    project: /*Sf*/{
+      arn: '',
+      name: '',
+      created: awsCommon.timestamp(),
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListUniqueProblems = function ListUniqueProblems(aws) {
+  var arn = aws.params.arn;
+  var nextToken = aws.params.nextToken;
+  if (!arn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter arn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    uniqueProblems: {} /*Map*/,
+    nextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListSamples = function ListSamples(aws) {
+  var arn = aws.params.arn;
+  var nextToken = aws.params.nextToken;
+  if (!arn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter arn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    samples: [ {
+      arn: '',
+      url: '',
+      type: '',
+    }, /* ...*/ ],
+    nextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListProjects = function ListProjects(aws) {
+  var arn = aws.params.arn;
+  var nextToken = aws.params.nextToken;
+
+
+  // TODO implement code
+
+  var ret = {
+    projects: [ /*Sf*/{
+      arn: '',
+      name: '',
+      created: awsCommon.timestamp(),
+    }, /* ...*/ ],
+    nextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteRun = function DeleteRun(aws) {
+  var arn = aws.params.arn;
+  if (!arn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter arn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetDevicePool = function GetDevicePool(aws) {
+  var arn = aws.params.arn;
+  if (!arn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter arn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    devicePool: /*Sb*/{
+      arn: '',
+      name: '',
+      type: '',
+      rules: /*S5*/[ {
+        attribute: '',
+        value: '',
+        operator: '',
+      }, /* ...*/ ],
+      description: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteDevicePool = function DeleteDevicePool(aws) {
+  var arn = aws.params.arn;
+  if (!arn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter arn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListUploads = function ListUploads(aws) {
+  var arn = aws.params.arn;
+  var nextToken = aws.params.nextToken;
+  if (!arn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter arn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    uploads: [ /*Sl*/{
+      arn: '',
+      message: '',
+      url: '',
+      name: '',
+      metadata: '',
+      created: awsCommon.timestamp(),
+      contentType: '',
+      type: '',
+      status: '',
+    }, /* ...*/ ],
+    nextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateDevicePool = function UpdateDevicePool(aws) {
+  var arn = aws.params.arn;
+  var name = aws.params.name;
+  var rules = aws.params.rules;
+  var description = aws.params.description;
+  if (!arn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter arn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    devicePool: /*Sb*/{
+      arn: '',
+      name: '',
+      type: '',
+      rules: /*S5*/[ {
+        attribute: '',
+        value: '',
+        operator: '',
+      }, /* ...*/ ],
+      description: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetTest = function GetTest(aws) {
+  var arn = aws.params.arn;
+  if (!arn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter arn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    test: /*S24*/{
+      arn: '',
+      result: '',
+      started: awsCommon.timestamp(),
+      counters: /*S1r*/{
+        skipped: 0,
+        warned: 0,
+        stopped: 0,
+        passed: 0,
+        failed: 0,
+        errored: 0,
+        total: 0,
+      },
+      stopped: awsCommon.timestamp(),
+      name: '',
+      message: '',
+      created: awsCommon.timestamp(),
+      deviceMinutes: /*S1s*/{
+        unmetered: 0.0 /*Double*/,
+        metered: 0.0 /*Double*/,
+        total: 0.0 /*Double*/,
+      },
+      type: '',
+      status: '',
+    },
   };
   return [200, ret];
 };

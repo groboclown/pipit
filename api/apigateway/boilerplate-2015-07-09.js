@@ -10,306 +10,1688 @@ const awsCommon = require('../../lib/aws-common');
  */
 
 // Setup input and output to use AWS protocol rest-json
-require('../../lib/aws-common/shape_http')('rest-json', module.exports, null)
-// -----------------------------------
-module.exports.GetIntegration = awsCommon.as(
-  'GET',
-  '/restapis/:restapi_id/resources/:resource_id/methods/:http_method/integration',
-  function GetIntegration(aws) {
-  var resourceId = aws.reqParams['resource_id'];
-  var restApiId = aws.reqParams['restapi_id'];
-  var httpMethod = aws.reqParams['http_method'];
-  if (!restApiId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
-  }
-  if (!resourceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter resourceId'];
-  }
-  if (!httpMethod) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter httpMethod'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*Sv*/{
-    uri: '',
-    integrationResponses: {} /*Map*/,
-    httpMethod: '',
-    type: '',
-    requestTemplates: /*Se*/{} /*Map*/,
-    credentials: '',
-    cacheNamespace: '',
-    cacheKeyParameters: /*S7*/[ '', /* ...*/ ],
-    requestParameters: /*Se*/{} /*Map*/,
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.GetModels = awsCommon.as(
-  'GET',
-  '/restapis/:restapi_id/models',
-  function GetModels(aws) {
-  var position = aws.params['position'];
-  var limit = aws.params['limit'] /* Type integer */;
-  var restApiId = aws.reqParams['restapi_id'];
-  if (!restApiId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    position: '',
-    items: [ /*Sm*/{
-      id: '',
-      schema: '',
-      name: '',
-      contentType: '',
-      description: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.UpdateMethodResponse = awsCommon.as(
-  'PATCH',
-  '/restapis/:restapi_id/resources/:resource_id/methods/:http_method/responses/:status_code',
-  function UpdateMethodResponse(aws) {
-  var patchOperations = aws.params['patchOperations'];
-  var statusCode = aws.reqParams['status_code'];
-  var resourceId = aws.reqParams['resource_id'];
-  var restApiId = aws.reqParams['restapi_id'];
-  var httpMethod = aws.reqParams['http_method'];
-  if (!restApiId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
-  }
-  if (!resourceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter resourceId'];
-  }
-  if (!httpMethod) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter httpMethod'];
-  }
-  if (!statusCode) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter statusCode'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*St*/{
-    responseModels: /*Se*/{} /*Map*/,
-    statusCode: '',
-    responseParameters: /*Sr*/{} /*Map*/,
-  };
-  return [201, ret];
-});
+require('../../lib/aws-common/shape_http')('rest-json', module.exports, null);
 // -----------------------------------
 module.exports.GetModelTemplate = awsCommon.as(
   'GET',
   '/restapis/:restapi_id/models/:model_name/default_template',
   function GetModelTemplate(aws) {
-  var modelName = aws.reqParams['model_name'];
-  var restApiId = aws.reqParams['restapi_id'];
-  if (!restApiId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
-  }
-  if (!modelName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter modelName'];
-  }
+    var modelName = aws.reqParams['model_name'];
+    var restApiId = aws.reqParams['restapi_id'];
+    if (!restApiId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
+    }
+    if (!modelName) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter modelName'];
+    }
 
 
-  // TODO implement code
+    // TODO implement code
 
-  var ret = {
-    value: '',
-  };
-  return [200, ret];
-});
+    var ret = {
+      value: '',
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.DeleteRestApi = awsCommon.as(
+  'DELETE',
+  '/restapis/:restapi_id',
+  function DeleteRestApi(aws) {
+    var restApiId = aws.reqParams['restapi_id'];
+    if (!restApiId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {};
+    return [202, ret];
+  });
+// -----------------------------------
+module.exports.GetStage = awsCommon.as(
+  'GET',
+  '/restapis/:restapi_id/stages/:stage_name',
+  function GetStage(aws) {
+    var stageName = aws.reqParams['stage_name'];
+    var restApiId = aws.reqParams['restapi_id'];
+    if (!restApiId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
+    }
+    if (!stageName) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter stageName'];
+    }
+
+
+    // TODO implement code
+
+    var ret = /*S12*/{
+      lastUpdatedDate: awsCommon.timestamp(),
+      deploymentId: '',
+      cacheClusterSize: '',
+      cacheClusterStatus: '',
+      description: '',
+      createdDate: awsCommon.timestamp(),
+      stageName: '',
+      cacheClusterEnabled: false,
+      methodSettings: {} /*Map*/,
+      clientCertificateId: '',
+      variables: /*Se*/{} /*Map*/,
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.DeleteStage = awsCommon.as(
+  'DELETE',
+  '/restapis/:restapi_id/stages/:stage_name',
+  function DeleteStage(aws) {
+    var stageName = aws.reqParams['stage_name'];
+    var restApiId = aws.reqParams['restapi_id'];
+    if (!restApiId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
+    }
+    if (!stageName) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter stageName'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {};
+    return [202, ret];
+  });
+// -----------------------------------
+module.exports.GetMethod = awsCommon.as(
+  'GET',
+  '/restapis/:restapi_id/resources/:resource_id/methods/:http_method',
+  function GetMethod(aws) {
+    var resourceId = aws.reqParams['resource_id'];
+    var httpMethod = aws.reqParams['http_method'];
+    var restApiId = aws.reqParams['restapi_id'];
+    if (!restApiId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
+    }
+    if (!resourceId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter resourceId'];
+    }
+    if (!httpMethod) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter httpMethod'];
+    }
+
+
+    // TODO implement code
+
+    var ret = /*Sq*/{
+      authorizationType: '',
+      methodResponses: {} /*Map*/,
+      apiKeyRequired: false,
+      httpMethod: '',
+      requestParameters: /*Sr*/{} /*Map*/,
+      methodIntegration: /*Sv*/{
+        cacheNamespace: '',
+        requestParameters: /*Se*/{} /*Map*/,
+        requestTemplates: /*Se*/{} /*Map*/,
+        credentials: '',
+        httpMethod: '',
+        cacheKeyParameters: /*S7*/[ '', /* ...*/ ],
+        integrationResponses: {} /*Map*/,
+        uri: '',
+        type: '',
+      },
+      requestModels: /*Se*/{} /*Map*/,
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.GetMethodResponse = awsCommon.as(
+  'GET',
+  '/restapis/:restapi_id/resources/:resource_id/methods/:http_method/responses/:status_code',
+  function GetMethodResponse(aws) {
+    var statusCode = aws.reqParams['status_code'];
+    var resourceId = aws.reqParams['resource_id'];
+    var httpMethod = aws.reqParams['http_method'];
+    var restApiId = aws.reqParams['restapi_id'];
+    if (!restApiId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
+    }
+    if (!resourceId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter resourceId'];
+    }
+    if (!httpMethod) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter httpMethod'];
+    }
+    if (!statusCode) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter statusCode'];
+    }
+
+
+    // TODO implement code
+
+    var ret = /*St*/{
+      statusCode: '',
+      responseParameters: /*Sr*/{} /*Map*/,
+      responseModels: /*Se*/{} /*Map*/,
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.GetResource = awsCommon.as(
+  'GET',
+  '/restapis/:restapi_id/resources/:resource_id',
+  function GetResource(aws) {
+    var resourceId = aws.reqParams['resource_id'];
+    var restApiId = aws.reqParams['restapi_id'];
+    if (!restApiId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
+    }
+    if (!resourceId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter resourceId'];
+    }
+
+
+    // TODO implement code
+
+    var ret = /*So*/{
+      id: '',
+      resourceMethods: {} /*Map*/,
+      parentId: '',
+      path: '',
+      pathPart: '',
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.CreateApiKey = awsCommon.as(
+  '/apikeys',
+  function CreateApiKey(aws) {
+    var name = aws.params.name;
+    var stageKeys = aws.params.stageKeys /* Type list */;
+    var enabled = aws.params.enabled /* Type boolean */;
+    var description = aws.params.description;
+
+
+    // TODO implement code
+
+    var ret = /*S6*/{
+      enabled: false,
+      description: '',
+      name: '',
+      id: '',
+      createdDate: awsCommon.timestamp(),
+      stageKeys: /*S7*/[ '', /* ...*/ ],
+      lastUpdatedDate: awsCommon.timestamp(),
+    };
+    return [201, ret];
+  });
+// -----------------------------------
+module.exports.PutMethod = awsCommon.as(
+  'PUT',
+  '/restapis/:restapi_id/resources/:resource_id/methods/:http_method',
+  function PutMethod(aws) {
+    var authorizationType = aws.params.authorizationType;
+    var apiKeyRequired = aws.params.apiKeyRequired /* Type boolean */;
+    var httpMethod = aws.reqParams['http_method'];
+    var restApiId = aws.reqParams['restapi_id'];
+    var resourceId = aws.reqParams['resource_id'];
+    var requestModels = aws.params.requestModels;
+    var requestParameters = aws.params.requestParameters;
+    if (!restApiId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
+    }
+    if (!resourceId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter resourceId'];
+    }
+    if (!httpMethod) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter httpMethod'];
+    }
+    if (!authorizationType) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter authorizationType'];
+    }
+
+
+    // TODO implement code
+
+    var ret = /*Sq*/{
+      authorizationType: '',
+      methodResponses: {} /*Map*/,
+      apiKeyRequired: false,
+      httpMethod: '',
+      requestParameters: /*Sr*/{} /*Map*/,
+      methodIntegration: /*Sv*/{
+        cacheNamespace: '',
+        requestParameters: /*Se*/{} /*Map*/,
+        requestTemplates: /*Se*/{} /*Map*/,
+        credentials: '',
+        httpMethod: '',
+        cacheKeyParameters: /*S7*/[ '', /* ...*/ ],
+        integrationResponses: {} /*Map*/,
+        uri: '',
+        type: '',
+      },
+      requestModels: /*Se*/{} /*Map*/,
+    };
+    return [201, ret];
+  });
+// -----------------------------------
+module.exports.CreateDeployment = awsCommon.as(
+  '/restapis/:restapi_id/deployments',
+  function CreateDeployment(aws) {
+    var stageDescription = aws.params.stageDescription;
+    var cacheClusterSize = aws.params.cacheClusterSize;
+    var description = aws.params.description;
+    var stageName = aws.params.stageName;
+    var cacheClusterEnabled = aws.params.cacheClusterEnabled /* Type boolean */;
+    var variables = aws.params.variables;
+    var restApiId = aws.reqParams['restapi_id'];
+    if (!restApiId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
+    }
+    if (!stageName) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter stageName'];
+    }
+
+
+    // TODO implement code
+
+    var ret = /*Sf*/{
+      id: '',
+      createdDate: awsCommon.timestamp(),
+      apiSummary: {} /*Map*/,
+      description: '',
+    };
+    return [201, ret];
+  });
+// -----------------------------------
+module.exports.DeleteApiKey = awsCommon.as(
+  'DELETE',
+  '/apikeys/:api_Key',
+  function DeleteApiKey(aws) {
+    var apiKey = aws.reqParams['api_Key'];
+    if (!apiKey) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter apiKey'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {};
+    return [202, ret];
+  });
+// -----------------------------------
+module.exports.UpdateDomainName = awsCommon.as(
+  'PATCH',
+  '/domainnames/:domain_name',
+  function UpdateDomainName(aws) {
+    var domainName = aws.reqParams['domain_name'];
+    var patchOperations = aws.params.patchOperations;
+    if (!domainName) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter domainName'];
+    }
+
+
+    // TODO implement code
+
+    var ret = /*Sk*/{
+      domainName: '',
+      distributionDomainName: '',
+      certificateUploadDate: awsCommon.timestamp(),
+      certificateName: '',
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.CreateBasePathMapping = awsCommon.as(
+  '/domainnames/:domain_name/basepathmappings',
+  function CreateBasePathMapping(aws) {
+    var domainName = aws.reqParams['domain_name'];
+    var stage = aws.params.stage;
+    var basePath = aws.params.basePath;
+    var restApiId = aws.params.restApiId;
+    if (!domainName) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter domainName'];
+    }
+    if (!restApiId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
+    }
+
+
+    // TODO implement code
+
+    var ret = /*Sa*/{
+      stage: '',
+      basePath: '',
+      restApiId: '',
+    };
+    return [201, ret];
+  });
+// -----------------------------------
+module.exports.UpdateMethod = awsCommon.as(
+  'PATCH',
+  '/restapis/:restapi_id/resources/:resource_id/methods/:http_method',
+  function UpdateMethod(aws) {
+    var resourceId = aws.reqParams['resource_id'];
+    var patchOperations = aws.params.patchOperations;
+    var httpMethod = aws.reqParams['http_method'];
+    var restApiId = aws.reqParams['restapi_id'];
+    if (!restApiId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
+    }
+    if (!resourceId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter resourceId'];
+    }
+    if (!httpMethod) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter httpMethod'];
+    }
+
+
+    // TODO implement code
+
+    var ret = /*Sq*/{
+      authorizationType: '',
+      methodResponses: {} /*Map*/,
+      apiKeyRequired: false,
+      httpMethod: '',
+      requestParameters: /*Sr*/{} /*Map*/,
+      methodIntegration: /*Sv*/{
+        cacheNamespace: '',
+        requestParameters: /*Se*/{} /*Map*/,
+        requestTemplates: /*Se*/{} /*Map*/,
+        credentials: '',
+        httpMethod: '',
+        cacheKeyParameters: /*S7*/[ '', /* ...*/ ],
+        integrationResponses: {} /*Map*/,
+        uri: '',
+        type: '',
+      },
+      requestModels: /*Se*/{} /*Map*/,
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.CreateResource = awsCommon.as(
+  '/restapis/:restapi_id/resources/:parent_id',
+  function CreateResource(aws) {
+    var pathPart = aws.params.pathPart;
+    var parentId = aws.reqParams['parent_id'];
+    var restApiId = aws.reqParams['restapi_id'];
+    if (!restApiId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
+    }
+    if (!parentId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter parentId'];
+    }
+    if (!pathPart) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter pathPart'];
+    }
+
+
+    // TODO implement code
+
+    var ret = /*So*/{
+      id: '',
+      resourceMethods: {} /*Map*/,
+      parentId: '',
+      path: '',
+      pathPart: '',
+    };
+    return [201, ret];
+  });
+// -----------------------------------
+module.exports.UpdateApiKey = awsCommon.as(
+  'PATCH',
+  '/apikeys/:api_Key',
+  function UpdateApiKey(aws) {
+    var apiKey = aws.reqParams['api_Key'];
+    var patchOperations = aws.params.patchOperations;
+    if (!apiKey) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter apiKey'];
+    }
+
+
+    // TODO implement code
+
+    var ret = /*S6*/{
+      enabled: false,
+      description: '',
+      name: '',
+      id: '',
+      createdDate: awsCommon.timestamp(),
+      stageKeys: /*S7*/[ '', /* ...*/ ],
+      lastUpdatedDate: awsCommon.timestamp(),
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.DeleteMethod = awsCommon.as(
+  'DELETE',
+  '/restapis/:restapi_id/resources/:resource_id/methods/:http_method',
+  function DeleteMethod(aws) {
+    var resourceId = aws.reqParams['resource_id'];
+    var httpMethod = aws.reqParams['http_method'];
+    var restApiId = aws.reqParams['restapi_id'];
+    if (!restApiId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
+    }
+    if (!resourceId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter resourceId'];
+    }
+    if (!httpMethod) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter httpMethod'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {};
+    return [204, ret];
+  });
+// -----------------------------------
+module.exports.GetResources = awsCommon.as(
+  'GET',
+  '/restapis/:restapi_id/resources',
+  function GetResources(aws) {
+    var limit = aws.params.limit /* Type integer */;
+    var position = aws.params.position;
+    var restApiId = aws.reqParams['restapi_id'];
+    if (!restApiId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      position: '',
+      items: [ /*So*/{
+        id: '',
+        resourceMethods: {} /*Map*/,
+        parentId: '',
+        path: '',
+        pathPart: '',
+      }, /* ...*/ ],
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.DeleteIntegrationResponse = awsCommon.as(
+  'DELETE',
+  '/restapis/:restapi_id/resources/:resource_id/methods/:http_method/integration/responses/:status_code',
+  function DeleteIntegrationResponse(aws) {
+    var statusCode = aws.reqParams['status_code'];
+    var resourceId = aws.reqParams['resource_id'];
+    var httpMethod = aws.reqParams['http_method'];
+    var restApiId = aws.reqParams['restapi_id'];
+    if (!restApiId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
+    }
+    if (!resourceId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter resourceId'];
+    }
+    if (!httpMethod) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter httpMethod'];
+    }
+    if (!statusCode) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter statusCode'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {};
+    return [204, ret];
+  });
+// -----------------------------------
+module.exports.UpdateModel = awsCommon.as(
+  'PATCH',
+  '/restapis/:restapi_id/models/:model_name',
+  function UpdateModel(aws) {
+    var modelName = aws.reqParams['model_name'];
+    var patchOperations = aws.params.patchOperations;
+    var restApiId = aws.reqParams['restapi_id'];
+    if (!restApiId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
+    }
+    if (!modelName) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter modelName'];
+    }
+
+
+    // TODO implement code
+
+    var ret = /*Sm*/{
+      name: '',
+      id: '',
+      schema: '',
+      contentType: '',
+      description: '',
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.UpdateRestApi = awsCommon.as(
+  'PATCH',
+  '/restapis/:restapi_id',
+  function UpdateRestApi(aws) {
+    var patchOperations = aws.params.patchOperations;
+    var restApiId = aws.reqParams['restapi_id'];
+    if (!restApiId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
+    }
+
+
+    // TODO implement code
+
+    var ret = /*S10*/{
+      name: '',
+      id: '',
+      createdDate: awsCommon.timestamp(),
+      description: '',
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.UpdateClientCertificate = awsCommon.as(
+  'PATCH',
+  '/clientcertificates/:clientcertificate_id',
+  function UpdateClientCertificate(aws) {
+    var patchOperations = aws.params.patchOperations;
+    var clientCertificateId = aws.reqParams['clientcertificate_id'];
+    if (!clientCertificateId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter clientCertificateId'];
+    }
+
+
+    // TODO implement code
+
+    var ret = /*S1n*/{
+      createdDate: awsCommon.timestamp(),
+      pemEncodedCertificate: '',
+      clientCertificateId: '',
+      expirationDate: awsCommon.timestamp(),
+      description: '',
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.UpdateStage = awsCommon.as(
+  'PATCH',
+  '/restapis/:restapi_id/stages/:stage_name',
+  function UpdateStage(aws) {
+    var stageName = aws.reqParams['stage_name'];
+    var patchOperations = aws.params.patchOperations;
+    var restApiId = aws.reqParams['restapi_id'];
+    if (!restApiId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
+    }
+    if (!stageName) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter stageName'];
+    }
+
+
+    // TODO implement code
+
+    var ret = /*S12*/{
+      lastUpdatedDate: awsCommon.timestamp(),
+      deploymentId: '',
+      cacheClusterSize: '',
+      cacheClusterStatus: '',
+      description: '',
+      createdDate: awsCommon.timestamp(),
+      stageName: '',
+      cacheClusterEnabled: false,
+      methodSettings: {} /*Map*/,
+      clientCertificateId: '',
+      variables: /*Se*/{} /*Map*/,
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.DeleteDomainName = awsCommon.as(
+  'DELETE',
+  '/domainnames/:domain_name',
+  function DeleteDomainName(aws) {
+    var domainName = aws.reqParams['domain_name'];
+    if (!domainName) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter domainName'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {};
+    return [202, ret];
+  });
+// -----------------------------------
+module.exports.GetClientCertificate = awsCommon.as(
+  'GET',
+  '/clientcertificates/:clientcertificate_id',
+  function GetClientCertificate(aws) {
+    var clientCertificateId = aws.reqParams['clientcertificate_id'];
+    if (!clientCertificateId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter clientCertificateId'];
+    }
+
+
+    // TODO implement code
+
+    var ret = /*S1n*/{
+      createdDate: awsCommon.timestamp(),
+      pemEncodedCertificate: '',
+      clientCertificateId: '',
+      expirationDate: awsCommon.timestamp(),
+      description: '',
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.DeleteMethodResponse = awsCommon.as(
+  'DELETE',
+  '/restapis/:restapi_id/resources/:resource_id/methods/:http_method/responses/:status_code',
+  function DeleteMethodResponse(aws) {
+    var statusCode = aws.reqParams['status_code'];
+    var resourceId = aws.reqParams['resource_id'];
+    var httpMethod = aws.reqParams['http_method'];
+    var restApiId = aws.reqParams['restapi_id'];
+    if (!restApiId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
+    }
+    if (!resourceId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter resourceId'];
+    }
+    if (!httpMethod) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter httpMethod'];
+    }
+    if (!statusCode) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter statusCode'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {};
+    return [204, ret];
+  });
+// -----------------------------------
+module.exports.GenerateClientCertificate = awsCommon.as(
+  '/clientcertificates',
+  function GenerateClientCertificate(aws) {
+    var description = aws.params.description;
+
+
+    // TODO implement code
+
+    var ret = /*S1n*/{
+      createdDate: awsCommon.timestamp(),
+      pemEncodedCertificate: '',
+      clientCertificateId: '',
+      expirationDate: awsCommon.timestamp(),
+      description: '',
+    };
+    return [201, ret];
+  });
+// -----------------------------------
+module.exports.UpdateIntegration = awsCommon.as(
+  'PATCH',
+  '/restapis/:restapi_id/resources/:resource_id/methods/:http_method/integration',
+  function UpdateIntegration(aws) {
+    var resourceId = aws.reqParams['resource_id'];
+    var patchOperations = aws.params.patchOperations;
+    var httpMethod = aws.reqParams['http_method'];
+    var restApiId = aws.reqParams['restapi_id'];
+    if (!restApiId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
+    }
+    if (!resourceId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter resourceId'];
+    }
+    if (!httpMethod) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter httpMethod'];
+    }
+
+
+    // TODO implement code
+
+    var ret = /*Sv*/{
+      cacheNamespace: '',
+      requestParameters: /*Se*/{} /*Map*/,
+      requestTemplates: /*Se*/{} /*Map*/,
+      credentials: '',
+      httpMethod: '',
+      cacheKeyParameters: /*S7*/[ '', /* ...*/ ],
+      integrationResponses: {} /*Map*/,
+      uri: '',
+      type: '',
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.CreateStage = awsCommon.as(
+  '/restapis/:restapi_id/stages',
+  function CreateStage(aws) {
+    var variables = aws.params.variables;
+    var cacheClusterSize = aws.params.cacheClusterSize;
+    var deploymentId = aws.params.deploymentId;
+    var stageName = aws.params.stageName;
+    var cacheClusterEnabled = aws.params.cacheClusterEnabled /* Type boolean */;
+    var description = aws.params.description;
+    var restApiId = aws.reqParams['restapi_id'];
+    if (!restApiId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
+    }
+    if (!stageName) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter stageName'];
+    }
+    if (!deploymentId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter deploymentId'];
+    }
+
+
+    // TODO implement code
+
+    var ret = /*S12*/{
+      lastUpdatedDate: awsCommon.timestamp(),
+      deploymentId: '',
+      cacheClusterSize: '',
+      cacheClusterStatus: '',
+      description: '',
+      createdDate: awsCommon.timestamp(),
+      stageName: '',
+      cacheClusterEnabled: false,
+      methodSettings: {} /*Map*/,
+      clientCertificateId: '',
+      variables: /*Se*/{} /*Map*/,
+    };
+    return [201, ret];
+  });
+// -----------------------------------
+module.exports.GetRestApis = awsCommon.as(
+  'GET',
+  '/restapis',
+  function GetRestApis(aws) {
+    var limit = aws.params.limit /* Type integer */;
+    var position = aws.params.position;
+
+
+    // TODO implement code
+
+    var ret = {
+      position: '',
+      items: [ /*S10*/{
+        name: '',
+        id: '',
+        createdDate: awsCommon.timestamp(),
+        description: '',
+      }, /* ...*/ ],
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.GetDeployments = awsCommon.as(
+  'GET',
+  '/restapis/:restapi_id/deployments',
+  function GetDeployments(aws) {
+    var limit = aws.params.limit /* Type integer */;
+    var position = aws.params.position;
+    var restApiId = aws.reqParams['restapi_id'];
+    if (!restApiId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      position: '',
+      items: [ /*Sf*/{
+        id: '',
+        createdDate: awsCommon.timestamp(),
+        apiSummary: {} /*Map*/,
+        description: '',
+      }, /* ...*/ ],
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.PutMethodResponse = awsCommon.as(
+  'PUT',
+  '/restapis/:restapi_id/resources/:resource_id/methods/:http_method/responses/:status_code',
+  function PutMethodResponse(aws) {
+    var statusCode = aws.reqParams['status_code'];
+    var responseParameters = aws.params.responseParameters;
+    var httpMethod = aws.reqParams['http_method'];
+    var restApiId = aws.reqParams['restapi_id'];
+    var resourceId = aws.reqParams['resource_id'];
+    var responseModels = aws.params.responseModels;
+    if (!restApiId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
+    }
+    if (!resourceId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter resourceId'];
+    }
+    if (!httpMethod) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter httpMethod'];
+    }
+    if (!statusCode) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter statusCode'];
+    }
+
+
+    // TODO implement code
+
+    var ret = /*St*/{
+      statusCode: '',
+      responseParameters: /*Sr*/{} /*Map*/,
+      responseModels: /*Se*/{} /*Map*/,
+    };
+    return [201, ret];
+  });
 // -----------------------------------
 module.exports.DeleteModel = awsCommon.as(
   'DELETE',
   '/restapis/:restapi_id/models/:model_name',
   function DeleteModel(aws) {
-  var modelName = aws.reqParams['model_name'];
-  var restApiId = aws.reqParams['restapi_id'];
-  if (!restApiId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
-  }
-  if (!modelName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter modelName'];
-  }
+    var modelName = aws.reqParams['model_name'];
+    var restApiId = aws.reqParams['restapi_id'];
+    if (!restApiId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
+    }
+    if (!modelName) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter modelName'];
+    }
 
 
-  // TODO implement code
+    // TODO implement code
 
-  var ret = {};
-  return [202, ret];
-});
-// -----------------------------------
-module.exports.UpdateAccount = awsCommon.as(
-  'PATCH',
-  '/account',
-  function UpdateAccount(aws) {
-  var patchOperations = aws.params['patchOperations'];
-
-
-  // TODO implement code
-
-  var ret = /*S1p*/{
-    cloudwatchRoleArn: '',
-    throttleSettings: {
-      rateLimit: 0.0 /*Double*/,
-      burstLimit: 0,
-    },
-  };
-  return [200, ret];
-});
+    var ret = {};
+    return [202, ret];
+  });
 // -----------------------------------
 module.exports.GetClientCertificates = awsCommon.as(
   'GET',
   '/clientcertificates',
   function GetClientCertificates(aws) {
-  var position = aws.params['position'];
-  var limit = aws.params['limit'] /* Type integer */;
+    var limit = aws.params.limit /* Type integer */;
+    var position = aws.params.position;
 
 
-  // TODO implement code
+    // TODO implement code
 
-  var ret = {
-    position: '',
-    items: [ /*S1n*/{
-      clientCertificateId: '',
-      expirationDate: awsCommon.timestamp(),
-      pemEncodedCertificate: '',
-      createdDate: awsCommon.timestamp(),
-      description: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-});
+    var ret = {
+      position: '',
+      items: [ /*S1n*/{
+        createdDate: awsCommon.timestamp(),
+        pemEncodedCertificate: '',
+        clientCertificateId: '',
+        expirationDate: awsCommon.timestamp(),
+        description: '',
+      }, /* ...*/ ],
+    };
+    return [200, ret];
+  });
 // -----------------------------------
-module.exports.CreateResource = awsCommon.as(
-  '/restapis/:restapi_id/resources/:parent_id',
-  function CreateResource(aws) {
-  var parentId = aws.reqParams['parent_id'];
-  var restApiId = aws.reqParams['restapi_id'];
-  var pathPart = aws.params['pathPart'];
-  if (!restApiId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
-  }
-  if (!parentId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter parentId'];
-  }
-  if (!pathPart) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter pathPart'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*So*/{
-    id: '',
-    parentId: '',
-    path: '',
-    resourceMethods: {} /*Map*/,
-    pathPart: '',
-  };
-  return [201, ret];
-});
-// -----------------------------------
-module.exports.GetBasePathMappings = awsCommon.as(
+module.exports.GetBasePathMapping = awsCommon.as(
   'GET',
-  '/domainnames/:domain_name/basepathmappings',
-  function GetBasePathMappings(aws) {
-  var position = aws.params['position'];
-  var domainName = aws.reqParams['domain_name'];
-  var limit = aws.params['limit'] /* Type integer */;
-  if (!domainName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter domainName'];
-  }
+  '/domainnames/:domain_name/basepathmappings/:base_path',
+  function GetBasePathMapping(aws) {
+    var domainName = aws.reqParams['domain_name'];
+    var basePath = aws.reqParams['base_path'];
+    if (!domainName) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter domainName'];
+    }
+    if (!basePath) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter basePath'];
+    }
 
 
-  // TODO implement code
+    // TODO implement code
 
-  var ret = {
-    position: '',
-    items: [ /*Sa*/{
+    var ret = /*Sa*/{
       stage: '',
       basePath: '',
       restApiId: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-});
+    };
+    return [200, ret];
+  });
 // -----------------------------------
-module.exports.DeleteResource = awsCommon.as(
-  'DELETE',
+module.exports.CreateModel = awsCommon.as(
+  '/restapis/:restapi_id/models',
+  function CreateModel(aws) {
+    var name = aws.params.name;
+    var schema = aws.params.schema;
+    var description = aws.params.description;
+    var contentType = aws.params.contentType;
+    var restApiId = aws.reqParams['restapi_id'];
+    if (!restApiId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
+    }
+    if (!name) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter name'];
+    }
+    if (!contentType) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter contentType'];
+    }
+
+
+    // TODO implement code
+
+    var ret = /*Sm*/{
+      name: '',
+      id: '',
+      schema: '',
+      contentType: '',
+      description: '',
+    };
+    return [201, ret];
+  });
+// -----------------------------------
+module.exports.GetModels = awsCommon.as(
+  'GET',
+  '/restapis/:restapi_id/models',
+  function GetModels(aws) {
+    var limit = aws.params.limit /* Type integer */;
+    var position = aws.params.position;
+    var restApiId = aws.reqParams['restapi_id'];
+    if (!restApiId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      position: '',
+      items: [ /*Sm*/{
+        name: '',
+        id: '',
+        schema: '',
+        contentType: '',
+        description: '',
+      }, /* ...*/ ],
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.UpdateIntegrationResponse = awsCommon.as(
+  'PATCH',
+  '/restapis/:restapi_id/resources/:resource_id/methods/:http_method/integration/responses/:status_code',
+  function UpdateIntegrationResponse(aws) {
+    var statusCode = aws.reqParams['status_code'];
+    var resourceId = aws.reqParams['resource_id'];
+    var patchOperations = aws.params.patchOperations;
+    var httpMethod = aws.reqParams['http_method'];
+    var restApiId = aws.reqParams['restapi_id'];
+    if (!restApiId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
+    }
+    if (!resourceId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter resourceId'];
+    }
+    if (!httpMethod) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter httpMethod'];
+    }
+    if (!statusCode) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter statusCode'];
+    }
+
+
+    // TODO implement code
+
+    var ret = /*Sy*/{
+      statusCode: '',
+      selectionPattern: '',
+      responseTemplates: /*Se*/{} /*Map*/,
+      responseParameters: /*Se*/{} /*Map*/,
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.UpdateResource = awsCommon.as(
+  'PATCH',
   '/restapis/:restapi_id/resources/:resource_id',
-  function DeleteResource(aws) {
-  var resourceId = aws.reqParams['resource_id'];
-  var restApiId = aws.reqParams['restapi_id'];
-  if (!restApiId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
-  }
-  if (!resourceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter resourceId'];
-  }
+  function UpdateResource(aws) {
+    var resourceId = aws.reqParams['resource_id'];
+    var patchOperations = aws.params.patchOperations;
+    var restApiId = aws.reqParams['restapi_id'];
+    if (!restApiId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
+    }
+    if (!resourceId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter resourceId'];
+    }
 
 
-  // TODO implement code
+    // TODO implement code
 
-  var ret = {};
-  return [202, ret];
-});
+    var ret = /*So*/{
+      id: '',
+      resourceMethods: {} /*Map*/,
+      parentId: '',
+      path: '',
+      pathPart: '',
+    };
+    return [200, ret];
+  });
 // -----------------------------------
-module.exports.GenerateClientCertificate = awsCommon.as(
-  '/clientcertificates',
-  function GenerateClientCertificate(aws) {
-  var description = aws.params['description'];
+module.exports.GetDeployment = awsCommon.as(
+  'GET',
+  '/restapis/:restapi_id/deployments/:deployment_id',
+  function GetDeployment(aws) {
+    var deploymentId = aws.reqParams['deployment_id'];
+    var restApiId = aws.reqParams['restapi_id'];
+    if (!restApiId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
+    }
+    if (!deploymentId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter deploymentId'];
+    }
 
 
-  // TODO implement code
+    // TODO implement code
 
-  var ret = /*S1n*/{
-    clientCertificateId: '',
-    expirationDate: awsCommon.timestamp(),
-    pemEncodedCertificate: '',
-    createdDate: awsCommon.timestamp(),
-    description: '',
-  };
-  return [201, ret];
-});
+    var ret = /*Sf*/{
+      id: '',
+      createdDate: awsCommon.timestamp(),
+      apiSummary: {} /*Map*/,
+      description: '',
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.UpdateBasePathMapping = awsCommon.as(
+  'PATCH',
+  '/domainnames/:domain_name/basepathmappings/:base_path',
+  function UpdateBasePathMapping(aws) {
+    var domainName = aws.reqParams['domain_name'];
+    var patchOperations = aws.params.patchOperations;
+    var basePath = aws.reqParams['base_path'];
+    if (!domainName) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter domainName'];
+    }
+    if (!basePath) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter basePath'];
+    }
+
+
+    // TODO implement code
+
+    var ret = /*Sa*/{
+      stage: '',
+      basePath: '',
+      restApiId: '',
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.GetApiKeys = awsCommon.as(
+  'GET',
+  '/apikeys',
+  function GetApiKeys(aws) {
+    var limit = aws.params.limit /* Type integer */;
+    var position = aws.params.position;
+
+
+    // TODO implement code
+
+    var ret = {
+      position: '',
+      items: [ /*S6*/{
+        enabled: false,
+        description: '',
+        name: '',
+        id: '',
+        createdDate: awsCommon.timestamp(),
+        stageKeys: /*S7*/[ '', /* ...*/ ],
+        lastUpdatedDate: awsCommon.timestamp(),
+      }, /* ...*/ ],
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.GetRestApi = awsCommon.as(
+  'GET',
+  '/restapis/:restapi_id',
+  function GetRestApi(aws) {
+    var restApiId = aws.reqParams['restapi_id'];
+    if (!restApiId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
+    }
+
+
+    // TODO implement code
+
+    var ret = /*S10*/{
+      name: '',
+      id: '',
+      createdDate: awsCommon.timestamp(),
+      description: '',
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.DeleteBasePathMapping = awsCommon.as(
+  'DELETE',
+  '/domainnames/:domain_name/basepathmappings/:base_path',
+  function DeleteBasePathMapping(aws) {
+    var domainName = aws.reqParams['domain_name'];
+    var basePath = aws.reqParams['base_path'];
+    if (!domainName) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter domainName'];
+    }
+    if (!basePath) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter basePath'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {};
+    return [202, ret];
+  });
+// -----------------------------------
+module.exports.GetDomainNames = awsCommon.as(
+  'GET',
+  '/domainnames',
+  function GetDomainNames(aws) {
+    var limit = aws.params.limit /* Type integer */;
+    var position = aws.params.position;
+
+
+    // TODO implement code
+
+    var ret = {
+      position: '',
+      items: [ /*Sk*/{
+        domainName: '',
+        distributionDomainName: '',
+        certificateUploadDate: awsCommon.timestamp(),
+        certificateName: '',
+      }, /* ...*/ ],
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.TestInvokeMethod = awsCommon.as(
+  '/restapis/:restapi_id/resources/:resource_id/methods/:http_method',
+  function TestInvokeMethod(aws) {
+    var pathWithQueryString = aws.params.pathWithQueryString;
+    var stageVariables = aws.params.stageVariables;
+    var httpMethod = aws.reqParams['http_method'];
+    var restApiId = aws.reqParams['restapi_id'];
+    var headers = aws.params.headers;
+    var body = aws.params.body;
+    var resourceId = aws.reqParams['resource_id'];
+    var clientCertificateId = aws.params.clientCertificateId;
+    if (!restApiId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
+    }
+    if (!resourceId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter resourceId'];
+    }
+    if (!httpMethod) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter httpMethod'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      headers: /*S36*/{} /*Map*/,
+      latency: 0 /*Long*/,
+      body: '',
+      log: '',
+      status: 0,
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.CreateDomainName = awsCommon.as(
+  '/domainnames',
+  function CreateDomainName(aws) {
+    var domainName = aws.params.domainName;
+    var certificateChain = aws.params.certificateChain;
+    var certificateBody = aws.params.certificateBody;
+    var certificateName = aws.params.certificateName;
+    var certificatePrivateKey = aws.params.certificatePrivateKey;
+    if (!domainName) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter domainName'];
+    }
+    if (!certificateName) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter certificateName'];
+    }
+    if (!certificateBody) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter certificateBody'];
+    }
+    if (!certificatePrivateKey) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter certificatePrivateKey'];
+    }
+    if (!certificateChain) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter certificateChain'];
+    }
+
+
+    // TODO implement code
+
+    var ret = /*Sk*/{
+      domainName: '',
+      distributionDomainName: '',
+      certificateUploadDate: awsCommon.timestamp(),
+      certificateName: '',
+    };
+    return [201, ret];
+  });
+// -----------------------------------
+module.exports.GetIntegration = awsCommon.as(
+  'GET',
+  '/restapis/:restapi_id/resources/:resource_id/methods/:http_method/integration',
+  function GetIntegration(aws) {
+    var resourceId = aws.reqParams['resource_id'];
+    var httpMethod = aws.reqParams['http_method'];
+    var restApiId = aws.reqParams['restapi_id'];
+    if (!restApiId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
+    }
+    if (!resourceId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter resourceId'];
+    }
+    if (!httpMethod) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter httpMethod'];
+    }
+
+
+    // TODO implement code
+
+    var ret = /*Sv*/{
+      cacheNamespace: '',
+      requestParameters: /*Se*/{} /*Map*/,
+      requestTemplates: /*Se*/{} /*Map*/,
+      credentials: '',
+      httpMethod: '',
+      cacheKeyParameters: /*S7*/[ '', /* ...*/ ],
+      integrationResponses: {} /*Map*/,
+      uri: '',
+      type: '',
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.GetStages = awsCommon.as(
+  'GET',
+  '/restapis/:restapi_id/stages',
+  function GetStages(aws) {
+    var deploymentId = aws.params.deploymentId;
+    var restApiId = aws.reqParams['restapi_id'];
+    if (!restApiId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      item: [ /*S12*/{
+        lastUpdatedDate: awsCommon.timestamp(),
+        deploymentId: '',
+        cacheClusterSize: '',
+        cacheClusterStatus: '',
+        description: '',
+        createdDate: awsCommon.timestamp(),
+        stageName: '',
+        cacheClusterEnabled: false,
+        methodSettings: {} /*Map*/,
+        clientCertificateId: '',
+        variables: /*Se*/{} /*Map*/,
+      }, /* ...*/ ],
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.UpdateAccount = awsCommon.as(
+  'PATCH',
+  '/account',
+  function UpdateAccount(aws) {
+    var patchOperations = aws.params.patchOperations;
+
+
+    // TODO implement code
+
+    var ret = /*S1p*/{
+      throttleSettings: {
+        rateLimit: 0.0 /*Double*/,
+        burstLimit: 0,
+      },
+      cloudwatchRoleArn: '',
+    };
+    return [200, ret];
+  });
 // -----------------------------------
 module.exports.GetSdk = awsCommon.as(
   'GET',
   '/restapis/:restapi_id/stages/:stage_name/sdks/:sdk_type',
   function GetSdk(aws) {
-  var parameters = aws.params['parameters'];
-  var sdkType = aws.reqParams['sdk_type'];
-  var stageName = aws.reqParams['stage_name'];
-  var restApiId = aws.reqParams['restapi_id'];
-  if (!restApiId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
-  }
-  if (!stageName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter stageName'];
-  }
-  if (!sdkType) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter sdkType'];
-  }
+    var sdkType = aws.reqParams['sdk_type'];
+    var stageName = aws.reqParams['stage_name'];
+    var parameters = aws.params.parameters;
+    var restApiId = aws.reqParams['restapi_id'];
+    if (!restApiId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
+    }
+    if (!stageName) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter stageName'];
+    }
+    if (!sdkType) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter sdkType'];
+    }
 
 
-  // TODO implement code
+    // TODO implement code
 
-  var ret = {
-    body: null /*Blob*/,
-    contentType: '',
-    contentDisposition: '',
-  };
-  return [200, ret];
-});
+    var ret = {
+      body: null /*Blob*/,
+      contentType: '',
+      contentDisposition: '',
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.GetDomainName = awsCommon.as(
+  'GET',
+  '/domainnames/:domain_name',
+  function GetDomainName(aws) {
+    var domainName = aws.reqParams['domain_name'];
+    if (!domainName) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter domainName'];
+    }
+
+
+    // TODO implement code
+
+    var ret = /*Sk*/{
+      domainName: '',
+      distributionDomainName: '',
+      certificateUploadDate: awsCommon.timestamp(),
+      certificateName: '',
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.UpdateDeployment = awsCommon.as(
+  'PATCH',
+  '/restapis/:restapi_id/deployments/:deployment_id',
+  function UpdateDeployment(aws) {
+    var deploymentId = aws.reqParams['deployment_id'];
+    var patchOperations = aws.params.patchOperations;
+    var restApiId = aws.reqParams['restapi_id'];
+    if (!restApiId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
+    }
+    if (!deploymentId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter deploymentId'];
+    }
+
+
+    // TODO implement code
+
+    var ret = /*Sf*/{
+      id: '',
+      createdDate: awsCommon.timestamp(),
+      apiSummary: {} /*Map*/,
+      description: '',
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.DeleteClientCertificate = awsCommon.as(
+  'DELETE',
+  '/clientcertificates/:clientcertificate_id',
+  function DeleteClientCertificate(aws) {
+    var clientCertificateId = aws.reqParams['clientcertificate_id'];
+    if (!clientCertificateId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter clientCertificateId'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {};
+    return [202, ret];
+  });
+// -----------------------------------
+module.exports.CreateRestApi = awsCommon.as(
+  '/restapis',
+  function CreateRestApi(aws) {
+    var name = aws.params.name;
+    var cloneFrom = aws.params.cloneFrom;
+    var description = aws.params.description;
+    if (!name) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter name'];
+    }
+
+
+    // TODO implement code
+
+    var ret = /*S10*/{
+      name: '',
+      id: '',
+      createdDate: awsCommon.timestamp(),
+      description: '',
+    };
+    return [201, ret];
+  });
+// -----------------------------------
+module.exports.GetBasePathMappings = awsCommon.as(
+  'GET',
+  '/domainnames/:domain_name/basepathmappings',
+  function GetBasePathMappings(aws) {
+    var limit = aws.params.limit /* Type integer */;
+    var domainName = aws.reqParams['domain_name'];
+    var position = aws.params.position;
+    if (!domainName) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter domainName'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      position: '',
+      items: [ /*Sa*/{
+        stage: '',
+        basePath: '',
+        restApiId: '',
+      }, /* ...*/ ],
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.DeleteDeployment = awsCommon.as(
+  'DELETE',
+  '/restapis/:restapi_id/deployments/:deployment_id',
+  function DeleteDeployment(aws) {
+    var deploymentId = aws.reqParams['deployment_id'];
+    var restApiId = aws.reqParams['restapi_id'];
+    if (!restApiId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
+    }
+    if (!deploymentId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter deploymentId'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {};
+    return [202, ret];
+  });
+// -----------------------------------
+module.exports.PutIntegrationResponse = awsCommon.as(
+  'PUT',
+  '/restapis/:restapi_id/resources/:resource_id/methods/:http_method/integration/responses/:status_code',
+  function PutIntegrationResponse(aws) {
+    var statusCode = aws.reqParams['status_code'];
+    var responseParameters = aws.params.responseParameters;
+    var httpMethod = aws.reqParams['http_method'];
+    var restApiId = aws.reqParams['restapi_id'];
+    var resourceId = aws.reqParams['resource_id'];
+    var selectionPattern = aws.params.selectionPattern;
+    var responseTemplates = aws.params.responseTemplates;
+    if (!restApiId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
+    }
+    if (!resourceId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter resourceId'];
+    }
+    if (!httpMethod) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter httpMethod'];
+    }
+    if (!statusCode) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter statusCode'];
+    }
+
+
+    // TODO implement code
+
+    var ret = /*Sy*/{
+      statusCode: '',
+      selectionPattern: '',
+      responseTemplates: /*Se*/{} /*Map*/,
+      responseParameters: /*Se*/{} /*Map*/,
+    };
+    return [201, ret];
+  });
+// -----------------------------------
+module.exports.PutIntegration = awsCommon.as(
+  'PUT',
+  '/restapis/:restapi_id/resources/:resource_id/methods/:http_method/integration',
+  function PutIntegration(aws) {
+    var requestTemplates = aws.params.requestTemplates;
+    var requestParameters = aws.params.requestParameters;
+    var credentials = aws.params.credentials;
+    var resourceId = aws.reqParams['resource_id'];
+    var httpMethod = aws.reqParams['http_method'];
+    var restApiId = aws.reqParams['restapi_id'];
+    var cacheNamespace = aws.params.cacheNamespace;
+    var integrationHttpMethod = aws.params.integrationHttpMethod;
+    var uri = aws.params.uri;
+    var cacheKeyParameters = aws.params.cacheKeyParameters;
+    var type = aws.params.type;
+    if (!restApiId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
+    }
+    if (!resourceId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter resourceId'];
+    }
+    if (!httpMethod) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter httpMethod'];
+    }
+    if (!type) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter type'];
+    }
+
+
+    // TODO implement code
+
+    var ret = /*Sv*/{
+      cacheNamespace: '',
+      requestParameters: /*Se*/{} /*Map*/,
+      requestTemplates: /*Se*/{} /*Map*/,
+      credentials: '',
+      httpMethod: '',
+      cacheKeyParameters: /*S7*/[ '', /* ...*/ ],
+      integrationResponses: {} /*Map*/,
+      uri: '',
+      type: '',
+    };
+    return [201, ret];
+  });
+// -----------------------------------
+module.exports.FlushStageCache = awsCommon.as(
+  'DELETE',
+  '/restapis/:restapi_id/stages/:stage_name/cache/data',
+  function FlushStageCache(aws) {
+    var stageName = aws.reqParams['stage_name'];
+    var restApiId = aws.reqParams['restapi_id'];
+    if (!restApiId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
+    }
+    if (!stageName) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter stageName'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {};
+    return [202, ret];
+  });
+// -----------------------------------
+module.exports.DeleteResource = awsCommon.as(
+  'DELETE',
+  '/restapis/:restapi_id/resources/:resource_id',
+  function DeleteResource(aws) {
+    var resourceId = aws.reqParams['resource_id'];
+    var restApiId = aws.reqParams['restapi_id'];
+    if (!restApiId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
+    }
+    if (!resourceId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter resourceId'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {};
+    return [202, ret];
+  });
+// -----------------------------------
+module.exports.DeleteIntegration = awsCommon.as(
+  'DELETE',
+  '/restapis/:restapi_id/resources/:resource_id/methods/:http_method/integration',
+  function DeleteIntegration(aws) {
+    var resourceId = aws.reqParams['resource_id'];
+    var httpMethod = aws.reqParams['http_method'];
+    var restApiId = aws.reqParams['restapi_id'];
+    if (!restApiId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
+    }
+    if (!resourceId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter resourceId'];
+    }
+    if (!httpMethod) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter httpMethod'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {};
+    return [204, ret];
+  });
+// -----------------------------------
+module.exports.GetApiKey = awsCommon.as(
+  'GET',
+  '/apikeys/:api_Key',
+  function GetApiKey(aws) {
+    var apiKey = aws.reqParams['api_Key'];
+    if (!apiKey) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter apiKey'];
+    }
+
+
+    // TODO implement code
+
+    var ret = /*S6*/{
+      enabled: false,
+      description: '',
+      name: '',
+      id: '',
+      createdDate: awsCommon.timestamp(),
+      stageKeys: /*S7*/[ '', /* ...*/ ],
+      lastUpdatedDate: awsCommon.timestamp(),
+    };
+    return [200, ret];
+  });
 // -----------------------------------
 module.exports.GetAccount = awsCommon.as(
   'GET',
@@ -317,1489 +1699,107 @@ module.exports.GetAccount = awsCommon.as(
   function GetAccount(aws) {
 
 
-  // TODO implement code
+    // TODO implement code
 
-  var ret = /*S1p*/{
-    cloudwatchRoleArn: '',
-    throttleSettings: {
-      rateLimit: 0.0 /*Double*/,
-      burstLimit: 0,
-    },
-  };
-  return [200, ret];
-});
+    var ret = /*S1p*/{
+      throttleSettings: {
+        rateLimit: 0.0 /*Double*/,
+        burstLimit: 0,
+      },
+      cloudwatchRoleArn: '',
+    };
+    return [200, ret];
+  });
 // -----------------------------------
-module.exports.GetIntegrationResponse = awsCommon.as(
-  'GET',
-  '/restapis/:restapi_id/resources/:resource_id/methods/:http_method/integration/responses/:status_code',
-  function GetIntegrationResponse(aws) {
-  var statusCode = aws.reqParams['status_code'];
-  var resourceId = aws.reqParams['resource_id'];
-  var restApiId = aws.reqParams['restapi_id'];
-  var httpMethod = aws.reqParams['http_method'];
-  if (!restApiId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
-  }
-  if (!resourceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter resourceId'];
-  }
-  if (!httpMethod) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter httpMethod'];
-  }
-  if (!statusCode) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter statusCode'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*Sy*/{
-    statusCode: '',
-    responseParameters: /*Se*/{} /*Map*/,
-    selectionPattern: '',
-    responseTemplates: /*Se*/{} /*Map*/,
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.CreateRestApi = awsCommon.as(
-  '/restapis',
-  function CreateRestApi(aws) {
-  var cloneFrom = aws.params['cloneFrom'];
-  var name = aws.params['name'];
-  var description = aws.params['description'];
-  if (!name) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter name'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*S10*/{
-    id: '',
-    name: '',
-    createdDate: awsCommon.timestamp(),
-    description: '',
-  };
-  return [201, ret];
-});
-// -----------------------------------
-module.exports.DeleteIntegration = awsCommon.as(
-  'DELETE',
-  '/restapis/:restapi_id/resources/:resource_id/methods/:http_method/integration',
-  function DeleteIntegration(aws) {
-  var resourceId = aws.reqParams['resource_id'];
-  var restApiId = aws.reqParams['restapi_id'];
-  var httpMethod = aws.reqParams['http_method'];
-  if (!restApiId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
-  }
-  if (!resourceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter resourceId'];
-  }
-  if (!httpMethod) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter httpMethod'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [204, ret];
-});
-// -----------------------------------
-module.exports.DeleteStage = awsCommon.as(
-  'DELETE',
-  '/restapis/:restapi_id/stages/:stage_name',
-  function DeleteStage(aws) {
-  var stageName = aws.reqParams['stage_name'];
-  var restApiId = aws.reqParams['restapi_id'];
-  if (!restApiId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
-  }
-  if (!stageName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter stageName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [202, ret];
-});
-// -----------------------------------
-module.exports.UpdateApiKey = awsCommon.as(
+module.exports.UpdateMethodResponse = awsCommon.as(
   'PATCH',
-  '/apikeys/:api_Key',
-  function UpdateApiKey(aws) {
-  var apiKey = aws.reqParams['api_Key'];
-  var patchOperations = aws.params['patchOperations'];
-  if (!apiKey) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter apiKey'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*S6*/{
-    id: '',
-    name: '',
-    enabled: false,
-    description: '',
-    createdDate: awsCommon.timestamp(),
-    stageKeys: /*S7*/[ '', /* ...*/ ],
-    lastUpdatedDate: awsCommon.timestamp(),
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.GetClientCertificate = awsCommon.as(
-  'GET',
-  '/clientcertificates/:clientcertificate_id',
-  function GetClientCertificate(aws) {
-  var clientCertificateId = aws.reqParams['clientcertificate_id'];
-  if (!clientCertificateId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter clientCertificateId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*S1n*/{
-    clientCertificateId: '',
-    expirationDate: awsCommon.timestamp(),
-    pemEncodedCertificate: '',
-    createdDate: awsCommon.timestamp(),
-    description: '',
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.GetMethodResponse = awsCommon.as(
-  'GET',
   '/restapis/:restapi_id/resources/:resource_id/methods/:http_method/responses/:status_code',
-  function GetMethodResponse(aws) {
-  var statusCode = aws.reqParams['status_code'];
-  var resourceId = aws.reqParams['resource_id'];
-  var restApiId = aws.reqParams['restapi_id'];
-  var httpMethod = aws.reqParams['http_method'];
-  if (!restApiId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
-  }
-  if (!resourceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter resourceId'];
-  }
-  if (!httpMethod) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter httpMethod'];
-  }
-  if (!statusCode) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter statusCode'];
-  }
+  function UpdateMethodResponse(aws) {
+    var statusCode = aws.reqParams['status_code'];
+    var resourceId = aws.reqParams['resource_id'];
+    var patchOperations = aws.params.patchOperations;
+    var httpMethod = aws.reqParams['http_method'];
+    var restApiId = aws.reqParams['restapi_id'];
+    if (!restApiId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
+    }
+    if (!resourceId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter resourceId'];
+    }
+    if (!httpMethod) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter httpMethod'];
+    }
+    if (!statusCode) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter statusCode'];
+    }
 
 
-  // TODO implement code
+    // TODO implement code
 
-  var ret = /*St*/{
-    responseModels: /*Se*/{} /*Map*/,
-    statusCode: '',
-    responseParameters: /*Sr*/{} /*Map*/,
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.GetDeployments = awsCommon.as(
-  'GET',
-  '/restapis/:restapi_id/deployments',
-  function GetDeployments(aws) {
-  var position = aws.params['position'];
-  var limit = aws.params['limit'] /* Type integer */;
-  var restApiId = aws.reqParams['restapi_id'];
-  if (!restApiId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    position: '',
-    items: [ /*Sf*/{
-      id: '',
-      createdDate: awsCommon.timestamp(),
-      apiSummary: {} /*Map*/,
-      description: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.GetRestApi = awsCommon.as(
-  'GET',
-  '/restapis/:restapi_id',
-  function GetRestApi(aws) {
-  var restApiId = aws.reqParams['restapi_id'];
-  if (!restApiId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*S10*/{
-    id: '',
-    name: '',
-    createdDate: awsCommon.timestamp(),
-    description: '',
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.GetStages = awsCommon.as(
-  'GET',
-  '/restapis/:restapi_id/stages',
-  function GetStages(aws) {
-  var deploymentId = aws.params['deploymentId'];
-  var restApiId = aws.reqParams['restapi_id'];
-  if (!restApiId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    item: [ /*S12*/{
-      variables: /*Se*/{} /*Map*/,
-      deploymentId: '',
-      cacheClusterStatus: '',
-      cacheClusterSize: '',
-      description: '',
-      clientCertificateId: '',
-      cacheClusterEnabled: false,
-      stageName: '',
-      lastUpdatedDate: awsCommon.timestamp(),
-      createdDate: awsCommon.timestamp(),
-      methodSettings: {} /*Map*/,
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.DeleteBasePathMapping = awsCommon.as(
-  'DELETE',
-  '/domainnames/:domain_name/basepathmappings/:base_path',
-  function DeleteBasePathMapping(aws) {
-  var domainName = aws.reqParams['domain_name'];
-  var basePath = aws.reqParams['base_path'];
-  if (!domainName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter domainName'];
-  }
-  if (!basePath) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter basePath'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [202, ret];
-});
-// -----------------------------------
-module.exports.GetMethod = awsCommon.as(
-  'GET',
-  '/restapis/:restapi_id/resources/:resource_id/methods/:http_method',
-  function GetMethod(aws) {
-  var resourceId = aws.reqParams['resource_id'];
-  var restApiId = aws.reqParams['restapi_id'];
-  var httpMethod = aws.reqParams['http_method'];
-  if (!restApiId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
-  }
-  if (!resourceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter resourceId'];
-  }
-  if (!httpMethod) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter httpMethod'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*Sq*/{
-    authorizationType: '',
-    httpMethod: '',
-    apiKeyRequired: false,
-    methodResponses: {} /*Map*/,
-    methodIntegration: /*Sv*/{
-      uri: '',
-      integrationResponses: {} /*Map*/,
-      httpMethod: '',
-      type: '',
-      requestTemplates: /*Se*/{} /*Map*/,
-      credentials: '',
-      cacheNamespace: '',
-      cacheKeyParameters: /*S7*/[ '', /* ...*/ ],
-      requestParameters: /*Se*/{} /*Map*/,
-    },
-    requestModels: /*Se*/{} /*Map*/,
-    requestParameters: /*Sr*/{} /*Map*/,
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.DeleteApiKey = awsCommon.as(
-  'DELETE',
-  '/apikeys/:api_Key',
-  function DeleteApiKey(aws) {
-  var apiKey = aws.reqParams['api_Key'];
-  if (!apiKey) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter apiKey'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [202, ret];
-});
-// -----------------------------------
-module.exports.DeleteClientCertificate = awsCommon.as(
-  'DELETE',
-  '/clientcertificates/:clientcertificate_id',
-  function DeleteClientCertificate(aws) {
-  var clientCertificateId = aws.reqParams['clientcertificate_id'];
-  if (!clientCertificateId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter clientCertificateId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [202, ret];
-});
-// -----------------------------------
-module.exports.GetDeployment = awsCommon.as(
-  'GET',
-  '/restapis/:restapi_id/deployments/:deployment_id',
-  function GetDeployment(aws) {
-  var deploymentId = aws.reqParams['deployment_id'];
-  var restApiId = aws.reqParams['restapi_id'];
-  if (!restApiId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
-  }
-  if (!deploymentId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter deploymentId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*Sf*/{
-    id: '',
-    createdDate: awsCommon.timestamp(),
-    apiSummary: {} /*Map*/,
-    description: '',
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.DeleteRestApi = awsCommon.as(
-  'DELETE',
-  '/restapis/:restapi_id',
-  function DeleteRestApi(aws) {
-  var restApiId = aws.reqParams['restapi_id'];
-  if (!restApiId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [202, ret];
-});
+    var ret = /*St*/{
+      statusCode: '',
+      responseParameters: /*Sr*/{} /*Map*/,
+      responseModels: /*Se*/{} /*Map*/,
+    };
+    return [201, ret];
+  });
 // -----------------------------------
 module.exports.GetModel = awsCommon.as(
   'GET',
   '/restapis/:restapi_id/models/:model_name',
   function GetModel(aws) {
-  var flatten = aws.params['flatten'] /* Type boolean */;
-  var modelName = aws.reqParams['model_name'];
-  var restApiId = aws.reqParams['restapi_id'];
-  if (!restApiId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
-  }
-  if (!modelName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter modelName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*Sm*/{
-    id: '',
-    schema: '',
-    name: '',
-    contentType: '',
-    description: '',
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.PutMethodResponse = awsCommon.as(
-  'PUT',
-  '/restapis/:restapi_id/resources/:resource_id/methods/:http_method/responses/:status_code',
-  function PutMethodResponse(aws) {
-  var resourceId = aws.reqParams['resource_id'];
-  var restApiId = aws.reqParams['restapi_id'];
-  var responseModels = aws.params['responseModels'];
-  var statusCode = aws.reqParams['status_code'];
-  var responseParameters = aws.params['responseParameters'];
-  var httpMethod = aws.reqParams['http_method'];
-  if (!restApiId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
-  }
-  if (!resourceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter resourceId'];
-  }
-  if (!httpMethod) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter httpMethod'];
-  }
-  if (!statusCode) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter statusCode'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*St*/{
-    responseModels: /*Se*/{} /*Map*/,
-    statusCode: '',
-    responseParameters: /*Sr*/{} /*Map*/,
-  };
-  return [201, ret];
-});
-// -----------------------------------
-module.exports.CreateDeployment = awsCommon.as(
-  '/restapis/:restapi_id/deployments',
-  function CreateDeployment(aws) {
-  var variables = aws.params['variables'];
-  var cacheClusterSize = aws.params['cacheClusterSize'];
-  var restApiId = aws.reqParams['restapi_id'];
-  var description = aws.params['description'];
-  var cacheClusterEnabled = aws.params['cacheClusterEnabled'] /* Type boolean */;
-  var stageDescription = aws.params['stageDescription'];
-  var stageName = aws.params['stageName'];
-  if (!restApiId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
-  }
-  if (!stageName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter stageName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*Sf*/{
-    id: '',
-    createdDate: awsCommon.timestamp(),
-    apiSummary: {} /*Map*/,
-    description: '',
-  };
-  return [201, ret];
-});
-// -----------------------------------
-module.exports.UpdateDomainName = awsCommon.as(
-  'PATCH',
-  '/domainnames/:domain_name',
-  function UpdateDomainName(aws) {
-  var domainName = aws.reqParams['domain_name'];
-  var patchOperations = aws.params['patchOperations'];
-  if (!domainName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter domainName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*Sk*/{
-    certificateName: '',
-    domainName: '',
-    certificateUploadDate: awsCommon.timestamp(),
-    distributionDomainName: '',
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.CreateApiKey = awsCommon.as(
-  '/apikeys',
-  function CreateApiKey(aws) {
-  var stageKeys = aws.params['stageKeys'] /* Type list */;
-  var name = aws.params['name'];
-  var enabled = aws.params['enabled'] /* Type boolean */;
-  var description = aws.params['description'];
-
-
-  // TODO implement code
-
-  var ret = /*S6*/{
-    id: '',
-    name: '',
-    enabled: false,
-    description: '',
-    createdDate: awsCommon.timestamp(),
-    stageKeys: /*S7*/[ '', /* ...*/ ],
-    lastUpdatedDate: awsCommon.timestamp(),
-  };
-  return [201, ret];
-});
-// -----------------------------------
-module.exports.UpdateResource = awsCommon.as(
-  'PATCH',
-  '/restapis/:restapi_id/resources/:resource_id',
-  function UpdateResource(aws) {
-  var resourceId = aws.reqParams['resource_id'];
-  var restApiId = aws.reqParams['restapi_id'];
-  var patchOperations = aws.params['patchOperations'];
-  if (!restApiId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
-  }
-  if (!resourceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter resourceId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*So*/{
-    id: '',
-    parentId: '',
-    path: '',
-    resourceMethods: {} /*Map*/,
-    pathPart: '',
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.GetApiKey = awsCommon.as(
-  'GET',
-  '/apikeys/:api_Key',
-  function GetApiKey(aws) {
-  var apiKey = aws.reqParams['api_Key'];
-  if (!apiKey) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter apiKey'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*S6*/{
-    id: '',
-    name: '',
-    enabled: false,
-    description: '',
-    createdDate: awsCommon.timestamp(),
-    stageKeys: /*S7*/[ '', /* ...*/ ],
-    lastUpdatedDate: awsCommon.timestamp(),
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.CreateBasePathMapping = awsCommon.as(
-  '/domainnames/:domain_name/basepathmappings',
-  function CreateBasePathMapping(aws) {
-  var stage = aws.params['stage'];
-  var domainName = aws.reqParams['domain_name'];
-  var restApiId = aws.params['restApiId'];
-  var basePath = aws.params['basePath'];
-  if (!domainName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter domainName'];
-  }
-  if (!restApiId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*Sa*/{
-    stage: '',
-    basePath: '',
-    restApiId: '',
-  };
-  return [201, ret];
-});
-// -----------------------------------
-module.exports.UpdateModel = awsCommon.as(
-  'PATCH',
-  '/restapis/:restapi_id/models/:model_name',
-  function UpdateModel(aws) {
-  var modelName = aws.reqParams['model_name'];
-  var restApiId = aws.reqParams['restapi_id'];
-  var patchOperations = aws.params['patchOperations'];
-  if (!restApiId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
-  }
-  if (!modelName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter modelName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*Sm*/{
-    id: '',
-    schema: '',
-    name: '',
-    contentType: '',
-    description: '',
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.PutMethod = awsCommon.as(
-  'PUT',
-  '/restapis/:restapi_id/resources/:resource_id/methods/:http_method',
-  function PutMethod(aws) {
-  var authorizationType = aws.params['authorizationType'];
-  var resourceId = aws.reqParams['resource_id'];
-  var apiKeyRequired = aws.params['apiKeyRequired'] /* Type boolean */;
-  var restApiId = aws.reqParams['restapi_id'];
-  var requestParameters = aws.params['requestParameters'];
-  var requestModels = aws.params['requestModels'];
-  var httpMethod = aws.reqParams['http_method'];
-  if (!restApiId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
-  }
-  if (!resourceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter resourceId'];
-  }
-  if (!httpMethod) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter httpMethod'];
-  }
-  if (!authorizationType) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter authorizationType'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*Sq*/{
-    authorizationType: '',
-    httpMethod: '',
-    apiKeyRequired: false,
-    methodResponses: {} /*Map*/,
-    methodIntegration: /*Sv*/{
-      uri: '',
-      integrationResponses: {} /*Map*/,
-      httpMethod: '',
-      type: '',
-      requestTemplates: /*Se*/{} /*Map*/,
-      credentials: '',
-      cacheNamespace: '',
-      cacheKeyParameters: /*S7*/[ '', /* ...*/ ],
-      requestParameters: /*Se*/{} /*Map*/,
-    },
-    requestModels: /*Se*/{} /*Map*/,
-    requestParameters: /*Sr*/{} /*Map*/,
-  };
-  return [201, ret];
-});
-// -----------------------------------
-module.exports.UpdateIntegration = awsCommon.as(
-  'PATCH',
-  '/restapis/:restapi_id/resources/:resource_id/methods/:http_method/integration',
-  function UpdateIntegration(aws) {
-  var patchOperations = aws.params['patchOperations'];
-  var resourceId = aws.reqParams['resource_id'];
-  var restApiId = aws.reqParams['restapi_id'];
-  var httpMethod = aws.reqParams['http_method'];
-  if (!restApiId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
-  }
-  if (!resourceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter resourceId'];
-  }
-  if (!httpMethod) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter httpMethod'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*Sv*/{
-    uri: '',
-    integrationResponses: {} /*Map*/,
-    httpMethod: '',
-    type: '',
-    requestTemplates: /*Se*/{} /*Map*/,
-    credentials: '',
-    cacheNamespace: '',
-    cacheKeyParameters: /*S7*/[ '', /* ...*/ ],
-    requestParameters: /*Se*/{} /*Map*/,
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.PutIntegration = awsCommon.as(
-  'PUT',
-  '/restapis/:restapi_id/resources/:resource_id/methods/:http_method/integration',
-  function PutIntegration(aws) {
-  var uri = aws.params['uri'];
-  var resourceId = aws.reqParams['resource_id'];
-  var restApiId = aws.reqParams['restapi_id'];
-  var type = aws.params['type'];
-  var requestTemplates = aws.params['requestTemplates'];
-  var credentials = aws.params['credentials'];
-  var integrationHttpMethod = aws.params['integrationHttpMethod'];
-  var requestParameters = aws.params['requestParameters'];
-  var cacheKeyParameters = aws.params['cacheKeyParameters'];
-  var cacheNamespace = aws.params['cacheNamespace'];
-  var httpMethod = aws.reqParams['http_method'];
-  if (!restApiId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
-  }
-  if (!resourceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter resourceId'];
-  }
-  if (!httpMethod) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter httpMethod'];
-  }
-  if (!type) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter type'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*Sv*/{
-    uri: '',
-    integrationResponses: {} /*Map*/,
-    httpMethod: '',
-    type: '',
-    requestTemplates: /*Se*/{} /*Map*/,
-    credentials: '',
-    cacheNamespace: '',
-    cacheKeyParameters: /*S7*/[ '', /* ...*/ ],
-    requestParameters: /*Se*/{} /*Map*/,
-  };
-  return [201, ret];
-});
-// -----------------------------------
-module.exports.GetResources = awsCommon.as(
-  'GET',
-  '/restapis/:restapi_id/resources',
-  function GetResources(aws) {
-  var position = aws.params['position'];
-  var limit = aws.params['limit'] /* Type integer */;
-  var restApiId = aws.reqParams['restapi_id'];
-  if (!restApiId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    position: '',
-    items: [ /*So*/{
-      id: '',
-      parentId: '',
-      path: '',
-      resourceMethods: {} /*Map*/,
-      pathPart: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.DeleteDomainName = awsCommon.as(
-  'DELETE',
-  '/domainnames/:domain_name',
-  function DeleteDomainName(aws) {
-  var domainName = aws.reqParams['domain_name'];
-  if (!domainName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter domainName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [202, ret];
-});
-// -----------------------------------
-module.exports.GetStage = awsCommon.as(
-  'GET',
-  '/restapis/:restapi_id/stages/:stage_name',
-  function GetStage(aws) {
-  var stageName = aws.reqParams['stage_name'];
-  var restApiId = aws.reqParams['restapi_id'];
-  if (!restApiId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
-  }
-  if (!stageName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter stageName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*S12*/{
-    variables: /*Se*/{} /*Map*/,
-    deploymentId: '',
-    cacheClusterStatus: '',
-    cacheClusterSize: '',
-    description: '',
-    clientCertificateId: '',
-    cacheClusterEnabled: false,
-    stageName: '',
-    lastUpdatedDate: awsCommon.timestamp(),
-    createdDate: awsCommon.timestamp(),
-    methodSettings: {} /*Map*/,
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.PutIntegrationResponse = awsCommon.as(
-  'PUT',
-  '/restapis/:restapi_id/resources/:resource_id/methods/:http_method/integration/responses/:status_code',
-  function PutIntegrationResponse(aws) {
-  var resourceId = aws.reqParams['resource_id'];
-  var responseTemplates = aws.params['responseTemplates'];
-  var restApiId = aws.reqParams['restapi_id'];
-  var statusCode = aws.reqParams['status_code'];
-  var responseParameters = aws.params['responseParameters'];
-  var selectionPattern = aws.params['selectionPattern'];
-  var httpMethod = aws.reqParams['http_method'];
-  if (!restApiId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
-  }
-  if (!resourceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter resourceId'];
-  }
-  if (!httpMethod) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter httpMethod'];
-  }
-  if (!statusCode) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter statusCode'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*Sy*/{
-    statusCode: '',
-    responseParameters: /*Se*/{} /*Map*/,
-    selectionPattern: '',
-    responseTemplates: /*Se*/{} /*Map*/,
-  };
-  return [201, ret];
-});
-// -----------------------------------
-module.exports.UpdateIntegrationResponse = awsCommon.as(
-  'PATCH',
-  '/restapis/:restapi_id/resources/:resource_id/methods/:http_method/integration/responses/:status_code',
-  function UpdateIntegrationResponse(aws) {
-  var patchOperations = aws.params['patchOperations'];
-  var statusCode = aws.reqParams['status_code'];
-  var resourceId = aws.reqParams['resource_id'];
-  var restApiId = aws.reqParams['restapi_id'];
-  var httpMethod = aws.reqParams['http_method'];
-  if (!restApiId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
-  }
-  if (!resourceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter resourceId'];
-  }
-  if (!httpMethod) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter httpMethod'];
-  }
-  if (!statusCode) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter statusCode'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*Sy*/{
-    statusCode: '',
-    responseParameters: /*Se*/{} /*Map*/,
-    selectionPattern: '',
-    responseTemplates: /*Se*/{} /*Map*/,
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.UpdateBasePathMapping = awsCommon.as(
-  'PATCH',
-  '/domainnames/:domain_name/basepathmappings/:base_path',
-  function UpdateBasePathMapping(aws) {
-  var patchOperations = aws.params['patchOperations'];
-  var domainName = aws.reqParams['domain_name'];
-  var basePath = aws.reqParams['base_path'];
-  if (!domainName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter domainName'];
-  }
-  if (!basePath) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter basePath'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*Sa*/{
-    stage: '',
-    basePath: '',
-    restApiId: '',
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.CreateStage = awsCommon.as(
-  '/restapis/:restapi_id/stages',
-  function CreateStage(aws) {
-  var variables = aws.params['variables'];
-  var deploymentId = aws.params['deploymentId'];
-  var cacheClusterSize = aws.params['cacheClusterSize'];
-  var restApiId = aws.reqParams['restapi_id'];
-  var description = aws.params['description'];
-  var cacheClusterEnabled = aws.params['cacheClusterEnabled'] /* Type boolean */;
-  var stageName = aws.params['stageName'];
-  if (!restApiId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
-  }
-  if (!stageName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter stageName'];
-  }
-  if (!deploymentId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter deploymentId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*S12*/{
-    variables: /*Se*/{} /*Map*/,
-    deploymentId: '',
-    cacheClusterStatus: '',
-    cacheClusterSize: '',
-    description: '',
-    clientCertificateId: '',
-    cacheClusterEnabled: false,
-    stageName: '',
-    lastUpdatedDate: awsCommon.timestamp(),
-    createdDate: awsCommon.timestamp(),
-    methodSettings: {} /*Map*/,
-  };
-  return [201, ret];
-});
-// -----------------------------------
-module.exports.DeleteDeployment = awsCommon.as(
-  'DELETE',
-  '/restapis/:restapi_id/deployments/:deployment_id',
-  function DeleteDeployment(aws) {
-  var deploymentId = aws.reqParams['deployment_id'];
-  var restApiId = aws.reqParams['restapi_id'];
-  if (!restApiId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
-  }
-  if (!deploymentId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter deploymentId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [202, ret];
-});
-// -----------------------------------
-module.exports.TestInvokeMethod = awsCommon.as(
-  '/restapis/:restapi_id/resources/:resource_id/methods/:http_method',
-  function TestInvokeMethod(aws) {
-  var body = aws.params['body'];
-  var resourceId = aws.reqParams['resource_id'];
-  var pathWithQueryString = aws.params['pathWithQueryString'];
-  var restApiId = aws.reqParams['restapi_id'];
-  var stageVariables = aws.params['stageVariables'];
-  var clientCertificateId = aws.params['clientCertificateId'];
-  var headers = aws.params['headers'];
-  var httpMethod = aws.reqParams['http_method'];
-  if (!restApiId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
-  }
-  if (!resourceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter resourceId'];
-  }
-  if (!httpMethod) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter httpMethod'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    body: '',
-    log: '',
-    headers: /*S36*/{} /*Map*/,
-    status: 0,
-    latency: 0 /*Long*/,
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.GetDomainName = awsCommon.as(
-  'GET',
-  '/domainnames/:domain_name',
-  function GetDomainName(aws) {
-  var domainName = aws.reqParams['domain_name'];
-  if (!domainName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter domainName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*Sk*/{
-    certificateName: '',
-    domainName: '',
-    certificateUploadDate: awsCommon.timestamp(),
-    distributionDomainName: '',
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.UpdateStage = awsCommon.as(
-  'PATCH',
-  '/restapis/:restapi_id/stages/:stage_name',
-  function UpdateStage(aws) {
-  var stageName = aws.reqParams['stage_name'];
-  var restApiId = aws.reqParams['restapi_id'];
-  var patchOperations = aws.params['patchOperations'];
-  if (!restApiId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
-  }
-  if (!stageName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter stageName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*S12*/{
-    variables: /*Se*/{} /*Map*/,
-    deploymentId: '',
-    cacheClusterStatus: '',
-    cacheClusterSize: '',
-    description: '',
-    clientCertificateId: '',
-    cacheClusterEnabled: false,
-    stageName: '',
-    lastUpdatedDate: awsCommon.timestamp(),
-    createdDate: awsCommon.timestamp(),
-    methodSettings: {} /*Map*/,
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.DeleteIntegrationResponse = awsCommon.as(
-  'DELETE',
-  '/restapis/:restapi_id/resources/:resource_id/methods/:http_method/integration/responses/:status_code',
-  function DeleteIntegrationResponse(aws) {
-  var statusCode = aws.reqParams['status_code'];
-  var resourceId = aws.reqParams['resource_id'];
-  var restApiId = aws.reqParams['restapi_id'];
-  var httpMethod = aws.reqParams['http_method'];
-  if (!restApiId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
-  }
-  if (!resourceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter resourceId'];
-  }
-  if (!httpMethod) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter httpMethod'];
-  }
-  if (!statusCode) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter statusCode'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [204, ret];
-});
-// -----------------------------------
-module.exports.UpdateRestApi = awsCommon.as(
-  'PATCH',
-  '/restapis/:restapi_id',
-  function UpdateRestApi(aws) {
-  var restApiId = aws.reqParams['restapi_id'];
-  var patchOperations = aws.params['patchOperations'];
-  if (!restApiId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*S10*/{
-    id: '',
-    name: '',
-    createdDate: awsCommon.timestamp(),
-    description: '',
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.DeleteMethod = awsCommon.as(
-  'DELETE',
-  '/restapis/:restapi_id/resources/:resource_id/methods/:http_method',
-  function DeleteMethod(aws) {
-  var resourceId = aws.reqParams['resource_id'];
-  var restApiId = aws.reqParams['restapi_id'];
-  var httpMethod = aws.reqParams['http_method'];
-  if (!restApiId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
-  }
-  if (!resourceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter resourceId'];
-  }
-  if (!httpMethod) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter httpMethod'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [204, ret];
-});
-// -----------------------------------
-module.exports.UpdateDeployment = awsCommon.as(
-  'PATCH',
-  '/restapis/:restapi_id/deployments/:deployment_id',
-  function UpdateDeployment(aws) {
-  var deploymentId = aws.reqParams['deployment_id'];
-  var restApiId = aws.reqParams['restapi_id'];
-  var patchOperations = aws.params['patchOperations'];
-  if (!restApiId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
-  }
-  if (!deploymentId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter deploymentId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*Sf*/{
-    id: '',
-    createdDate: awsCommon.timestamp(),
-    apiSummary: {} /*Map*/,
-    description: '',
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.GetRestApis = awsCommon.as(
-  'GET',
-  '/restapis',
-  function GetRestApis(aws) {
-  var position = aws.params['position'];
-  var limit = aws.params['limit'] /* Type integer */;
-
-
-  // TODO implement code
-
-  var ret = {
-    position: '',
-    items: [ /*S10*/{
-      id: '',
+    var flatten = aws.params.flatten /* Type boolean */;
+    var modelName = aws.reqParams['model_name'];
+    var restApiId = aws.reqParams['restapi_id'];
+    if (!restApiId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
+    }
+    if (!modelName) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter modelName'];
+    }
+
+
+    // TODO implement code
+
+    var ret = /*Sm*/{
       name: '',
-      createdDate: awsCommon.timestamp(),
-      description: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.GetApiKeys = awsCommon.as(
-  'GET',
-  '/apikeys',
-  function GetApiKeys(aws) {
-  var position = aws.params['position'];
-  var limit = aws.params['limit'] /* Type integer */;
-
-
-  // TODO implement code
-
-  var ret = {
-    position: '',
-    items: [ /*S6*/{
       id: '',
-      name: '',
-      enabled: false,
+      schema: '',
+      contentType: '',
       description: '',
-      createdDate: awsCommon.timestamp(),
-      stageKeys: /*S7*/[ '', /* ...*/ ],
-      lastUpdatedDate: awsCommon.timestamp(),
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-});
+    };
+    return [200, ret];
+  });
 // -----------------------------------
-module.exports.GetResource = awsCommon.as(
+module.exports.GetIntegrationResponse = awsCommon.as(
   'GET',
-  '/restapis/:restapi_id/resources/:resource_id',
-  function GetResource(aws) {
-  var resourceId = aws.reqParams['resource_id'];
-  var restApiId = aws.reqParams['restapi_id'];
-  if (!restApiId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
-  }
-  if (!resourceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter resourceId'];
-  }
+  '/restapis/:restapi_id/resources/:resource_id/methods/:http_method/integration/responses/:status_code',
+  function GetIntegrationResponse(aws) {
+    var statusCode = aws.reqParams['status_code'];
+    var resourceId = aws.reqParams['resource_id'];
+    var httpMethod = aws.reqParams['http_method'];
+    var restApiId = aws.reqParams['restapi_id'];
+    if (!restApiId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
+    }
+    if (!resourceId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter resourceId'];
+    }
+    if (!httpMethod) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter httpMethod'];
+    }
+    if (!statusCode) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter statusCode'];
+    }
 
 
-  // TODO implement code
+    // TODO implement code
 
-  var ret = /*So*/{
-    id: '',
-    parentId: '',
-    path: '',
-    resourceMethods: {} /*Map*/,
-    pathPart: '',
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.GetBasePathMapping = awsCommon.as(
-  'GET',
-  '/domainnames/:domain_name/basepathmappings/:base_path',
-  function GetBasePathMapping(aws) {
-  var domainName = aws.reqParams['domain_name'];
-  var basePath = aws.reqParams['base_path'];
-  if (!domainName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter domainName'];
-  }
-  if (!basePath) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter basePath'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*Sa*/{
-    stage: '',
-    basePath: '',
-    restApiId: '',
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.FlushStageCache = awsCommon.as(
-  'DELETE',
-  '/restapis/:restapi_id/stages/:stage_name/cache/data',
-  function FlushStageCache(aws) {
-  var stageName = aws.reqParams['stage_name'];
-  var restApiId = aws.reqParams['restapi_id'];
-  if (!restApiId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
-  }
-  if (!stageName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter stageName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [202, ret];
-});
-// -----------------------------------
-module.exports.UpdateClientCertificate = awsCommon.as(
-  'PATCH',
-  '/clientcertificates/:clientcertificate_id',
-  function UpdateClientCertificate(aws) {
-  var clientCertificateId = aws.reqParams['clientcertificate_id'];
-  var patchOperations = aws.params['patchOperations'];
-  if (!clientCertificateId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter clientCertificateId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*S1n*/{
-    clientCertificateId: '',
-    expirationDate: awsCommon.timestamp(),
-    pemEncodedCertificate: '',
-    createdDate: awsCommon.timestamp(),
-    description: '',
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.DeleteMethodResponse = awsCommon.as(
-  'DELETE',
-  '/restapis/:restapi_id/resources/:resource_id/methods/:http_method/responses/:status_code',
-  function DeleteMethodResponse(aws) {
-  var statusCode = aws.reqParams['status_code'];
-  var resourceId = aws.reqParams['resource_id'];
-  var restApiId = aws.reqParams['restapi_id'];
-  var httpMethod = aws.reqParams['http_method'];
-  if (!restApiId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
-  }
-  if (!resourceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter resourceId'];
-  }
-  if (!httpMethod) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter httpMethod'];
-  }
-  if (!statusCode) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter statusCode'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [204, ret];
-});
-// -----------------------------------
-module.exports.UpdateMethod = awsCommon.as(
-  'PATCH',
-  '/restapis/:restapi_id/resources/:resource_id/methods/:http_method',
-  function UpdateMethod(aws) {
-  var patchOperations = aws.params['patchOperations'];
-  var resourceId = aws.reqParams['resource_id'];
-  var restApiId = aws.reqParams['restapi_id'];
-  var httpMethod = aws.reqParams['http_method'];
-  if (!restApiId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
-  }
-  if (!resourceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter resourceId'];
-  }
-  if (!httpMethod) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter httpMethod'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*Sq*/{
-    authorizationType: '',
-    httpMethod: '',
-    apiKeyRequired: false,
-    methodResponses: {} /*Map*/,
-    methodIntegration: /*Sv*/{
-      uri: '',
-      integrationResponses: {} /*Map*/,
-      httpMethod: '',
-      type: '',
-      requestTemplates: /*Se*/{} /*Map*/,
-      credentials: '',
-      cacheNamespace: '',
-      cacheKeyParameters: /*S7*/[ '', /* ...*/ ],
-      requestParameters: /*Se*/{} /*Map*/,
-    },
-    requestModels: /*Se*/{} /*Map*/,
-    requestParameters: /*Sr*/{} /*Map*/,
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.CreateModel = awsCommon.as(
-  '/restapis/:restapi_id/models',
-  function CreateModel(aws) {
-  var contentType = aws.params['contentType'];
-  var schema = aws.params['schema'];
-  var name = aws.params['name'];
-  var restApiId = aws.reqParams['restapi_id'];
-  var description = aws.params['description'];
-  if (!restApiId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter restApiId'];
-  }
-  if (!name) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter name'];
-  }
-  if (!contentType) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter contentType'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*Sm*/{
-    id: '',
-    schema: '',
-    name: '',
-    contentType: '',
-    description: '',
-  };
-  return [201, ret];
-});
-// -----------------------------------
-module.exports.GetDomainNames = awsCommon.as(
-  'GET',
-  '/domainnames',
-  function GetDomainNames(aws) {
-  var position = aws.params['position'];
-  var limit = aws.params['limit'] /* Type integer */;
-
-
-  // TODO implement code
-
-  var ret = {
-    position: '',
-    items: [ /*Sk*/{
-      certificateName: '',
-      domainName: '',
-      certificateUploadDate: awsCommon.timestamp(),
-      distributionDomainName: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-});
-// -----------------------------------
-module.exports.CreateDomainName = awsCommon.as(
-  '/domainnames',
-  function CreateDomainName(aws) {
-  var certificateBody = aws.params['certificateBody'];
-  var certificateName = aws.params['certificateName'];
-  var domainName = aws.params['domainName'];
-  var certificatePrivateKey = aws.params['certificatePrivateKey'];
-  var certificateChain = aws.params['certificateChain'];
-  if (!domainName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter domainName'];
-  }
-  if (!certificateName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter certificateName'];
-  }
-  if (!certificateBody) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter certificateBody'];
-  }
-  if (!certificatePrivateKey) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter certificatePrivateKey'];
-  }
-  if (!certificateChain) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter certificateChain'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*Sk*/{
-    certificateName: '',
-    domainName: '',
-    certificateUploadDate: awsCommon.timestamp(),
-    distributionDomainName: '',
-  };
-  return [201, ret];
-});
+    var ret = /*Sy*/{
+      statusCode: '',
+      selectionPattern: '',
+      responseTemplates: /*Se*/{} /*Map*/,
+      responseParameters: /*Se*/{} /*Map*/,
+    };
+    return [200, ret];
+  });

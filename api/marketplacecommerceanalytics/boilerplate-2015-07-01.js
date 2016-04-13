@@ -10,15 +10,15 @@ const awsCommon = require('../../lib/aws-common');
  */
 
 // Setup input and output to use AWS protocol json
-require('../../lib/aws-common/shape_http')('json', module.exports, null)
+require('../../lib/aws-common/shape_http')('json', module.exports, null);
 // -----------------------------------
 module.exports.GenerateDataSet = function GenerateDataSet(aws) {
-  var destinationS3Prefix = aws.params['destinationS3Prefix'];
-  var destinationS3BucketName = aws.params['destinationS3BucketName'];
-  var dataSetPublicationDate = aws.params['dataSetPublicationDate'] /* Type timestamp */;
-  var dataSetType = aws.params['dataSetType'];
-  var roleNameArn = aws.params['roleNameArn'];
-  var snsTopicArn = aws.params['snsTopicArn'];
+  var roleNameArn = aws.params.roleNameArn;
+  var destinationS3Prefix = aws.params.destinationS3Prefix;
+  var dataSetPublicationDate = aws.params.dataSetPublicationDate /* Type timestamp */;
+  var dataSetType = aws.params.dataSetType;
+  var snsTopicArn = aws.params.snsTopicArn;
+  var destinationS3BucketName = aws.params.destinationS3BucketName;
   if (!dataSetType) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter dataSetType'];
   }

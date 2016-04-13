@@ -10,241 +10,23 @@ const awsCommon = require('../../lib/aws-common');
  */
 
 // Setup input and output to use AWS protocol query
-require('../../lib/aws-common/shape_http')('query', module.exports, 'http://queue.amazonaws.com/doc/2012-11-05/')
-// -----------------------------------
-module.exports.GetQueueUrl = function GetQueueUrl(aws) {
-  var QueueOwnerAWSAccountId = aws.params['QueueOwnerAWSAccountId'];
-  var QueueName = aws.params['QueueName'];
-  if (!QueueName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter QueueName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    QueueUrl: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.PurgeQueue = function PurgeQueue(aws) {
-  var QueueUrl = aws.params['QueueUrl'];
-  if (!QueueUrl) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter QueueUrl'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteMessageBatch = function DeleteMessageBatch(aws) {
-  var QueueUrl = aws.params['QueueUrl'];
-  var Entries = aws.params['Entries'] /* Type list */;
-  if (!QueueUrl) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter QueueUrl'];
-  }
-  if (!Entries) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Entries'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Failed: /*Sd*/[ {
-      SenderFault: false,
-      Message: '',
-      Id: '',
-      Code: '',
-    }, /* ...*/ ],
-    Successful: [ {
-      Id: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.SendMessage = function SendMessage(aws) {
-  var QueueUrl = aws.params['QueueUrl'];
-  var MessageBody = aws.params['MessageBody'];
-  var DelaySeconds = aws.params['DelaySeconds'] /* Type integer */;
-  var MessageAttributes = aws.params['MessageAttributes'];
-  if (!QueueUrl) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter QueueUrl'];
-  }
-  if (!MessageBody) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MessageBody'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    MessageId: '',
-    MD5OfMessageBody: '',
-    MD5OfMessageAttributes: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteMessage = function DeleteMessage(aws) {
-  var QueueUrl = aws.params['QueueUrl'];
-  var ReceiptHandle = aws.params['ReceiptHandle'];
-  if (!QueueUrl) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter QueueUrl'];
-  }
-  if (!ReceiptHandle) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ReceiptHandle'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ChangeMessageVisibilityBatch = function ChangeMessageVisibilityBatch(aws) {
-  var QueueUrl = aws.params['QueueUrl'];
-  var Entries = aws.params['Entries'] /* Type list */;
-  if (!QueueUrl) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter QueueUrl'];
-  }
-  if (!Entries) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Entries'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Failed: /*Sd*/[ {
-      SenderFault: false,
-      Message: '',
-      Id: '',
-      Code: '',
-    }, /* ...*/ ],
-    Successful: [ {
-      Id: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.GetQueueAttributes = function GetQueueAttributes(aws) {
-  var QueueUrl = aws.params['QueueUrl'];
-  var AttributeNames = aws.params['AttributeNames'];
-  if (!QueueUrl) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter QueueUrl'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Attributes: /*Sh*/{} /*Map*/,
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateQueue = function CreateQueue(aws) {
-  var Attributes = aws.params['Attributes'];
-  var QueueName = aws.params['QueueName'];
-  if (!QueueName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter QueueName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    QueueUrl: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ChangeMessageVisibility = function ChangeMessageVisibility(aws) {
-  var QueueUrl = aws.params['QueueUrl'];
-  var ReceiptHandle = aws.params['ReceiptHandle'];
-  var VisibilityTimeout = aws.params['VisibilityTimeout'] /* Type integer */;
-  if (!QueueUrl) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter QueueUrl'];
-  }
-  if (!ReceiptHandle) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ReceiptHandle'];
-  }
-  if (!VisibilityTimeout) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VisibilityTimeout'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteQueue = function DeleteQueue(aws) {
-  var QueueUrl = aws.params['QueueUrl'];
-  if (!QueueUrl) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter QueueUrl'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.RemovePermission = function RemovePermission(aws) {
-  var QueueUrl = aws.params['QueueUrl'];
-  var Label = aws.params['Label'];
-  if (!QueueUrl) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter QueueUrl'];
-  }
-  if (!Label) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Label'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListQueues = function ListQueues(aws) {
-  var QueueNamePrefix = aws.params['QueueNamePrefix'];
-
-
-  // TODO implement code
-
-  var ret = {
-    QueueUrls: /*Sz*/[ '', /* ...*/ ],
-  };
-  return [200, ret];
-};
+require('../../lib/aws-common/shape_http')('query', module.exports, 'http://queue.amazonaws.com/doc/2012-11-05/');
 // -----------------------------------
 module.exports.AddPermission = function AddPermission(aws) {
-  var QueueUrl = aws.params['QueueUrl'];
-  var Actions = aws.params['Actions'] /* Type list */;
-  var Label = aws.params['Label'];
-  var AWSAccountIds = aws.params['AWSAccountIds'] /* Type list */;
-  if (!QueueUrl) {
+  var aWSAccountIds = aws.params.AWSAccountIds /* Type list */;
+  var actions = aws.params.Actions /* Type list */;
+  var label = aws.params.Label;
+  var queueUrl = aws.params.QueueUrl;
+  if (!queueUrl) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter QueueUrl'];
   }
-  if (!Label) {
+  if (!label) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Label'];
   }
-  if (!AWSAccountIds) {
+  if (!aWSAccountIds) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AWSAccountIds'];
   }
-  if (!Actions) {
+  if (!actions) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Actions'];
   }
 
@@ -255,9 +37,145 @@ module.exports.AddPermission = function AddPermission(aws) {
   return [200, ret];
 };
 // -----------------------------------
+module.exports.ChangeMessageVisibilityBatch = function ChangeMessageVisibilityBatch(aws) {
+  var entries = aws.params.Entries /* Type list */;
+  var queueUrl = aws.params.QueueUrl;
+  if (!queueUrl) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter QueueUrl'];
+  }
+  if (!entries) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Entries'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Failed: /*Sd*/[ {
+      Code: '',
+      Id: '',
+      SenderFault: false,
+      Message: '',
+    }, /* ...*/ ],
+    Successful: [ {
+      Id: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListQueues = function ListQueues(aws) {
+  var queueNamePrefix = aws.params.QueueNamePrefix;
+
+
+  // TODO implement code
+
+  var ret = {
+    QueueUrls: /*Sz*/[ '', /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateQueue = function CreateQueue(aws) {
+  var queueName = aws.params.QueueName;
+  var attributes = aws.params.Attributes;
+  if (!queueName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter QueueName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    QueueUrl: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetQueueUrl = function GetQueueUrl(aws) {
+  var queueName = aws.params.QueueName;
+  var queueOwnerAWSAccountId = aws.params.QueueOwnerAWSAccountId;
+  if (!queueName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter QueueName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    QueueUrl: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteMessageBatch = function DeleteMessageBatch(aws) {
+  var entries = aws.params.Entries /* Type list */;
+  var queueUrl = aws.params.QueueUrl;
+  if (!queueUrl) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter QueueUrl'];
+  }
+  if (!entries) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Entries'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Failed: /*Sd*/[ {
+      Code: '',
+      Id: '',
+      SenderFault: false,
+      Message: '',
+    }, /* ...*/ ],
+    Successful: [ {
+      Id: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteMessage = function DeleteMessage(aws) {
+  var receiptHandle = aws.params.ReceiptHandle;
+  var queueUrl = aws.params.QueueUrl;
+  if (!queueUrl) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter QueueUrl'];
+  }
+  if (!receiptHandle) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ReceiptHandle'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ChangeMessageVisibility = function ChangeMessageVisibility(aws) {
+  var receiptHandle = aws.params.ReceiptHandle;
+  var visibilityTimeout = aws.params.VisibilityTimeout /* Type integer */;
+  var queueUrl = aws.params.QueueUrl;
+  if (!queueUrl) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter QueueUrl'];
+  }
+  if (!receiptHandle) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ReceiptHandle'];
+  }
+  if (!visibilityTimeout) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VisibilityTimeout'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.ListDeadLetterSourceQueues = function ListDeadLetterSourceQueues(aws) {
-  var QueueUrl = aws.params['QueueUrl'];
-  if (!QueueUrl) {
+  var queueUrl = aws.params.QueueUrl;
+  if (!queueUrl) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter QueueUrl'];
   }
 
@@ -270,13 +188,94 @@ module.exports.ListDeadLetterSourceQueues = function ListDeadLetterSourceQueues(
   return [200, ret];
 };
 // -----------------------------------
-module.exports.SetQueueAttributes = function SetQueueAttributes(aws) {
-  var QueueUrl = aws.params['QueueUrl'];
-  var Attributes = aws.params['Attributes'];
-  if (!QueueUrl) {
+module.exports.SendMessage = function SendMessage(aws) {
+  var messageBody = aws.params.MessageBody;
+  var delaySeconds = aws.params.DelaySeconds /* Type integer */;
+  var messageAttributes = aws.params.MessageAttributes;
+  var queueUrl = aws.params.QueueUrl;
+  if (!queueUrl) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter QueueUrl'];
   }
-  if (!Attributes) {
+  if (!messageBody) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MessageBody'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    MessageId: '',
+    MD5OfMessageAttributes: '',
+    MD5OfMessageBody: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.SendMessageBatch = function SendMessageBatch(aws) {
+  var entries = aws.params.Entries /* Type list */;
+  var queueUrl = aws.params.QueueUrl;
+  if (!queueUrl) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter QueueUrl'];
+  }
+  if (!entries) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Entries'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Failed: /*Sd*/[ {
+      Code: '',
+      Id: '',
+      SenderFault: false,
+      Message: '',
+    }, /* ...*/ ],
+    Successful: [ {
+      MessageId: '',
+      Id: '',
+      MD5OfMessageBody: '',
+      MD5OfMessageAttributes: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ReceiveMessage = function ReceiveMessage(aws) {
+  var messageAttributeNames = aws.params.MessageAttributeNames /* Type list */;
+  var attributeNames = aws.params.AttributeNames;
+  var waitTimeSeconds = aws.params.WaitTimeSeconds /* Type integer */;
+  var queueUrl = aws.params.QueueUrl;
+  var maxNumberOfMessages = aws.params.MaxNumberOfMessages /* Type integer */;
+  var visibilityTimeout = aws.params.VisibilityTimeout /* Type integer */;
+  if (!queueUrl) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter QueueUrl'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Messages: [ {
+      Attributes: /*Sh*/{} /*Map*/,
+      MD5OfBody: '',
+      ReceiptHandle: '',
+      MessageId: '',
+      Body: '',
+      MD5OfMessageAttributes: '',
+      MessageAttributes: /*S19*/{} /*Map*/,
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.SetQueueAttributes = function SetQueueAttributes(aws) {
+  var attributes = aws.params.Attributes;
+  var queueUrl = aws.params.QueueUrl;
+  if (!queueUrl) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter QueueUrl'];
+  }
+  if (!attributes) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Attributes'];
   }
 
@@ -287,60 +286,61 @@ module.exports.SetQueueAttributes = function SetQueueAttributes(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.SendMessageBatch = function SendMessageBatch(aws) {
-  var QueueUrl = aws.params['QueueUrl'];
-  var Entries = aws.params['Entries'] /* Type list */;
-  if (!QueueUrl) {
+module.exports.RemovePermission = function RemovePermission(aws) {
+  var label = aws.params.Label;
+  var queueUrl = aws.params.QueueUrl;
+  if (!queueUrl) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter QueueUrl'];
   }
-  if (!Entries) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Entries'];
+  if (!label) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Label'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteQueue = function DeleteQueue(aws) {
+  var queueUrl = aws.params.QueueUrl;
+  if (!queueUrl) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter QueueUrl'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetQueueAttributes = function GetQueueAttributes(aws) {
+  var attributeNames = aws.params.AttributeNames;
+  var queueUrl = aws.params.QueueUrl;
+  if (!queueUrl) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter QueueUrl'];
   }
 
 
   // TODO implement code
 
   var ret = {
-    Failed: /*Sd*/[ {
-      SenderFault: false,
-      Message: '',
-      Id: '',
-      Code: '',
-    }, /* ...*/ ],
-    Successful: [ {
-      MD5OfMessageBody: '',
-      MessageId: '',
-      Id: '',
-      MD5OfMessageAttributes: '',
-    }, /* ...*/ ],
+    Attributes: /*Sh*/{} /*Map*/,
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.ReceiveMessage = function ReceiveMessage(aws) {
-  var QueueUrl = aws.params['QueueUrl'];
-  var MaxNumberOfMessages = aws.params['MaxNumberOfMessages'] /* Type integer */;
-  var VisibilityTimeout = aws.params['VisibilityTimeout'] /* Type integer */;
-  var MessageAttributeNames = aws.params['MessageAttributeNames'] /* Type list */;
-  var WaitTimeSeconds = aws.params['WaitTimeSeconds'] /* Type integer */;
-  var AttributeNames = aws.params['AttributeNames'];
-  if (!QueueUrl) {
+module.exports.PurgeQueue = function PurgeQueue(aws) {
+  var queueUrl = aws.params.QueueUrl;
+  if (!queueUrl) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter QueueUrl'];
   }
 
 
   // TODO implement code
 
-  var ret = {
-    Messages: [ {
-      Body: '',
-      MD5OfBody: '',
-      MD5OfMessageAttributes: '',
-      MessageId: '',
-      MessageAttributes: /*S19*/{} /*Map*/,
-      ReceiptHandle: '',
-      Attributes: /*Sh*/{} /*Map*/,
-    }, /* ...*/ ],
-  };
+  var ret = {};
   return [200, ret];
 };

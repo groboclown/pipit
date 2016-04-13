@@ -88,7 +88,7 @@ router.get('/:type/:service/:api/:name', function(req, res, next) {
     });
   } else {
     res.status(404);
-    res.send({ErrorMessage: 'injection not found'})
+    res.send({ErrorMessage: 'injection not found'});
   }
 });
 
@@ -105,7 +105,7 @@ router.delete('/:type/:service/:api/:name', function(req, res, next) {
     res.send(true);
   } else {
     res.status(404);
-    res.send({ErrorMessage: 'injection not found'})
+    res.send({ErrorMessage: 'injection not found'});
   }
 });
 
@@ -121,7 +121,7 @@ var getType = function(req, res) {
     return null;
   }
   return type;
-}
+};
 
 
 module.exports = router;
