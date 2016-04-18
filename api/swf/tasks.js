@@ -15,8 +15,9 @@ const util = require('util');
  * They will not, though, manage the openDecisionTask list
  * in the workflowRun object.
  */
-function DecisionTask(workflowRun) {
+function DecisionTask(domain, workflowRun) {
   this.workflowRun = workflowRun;
+  this.domainName = domain;
   this.taskToken = awsCommon.genRequestId();
 
   // Can only populate the started id stuff once we've started.
@@ -24,6 +25,8 @@ function DecisionTask(workflowRun) {
   this.startedEventId = null;
 
   this.deciderIdentity = null;
+  this.completedEventId = null;
+
 
   // Add ourself to the history
   var scheduledEvent = workflowRun.addEvent('DecisionTaskScheduled', {
@@ -36,13 +39,15 @@ function DecisionTask(workflowRun) {
   this.eventList = [];
   // Snapshot the events up to this point
   for (var i = 0; i < workflowRun.eventHistory.length; i++) {
-    this.eventList.push(workflowRun.eventHistory[i].describe());
+    var event = workflowRun.eventHistory[i].describe();
+    console.log(`[DECISION ${this.taskToken}] added event ${JSON.stringify(event)}`);
+    this.eventList.push(event);
   }
 
   this.started = false;
 }
 /** Call when the task is fetched for a polling decider. */
-DecisionTask.prototype.start = function(deciderId) {
+DecisionTask.prototype.start = function start(deciderId) {
   if (!this.started) {
     this.started = true;
     // Add a started event
@@ -50,11 +55,31 @@ DecisionTask.prototype.start = function(deciderId) {
       identity: deciderId,
       scheduledEventId: this.scheduledEventId,
     });
+    // TODO see if this DecisionTaskStarted should go in this task or the
+    // next one.  I think it's this one.
+    var event = startedEvent.describe();
+    console.log(`[DECISION ${this.taskToken}] added event ${JSON.stringify(event)}`);
+    this.eventList.push(event);
+
     this.deciderIdentity = deciderId;
     this.previousStartedEventId = this.workflowRun.previousStartedEventId;
     this.startedEventId = startedEvent.id;
     this.workflowRun.previousStartedEventId = startedEvent.id;
+
+    // TODO create the timer for the decision task timed out event.
   }
+};
+DecisionTask.prototype.end = function end() {
+  if (!this.started) {
+    throw new Error('Not started yet');
+  }
+  var completedEvent = this.workflowRun.addEvent('DecisionTaskCompleted', {
+    executionContext: this.workflowRun.executionContext,
+    scheduledEventId: this.scheduledEventId,
+    startedEventId: this.startedEventId,
+  });
+  this.completedEventId = completedEvent.id;
+  return completedEvent.id;
 };
 /**
 * Called by the task list to find the decision task that matches the
@@ -78,15 +103,18 @@ DecisionTask.prototype.pageEvents = function pageEvents(
   ret.startedEventId = this.taskToken;
   ret.taskToken = this.taskToken;
   ret.workflowExecution = {
-    runId: this.workflowExecution.runId,
-    workflowId: this.workflowExecution.workflowId,
+    runId: this.workflowRun.runId,
+    workflowId: this.workflowRun.workflowId,
   };
   ret.workflowType = {
-    name: this.workflowExecution.workflowType.name,
-    version: this.workflowExecution.workflowType.version,
+    name: this.workflowRun.workflowType.name,
+    version: this.workflowRun.workflowType.version,
   };
   // Augment the page token to reference this specific decision event
-  ret.nextPageToken = this.taskToken + '^' + ret.nextPageToken;
+  if (!!ret.nextPageToken) {
+    ret.nextPageToken = this.taskToken + '^' + ret.nextPageToken;
+  }
+  console.log(`[DECISION ${this.taskToken}] returning paged events ${JSON.stringify(ret)}`);
   return [
     // Is last?
     !ret.nextPageToken,

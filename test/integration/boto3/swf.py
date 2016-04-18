@@ -290,6 +290,7 @@ class Boto3SwfTestCase(unittest.TestCase):
             workflowExecutionRetentionPeriodInDays='1'
         )
         new_workflow_type_name = uuid.uuid4().urn
+        task_list_name = new_workflow_type_name.replace(':', '_')
         swf.register_workflow_type(
             domain=new_domain_name,
             name=new_workflow_type_name,
@@ -297,7 +298,7 @@ class Boto3SwfTestCase(unittest.TestCase):
             description='workflow type ' + new_workflow_type_name,
             defaultTaskStartToCloseTimeout='1000',
             defaultExecutionStartToCloseTimeout='2000',
-            defaultTaskList={'name': 'task_list'},
+            defaultTaskList={'name': task_list_name},
             defaultTaskPriority='-2',
             defaultChildPolicy='TERMINATE',
             defaultLambdaRole='lambda-role')
@@ -495,8 +496,7 @@ class Boto3SwfTestCase(unittest.TestCase):
         swf.register_domain(
             name=domain_name,
             description='domain for ' + domain_name,
-            workflowExecutionRetentionPeriodInDays='1'
-        )
+            workflowExecutionRetentionPeriodInDays='1')
         workflow_type_name = uuid.uuid4().urn
         task_list_name = workflow_type_name.replace(':', '_')
         swf.register_workflow_type(
@@ -535,9 +535,8 @@ class Boto3SwfTestCase(unittest.TestCase):
                         },
                         identity='test_PollForDecisionTask_terminated',
                         reverseOrder=True):
-                    if ('events' in page and 'workflowType' in page and page['workflowType'] == workflow_type_name):
-                        for events in page['events']:
-                            results.extend(events)
+                    if ('events' in page and 'workflowType' in page and page['workflowType']['name'] == workflow_type_name):
+                        results.extend(page['events'])
                 q.put([True, results])
             except:
                 q.put([False, sys.exc_info()[1]])
@@ -565,6 +564,15 @@ class Boto3SwfTestCase(unittest.TestCase):
 
         # FIXME check result in more detail
 
+
+
+
+class QTestCase(unittest.TestCase):
+
+
+
+    def test_QuickCheck(self):
+        pass
 
 
 if __name__ == '__main__':
