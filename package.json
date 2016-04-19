@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./bin/www",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
     "jscs": "jscs admin api bin/www lib app.js",
     "jshint": "jshint",
     "pretest": "jscs admin api bin/www lib app.js && jshint admin api bin/www lib app.js",

@@ -1,5 +1,9 @@
 'use strict';
 
+
+// DEPRECTATED
+
+
 const Q = require('q');
 const awsCommon = require('../../lib/aws-common');
 const testParse = require('../../lib/test-parse');
@@ -463,9 +467,7 @@ WorkflowRun.prototype.cancel = function cancel(decisionTaskCompletedEventId, det
   // Record the history event.
   this.addEvent('WorkflowExecutionCanceled', {
     details: details,
-    cause: cause,
-    reason: reason,
-    childPolicy: childPolicy,
+    decisionTaskCompletedEventId: decisionTaskCompletedEventId,
   });
 
   if (!!this.parent) {
@@ -569,7 +571,7 @@ WorkflowRun.prototype.fail = function fail(decisionTaskCompletedEventId, reason,
     // Send a message to the parent that the child died.
     var initiatedEventId = ((!!this.startChildWorkflowEvent) ? this.startChildWorkflowEvent.id : null);
     var startedEventId = ((!!this.childWorkflowExecutionStartedEvent) ? this.childWorkflowExecutionStartedEvent.id : null);
-    this.parent.addEvent('ChildWorkflowExecutionCompleted', {
+    this.parent.addEvent('ChildWorkflowExecutionFailed', {
       initiatedEventId: initiatedEventId,
       startedEventId: startedEventId,
       workflowExecution: {
@@ -580,7 +582,8 @@ WorkflowRun.prototype.fail = function fail(decisionTaskCompletedEventId, reason,
         name: this.workflowType.name,
         version: this.workflowType.version,
       },
-      result: result,
+      details: details,
+      reason: reason,
     });
     this.parent.removeChild(this);
   }
@@ -590,7 +593,7 @@ WorkflowRun.prototype.fail = function fail(decisionTaskCompletedEventId, reason,
 WorkflowRun.prototype.requestCancel = function requestCancel() {
   // FIXME implement
 };
-WOrkflowRun.prototype.signal = function signal(signalName, input) {
+WorkflowRun.prototype.signal = function signal(signalName, input) {
   // FIXME implement
 };
 WorkflowRun.prototype.removeChild = function removeChild(childRun) {

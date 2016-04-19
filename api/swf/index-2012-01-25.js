@@ -4,6 +4,7 @@ const awsCommon = require('../../lib/aws-common');
 const workflowDef = require('./workflow');
 const textParse = require('../../lib/test-parse');
 const tasklist = require('./tasklist.js');
+const createDomain = require('./domain');
 
 /**
  * Amazon Simple Workflow Service version 2012-01-25
@@ -32,20 +33,11 @@ module.exports.RegisterDomain = function RegisterDomain(aws) {
     return [400, 'Sender', 'DomainAlreadyExistsFault', 'Domain already registered: ' + name];
   }
 
-  domainWorkflows[name] = {
+  domainWorkflows[name] = createDomain({
     name: name,
     description: description,
-    workflowExecutionRetentionPeriodInDays:
-      workflowExecutionRetentionPeriodInDays,
-    status: 'REGISTERED',
-    workflowTypes: [],
-    activityTypes: [],
-    workflowRuns: [],
-
-    // Queues to listen to
-    activityTaskLists: {},
-    decisionsTaskLists: {},
-  };
+    workflowExecutionRetentionPeriodInDays: workflowExecutionRetentionPeriodInDays,
+  });
 
   var ret = {};
   return [200, ret];
@@ -64,11 +56,7 @@ module.exports.ListDomains = function ListDomains(aws) {
     if (domainWorkflows.hasOwnProperty(p)) {
       var domain = domainWorkflows[p];
       if (registrationStatus === domain.status) {
-        domains.push({
-          name: domain.name,
-          description: domain.description,
-          status: domain.status,
-        });
+        domains.push(domain.summary());
       }
     }
   }
@@ -89,17 +77,7 @@ module.exports.DescribeDomain = function DescribeDomain(aws) {
     return [400, 'Sender', 'UnknownResourceFault', 'No such domain ' + name];
   }
   var domain = domainWorkflows[name];
-
-  var ret = {
-    configuration: {
-      workflowExecutionRetentionPeriodInDays: domain.workflowExecutionRetentionPeriodInDays,
-    },
-    domainInfo: {
-      status: domain.status,
-      description: domain.description,
-      name: name,
-    },
-  };
+  var ret = domain.describe();
   return [200, ret];
 };
 
@@ -130,30 +108,39 @@ module.exports.RegisterWorkflowType = function RegisterWorkflowType(aws) {
   if (!domainWorkflows[domain]) {
     return [400, 'Sender', 'UnknownResourceFault', 'No such domain ' + domain];
   }
-  if (!!getWorkflowType(domain, name, version)) {
-    return [400, 'Sender', 'TypeAlreadyExistsFault', 'Workflow type already exists ' + name + ' version ' + version];
-  }
-  if (!!defaultTaskList && !isValidTaskListName(defaultTaskList.name)) {
-    console.log('Invalid default task list name [' + defaultTaskList.name +
-      ']: ' + (!!defaultTaskList) + ' && ' +
-      (!isValidTaskListName(defaultTaskList.name)) + ' = ' +
-      (!!defaultTaskList && !isValidTaskListName(defaultTaskList.name)));
-    return [400, 'Sender',
-      'InvalidParameterValue',
-      'Invalid task list name ' + defaultTaskList.name,
-    ];
+  if (!!defaultTaskList) {
+    if (!defaultTaskList.name || !defaultTaskList.version) {
+      return [400, 'Sender',
+        'InvalidParameterValue',
+        'Task list name and version not given',
+      ];
+    }
+    if (!isValidTaskListName(defaultTaskList.name)) {
+      // DEBUG console.log('Invalid default task list name [' + defaultTaskList.name +
+      //  ']: ' + (!!defaultTaskList) + ' && ' +
+      //  (!isValidTaskListName(defaultTaskList.name)) + ' = ' +
+      //  (!!defaultTaskList && !isValidTaskListName(defaultTaskList.name)));
+      return [400, 'Sender',
+        'InvalidParameterValue',
+        'Invalid task list name ' + defaultTaskList.name,
+      ];
+    }
   }
 
-  var workflowType = workflowDef.createWorkflowType(name, version, domain);
-  workflowType.description = description;
-  workflowType.configuration.defaultChildPolicy = defaultChildPolicy;
-  workflowType.configuration.defaultTaskStartToCloseTimeout = defaultTaskStartToCloseTimeout;
-  workflowType.configuration.defaultExecutionStartToCloseTimeout = defaultExecutionStartToCloseTimeout;
-  workflowType.configuration.defaultLambdaRole = defaultLambdaRole;
-  workflowType.configuration.defaultTaskList = defaultTaskList;
-  workflowType.configuration.defaultTaskPriority = defaultTaskPriority;
-  workflowType.configuration.defaultTaskStartToCloseTimeout = defaultTaskStartToCloseTimeout;
-  domainWorkflows[domain].workflowTypes.push(workflowType);
+  var workflowType = workflowDef.createWorkflowType({
+    name: name,
+    version: version,
+    description: description,
+    defaultChildPolicy: defaultChildPolicy,
+    defaultTaskStartToCloseTimeout: defaultTaskStartToCloseTimeout,
+    defaultExecutionStartToCloseTimeout: defaultExecutionStartToCloseTimeout,
+    defaultLambdaRole: defaultLambdaRole,
+    defaultTaskList: defaultTaskList,
+    defaultTaskPriority: defaultTaskPriority,
+  });
+  if (!workflowType) {
+    return [400, 'Sender', 'TypeAlreadyExistsFault', 'Workflow type already exists ' + name + ' version ' + version];
+  }
 
   var ret = {};
   return [200, ret];
@@ -190,14 +177,16 @@ module.exports.DescribeWorkflowType = function DescribeWorkflowType(aws) {
     return [400, 'Sender', 'UnknownResourceFault', 'No such domain ' + domain];
   }
 
-  var workflow = getWorkflowType(
-    domain, workflowType.name, workflowType.version);
+  var workflow = domainWorkflows[domain].getWorkflowType({
+    name: workflowType.name,
+    version: workflowType.version,
+  });
   if (!!workflow) {
     return [200, workflow.describe()];
   }
   return [400, 'Sender', 'UnknownResourceFault',
-    'unknown workflow type ' +
-    workflowType.name + ' version ' + workflowType.version,];
+    `unknown workflow type '${workflowType.name}' version '${workflowType.version}'`,
+  ];
 };
 module.exports.ListWorkflowTypes = function ListWorkflowTypes(aws) {
   var maximumPageSize = aws.params.maximumPageSize /* Integer */;
@@ -217,22 +206,9 @@ module.exports.ListWorkflowTypes = function ListWorkflowTypes(aws) {
     return [400, 'Sender', 'UnknownResourceFault', 'No such domain ' + domain];
   }
 
-  var infos = [];
-  for (var i = 0; i < domainWorkflows[domain].workflowTypes.length; i++) {
-    var workflowType = domainWorkflows[domain].workflowTypes[i];
-    if (workflowType.status === registrationStatus) {
-      infos.push({
-        status: workflowType.status,
-        workflowType: /*Sr*/{
-          version: workflowType.version,
-          name: workflowType.name,
-        },
-        creationDate: '' + workflowType.creationDate,
-        description: workflowType.description,
-        deprecationDate: (!workflowType.deprecationDate ? null : ('' + workflowType.deprecationDate)),
-      });
-    }
-  }
+  var infos = domainWorkflows[domain].listWorkflowTypeInfos(function(wt) {
+    return wt.status === registrationStatus;
+  });
 
   return [200, awsCommon.pageResults({
     resultList: infos,
@@ -266,26 +242,24 @@ module.exports.RegisterActivityType = function RegisterActivityType(aws) {
   if (!domainWorkflows[domain]) {
     return [400, 'Sender', 'UnknownResourceFault', 'No such domain ' + domain];
   }
-  for (var i = 0; i < domainWorkflows[domain].activityTypes.length; i++) {
-    if (domainWorkflows[domain].activityTypes[i].matches(name, version)) {
-      return [400, 'Sender', 'TypeAlreadyExistsFault', 'Workflow type already exists ' + name + ' version ' + version];
-    }
+
+  var activityType = domainWorkflows[domain].registerActivityType({
+    name: name,
+    version: version,
+    description: description,
+    defaultTaskScheduleToStartTimeout: defaultTaskScheduleToStartTimeout,
+    defaultTaskScheduleToCloseTimeout: defaultTaskScheduleToCloseTimeout,
+    defaultTaskStartToCloseTimeout: defaultTaskStartToCloseTimeout,
+    defaultTaskHeartbeatTimeout: defaultTaskHeartbeatTimeout,
+    defaultTaskList: defaultTaskList,
+    defaultTaskPriority: defaultTaskPriority,
+  });
+  if (!activityType) {
+    return [400, 'Sender',
+      'TypeAlreadyExistsFault',
+      `activity type already exists ${name} ${version}`,
+    ];
   }
-
-  var activityType = workflowDef.createActivityType(name, version);
-  activityType.description = description;
-
-  activityType.configuration.defaultTaskScheduleToStartTimeout =
-    defaultTaskScheduleToStartTimeout;
-  activityType.configuration.defaultTaskScheduleToCloseTimeout =
-    defaultTaskScheduleToCloseTimeout;
-  activityType.configuration.defaultTaskStartToCloseTimeout =
-    defaultTaskStartToCloseTimeout;
-  activityType.configuration.defaultTaskHeartbeatTimeout =
-    defaultTaskHeartbeatTimeout;
-  activityType.configuration.defaultTaskList = defaultTaskList;
-  activityType.configuration.defaultTaskPriority = defaultTaskPriority;
-  domainWorkflows[domain].activityTypes.push(activityType);
 
   var ret = {};
   return [200, ret];
@@ -308,13 +282,15 @@ module.exports.DescribeActivityType = function DescribeActivityType(aws) {
   if (!domainWorkflows[domain]) {
     return [400, 'Sender', 'UnknownResourceFault', 'No such domain ' + domain];
   }
-  for (var i = 0; i < domainWorkflows[domain].activityTypes.length; i++) {
-    if (domainWorkflows[domain].activityTypes[i].matches(activityType.name, activityType.version)) {
-      return [200, domainWorkflows[domain].activityTypes[i].describe()];
-    }
+  var activityTypeObj = domainWorkflows[domain].getActivityType({
+    name: activityType.name,
+    version: activityType.version,
+  });
+  if (!activityTypeObj) {
+    return [400, 'Sender', 'UnknownResourceFault', 'Unknown activity type  ' +
+      activityType.name + ' version ' + activityType.version,];
   }
-  return [400, 'Sender', 'UnknownResourceFault', 'Unknown activity type  ' +
-    activityType.name + ' version ' + activityType.version,];
+  return [200, activityTypeObj.describe()];
 };
 module.exports.ListActivityTypes = function ListActivityTypes(aws) {
   var maximumPageSize = aws.params.maximumPageSize /* Integer */;
@@ -334,22 +310,9 @@ module.exports.ListActivityTypes = function ListActivityTypes(aws) {
     return [400, 'Sender', 'UnknownResourceFault', 'No such domain ' + domain];
   }
 
-  var infos = [];
-  for (var i = 0; i < domainWorkflows[domain].activityTypes.length; i++) {
-    var activityType = domainWorkflows[domain].activityTypes[i];
-    if (activityType.status === registrationStatus) {
-      infos.push({
-        status: activityType.status,
-        deprecationDate: (!activityType.deprecationDate ? null : ('' + activityType.deprecationDate)),
-        activityType: {
-          version: activityType.version,
-          name: activityType.name,
-        },
-        description: activityType.description,
-        creationDate: '' + activityType.creationDate,
-      });
-    }
-  }
+  var infos = domainWorkflows[domain].listActivityTypeInfos(function(activityType) {
+    return activityType.status === registrationStatus;
+  });
 
   return [200, awsCommon.pageResults({
     reverseOrder: reverseOrder,
@@ -385,14 +348,15 @@ module.exports.DescribeWorkflowExecution = function DescribeWorkflowExecution(aw
     return [400, 'Sender', 'UnknownResourceFault', 'No such domain ' + domain];
   }
 
-  for (var i = 0; i < domainWorkflows[domain].workflowRuns.length; i++) {
-    var wrun = domainWorkflows[domain].workflowRuns[i];
-    if (wrun.matches(execution.workflowId, execution.runId)) {
-      return [200, wrun.describe()];
-    }
+  var wrun = domainWorkflows[domain].getWorkflowRun({
+    runId: execution.runId,
+    workflowId: execution.workflowId,
+  });
+  if (!wrun) {
+    return [400, 'Sender', 'UnknownResourceFault',
+     `unknown workflow execution ${execution.workflowId} run ${execution.runId}`,];
   }
-  return [400, 'Sender', 'UnknownResourceFault', 'unknown workflow execution ' +
-    execution.workflowId + ' run ' + execution.runId,];
+  return [200, wrun.describe()];
 };
 module.exports.GetWorkflowExecutionHistory = function GetWorkflowExecutionHistory(aws) {
   var maximumPageSize = aws.params.maximumPageSize /* Integer */;
@@ -417,21 +381,22 @@ module.exports.GetWorkflowExecutionHistory = function GetWorkflowExecutionHistor
     return [400, 'Sender', 'UnknownResourceFault', 'No such domain ' + domain];
   }
 
-  for (var i = 0; i < domainWorkflows[domain].workflowRuns.length; i++) {
-    var wrun = domainWorkflows[domain].workflowRuns[i];
-    if (wrun.matches(execution.workflowId, execution.runId)) {
-      var events = wrun.describeEvents();
-      return [200, awsCommon.pageResults({
-        reverseOrder: reverseOrder,
-        maximumPageSize: maximumPageSize,
-        nextPageToken: nextPageToken,
-        key: 'events',
-        resultList: events,
-      }),];
-    }
+  var wrun = domainWorkflows[domain].getWorkflowRun({
+    runId: execution.runId,
+    workflowId: execution.workflowId,
+  });
+  if (!wrun) {
+    return [400, 'Sender', 'UnknownResourceFault',
+     `unknown workflow execution ${execution.workflowId} run ${execution.runId}`,];
   }
-  return [400, 'Sender', 'UnknownResourceFault', 'unknown workflow execution ' +
-    execution.workflowId + ' run ' + execution.runId,];
+  var events = wrun.describeEvents();
+  return [200, awsCommon.pageResults({
+    reverseOrder: reverseOrder,
+    maximumPageSize: maximumPageSize,
+    nextPageToken: nextPageToken,
+    key: 'events',
+    resultList: events,
+  }),];
 };
 module.exports.ListOpenWorkflowExecutions = function ListOpenWorkflowExecutions(aws) {
   var maximumPageSize = aws.params.maximumPageSize /* Integer */;
@@ -454,13 +419,11 @@ module.exports.ListOpenWorkflowExecutions = function ListOpenWorkflowExecutions(
   }
 
   var infos = [];
-  var wrun;
-  for (var i = 0; i < domainWorkflows[domain].workflowRuns.length; i++) {
-    wrun = domainWorkflows[domain].workflowRuns[i];
+  domainWorkflows[domain].forEachWorkflowRun(function(wrun) {
     if (!wrun.isClosed() && wrun.matchesFilter(aws.params)) {
-      infos.push(wrun.describe().executionInfo);
+      infos.push(wrun.summary());
     }
-  }
+  });
 
   return [200, awsCommon.pageResults({
     reverseOrder: reverseOrder,
@@ -490,13 +453,11 @@ module.exports.ListClosedWorkflowExecutions = function ListClosedWorkflowExecuti
   }
 
   var infos = [];
-  var wrun;
-  for (var i = 0; i < domainWorkflows[domain].workflowRuns.length; i++) {
-    wrun = domainWorkflows[domain].workflowRuns[i];
+  domainWorkflows[domain].forEachWorkflowRun(function(wrun) {
     if (wrun.isClosed() && wrun.matchesFilter(aws.params)) {
-      infos.push(wrun.describe().executionInfo);
+      infos.push(wrun.summary());
     }
-  }
+  });
 
   return [200, awsCommon.pageResults({
     reverseOrder: reverseOrder,
@@ -522,14 +483,12 @@ module.exports.CountClosedWorkflowExecutions = function CountClosedWorkflowExecu
     return [400, 'Sender', 'UnknownResourceFault', 'No such domain ' + domain];
   }
 
-  var wrun;
   var count = 0;
-  for (var i = 0; i < domainWorkflows[domain].workflowRuns.length; i++) {
-    wrun = domainWorkflows[domain].workflowRuns[i];
+  domainWorkflows[domain].forEachWorkflowRun(function(wrun) {
     if (wrun.isClosed() && wrun.matchesFilter(aws.params)) {
       count++;
     }
-  }
+  });
 
   var ret = {
     count: count,
@@ -550,14 +509,12 @@ module.exports.CountOpenWorkflowExecutions = function CountOpenWorkflowExecution
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter startTimeFilter'];
   }
 
-  var wrun;
   var count = 0;
-  for (var i = 0; i < domainWorkflows[domain].workflowRuns.length; i++) {
-    wrun = domainWorkflows[domain].workflowRuns[i];
+  domainWorkflows[domain].forEachWorkflowRun(function(wrun) {
     if (!wrun.isClosed() && wrun.matchesFilter(aws.params)) {
       count++;
     }
-  }
+  });
 
   var ret = {
     count: count,
@@ -582,14 +539,14 @@ module.exports.CountPendingDecisionTasks = function CountPendingDecisionTasks(aw
     return [400, 'Sender', 'UnknownResourceFault', 'No such domain ' + domain];
   }
 
-
-  if (!!domainWorkflows[domain].decisionsTaskLists[taskList.name]) {
-    return [200, {
-      count: domainWorkflows[domain].decisionsTaskLists[taskList.name].countLiveMessages(),
-      truncated: false,
-    },];
+  var dTaskList = domainWorkflows[domain].getDecisionTaskList(taskList);
+  if (!dTaskList) {
+    return [200, {count: 0, truncated: false}];
   }
-  return [200, {count: 0, truncated: false}];
+  return [200, {
+    count: dTaskList.countLiveMessages(),
+    truncated: false,
+  },];
 };
 module.exports.CountPendingActivityTasks = function CountPendingActivityTasks(aws) {
   var domain = aws.params.domain;
@@ -608,14 +565,14 @@ module.exports.CountPendingActivityTasks = function CountPendingActivityTasks(aw
     return [400, 'Sender', 'UnknownResourceFault', 'No such domain ' + domain];
   }
 
-  if (!!domainWorkflows[domain].activityTaskLists[taskList.name]) {
-    return [200, {
-      count: domainWorkflows[domain].activityTaskLists[taskList.name].
-        countLiveMessages(),
-      truncated: false,
-    },];
+  var aTaskList = domainWorkflows[domain].getActivityTaskList(taskList);
+  if (!aTaskList) {
+    return [200, {count: 0, truncated: false}];
   }
-  return [200, {count: 0, truncated: false}];
+  return [200, {
+    count: aTaskList.countLiveMessages(),
+    truncated: false,
+  },];
 };
 
 
@@ -655,38 +612,41 @@ module.exports.StartWorkflowExecution = function StartWorkflowExecution(aws) {
     return [400, 'Sender', 'InvalidParameterValue', 'Invalid task list name ' + taskList.name];
   }
 
+  // TODO validate tag list count and values
+
   if (!domainWorkflows[domain]) {
     return [400, 'Sender', 'UnknownResourceFault', 'No such domain ' + domain];
   }
 
-  var wtype = getWorkflowType(domain, workflowType.name, workflowType.version);
+  var wtype = domainWorkflows[domain].getWorkflowType(workflowType);
   if (!wtype) {
-    return [400, 'Sender', 'UnknownResourceFault', 'Invalid workflow type ' +
-      workflowType.name + ' version ' + workflowType.version,];
+    return [400, 'Sender', 'UnknownResourceFault',
+      `Invalid workflow type ${workflowType.name} ${workflowType.version}`,];
   }
 
   // Ensure we don't have an existing open workflow with the same id
-  for (var i = 0; i < domainWorkflows[domain].workflowRuns.length; i++) {
-    if (!domainWorkflows[domain].workflowRuns[i].isClosed() &&
-        domainWorkflows[domain].workflowRuns[i].workflowId === workflowId) {
-      return [400, 'Sender', 'WorkflowExecutionAlreadyStartedFault',
-        'Workflow id ' + workflowId + ' is already running',];
-    }
+  if (domainWorkflows[domain].hasOpenWorkflowRunId(workflowId)) {
+    return [400, 'Sender', 'WorkflowExecutionAlreadyStartedFault',
+      `Workflow id ${workflowId} is already running`,];
   }
 
-  var run = wtype.createRun(workflowId);
+  var run = wtype.createRun({
+    workflowId: workflowId,
+    tagList: tagList,
+    input: input,
 
-  // Set the actual values for the parameters; the passed-in parameters
-  // override the default values.
-  // If any parameter is not specified (no default, and not passed in),
-  // it generates a DefaultUndefinedFault error.
-  run.overrideDefault('lambdaRole', lambdaRole);
-  run.overrideDefault('executionStartToCloseTimeout', executionStartToCloseTimeout);
-  run.overrideDefault('tagList', tagList);
-  run.overrideDefault('taskStartToCloseTimeout', taskStartToCloseTimeout);
-  run.overrideDefault('taskPriority', taskPriority);
-  run.overrideDefault('taskList', taskList);
-  run.overrideDefault('childPolicy', childPolicy);
+    // Set the actual values for the parameters; the passed-in parameters
+    // override the default values.
+    // If any parameter is not specified (no default, and not passed in),
+    // it generates a DefaultUndefinedFault error.
+
+    lambdaRole: lambdaRole,
+    executionStartToCloseTimeout: executionStartToCloseTimeout,
+    taskStartToCloseTimeout: taskStartToCloseTimeout,
+    taskPriority: taskPriority,
+    childPolicy: childPolicy,
+    taskList: taskList,
+  });
 
   var missingDefault = run.getMissingDefault();
   if (!!missingDefault) {
@@ -914,7 +874,7 @@ module.exports.RespondDecisionTaskCompleted = function RespondDecisionTaskComple
         let taskStartToCloseTimeout = attrs.taskStartToCloseTimeout;
         let workflowTypeVersion = attrs.workflowTypeVersion;
         // FIXME implement
-        return [500, 'Server', 'ServerFailure', 'Not Implemented']
+        return [500, 'Server', 'ServerFailure', 'Not Implemented'];
         // ` break;
       }
       case 'FailWorkflowExecution': {

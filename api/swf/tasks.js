@@ -46,6 +46,7 @@ function DecisionTask(domain, workflowRun) {
 
   this.started = false;
 }
+module.exports.DecisionTask = DecisionTask;
 /** Call when the task is fetched for a polling decider. */
 DecisionTask.prototype.start = function start(deciderId) {
   if (!this.started) {
@@ -123,5 +124,3 @@ DecisionTask.prototype.pageEvents = function pageEvents(
     ret,
   ];
 };
-
-module.exports.DecisionTask = DecisionTask;

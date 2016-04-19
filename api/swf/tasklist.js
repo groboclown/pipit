@@ -6,7 +6,6 @@ const util = require('util');
 const Q = require('q');
 const tasks = require('./tasks');
 
-
 /**
  * The inbox of sorts used for polling and pushing
  * swf events.
@@ -20,31 +19,34 @@ BaseTaskList.prototype.size = function size() {
   return this.inbox.countLiveMessages();
 };
 
+module.exports.createDecider = function createDecider(domain, name) {
+  return new Decider(domain, name);
+};
 
-module.exports.Decider = function(domain, name) {
-  module.exports.Decider.super_.call(this, domain, name);
+function Decider(domain, name) {
+  Decider.super_.call(this, domain, name);
 
   // All workflow runs with pending deciders
   this._pendingRuns = [];
 
   console.log(`[DECIDER ${name}] starting`);
-};
-util.inherits(module.exports.Decider, BaseTaskList);
+}
+util.inherits(Decider, BaseTaskList);
 
 /**
  * Returns the decision task for this run.
  */
-module.exports.Decider.prototype.addWorkflowRun = function addWorkflowRun(run) {
+Decider.prototype.addWorkflowRun = function addWorkflowRun(run) {
   this._pendingRuns.push(run);
 };
-module.exports.Decider.prototype.addDecisionTaskFor = function addDecisionTaskFor(run) {
+Decider.prototype.addDecisionTaskFor = function addDecisionTaskFor(run) {
   var task = new tasks.DecisionTask(this.domain, run);
   // The task will not be "open" until a decider receives the task message.
   console.log(`[DECIDER ${this.name}] added task to inbox: decision task for run ${run.workflowId}`);
   this.inbox.push(task, 0, 100);
   return task;
 };
-module.exports.Decider.prototype.removeWorkflowRun = function removeWorkflowRun(run) {
+Decider.prototype.removeWorkflowRun = function removeWorkflowRun(run) {
   for (var i = 0; i < this._pendingRuns.length; i++) {
     if (this._pendingRuns[i] === run) {
       this._pendingRuns.splice(i, 1);
@@ -55,7 +57,7 @@ module.exports.Decider.prototype.removeWorkflowRun = function removeWorkflowRun(
 };
 
 /** Returns a promise, or null if a pull w/ an invalid next page token. */
-module.exports.Decider.prototype.pull = function pull(deciderId, nextPageToken, maximumPageSize, reverseOrder) {
+Decider.prototype.pull = function pull(deciderId, nextPageToken, maximumPageSize, reverseOrder) {
   if (!!nextPageToken) {
     console.log('Request w/ page token ' + nextPageToken);
 
@@ -126,8 +128,11 @@ module.exports.Decider.prototype.pull = function pull(deciderId, nextPageToken, 
     });
 };
 
-
-module.exports.Activty = function(domain, name) {
-  module.exports.Activty.super_.call(this, domain, name);
+module.exports.createActivity = function createActivity(domain, name) {
+  return new Activity(domain, name);
 };
-util.inherits(module.exports.Activty, BaseTaskList);
+
+function Activity(domain, name) {
+  Activity.super_.call(this, domain, name);
+}
+util.inherits(Activity, BaseTaskList);
