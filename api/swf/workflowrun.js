@@ -106,12 +106,12 @@ function WorkflowRun(p) {
 
   // Expire the workflow run after a certain period of time.
   var t = this;
-  setTimeout(
-    function() {
-      t.__timeOut();
-    },
-    // AWS timeout property is in seconds, setTimeout is in ms.
-    this.executionConfiguration.executionStartToCloseTimeout * 1000);
+  Q.timeout(
+    // AWS timeout property is in seconds, timeout is in ms.
+    this.executionConfiguration.executionStartToCloseTimeout * 1000
+  ).then(function() {
+    t.__timeOut();
+  });
 }
 WorkflowRun.prototype.getMissingDefault = function getMissingDefault() {
   var defaultParams = [

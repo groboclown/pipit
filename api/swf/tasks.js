@@ -3,6 +3,7 @@
 const commonInbox = require('../../lib/inbox');
 const awsCommon = require('../../lib/aws-common');
 const util = require('util');
+const Q = require('q');
 
 
 /*
@@ -94,11 +95,12 @@ DecisionTask.prototype.start = function start(p) {
 
     // Create the timer for the decision task timed out event.
     var t = this;
-    setTimeout(function() {
+    Q.timeout(
+      // AWS timeout property is in seconds, timeout is in ms.
+      t.workflowRun.executionConfiguration.taskStartToCloseTimeout * 1000
+    ).then(function() {
       t.__timeout();
-    },
-    // AWS timeout property is in seconds, setTimeout is in ms.
-    t.workflowRun.executionConfiguration.taskStartToCloseTimeout * 1000);
+    });
   }
 };
 
