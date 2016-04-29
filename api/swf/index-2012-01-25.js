@@ -1,7 +1,6 @@
 'use strict';
 
 const awsCommon = require('../../lib/aws-common');
-const workflowDef = require('./workflow');
 const textParse = require('../../lib/test-parse');
 const tasklist = require('./tasklist.js');
 const createDomain = require('./domain');
@@ -12,6 +11,14 @@ const createDomain = require('./domain');
 
 // Setup input and output to use AWS protocol json
 require('../../lib/aws-common/shape_http')('json', module.exports, null);
+
+/*
+ * NOTE
+ * This file should contain as little logic as possible.  It should only
+ * verify the input values, then call out to the specific data objects
+ * or other functions.
+ */
+
 
 // ------------------------------------------------------------------------
 // Domain API
@@ -109,10 +116,10 @@ module.exports.RegisterWorkflowType = function RegisterWorkflowType(aws) {
     return [400, 'Sender', 'UnknownResourceFault', 'No such domain ' + domain];
   }
   if (!!defaultTaskList) {
-    if (!defaultTaskList.name || !defaultTaskList.version) {
+    if (!defaultTaskList.name) {
       return [400, 'Sender',
         'InvalidParameterValue',
-        'Task list name and version not given',
+        'Task list name not given',
       ];
     }
     if (!isValidTaskListName(defaultTaskList.name)) {
@@ -127,7 +134,7 @@ module.exports.RegisterWorkflowType = function RegisterWorkflowType(aws) {
     }
   }
 
-  var workflowType = workflowDef.createWorkflowType({
+  var workflowType = domainWorkflows[domain].registerWorkflowType({
     name: name,
     version: version,
     description: description,
@@ -509,6 +516,10 @@ module.exports.CountOpenWorkflowExecutions = function CountOpenWorkflowExecution
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter startTimeFilter'];
   }
 
+  if (!domainWorkflows[domain]) {
+    return [400, 'Sender', 'UnknownResourceFault', 'No such domain ' + domain];
+  }
+
   var count = 0;
   domainWorkflows[domain].forEachWorkflowRun(function(wrun) {
     if (!wrun.isClosed() && wrun.matchesFilter(aws.params)) {
@@ -575,8 +586,6 @@ module.exports.CountPendingActivityTasks = function CountPendingActivityTasks(aw
   },];
 };
 
-
-
 // -----------------------------------------------------------------------------
 // Workflow Execution Controls
 
@@ -625,7 +634,7 @@ module.exports.StartWorkflowExecution = function StartWorkflowExecution(aws) {
   }
 
   // Ensure we don't have an existing open workflow with the same id
-  if (domainWorkflows[domain].hasOpenWorkflowRunId(workflowId)) {
+  if (domainWorkflows[domain].hasOpenWorkflowId(workflowId)) {
     return [400, 'Sender', 'WorkflowExecutionAlreadyStartedFault',
       `Workflow id ${workflowId} is already running`,];
   }
@@ -650,17 +659,12 @@ module.exports.StartWorkflowExecution = function StartWorkflowExecution(aws) {
 
   var missingDefault = run.getMissingDefault();
   if (!!missingDefault) {
+    // Don't let a timeout happen.
+    run.runState = 100;
     return [400, 'Sender', 'DefaultUndefinedFault', 'Missing parameter ' + missingDefault,];
   }
 
-  // Other creation-time settings, loaded from
-  run.executionContext = input;
-  run.tagList = tagList;
-
-  var tlist = getDecisionTaskList(domain, run.executionConfiguration.taskList.name);
-  run.start(tlist);
-  domainWorkflows[domain].workflowRuns.push(run);
-  run.completeTask('StartWorkflowExecution');
+  domainWorkflows[domain].startWorkflowExecution({ workflow: run });
 
   var ret = { runId: run.runId };
   return [200, ret];
@@ -687,7 +691,10 @@ module.exports.TerminateWorkflowExecution = function TerminateWorkflowExecution(
     return [400, 'Sender', 'UnknownResourceFault', 'No such domain ' + domain];
   }
 
-  var workflowRun = getWorkflowRun(domain, workflowId, runId);
+  var workflowRun = domainWorkflows[domain].getWorkflowRun({
+    workflowId: workflowId,
+    runId: runId,
+  });
   if (!workflowRun) {
     return [400, 'Sender', 'UnknownResourceFault', 'unknown workflow ' + workflowId];
   }
@@ -695,9 +702,14 @@ module.exports.TerminateWorkflowExecution = function TerminateWorkflowExecution(
     return [400, 'Sender', 'OperationNotPermittedFault', 'workflow already closed'];
   }
 
-  workflowRun.terminate(reason, details, childPolicy, null);
-  workflowRun.completeTask('TerminateWorkflowExecution');
-
+  // Do not directly call the workflowRun's terminate.  Use the domain's
+  // instead.
+  domainWorkflows[domain].terminateWorkflowRun({
+    workflow: workflowRun,
+    reason: reason,
+    details: details,
+    childPolicy: childPolicy,
+  });
   var ret = {};
   return [200, ret];
 };
@@ -716,7 +728,10 @@ module.exports.RequestCancelWorkflowExecution = function RequestCancelWorkflowEx
     return [400, 'Sender', 'UnknownResourceFault', 'No such domain ' + domain];
   }
 
-  var workflowRun = getWorkflowRun(domain, workflowId, runId);
+  var workflowRun = domainWorkflows[domain].getWorkflowRun({
+    workflowId: workflowId,
+    runId: runId,
+  });
   if (!workflowRun) {
     return [400, 'Sender', 'UnknownResourceFault', 'unknown workflow ' + workflowId];
   }
@@ -724,17 +739,18 @@ module.exports.RequestCancelWorkflowExecution = function RequestCancelWorkflowEx
     return [400, 'Sender', 'OperationNotPermittedFault', 'workflow already closed'];
   }
 
-  workflowRun.requestCancel();
-  workflowRun.completeTask('RequestCancelWorkflowExecution');
+  // Do not call the workflow's request cancel directly.
+  // Instead, go through the domain's.
+  domainWorkflows[domain].requestWorkflowRunCancel({
+    workflow: workflowRun,
+  });
 
   var ret = {};
   return [200, ret];
 };
 
-
 // ----------------------------------------------------------------------------------------
 // Decision tasks
-
 
 
 module.exports.PollForDecisionTask = function PollForDecisionTask(aws) {
@@ -758,19 +774,26 @@ module.exports.PollForDecisionTask = function PollForDecisionTask(aws) {
     return [400, 'Sender', 'UnknownResourceFault', 'No such domain ' + domain];
   }
 
-  // Really should check if it exists in domainWorkflows[domain].decisionsTaskLists[taskList]
-  // UnknownResourceFault
-  var tlist = getDecisionTaskList(domain, taskList.name);
+  // Really should check if the task list exists, rather than just creating it
+  // (returns UnknownResourceFault error); however, there can be a use case
+  // for polling on a yet-to-be-created workflow.
 
-  console.log('polling on ' + taskList.name + '; ' + tlist.size() + ' pending messages');
-  return tlist.pull(identity, nextPageToken, maximumPageSize, reverseOrder)
-    .then(function t1(val) {
-      if (!val) {
-        return [400, 'UnknownResourceFault', 'no such page token ' + nextPageToken];
-      }
-      return [200, val];
-    });
+  console.log('polling on ' + taskList.name);
+  return domainWorkflows[domain].pollForDecisionTask({
+    taskList: { name: taskList.name },
+    deciderId: identity,
+    nextPageToken: nextPageToken,
+    maximumPageSize: maximumPageSize,
+    reverseOrder: reverseOrder,
+  }).then(function t1(val) {
+    if (!val) {
+      return [400, 'UnknownResourceFault', 'no such page token ' + nextPageToken];
+    }
+    return [200, val];
+  });
 };
+
+
 module.exports.RespondDecisionTaskCompleted = function RespondDecisionTaskCompleted(aws) {
   var decisions = aws.params.decisions; // List
   var taskToken = aws.params.taskToken;
@@ -780,300 +803,49 @@ module.exports.RespondDecisionTaskCompleted = function RespondDecisionTaskComple
   }
 
   // The domain, workflow run, and everything else is dictated by the taskToken.
-  var decisionTask = getDecisionTaskByToken(taskToken);
+  var domainDecisionTask = getDecisionTaskByToken(taskToken);
 
-  if (!decisionTask) {
+  if (!domainDecisionTask) {
     return [400, 'UnknownResourceFault', `no such task token ${taskToken}`];
   }
 
-  var workflowRun = decisionTask.workflowRuns;
-  if (!executionContext) {
-    workflowRun.executionContext = executionContext;
-  }
-
-  // Close off the decision task and create the end decision task event for
-  // the events generated by the decision.
-  var decisionTaskCompletedEventId = decisionTask.end();
-
+  // Ensure the decision tasks have the decision type value and the
+  // corresponding attribute key.
+  // However, this isn't an in-depth check.  Just a quick check.
   for (var i = 0; i < decisions.length; i++) {
     var decision = decisions[i];
     if (!decision.decisionType) {
       return [400, 'Sender', 'MissingParameter', `decisions[${i}].decisionType`];
     }
-    switch (decision.decisionType) {
-      // .....................................................................
-      case 'CancelTimer': {
-        let attrs = decision.cancelTimerDecisionAttributes;
-        if (!attrs) {
-          return [400, 'Sender', 'MissingParameter', `decisions[${i}].cancelTimerDecisionAttributes`];
-        }
-        let timerId = attrs.timerId;
-        if (!timerId) {
-          return [400, 'Sender', 'MissingParameter', `decisions[${i}].cancelTimerDecisionAttributes.timerId`];
-        }
-        let timer = workflowRun.getTimer(timerId);
-        if (!timer) {
-          workflowRun.addEvent('CancelTimerFailed', {
-            cause: 'TIMER_ID_UNKNOWN',
-            decisionTaskCompletedEventId: decisionTaskCompletedEventId,
-            timerId: timerId,
-          });
-          break;
-        }
-        timer.cancel(decisionTaskCompletedEventId);
-        workflowRun.deleteTimer(timerId);
-        break;
-      }
-      // .....................................................................
-      case 'CancelWorkflowExecution': {
-        let attrs = decision.cancelWorkflowExecutionDecisionAttributes;
-        if (!attrs) {
-          return [400, 'Sender', 'MissingParameter', `decisions[${i}].cancelWorkflowExecutionDecisionAttributes`];
-        }
-        let details = attrs.details;
-        if (workflowRun.openDecisionTasks.length > 0) {
-          workflowRun.addEvent('CancelWorkflowExecutionFailed', {
-            cause: 'UNHANDLED_DECISION',
-            decisionTaskCompletedEventId: decisionTaskCompletedEventId,
-          });
-          break;
-        }
-        workflowRun.cancel(decisionTaskCompletedEventId, details);
-        // FIXME implement
-        break;
-      }
-      // .....................................................................
-      case 'CompleteWorkflowExecution': {
-        let attrs = decision.completeWorkflowExecutionDecisionAttributes;
-        if (!attrs) {
-          return [400, 'Sender', 'MissingParameter', `decisions[${i}].completeWorkflowExecutionDecisionAttributes`];
-        }
-        let result = attrs.result;
-        if (workflowRun.openDecisionTasks.length > 0) {
-          workflowRun.addEvent('CompleteWorkflowExecutionFailed', {
-            cause: 'UNHANDLED_DECISION',
-            decisionTaskCompletedEventId: decisionTaskCompletedEventId,
-          });
-          break;
-        }
-        workflowRun.complete(decisionTaskCompletedEventId, result);
-        break;
-      }
-      case 'ContinueAsNewWorkflowExecution': {
-        let attrs = decision.continueAsNewWorkflowExecutionDecisionAttributes;
-        if (!attrs) {
-          return [400, 'Sender', 'MissingParameter', `decisions[${i}].continueAsNewWorkflowExecutionDecisionAttributes`];
-        }
-        let childPolicy = attrs.childPolicy;
-        let executionStartToCloseTimeout = attrs.executionStartToCloseTimeout;
-        let input = attrs.input;
-        let lambdaRole = attrs.lambdaRole;
-        let tagList = attrs.tagList;
-        let taskList = { name: attrs.taskList.name };
-        let taskPriority = attrs.taskPriority;
-        let taskStartToCloseTimeout = attrs.taskStartToCloseTimeout;
-        let workflowTypeVersion = attrs.workflowTypeVersion;
-        // FIXME implement
-        return [500, 'Server', 'ServerFailure', 'Not Implemented'];
-        // ` break;
-      }
-      case 'FailWorkflowExecution': {
-        let attrs = decision.failWorkflowExecutionDecisionAttributes;
-        if (!attrs) {
-          return [400, 'Sender', 'MissingParameter', `decisions[${i}].failWorkflowExecutionDecisionAttributes`];
-        }
-        let details = attrs.details;
-        let reason = attrs.reason;
-        if (workflowRun.openDecisionTasks.length > 0) {
-          workflowRun.addEvent('FailWorkflowExecutionFailed', {
-            cause: 'UNHANDLED_DECISION',
-            decisionTaskCompletedEventId: decisionTaskCompletedEventId,
-          });
-          break;
-        }
-        workflowRun.fail(decisionTaskCompletedEventId, reason, details);
-        break;
-      }
-      case 'RecordMarker': {
-        let attrs = decision.recordMarkerDecisionAttributes;
-        if (!attrs) {
-          return [400, 'Sender', 'MissingParameter', `decisions[${i}].recordMarkerDecisionAttributes`];
-        }
-        let details = attrs.details;
-        let markerName = attrs.markerName;
-        if (!markerName) {
-          return [400, 'Sender', 'MissingParameter', `decisions[${i}].recordMarkerDecisionAttributes.markerName`];
-        }
-        // Add the event;
-        workflowRun.addEvent('MarkerRecorded', {
-          markerName: markerName,
-          decisionTaskCompletedEventId: decisionTaskCompletedEventId,
-          details: details,
-        });
-        break;
-      }
-      case 'RequestCancelActivityTask': {
-        let attrs = decision.requestCancelActivityTaskDecisionAttributes;
-        if (!attrs) {
-          return [400, 'Sender', 'MissingParameter', `decisions[${i}].requestCancelActivityTaskDecisionAttributes`];
-        }
-        let activityId = decision.activityId;
-        workflowRun.requestCancel();
-        // TODO anything more to implement?
-        break;
-      }
-      case 'RequestCancelExternalWorkflowExecution': {
-        let attrs = decision.requestCancelExternalWorkflowExecutionDecisionAttributes;
-        if (!attrs) {
-          return [400, 'Sender', 'MissingParameter', `decisions[${i}].requestCancelExternalWorkflowExecutionDecisionAttributes`];
-        }
-        let control = attrs.control;
-        let runId = attrs.runId;
-        let workflowId = attrs.workflowId;
-        let extWorkflow = getWorkflowRun(decisionTask.domain, workflowId, runId);
-        if (!extWorkflow || extWorkflow.isClosed()) {
-          workflowRun.addEvent('RequestCancelExternalWorkflowExecutionFailed', {
-            cause: 'UNKNOWN_EXTERNAL_WORKFLOW_EXECUTION',
-            control: control,
-            decisionTaskCompletedEventId: decisionTaskCompletedEventId,
-            initiatedEventId: null, // No generated event
-            runId: runId,
-            workflowId: workflowId,
-          });
-          break;
-        }
-        extWorkflow.requestCancel();
-        workflowRun.addEvent('RequestCancelExternalWorkflowExecutionInitiated', {
-          control: control,
-          decisionTaskCompletedEventId: decisionTaskCompletedEventId,
-          runId: extWorkflow.runId,
-          workflowId: extWorkflow.workflowId,
-        });
-        break;
-      }
-      case 'ScheduleActivityTask': {
-        let attrs = decision.scheduleActivityTaskDecisionAttributes;
-        if (!attrs) {
-          return [400, 'Sender', 'MissingParameter', `decisions[${i}].scheduleActivityTaskDecisionAttributes`];
-        }
-        let activityId = attrs.activityId;
-        let activityTypeName = attrs.activityType.name;
-        let activityTypeVersion = attrs.activityType.version;
-        let control = attrs.control;
-        let input = attrs.input;
-        let scheduleToCloseTimeout = attrs.scheduleToCloseTimeout;
-        let scheduleToStartTimeout = attrs.scheduleToStartTimeout;
-        let startToCloseTimeout = attrs.startToCloseTimeout;
-        let taskListName = attrs.taskList.name;
-        let taskPriority = attrs.taskPriority;
-        // FIXME implement
-        break;
-      }
-      case 'ScheduleLambdaFunction': {
-        let attrs = decision.scheduleLambdaFunctionDecisionAttributes;
-        if (!attrs) {
-          return [400, 'Sender', 'MissingParameter', `decisions[${i}].scheduleLambdaFunctionDecisionAttributes`];
-        }
-        let id = attrs.id;
-        let input = attrs.input;
-        let name = attrs.name;
-        let startToCloseTimeout = attrs.startToCloseTimeout;
-        // FIXME implement
-        break;
-      }
-      case 'SignalExternalWorkflowExecution': {
-        let attrs = decision.signalExternalWorkflowExecutionDecisionAttributes;
-        if (!attrs) {
-          return [400, 'Sender', 'MissingParameter', `decisions[${i}].signalExternalWorkflowExecutionDecisionAttributes`];
-        }
-        let control = attrs.control;
-        let input = attrs.input;
-        let runId = attrs.runId;
-        let signalName = attrs.signalName;
-        if (!signalName) {
-          return [400, 'Sender', 'MissingParameter', `decisions[${i}].signalExternalWorkflowExecutionDecisionAttributes.signalName`];
-        }
-        let workflowId = attrs.workflowId;
-        if (!workflowId) {
-          return [400, 'Sender', 'MissingParameter', `decisions[${i}].signalExternalWorkflowExecutionDecisionAttributes.workflowId`];
-        }
-        let extWorkflow = getWorkflowRun(decisionTask.domain, workflowId, runId);
-        if (!extWorkflow || extWorkflow.isClosed()) {
-          workflowRun.addEvent('SignalExternalWorkflowExecutionFailed', {
-            cause: 'UNKNOWN_EXTERNAL_WORKFLOW_EXECUTION',
-            control: control,
-            decisionTaskCompletedEventId: decisionTaskCompletedEventId,
-            initiatedEventId: null, // No generated event
-            runId: runId,
-            workflowId: workflowId,
-          });
-          break;
-        }
-        extWorkflow.signal(signalName, input);
-        workflowRun.addEvent('SignalExternalWorkflowExecutionInitiated', {
-          control: control,
-          input: input,
-          decisionTaskCompletedEventId: decisionTaskCompletedEventId,
-          runId: runId,
-          signalName: signalName,
-          workflowId: workflowId,
-        });
-        break;
-      }
-      case 'StartChildWorkflowExecution': {
-        let attrs = decision.startChildWorkflowExecutionDecisionAttributes;
-        if (!attrs) {
-          return [400, 'Sender', 'MissingParameter', `decisions[${i}].startChildWorkflowExecutionDecisionAttributes`];
-        }
-        // FIXME implement
-        break;
-      }
-      case 'StartTimer': {
-        let attrs = decision.startTimerDecisionAttributes;
-        if (!attrs) {
-          return [400, 'Sender', 'MissingParameter', `decisions[${i}].startTimerDecisionAttributes`];
-        }
-        let control = attrs.control;
-        let startToFireTimeout = attrs.startToFireTimeout;
-        if (startToFireTimeout === null || startToFireTimeout === undefined || startToFireTimeout < 0) {
-          return [400, 'Sender', 'MissingParameter', `decisions[${i}].startTimerDecisionAttributes.startToFireTimeout`];
-        }
-        let timerId = attrs.timerId;
-        if (!timerId) {
-          return [400, 'Sender', 'MissingParameter', `decisions[${i}].startTimerDecisionAttributes.timerId`];
-        }
-        let timer = workflowRun.getTimer(timerId);
-        if (!!timer) {
-          workflowRun.addEvent('StartTimerFailed', {
-            cause: `TIMER_ID_ALREADY_IN_USE`,
-            // Other possibilities: OPEN_TIMERS_LIMIT_EXCEEDED, TIMER_CREATION_RATE_EXCEEDED
-            decisionTaskCompletedEventId: decisionTaskCompletedEventId,
-            timerId: timerId,
-          });
-          break;
-        }
-
-        // Handles events by itself
-        workflowRun.createTimer({
-          timerId: timerId,
-          startToFireTimeout: startToFireTimeout,
-          control: control,
-          decisionTaskCompletedEventId: decisionTaskCompletedEventId,
-        });
-        return null;
-      }
-      default: {
-        return [400, 'Sender', 'InvalidParameterValue', 'decisionType'];
-      }
+    var key = decision.decisionType;
+    key = key[0].toLowerCase() + key.substr(1) + 'DecisionAttributes';
+    if (!decision[key]) {
+      return [400, 'Sender', 'MissingParameter', `decisions[${i}].${key}`];
     }
   }
 
-  workflowRun.completeTask('RespondDecisionTaskCompleted');
+  var domainObj = domainDecisionTask[0];
+  var decisionTask = domainDecisionTask[1];
+
+  var results = domainObj.completeDecisionTask({
+    decisionTask: decisionTask,
+    decisions: decisions,
+    executionContext: executionContext,
+  });
+
+  if (!!results) {
+    return results;
+  }
+
   // Return an empty set due to no error.
   var ret = {};
   return [200, ret];
 };
 
+
+
+// =============================================================================
+// FIXME all below here needs to be re-written
 
 
 
@@ -1111,60 +883,14 @@ function isValidTaskListName(name) {
   );
 }
 
-function getWorkflowType(domain, name, version) {
-  for (var i = 0; i < domainWorkflows[domain].workflowTypes.length; i++) {
-    if (domainWorkflows[domain].workflowTypes[i].matches(name, version)) {
-      return domainWorkflows[domain].workflowTypes[i];
-    }
-  }
-  return null;
-}
 
-function getDecisionTaskList(domain, name) {
-  if (!domainWorkflows[domain].decisionsTaskLists[name]) {
-    domainWorkflows[domain].decisionsTaskLists[name] = new tasklist.Decider(domain, name);
-  }
-  return domainWorkflows[domain].decisionsTaskLists[name];
-}
-
-function getActivityTaskList(domain, name) {
-  if (!domainWorkflows[domain].activityTaskLists[name]) {
-    domainWorkflows[domain].activityTaskLists[name] = new tasklist.Activity(domain, name);
-  }
-  return domainWorkflows[domain].activityTaskLists[name];
-}
-
-function getWorkflowRun(domain, workflowId, runId) {
-  if (!domainWorkflows[domain]) {
-    return null;
-  }
-
-  for (var i = 0; i < domainWorkflows[domain].workflowRuns.length; i++) {
-    var wrun = domainWorkflows[domain].workflowRuns[i];
-    if (!!runId && !!workflowId && wrun.matches(workflowId, runId)) {
-      return wrun;
-    }
-    if (!workflowId && wrun.runId === runId) {
-      return wrun;
-    }
-    if (!runId && wrun.workflowId === workflowId) {
-      return wrun;
-    }
-  }
-  return null;
-}
 
 function getDecisionTaskByToken(taskToken) {
   for (var domain in domainWorkflows) {
     if (domainWorkflows.hasOwnProperty(domain)) {
-      for (var i = 0; i < domainWorkflows[domain].workflowRuns.length; i++) {
-        // TODO make this a function in WorkflowRun
-        var dtList = domainWorkflows[domain].workflowRuns[i].openDecisionTasks;
-        for (var j = 0; j < dtList.length; j++) {
-          if (dtList[j].taskToken === taskToken) {
-            return dtList[j];
-          }
-        }
+      var task = domainWorkflows[domain].getDecisionTaskByToken(taskToken);
+      if (!!task) {
+        return [domainWorkflows[domain], task];
       }
     }
   }

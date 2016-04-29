@@ -22,19 +22,36 @@ const RUN_STATE_TERMINATED = 13;
 const RUN_STATE_CONTINUED_AS_NEW = 14;
 const RUN_STATE_TIMED_OUT = 15;
 
-var WorkflowRun = function(p) {
+/**
+ * @constructor
+ * @param {Object} p - parameters
+ * @param {WorkflowType} p.workflowType
+ * @param {string} p.workflowId
+ * @param {function} p.outOfBandEventFunc
+ * @param {string} [p.lambdaRole]
+ * @param {string} [p.taskStartToCloseTimeout]
+ * @param {string} [p.executionStartToCloseTimeout]
+ * @param {string} [p.taskPriority]
+ * @param {string} [p.childPolicy]
+ * @param {Object} [p.taskList]
+ * @param {string} [p.taskList.name]
+ * @param {string[]} [p.tagList]
+ * @param {string} [p.input]
+ */
+function WorkflowRun(p) {
   this.workflowType = p.workflowType;
   this.workflowId = p.workflowId;
+  this.outOfBandEventFunc = p.outOfBandEventFunc;
   this.runId = awsCommon.genRequestId();
-  var taskListName = (!p.workflowType.configuration.defaultTaskList ? null : p.workflowType.configuration.defaultTaskList.name);
-  this.taskList = { name: taskListName };
   this.executionConfiguration = {
     lambdaRole: p.lambdaRole || p.workflowType.configuration.defaultLambdaRole,
-    taskStartToCloseTimeout: p.taskStartToCloseTimeout || p.workflowType.configuration.defaultTaskStartToCloseTimeout,
     executionStartToCloseTimeout: p.executionStartToCloseTimeout || p.workflowType.configuration.defaultExecutionStartToCloseTimeout,
     taskPriority: p.taskPriority || p.workflowType.configuration.defaultTaskPriority,
     childPolicy: p.childPolicy || p.workflowType.configuration.defaultChildPolicy,
     taskList: null,
+
+    // Decision task start to close timeout, not activity task.
+    taskStartToCloseTimeout: p.taskStartToCloseTimeout || p.workflowType.configuration.defaultTaskStartToCloseTimeout,
   };
   if (!!p.taskList && !!p.taskList.name) {
     this.executionConfiguration.taskList = { name: p.taskList.name };
@@ -47,30 +64,55 @@ var WorkflowRun = function(p) {
   // Creation-time settings
   this.tagList = p.tagList || [];
   this.executionContext = p.input || '';
-  this.parent = null;
-  this.startChildWorkflowEvent = null;
-  this.childWorkflowExecutionStartedEvent = null;
 
+  // Parent workflow's run ID
+  this.parentRunId = null;
+  this.parentWorkflowId = null;
+
+  // StartChildWorkflowExecutionInitiated event
+  this.childInitiatedEvent = null;
+
+  // ChildWorkflowExecutionStarted event
+  this.childStartedEvent = null;
+
+  // Remove the decision task when a response handles it.
+  // TODO ensure this is removed at the right time.
   this.openDecisionTasks = [];
+
+  // Remove a timer when it is cancelled or fired.
   this.openTimers = [];
+
+  // Remove the lambda when it finishes (however that is)
+  // TODO ensure this is removed at the right time.
   this.openLambdaFunctions = [];
+
+  // Remove the activity when it finishes (however that is)
+  // TODO ensure this is removed at the right time.
   this.openActivityTasks = [];
-  this.openChildWorkflowExecutions = [];
+
+  // These are only cleaned up when explicitly told to clean them
+  // up.  This means that the list can contain both open and closed
+  // workflows.
+  this.childWorkflowExecutions = [];
+
+  // Never cleaned up
   this.eventHistory = [];
+
   this.startTimestamp = awsCommon.timestamp();
   this.closeTimestamp = null;
   this.runState = RUN_STATE_RUNNING;
   this.latestActivityTaskTimestamp = awsCommon.timestamp();
   this.previousStartedEventId = null;
-  this.result = null;
 
-  this.nextEventId = 0;
-
-  // Data used to manage when a decision task should be added to the
-  // queue.
-  this._pendingDecisionEvents = [];
-  this._taskList = null;
-};
+  // Expire the workflow run after a certain period of time.
+  var t = this;
+  setTimeout(
+    function() {
+      t.__timeOut();
+    },
+    // AWS timeout property is in seconds, setTimeout is in ms.
+    this.executionConfiguration.executionStartToCloseTimeout * 1000);
+}
 WorkflowRun.prototype.getMissingDefault = function getMissingDefault() {
   var defaultParams = [
     'lambdaRole',
@@ -95,9 +137,9 @@ WorkflowRun.prototype.overrideDefault = function overrideDefault(key, value) {
 WorkflowRun.prototype.summary = function summary() {
   return {
     closeStatus: this.getCloseStatus(),
-    parent: this.parent === null ? null : {
-      workflowId: this.parent.workflowId,
-      runId: this.parent.runId,
+    parent: this.parentRunId === null ? null : {
+      workflowId: this.parentWorkflowId,
+      runId: this.parentRunId,
     },
     startTimestamp: '' + this.startTimestamp,
     cancelRequested: this.runState === RUN_STATE_CANCEL_REQUESTED,
@@ -122,7 +164,7 @@ WorkflowRun.prototype.describe = function describe() {
       openTimers: this.openTimers.length,
       openLambdaFunctions: this.openLambdaFunctions.length,
       openActivityTasks: this.openActivityTasks.length,
-      openChildWorkflowExecutions: this.openChildWorkflowExecutions.length,
+      childWorkflowExecutions: this.getOpenChildWorkflowExecutions().length,
     },
     executionInfo: this.summary(),
     latestActivityTaskTimestamp: '' + this.latestActivityTaskTimestamp,
@@ -150,13 +192,32 @@ WorkflowRun.prototype.getCloseStatus = function getCloseStatus() {
       return 'TIMED_OUT';
     }
     default: {
+      // ` console.log(`Illegal workflow run state ${this.runState}`);
       return null;
     }
   }
 };
+WorkflowRun.prototype.getOpenChildWorkflowExecutions = function getOpenChildWorkflowExecutions() {
+  // Take the time to clean out closed workflows
+  var open = [];
+  var child;
+  for (var i = 0; i < this.childWorkflowExecutions.length; i++) {
+    child = this.childWorkflowExecutions[i];
+    if (!child.isClosed()) {
+      open.push(child);
+    }
+  }
+  this.childWorkflowExecutions = open;
+  return open;
+};
 WorkflowRun.prototype.matches = function matches(workflowId, runId) {
-  // Note: runId is optional
-  return this.workflowId === workflowId && (!runId || this.runId === runId);
+  // Note: both runId and workflowId are optional, but at least one
+  // must be set.
+  return (
+    (!!workflowId || !!runId) &&
+    (!!workflowId || this.workflowId === workflowId) &&
+    (!runId || this.runId === runId)
+  );
 };
 WorkflowRun.prototype.describeEvents = function describeEvents() {
   var events = [];
@@ -228,302 +289,870 @@ WorkflowRun.prototype.matchesFilter = function matchesFilter(filterMap) {
 
   return otherFilterPass && timeFilterPass;
 };
+
+
 /**
-* Call after initializing the workflow execution in order to
-* add the history and start timers.
-* It is up to the caller to add the decision task to the inbox.
-*/
-WorkflowRun.prototype.start = function start(taskList) {
-  // Assign the task list first, so that addEvent can work its magic.
-  this._taskList = taskList;
-  this._taskList.addWorkflowRun(this);
+ * @param {Object} p - parameters
+ * @param {WorkflowRun} p.childWorkflow - child workflow to add.
+ * @param {WorkflowEvent} p.childInitiatedEvent - event from the parent
+ *   (this workflow) decision that requests the execution of the child
+ *   workflow.
+ * @param {WorkflowEvent} p.childStartedEvent - event that
+ *   indicates that the child workflow was created.
+ */
+WorkflowRun.prototype.addChild = function addChild(p) {
+  var childWorkflow = p.childWorkflow;
+  var childStartedEvent = p.childStartedEvent;
+  var childInitiatedEvent = p.childInitiatedEvent;
 
-  // Create the workflow start event.
-  this.addEvent('WorkflowExecutionStarted', {
-    taskList: { name: this.executionConfiguration.taskList.name },
-    // This is initiated explicitly as a first workflow, so no parent.
-    parentInitiatedEventId: 0,
-    taskStartToCloseTimeout: '' + (this.executionConfiguration.taskStartToCloseTimeout),
-    childPolicy: this.executionConfiguration.childPolicy,
-    executionStartToCloseTimeout: '' + (this.executionConfiguration.executionStartToCloseTimeout),
-    input: this.executionContext,
-    workflowType: {
-      version: this.workflowType.version,
-      name: this.workflowType.name,
-    },
-    tagList: this.tagList,
-  });
+  childWorkflow.childStartedEvent = childStartedEvent;
+  childWorkflow.childInitiatedEvent = childInitiatedEvent;
+  childWorkflow.parentRunId = this.runId;
+  childWorkflow.parentWorkflowId = this.workflowId;
 
-  if (!!this.parent) {
-    this.childWorkflowExecutionStartedEvent = this.parent.addEvent('ChildWorkflowExecutionStarted', {
-      workflowExecution: {
-        runId: this.runId,
-        workflowId: this.workflowId,
-      },
-      workflowType: {
-        version: this.workflowType.version,
-        name: this.workflowType.name,
-      },
-      initiatedEventId: this.startChildWorkflowEvent.id,
-    });
-  }
+  this.childWorkflowExecutions.push(childWorkflow);
+};
 
-  // Expire the workflow run after a certain period of time.
-  var t = this;
-  setTimeout(
-    function() {
-      t.timeOut();
-    },
-    // AWS timeout property is in seconds, setTimeout is in ms.
-    this.executionConfiguration.executionStartToCloseTimeout * 1000);
-};
-WorkflowRun.prototype.timeOut = function timeOut() {
-  // FIXME check if the workflow has actually completed or not before
-  // marking it as timed out.
-  // FIXME complete
-};
-WorkflowRun.prototype.addEvent = function addEvent(name, details) {
-  var id = this.nextEventId;
-  this.nextEventId++;
-  var event = new WorkflowEvent(id, name, details);
-  console.log(`[WORKFLOW ${this.workflowId}] add event ${name} / ${id}`);
-  this.eventHistory.push(event);
-  this._pendingDecisionEvents.push(event);
-  return event;
-};
-WorkflowRun.prototype.completeTask = function completeTask(name) {
-  if (!this.isClosed() && isDecisionTaskReady(name, this._pendingDecisionEvents)) {
-    this._pendingDecisionEvents = [];
-    return this._taskList.addDecisionTaskFor(this);
+
+WorkflowRun.prototype.getDecisionTaskByToken = function getDecisionTaskByToken(taskToken) {
+  for (var j = 0; j < this.openDecisionTasks.length; j++) {
+    var task = this.openDecisionTasks[j];
+    if (task.isOpen() && task.taskToken === taskToken) {
+      return task;
+    }
   }
   return null;
 };
-WorkflowRun.prototype.terminate = function terminate(reason, details, requestedChildPolicy, cause) {
-  var i;
-  var cwRun;
+
+
+// ---------------------------------------------------------------------------
+// Event Processing
+
+
+/**
+ * An in-band request to terminate a process.
+ *
+ * @param {Object} p - parameters
+ * @param {string} p.reason - reaspon for the termination
+ * @param {string} [p.cause='OPERATOR_INITIATED'] - cause of the termination
+ * @param {string} p.details - details for the termination
+ * @param {string} [p.requestedChildPolicy] - requested child termination policy
+ * @return {Object[]} event objects created by this terminate event.
+ */
+WorkflowRun.prototype.terminate = function terminate(p) {
+  var reason = p.reason;
+  var details = p.details;
+  var childPolicy = p.requestedChildPolicy ||
+    this.executionConfiguration.childPolicy;
+  var cause = p.cause || 'OPERATOR_INITIATED';
 
   if (this.isClosed()) {
     // Don't change the actual state.
-    return;
-  }
-  var childPolicy = requestedChildPolicy || this.executionConfiguration.childPolicy;
-
-  // Set our state.
-  this.runState = RUN_STATE_TERMINATED;
-  this.closeTimestamp = awsCommon.timestamp();
-
-  // Deal with the children.
-  if (childPolicy === 'REQUEST_CANCEL') {
-    for (i = 0; i < this.openChildWorkflowExecutions.length; i++) {
-      cwRun = this.openChildWorkflowExecutions[i];
-      if (!cwRun.isClosed()) {
-        cwRun.requestCancel();
-      }
-    }
-  } else if (childPolicy === 'ABANDON') {
-    // Do nothing; they keep running
-  } else { // Default to 'TERMINATE'
-    for (i = 0; i < this.openChildWorkflowExecutions.length; i++) {
-      cwRun = this.openChildWorkflowExecutions[i];
-      if (!cwRun.isClosed()) {
-        cwRun.terminate(reason, details, requestedChildPolicy);
-      }
-    }
+    return [];
   }
 
-  // Clear out all open stuff
-  this.openDecisionTasks = [];
-  this.openTimers = [];
-  this.openLambdaFunctions = [];
-  this.openActivityTasks = [];
-  this.openChildWorkflowExecutions = [];
-
-  // Record the history event.
-  this.addEvent('WorkflowExecutionTerminated', {
-    details: details,
-    cause: cause,
-    reason: reason,
+  return this.__close({
+    closeState: RUN_STATE_TERMINATED,
     childPolicy: childPolicy,
-  });
-
-  if (!!this.parent) {
-    // Send a message to the parent that the child died.
-    var initiatedEventId = ((!!this.startChildWorkflowEvent) ? this.startChildWorkflowEvent.id : null);
-    var startedEventId = ((!!this.childWorkflowExecutionStartedEvent) ? this.childWorkflowExecutionStartedEvent.id : null);
-    this.parent.addEvent('ChildWorkflowExecutionTerminated', {
-      initiatedEventId: initiatedEventId,
-      startedEventId: startedEventId,
-      workflowExecution: {
-        runId: this.runId,
-        workflowId: this.workflowId,
+    closeEvent: {
+      name: 'WorkflowExecutionTerminated',
+      data: {
+        details: details,
+        cause: cause,
+        reason: reason,
+        childPolicy: childPolicy,
       },
+    },
+    parentEvent: {
+      name: 'ChildWorkflowExecutionTerminated',
+      data: {
+        // No extra values
+      },
+    },
+  });
+};
+
+
+/**
+ * An in-band request to generate a start workflow event.  There was no
+ * parent event that spawned this workflow.
+ */
+WorkflowRun.prototype.createWorkflowExecutionStartedEvent = function createWorkflowExecutionStartedEvent() {
+  return {
+    workflow: this,
+    name: 'WorkflowExecutionStarted',
+    data: {
+      taskList: { name: this.executionConfiguration.taskList.name },
+      // This is initiated explicitly as a first workflow, so no parent.
+      parentInitiatedEventId: 0,
+      taskStartToCloseTimeout: '' + (this.executionConfiguration.taskStartToCloseTimeout),
+      childPolicy: this.executionConfiguration.childPolicy,
+      executionStartToCloseTimeout: '' + (this.executionConfiguration.executionStartToCloseTimeout),
+      input: this.executionContext,
       workflowType: {
-        name: this.workflowType.name,
         version: this.workflowType.version,
+        name: this.workflowType.name,
+      },
+      tagList: this.tagList,
+    },
+  };
+};
+
+
+/**
+ * An in-band request to generate the request cancel events.
+ *
+ * @param {Object} p - parameters
+ * @param {boolean} [p.forChild=false] - request sent to the children workflows
+ * @param {WorkflowEvent} [p.externalInitiatedEvent] - if the request came from
+ *    another workflow, this is the
+ *    RequestCancelExternalWorkflowExecutionInitiated event from the calling
+ *    workflow.
+ * @param {WowkflowRun} [p.externalWorkflow] - workflow that generated the
+ *    RequestCancelExternalWorkflowExecutionInitiated event.
+ */
+WorkflowRun.prototype.createRequestCancelEvents = function createRequestCancelEvents(p) {
+  var cause = !!p.forChild ? 'CHILD_POLICY_APPLIED' : null;
+  var externalInitiatedEventId = (!!p.externalInitiatedEvent
+    ? p.externalInitiatedEvent.id
+    : null);
+  var externalWorkflowExecution = (!!p.externalWorkflow
+    ? {
+      runId: p.externalWorkflow.runId,
+      workflowId: p.externalWorkflow.workflowId,
+    }
+    : null);
+  return [{
+    name: 'WorkflowExecutionCancelRequested',
+    data: {
+      cause: cause,
+      externalInitiatedEventId: externalInitiatedEventId,
+      externalWorkflowExecution: externalWorkflowExecution,
+    },
+  },];
+};
+
+
+/**
+ * Handle a "decision" from the decider.  The decision object should already
+ * be checked to have the 'decisionType' key, and the corresponding decision
+ * attribute key, which follows a well established pattern (e.g.
+ * CancelTimer -> cancelTimerDecisionAttributes).
+ *
+ * @return {string|Object[]} string if an error, object list for the events.
+ */
+WorkflowRun.prototype.handleDecision = function handleDecision(p) {
+  var decision = p.decision;
+  var completedEvent = p.decisionTaskCompletedEvent;
+  var decisionTaskCompletedEventId = completedEvent.id;
+  var t = this;
+  switch (decision.decisionType) {
+    // .....................................................................
+    case 'CancelTimer': {
+      let attrs = decision.cancelTimerDecisionAttributes;
+      let timerId = attrs.timerId;
+      if (!timerId) {
+        return 'cancelTimerDecisionAttributes.timerId';
+      }
+      let timer = this.getTimer(timerId);
+      if (!timer) {
+        return [{
+          name: 'CancelTimerFailed',
+          data: {
+            cause: 'TIMER_ID_UNKNOWN',
+            decisionTaskCompletedEventId: decisionTaskCompletedEventId,
+            timerId: timerId,
+          },
+        },];
+      }
+      this.deleteTimer(timerId);
+      return [timer.cancel(decisionTaskCompletedEventId)];
+    }
+
+    // .....................................................................
+    case 'CancelWorkflowExecution': {
+      let attrs = decision.cancelWorkflowExecutionDecisionAttributes;
+      let details = attrs.details;
+      if (this.openDecisionTasks.length > 0) {
+        return [{
+          name: 'CancelWorkflowExecutionFailed',
+          data: {
+            cause: 'UNHANDLED_DECISION',
+            decisionTaskCompletedEventId: decisionTaskCompletedEventId,
+          },
+        },];
+      }
+      return this.__cancel({
+        decisionTaskCompletedEventId: decisionTaskCompletedEventId,
+        details: details,
+      });
+    }
+
+    // .....................................................................
+    case 'CompleteWorkflowExecution': {
+      let attrs = decision.completeWorkflowExecutionDecisionAttributes;
+      let result = attrs.result;
+      if (this.openDecisionTasks.length > 0) {
+        return [{
+          name: 'CompleteWorkflowExecutionFailed',
+          data: {
+            cause: 'UNHANDLED_DECISION',
+            decisionTaskCompletedEventId: decisionTaskCompletedEventId,
+          },
+        },];
+      }
+      return this.__complete({
+        decisionTaskCompletedEventId: decisionTaskCompletedEventId,
+        result: result,
+      });
+    }
+
+    // .....................................................................
+    case 'ContinueAsNewWorkflowExecution': {
+      let attrs = decision.continueAsNewWorkflowExecutionDecisionAttributes;
+      let childPolicy = attrs.childPolicy;
+      let executionStartToCloseTimeout = attrs.executionStartToCloseTimeout;
+      let input = attrs.input;
+      let lambdaRole = attrs.lambdaRole;
+      let tagList = attrs.tagList;
+      let taskList = { name: attrs.taskList.name };
+      let taskPriority = attrs.taskPriority;
+      let taskStartToCloseTimeout = attrs.taskStartToCloseTimeout;
+      let workflowTypeVersion = attrs.workflowTypeVersion;
+      // FIXME implement
+      return [{
+        ERROR: true,
+        result: [500, 'Server', 'ServerFailure', 'ContinueAsNewWorkflowExecution - Not Implemented'],
+      },];
+    }
+
+    // .....................................................................
+    case 'FailWorkflowExecution': {
+      let attrs = decision.failWorkflowExecutionDecisionAttributes;
+      let details = attrs.details;
+      let reason = attrs.reason;
+      if (this.openDecisionTasks.length > 0) {
+        return [{
+          name: 'FailWorkflowExecutionFailed',
+          data: {
+            cause: 'UNHANDLED_DECISION',
+            decisionTaskCompletedEventId: decisionTaskCompletedEventId,
+          },
+        },];
+      }
+      return this.__fail({
+        decisionTaskCompletedEventId: decisionTaskCompletedEventId,
+        reason: reason,
+        details: details,
+      });
+    }
+
+    // .....................................................................
+    case 'RecordMarker': {
+      let attrs = decision.recordMarkerDecisionAttributes;
+      let details = attrs.details;
+      let markerName = attrs.markerName;
+      if (!markerName) {
+        return 'recordMarkerDecisionAttributes.markerName';
+      }
+      return [{
+        name: 'MarkerRecorded',
+        data: {
+          markerName: markerName,
+          decisionTaskCompletedEventId: decisionTaskCompletedEventId,
+          details: details,
+        },
+      },];
+    }
+
+    // .....................................................................
+    case 'RequestCancelActivityTask': {
+      let attrs = decision.requestCancelActivityTaskDecisionAttributes;
+      let activityId = decision.activityId;
+
+      // FIXME Implement once activities are added.
+      return [{
+        ERROR: true,
+        result: [500, 'Server', 'ServerFailure', 'RequestCancelActivityTask not Implemented'],
+      },];
+    }
+
+    // .....................................................................
+    case 'RequestCancelExternalWorkflowExecution': {
+      let attrs = decision.requestCancelExternalWorkflowExecutionDecisionAttributes;
+      let control = attrs.control;
+      let runId = attrs.runId;
+      let workflowId = attrs.workflowId;
+
+      // This event causes an external event to signal.
+      // We need to process the external event signal
+      // after this event that declares the initiation of
+      // the event.  It's kind of convoluted, but it has
+      // an internal logic.  We handle this processing
+      // by taking advantage of the `postEventCreation`
+      // method.
+      return [{
+        name: 'RequestCancelExternalWorkflowExecutionInitiated',
+        data: {
+          control: control,
+          decisionTaskCompletedEventId: decisionTaskCompletedEventId,
+          runId: runId,
+          workflowId: workflowId,
+        },
+        postEventCreation: function postEventCreation(p) {
+          var sourceEvent = p.sourceEvent;
+          var getWorkflowRun = p.getWorkflowRun;
+          var extWorkflowRun = getWorkflowRun({
+            workflowId: workflowId,
+            runid: runId,
+          });
+          if (!extWorkflowRun || extWorkflowRun.isClosed()) {
+            return [{
+              workflow: t,
+              name: 'RequestCancelExternalWorkflowExecutionFailed',
+              data: {
+                cause: 'UNKNOWN_EXTERNAL_WORKFLOW_EXECUTION',
+                control: control,
+                decisionTaskCompletedEventId: decisionTaskCompletedEventId,
+                initiatedEventId: null, // No generated event
+                runId: runId,
+                workflowId: workflowId,
+              },
+            },];
+          }
+          return [{
+            workflow: extWorkflowRun,
+            name: 'WorkflowExecutionCancelRequested',
+            data: {
+              cause: null,
+              externalInitiatedEventId: sourceEvent.id,
+              externalWorkflowExecution: {
+                workflowId: t.workflowId,
+                runId: t.runid,
+              },
+            },
+          }, {
+            workflow: t,
+            name: 'ExternalWorkflowExecutionCancelRequested',
+            data: {
+              initiatedEventId: sourceEvent.id,
+              workflowExecution: {
+                workflowId: extWorkflowRun.workflowId,
+                runId: extWorkflowRun.runId,
+              },
+            },
+          },];
+        },
+      },];
+    }
+
+    // .....................................................................
+    case 'ScheduleActivityTask': {
+      let attrs = decision.scheduleActivityTaskDecisionAttributes;
+      let activityId = attrs.activityId;
+      let activityTypeName = attrs.activityType.name;
+      let activityTypeVersion = attrs.activityType.version;
+      let control = attrs.control;
+      let input = attrs.input;
+      let scheduleToCloseTimeout = attrs.scheduleToCloseTimeout;
+      let scheduleToStartTimeout = attrs.scheduleToStartTimeout;
+      let startToCloseTimeout = attrs.startToCloseTimeout;
+      let taskListName = attrs.taskList.name;
+      let taskPriority = attrs.taskPriority;
+
+      // FIXME Implement once activities are added.
+      return [{
+        ERROR: true,
+        result: [500, 'Server', 'ServerFailure', 'ScheduleActivityTask not Implemented'],
+      },];
+    }
+
+    // .....................................................................
+    case 'ScheduleLambdaFunction': {
+      let attrs = decision.scheduleLambdaFunctionDecisionAttributes;
+      let id = attrs.id;
+      let input = attrs.input;
+      let name = attrs.name;
+      let startToCloseTimeout = attrs.startToCloseTimeout;
+
+      // FIXME Implement once activities are added.
+      return [{
+        ERROR: true,
+        result: [500, 'Server', 'ServerFailure', 'ScheduleLambdaFunction not Implemented'],
+      },];
+    }
+
+    // .....................................................................
+    case 'SignalExternalWorkflowExecution': {
+      let attrs = decision.signalExternalWorkflowExecutionDecisionAttributes;
+      let control = attrs.control;
+      let input = attrs.input;
+      let runId = attrs.runId;
+      let signalName = attrs.signalName;
+      if (!signalName) {
+        return 'signalExternalWorkflowExecutionDecisionAttributes.signalName';
+      }
+      let workflowId = attrs.workflowId;
+      if (!workflowId) {
+        return 'signalExternalWorkflowExecutionDecisionAttributes.workflowId';
+      }
+
+      // Uses the workflow -> event -> workflow logic.
+      return [{
+        name: 'SignalExternalWorkflowExecutionInitiated',
+        data: {
+          control: control,
+          input: input,
+          decisionTaskCompletedEventId: decisionTaskCompletedEventId,
+          signalName: signalName,
+          workflowId: workflowId,
+          runId: runId,
+        },
+        postEventCreation: function postEventCreation(p) {
+          var sourceEvent = p.sourceEvent;
+          var getWorkflowRun = p.getWorkflowRun;
+          var extWorkflowRun = getWorkflowRun({
+            workflowId: workflowId,
+            runid: runId,
+          });
+          if (!extWorkflowRun || extWorkflowRun.isClosed()) {
+            return [{
+              workflow: t,
+              name: 'SignalExternalWorkflowExecutionFailed',
+              data: {
+                cause: 'UNKNOWN_EXTERNAL_WORKFLOW_EXECUTION',
+                control: control,
+                decisionTaskCompletedEventId: decisionTaskCompletedEventId,
+                initiatedEventId: sourceEvent.id,
+                runId: runId,
+                workflowId: workflowId,
+              },
+            },];
+          }
+          return [{
+            workflow: extWorkflowRun,
+            name: 'WorkflowExecutionSignaled',
+            data: {
+              signalName: signalName,
+              input: input,
+              externalInitiatedEventId: sourceEvent.id,
+              externalWorkflowExecution: {
+                workflowId: t.workflowId,
+                runId: t.runId,
+              },
+            },
+          }, {
+            workflow: t,
+            name: 'ExternalWorkflowExecutionSignaled',
+            data: {
+              initiatedEventId: sourceEvent.id,
+              workflowExecution: {
+                workflowId: extWorkflowRun.workflowId,
+                runId: extWorkflowRun.runId,
+              },
+            },
+          },];
+        },
+      },];
+    }
+
+    // ..............................
+    case 'StartChildWorkflowExecution': {
+      let attrs = decision.startChildWorkflowExecutionDecisionAttributes;
+      let childPolicy = attrs.childPolicy;
+      let control = attrs.control;
+      let executionStartToCloseTimeout = attrs.executionStartToCloseTimeout;
+      let input = attrs.input;
+      let lambdaRole = attrs.lambdaRole;
+      let tagList = attrs.tagList;
+      let taskList = attrs.taskList;
+      let taskPriority = attrs.taskPriority;
+      let taskStartToCloseTimeout = attrs.taskStartToCloseTimeout;
+      let workflowId = attrs.workflowId;
+      let workflowType = attrs.workflowType;
+
+      if (!workflowId) {
+        return 'startChildWorkflowExecutionDecisionAttributes.workflowId';
+      }
+      if (!workflowType || !workflowType.name || !workflowType.version) {
+        return 'startChildWorkflowExecutionDecisionAttributes.workflowType';
+      }
+
+      // Uses the workflow -> event -> workflow logic.
+      return [{
+        name: 'StartChildWorkflowExecutionInitiated',
+        data: {
+          decisionTaskCompletedEventId: decisionTaskCompletedEventId,
+          childPolicy: childPolicy || 'TERMINATE', // Just guess.
+          control: control,
+          input: input,
+          executionStartToCloseTimeout: executionStartToCloseTimeout,
+          lambdaRole: lambdaRole,
+          tagList: tagList,
+          taskList: taskList || { name: 'unknown' }, // Just a guess.
+          taskPriority: taskPriority,
+          taskStartToCloseTimeout: taskStartToCloseTimeout,
+          workflowId: workflowId,
+          workflowType: { name: workflowType.name, version: workflowType.version },
+        },
+        postEventCreation: function postEventCreation(p) {
+          var sourceEvent = p.sourceEvent;
+          var getWorkflowType = p.getWorkflowType;
+          var hasOpenWorkflowId = p.hasOpenWorkflowId;
+          var registerChildWorkflowRun = p.registerChildWorkflowRun;
+          var err = null;
+          var workflowTypeObj = getWorkflowType(workflowType);
+          var workflowRunObj = null;
+          if (!workflowTypeObj) {
+            err = 'WORKFLOW_TYPE_DOES_NOT_EXIST';
+          } else if (workflowTypeObj.isDeprecated()) {
+            err = 'WORKFLOW_TYPE_DEPRECATED';
+          } else if (hasOpenWorkflowId(workflowId)) {
+            err = 'WORKFLOW_ALREADY_RUNNING';
+          } else {
+            // FIXME include task list checking
+            workflowRunObj = workflowTypeObj.createRun({
+              workflowId: workflowId,
+              tagList: tagList,
+              input: input,
+              lambdaRole: lambdaRole,
+              executionStartToCloseTimeout: executionStartToCloseTimeout,
+              taskStartToCloseTimeout: taskStartToCloseTimeout,
+              taskPriority: taskPriority,
+              childPolicy: childPolicy,
+              taskList: taskList,
+            });
+            var missing = workflowRunObj.getMissingDefault();
+            if (!!missing) {
+              // Rather than parsing here the missing default,
+              // just use a static one.
+              // TODO return one of:
+              // DEFAULT_EXECUTION_START_TO_CLOSE_TIMEOUT_UNDEFINED
+              // DEFAULT_TASK_LIST_UNDEFINED
+              // DEFAULT_TASK_START_TO_CLOSE_TIMEOUT_UNDEFINED
+              // DEFAULT_CHILD_POLICY_UNDEFINED
+              err = 'DEFAULT_CHILD_POLICY_UNDEFINED';
+            }
+          }
+
+          if (!!err) {
+            if (!!workflowRunObj) {
+              // Don't allow a cancel
+              workflowRunObj.runState = 100;
+            }
+            // Return failure object.
+            return [{
+              workflow: t,
+              name: 'StartChildWorkflowExecutionFailed',
+              data: {
+                decisionTaskCompletedEventId: decisionTaskCompletedEventId,
+                cause: err,
+                control: control,
+                initiatedEventId: sourceEvent.id,
+                workflowId: workflowId,
+                workflowType: { name: workflowType.name, version: workflowType.version },
+              },
+            },];
+          }
+
+          // Launch the child workflow.
+          registerChildWorkflowRun(workflowRunObj);
+          t.addChild(workflowRunObj);
+          return [
+            {
+              workflow: t,
+              name: 'ChildWorkflowExecutionStarted',
+              data: {
+                initiatedEventId: sourceEvent.id,
+                workflowExecution: {
+                  workflowId: workflowRunObj.workflowId,
+                  runId: workflowRunObj.runId,
+                },
+                workflowType: {
+                  name: workflowRunObj.workflowType.name,
+                  version: workflowRunObj.workflowType.version,
+                },
+              },
+            },
+            workflowRunObj.createWorkflowExecutionStartedEvent(),
+          ];
+        },
+      },];
+    }
+
+    // ..............................
+    case 'StartTimer': {
+      let attrs = decision.startTimerDecisionAttributes;
+      let control = attrs.control;
+      let startToFireTimeout = attrs.startToFireTimeout;
+      if (startToFireTimeout === null || startToFireTimeout === undefined || startToFireTimeout < 0) {
+        return 'startTimerDecisionAttributes.startToFireTimeout';
+      }
+      let timerId = attrs.timerId;
+      if (!timerId) {
+        return 'startTimerDecisionAttributes.timerId';
+      }
+      let timer = this.getTimer(timerId);
+      if (!!timer) {
+        return [{
+          name: 'StartTimerFailed',
+          data: {
+            cause: `TIMER_ID_ALREADY_IN_USE`,
+            // Other possibilities: OPEN_TIMERS_LIMIT_EXCEEDED, TIMER_CREATION_RATE_EXCEEDED
+            decisionTaskCompletedEventId: decisionTaskCompletedEventId,
+            timerId: timerId,
+          },
+        },];
+      }
+
+      timer = this.createTimer({
+        timerId: timerId,
+        startToFireTimeout: startToFireTimeout,
+        control: control,
+        decisionTaskCompletedEventId: decisionTaskCompletedEventId,
+      });
+      let startedEvent = timer.createStartedEventObject();
+      startedEvent.postEventCreation = function postEventCreation(p) {
+        var sourceEvent = p.sourceEvent;
+        timer.setStartedEvent(sourceEvent);
+      };
+      return [startedEvent];
+    }
+    default: {
+      return [{
+        ERROR: true,
+        result: [400, 'Sender', 'InvalidParameterValue', 'decisionType'],
+      },];
+    }
+  }
+};
+
+
+// ---------------------------------------------------------------------------
+// Private methods
+
+/**
+ * Should only be called by the EventBus to add an event to the history.
+ *
+ * @private
+ * @friend EventBus
+ * @param {WorkflowEvent} eventObj
+ */
+WorkflowRun.prototype._addEvent = function _addEvent(eventObj) {
+  this.eventHistory.push(eventObj);
+};
+
+/**
+ * @private
+ */
+WorkflowRun.prototype.__timeOut = function __timeOut() {
+  // Check if the workflow has actually completed or not before
+  // marking it as timed out.
+  if (!this.isClosed()) {
+    console.log(`[WORKFLOW ${this.workflowId}] Timed out (${this.executionConfiguration.executionStartToCloseTimeout} seconds)`);
+
+    this.outOfBandEventFunc(this.__close({
+      closeState: RUN_STATE_TIMED_OUT,
+      childPolicy: this.executionConfiguration.childPolicy,
+      closeEvent: {
+        name: 'WorkflowExecutionTimedOut',
+        data: {
+          childPolicy: this.executionConfiguration.childPolicy,
+          timeoutType: 'START_TO_CLOSE',
+        },
+      },
+      parentEvent: {
+        name: 'ChildWorkflowExecutionTimedOut',
+        data: {
+          timeoutType: 'START_TO_CLOSE',
+        },
+      },
+    }));
+  }
+};
+
+
+/**
+ * In-band cancelation of the workflow.
+ */
+WorkflowRun.prototype.__cancel = function __cancel(p) {
+  var decisionTaskCompletedEventId = p.decisionTaskCompletedEventId;
+  var details = p.details;
+
+  if (!this.isClosed()) {
+    return this.__close({
+      closeState: RUN_STATE_CANCELED,
+      childPolicy: this.executionConfiguration.childPolicy,
+      closeEvent: {
+        name: 'WorkflowExecutionCanceled',
+        data: {
+          decisionTaskCompletedEventId: decisionTaskCompletedEventId,
+          details: details,
+        },
+      },
+      parentEvent: {
+        name: 'ChildWorkflowExecutionCanceled',
+        data: {
+          details: details,
+        },
       },
     });
-    this.parent.removeChild(this);
   }
-
-  this._taskList.removeWorkflowRun(this);
+  return [];
 };
-WorkflowRun.prototype.cancel = function cancel(decisionTaskCompletedEventId, details) {
+
+
+WorkflowRun.prototype.__complete = function __complete(p) {
+  var decisionTaskCompletedEventId = p.decisionTaskCompletedEventId;
+  var result = p.result;
+
+  if (!this.isClosed()) {
+    return this.__close({
+      closeState: RUN_STATE_CANCELED,
+      childPolicy: this.executionConfiguration.childPolicy,
+      closeEvent: {
+        name: 'WorkflowExecutionCompleted',
+        data: {
+          decisionTaskCompletedEventId: decisionTaskCompletedEventId,
+          result: result,
+        },
+      },
+      parentEvent: {
+        name: 'ChildWorkflowExecutionCompleted',
+        data: {
+          result: result,
+        },
+      },
+    });
+  }
+  return [];
+};
+
+
+/**
+ */
+WorkflowRun.prototype.__fail = function __fail(p) {
+  var decisionTaskCompletedEventId = p.decisionTaskCompletedEventId;
+  var reason = p.reason;
+  var details = p.details;
+
+  if (!this.isClosed()) {
+    return this.__close({
+      closeState: RUN_STATE_FAILED,
+      childPolicy: this.executionConfiguration.childPolicy,
+      closeEvent: {
+        name: 'WorkflowExecutionFailed',
+        data: {
+          decisionTaskCompletedEventId: decisionTaskCompletedEventId,
+          details: details,
+          reason: reason,
+        },
+      },
+      parentEvent: {
+        name: 'ChildWorkflowExecutionFailed',
+        data: {
+          details: details,
+          reason: reason,
+        },
+      },
+    });
+  }
+  return [];
+};
+
+
+/**
+ * @private
+ * @param {Object} p - parameters
+ * @param {string} p.childPolicy - how to close off the child workflows
+ *    when this exits; set to null (or undefined) if children should not
+ *    be affected.
+ * @param {Object} p.closeEvent - event that closes the workflow execution.
+ * @param {Object} p.parentEvent - event that tells the parent workflow about
+ *    the closing.
+ * @param {int} p.closeState - new state after closing.
+ */
+WorkflowRun.prototype.__close = function __close(p) {
+  var closeEvent = p.closeEvent;
+  var parentEvent = p.parentEvent;
+  var childPolicy = p.childPolicy;
+  var closeState = p.closeState;
+  var generatedEvents = [];
   if (this.isClosed()) {
-    // Don't change the actual state.
-    return;
+    throw new Error('invalid usage: called __close when already closed.');
   }
 
-  // Set our state.
-  this.runState = RUN_STATE_CANCELED;
-  this.closeTimestamp = awsCommon.timestamp();
+  var i, j;
+  var cwRun;
+  var events;
 
-  // Children are left running?
-  // TODO figure out what to do with children
+  // Handle the children first.
+  for (i = 0; i < this.childWorkflowExecutions.length; i++) {
+    cwRun = this.childWorkflowExecutions[i];
+    if (!cwRun.isClosed()) {
+      events = null;
+      if ('REQUEST_CANCEL' === childPolicy) {
+        events = cwRun.requestCancel();
+      } else if ('TERMINATE' === childPolicy) {
+        events = cwRun.terminate({
+          reason: 'Parent closed',
+          cause: 'CHILD_POLICY_APPLIED',
+          details: '',
+        });
+      } // Else ignore
+      if (!!events) {
+        // DEBUG console.log(`[WF ${this.workflowId}] Adding ${events.length} child termination events`);
+        for (j = 0; j < events.length; j++) {
+          generatedEvents.push(events[j]);
+        }
+      }
+    }
+    // Explicitly clean out the children.
+    this.getOpenChildWorkflowExecutions();
+  }
+
 
   // Clear out all open stuff
   this.openDecisionTasks = [];
   this.openTimers = [];
   this.openLambdaFunctions = [];
   this.openActivityTasks = [];
-  this.openChildWorkflowExecutions = [];
-
-  // Record the history event.
-  this.addEvent('WorkflowExecutionCanceled', {
-    details: details,
-    decisionTaskCompletedEventId: decisionTaskCompletedEventId,
-  });
-
-  if (!!this.parent) {
-    // Send a message to the parent that the child died.
-    var initiatedEventId = ((!!this.startChildWorkflowEvent) ? this.startChildWorkflowEvent.id : null);
-    var startedEventId = ((!!this.childWorkflowExecutionStartedEvent) ? this.childWorkflowExecutionStartedEvent.id : null);
-    this.parent.addEvent('ChildWorkflowExecutionCanceled', {
-      initiatedEventId: initiatedEventId,
-      startedEventId: startedEventId,
-      workflowExecution: {
-        runId: this.runId,
-        workflowId: this.workflowId,
-      },
-      workflowType: {
-        name: this.workflowType.name,
-        version: this.workflowType.version,
-      },
-    });
-    this.parent.removeChild(this);
-  }
-
-  this._taskList.removeWorkflowRun(this);
-};
-WorkflowRun.prototype.complete = function complete(decisionTaskCompletedEventId, result) {
-  if (this.isClosed()) {
-    // Don't change the actual state.
-    return;
-  }
-
-  // Set our state.
-  this.runState = RUN_STATE_COMPLETED;
-  this.closeTimestamp = awsCommon.timestamp();
-  this.result = result;
-
-  // Children are left running?
-  // TODO figure out what to do with children
-
-  // Clear out all open stuff
-  this.openDecisionTasks = [];
-  this.openTimers = [];
-  this.openLambdaFunctions = [];
-  this.openActivityTasks = [];
-  this.openChildWorkflowExecutions = [];
-
-  // Record the history event.
-  this.addEvent('WorkflowExecutionCompleted', {
-    decisionTaskCompletedEventId: decisionTaskCompletedEventId,
-    result: result,
-  });
-
-  if (!!this.parent) {
-    // Send a message to the parent that the child died.
-    var initiatedEventId = ((!!this.startChildWorkflowEvent) ? this.startChildWorkflowEvent.id : null);
-    var startedEventId = ((!!this.childWorkflowExecutionStartedEvent) ? this.childWorkflowExecutionStartedEvent.id : null);
-    this.parent.addEvent('ChildWorkflowExecutionCompleted', {
-      initiatedEventId: initiatedEventId,
-      startedEventId: startedEventId,
-      workflowExecution: {
-        runId: this.runId,
-        workflowId: this.workflowId,
-      },
-      workflowType: {
-        name: this.workflowType.name,
-        version: this.workflowType.version,
-      },
-      result: result,
-    });
-    this.parent.removeChild(this);
-  }
-
-  this._taskList.removeWorkflowRun(this);
-};
-WorkflowRun.prototype.fail = function fail(decisionTaskCompletedEventId, reason, details) {
-  if (this.isClosed()) {
-    // Don't change the actual state.
-    return;
-  }
-
-  // Set our state.
-  this.runState = RUN_STATE_FAILED;
+  this.childWorkflowExecutions = [];
+  this.runState = closeState;
   this.closeTimestamp = awsCommon.timestamp();
 
-  // Children are left running?
-  // TODO figure out what to do with children
+  closeEvent.workflow = this;
+  // DEBUG console.log(`[WF ${this.workflowId}] Adding close event`);
+  generatedEvents.push(closeEvent);
 
-  // Clear out all open stuff
-  this.openDecisionTasks = [];
-  this.openTimers = [];
-  this.openLambdaFunctions = [];
-  this.openActivityTasks = [];
-  this.openChildWorkflowExecutions = [];
+  if (!!this.parentRunId) {
+    parentEvent.data.runId = this.parentRunId;
+    parentEvent.data.initiatedEventId =
+      (!this.childInitiatedEvent ? null : this.childInitiatedEvent.id);
+    parentEvent.data.startedEventId =
+      (!this.childStartedEvent ? null : this.childStartedEvent.id);
+    parentEvent.data.workflowExecution = {
+      runId: this.runId,
+      workflowId: this.workflowId,
+    };
+    parentEvent.data.workflowType = {
+      name: this.workflowType.name,
+      version: this.workflowType.version,
+    };
+    parentEvent.runId = this.parentRunId;
 
-  // Record the history event.
-  this.addEvent('FailWorkflowExecution', {
-    decisionTaskCompletedEventId: decisionTaskCompletedEventId,
-    details: details,
-    reason: reason,
-  });
-
-  if (!!this.parent) {
-    // Send a message to the parent that the child died.
-    var initiatedEventId = ((!!this.startChildWorkflowEvent) ? this.startChildWorkflowEvent.id : null);
-    var startedEventId = ((!!this.childWorkflowExecutionStartedEvent) ? this.childWorkflowExecutionStartedEvent.id : null);
-    this.parent.addEvent('ChildWorkflowExecutionFailed', {
-      initiatedEventId: initiatedEventId,
-      startedEventId: startedEventId,
-      workflowExecution: {
-        runId: this.runId,
-        workflowId: this.workflowId,
-      },
-      workflowType: {
-        name: this.workflowType.name,
-        version: this.workflowType.version,
-      },
-      details: details,
-      reason: reason,
-    });
-    this.parent.removeChild(this);
+    // DEBUG console.log(`[WF ${this.workflowId}] Adding parent report of child termination`);
+    generatedEvents.push(parentEvent);
   }
 
-  this._taskList.removeWorkflowRun(this);
+  return generatedEvents;
 };
-WorkflowRun.prototype.requestCancel = function requestCancel() {
-  // FIXME implement
-};
-WorkflowRun.prototype.signal = function signal(signalName, input) {
-  // FIXME implement
-};
+
 WorkflowRun.prototype.removeChild = function removeChild(childRun) {
-  for (var i = 0; i < this.openChildWorkflowExecutions.length; i++) {
+  for (var i = 0; i < this.childWorkflowExecutions.length; i++) {
     // Delete ourself from the parent's open workflow list.
-    if (this.openChildWorkflowExecutions[i] === childRun) {
-      this.openChildWorkflowExecutions.splice(i, 1);
+    if (this.childWorkflowExecutions[i] === childRun) {
+      this.childWorkflowExecutions.splice(i, 1);
       return true;
     }
   }
@@ -537,17 +1166,21 @@ WorkflowRun.prototype.getTimer = function getTimer(timerId) {
   }
   return null;
 };
+
+// ---------------------------------------------------
+// FIXME all below here needs to be rethought.
+
 WorkflowRun.prototype.createTimer = function createTimer(p) {
   var timerId = p.timerId;
   var startToFireTimeout = p.startToFireTimeout;
   var control = p.control;
   var decisionTaskCompletedEventId = p.decisionTaskCompletedEventId;
   var timer = new WorkflowTimer({
-    workflowRun: this,
     timerId: timerId,
     timeout: startToFireTimeout,
     control: control,
     decisionTaskCompletedEventId: decisionTaskCompletedEventId,
+    workflowRun: this,
   });
   this.openTimers.push(timer);
   return timer;
@@ -561,163 +1194,60 @@ WorkflowRun.prototype.deleteTimer = function deleteTimer(timerId) {
   }
 };
 
-
-function WorkflowEvent(id, name, details) {
-  if (name.endsWith('Event') || name.endsWith('Attributes')) {
-    throw new Error('bad event name: ' + name);
-  }
-  this.id = id;
-  this.created = awsCommon.timestamp();
-  this.name = name;
-  this.details = details;
-}
-WorkflowEvent.prototype.describe = function describe() {
-  var ret = {
-    eventType: this.name,
-    eventId: this.id,
-    eventTimestamp: '' + this.created,
-  };
-  var attrName = this.name.charAt(0).toLowerCase() + this.name.substr(1) + 'EventAttributes';
-  ret[attrName] = {};
-  // Shallow copy
-  for (var p in this.details) {
-    if (this.details.hasOwnProperty(p)) {
-      ret[attrName][p] = this.details[p];
-    }
-  }
-  return ret;
-};
-
-
 function WorkflowTimer(p) {
-  var workflowRun = p.workflowRun;
-  var timerId = p.timerId;
-  var timeout = p.timeout;
-  var control = p.control;
-  var decisionTaskCompletedEventId = decisionTaskCompletedEventId;
-  this.workflowRun = workflowRun;
-  this.timerId = timerId;
+  this.timerId = p.timerId;
+  this.timeout = p.timeout;
+  this.control = p.control;
+  this.decisionTaskCompletedEventId = p.decisionTaskCompletedEventId;
+  this.workflowRun = p.workflowRun;
+  this.outOfBandEventFunc = p.outOfBandEventFunc;
   this.active = true;
-
-  var startedEvent = workflowRun.addEvent('TimerStarted', {
-    control: control,
-    timerId: timerId,
-    startToFireTimeout: timeout,
-    decisionTaskCompletedEventId: decisionTaskCompletedEventId,
-  });
-  this.startedEventId = startedEvent.id;
+  this.startedEvent = null;
 
   var t = this;
   // `timeout` is in seconds
-  Q.timeout(timeout * 1000).then(function() {
-    if (t.active) {
-      // FIXME add timeout event.
-      workflowRun.addEvent('TimerFired', {
-        startedEventId: startedEvent.id,
-        timerId: timerId,
-      });
+  Q.timeout(t.timeout * 1000).then(function() {
+    if (t.active && !!t.startedEvent) {
+      // Timers execution fires in an out-of-band way.
+      t.workflowRun.outOfBandEventFunc([{
+        workflow: t.workflowRun,
+        name: 'TimerFired',
+        data: {
+          startedEventId: t.startedEvent.id,
+          timerId: t.timerId,
+        },
+      },]);
     }
-    workflowRun.deleteTimer(timerId);
+    t.workflowRun.deleteTimer(t.timerId);
   });
 }
-WorkflowTimer.prototype.cancel = function cancel(decisionTaskCompletedEventId) {
-  if (this.active) {
-    // FIXME add event to workflow run
-    this.workflowRun.addEvent('TimerCanceled', {
-      decisionTaskCompletedEventId: decisionTaskCompletedEventId,
-      startedEventId: this.startedEventId,
+WorkflowTimer.prototype.createStartedEventObject = function createStartedEventObject() {
+  return {
+    workflow: this.workflowRun,
+    name: 'TimerStarted',
+    data: {
+      control: this.control,
       timerId: this.timerId,
-    });
+      startToFireTimeout: this.timeout,
+      decisionTaskCompletedEventId: this.decisionTaskCompletedEventId,
+    },
+  };
+};
+WorkflowTimer.prototype.setStartedEvent = function setStartedEvent(event) {
+  this.startedEvent = event;
+};
+WorkflowTimer.prototype.cancel = function cancel(decisionTaskCompletedEventId) {
+  var ret = null;
+  if (this.active) {
+    ret = {
+      name: 'TimerCanceled',
+      data: {
+        decisionTaskCompletedEventId: decisionTaskCompletedEventId,
+        startedEventId: this.startedEventId,
+        timerId: this.timerId,
+      },
+    };
   }
   this.active = false;
+  return ret;
 };
-
-
-
-const SPAWNS_DECISION_TASK = {
-  WorkflowExecutionStarted: 2,
-  RequestCancelWorkflowExecution: 2,
-  ActivityTaskStarted: 2,
-  ActivityTaskCompleted: 2,
-  ActivityTaskFailed: 2,
-  ActivityTaskTimedOut: 2,
-  ActivityTaskCanceled: 2,
-  ActivityTaskCancelRequested: 2,
-  WorkflowExecutionSignaled: 2,
-  TimerFired: 2,
-  ChildWorkflowExecutionStarted: 2,
-  ChildWorkflowExecutionCompleted: 2,
-  ChildWorkflowExecutionFailed: 2,
-  ChildWorkflowExecutionTimedOut: 2,
-  ChildWorkflowExecutionCanceled: 2,
-  ChildWorkflowExecutionTerminated: 2,
-  LambdaFunctionStarted: 2,
-  LambdaFunctionCompleted: 2,
-  LambdaFunctionFailed: 2,
-  LambdaFunctionTimedOut: 2,
-
-  // All the failure notices cause a decision task.
-  CancelTimerFailed: 2,
-  CancelWorkflowExecutionFailed: 2,
-  CompleteWorkflowExecutionFailed: 2,
-  FailWorkflowExecutionFailed: 2,
-  ScheduleActivityTaskFailed: 2,
-  StartTimerFailed: 2,
-  RequestCancelActivityTaskFailed: 2,
-  StartChildWorkflowExecutionFailed: 2,
-  SignalExternalWorkflowExecutionFailed: 2,
-  RequestCancelExternalWorkflowExecutionFailed: 2,
-  ScheduleLambdaFunctionFailed: 2,
-  StartLambdaFunctionFailed: 2,
-
-  // Actions caused by a decision task.
-  WorkflowExecutionCompleted: 2,
-  WorkflowExecutionContinuedAsNew: 2,
-
-  // If spawned from the Respond Decision Task, then don't generate a decision task.
-  FailWorkflowExecution: 1,
-  WorkflowExecutionCancelRequested: 1,
-
-  // Explicitly NOT a decision task spawner
-  RespondDecisionTaskCompleted: 0,
-  RecordMarker: 0,
-  MarkerRecorded: 0,
-  SignalExternalWorkflowExecutionInitiated: 0,
-  ExternalWorkflowExecutionSignaled: 0,
-  TimerCanceled: 0,
-  TimerStarted: 0,
-  DecisionTaskStarted: 0,
-  DecisionTaskScheduled: 0,
-  DecisionTaskCompleted: 0,
-  DecisionTaskTimedOut: 0,
-  ActivityTaskScheduled: 0,
-  RequestCancelExternalWorkflowExecutionInitiated: 0,
-  ExternalWorkflowExecutionCancelRequested: 0,
-  StartChildWorkflowExecutionInitiated: 0,
-  LambdaFunctionScheduled: 0,
-  WorkflowExecutionFailed: 0, // TODO see if this is ever generated.
-  WorkflowExecutionCanceled: 0, // TODO see if this is ever generated.
-  WorkflowExecutionTerminated: 0, // TODO see if this is ever generated.
-};
-function isDecisionTaskReady(name, eventList) {
-  var mode = (name === 'RespondDecisionTaskCompleted') ? 2 : 1;
-  if (undefined !== SPAWNS_DECISION_TASK[name] &&
-        SPAWNS_DECISION_TASK[name] >= mode) {
-    return true;
-  }
-  // Debugging
-  if (undefined === SPAWNS_DECISION_TASK[name]) {
-    console.log(`DECISION TASK: unknown task type ${name}`);
-  }
-  for (var i = 0; i < eventList.length; i++) {
-    if (undefined !== SPAWNS_DECISION_TASK[eventList[i].name] &&
-          SPAWNS_DECISION_TASK[eventList[i].name] >= mode) {
-      return true;
-    }
-    // Debugging
-    if (undefined === SPAWNS_DECISION_TASK[eventList[i].name]) {
-      console.log(`DECISION TASK: unknown event type ${eventList[i].name}`);
-    }
-  }
-  return false;
-}

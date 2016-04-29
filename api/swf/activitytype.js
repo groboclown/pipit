@@ -2,7 +2,7 @@
 
 const awsCommon = require('../../lib/aws-common');
 
-module.exports.createActivityType = function createActivityType(p) {
+module.exports = function createActivityType(p) {
   return new ActivityType(p);
 };
 

@@ -7,10 +7,25 @@ module.exports = function createWorkflowType(p) {
   return new WorkflowType(p);
 };
 
+/**
+ * @param {Object} p parameters
+ * @param {string} p.name
+ * @param {string} p.version
+ * @param {string} p.description
+ * @param {function} p.outOfBandEventFunc
+ * @param {Object} p.defaultTaskList
+ * @param {string} p.defaultTaskList.name
+ * @param {string} p.defaultChildPolicy
+ * @param {string} p.defaultTaskStartToCloseTimeout
+ * @param {string} p.defaultExecutionStartToCloseTimeout
+ * @param {string} p.defaultLambdaRole
+ * @param {string} p.defaultTaskPriority
+ */
 var WorkflowType = function(p) {
   this.name = p.name;
   this.version = p.version;
   this.description = p.description || '';
+  this.outOfBandEventFunc = p.outOfBandEventFunc;
   this.status = 'REGISTERED';
   this.creationDate = awsCommon.timestamp();
   this.deprecationDate = null;
@@ -66,7 +81,11 @@ WorkflowType.prototype.summary = function summary() {
 WorkflowType.prototype.matches = function matches(name, version) {
   return this.name === name && this.version === version;
 };
+WorkflowType.prototype.isDeprecated = function isDeprecated() {
+  return !!this.deprecationDate;
+};
 WorkflowType.prototype.createRun = function createRun(p) {
   p.workflowType = this;
+  p.outOfBandEventFunc = this.outOfBandEventFunc;
   return createWorkflowRun(p);
 };

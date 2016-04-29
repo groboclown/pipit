@@ -10,50 +10,42 @@ const tasks = require('./tasks');
  * The inbox of sorts used for polling and pushing
  * swf events.
  */
-function BaseTaskList(domain, name) {
-  this.domain = domain;
-  this.name = name;
+function BaseTaskList(p) {
+  this.name = p.name;
+  this.outOfBandEventFunc = p.outOfBandEventFunc;
   this.inbox = new CommonInbox();
 }
 BaseTaskList.prototype.size = function size() {
   return this.inbox.countLiveMessages();
 };
 
-module.exports.createDecider = function createDecider(domain, name) {
-  return new Decider(domain, name);
+module.exports.createDecider = function createDecider(p) {
+  return new Decider(p);
 };
 
-function Decider(domain, name) {
-  Decider.super_.call(this, domain, name);
+function Decider(p) {
+  Decider.super_.call(this, p);
+
+  this.handleStartDecisionEventFunc = p.handleStartDecisionEventFunc;
 
   // All workflow runs with pending deciders
-  this._pendingRuns = [];
+  this._pendingDecisionTasks = [];
 
-  console.log(`[DECIDER ${name}] starting`);
+  console.log(`[DECIDER ${this.name}] starting`);
 }
 util.inherits(Decider, BaseTaskList);
 
 /**
  * Returns the decision task for this run.
  */
-Decider.prototype.addWorkflowRun = function addWorkflowRun(run) {
-  this._pendingRuns.push(run);
-};
-Decider.prototype.addDecisionTaskFor = function addDecisionTaskFor(run) {
-  var task = new tasks.DecisionTask(this.domain, run);
+Decider.prototype.addDecisionTaskFor = function addDecisionTaskFor(p) {
+  p.outOfBandEventFunc = this.outOfBandEventFunc;
+  var task = tasks.createDecisionTask(p);
   // The task will not be "open" until a decider receives the task message.
-  console.log(`[DECIDER ${this.name}] added task to inbox: decision task for run ${run.workflowId}`);
+  console.log(`[DECIDER ${this.name}] added task to inbox: decision task for run ${task.workflowRun.workflowId}`);
   this.inbox.push(task, 0, 100);
+  this._pendingDecisionTasks.push(task);
   return task;
-};
-Decider.prototype.removeWorkflowRun = function removeWorkflowRun(run) {
-  for (var i = 0; i < this._pendingRuns.length; i++) {
-    if (this._pendingRuns[i] === run) {
-      this._pendingRuns.splice(i, 1);
-      return true;
-    }
-  }
-  return false;
 };
 
 /** Returns a promise, or null if a pull w/ an invalid next page token. */
@@ -63,27 +55,26 @@ Decider.prototype.pull = function pull(deciderId, nextPageToken, maximumPageSize
 
     // User requesting paged results from a previously requested poll.
     // The start of the token contains the decision task token.
-    var pos = nextPageToken.indexOf('^');
-    var prefix = null;
-    if (pos >= 0) {
-      prefix = nextPageToken.substr(0, pos);
-    }
-    for (var ri = 0; ri < this._pendingRuns.length; ri++) {
-      var run = this._pendingRuns[ri];
-      if (!!run) {
-        for (var i = 0; i < run.openDecisionTasks.length; i++) {
-          var page = run.openDecisionTasks[i].pageEvents(
-              nextPageToken, maximumPageSize, reverseOrder);
-          if (!!page) {
-            // Note: page[0] indicates whether there are more pages or not.
-            // However, we use the decision task "complete" to
-            // remove it from the list.
+    for (var i = 0; i < this._pendingDecisionTasks.length; i++) {
+      var page = this._pendingDecisionTasks[i].pageEvents(
+          nextPageToken, maximumPageSize, reverseOrder);
+      if (!!page) {
+        // `page[0]` indicates whether there are more pages or not.
+        if (!page[0]) {
+          // Remove this particular workflow run from the pending runs;
+          // it might be in the list more than once, if there are
+          // more than one decision, then there will be more than
+          // one entry in the pending runs.
+          this._pendingDecisionTasks.splice(i, 1);
 
-            console.log(`[DECIDER ${this.name}] Returning cached page result`);
-
-            return Q(page[1]);
-          }
+          // Note that the owning workflow run will only remove the
+          // decision task from its list of open decision tasks
+          // when the task is closed.
         }
+
+        console.log(`[DECIDER ${this.name}] Returning cached page result`);
+
+        return Q(page[1]);
       }
     }
 
@@ -101,16 +92,25 @@ Decider.prototype.pull = function pull(deciderId, nextPageToken, maximumPageSize
   // the spec for how the decision task list works.
   return this.inbox.pull(1, 60, 1000)
     .then(function t1(msgs) {
-      console.log(`[DECIDER ${t.name}] received pending messages in inbox: ${msgs.length} = ${msgs}`);
+      console.log(`[DECIDER ${t.name}] received pending messages in inbox: [${msgs.length}] = ${msgs}`);
       var task = msgs[0].value;
       t.inbox.deleteByMessageId(msgs[0].messageId);
 
-      // Start the task
-      task.start(deciderId);
+      if (!task.isOpen()) {
+        // Search again.  It probably timed out.
+        console.log(`[DECIDER ${t.name}] pending message timed out; searching again`);
+        return t.pull(deciderId, nextPageToken, maximumPageSize, reverseOrder);
+      }
 
-      // Only now is the decision task "open", which means that
-      // the decider has received the message.
-      task.workflowRun.openDecisionTasks.push(task);
+      // Start the task
+      var startedEvent = t.handleStartDecisionEventFunc({
+        decisionTask: task,
+        deciderId: deciderId,
+      });
+      task.start({
+        startedEvent: startedEvent,
+        deciderId: deciderId,
+      });
 
       var page = task.pageEvents(null, maximumPageSize, reverseOrder);
       if (!!page) {
@@ -132,7 +132,7 @@ module.exports.createActivity = function createActivity(domain, name) {
   return new Activity(domain, name);
 };
 
-function Activity(domain, name) {
-  Activity.super_.call(this, domain, name);
+function Activity(p) {
+  Activity.super_.call(this, p);
 }
 util.inherits(Activity, BaseTaskList);
