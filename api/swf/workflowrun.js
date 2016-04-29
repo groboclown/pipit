@@ -434,6 +434,30 @@ WorkflowRun.prototype.createRequestCancelEvents = function createRequestCancelEv
 
 
 /**
+ * Signal that does **not** come from a decision, but rather from an
+ * application or operator.
+ *
+ * @param {Object} p - parameters
+ * @param {string} p.signalName - signal name
+ * @param {string} p.input - context data
+ */
+WorkflowRun.prototype.createSignalWorkflowEvent = function createSignalWorkflowEvent(p) {
+  var signalName = p.signalName;
+  var input = p.input;
+  return {
+    workflow: this,
+    name: 'WorkflowExecutionSignaled',
+    data: {
+      externalInitiatedEventId: null,
+      externalWorkflowExecution: null,
+      signalName: signalName,
+      input: input,
+    },
+  };
+};
+
+
+/**
  * Handle a "decision" from the decider.  The decision object should already
  * be checked to have the 'decisionType' key, and the corresponding decision
  * attribute key, which follows a well established pattern (e.g.

@@ -749,6 +749,43 @@ module.exports.RequestCancelWorkflowExecution = function RequestCancelWorkflowEx
   return [200, ret];
 };
 
+
+module.exports.SignalWorkflowExecution = function SignalWorkflowExecution(aws) {
+  var workflowId = aws.params.workflowId;
+  var domain = aws.params.domain;
+  var signalName = aws.params.signalName;
+  var input = aws.params.input;
+  var runId = aws.params.runId;
+  if (!domain) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter domain'];
+  }
+  if (!workflowId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter workflowId'];
+  }
+  if (!signalName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter signalName'];
+  }
+
+  var workflow = domainWorkflows[domain].getWorkflowRun({
+    workflowId: workflowId,
+    runId: runId,
+  });
+
+  if (!workflow) {
+    return [400, 'Sender', 'UnknownResourceFault', `Unknown workflow ${workflowId} / ${runid}`];
+  }
+
+  domainWorkflows[domain].signalWorkflow({
+    workflow: workflow,
+    signalName: signalName,
+    input: input,
+  });
+
+  var ret = {};
+  return [200, ret];
+};
+
+
 // ----------------------------------------------------------------------------------------
 // Decision tasks
 
@@ -843,21 +880,8 @@ module.exports.RespondDecisionTaskCompleted = function RespondDecisionTaskComple
 };
 
 
-
-// =============================================================================
-// FIXME all below here needs to be re-written
-
-
-
-
-
-
-
-
-
-
-
-
+// --------------------------------------------------------------------------
+// Utility Functions
 
 
 
@@ -934,20 +958,12 @@ module.exports.RespondActivityTaskCompleted = function RespondActivityTaskComple
   var ret = {};
   return [200, ret];
 };
-module.exports.SignalWorkflowExecution = function SignalWorkflowExecution(aws) {
-  var workflowId = aws.params.workflowId;
-  var domain = aws.params.domain;
-  var signalName = aws.params.signalName;
-  var input = aws.params.input;
-  var runId = aws.params.runId;
-  if (!domain) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter domain'];
-  }
-  if (!workflowId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter workflowId'];
-  }
-  if (!signalName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter signalName'];
+module.exports.RespondActivityTaskFailed = function RespondActivityTaskFailed(aws) {
+  var details = aws.params.details;
+  var reason = aws.params.reason;
+  var taskToken = aws.params.taskToken;
+  if (!taskToken) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter taskToken'];
   }
 
   // TODO implement code
@@ -1001,19 +1017,6 @@ module.exports.PollForActivityTask = function PollForActivityTask(aws) {
   return [200, ret];
 };
 
-module.exports.RespondActivityTaskFailed = function RespondActivityTaskFailed(aws) {
-  var details = aws.params.details;
-  var reason = aws.params.reason;
-  var taskToken = aws.params.taskToken;
-  if (!taskToken) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter taskToken'];
-  }
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
 
 
 

@@ -397,3 +397,18 @@ Domain.prototype.requestWorkflowRunCancel = function requestWorkflowRunCancel(p)
     forChild: false,
   }));
 };
+
+
+/**
+ * @param {Object} p - parameters
+ * @param {WorkflowRun} p.workflow - workflow to signal
+ * @param {string} p.signalName - signal name
+ * @param {string} p.input - context data
+ */
+Domain.prototype.signalWorkflow = function signalWorkflow(p) {
+  var workflow = p.workflow;
+  var signalName = p.signalName;
+  var input = p.input;
+
+  this.eventBus.sendExternalEvents([workflow.createSignalWorkflowEvent(p)]);
+}
