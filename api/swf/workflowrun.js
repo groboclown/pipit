@@ -28,6 +28,8 @@ const RUN_STATE_TIMED_OUT = 15;
  * @param {WorkflowType} p.workflowType
  * @param {string} p.workflowId
  * @param {function} p.outOfBandEventFunc
+ * @param {function} p.createActivityFunc
+ * @param {function} p.createLambdaFunc
  * @param {string} [p.lambdaRole]
  * @param {string} [p.taskStartToCloseTimeout]
  * @param {string} [p.executionStartToCloseTimeout]
@@ -42,6 +44,8 @@ function WorkflowRun(p) {
   this.workflowType = p.workflowType;
   this.workflowId = p.workflowId;
   this.outOfBandEventFunc = p.outOfBandEventFunc;
+  this.createActivityFunc = p.createActivityFunc;
+  this.createLambdaFunc = p.createLambdaFunc;
   this.runId = awsCommon.genRequestId();
   this.executionConfiguration = {
     lambdaRole: p.lambdaRole || p.workflowType.configuration.defaultLambdaRole,
@@ -325,6 +329,17 @@ WorkflowRun.prototype.getDecisionTaskByToken = function getDecisionTaskByToken(t
 };
 
 
+WorkflowRun.prototype.getActivityTaskById = function getActivityTaskById(id) {
+  for (var i = 0; i < this.openActivityTasks.length; i++) {
+    var task = this.openActivityTasks[i];
+    if (task.isOpen() && task.activityId === id) {
+      return task;
+    }
+  }
+  return null;
+};
+
+
 // ---------------------------------------------------------------------------
 // Event Processing
 
@@ -452,6 +467,19 @@ WorkflowRun.prototype.createSignalWorkflowEvent = function createSignalWorkflowE
       externalWorkflowExecution: null,
       signalName: signalName,
       input: input,
+    },
+  };
+};
+
+
+WorkflowRun.prototype.createDecisionTaskScheduledEvent = function createDecisionTaskScheduledEvent() {
+  return {
+    workflow: this,
+    name: 'DecisionTaskScheduled',
+    data: {
+      startToCloseTimeout: this.executionConfiguration.executionStartToCloseTimeout,
+      taskList: { name: this.executionConfiguration.taskList.name },
+      taskPriority: this.executionConfiguration.taskPriority,
     },
   };
 };
@@ -594,6 +622,13 @@ WorkflowRun.prototype.handleDecision = function handleDecision(p) {
       let attrs = decision.requestCancelActivityTaskDecisionAttributes;
       let activityId = decision.activityId;
 
+      // Add ActivityTaskCancelRequested to the workflow events.
+      // If the activity has not started yet, then belay that order
+      // and mark the activity as canceled.
+      // If the activity has been started, then send the cancel request
+      // through the heart-beat response mechanism.
+      // If the activity has already stopped, then return a failure event.
+
       // FIXME Implement once activities are added.
       return [{
         ERROR: true,
@@ -684,10 +719,44 @@ WorkflowRun.prototype.handleDecision = function handleDecision(p) {
       let taskListName = attrs.taskList.name;
       let taskPriority = attrs.taskPriority;
 
-      // FIXME Implement once activities are added.
+      // We don't do anything at the start, because we need to find the
+      // activity type (which may not exist).
       return [{
-        ERROR: true,
-        result: [500, 'Server', 'ServerFailure', 'ScheduleActivityTask not Implemented'],
+        postEventCreation: function postEventCreation(p) {
+          var getActivityType = p.getActivityType;
+          var activityType = getActivityType({
+            name: activityTypeName,
+            version: activityTypeVersion,
+          });
+          var err = null;
+          var activity = null;
+
+          if (!activityType) {
+            err = 'ACTIVITY_TYPE_DOES_NOT_EXIST';
+          } else if (t.getActivityTaskById(activityId)) {
+            err = 'ACTIVITY_ID_ALREADY_IN_USE';
+          } else if (activityType.isDeprecated()) {
+            err = 'ACTIVITY_TYPE_DEPRECATED';
+          } else {
+            activity = activityType.createActivityTask({
+              // FIXME create the activity
+            });
+            // FIXME check for default values all set.
+          }
+
+          if (!!err) {
+            return [{
+              workflow: t,
+              name: 'ScheduleActivityTaskFailed',
+              data: {
+                activityId: activityId,
+                activityType: { name: activityTypeName, version: activityTypeVersion },
+                cause: err,
+                decisionTaskCompletedEventId: decisionTaskCompletedEventId,
+              },
+            },];
+          }
+        },
       },];
     }
 

@@ -15,6 +15,13 @@ module.exports.createDecisionTask = function createDecisionTask(p) {
   return new DecisionTask(p);
 };
 
+module.exports.createActivityTask = function createActivityTask(p) {
+  return new ActivityTask(p);
+};
+
+module.exports.createLambdaTask = function createLambdaTask(p) {
+  return new LambdaTask(p);
+};
 
 const RUN_STATE_CREATED = 0;
 const RUN_STATE_STARTED = 1;
@@ -194,3 +201,123 @@ DecisionTask.prototype.__timeout = function __timeout() {
     },]);
   }
 };
+
+
+// ===========================================================================
+
+const ACTIVITY_STATE_SCHEDULED = 0;
+const ACTIVITY_STATE_RUNNING = 1;
+const ACTIVITY_STATE_TIMED_OUT = 2;
+const ACTIVITY_STATE_CANCELED = 3;
+const ACTIVITY_STATE_FAILED = 4;
+
+/**
+ * @param {Object} p - parameters
+ * @param {string} p.activityId - activity ID (as created by the decider).
+ * @param {ActivityType} p.activityType - activity type.
+ * @param {string} p.input - input
+ * @param {long} p.startedEventId - event that started this activity
+ * @param {string} [p.control] - used by workflow, not sent to activity.
+ * @param {long|string} [p.heartbeatTimeout] - heartbeat timeout.
+ * @param {long|string} [p.scheduleToCloseTimeout] - entire activity timeout.
+ * @param {long|string} [p.scheduleToStartTimeout] - schedule to start timeout.
+ * @param {long|string} [p.startToCloseTimeout] - start to close timeout.
+ * @param {long} [p.taskPriority] - task priority
+ * @param {Object} [p.taskList] - task list for listening.
+ * @param {string} [p.taskList.name] - task list name.
+ * @param {WorkflowRun} p.workflowRun - workflow that owns this task.
+ */
+function ActivityTask(p) {
+  this.activityId = p.activityId;
+  this.activityType = p.activityType;
+  this.input = p.input || null;
+  this.startedEventId = p.startedEventId;
+  this.workflowRun = p.workflowRun;
+  this.control = p.control;
+  this.outOfBandWorfklowEventFunc = p.outOfBandEventFunc;
+
+  this.heartbeatTimeout = p.heartbeatTimeout || p.activityType.configuration.defaultTaskHeartbeatTimeout;
+  this.scheduleToCloseTimeout = p.scheduleToCloseTimeout || p.activityType.configuration.defaultTaskScheduleToCloseTimeout;
+  this.scheduleToStartTimeout = p.scheduleToStartTimeout || p.activityType.configuration.defaultTaskScheduleToStartTimeout;
+  this.startToCloseTimeout = p.startToCloseTimeout || p.activityType.configuration.defaultTaskStartToCloseTimeout;
+  this.taskPriority = p.taskPriority || p.activityType.configuration.defaultTaskPriority;
+  this.taskList = { name: null };
+  if (!!p.taskList && !!p.taskList.name) {
+    this.taskList.name = p.taskList.name;
+  } else if (!!p.activityType.configuration.defaultTaskList && !!p.activityType.configuration.defaultTaskList.name) {
+    this.taskList.name = p.activityType.configuration.defaultTaskList.name;
+  }
+
+
+
+  this.taskToken = awsCommon.genRequestId();
+  this.statusCode = 0;
+  this.failure = null;
+  this.cancelRequested = false;
+
+  // Every heartbeat has a timeout.  If a heartbeat for index 101 fires,
+  // but the current heartbeat is 102, then heartbeat 101 will not cause
+  // a timeout.
+  this.heartbeatIndex = 0;
+
+  // FIXME complete
+  // Add Scheduled time-outs
+};
+
+ActivityTask.prototype.describe = function describe() {
+  return {
+    activityId: this.activityId,
+    activityType: {
+      name: this.activityType.name,
+      version: this.activityType.version,
+    },
+    input: this.input,
+    startedEventId: this.startedEventId,
+    taskToken: this.taskToken,
+    workflowExecution: {
+      runId: this.workflowRun.runId,
+      workflowId: this.workflowRun.workflowId,
+    },
+  };
+};
+
+ActivityTask.prototype.isScheduled = function isScheduled() {
+  return ACTIVITY_STATE_SCHEDULED === this.statusCode;
+};
+
+ActivityTask.prototype.isRunning = function isRunning() {
+  return ACTIVITY_STATE_RUNNING === this.statusCode;
+};
+
+ActivityTask.prototype.isClosed = function isClosed() {
+  return this.statusCode >= ACTIVITY_STATE_TIMED_OUT;
+};
+
+/**
+ * Create the correct heartbeat status response.  This includes proper
+ * heartbeat timeout handling.
+ */
+ActivityTask.prototype.heartbeatStatus = function heartbeatStatus() {
+  if (this.isRunning()) {
+    var t = this;
+    var heartbeatId = ++this.heartbeatIndex;
+    Q.timeout(this.heartbeatTimeout * 1000).then(function t() {
+      if (t.isRunning() && t.heartbeatIndex === heartbeatId) {
+        // FIXME time out the activity:
+        // Set the status to timed out.
+        // Send an out-of-band event to the workflow.
+      }
+    });
+    return [200, { cancelRequested: this.cancelRequested }];
+  };
+  return [400, 'Sender', 'UnknownResourceFault', `Activity ${this.activityId} is not running`];
+};
+
+
+
+// ===========================================================================
+
+function LambdaTask(p) {
+  this.lambdaId = p.lambdaId;
+  // FIXME complete.
+}

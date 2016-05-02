@@ -1,6 +1,7 @@
 'use strict';
 
 const awsCommon = require('../../lib/aws-common');
+const createActivityTask = require('./tasks').createActivityTask;
 
 module.exports = function createActivityType(p) {
   return new ActivityType(p);
@@ -44,4 +45,11 @@ ActivityType.prototype.summary = function summary() {
     description: this.description,
     creationDate: '' + this.creationDate,
   };
+};
+ActivityType.prototype.isDeprecated = function isDeprecated() {
+  return this.deprecationDate !== null;
+};
+ActivityType.prototype.createActivityTask = function createActivityTask(p) {
+  p.activityType = this;
+  return createActivityTask(p);
 };

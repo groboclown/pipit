@@ -84,20 +84,13 @@ EventBus.prototype.handleStartDecisionEvent = function handleStartDecisionEvent(
  */
 EventBus.prototype.sendExternalEvents = function sendExternalEvents(eventList) {
   // Create events and sort them by workflow.
-  if (!eventList) {
-    return;
-  }
-  if (!Array.isArray(eventList)) {
-    eventList = [eventList];
-  }
   var workflows = {};
-  for (var i = 0; i < eventList.length; i++) {
-    var event = this._createEvent(eventList[i]);
-    if (!!event) {
-      workflows[event.destination.runId] = event.destination;
-      event.destination._addEvent(event);
-    }
-  }
+  this.__handleAllEvents({
+    eventList: eventList,
+  }).forEach(function fe(event) {
+    workflows[event.destination.runId] = event.destination;
+    event.destination._addEvent(event);
+  });
 
   for (var runId in workflows) {
     if (workflows.hasOwnProperty(runId)) {
@@ -109,15 +102,7 @@ EventBus.prototype.sendExternalEvents = function sendExternalEvents(eventList) {
       }
 
       var taskList = this.domain.getOrCreateDecisionTaskList(workflow.executionConfiguration.taskList);
-      var scheduledEvent = this._createEvent({
-        workflow: workflow,
-        name: 'DecisionTaskScheduled',
-        data: {
-          startToCloseTimeout: workflow.executionConfiguration.executionStartToCloseTimeout,
-          taskList: { name: workflow.executionConfiguration.taskList.name },
-          taskPriority: workflow.executionConfiguration.taskPriority,
-        },
-      });
+      var scheduledEvent = this._createEvent(workflow.createDecisionTaskScheduledEvent());
       workflow._addEvent(scheduledEvent);
       var task = taskList.addDecisionTaskFor({
         workflow: workflow,
@@ -141,48 +126,17 @@ EventBus.prototype.sendDecisionEvents = function sendDecisionEvents(p) {
   var t = this;
   var event, srcEvent, newEvents;
 
-  // Don't make the functions in the loop; define them here.
-  function getWorkflowRun(p) {
-    return t.domain.getWorkflowRun(p);
-  }
-  function getWorkflowType(p) {
-    return t.domain.getWorkflowType(p);
-  }
-  function hasOpenWorkflowId(p) {
-    return t.domain.hasOpenWorkflowId(p);
-  }
-  function registerChildWorkflowRun(run) {
-    // TODO use a more formal way to add this.
-    t.domain.workflowRuns.push(run);
-  }
-
-  while (eventList.length > 0) {
-    srcEvent = eventList.pop();
-    srcEvent.sourceWorkflow = sourceWorkflow;
-    event = this._createEvent(srcEvent);
-    if (!!srcEvent.postEventCreation) {
-      // If any objects are returned, these are new events to process.
-      // This happens even if there is no event generated.
-      newEvents = srcEvent.postEventCreation({
-        sourceEvent: event,
-        getWorkflowRun: getWorkflowRun,
-        getWorkflowType: getWorkflowType,
-        hasOpenWorkflowId: hasOpenWorkflowId,
-        registerChildWorkflowRun: registerChildWorkflowRun,
-      });
-      if (!!newEvents) {
-        for (var i = 0; i < newEvents.length; i++) {
-          eventList.push(newEvents[i]);
-        }
-      }
+  this.__handleAllEvents({
+    eventList: eventList,
+    preEventFunc: function pef(evt) {
+      evt.sourceWorkflow = sourceWorkflow;
+    },
+  }).forEach(function fe(event) {
+    if (!byWorkflow[event.destination.runId]) {
+      byWorkflow[event.destination.runId] = [];
     }
-    if (!!event) {
-      if (!byWorkflow[event.destination.runId]) {
-        byWorkflow[event.destination.runId] = [];
-      }
-      byWorkflow[event.destination.runId].push(event);
-    }
-  }
+    byWorkflow[event.destination.runId].push(event);
+  });
 
   // FIXME put the byWorkflow objects into the decision task lists.
 };
@@ -271,6 +225,80 @@ EventBus.prototype._createEvent = function _createEvent(p) {
   });
   return event;
 };
+
+
+/**
+ * Handle the created events, by allowing an event object to include a
+ * method, `postEventCreation`, that can in turn create more events.
+ * This allows the proper chaining of "event A -> event B which links to
+ * event A".
+ *
+ * @param {Object} p - parameters
+ * @param {Object|Object[]} p.eventList - list of events, or a single event.
+ * @param {function} [p.preEventFunc] - processes the event object before it
+ *    is created.
+ */
+EventBus.prototype.__handleAllEvents = function __handleAllEvents(p) {
+  var eventList = p.eventList;
+  var preEventFunc = p.preEventFunc;
+
+  if (!eventList) {
+    return [];
+  }
+  if (!Array.isArray(eventList)) {
+    eventList = [eventList];
+  }
+
+  // Don't make the functions in the loop; define them here.
+  function getWorkflowRun(p) {
+    return t.domain.getWorkflowRun(p);
+  }
+  function getWorkflowType(p) {
+    return t.domain.getWorkflowType(p);
+  }
+  function hasOpenWorkflowId(p) {
+    return t.domain.hasOpenWorkflowId(p);
+  }
+  function registerChildWorkflowRun(run) {
+    // TODO use a more formal way to add this.
+    t.domain.workflowRuns.push(run);
+  }
+  function getActivityType(p) {
+    return t.domain.getActivityType(p);
+  }
+
+  var srcEvent, event, newEvents;
+  var ret = [];
+  while (eventList.length > 0) {
+    srcEvent = eventList.pop();
+    if (!!preEventFunc) {
+      preEventFunc(srcEvent);
+    }
+    event = this._createEvent(srcEvent);
+    if (!!srcEvent.postEventCreation) {
+      // If any objects are returned, these are new events to process.
+      // This happens even if there is no event generated.
+      newEvents = srcEvent.postEventCreation({
+        sourceEvent: event,
+        getWorkflowRun: getWorkflowRun,
+        getWorkflowType: getWorkflowType,
+        hasOpenWorkflowId: hasOpenWorkflowId,
+        registerChildWorkflowRun: registerChildWorkflowRun,
+        getActivityType: getActivityType,
+      });
+      if (!!newEvents) {
+        for (var i = 0; i < newEvents.length; i++) {
+          eventList.push(newEvents[i]);
+        }
+      }
+    }
+    if (!!event) {
+      ret.push(event);
+    }
+  }
+  return event;
+};
+
 
 
 // ---------------------------------------------------------------------
