@@ -28,8 +28,6 @@ const RUN_STATE_TIMED_OUT = 15;
  * @param {WorkflowType} p.workflowType
  * @param {string} p.workflowId
  * @param {function} p.outOfBandEventFunc
- * @param {function} p.createActivityFunc
- * @param {function} p.createLambdaFunc
  * @param {string} [p.lambdaRole]
  * @param {string} [p.taskStartToCloseTimeout]
  * @param {string} [p.executionStartToCloseTimeout]
@@ -44,8 +42,6 @@ function WorkflowRun(p) {
   this.workflowType = p.workflowType;
   this.workflowId = p.workflowId;
   this.outOfBandEventFunc = p.outOfBandEventFunc;
-  this.createActivityFunc = p.createActivityFunc;
-  this.createLambdaFunc = p.createLambdaFunc;
   this.runId = awsCommon.genRequestId();
   this.executionConfiguration = {
     lambdaRole: p.lambdaRole || p.workflowType.configuration.defaultLambdaRole,
@@ -321,6 +317,17 @@ WorkflowRun.prototype.addChild = function addChild(p) {
 WorkflowRun.prototype.getDecisionTaskByToken = function getDecisionTaskByToken(taskToken) {
   for (var j = 0; j < this.openDecisionTasks.length; j++) {
     var task = this.openDecisionTasks[j];
+    if (task.isOpen() && task.taskToken === taskToken) {
+      return task;
+    }
+  }
+  return null;
+};
+
+
+WorkflowRun.prototype.getActivityTaskByToken = function getActivityTaskByToken(taskToken) {
+  for (var i = 0; i < this.openActivityTasks.length; i++) {
+    var task = this.openActivityTasks[i];
     if (task.isOpen() && task.taskToken === taskToken) {
       return task;
     }
@@ -629,10 +636,37 @@ WorkflowRun.prototype.handleDecision = function handleDecision(p) {
       // through the heart-beat response mechanism.
       // If the activity has already stopped, then return a failure event.
 
-      // FIXME Implement once activities are added.
+      for (let i = 0; i < this.openActivityTasks.length; i++) {
+        let task = this.openActivityTasks[i];
+        if (activityId === task.activityId) {
+          // The request is always entered, regardless of the state of the
+          // task.
+          return [{
+            name: 'ActivityTaskCancelRequested',
+            data: {
+              activityId: activityId,
+              decisionTaskCompletedEventId: decisionTaskCompletedEventId,
+            },
+            postEventCreation: function postEventCreation(p) {
+              var sourceEvent = p.sourceEvent;
+              // This request can potentially generate an actual
+              // cancellation.
+              return task.requestCancel({
+                cancelRequestedEventId: sourceEvent.id,
+              });
+            },
+          },];
+        }
+      }
+
+      // Could not find the activity.
       return [{
-        ERROR: true,
-        result: [500, 'Server', 'ServerFailure', 'RequestCancelActivityTask not Implemented'],
+        name: 'RequestCancelActivityTaskFailed',
+        data: {
+          activityId: activityId,
+          cause: 'ACTIVITY_ID_UNKNOWN',
+          decisionTaskCompletedEventId: decisionTaskCompletedEventId,
+        },
       },];
     }
 
@@ -1258,6 +1292,18 @@ WorkflowRun.prototype.getTimer = function getTimer(timerId) {
     }
   }
   return null;
+};
+WorkflowRun.prototype.registerActivity = function registerActivity(activity) {
+  this.openActivityTasks.push(activity);
+};
+WorkflowRun.prototype.deleteActivity = function deleteActivity(activity) {
+  for (var i = 0; i < this.openActivityTasks.length; i++) {
+    if (activity.taskToken === this.openActivityTasks[i].taskToken) {
+      this.openActivityTasks.splice(i, 1);
+      return true;
+    }
+  }
+  return false;
 };
 
 // ---------------------------------------------------

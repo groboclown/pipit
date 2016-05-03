@@ -210,6 +210,7 @@ const ACTIVITY_STATE_RUNNING = 1;
 const ACTIVITY_STATE_TIMED_OUT = 2;
 const ACTIVITY_STATE_CANCELED = 3;
 const ACTIVITY_STATE_FAILED = 4;
+const ACTIVITY_STATE_COMPLETED = 5;
 
 /**
  * @param {Object} p - parameters
@@ -217,6 +218,7 @@ const ACTIVITY_STATE_FAILED = 4;
  * @param {ActivityType} p.activityType - activity type.
  * @param {string} p.input - input
  * @param {long} p.startedEventId - event that started this activity
+ * @param {long} p.scheduledEventId - event that scheduled this activity
  * @param {string} [p.control] - used by workflow, not sent to activity.
  * @param {long|string} [p.heartbeatTimeout] - heartbeat timeout.
  * @param {long|string} [p.scheduleToCloseTimeout] - entire activity timeout.
@@ -231,6 +233,7 @@ function ActivityTask(p) {
   this.activityId = p.activityId;
   this.activityType = p.activityType;
   this.input = p.input || null;
+  this.scheduledEventId = p.scheduledEventId;
   this.startedEventId = p.startedEventId;
   this.workflowRun = p.workflowRun;
   this.control = p.control;
@@ -248,17 +251,18 @@ function ActivityTask(p) {
     this.taskList.name = p.activityType.configuration.defaultTaskList.name;
   }
 
-
-
   this.taskToken = awsCommon.genRequestId();
   this.statusCode = 0;
   this.failure = null;
   this.cancelRequested = false;
+  this.heartbeatDetails = null;
 
   // Every heartbeat has a timeout.  If a heartbeat for index 101 fires,
   // but the current heartbeat is 102, then heartbeat 101 will not cause
   // a timeout.
   this.heartbeatIndex = 0;
+
+  this.latestCancelRequestedEventId = null;
 
   // FIXME complete
   // Add Scheduled time-outs
@@ -289,23 +293,68 @@ ActivityTask.prototype.isRunning = function isRunning() {
   return ACTIVITY_STATE_RUNNING === this.statusCode;
 };
 
+ActivityTask.prototype.isOpen = function isClosed() {
+  return this.statusCode < ACTIVITY_STATE_TIMED_OUT;
+};
+
 ActivityTask.prototype.isClosed = function isClosed() {
   return this.statusCode >= ACTIVITY_STATE_TIMED_OUT;
+};
+
+/**
+ * A request from an in-band process to cancel the activity.
+ * @return {Object[]} list of event objects.
+ */
+ActivityTask.prototype.requestCancel = function requestCancel(p) {
+  var cancelRequestedEventId = p.cancelRequestedEventId;
+  this.latestCancelRequestedEventId = cancelRequestedEventId;
+  this.cancelRequested = true;
+
+  // If we're open but not running, then close us.
+  if (this.isOpen() && !this.isRunning()) {
+    this.statusCode = ACTIVITY_STATE_CANCELED;
+
+    // Workflow needs to know about the abort.
+    return [{
+      workflow: this.workflowRun,
+      name: 'ActivityTaskCanceled',
+      data: {
+        latestCancelRequestedEventId: cancelRequestedEventId,
+        scheduledEventId: this.scheduledEventId,
+        startedEventId: this.startedEventId,
+      },
+    },];
+  }
+  // No extra events generated.  The cancellation will occur when the
+  // activity acknowledges the cancel.
+  return null;
 };
 
 /**
  * Create the correct heartbeat status response.  This includes proper
  * heartbeat timeout handling.
  */
-ActivityTask.prototype.heartbeatStatus = function heartbeatStatus() {
+ActivityTask.prototype.heartbeatStatus = function heartbeatStatus(p) {
+  var details = p.details;
+  this.heartbeatDetails = details;
   if (this.isRunning()) {
     var t = this;
     var heartbeatId = ++this.heartbeatIndex;
     Q.timeout(this.heartbeatTimeout * 1000).then(function t() {
       if (t.isRunning() && t.heartbeatIndex === heartbeatId) {
-        // FIXME time out the activity:
         // Set the status to timed out.
+        t.statusCode = ACTIVITY_STATE_TIMED_OUT;
         // Send an out-of-band event to the workflow.
+        this.outOfBandWorfklowEventFunc([{
+          workflow: t.workflowRun,
+          name: 'ActivityTaskTimedOut',
+          data: {
+            details: t.details,
+            scheduledEventId: t.scheduledEventId,
+            startedEventId: t.startedEventId,
+            timeoutType: 'HEARTBEAT',
+          },
+        },]);
       }
     });
     return [200, { cancelRequested: this.cancelRequested }];
@@ -313,7 +362,62 @@ ActivityTask.prototype.heartbeatStatus = function heartbeatStatus() {
   return [400, 'Sender', 'UnknownResourceFault', `Activity ${this.activityId} is not running`];
 };
 
+/**
+ * Out-of-band event processing.
+ */
+ActivityTask.prototype.canceled = function canceled(p) {
+  var details = p.details;
+  this.statusCode = ACTIVITY_STATE_CANCELED;
+  this.workflowRun.deleteActivity(this);
+  this.outOfBandWorfklowEventFunc([{
+    workflow: this.workflowRun,
+    name: 'ActivityTaskCanceled',
+    data: {
+      details: details,
+      latestCancelRequestedEventId: this.latestCancelRequestedEventId,
+      scheduledEventId: this.startedEventId,
+      startedEventId: this.startedEventId,
+    },
+  },]);
+};
 
+/**
+ * Out-of-band event processing.
+ */
+ActivityTask.prototype.completed = function completed(p) {
+  var result = p.result;
+  this.statusCode = ACTIVITY_STATE_COMPLETED;
+  this.workflowRun.deleteActivity(this);
+  this.outOfBandWorfklowEventFunc([{
+    workflow: this.workflowRun,
+    name: 'ActivityTaskCompleted',
+    data: {
+      result: result,
+      scheduledEventId: this.startedEventId,
+      startedEventId: this.startedEventId,
+    },
+  },]);
+};
+
+/**
+ * Out-of-band event processing.
+ */
+ActivityTask.prototype.failed = function failed(p) {
+  var reason = p.reason;
+  var details = p.details;
+  this.statusCode = ACTIVITY_STATE_FAILED;
+  this.workflowRun.deleteActivity(this);
+  this.outOfBandWorfklowEventFunc([{
+    workflow: this.workflowRun,
+    name: 'ActivityTaskFailed',
+    data: {
+      reason: reason,
+      details: details,
+      scheduledEventId: this.startedEventId,
+      startedEventId: this.startedEventId,
+    },
+  },]);
+};
 
 // ===========================================================================
 

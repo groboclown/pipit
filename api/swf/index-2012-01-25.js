@@ -879,6 +879,148 @@ module.exports.RespondDecisionTaskCompleted = function RespondDecisionTaskComple
   return [200, ret];
 };
 
+// --------------------------------------------------------------------------
+// Activity Task
+
+module.exports.RespondActivityTaskCanceled = function RespondActivityTaskCanceled(aws) {
+  var details = aws.params.details;
+  var taskToken = aws.params.taskToken;
+  if (!taskToken) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter taskToken'];
+  }
+
+  var activityData = getActivityTaskByToken(taskToken);
+  if (!activityData) {
+    return [400, 'Sender', 'UnknownResourceFault', `Unknown activity task token ${taskToken}`];
+  }
+  var domainObj = activityData[0];
+  var activityTask = activityData[1];
+
+  if (!activityTask.isRunning()) {
+    // What is the right response here?
+    return [400, 'Sender', 'ValidationError', `Activity Task (${taskToken}) is not running.`];
+  }
+
+  // Handles its own event sending.
+  activityTask.canceled({
+    details: details,
+  });
+
+  var ret = {};
+  return [200, ret];
+};
+
+module.exports.RespondActivityTaskCompleted = function RespondActivityTaskCompleted(aws) {
+  var taskToken = aws.params.taskToken;
+  var result = aws.params.result;
+  if (!taskToken) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter taskToken'];
+  }
+
+  var activityData = getActivityTaskByToken(taskToken);
+  if (!activityData) {
+    return [400, 'Sender', 'UnknownResourceFault', `Unknown activity task token ${taskToken}`];
+  }
+  var domainObj = activityData[0];
+  var activityTask = activityData[1];
+
+  if (!activityTask.isRunning()) {
+    // What is the right response here?
+    return [400, 'Sender', 'ValidationError', `Activity Task (${taskToken}) is not running.`];
+  }
+
+  // Handles its own event sending
+  activityTask.completed({
+    result: result,
+  });
+
+  var ret = {};
+  return [200, ret];
+};
+module.exports.RespondActivityTaskFailed = function RespondActivityTaskFailed(aws) {
+  var details = aws.params.details;
+  var reason = aws.params.reason;
+  var taskToken = aws.params.taskToken;
+  if (!taskToken) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter taskToken'];
+  }
+
+  var activityData = getActivityTaskByToken(taskToken);
+  if (!activityData) {
+    return [400, 'Sender', 'UnknownResourceFault', `Unknown activity task token ${taskToken}`];
+  }
+  var domainObj = activityData[0];
+  var activityTask = activityData[1];
+
+  if (!activityTask.isRunning()) {
+    // What is the right response here?
+    return [400, 'Sender', 'ValidationError', `Activity Task (${taskToken}) is not running.`];
+  }
+
+  // Handles its own event sending
+  activityTask.failed({
+    details: details,
+    reason: reason,
+  });
+
+  var ret = {};
+  return [200, ret];
+};
+
+module.exports.RecordActivityTaskHeartbeat = function RecordActivityTaskHeartbeat(aws) {
+  var details = aws.params.details;
+  var taskToken = aws.params.taskToken;
+  if (!taskToken) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter taskToken'];
+  }
+
+  var activityData = getActivityTaskByToken(taskToken);
+  if (!activityData) {
+    return [400, 'Sender', 'UnknownResourceFault', `Unknown activity task token ${taskToken}`];
+  }
+  var domainObj = activityData[0];
+  var activityTask = activityData[1];
+
+  if (!activityTask.isRunning()) {
+    // What is the right response here?
+    return [400, 'Sender', 'ValidationError', `Activity Task (${taskToken}) is not running.`];
+  }
+
+  return activityTask.heartbeatStatus({
+    details: details,
+  });
+};
+
+module.exports.PollForActivityTask = function PollForActivityTask(aws) {
+  var domain = aws.params.domain;
+  var identity = aws.params.identity;
+  var taskList = aws.params.taskList;
+  if (!domain) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter domain'];
+  }
+  if (!taskList) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter taskList'];
+  }
+
+  // TODO implement code
+
+  var ret = {
+    input: '',
+    workflowExecution: /*S16*/{
+      workflowId: '',
+      runId: '',
+    },
+    activityType: /*Sn*/{
+      version: '',
+      name: '',
+    },
+    startedEventId: 0 /*Long*/,
+    taskToken: '',
+    activityId: '',
+  };
+  return [200, ret];
+};
+
 
 // --------------------------------------------------------------------------
 // Utility Functions
@@ -922,100 +1064,17 @@ function getDecisionTaskByToken(taskToken) {
 }
 
 
-// -----------------------------------------------------------------------------
-// TODO to sort
-
-
-
-
-
-
-
-
-
-module.exports.RespondActivityTaskCanceled = function RespondActivityTaskCanceled(aws) {
-  var details = aws.params.details;
-  var taskToken = aws.params.taskToken;
-  if (!taskToken) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter taskToken'];
+function getActivityTaskByToken(taskToken) {
+  for (var domain in domainWorkflows) {
+    if (domainWorkflows.hasOwnProperty(domain)) {
+      var task = domainWorkflows[domain].getActivityTaskByToken(taskToken);
+      if (!!task) {
+        return [domainWorkflows[domain], task];
+      }
+    }
   }
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-
-module.exports.RespondActivityTaskCompleted = function RespondActivityTaskCompleted(aws) {
-  var taskToken = aws.params.taskToken;
-  var result = aws.params.result;
-  if (!taskToken) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter taskToken'];
-  }
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-module.exports.RespondActivityTaskFailed = function RespondActivityTaskFailed(aws) {
-  var details = aws.params.details;
-  var reason = aws.params.reason;
-  var taskToken = aws.params.taskToken;
-  if (!taskToken) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter taskToken'];
-  }
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-
-module.exports.RecordActivityTaskHeartbeat = function RecordActivityTaskHeartbeat(aws) {
-  var details = aws.params.details;
-  var taskToken = aws.params.taskToken;
-  if (!taskToken) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter taskToken'];
-  }
-
-  // TODO implement code
-
-  var ret = {
-    cancelRequested: false,
-  };
-  return [200, ret];
-};
-
-module.exports.PollForActivityTask = function PollForActivityTask(aws) {
-  var domain = aws.params.domain;
-  var identity = aws.params.identity;
-  var taskList = aws.params.taskList;
-  if (!domain) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter domain'];
-  }
-  if (!taskList) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter taskList'];
-  }
-
-  // TODO implement code
-
-  var ret = {
-    input: '',
-    workflowExecution: /*S16*/{
-      workflowId: '',
-      runId: '',
-    },
-    activityType: /*Sn*/{
-      version: '',
-      name: '',
-    },
-    startedEventId: 0 /*Long*/,
-    taskToken: '',
-    activityId: '',
-  };
-  return [200, ret];
-};
+  return null;
+}
 
 
 

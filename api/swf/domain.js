@@ -285,6 +285,17 @@ Domain.prototype.getDecisionTaskByToken = function getDecisionTaskByToken(taskTo
 };
 
 
+Domain.prototype.getActivityTaskByToken = function getActivityTaskByToken(taskToken) {
+  for (var i = 0; i < this.workflowRuns.length; i++) {
+    var task = this.workflowRuns[i].getActivityTaskByToken(taskToken);
+    if (!!task) {
+      return task;
+    }
+  }
+  return null;
+};
+
+
 /**
  * Handles the completion of the decision task.
  *
