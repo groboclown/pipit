@@ -85,6 +85,7 @@ Domain.prototype.registerWorkflowType = function registerWorkflowType(p) {
     }
   }
   p.outOfBandEventFunc = this.eventBus.createOutOfBandEventFunc();
+  p.queueActivityTaskFunc = this.eventBus.createQueueActivityTaskFunc();
   var workflowType = createWorkflowType(p);
   if (!!workflowType) {
     this.workflowTypes.push(workflowType);
@@ -274,6 +275,28 @@ Domain.prototype.getActivityTaskList = function getActivityTaskList(taskList) {
 };
 
 
+/**
+ *
+ *
+ * @param {Object} taskList - the task list object
+ * @param {string} taskList.name - task list name
+ */
+Domain.prototype.getOrCreateActivityTaskList = function getOrCreateActivityTaskList(taskList) {
+  if (!!taskList && !!taskList.name) {
+    if (!!this.activityTaskLists[taskList.name]) {
+      return this.activityTaskLists[taskList.name];
+    }
+    var t = this;
+    this.activityTaskLists[taskList.name] = taskListSrc.createActivity({
+      name: taskList.name,
+      outOfBandEventFunc: t.eventBus.createOutOfBandEventFunc(),
+    });
+    return this.activityTaskLists[taskList.name];
+  }
+  return null;
+};
+
+
 Domain.prototype.getDecisionTaskByToken = function getDecisionTaskByToken(taskToken) {
   for (var i = 0; i < this.workflowRuns.length; i++) {
     var task = this.workflowRuns[i].getDecisionTaskByToken(taskToken);
@@ -422,4 +445,4 @@ Domain.prototype.signalWorkflow = function signalWorkflow(p) {
   var input = p.input;
 
   this.eventBus.sendExternalEvents([workflow.createSignalWorkflowEvent(p)]);
-}
+};

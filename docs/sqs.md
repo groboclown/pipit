@@ -4,6 +4,12 @@
 
 The SQS implementation conforms to most of the web service specification.
 
+
+The implementation has these shortcomings:
+
+* If a client is disconnected during a long poll, there is a
+  chance that the next event to process will be lost.
+
 It has these primary differences:
 
 * There is no restriction to how frequently a queue can be created or deleted;

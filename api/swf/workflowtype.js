@@ -13,6 +13,7 @@ module.exports = function createWorkflowType(p) {
  * @param {string} p.version
  * @param {string} p.description
  * @param {function} p.outOfBandEventFunc
+ * @param {function} p.queueActivityTaskFunc
  * @param {Object} p.defaultTaskList
  * @param {string} p.defaultTaskList.name
  * @param {string} p.defaultChildPolicy
@@ -26,6 +27,7 @@ var WorkflowType = function(p) {
   this.version = p.version;
   this.description = p.description || '';
   this.outOfBandEventFunc = p.outOfBandEventFunc;
+  this.queueActivityTaskFunc = p.queueActivityTaskFunc;
   this.status = 'REGISTERED';
   this.creationDate = awsCommon.timestamp();
   this.deprecationDate = null;

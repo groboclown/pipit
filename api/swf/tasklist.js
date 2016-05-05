@@ -4,7 +4,7 @@ const CommonInbox = require('../../lib/inbox');
 const awsCommon = require('../../lib/aws-common');
 const util = require('util');
 const Q = require('q');
-const tasks = require('./tasks');
+const createDecisionTask = require('./decision-task');
 
 /**
  * The inbox of sorts used for polling and pushing
@@ -40,7 +40,7 @@ util.inherits(Decider, BaseTaskList);
  */
 Decider.prototype.addDecisionTaskFor = function addDecisionTaskFor(p) {
   p.outOfBandEventFunc = this.outOfBandEventFunc;
-  var task = tasks.createDecisionTask(p);
+  var task = createDecisionTask(p);
   // The task will not be "open" until a decider receives the task message.
   console.log(`[DECIDER ${this.name}] added task to inbox: decision task for run ${task.workflowRun.workflowId}`);
   this.inbox.push(task, 0, 100);
@@ -128,11 +128,59 @@ Decider.prototype.pull = function pull(deciderId, nextPageToken, maximumPageSize
     });
 };
 
-module.exports.createActivity = function createActivity(domain, name) {
-  return new Activity(domain, name);
+
+// ===========================================================================
+
+module.exports.createActivity = function createActivity(p) {
+  return new Activity(p);
 };
 
 function Activity(p) {
   Activity.super_.call(this, p);
 }
 util.inherits(Activity, BaseTaskList);
+
+Activity.prototype.addActivityTask = function addActivityTask(activityTask) {
+  // The task will not be "open" until a decider receives the task message.
+  console.log(`[ACTIVITY ${this.name}] added task to inbox: activity ${activityTask.activityId} / ${activityTask.taskList.name}`);
+  this.inbox.push(activityTask, 0, 100);
+};
+
+Activity.prototype.pull = function pull(p) {
+  var workerId = p.workerId;
+
+  var t = this;
+  // Note that the timeouts are all hard-coded, because this is in
+  // the spec for how the decision task list works.
+  return this.inbox.pull(1, 60, 1000)
+    .then(function t1(msgs) {
+      console.log(`[ACTIVITY ${t.name}] received pending messages in inbox: [${msgs.length}] = ${msgs}`);
+      var task = msgs[0].value;
+      t.inbox.deleteByMessageId(msgs[0].messageId);
+
+      var result = task.start({
+        workerId: workerId,
+      });
+      if (!result) {
+        // Search again.  It probably timed out.
+        console.log(`[ACTIVITY ${t.name}] pending message timed out; searching again`);
+        return t.pull({ workerId: workerId });
+      }
+
+      return result;
+    })
+    .catch(function c1(err) {
+      // Generally a timeout
+      console.log(`[ACTIVITY ${t.name}] error pollling for task: ${err}\n${err.stack}`);
+      return {
+        // Empty version of the ActivityTask object.
+        // Note, specifically, that the taks token is given, but it's empty.
+        taskToken: '',
+        input: null,
+        workflowExecution: null,
+        activityType: null,
+        startedEventId: 0 /*Long*/,
+        activityId: '',
+      };
+    });
+};

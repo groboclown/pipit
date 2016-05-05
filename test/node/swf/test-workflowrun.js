@@ -32,16 +32,26 @@ describe('All workflow tests', function() {
       assert.deepEqual(wrun.tagList, [], 'tag list');
       assert.strictEqual(wrun.executionContext, '', 'default execution context');
 
-      var missing = [
-        'lambdaRole', 'taskStartToCloseTimeout', 'executionStartToCloseTimeout',
-        'taskPriority', 'childPolicy', 'taskList',
-      ];
+      var missing = {
+        DEFAULT_TASK_START_TO_CLOSE_TIMEOUT_UNDEFINED: 'taskStartToCloseTimeout',
+        DEFAULT_EXECUTION_START_TO_CLOSE_TIMEOUT_UNDEFINED: 'executionStartToCloseTimeout',
+        DEFAULT_CHILD_POLICY_UNDEFINED: 'childPolicy',
+        DEFAULT_TASK_LIST_UNDEFINED: 'taskList',
+
+        // No default is fine for these
+        // ` lambdaRole: '',
+        // ` taskPriority: '',
+      };
       var missingDefault;
-      while (missing.length > 0) {
+      while (Object.keys(missing).length > 0) {
         missingDefault = wrun.getMissingDefault();
-        assert.isOk(isIn(missingDefault, missing), 'report of missing default value');
-        var key = missing.pop();
-        wrun.executionConfiguration[key] = 'yes';
+        assert.isOk(missing[missingDefault], `report of missing default value ${missingDefault}`);
+        if (missing[missingDefault] === 'taskList') {
+          wrun.executionConfiguration.taskList = { name: 'yes' };
+        } else {
+          wrun.executionConfiguration[missing[missingDefault]] = 'yes';
+        }
+        delete missing[missingDefault];
       }
       missingDefault = wrun.getMissingDefault();
       assert.isNull(missingDefault, 'should have no missing defaults');

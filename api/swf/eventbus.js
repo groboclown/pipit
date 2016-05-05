@@ -35,6 +35,17 @@ EventBus.prototype.createOutOfBandEventFunc = function createOutOfBandEventFunc(
 
 
 /**
+ * Creates a function that adds an activity task to an activity task list.
+ */
+EventBus.prototype.createQueueActivityTaskFunc = function createQueueActivityTaskFunc() {
+  var t = this;
+  return function queueActivityTaskFunc(activityTask) {
+    t.queueActivityTask(activityTask);
+  };
+};
+
+
+/**
  * Used to create the start event for the decision task.  The task is
  * correctly routed.
  */
@@ -168,6 +179,16 @@ EventBus.prototype.startWorkflowExecution = function startWorkflowExecution(p) {
 };
 
 
+EventBus.prototype.queueActivityTask = function queueActivityTask(activityTask) {
+  var activityTaskList = this.domain.getOrCreateActivityTaskList(activityTask.taskList);
+  if (!activityTaskList) {
+    throw new Error(`Bad activity ${JSON.stringify(activityTask)}`);
+  }
+  activityTaskList.addActivityTask(activityTask);
+};
+
+
+
 /**
  * @private
  * @param {Object} p parameters
@@ -248,6 +269,8 @@ EventBus.prototype.__handleAllEvents = function __handleAllEvents(p) {
   if (!Array.isArray(eventList)) {
     eventList = [eventList];
   }
+
+  var t = this;
 
   // Don't make the functions in the loop; define them here.
   function getWorkflowRun(p) {

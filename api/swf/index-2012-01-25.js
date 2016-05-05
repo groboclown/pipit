@@ -661,7 +661,7 @@ module.exports.StartWorkflowExecution = function StartWorkflowExecution(aws) {
   if (!!missingDefault) {
     // Don't let a timeout happen.
     run.runState = 100;
-    return [400, 'Sender', 'DefaultUndefinedFault', 'Missing parameter ' + missingDefault,];
+    return [400, 'Sender', 'DefaultUndefinedFault', missingDefault,];
   }
 
   domainWorkflows[domain].startWorkflowExecution({ workflow: run });
@@ -772,7 +772,7 @@ module.exports.SignalWorkflowExecution = function SignalWorkflowExecution(aws) {
   });
 
   if (!workflow) {
-    return [400, 'Sender', 'UnknownResourceFault', `Unknown workflow ${workflowId} / ${runid}`];
+    return [400, 'Sender', 'UnknownResourceFault', `Unknown workflow ${workflowId} / ${runId}`];
   }
 
   domainWorkflows[domain].signalWorkflow({
@@ -1002,23 +1002,12 @@ module.exports.PollForActivityTask = function PollForActivityTask(aws) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter taskList'];
   }
 
-  // TODO implement code
-
-  var ret = {
-    input: '',
-    workflowExecution: /*S16*/{
-      workflowId: '',
-      runId: '',
-    },
-    activityType: /*Sn*/{
-      version: '',
-      name: '',
-    },
-    startedEventId: 0 /*Long*/,
-    taskToken: '',
-    activityId: '',
-  };
-  return [200, ret];
+  var taskListObj = domainWorkflows[domain].getOrCreateActivityTaskList(taskList);
+  return taskListObj.pull({
+    workerId: identity,
+  }).then(function(val) {
+    return [200, val];
+  });
 };
 
 

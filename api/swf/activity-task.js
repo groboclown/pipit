@@ -10,200 +10,10 @@ const Q = require('q');
  * Activities posted to a task list.
  */
 
-
-module.exports.createDecisionTask = function createDecisionTask(p) {
-  return new DecisionTask(p);
-};
-
-module.exports.createActivityTask = function createActivityTask(p) {
+module.exports = function createActivityTask(p) {
   return new ActivityTask(p);
 };
 
-module.exports.createLambdaTask = function createLambdaTask(p) {
-  return new LambdaTask(p);
-};
-
-const RUN_STATE_CREATED = 0;
-const RUN_STATE_STARTED = 1;
-const RUN_STATE_COMPLETED = 2;
-const RUN_STATE_TIMED_OUT = 3;
-
-
-/**
- * The only kind of task posted to a Decision task list.
- * These will automatically add themselves to the history.
- * They will not, though, manage the openDecisionTask list
- * in the workflowRun object.
- *
- * @param {Object} p parameters
- * @param {WorkflowRun} p.workflow workflow run object
- * @param {WorkflowEvent} p.scheduledEvent DecisionTaskScheduled event.
- */
-function DecisionTask(p) {
-  this.workflowRun = p.workflow;
-  this.taskToken = awsCommon.genRequestId();
-  this.outOfBandEventFunc = p.outOfBandEventFunc;
-  var scheduledEvent = p.scheduledEvent;
-
-  // Can only populate the started id stuff once we've started.
-  this.previousStartedEventId = null;
-  this.startedEventId = null;
-
-  this.deciderIdentity = null;
-  this.completedEventId = null;
-
-  this.scheduledEventId = scheduledEvent.id;
-
-  this.eventList = [];
-  // Snapshot the events up to this point
-  for (var i = 0; i < this.workflowRun.eventHistory.length; i++) {
-    var event = this.workflowRun.eventHistory[i].describe();
-    console.log(`[DECISION ${this.taskToken}] added event ${JSON.stringify(event)}`);
-    this.eventList.push(event);
-  }
-
-  this.runState = RUN_STATE_CREATED;
-}
-
-DecisionTask.prototype.createStartedEvent = function createStartedEvent(p) {
-  var deciderId = p.deciderId;
-  return {
-    workflow: this.workflowRun,
-    name: 'DecisionTaskStarted',
-    data: {
-      identity: deciderId,
-      scheduledEventId: this.scheduledEventId,
-    },
-  };
-};
-
-/** Call when the task is fetched for a polling decider. */
-DecisionTask.prototype.start = function start(p) {
-  var startedEvent = p.startedEvent;
-  var deciderId = p.deciderId;
-
-  if (this.runState === RUN_STATE_CREATED) {
-    this.runState = RUN_STATE_STARTED;
-
-    // TODO see if this DecisionTaskStarted should go in this task or the
-    // next one.  Because this task has already been loaded with events
-    // for when it was queued, there's a chance that new events could be
-    // loaded up before this ran.  Adding that new event here would mean
-    // that the events are loaded out-of-order.
-
-    // Only now is the decision task "open", which means that
-    // the decider has received the message.
-    this.workflowRun.openDecisionTasks.push(this);
-
-    this.deciderIdentity = deciderId;
-    this.previousStartedEventId = this.workflowRun.previousStartedEventId;
-    this.startedEventId = startedEvent.id;
-    this.workflowRun.previousStartedEventId = startedEvent.id;
-
-    // Create the timer for the decision task timed out event.
-    var t = this;
-    Q.timeout(
-      // AWS timeout property is in seconds, timeout is in ms.
-      t.workflowRun.executionConfiguration.taskStartToCloseTimeout * 1000
-    ).then(function() {
-      t.__timeout();
-    });
-  }
-};
-
-
-/**
- * @return the event data that will be converted to an event object.
- */
-DecisionTask.prototype.complete = function complete() {
-  if (this.runState !== RUN_STATE_STARTED) {
-    throw new Error('Not started yet');
-  }
-  this.runState = RUN_STATE_COMPLETED;
-  return {
-    name: 'DecisionTaskCompleted',
-    data: {
-      executionContext: this.workflowRun.executionContext,
-      scheduledEventId: this.scheduledEventId,
-      startedEventId: this.startedEventId,
-    },
-  };
-};
-
-
-// FIXME do we need this method?  Is this ID really necessary?
-DecisionTask.prototype.setCompletedEvent = function setCompletedEvent(event) {
-  this.completedEventId = event.id;
-};
-
-
-DecisionTask.prototype.isOpen = function isOpen() {
-  return this.runState <= RUN_STATE_STARTED;
-};
-
-
-/**
-* Called by the task list to find the decision task that matches the
-* page token.  If it matches, then this will return an array of:
-* [ is last page?, page details ].  If it doesn't match, then it
-* returns null.
-*/
-DecisionTask.prototype.pageEvents = function pageEvents(
-      pageToken, maximumPageSize, reverseOrder) {
-  if (pageToken !== null  && pageToken.substr(0, pageToken.indexOf('^')) !== this.taskToken) {
-    return null;
-  }
-  var ret = awsCommon.pageResults({
-    reverseOrder: reverseOrder,
-    maximumPageSize: maximumPageSize,
-    nextPageToken: pageToken,
-    key: 'events',
-    resultList: this.eventList,
-  });
-  ret.previousStartedEventId = this.previousStartedEventId;
-  ret.startedEventId = this.startedEventId;
-  ret.taskToken = this.taskToken;
-  ret.workflowExecution = {
-    runId: this.workflowRun.runId,
-    workflowId: this.workflowRun.workflowId,
-  };
-  ret.workflowType = {
-    name: this.workflowRun.workflowType.name,
-    version: this.workflowRun.workflowType.version,
-  };
-  // Augment the page token to reference this specific decision event
-  if (!!ret.nextPageToken) {
-    ret.nextPageToken = this.taskToken + '^' + ret.nextPageToken;
-  }
-  console.log(`[DECISION ${this.taskToken}] returning paged events ${JSON.stringify(ret)}`);
-  return [
-    // Is last?
-    !ret.nextPageToken,
-
-    // Actual results
-    ret,
-  ];
-};
-
-
-DecisionTask.prototype.__timeout = function __timeout() {
-  if (this.isOpen()) {
-    console.log(`[DECISION TASK ${this.taskToken}] Timed out`);
-    this.runState = RUN_STATE_TIMED_OUT;
-    this.outOfBandEventFunc([{
-      workflow: this.workflowRun,
-      name: 'DecisionTaskTimedOut',
-      data: {
-        scheduledEventId: this.scheduledEventId,
-        startedEventId: this.startedEventId,
-        timeoutType: 'START_TO_CLOSE',
-      },
-    },]);
-  }
-};
-
-
-// ===========================================================================
 
 const ACTIVITY_STATE_SCHEDULED = 0;
 const ACTIVITY_STATE_RUNNING = 1;
@@ -233,8 +43,8 @@ function ActivityTask(p) {
   this.activityId = p.activityId;
   this.activityType = p.activityType;
   this.input = p.input || null;
-  this.scheduledEventId = p.scheduledEventId;
-  this.startedEventId = p.startedEventId;
+  this.scheduledEventId = null;
+  this.startedEventId = null;
   this.workflowRun = p.workflowRun;
   this.control = p.control;
   this.outOfBandWorfklowEventFunc = p.outOfBandEventFunc;
@@ -264,9 +74,21 @@ function ActivityTask(p) {
 
   this.latestCancelRequestedEventId = null;
 
-  // FIXME complete
   // Add Scheduled time-outs
-};
+  var t = this;
+  Q.timeout(this.scheduleToCloseTimeout * 1000)
+    .then(function() {
+      if (!t.isClosed()) {
+        t.__timeout('SCHEDULE_TO_CLOSE');
+      }
+    });
+  Q.timeout(this.scheduleToStartTimeout * 1000)
+    .then(function() {
+      if (t.isScheduled()) {
+        t.__timeout('SCHEDULE_TO_START');
+      }
+    });
+}
 
 ActivityTask.prototype.describe = function describe() {
   return {
@@ -284,6 +106,29 @@ ActivityTask.prototype.describe = function describe() {
     },
   };
 };
+
+ActivityTask.prototype.getMissingDefault = function getMissingDefault() {
+  var defaultParams = {
+    scheduleToCloseTimeout: 'DEFAULT_SCHEDULE_TO_CLOSE_TIMEOUT_UNDEFINED',
+    taskList: 'DEFAULT_TASK_LIST_UNDEFINED',
+    scheduleToStartTimeout: 'DEFAULT_SCHEDULE_TO_START_TIMEOUT_UNDEFINED',
+    startToCloseTimeout: 'DEFAULT_START_TO_CLOSE_TIMEOUT_UNDEFINED',
+    heartbeatTimeout: 'DEFAULT_HEARTBEAT_TIMEOUT_UNDEFINED',
+  };
+  for (var k in defaultParams) {
+    if (defaultParams.hasOwnProperty(k)) {
+      if (!this[k]) {
+        return defaultParams[k];
+      }
+    }
+  }
+  if (!this.taskList.name) {
+    return 'DEFAULT_TASK_LIST_UNDEFINED';
+  }
+  return null;
+};
+
+
 
 ActivityTask.prototype.isScheduled = function isScheduled() {
   return ACTIVITY_STATE_SCHEDULED === this.statusCode;
@@ -330,6 +175,56 @@ ActivityTask.prototype.requestCancel = function requestCancel(p) {
   return null;
 };
 
+
+/**
+ * Called when the activity is picked up by the activity processor.
+ * This handles the workflow events by itself.
+ */
+ActivityTask.prototype.start = function start(p) {
+  var workerId = p.workerId;
+
+  if (this.isScheduled()) {
+    this.statusCode = ACTIVITY_STATE_RUNNING;
+    var t = this;
+    Q.timeout(this.scheduleToCloseTimeout * 1000)
+      .then(function() {
+        t.__timeout('START_TO_CLOSE');
+      });
+    this.outOfBandWorfklowEventFunc([{
+      workflow: this.workflowRun,
+      name: 'ActivityTaskStarted',
+      data: {
+        identity: workerId,
+        scheduledEventId: t.scheduledEventId,
+      },
+      postEventCreation: function postEventCreation(p) {
+        var sourceEvent = p.sourceEvent;
+        t.startedEventId = sourceEvent.id;
+        return null;
+      },
+    },]);
+    // Return the poll result.
+    return {
+      activityId: this.activityId,
+      taskToken: this.taskToken,
+      startedEventId: this.startedEventId,
+      input: this.input,
+      workflowExecution: {
+        workflowId: this.workflowRun.workflowId,
+        runId: this.workflowRun.runId,
+      },
+      activityType: {
+        name: this.activityType.name,
+        version: this.activityType.version,
+      },
+    };
+  }
+
+  // Not a valid task anymore; try another one.
+  return null;
+};
+
+
 /**
  * Create the correct heartbeat status response.  This includes proper
  * heartbeat timeout handling.
@@ -342,23 +237,11 @@ ActivityTask.prototype.heartbeatStatus = function heartbeatStatus(p) {
     var heartbeatId = ++this.heartbeatIndex;
     Q.timeout(this.heartbeatTimeout * 1000).then(function t() {
       if (t.isRunning() && t.heartbeatIndex === heartbeatId) {
-        // Set the status to timed out.
-        t.statusCode = ACTIVITY_STATE_TIMED_OUT;
-        // Send an out-of-band event to the workflow.
-        this.outOfBandWorfklowEventFunc([{
-          workflow: t.workflowRun,
-          name: 'ActivityTaskTimedOut',
-          data: {
-            details: t.details,
-            scheduledEventId: t.scheduledEventId,
-            startedEventId: t.startedEventId,
-            timeoutType: 'HEARTBEAT',
-          },
-        },]);
+        t.__timeout('HEARTBEAT');
       }
     });
     return [200, { cancelRequested: this.cancelRequested }];
-  };
+  }
   return [400, 'Sender', 'UnknownResourceFault', `Activity ${this.activityId} is not running`];
 };
 
@@ -419,9 +302,51 @@ ActivityTask.prototype.failed = function failed(p) {
   },]);
 };
 
-// ===========================================================================
 
-function LambdaTask(p) {
-  this.lambdaId = p.lambdaId;
-  // FIXME complete.
-}
+ActivityTask.prototype.createScheduledEvents = function createScheduledEvents(p) {
+  var decisionTaskCompletedEventId = p.decisionTaskCompletedEventId;
+  var t = this;
+  return [{
+    workflow: this.workflowRun,
+    name: 'ActivityTaskScheduled',
+    data: {
+      activityId: this.activityId,
+      activityType: {
+        name: this.activityType.name,
+        version: this.activityType.version,
+      },
+      control: this.control,
+      decisionTaskCompletedEventId: decisionTaskCompletedEventId,
+      heartbeatTimeout: this.heartbeatTimeout,
+      input: this.input,
+      scheduleToCloseTimeout: this.scheduleToCloseTimeout,
+      scheduleToStartTimeout: this.scheduleToStartTimeout,
+      startToCloseTimeout: this.startToCloseTimeout,
+      taskList: { name: this.taskList.name },
+      taskPriority: this.taskPriority,
+    },
+    // When the event is actually created, the activity needs to capture
+    // the id of the event.
+    postEventCreation: function postEventCreation(p) {
+      var sourceEvent = p.sourceEvent;
+      t.scheduledEventId = sourceEvent.id;
+    },
+  },];
+};
+
+
+ActivityTask.prototype.__timeout = function __timeout(timeoutType) {
+  // Set the status to timed out.
+  this.statusCode = ACTIVITY_STATE_TIMED_OUT;
+  // Send an out-of-band event to the workflow.
+  this.outOfBandWorfklowEventFunc([{
+    workflow: this.workflowRun,
+    name: 'ActivityTaskTimedOut',
+    data: {
+      details: this.details,
+      scheduledEventId: this.scheduledEventId,
+      startedEventId: this.startedEventId,
+      timeoutType: timeoutType,
+    },
+  },]);
+};

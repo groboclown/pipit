@@ -63,8 +63,8 @@ describe('Domain with data', function() {
     version: 'new',
     defaultTaskList: { name: 'tl 1' },
     defaultChildPolicy: 'TERMINATE',
-    defaultTaskStartToCloseTimeout: 10,
-    defaultExecutionStartToCloseTimeout: 10,
+    defaultTaskStartToCloseTimeout: 1000,
+    defaultExecutionStartToCloseTimeout: 1000,
     defaultLambdaRole: 'lr 1',
     defaultTaskPriority: '60',
   });
@@ -107,6 +107,11 @@ describe('Domain with data', function() {
 
   it('hasOpenWorkflowId with one open workflow', function() {
     assert.equal(dm.hasOpenWorkflowId('n/a'), false, 'non-existent workflow');
+
+    // DEBUG
+    console.log('Workflows:');
+    dm.forEachWorkflowRun(function f(wr) { console.log(`  ${wr.runState} -> ${wr.workflowId}`) });
+
     assert.equal(dm.hasOpenWorkflowId('wf 1'), true, 'open workflow');
     assert.equal(dm.hasOpenWorkflowId('wf 2'), false, 'closed workflow');
   });

@@ -42,6 +42,7 @@ function WorkflowRun(p) {
   this.workflowType = p.workflowType;
   this.workflowId = p.workflowId;
   this.outOfBandEventFunc = p.outOfBandEventFunc;
+  this.queueActivityTaskFunc = p.queueActivityTaskFunc;
   this.runId = awsCommon.genRequestId();
   this.executionConfiguration = {
     lambdaRole: p.lambdaRole || p.workflowType.configuration.defaultLambdaRole,
@@ -106,26 +107,39 @@ function WorkflowRun(p) {
 
   // Expire the workflow run after a certain period of time.
   var t = this;
+  var timeout = this.executionConfiguration.executionStartToCloseTimeout * 1000;
+  // DEBUG console.log(`[WORKFLOW ${this.workflowId}] timing out at ${timeout} ms (default: [${this.workflowType.configuration.defaultExecutionStartToCloseTimeout}]) ${awsCommon.timestamp()}`);
+  // Q.timeout sometimes does the wrong thing.  Sometimes, it fires immediately.
+  setTimeout(function() { t.__timeOut(); }, timeout);
+  /*
   Q.timeout(
     // AWS timeout property is in seconds, timeout is in ms.
-    this.executionConfiguration.executionStartToCloseTimeout * 1000
+    timeout
   ).then(function() {
     t.__timeOut();
   });
+  */
 }
 WorkflowRun.prototype.getMissingDefault = function getMissingDefault() {
-  var defaultParams = [
-    'lambdaRole',
-    'taskStartToCloseTimeout',
-    'executionStartToCloseTimeout',
-    'taskPriority',
-    'childPolicy',
-    'taskList',
-  ];
-  for (var i = 0; i < defaultParams.length; i++) {
-    if (!this.executionConfiguration[defaultParams[i]]) {
-      return defaultParams[i];
+  var defaultParams = {
+    taskStartToCloseTimeout: 'DEFAULT_TASK_START_TO_CLOSE_TIMEOUT_UNDEFINED',
+    executionStartToCloseTimeout: 'DEFAULT_EXECUTION_START_TO_CLOSE_TIMEOUT_UNDEFINED',
+    childPolicy: 'DEFAULT_CHILD_POLICY_UNDEFINED',
+    taskList: 'DEFAULT_TASK_LIST_UNDEFINED',
+
+    // No default is fine for these
+    // ` lambdaRole: '',
+    // ` taskPriority: '',
+  };
+  for (var k in defaultParams) {
+    if (defaultParams.hasOwnProperty(k)) {
+      if (!this.executionConfiguration[k]) {
+        return defaultParams[k];
+      }
     }
+  }
+  if (!this.executionConfiguration.taskList.name) {
+    return 'DEFAULT_TASK_LIST_UNDEFINED';
   }
   return null;
 };
@@ -636,6 +650,17 @@ WorkflowRun.prototype.handleDecision = function handleDecision(p) {
       // through the heart-beat response mechanism.
       // If the activity has already stopped, then return a failure event.
 
+      var mkPost = function mkPost(task) {
+        return function postEventCreation(p) {
+          var sourceEvent = p.sourceEvent;
+          // This request can potentially generate an actual
+          // cancellation.
+          return task.requestCancel({
+            cancelRequestedEventId: sourceEvent.id,
+          });
+        };
+      };
+
       for (let i = 0; i < this.openActivityTasks.length; i++) {
         let task = this.openActivityTasks[i];
         if (activityId === task.activityId) {
@@ -647,14 +672,8 @@ WorkflowRun.prototype.handleDecision = function handleDecision(p) {
               activityId: activityId,
               decisionTaskCompletedEventId: decisionTaskCompletedEventId,
             },
-            postEventCreation: function postEventCreation(p) {
-              var sourceEvent = p.sourceEvent;
-              // This request can potentially generate an actual
-              // cancellation.
-              return task.requestCancel({
-                cancelRequestedEventId: sourceEvent.id,
-              });
-            },
+            // Don't make a function within a loop, so create it in a called-to function.
+            postEventCreation: mkPost(task),
           },];
         }
       }
@@ -747,10 +766,11 @@ WorkflowRun.prototype.handleDecision = function handleDecision(p) {
       let activityTypeVersion = attrs.activityType.version;
       let control = attrs.control;
       let input = attrs.input;
+      let heartbeatTimeout = attrs.heartbeatTimeout;
       let scheduleToCloseTimeout = attrs.scheduleToCloseTimeout;
       let scheduleToStartTimeout = attrs.scheduleToStartTimeout;
       let startToCloseTimeout = attrs.startToCloseTimeout;
-      let taskListName = attrs.taskList.name;
+      let taskList = attrs.taskList;
       let taskPriority = attrs.taskPriority;
 
       // We don't do anything at the start, because we need to find the
@@ -773,9 +793,18 @@ WorkflowRun.prototype.handleDecision = function handleDecision(p) {
             err = 'ACTIVITY_TYPE_DEPRECATED';
           } else {
             activity = activityType.createActivityTask({
-              // FIXME create the activity
+              activityId: activityId,
+              input: input,
+              control: control,
+              heartbeatTimeout: heartbeatTimeout,
+              scheduleToCloseTimeout: scheduleToCloseTimeout,
+              scheduleToStartTimeout: scheduleToStartTimeout,
+              startToCloseTimeout: startToCloseTimeout,
+              taskPriority: taskPriority,
+              taskList: taskList,
+              workflowRun: this,
             });
-            // FIXME check for default values all set.
+            err = activity.getMissingDefault();
           }
 
           if (!!err) {
@@ -790,6 +819,13 @@ WorkflowRun.prototype.handleDecision = function handleDecision(p) {
               },
             },];
           }
+
+          // We have the new activity.  Schedule it to start.
+          // Note that this returned event should know how to deal with
+          // updating the acitivy from the generated event.
+          return activity.createScheduledEvents({
+            decisionTaskCompletedEventId: decisionTaskCompletedEventId,
+          });
         },
       },];
     }
@@ -951,14 +987,8 @@ WorkflowRun.prototype.handleDecision = function handleDecision(p) {
             });
             var missing = workflowRunObj.getMissingDefault();
             if (!!missing) {
-              // Rather than parsing here the missing default,
-              // just use a static one.
-              // TODO return one of:
-              // DEFAULT_EXECUTION_START_TO_CLOSE_TIMEOUT_UNDEFINED
-              // DEFAULT_TASK_LIST_UNDEFINED
-              // DEFAULT_TASK_START_TO_CLOSE_TIMEOUT_UNDEFINED
-              // DEFAULT_CHILD_POLICY_UNDEFINED
-              err = 'DEFAULT_CHILD_POLICY_UNDEFINED';
+              // The returned missing value is the error code.
+              err = missing;
             }
           }
 

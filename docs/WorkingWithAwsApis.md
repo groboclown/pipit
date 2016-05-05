@@ -21,6 +21,88 @@ client = new AmazonDynamoDBClient(credentials);
 client.setEndpoint("http://localhost:3000/dynamodb");
 ```
 
+### Override Region Enpoints with Java SDK Before 1.10
+
+Additionally, the Java AWS client uses the Java system variable
+`com.amazonaws.regions.RegionUtils.fileOverride` to allow for overriding the
+endpoint metadata file, which maps the AWS region code to a list of services
+and their hostname.  The underlying implementation uses the hostname as the
+endpoint URL (stripped of the protocol).
+
+Therefore, if you are dealing with code that does not allow for changing
+the endpoint, then you can do these two steps:
+
+1. Create a file, say `/path/to/override-endpoints.xml`, that points the services over
+   to your Pipit server, which is running on `http://localhost:3000`:
+    ```
+    <XML>
+      <Region>
+        <Name>us-mock-1</Name> <!-- set to whichever your app uses -->
+        <Endpoint>
+            <ServiceName>dynamodb</ServiceName>
+            <Http>true</Http> <!-- Allow HTTP connections -->
+            <Https>false</Https> <!-- Do not allow HTTPS connections -->
+            <Hostname>localhost:3000/dynamodb</Hostname>
+			<SignatureVersionOverride>4</SignatureVersionOverride> <!-- only supported signature, but this looks like it's ignored -->
+        </Endpoint>
+		(add additional Endpoint structures per service)
+      </Region>
+    </XML>
+    ```
+2. When invoking the Java program, include the JVM command-line argument
+   (the arguments that come before the class name):
+   ```-Dcom.amazonaws.regions.RegionUtils.fileOverride=/path/to/override-endpoints.xml```
+
+Note that this will work if your Java application uses multiple AWS services.
+
+### Override Region Enpoints with Java SDK After 1.10
+
+Starting with version 1.10 of the AWS SDK for Java, the endpoints has changed.
+It still supports the legacy XML file, but that may be removed in future
+versions.
+
+With the new version, the endpoints are loaded from the classpath.  You can
+override the base endpoints by adding the file `com/amazonaws/partitions/override/endpoints.json`
+into the classpath.  This will replace all the default endpoint definitions.
+
+The file will need to look like this: *TODO this needs testing*
+
+```
+{
+	"version": 3,
+	"partitions": [
+	{
+		"partition": "aws",
+		"partitionName": "AWS Mock Standard",
+		"dnsSuffix": "",
+		"regionRegex": "^.*$",
+		"defaults": {
+		  "hostname": "localhost:3000/{service}",
+		  "protocols": [
+			"http"
+		  ],
+		  "signatureVersions": [
+			"v4"
+		  ]
+		},
+		"regions": {
+			"us-mock-1": { /* whichever your server uses */
+				"description": "Mock region"
+			}
+		},
+		"services": {
+			"dynamodb": {
+				"endpoints": {
+					"us-mock-1": {} /* whichever your server uses */
+				}
+			}
+			/* add in additional services that you use */
+		}
+	}
+	]
+}
+```
+
 
 ## .NET
 
@@ -67,6 +149,30 @@ def create_service(service_id, api_version=None, user='USER_ACCESS_KEY'):
         region_name='moon-base-alpha',
         endpoint_url=endpoint + service_id + '/'
     )
+```
+
+
+## Javascript
+
+
+### Override Region Endpoints with Javascript
+
+You can override the endpoint location by replacing the file
+`node_modules/aws-sdk/lib/region_config.json` to look like:
+
+*TODO need to test*
+
+```
+{
+	"rules": {
+	  "*/*": {
+	    "endpoint": "localhost:3000/{service}",
+		"signatureVersion": "v4",
+		"sslEnabled": false
+	  }
+	},
+	"patterns": {}
+}
 ```
 
 
