@@ -10,10 +10,15 @@ describe('Activity task defaults', function() {
       name: 'Activity Type 1',
       version: 'asdf',
     });
+    var activityRegistration = [];
     var aTask = aType.createActivityTask({
       activityId: 'Activity Task 1',
-      workflowRun: {},
+      workflowRun: {
+        registerActivity: function(a) {
+          activityRegistration.push(a);
+        },
+      },
     });
-    assert.equal();
+    // TODO check results assert.equal();
   });
 });

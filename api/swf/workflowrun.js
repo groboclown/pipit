@@ -2,7 +2,7 @@
 
 const Q = require('q');
 const testParse = require('../../lib/test-parse');
-const lambdas = require('../../lib/lambdas');
+const createLambdaTask = require('./lambda-task');
 
 module.exports = function createWorkflowRun(p) {
   return new WorkflowRun(p);
@@ -351,6 +351,17 @@ WorkflowRun.prototype.getActivityTaskById = function getActivityTaskById(id) {
 };
 
 
+WorkflowRun.prototype.getLambdaTaskById = function getLambdaTaskById(id) {
+  for (var i = 0; i < this.openLambdaFunctions.length; i++) {
+    var task = this.openLambdaFunctions[i];
+    if (task.isOpen() && task.lambdaId === id) {
+      return task;
+    }
+  }
+  return null;
+};
+
+
 // ---------------------------------------------------------------------------
 // Event Processing
 
@@ -640,7 +651,7 @@ WorkflowRun.prototype.handleDecision = function handleDecision(p) {
       // through the heart-beat response mechanism.
       // If the activity has already stopped, then return a failure event.
 
-      var mkPost = function mkPost(task) {
+      let mkPost = function mkPost(task) {
         return function postEventCreation(p) {
           var sourceEvent = p.sourceEvent;
           // This request can potentially generate an actual
@@ -830,46 +841,18 @@ WorkflowRun.prototype.handleDecision = function handleDecision(p) {
       let name = attrs.name;
       let startToCloseTimeout = attrs.startToCloseTimeout;
 
-      let err = null;
-      let i = 0;
-      if (!textParse.isValidIdentifier(id)) {
-        return [{
-          ERROR: true,
-          // FIXME fix this exception name
-          result: [400, 'Sender', 'ValidationError', `invalid id ${id}`],
-        },];
-        // FIXME this should be a validation error.
-        err = 'ID_ALREADY_IN_USE';
-      }
-      for (i = 0; i < this.openLambdaFunctions.length; i++) {
-        if (this.openLambdaFunctions[i].lambdaId === id) {
-          err = 'ID_ALREADY_IN_USE';
-          break;
-        }
-      }
-      if (!!err) {
-        return [{
-          workflow: t,
-          name: 'ScheduleLambdaFunctionFailed',
-          data: {
-            cause: err,
-            decisionTaskCompletedEventId: decisionTaskCompletedEventId,
-            id: id,
-            name: name,
-          },
-        },];
-      }
-
       let lambda = createLambdaTask({
         workflowRun: this,
         outOfBandEventFunc: this.outOfBandEventFunc,
         id: id,
         name: name,
-        startToCloseTimeout: startToCloseTimeout || '300', // 60 * 5
+        startToCloseTimeout: startToCloseTimeout || '300', // 60 * 5 TODO what is the default?
         input: input,
       });
 
-      return lambda.createSheduledEvents();
+      return lambda.createScheduledEvents({
+        decisionTaskCompletedEventId: decisionTaskCompletedEventId,
+      });
     }
 
     // .....................................................................

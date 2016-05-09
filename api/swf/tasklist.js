@@ -149,7 +149,7 @@ Activity.prototype.addActivityTask = function addActivityTask(activityTask) {
 Activity.prototype.pull = function pull(p) {
   var workerId = p.workerId;
 
-  console.log(`[ACTIVITY ${this.name}] starting poll`)
+  console.log(`[ACTIVITY ${this.name}] starting poll`);
   var t = this;
   // Note that the timeouts are all hard-coded, because this is in
   // the spec for how the decision task list works.

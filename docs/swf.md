@@ -5,7 +5,7 @@
 The SWF implementation is missing these APIs
 
 * Deprecate APIs are not implemented.
-* Tasks (lambda and activities) are not supported yet.
+* ContinueAsNewWorkflowExecution is not implemented
 
 The implementation has these shortcomings:
 
@@ -14,6 +14,7 @@ The implementation has these shortcomings:
   if not, it will not receive any tasks.
 * If a client is disconnected during a long poll, there is a
   chance that the next event to process will be lost.
+* Scheduling lambdas default to 5 minute timeouts.
 
 It has these primary differences:
 
