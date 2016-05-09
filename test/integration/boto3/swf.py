@@ -10,9 +10,9 @@ import threading
 from queue import Queue
 
 
-class Boto3SwfTestCase(unittest.TestCase):
+class DomainTestCase(unittest.TestCase):
     """
-    Integration tests for an SWF message server.
+    Integration tests for SWF domains
     """
 
     def test_ListDomains_RegisterDomain_DescribeDomain_DeprecateDomain(self):
@@ -63,6 +63,8 @@ class Boto3SwfTestCase(unittest.TestCase):
         # TODO implement DeprecateDomain then add tests
 
 
+
+class WorkflowTypeTestCase(unittest.TestCase):
     def test_ListWorkflowTypes_RegisterWorkflowType_DescribeWorkflowType_DeprecateWorkflowType(self):
         swf = create_client('swf')
         new_domain_name = uuid.uuid4().urn
@@ -145,6 +147,7 @@ class Boto3SwfTestCase(unittest.TestCase):
         # TODO implement DeprecateWorkflowType then add tests
 
 
+class AcitivityTypeTestCase(unittest.TestCase):
     def test_ListActivityTypes_RegisterActivityType_DescribeActivityType_DeprecateActivityType(self):
         swf = create_client('swf')
         new_domain_name = uuid.uuid4().urn
@@ -224,6 +227,7 @@ class Boto3SwfTestCase(unittest.TestCase):
 
         # TODO implement DeprecateActivityType and add tests
 
+class ExecuteWorkflowDefaultsTestCase(unittest.TestCase):
     def test_ExecuteWorkflow_MissingDefault(self):
         swf = create_client('swf')
         new_domain_name = uuid.uuid4().urn
@@ -281,6 +285,7 @@ class Boto3SwfTestCase(unittest.TestCase):
             # print(text)
 
 
+class ExecuteWorkflowTestCase(unittest.TestCase):
     def test_StartWorkflowExecution_ListOpenWorkflowExecutions_TerminateWorkflow_ListClosedWorkflowExecutions(self):
         swf = create_client('swf')
         new_domain_name = uuid.uuid4().urn
@@ -489,7 +494,7 @@ class Boto3SwfTestCase(unittest.TestCase):
             'closed workflow count')
 
 
-
+class DecisionTaskTestCase(unittest.TestCase):
     def test_PollForDecisionTask_terminated(self):
         swf = create_client('swf')
         domain_name = uuid.uuid4().urn
@@ -565,14 +570,184 @@ class Boto3SwfTestCase(unittest.TestCase):
         # FIXME check result in more detail
 
 
+class ActivityTaskTestCase(unittest.TestCase):
+    def test_PollForActivityTask(self):
+        swf = create_client('swf')
+        domain_name = uuid.uuid4().urn
+        swf.register_domain(
+            name=domain_name,
+            description='domain for ' + domain_name,
+            workflowExecutionRetentionPeriodInDays='1')
+        workflow_type_name = 'WorkflowType test_PollForActivityTask'
+        decision_task_list_name = 'DecisionTaskList test_PollForActivityTask'
+        swf.register_workflow_type(
+            domain=domain_name,
+            name=workflow_type_name,
+            version='1.0',
+            description='workflow type ' + workflow_type_name,
+            defaultTaskStartToCloseTimeout='1000',
+            defaultExecutionStartToCloseTimeout='2000',
+            defaultTaskList={'name': decision_task_list_name},
+            defaultChildPolicy='TERMINATE')
+        activity_type_name = 'ActivityType test_PollForActivityTask'
+        actity_task_list_name = 'ActivityTaskList test_PollForActivityTask'
+        swf.register_activity_type(
+            domain=domain_name,
+            name=activity_type_name,
+            version='1.0',
+            description='test activity type',
+            defaultTaskStartToCloseTimeout='60',
+            defaultTaskHeartbeatTimeout='60',
+            defaultTaskList={'name': actity_task_list_name},
+            defaultTaskScheduleToStartTimeout='60',
+            defaultTaskScheduleToCloseTimeout='60')
+        workflow_id = 'Workflow test_PollForActivityTask'
+        run_id = swf.start_workflow_execution(
+            domain=domain_name,
+            workflowId=workflow_id,
+            workflowType={
+                'name': workflow_type_name,
+                'version': '1.0'
+            },
+            tagList=[ 'exec_' + workflow_id ]
+        )['runId']
+
+        # Poll for a decision in the background.
+        # This is a very simple decision processor that starts an activity
+        # task, waits for it to stop, and terminates the workflow.
+
+        # The queue is used to indicate that the decision task is terminated
+        # either by an error or a success.
+        dq = Queue()
+        def poll_for_decision():
+            decision_pager = swf.get_paginator('poll_for_decision_task')
+            task_token = None
+            events = []
+            try:
+                for page in decision_pager.paginate(
+                        domain=domain_name,
+                        taskList={'name': decision_task_list_name},
+                        identity='poll_for_decision test_PollForActivityTask',
+                        reverseOrder=True):
+                    if ('events' in page and 'workflowType' in page and page['workflowType']['name'] == workflow_type_name):
+                        if 'taskToken' in page:
+                            task_token = page['taskToken']
+                        events.extend(page['events'])
+            except:
+                dq.put([False, sys.exc_info()[1]])
+            return [task_token, events]
+
+        activity_id = 'Activity test_PollForActivityTask'
+        activity_input = uuid.uuid4().urn
+        def decision_poller():
+            try:
+                task_token, events = poll_for_decision()
+                # Raises an exception that will be caught and reported in dq.
+                self.assertTrue(task_token is not None, 'Did not get a task token')
+                swf.respond_decision_task_completed(
+                    taskToken=task_token,
+                    decisions=[
+                        {
+                            'decisionType': 'ScheduleActivityTask',
+                            'scheduleActivityTaskDecisionAttributes': {
+                                'activityType': {
+                                    'name': activity_type_name,
+                                    'version': '1.0'
+                                },
+                                'activityId': activity_id,
+                                'input': activity_input
+                            }
+                        }
+                    ]
+                )
+                # Wait for activity to finish
+                for i in range(0, 4):
+                    task_token, events = poll_for_decision()
+                    event, attributes = get_event('ScheduleActivityTaskFailed', events)
+                    self.assertTrue(event is None, 'encountered ' + repr(event))
+                    event, attributes = get_event('ActivityTaskTimedOut', events)
+                    self.assertTrue(event is None, 'encountered ' + repr(event))
+                    event, attributes = get_event('ActivityTaskFailed', events)
+                    self.assertTrue(event is None, 'encountered ' + repr(event))
+                    event, attributes = get_event('ActivityTaskCanceled', events)
+                    self.assertTrue(event is None, 'encountered ' + repr(event))
+                    event, attributes = get_event('ActivityTaskCompleted', events)
+                    if event is not None:
+                        # Horray!
+                        dq.put([True, events])
+                        return
+                self.fail('Did not encounter an ActivityTaskCompleted event after 4 tries')
+            except:
+                dq.put([False, sys.exc_info()[1]])
+
+        t = threading.Thread(target=decision_poller)
+        t.daemon = True
+        t.start()
+
+        # Activity processor
+        aq = Queue()
+        def activity_poller():
+            res = None
+            try:
+                for i in range(0, 4):
+                    print('DEBUG: polling for activity task')
+                    res = swf.poll_for_activity_task(
+                        domain=domain_name,
+                        taskList={ 'name': actity_task_list_name },
+                        identity='activity_poller test_PollForActivityTask'
+                    )
+                    if res is not None and 'taskToken' in res:
+                        break
+                self.assertTrue(res is not None and 'taskToken' in res, 'Did not receive activity task from poll')
+                self.assertTrue(res is not None, 'Did not receive an activity poll after 4 retries')
+                self.assertEqual(res['activityId'], activity_id, 'Activity ID did not match')
+                self.assertEqual(res['workflowExecution']['workflowId'], workflow_id, 'Workflow ID did not match')
+                self.assertTrue(res['workflowExecution']['runId'] is not None, 'Workflow run ID does not exist')
+                self.assertEqual(res['input'], activity_input, 'activity input does not match')
+                swf.respond_activity_task_completed(
+                    taskToken=res['taskToken'], result='Yay!'
+                )
+                aq.put([True, None])
+            except:
+                try:
+                    if res is not None:
+                        # mark the activity as failed, for consistency
+                        swf.respond_activity_task_failed(
+                            taskToken=res['taskToken'],
+                            reason='Test failure'
+                        )
+                except:
+                    # Not the source of the problem, so don't directly report
+                    print(repr(sys.exc_info()[1]))
+                print(repr(sys.exc_info()[1]))
+                aq.put([False, sys.exc_info()[1]])
+
+        t = threading.Thread(target=activity_poller)
+        t.daemon = True
+        t.start()
+
+        passed, events = dq.get()
+        if not passed:
+            raise events
+
+        # It should have a started workflow and terminated workflow entries.
+        self.assertTrue(len(events) > 1, "Not enough events: " + repr(events))
+
+        # FIXME check events in more detail
+
+        passed, error = aq.get()
+        if not passed:
+            raise error
 
 
-class QTestCase(unittest.TestCase):
 
 
-
-    def test_QuickCheck(self):
-        pass
+def get_event(name, event_list):
+    attr_name = name[0].lower() + name[1:] + 'EventAttributes';
+    for event in event_list:
+        if event['eventType'] == name and attr_name in event:
+            return (event, event[attr_name])
+    return (None, None)
 
 
 if __name__ == '__main__':

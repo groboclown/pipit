@@ -2,6 +2,7 @@
 
 const Q = require('q');
 const testParse = require('../../lib/test-parse');
+const lambdas = require('../../lib/lambdas');
 
 module.exports = function createWorkflowRun(p) {
   return new WorkflowRun(p);
@@ -42,7 +43,6 @@ function WorkflowRun(p) {
   this.workflowType = p.workflowType;
   this.workflowId = p.workflowId;
   this.outOfBandEventFunc = p.outOfBandEventFunc;
-  this.queueActivityTaskFunc = p.queueActivityTaskFunc;
   this.runId = awsCommon.genRequestId();
   this.executionConfiguration = {
     lambdaRole: p.lambdaRole || p.workflowType.configuration.defaultLambdaRole,
@@ -108,17 +108,7 @@ function WorkflowRun(p) {
   // Expire the workflow run after a certain period of time.
   var t = this;
   var timeout = this.executionConfiguration.executionStartToCloseTimeout * 1000;
-  // DEBUG console.log(`[WORKFLOW ${this.workflowId}] timing out at ${timeout} ms (default: [${this.workflowType.configuration.defaultExecutionStartToCloseTimeout}]) ${awsCommon.timestamp()}`);
-  // Q.timeout sometimes does the wrong thing.  Sometimes, it fires immediately.
   setTimeout(function() { t.__timeOut(); }, timeout);
-  /*
-  Q.timeout(
-    // AWS timeout property is in seconds, timeout is in ms.
-    timeout
-  ).then(function() {
-    t.__timeOut();
-  });
-  */
 }
 WorkflowRun.prototype.getMissingDefault = function getMissingDefault() {
   var defaultParams = {
@@ -775,6 +765,7 @@ WorkflowRun.prototype.handleDecision = function handleDecision(p) {
 
       // We don't do anything at the start, because we need to find the
       // activity type (which may not exist).
+
       return [{
         postEventCreation: function postEventCreation(p) {
           var getActivityType = p.getActivityType;
@@ -802,7 +793,8 @@ WorkflowRun.prototype.handleDecision = function handleDecision(p) {
               startToCloseTimeout: startToCloseTimeout,
               taskPriority: taskPriority,
               taskList: taskList,
-              workflowRun: this,
+              outOfBandEventFunc: t.outOfBandEventFunc,
+              workflowRun: t,
             });
             err = activity.getMissingDefault();
           }
@@ -838,11 +830,46 @@ WorkflowRun.prototype.handleDecision = function handleDecision(p) {
       let name = attrs.name;
       let startToCloseTimeout = attrs.startToCloseTimeout;
 
-      // FIXME Implement once activities are added.
-      return [{
-        ERROR: true,
-        result: [500, 'Server', 'ServerFailure', 'ScheduleLambdaFunction not Implemented'],
-      },];
+      let err = null;
+      let i = 0;
+      if (!textParse.isValidIdentifier(id)) {
+        return [{
+          ERROR: true,
+          // FIXME fix this exception name
+          result: [400, 'Sender', 'ValidationError', `invalid id ${id}`],
+        },];
+        // FIXME this should be a validation error.
+        err = 'ID_ALREADY_IN_USE';
+      }
+      for (i = 0; i < this.openLambdaFunctions.length; i++) {
+        if (this.openLambdaFunctions[i].lambdaId === id) {
+          err = 'ID_ALREADY_IN_USE';
+          break;
+        }
+      }
+      if (!!err) {
+        return [{
+          workflow: t,
+          name: 'ScheduleLambdaFunctionFailed',
+          data: {
+            cause: err,
+            decisionTaskCompletedEventId: decisionTaskCompletedEventId,
+            id: id,
+            name: name,
+          },
+        },];
+      }
+
+      let lambda = createLambdaTask({
+        workflowRun: this,
+        outOfBandEventFunc: this.outOfBandEventFunc,
+        id: id,
+        name: name,
+        startToCloseTimeout: startToCloseTimeout || '300', // 60 * 5
+        input: input,
+      });
+
+      return lambda.createSheduledEvents();
     }
 
     // .....................................................................
@@ -1335,6 +1362,19 @@ WorkflowRun.prototype.deleteActivity = function deleteActivity(activity) {
   }
   return false;
 };
+WorkflowRun.prototype.registerLambda = function registerLambda(lambda) {
+  this.openLambdaFunctions.push(lambda);
+};
+WorkflowRun.prototype.deleteLambda = function deleteLambda(lambda) {
+  for (var i = 0; i < this.openLambdaFunctions.length; i++) {
+    if (lambda.lambdaId === this.openLambdaFunctions[i].lambdaId) {
+      this.openLambdaFunctions.splice(i, 1);
+      return true;
+    }
+  }
+  return false;
+};
+
 
 // ---------------------------------------------------
 // FIXME all below here needs to be rethought.
@@ -1374,21 +1414,24 @@ function WorkflowTimer(p) {
   this.startedEvent = null;
 
   var t = this;
-  // `timeout` is in seconds
-  Q.timeout(t.timeout * 1000).then(function() {
-    if (t.active && !!t.startedEvent) {
-      // Timers execution fires in an out-of-band way.
-      t.workflowRun.outOfBandEventFunc([{
-        workflow: t.workflowRun,
-        name: 'TimerFired',
-        data: {
-          startedEventId: t.startedEvent.id,
-          timerId: t.timerId,
-        },
-      },]);
-    }
-    t.workflowRun.deleteTimer(t.timerId);
-  });
+  setTimeout(
+    function() {
+      if (t.active && !!t.startedEvent) {
+        // Timers execution fires in an out-of-band way.
+        t.workflowRun.outOfBandEventFunc([{
+          workflow: t.workflowRun,
+          name: 'TimerFired',
+          data: {
+            startedEventId: t.startedEvent.id,
+            timerId: t.timerId,
+          },
+        },]);
+      }
+      t.workflowRun.deleteTimer(t.timerId);
+    },
+    // `timeout` is in seconds
+    t.timeout * 1000
+  );
 }
 WorkflowTimer.prototype.createStartedEventObject = function createStartedEventObject() {
   return {

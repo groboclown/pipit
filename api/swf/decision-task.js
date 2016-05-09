@@ -75,6 +75,9 @@ DecisionTask.prototype.start = function start(p) {
   var deciderId = p.deciderId;
 
   if (this.runState === RUN_STATE_CREATED) {
+    // FIXME DEBUG
+    console.log(`[DECISION ${this.taskToken}] Starting decision task`);
+
     this.runState = RUN_STATE_STARTED;
 
     // TODO see if this DecisionTaskStarted should go in this task or the
@@ -94,12 +97,15 @@ DecisionTask.prototype.start = function start(p) {
 
     // Create the timer for the decision task timed out event.
     var t = this;
-    Q.timeout(
+
+    setTimeout(
+      function() {
+        console.log(`[DECISION ${this.taskToken}] timed out after ${t.workflowRun.executionConfiguration.taskStartToCloseTimeout} seconds`);
+        t.__timeout();
+      },
       // AWS timeout property is in seconds, timeout is in ms.
       t.workflowRun.executionConfiguration.taskStartToCloseTimeout * 1000
-    ).then(function() {
-      t.__timeout();
-    });
+    );
   }
 };
 

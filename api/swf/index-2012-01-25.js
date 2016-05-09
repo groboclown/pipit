@@ -1001,6 +1001,13 @@ module.exports.PollForActivityTask = function PollForActivityTask(aws) {
   if (!taskList) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter taskList'];
   }
+  if (!taskList.name) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter taskList.name'];
+  }
+
+  if (!domainWorkflows[domain]) {
+    return [400, 'Sender', 'UnknownResourceFault', 'No such domain ' + domain];
+  }
 
   var taskListObj = domainWorkflows[domain].getOrCreateActivityTaskList(taskList);
   return taskListObj.pull({
@@ -1022,20 +1029,7 @@ function isValidTaskListName(name) {
   // | (vertical bar), or any control characters (\u0000-\u001f | \u007f - \u009f). Also, it must not contain
   // the literal string "arn".
 
-  // Note: this return value must be wrapped in parenthesis, otherwise
-  // order of operations says that the return is returning an object that evaluates to false.
-
-  return (
-    // Must be non-null
-    (!!name) &&
-
-    // Must not start or end with whitespace
-    (name.trim() === name) &&
-
-    // Must not contain a colon, slash, vertical bar, or any
-    // control characters, or the literal string "arn"
-    (!name.match(/:|\/|\||[\u0000-\u001f]|[\u007f-\u009f]|arn/))
-  );
+  return textParse.isValidIdentifier(name, true);
 }
 
 

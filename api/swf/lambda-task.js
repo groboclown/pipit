@@ -17,6 +17,16 @@ module.exports = function createLambdaTask(p) {
 
 
 function LambdaTask(p) {
-  this.lambdaId = p.lambdaId;
-  // FIXME complete.
+  this.lambdaId = p.id;
+  this.input = p.input;
+  this.name = p.name;
+  this.workflowRun = p.workflowRun;
+  this.outOfBandEventFunc = p.outOfBandEventFunc;
+  this.startToCloseTimeout = p.startToCloseTimeout;
+
+  this.workflowRun.registerLambda(this);
 }
+
+LambdaTask.prototype.createSheduledEvents = function createSheduledEvents() {
+  // FIXME create the event
+};

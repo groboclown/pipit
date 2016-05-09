@@ -92,7 +92,7 @@ Decider.prototype.pull = function pull(deciderId, nextPageToken, maximumPageSize
   // the spec for how the decision task list works.
   return this.inbox.pull(1, 60, 1000)
     .then(function t1(msgs) {
-      console.log(`[DECIDER ${t.name}] received pending messages in inbox: [${msgs.length}] = ${msgs}`);
+      console.log(`[DECIDER ${t.name}] received ${msgs.length} pending message(s) in inbox`);
       var task = msgs[0].value;
       t.inbox.deleteByMessageId(msgs[0].messageId);
 
@@ -149,12 +149,13 @@ Activity.prototype.addActivityTask = function addActivityTask(activityTask) {
 Activity.prototype.pull = function pull(p) {
   var workerId = p.workerId;
 
+  console.log(`[ACTIVITY ${this.name}] starting poll`)
   var t = this;
   // Note that the timeouts are all hard-coded, because this is in
   // the spec for how the decision task list works.
   return this.inbox.pull(1, 60, 1000)
     .then(function t1(msgs) {
-      console.log(`[ACTIVITY ${t.name}] received pending messages in inbox: [${msgs.length}] = ${msgs}`);
+      console.log(`[ACTIVITY ${t.name}] received ${msgs.length} pending message(s) in inbox`);
       var task = msgs[0].value;
       t.inbox.deleteByMessageId(msgs[0].messageId);
 

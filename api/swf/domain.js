@@ -85,7 +85,6 @@ Domain.prototype.registerWorkflowType = function registerWorkflowType(p) {
     }
   }
   p.outOfBandEventFunc = this.eventBus.createOutOfBandEventFunc();
-  p.queueActivityTaskFunc = this.eventBus.createQueueActivityTaskFunc();
   var workflowType = createWorkflowType(p);
   if (!!workflowType) {
     this.workflowTypes.push(workflowType);
@@ -120,6 +119,7 @@ Domain.prototype.registerActivityType = function registerActivityType(p) {
     }
   }
   p.outOfBandEventFunc = this.eventBus.createOutOfBandEventFunc();
+  p.queueActivityTaskFunc = this.eventBus.createQueueActivityTaskFunc();
   var activityType = createActivityType(p);
   if (!!activityType) {
     this.activityTypes.push(activityType);
@@ -291,6 +291,7 @@ Domain.prototype.getOrCreateActivityTaskList = function getOrCreateActivityTaskL
       name: taskList.name,
       outOfBandEventFunc: t.eventBus.createOutOfBandEventFunc(),
     });
+    console.log(`[DOMAIN ${this.name}] created activity task list ${taskList.name}`);
     return this.activityTaskLists[taskList.name];
   }
   return null;

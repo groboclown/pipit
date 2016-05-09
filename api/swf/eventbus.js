@@ -319,7 +319,7 @@ EventBus.prototype.__handleAllEvents = function __handleAllEvents(p) {
       ret.push(event);
     }
   }
-  return event;
+  return ret;
 };
 
 

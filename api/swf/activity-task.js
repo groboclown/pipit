@@ -48,6 +48,7 @@ function ActivityTask(p) {
   this.workflowRun = p.workflowRun;
   this.control = p.control;
   this.outOfBandWorfklowEventFunc = p.outOfBandEventFunc;
+  this.queueActivityTaskFunc = p.queueActivityTaskFunc;
 
   this.heartbeatTimeout = p.heartbeatTimeout || p.activityType.configuration.defaultTaskHeartbeatTimeout;
   this.scheduleToCloseTimeout = p.scheduleToCloseTimeout || p.activityType.configuration.defaultTaskScheduleToCloseTimeout;
@@ -74,20 +75,25 @@ function ActivityTask(p) {
 
   this.latestCancelRequestedEventId = null;
 
+  // Registration with the workflow
+  this.workflowRun.registerActivity(this);
+
   // Add Scheduled time-outs
   var t = this;
-  Q.timeout(this.scheduleToCloseTimeout * 1000)
-    .then(function() {
+  setTimeout(
+    function() {
       if (!t.isClosed()) {
         t.__timeout('SCHEDULE_TO_CLOSE');
       }
-    });
-  Q.timeout(this.scheduleToStartTimeout * 1000)
-    .then(function() {
+    },
+    this.scheduleToCloseTimeout * 1000);
+  setTimeout(
+    function() {
       if (t.isScheduled()) {
         t.__timeout('SCHEDULE_TO_START');
       }
-    });
+    },
+    this.scheduleToStartTimeout * 1000);
 }
 
 ActivityTask.prototype.describe = function describe() {
@@ -186,10 +192,12 @@ ActivityTask.prototype.start = function start(p) {
   if (this.isScheduled()) {
     this.statusCode = ACTIVITY_STATE_RUNNING;
     var t = this;
-    Q.timeout(this.scheduleToCloseTimeout * 1000)
-      .then(function() {
+    setTimeout(
+      function() {
         t.__timeout('START_TO_CLOSE');
-      });
+      },
+      this.scheduleToCloseTimeout * 1000
+    );
     this.outOfBandWorfklowEventFunc([{
       workflow: this.workflowRun,
       name: 'ActivityTaskStarted',
@@ -235,11 +243,14 @@ ActivityTask.prototype.heartbeatStatus = function heartbeatStatus(p) {
   if (this.isRunning()) {
     var t = this;
     var heartbeatId = ++this.heartbeatIndex;
-    Q.timeout(this.heartbeatTimeout * 1000).then(function t() {
-      if (t.isRunning() && t.heartbeatIndex === heartbeatId) {
-        t.__timeout('HEARTBEAT');
-      }
-    });
+    setTimeout(
+      function t() {
+        if (t.isRunning() && t.heartbeatIndex === heartbeatId) {
+          t.__timeout('HEARTBEAT');
+        }
+      },
+      this.heartbeatTimeout * 1000
+    );
     return [200, { cancelRequested: this.cancelRequested }];
   }
   return [400, 'Sender', 'UnknownResourceFault', `Activity ${this.activityId} is not running`];
@@ -262,6 +273,7 @@ ActivityTask.prototype.canceled = function canceled(p) {
       startedEventId: this.startedEventId,
     },
   },]);
+  this.workflowRun.deleteActivity(this);
 };
 
 /**
@@ -280,6 +292,7 @@ ActivityTask.prototype.completed = function completed(p) {
       startedEventId: this.startedEventId,
     },
   },]);
+  this.workflowRun.deleteActivity(this);
 };
 
 /**
@@ -300,6 +313,7 @@ ActivityTask.prototype.failed = function failed(p) {
       startedEventId: this.startedEventId,
     },
   },]);
+  this.workflowRun.deleteActivity(this);
 };
 
 
@@ -330,6 +344,9 @@ ActivityTask.prototype.createScheduledEvents = function createScheduledEvents(p)
     postEventCreation: function postEventCreation(p) {
       var sourceEvent = p.sourceEvent;
       t.scheduledEventId = sourceEvent.id;
+
+      // Add the activity task to the task list.
+      t.queueActivityTaskFunc(t);
     },
   },];
 };
@@ -349,4 +366,5 @@ ActivityTask.prototype.__timeout = function __timeout(timeoutType) {
       timeoutType: timeoutType,
     },
   },]);
+  this.workflowRun.deleteActivity(this);
 };

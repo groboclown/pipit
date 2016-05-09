@@ -23,6 +23,7 @@ function ActivityType(p) {
   this.name = p.name;
   this.version = p.version;
   this.description = p.description || '';
+  this.queueActivityTaskFunc = p.queueActivityTaskFunc;
   this.creationDate = awsCommon.timestamp();
 }
 ActivityType.prototype.describe = function describe() {
@@ -51,5 +52,6 @@ ActivityType.prototype.isDeprecated = function isDeprecated() {
 };
 ActivityType.prototype.createActivityTask = function createActivityTask(p) {
   p.activityType = this;
+  p.queueActivityTaskFunc = this.queueActivityTaskFunc;
   return createActivityTaskObj(p);
 };

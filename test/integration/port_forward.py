@@ -25,8 +25,12 @@ def server(local_port=None, remote_host=None, remote_port=None, out_file=None):
         dock_socket.bind(('', local_port))
         dock_socket.listen(5)
         while True:
+            # Note: due to the nature of long poll calls, we need a long
+            # timeout period.  The AWS docs recommend a 70 second timeout.
             client_socket = dock_socket.accept()[0]
+            client_socket.settimeout(70.0)
             server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            server_socket.settimeout(70.0)
             server_socket.connect((remote_host, remote_port))
             t1 = threading.Thread(target=forward, args=(
                 client_socket,
