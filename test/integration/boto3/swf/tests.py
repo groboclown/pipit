@@ -2,12 +2,12 @@
 
 import unittest
 from botocore.exceptions import ClientError
-from .aws_common import create_client
-import uuid
 import sys
 import datetime
 import threading
 from queue import Queue
+
+from . import util
 
 
 class DomainTestCase(unittest.TestCase):
@@ -15,70 +15,91 @@ class DomainTestCase(unittest.TestCase):
     Integration tests for SWF domains
     """
 
-    def test_ListDomains_RegisterDomain_DescribeDomain_DeprecateDomain(self):
-        swf = create_client('swf')
-        new_domain_name = uuid.uuid4().urn
+    #def test_ListDomains_RegisterDomain_DescribeDomain_DeprecateDomain(self):
+    #    swf = util.BasicSwfSetup(self)
+    #    new_domain_name = util.create_new_name()
+
+    #    # ListDomains
+    #    domain_pager = swf.client.get_paginator('list_domains')
+    #    known_domains = []
+    #    for page in domain_pager.paginate(
+    #            registrationStatus='REGISTERED',
+    #            reverseOrder=False):
+    #        if 'domainInfos' in page:
+    #            for domainInfo in page['domainInfos']:
+    #                known_domains.append(domainInfo['name'])
+
+    #    # RegisterDomain
+    #    # :: boto3 doesn't return anything
+    #    swf.client.register_domain(
+    #        name=new_domain_name,
+    #        description='domain for ' + new_domain_name,
+    #        workflowExecutionRetentionPeriodInDays='1'
+    #    )
+
+    #    # ListDomains
+    #    domain_pager = swf.client.get_paginator('list_domains')
+    #    found = False
+    #    for page in domain_pager.paginate(
+    #            registrationStatus='REGISTERED',
+    #            maximumPageSize=10,
+    #            reverseOrder=False):
+    #        if 'domainInfos' in page:
+    #            for domainInfo in page['domainInfos']:
+    #                self.assertTrue(
+    #                    domainInfo['name'] in known_domains or domainInfo['name'] == new_domain_name,
+    #                    'Found unexpected domain {0}'.format(domainInfo['name']))
+    #                found = found or domainInfo['name'] == new_domain_name
+    #    self.assertTrue(found, 'Did not find new domain')
+
+    #    # DescribeDomain
+    #    domain = swf.client.describe_domain(name=new_domain_name)
+    #    self.assertEqual(new_domain_name, domain['domainInfo']['name'],
+    #        'incorrect name')
+    #    self.assertEqual('REGISTERED', domain['domainInfo']['status'],
+    #        'incorrect status')
+    #    self.assertEqual('domain for ' + new_domain_name, domain['domainInfo']['description'],
+    #        'incorrect description')
+
+    #    # TODO implement DeprecateDomain then add tests
+
+    def test_Page_ListDomains(self):
+        swf = util.BasicSwfSetup(self)
+
+        created_domain_names = []
+        for i in range(0, 100):
+            new_domain_name = util.create_new_name()
+            created_domain_names.append(new_domain_name)
+            swf.client.register_domain(
+                name=new_domain_name,
+                description='domain for ' + new_domain_name,
+                workflowExecutionRetentionPeriodInDays='1'
+            )
 
         # ListDomains
-        domain_pager = swf.get_paginator('list_domains')
-        known_domains = []
+        domain_pager = swf.client.get_paginator('list_domains')
         for page in domain_pager.paginate(
                 registrationStatus='REGISTERED',
+                maximumPageSize=10,
                 reverseOrder=False):
             if 'domainInfos' in page:
                 for domainInfo in page['domainInfos']:
-                    known_domains.append(domainInfo['name'])
-
-        # RegisterDomain
-        # :: boto3 doesn't return anything
-        swf.register_domain(
-            name=new_domain_name,
-            description='domain for ' + new_domain_name,
-            workflowExecutionRetentionPeriodInDays='1'
-        )
-
-        # ListDomains
-        domain_pager = swf.get_paginator('list_domains')
-        found = False
-        for page in domain_pager.paginate(
-                registrationStatus='REGISTERED',
-                reverseOrder=False):
-            if 'domainInfos' in page:
-                for domainInfo in page['domainInfos']:
-                    self.assertTrue(
-                        domainInfo['name'] in known_domains or domainInfo['name'] == new_domain_name,
-                        'Found unexpected domain {0}'.format(domainInfo['name']))
-                    found = found or domainInfo['name'] == new_domain_name
-        self.assertTrue(found, 'Did not find new domain')
-
-        # DescribeDomain
-        domain = swf.describe_domain(name=new_domain_name)
-        self.assertEqual(new_domain_name, domain['domainInfo']['name'],
-            'incorrect name')
-        self.assertEqual('REGISTERED', domain['domainInfo']['status'],
-            'incorrect status')
-        self.assertEqual('domain for ' + new_domain_name, domain['domainInfo']['description'],
-            'incorrect description')
-
-        # TODO implement DeprecateDomain then add tests
-
+                    if domainInfo['name'] in created_domain_names:
+                        created_domain_names.remove(domainInfo['name'])
+        self.assertTrue(len(created_domain_names) <= 0,
+            'Did not find new domains ' + repr(created_domain_names))
 
 
 class WorkflowTypeTestCase(unittest.TestCase):
     def test_ListWorkflowTypes_RegisterWorkflowType_DescribeWorkflowType_DeprecateWorkflowType(self):
-        swf = create_client('swf')
-        new_domain_name = uuid.uuid4().urn
-        swf.register_domain(
-            name=new_domain_name,
-            description='domain for ' + new_domain_name,
-            workflowExecutionRetentionPeriodInDays='1'
-        )
+        swf = util.BasicSwfSetup(self)
+        domain_name = swf.create_domain()
 
         # ListWorkflowTypes
-        workflow_type_pager = swf.get_paginator('list_workflow_types')
+        workflow_type_pager = swf.client.get_paginator('list_workflow_types')
         known_workflow_types = []
         for page in workflow_type_pager.paginate(
-                domain=new_domain_name,
+                domain=domain_name,
                 registrationStatus='REGISTERED',
                 reverseOrder=False):
             if 'typeInfos' in page:
@@ -87,9 +108,9 @@ class WorkflowTypeTestCase(unittest.TestCase):
 
         # RegisterWorkflowType
         # :: boto3 doesn't return anything
-        new_workflow_type_name = uuid.uuid4().urn
-        swf.register_workflow_type(
-            domain=new_domain_name,
+        new_workflow_type_name = util.create_new_name()
+        swf.client.register_workflow_type(
+            domain=domain_name,
             name=new_workflow_type_name,
             version='1.0',
             description='workflow type ' + new_workflow_type_name,
@@ -102,10 +123,10 @@ class WorkflowTypeTestCase(unittest.TestCase):
 
 
         # ListWorkflowTypes
-        workflow_type_pager = swf.get_paginator('list_workflow_types')
+        workflow_type_pager = swf.client.get_paginator('list_workflow_types')
         found = False
         for page in workflow_type_pager.paginate(
-                domain=new_domain_name,
+                domain=domain_name,
                 registrationStatus='REGISTERED',
                 reverseOrder=False):
             if 'typeInfos' in page:
@@ -119,8 +140,8 @@ class WorkflowTypeTestCase(unittest.TestCase):
 
 
         # DescribeWorkflowType
-        workflow_type = swf.describe_workflow_type(
-            domain=new_domain_name,
+        workflow_type = swf.client.describe_workflow_type(
+            domain=domain_name,
             workflowType={
                 'name': new_workflow_type_name,
                 'version': '1.0'
@@ -149,19 +170,14 @@ class WorkflowTypeTestCase(unittest.TestCase):
 
 class AcitivityTypeTestCase(unittest.TestCase):
     def test_ListActivityTypes_RegisterActivityType_DescribeActivityType_DeprecateActivityType(self):
-        swf = create_client('swf')
-        new_domain_name = uuid.uuid4().urn
-        swf.register_domain(
-            name=new_domain_name,
-            description='domain for ' + new_domain_name,
-            workflowExecutionRetentionPeriodInDays='1'
-        )
+        swf = util.BasicSwfSetup(self)
+        domain_name = swf.create_domain()
 
         # ListActivityTypes
-        activity_type_pager = swf.get_paginator('list_activity_types')
+        activity_type_pager = swf.client.get_paginator('list_activity_types')
         known_activity_types = []
         for page in activity_type_pager.paginate(
-                domain=new_domain_name,
+                domain=domain_name,
                 registrationStatus='REGISTERED',
                 reverseOrder=True):
             if 'typeInfos' in page:
@@ -170,9 +186,9 @@ class AcitivityTypeTestCase(unittest.TestCase):
 
         # RegisterActivityType
         # :: boto3 does not return anything
-        new_activity_type_name = uuid.uuid4().urn
-        swf.register_activity_type(
-            domain=new_domain_name,
+        new_activity_type_name = util.create_new_name()
+        swf.client.register_activity_type(
+            domain=domain_name,
             name=new_activity_type_name,
             version='abcd',
             description='activity type ' + new_activity_type_name,
@@ -185,10 +201,10 @@ class AcitivityTypeTestCase(unittest.TestCase):
         )
 
         # Rerun ListActivityTypes to ensure it was registered
-        activity_type_pager = swf.get_paginator('list_activity_types')
+        activity_type_pager = swf.client.get_paginator('list_activity_types')
         found = False
         for page in activity_type_pager.paginate(
-                domain=new_domain_name,
+                domain=domain_name,
                 registrationStatus='REGISTERED',
                 reverseOrder=False):
             if 'typeInfos' in page:
@@ -201,8 +217,8 @@ class AcitivityTypeTestCase(unittest.TestCase):
         self.assertTrue(found, 'Did not find new activity type')
 
         # DescribeActivityType
-        activity_type = swf.describe_activity_type(
-            domain=new_domain_name,
+        activity_type = swf.client.describe_activity_type(
+            domain=domain_name,
             activityType={
                 'name': new_activity_type_name,
                 'version': 'abcd'
@@ -229,16 +245,11 @@ class AcitivityTypeTestCase(unittest.TestCase):
 
 class ExecuteWorkflowDefaultsTestCase(unittest.TestCase):
     def test_ExecuteWorkflow_MissingDefault(self):
-        swf = create_client('swf')
-        new_domain_name = uuid.uuid4().urn
-        swf.register_domain(
-            name=new_domain_name,
-            description='domain for ' + new_domain_name,
-            workflowExecutionRetentionPeriodInDays='1'
-        )
-        new_workflow_type_name = uuid.uuid4().urn
-        swf.register_workflow_type(
-            domain=new_domain_name,
+        swf = util.BasicSwfSetup(self)
+        domain_name = swf.create_domain()
+        new_workflow_type_name = util.create_new_name()
+        swf.client.register_workflow_type(
+            domain=domain_name,
             name=new_workflow_type_name,
             version='1.0',
             description='workflow type ' + new_workflow_type_name,
@@ -248,9 +259,9 @@ class ExecuteWorkflowDefaultsTestCase(unittest.TestCase):
             defaultTaskPriority='-2',
             defaultChildPolicy='TERMINATE',
             defaultLambdaRole='lambda-role')
-        new_activity_type_name = uuid.uuid4().urn
-        swf.register_activity_type(
-            domain=new_domain_name,
+        new_activity_type_name = util.create_new_name()
+        swf.client.register_activity_type(
+            domain=domain_name,
             name=new_activity_type_name,
             version='abcd',
             description='activity type ' + new_activity_type_name,
@@ -262,10 +273,10 @@ class ExecuteWorkflowDefaultsTestCase(unittest.TestCase):
             defaultTaskScheduleToCloseTimeout='40'
         )
 
-        workflow_id = uuid.uuid4().urn.replace(":", "-")
+        workflow_id = util.create_new_name().replace(":", "-")
         try:
-            swf.start_workflow_execution(
-                domain=new_domain_name,
+            swf.client.start_workflow_execution(
+                domain=domain_name,
                 workflowId=workflow_id,
                 workflowType={
                     'name': new_workflow_type_name,
@@ -287,44 +298,19 @@ class ExecuteWorkflowDefaultsTestCase(unittest.TestCase):
 
 class ExecuteWorkflowTestCase(unittest.TestCase):
     def test_StartWorkflowExecution_ListOpenWorkflowExecutions_TerminateWorkflow_ListClosedWorkflowExecutions(self):
-        swf = create_client('swf')
-        new_domain_name = uuid.uuid4().urn
-        swf.register_domain(
-            name=new_domain_name,
-            description='domain for ' + new_domain_name,
-            workflowExecutionRetentionPeriodInDays='1'
-        )
-        new_workflow_type_name = uuid.uuid4().urn
-        task_list_name = new_workflow_type_name.replace(':', '_')
-        swf.register_workflow_type(
-            domain=new_domain_name,
-            name=new_workflow_type_name,
-            version='1.0',
-            description='workflow type ' + new_workflow_type_name,
-            defaultTaskStartToCloseTimeout='1000',
-            defaultExecutionStartToCloseTimeout='2000',
-            defaultTaskList={'name': task_list_name},
-            defaultTaskPriority='-2',
-            defaultChildPolicy='TERMINATE',
-            defaultLambdaRole='lambda-role')
-        workflow_id = uuid.uuid4().urn.replace(":", "-")
+        swf = util.BasicSwfSetup(self)
+        domain_name = swf.create_domain()
+        workflow_type = swf.create_workflow_type()
 
         # StartWorkflowExecution
-        run_id = swf.start_workflow_execution(
-            domain=new_domain_name,
-            workflowId=workflow_id,
-            workflowType={
-                'name': new_workflow_type_name,
-                'version': '1.0'
-            },
-            tagList=[ 'exec_' + workflow_id ]
-        )['runId']
+        tagList = [util.create_new_name()]
+        workflow_id, run_id = swf.start_workflow_execution(workflow_type, tagList=tagList)
 
         # ListOpenWorkflowExecutions, filter on workflow id
         info_count = 0
-        open_exec_pager = swf.get_paginator('list_open_workflow_executions')
+        open_exec_pager = swf.client.get_paginator('list_open_workflow_executions')
         for page in open_exec_pager.paginate(
-                domain=new_domain_name,
+                domain=domain_name,
                 executionFilter={
                     'workflowId': workflow_id
                 },
@@ -344,12 +330,12 @@ class ExecuteWorkflowTestCase(unittest.TestCase):
                         run_id,
                         "runId")
                     self.assertEqual(
-                        new_workflow_type_name,
                         exec_info['workflowType']['name'],
+                        workflow_type.name,
                         "type name")
                     self.assertEqual(
                         exec_info['workflowType']['version'],
-                        '1.0',
+                        workflow_type.version,
                         "type version")
                     self.assertTrue(
                         ('closeTimestamp' not in exec_info) or exec_info['closeTimestamp'] is None,
@@ -361,8 +347,8 @@ class ExecuteWorkflowTestCase(unittest.TestCase):
                         ('parent' not in exec_info) or exec_info['parent'] is None,
                         "parent was incorrectly set")
                     self.assertEqual(
-                        [ 'exec_' + workflow_id ],
                         exec_info['tagList'],
+                        tagList,
                         "tagList set wrong")
                     self.assertTrue(
                         not exec_info['cancelRequested'],
@@ -395,17 +381,17 @@ class ExecuteWorkflowTestCase(unittest.TestCase):
             'open workflow count')
 
 
-        swf.terminate_workflow_execution(
-            domain=new_domain_name,
+        swf.client.terminate_workflow_execution(
+            domain=domain_name,
             workflowId=workflow_id,
             reason='Stop test',
             details='Stopped'
         )
 
         # ListOpenWorkflowExecutions, filter on tag list
-        open_exec_pager = swf.get_paginator('list_open_workflow_executions')
+        open_exec_pager = swf.client.get_paginator('list_open_workflow_executions')
         for page in open_exec_pager.paginate(
-                domain=new_domain_name,
+                domain=domain_name,
                 tagFilter={
                     'tag': 'exec_' + workflow_id
                 },
@@ -420,9 +406,9 @@ class ExecuteWorkflowTestCase(unittest.TestCase):
 
         # ListClosedWorkflowExecutions
         info_count = 0
-        close_exec_pager = swf.get_paginator('list_closed_workflow_executions')
+        close_exec_pager = swf.client.get_paginator('list_closed_workflow_executions')
         for page in close_exec_pager.paginate(
-                domain=new_domain_name,
+                domain=domain_name,
                 executionFilter={
                     'workflowId': workflow_id
                 },
@@ -442,12 +428,12 @@ class ExecuteWorkflowTestCase(unittest.TestCase):
                         run_id,
                         "runId")
                     self.assertEqual(
-                        new_workflow_type_name,
                         exec_info['workflowType']['name'],
+                        workflow_type.name,
                         "type name")
                     self.assertEqual(
                         exec_info['workflowType']['version'],
-                        '1.0',
+                        workflow_type.version,
                         "type version")
                     self.assertTrue(
                         ('closeTimestamp' in exec_info) and exec_info['closeTimestamp'] is not None,
@@ -460,8 +446,8 @@ class ExecuteWorkflowTestCase(unittest.TestCase):
                         ('parent' not in exec_info) or exec_info['parent'] is None,
                         "parent was incorrectly set")
                     self.assertEqual(
-                        [ 'exec_' + workflow_id ],
                         exec_info['tagList'],
+                        tagList,
                         "tagList set wrong")
                     self.assertTrue(
                         not exec_info['cancelRequested'],
@@ -496,70 +482,42 @@ class ExecuteWorkflowTestCase(unittest.TestCase):
 
 class DecisionTaskTestCase(unittest.TestCase):
     def test_PollForDecisionTask_terminated(self):
-        swf = create_client('swf')
-        domain_name = uuid.uuid4().urn
-        swf.register_domain(
-            name=domain_name,
-            description='domain for ' + domain_name,
-            workflowExecutionRetentionPeriodInDays='1')
-        workflow_type_name = uuid.uuid4().urn
-        task_list_name = workflow_type_name.replace(':', '_')
-        swf.register_workflow_type(
-            domain=domain_name,
-            name=workflow_type_name,
-            version='1.0',
-            description='workflow type ' + workflow_type_name,
-            defaultTaskStartToCloseTimeout='1000',
-            defaultExecutionStartToCloseTimeout='2000',
-            defaultTaskList={'name': task_list_name},
-            defaultTaskPriority='-2',
-            defaultChildPolicy='TERMINATE',
-            defaultLambdaRole='lambda-role')
-        workflow_id = uuid.uuid4().urn.replace(":", "-")
-        run_id = swf.start_workflow_execution(
-            domain=domain_name,
-            workflowId=workflow_id,
-            workflowType={
-                'name': workflow_type_name,
-                'version': '1.0'
-            },
-            tagList=[ 'exec_' + workflow_id ]
-        )['runId']
+        swf = util.BasicSwfSetup(self)
+        domain_name = swf.create_domain()
+        workflow_type = swf.create_workflow_type()
+        workflow_id, run_id = swf.start_workflow_execution(workflow_type)
 
         # Poll for a decision in the background.
-        q = Queue()
+        poller_wait = Queue()
+        tester_wait = Queue()
         def decision_poller():
-            q.put(0)
-            results = []
-            decision_pager = swf.get_paginator('poll_for_decision_task')
+            poller_wait.get()
             try:
-                for page in decision_pager.paginate(
-                        domain=domain_name,
-                        taskList={
-                            'name': task_list_name
-                        },
-                        identity='test_PollForDecisionTask_terminated',
-                        reverseOrder=True):
-                    if ('events' in page and 'workflowType' in page and page['workflowType']['name'] == workflow_type_name):
-                        results.extend(page['events'])
-                q.put([True, results])
+                response = swf.poll_for_decision()
+                if response is None:
+                    results = []
+                else:
+                    results = response['events']
+                tester_wait.put([True, results])
             except:
-                q.put([False, sys.exc_info()[1]])
+                tester_wait.put([False, sys.exc_info()[1]])
 
         t = threading.Thread(target=decision_poller)
         t.daemon = True
         t.start()
 
-        # Wait for the decision poller to report that it's ready.
-        q.get()
         # Request the workflow to die
-        swf.terminate_workflow_execution(
+        swf.client.terminate_workflow_execution(
             domain=domain_name,
             workflowId=workflow_id,
             reason='Stop test',
             details='Stopped'
         )
-        events = q.get()
+        # Tell the decision that we've made the event post
+        poller_wait.put(0)
+
+        # Wait for the decision to post the result
+        events = tester_wait.get()
         if not events[0]:
             raise events[1]
         events = events[1]
@@ -572,45 +530,11 @@ class DecisionTaskTestCase(unittest.TestCase):
 
 class ActivityTaskTestCase(unittest.TestCase):
     def test_PollForActivityTask(self):
-        swf = create_client('swf')
-        domain_name = uuid.uuid4().urn
-        swf.register_domain(
-            name=domain_name,
-            description='domain for ' + domain_name,
-            workflowExecutionRetentionPeriodInDays='1')
-        workflow_type_name = 'WorkflowType test_PollForActivityTask'
-        decision_task_list_name = 'DecisionTaskList test_PollForActivityTask'
-        swf.register_workflow_type(
-            domain=domain_name,
-            name=workflow_type_name,
-            version='1.0',
-            description='workflow type ' + workflow_type_name,
-            defaultTaskStartToCloseTimeout='1000',
-            defaultExecutionStartToCloseTimeout='2000',
-            defaultTaskList={'name': decision_task_list_name},
-            defaultChildPolicy='TERMINATE')
-        activity_type_name = 'ActivityType test_PollForActivityTask'
-        actity_task_list_name = 'ActivityTaskList test_PollForActivityTask'
-        swf.register_activity_type(
-            domain=domain_name,
-            name=activity_type_name,
-            version='1.0',
-            description='test activity type',
-            defaultTaskStartToCloseTimeout='60',
-            defaultTaskHeartbeatTimeout='60',
-            defaultTaskList={'name': actity_task_list_name},
-            defaultTaskScheduleToStartTimeout='60',
-            defaultTaskScheduleToCloseTimeout='60')
-        workflow_id = 'Workflow test_PollForActivityTask'
-        run_id = swf.start_workflow_execution(
-            domain=domain_name,
-            workflowId=workflow_id,
-            workflowType={
-                'name': workflow_type_name,
-                'version': '1.0'
-            },
-            tagList=[ 'exec_' + workflow_id ]
-        )['runId']
+        swf = util.BasicSwfSetup(self)
+        domain_name = swf.create_domain()
+        workflow_type = swf.create_workflow_type()
+        activity_type = swf.create_activity_type()
+        workflow_id, run_id = swf.start_workflow_execution(workflow_type)
 
         # Poll for a decision in the background.
         # This is a very simple decision processor that starts an activity
@@ -620,16 +544,16 @@ class ActivityTaskTestCase(unittest.TestCase):
         # either by an error or a success.
         dq = Queue()
         def poll_for_decision():
-            decision_pager = swf.get_paginator('poll_for_decision_task')
+            decision_pager = swf.client.get_paginator('poll_for_decision_task')
             task_token = None
             events = []
             try:
                 for page in decision_pager.paginate(
                         domain=domain_name,
-                        taskList={'name': decision_task_list_name},
+                        taskList={'name': workflow_type.task_list_name},
                         identity='poll_for_decision test_PollForActivityTask',
                         reverseOrder=True):
-                    if ('events' in page and 'workflowType' in page and page['workflowType']['name'] == workflow_type_name):
+                    if ('events' in page and 'workflowType' in page and page['workflowType']['name'] == workflow_type.name):
                         if 'taskToken' in page:
                             task_token = page['taskToken']
                         events.extend(page['events'])
@@ -638,21 +562,21 @@ class ActivityTaskTestCase(unittest.TestCase):
             return [task_token, events]
 
         activity_id = 'Activity test_PollForActivityTask'
-        activity_input = uuid.uuid4().urn
+        activity_input = util.create_new_name()
         def decision_poller():
             try:
                 task_token, events = poll_for_decision()
                 # Raises an exception that will be caught and reported in dq.
                 self.assertTrue(task_token is not None, 'Did not get a task token')
-                swf.respond_decision_task_completed(
+                swf.client.respond_decision_task_completed(
                     taskToken=task_token,
                     decisions=[
                         {
                             'decisionType': 'ScheduleActivityTask',
                             'scheduleActivityTaskDecisionAttributes': {
                                 'activityType': {
-                                    'name': activity_type_name,
-                                    'version': '1.0'
+                                    'name': activity_type.name,
+                                    'version': activity_type.version
                                 },
                                 'activityId': activity_id,
                                 'input': activity_input
@@ -663,15 +587,15 @@ class ActivityTaskTestCase(unittest.TestCase):
                 # Wait for activity to finish
                 for i in range(0, 4):
                     task_token, events = poll_for_decision()
-                    event, attributes = get_event('ScheduleActivityTaskFailed', events)
+                    event, attributes = util.get_event('ScheduleActivityTaskFailed', events)
                     self.assertTrue(event is None, 'encountered ' + repr(event))
-                    event, attributes = get_event('ActivityTaskTimedOut', events)
+                    event, attributes = util.get_event('ActivityTaskTimedOut', events)
                     self.assertTrue(event is None, 'encountered ' + repr(event))
-                    event, attributes = get_event('ActivityTaskFailed', events)
+                    event, attributes = util.get_event('ActivityTaskFailed', events)
                     self.assertTrue(event is None, 'encountered ' + repr(event))
-                    event, attributes = get_event('ActivityTaskCanceled', events)
+                    event, attributes = util.get_event('ActivityTaskCanceled', events)
                     self.assertTrue(event is None, 'encountered ' + repr(event))
-                    event, attributes = get_event('ActivityTaskCompleted', events)
+                    event, attributes = util.get_event('ActivityTaskCompleted', events)
                     if event is not None:
                         # Horray!
                         dq.put([True, events])
@@ -691,9 +615,9 @@ class ActivityTaskTestCase(unittest.TestCase):
             try:
                 for i in range(0, 4):
                     print('DEBUG: polling for activity task')
-                    res = swf.poll_for_activity_task(
+                    res = swf.client.poll_for_activity_task(
                         domain=domain_name,
-                        taskList={ 'name': actity_task_list_name },
+                        taskList={ 'name': activity_type.task_list_name },
                         identity='activity_poller test_PollForActivityTask'
                     )
                     if res is not None and 'taskToken' in res:
@@ -704,7 +628,7 @@ class ActivityTaskTestCase(unittest.TestCase):
                 self.assertEqual(res['workflowExecution']['workflowId'], workflow_id, 'Workflow ID did not match')
                 self.assertTrue(res['workflowExecution']['runId'] is not None, 'Workflow run ID does not exist')
                 self.assertEqual(res['input'], activity_input, 'activity input does not match')
-                swf.respond_activity_task_completed(
+                swf.client.respond_activity_task_completed(
                     taskToken=res['taskToken'], result='Yay!'
                 )
                 aq.put([True, None])
@@ -739,15 +663,6 @@ class ActivityTaskTestCase(unittest.TestCase):
         if not passed:
             raise error
 
-
-
-
-def get_event(name, event_list):
-    attr_name = name[0].lower() + name[1:] + 'EventAttributes';
-    for event in event_list:
-        if event['eventType'] == name and attr_name in event:
-            return (event, event[attr_name])
-    return (None, None)
 
 
 if __name__ == '__main__':
