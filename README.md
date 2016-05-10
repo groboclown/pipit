@@ -17,9 +17,10 @@ It doesn't scale, and doesn't persist data.
 Currently supported emulated Amazon Web Services:
 
 * [SQS](docs/sqs.md)
+* [SWF](docs/swf.md)
 * [Lambda](docs/lambda.md) (in progress)
 
-Most of all the other services are mocked out and perform no-ops.
+All the other services are mocked out and perform no-ops.
 
 ## Running Pipit
 
@@ -67,7 +68,7 @@ Details on how to setup specific AWS APIs are covered in the
 ## Extending Pipit
 
 Each service is registered under the [api/routes.js](api/routes.js) file.
-If you want to add more services, you can add them there.
+If you want to [add more services](docs/building.md), you can add them there.
 
 Additionally, you can change the behavior of Pipit's API responses by registering
 [api injections](docs/injections.md).

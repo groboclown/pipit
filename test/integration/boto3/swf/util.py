@@ -2,6 +2,10 @@ import uuid
 import sys
 from queue import Queue
 import threading
+import inspect
+import os
+import zipfile
+import io
 from ..aws_common import create_client
 
 def create_new_name():
@@ -33,6 +37,7 @@ def background_task(task_func):
 
 class BasicSwfSetup(object):
     def __init__(self, test_instance):
+        self.test_instance = test_instance
         self.test_name = test_instance.__class__.__name__
         self.client = create_client('swf')
         self.domain_name = None
@@ -129,6 +134,74 @@ class BasicSwfSetup(object):
                 return ret
         return None
 
+    def poll_for_activity_task(self, task_list_name=None, identity=None, max_retry=4):
+        for i in range(0, 4):
+            print('DEBUG: polling for activity task')
+            res = swf.client.poll_for_activity_task(
+                domain=domain_name,
+                taskList={ 'name': activity_type.task_list_name },
+                identity='activity_poller test_PollForActivityTask'
+            )
+            if res is not None and 'taskToken' in res:
+                return res
+        return None
+
+    def upload_lambda(self, name, local_file, function_name='handler'):
+        """
+        Loads a js file (local to the test class) as a lambda function
+        into the server.  It also creates an alias for the function's version,
+        which is returned.
+        """
+        # Create the in-memory zip file
+        module_dir = os.path.dirname(
+            os.path.abspath(
+                inspect.getfile(self.test_instance.__class__)
+            )
+        )
+        f = io.BytesIO()
+        zf = zipfile.ZipFile(f, mode='w', compression=zipfile.ZIP_DEFLATED)
+        zf.write(os.path.join(module_dir, local_file), arcname='index.js')
+        zf.close()
+
+        # Setup the lambda AWS data
+        lambda_client = create_client('lambda')
+        version = create_new_name()
+
+        # Try to delete the lambda if it already exists.
+        # This will raise an error if it isn't known, but we can ignore that.
+        try:
+            lambda_client.delete_function(
+                FunctionName=name
+            )
+        except:
+            pass
+
+        # Upload the lambda
+        response = lambda_client.create_function(
+            FunctionName=name,
+            Runtime='nodejs',
+            Role='lambda role',
+            Handler=function_name,
+            Code={
+                'ZipFile': f.getvalue()
+            },
+            Description=local_file,
+            Publish=True
+        )
+        functionArn = response['FunctionArn']
+
+        # Boto3 has a bug where FunctionName isn't being passed in.
+        # alias = name + '_' + create_new_name().replace(':', '_').replace('-', '_')
+        # response = lambda_client.create_alias(
+        #     FunctionName=name,
+        #     FunctionVersion=version,
+        #     Name=alias,
+        #     Description='lambda for test'
+        # )
+        # aliasArn = response['AliasArn']
+        # return alias
+
+        return functionArn
 
 
 class WorkflowTypeDef(object):

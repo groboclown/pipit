@@ -34,6 +34,7 @@ the endpoint, then you can do these two steps:
 
 1. Create a file, say `/path/to/override-endpoints.xml`, that points the services over
    to your Pipit server, which is running on `http://localhost:3000`:
+
     ```
     <XML>
       <Region>
@@ -51,7 +52,7 @@ the endpoint, then you can do these two steps:
     ```
 2. When invoking the Java program, include the JVM command-line argument
    (the arguments that come before the class name):
-   ```-Dcom.amazonaws.regions.RegionUtils.fileOverride=/path/to/override-endpoints.xml```
+   `-Dcom.amazonaws.regions.RegionUtils.fileOverride=/path/to/override-endpoints.xml`
 
 Note that this will work if your Java application uses multiple AWS services.
 
