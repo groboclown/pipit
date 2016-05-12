@@ -341,6 +341,7 @@ Domain.prototype.completeDecisionTask = function completeDecisionTask(p) {
   event.workflow = workflowRun;
   var decisionTaskCompletedEvent = this.eventBus._createEvent(event);
   decisionTask.setCompletedEvent(event);
+  // FIXME it looks like the event is not always added to the workflow history.
 
   var events = [event];
   var decision, j, genEvents;
