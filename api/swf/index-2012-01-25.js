@@ -815,7 +815,6 @@ module.exports.PollForDecisionTask = function PollForDecisionTask(aws) {
   // (returns UnknownResourceFault error); however, there can be a use case
   // for polling on a yet-to-be-created workflow.
 
-  console.log('polling on ' + taskList.name);
   return domainWorkflows[domain].pollForDecisionTask({
     taskList: { name: taskList.name },
     deciderId: identity,

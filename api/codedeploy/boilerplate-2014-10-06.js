@@ -12,14 +12,14 @@ const awsCommon = require('../../lib/aws-common');
 // Setup input and output to use AWS protocol json
 require('../../lib/aws-common/shape_http')('json', module.exports, null);
 // -----------------------------------
-module.exports.RemoveTagsFromOnPremisesInstances = function RemoveTagsFromOnPremisesInstances(aws) {
+module.exports.AddTagsToOnPremisesInstances = function AddTagsToOnPremisesInstances(aws) {
   var instanceNames = aws.params.instanceNames;
   var tags = aws.params.tags;
-  if (!tags) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter tags'];
-  }
   if (!instanceNames) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter instanceNames'];
+  }
+  if (!tags) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter tags'];
   }
 
 
@@ -29,124 +29,234 @@ module.exports.RemoveTagsFromOnPremisesInstances = function RemoveTagsFromOnPrem
   return [200, ret];
 };
 // -----------------------------------
-module.exports.GetDeploymentInstance = function GetDeploymentInstance(aws) {
-  var instanceId = aws.params.instanceId;
-  var deploymentId = aws.params.deploymentId;
-  if (!deploymentId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter deploymentId'];
-  }
-  if (!instanceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter instanceId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    instanceSummary: {
-      status: '',
-      instanceId: '',
-      lifecycleEvents: [ {
-        diagnostics: {
-          logTail: '',
-          scriptName: '',
-          message: '',
-          errorCode: '',
-        },
-        lifecycleEventName: '',
-        status: '',
-        startTime: awsCommon.timestamp(),
-        endTime: awsCommon.timestamp(),
-      }, /* ...*/ ],
-      lastUpdatedAt: awsCommon.timestamp(),
-      deploymentId: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.UpdateDeploymentGroup = function UpdateDeploymentGroup(aws) {
-  var deploymentConfigName = aws.params.deploymentConfigName;
+module.exports.BatchGetApplicationRevisions = function BatchGetApplicationRevisions(aws) {
   var applicationName = aws.params.applicationName;
-  var serviceRoleArn = aws.params.serviceRoleArn;
-  var currentDeploymentGroupName = aws.params.currentDeploymentGroupName;
-  var onPremisesInstanceTagFilters = aws.params.onPremisesInstanceTagFilters;
-  var ec2TagFilters = aws.params.ec2TagFilters;
-  var autoScalingGroups = aws.params.autoScalingGroups;
-  var newDeploymentGroupName = aws.params.newDeploymentGroupName;
+  var revisions = aws.params.revisions;
   if (!applicationName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter applicationName'];
   }
-  if (!currentDeploymentGroupName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter currentDeploymentGroupName'];
+  if (!revisions) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter revisions'];
   }
 
 
   // TODO implement code
 
   var ret = {
-    hooksNotCleanedUp: /*S24*/[ {
-      name: '',
-      hook: '',
+    applicationName: '',
+    errorMessage: '',
+    revisions: [ {
+      genericRevisionInfo: /*Sq*/{
+        deploymentGroups: /*Ss*/[ '', /* ...*/ ],
+        description: '',
+        firstUsedTime: awsCommon.timestamp(),
+        lastUsedTime: awsCommon.timestamp(),
+        registerTime: awsCommon.timestamp(),
+      },
+      revisionLocation: /*Sb*/{
+        gitHubLocation: {
+          commitId: '',
+          repository: '',
+        },
+        revisionType: '',
+        s3Location: {
+          bucket: '',
+          bundleType: '',
+          eTag: '',
+          key: '',
+          version: '',
+        },
+      },
     }, /* ...*/ ],
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.GetDeploymentGroup = function GetDeploymentGroup(aws) {
+module.exports.BatchGetApplications = function BatchGetApplications(aws) {
+  var applicationNames = aws.params.applicationNames;
+
+
+  // TODO implement code
+
+  var ret = {
+    applicationsInfo: [ /*Sz*/{
+      applicationId: '',
+      applicationName: '',
+      createTime: awsCommon.timestamp(),
+      linkedToGitHub: false,
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.BatchGetDeploymentGroups = function BatchGetDeploymentGroups(aws) {
   var applicationName = aws.params.applicationName;
-  var deploymentGroupName = aws.params.deploymentGroupName;
+  var deploymentGroupNames = aws.params.deploymentGroupNames;
   if (!applicationName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter applicationName'];
   }
-  if (!deploymentGroupName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter deploymentGroupName'];
+  if (!deploymentGroupNames) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter deploymentGroupNames'];
   }
 
 
   // TODO implement code
 
   var ret = {
-    deploymentGroupInfo: {
-      deploymentConfigName: '',
+    deploymentGroupsInfo: [ /*S15*/{
       applicationName: '',
-      deploymentGroupId: '',
-      targetRevision: /*Sp*/{
-        revisionType: '',
-        gitHubLocation: {
-          repository: '',
-          commitId: '',
-        },
-        s3Location: {
-          eTag: '',
-          key: '',
-          bundleType: '',
-          version: '',
-          bucket: '',
-        },
-      },
-      deploymentGroupName: '',
-      onPremisesInstanceTagFilters: /*S1s*/[ {
-        Value: '',
-        Key: '',
-        Type: '',
-      }, /* ...*/ ],
-      ec2TagFilters: /*S1p*/[ {
-        Value: '',
-        Key: '',
-        Type: '',
-      }, /* ...*/ ],
-      autoScalingGroups: /*S24*/[ {
-        name: '',
+      autoScalingGroups: /*S1e*/[ {
         hook: '',
+        name: '',
+      }, /* ...*/ ],
+      deploymentConfigName: '',
+      deploymentGroupId: '',
+      deploymentGroupName: '',
+      ec2TagFilters: /*S18*/[ {
+        Key: '',
+        Type: '',
+        Value: '',
+      }, /* ...*/ ],
+      onPremisesInstanceTagFilters: /*S1b*/[ {
+        Key: '',
+        Type: '',
+        Value: '',
       }, /* ...*/ ],
       serviceRoleArn: '',
-    },
+      targetRevision: /*Sb*/{
+        gitHubLocation: {
+          commitId: '',
+          repository: '',
+        },
+        revisionType: '',
+        s3Location: {
+          bucket: '',
+          bundleType: '',
+          eTag: '',
+          key: '',
+          version: '',
+        },
+      },
+      triggerConfigurations: /*S1j*/[ {
+        triggerEvents: [ '', /* ...*/ ],
+        triggerName: '',
+        triggerTargetArn: '',
+      }, /* ...*/ ],
+    }, /* ...*/ ],
+    errorMessage: '',
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.GetApplication = function GetApplication(aws) {
+module.exports.BatchGetDeploymentInstances = function BatchGetDeploymentInstances(aws) {
+  var deploymentId = aws.params.deploymentId;
+  var instanceIds = aws.params.instanceIds;
+  if (!deploymentId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter deploymentId'];
+  }
+  if (!instanceIds) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter instanceIds'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    errorMessage: '',
+    instancesSummary: [ /*S1v*/{
+      deploymentId: '',
+      instanceId: '',
+      lastUpdatedAt: awsCommon.timestamp(),
+      lifecycleEvents: [ {
+        diagnostics: {
+          errorCode: '',
+          logTail: '',
+          message: '',
+          scriptName: '',
+        },
+        endTime: awsCommon.timestamp(),
+        lifecycleEventName: '',
+        startTime: awsCommon.timestamp(),
+        status: '',
+      }, /* ...*/ ],
+      status: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.BatchGetDeployments = function BatchGetDeployments(aws) {
+  var deploymentIds = aws.params.deploymentIds;
+
+
+  // TODO implement code
+
+  var ret = {
+    deploymentsInfo: [ /*S2a*/{
+      applicationName: '',
+      completeTime: awsCommon.timestamp(),
+      createTime: awsCommon.timestamp(),
+      creator: '',
+      deploymentConfigName: '',
+      deploymentGroupName: '',
+      deploymentId: '',
+      deploymentOverview: {
+        Failed: 0 /*Long*/,
+        InProgress: 0 /*Long*/,
+        Pending: 0 /*Long*/,
+        Skipped: 0 /*Long*/,
+        Succeeded: 0 /*Long*/,
+      },
+      description: '',
+      errorInformation: {
+        code: '',
+        message: '',
+      },
+      ignoreApplicationStopFailures: false,
+      revision: /*Sb*/{
+        gitHubLocation: {
+          commitId: '',
+          repository: '',
+        },
+        revisionType: '',
+        s3Location: {
+          bucket: '',
+          bundleType: '',
+          eTag: '',
+          key: '',
+          version: '',
+        },
+      },
+      startTime: awsCommon.timestamp(),
+      status: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.BatchGetOnPremisesInstances = function BatchGetOnPremisesInstances(aws) {
+  var instanceNames = aws.params.instanceNames;
+
+
+  // TODO implement code
+
+  var ret = {
+    instanceInfos: [ /*S2k*/{
+      deregisterTime: awsCommon.timestamp(),
+      iamUserArn: '',
+      instanceArn: '',
+      instanceName: '',
+      registerTime: awsCommon.timestamp(),
+      tags: /*S2*/[ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateApplication = function CreateApplication(aws) {
   var applicationName = aws.params.applicationName;
   if (!applicationName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter applicationName'];
@@ -156,74 +266,18 @@ module.exports.GetApplication = function GetApplication(aws) {
   // TODO implement code
 
   var ret = {
-    application: /*Sd*/{
-      applicationName: '',
-      createTime: awsCommon.timestamp(),
-      applicationId: '',
-      linkedToGitHub: false,
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListOnPremisesInstances = function ListOnPremisesInstances(aws) {
-  var registrationStatus = aws.params.registrationStatus;
-  var tagFilters = aws.params.tagFilters;
-  var nextToken = aws.params.nextToken;
-
-
-  // TODO implement code
-
-  var ret = {
-    instanceNames: /*S6*/[ '', /* ...*/ ],
-    nextToken: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteDeploymentConfig = function DeleteDeploymentConfig(aws) {
-  var deploymentConfigName = aws.params.deploymentConfigName;
-  if (!deploymentConfigName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter deploymentConfigName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.GetDeploymentConfig = function GetDeploymentConfig(aws) {
-  var deploymentConfigName = aws.params.deploymentConfigName;
-  if (!deploymentConfigName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter deploymentConfigName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    deploymentConfigInfo: {
-      deploymentConfigName: '',
-      createTime: awsCommon.timestamp(),
-      minimumHealthyHosts: /*S1j*/{
-        value: 0,
-        type: '',
-      },
-      deploymentConfigId: '',
-    },
+    applicationId: '',
   };
   return [200, ret];
 };
 // -----------------------------------
 module.exports.CreateDeployment = function CreateDeployment(aws) {
-  var deploymentConfigName = aws.params.deploymentConfigName;
   var applicationName = aws.params.applicationName;
-  var revision = aws.params.revision;
+  var deploymentConfigName = aws.params.deploymentConfigName;
+  var deploymentGroupName = aws.params.deploymentGroupName;
   var description = aws.params.description;
   var ignoreApplicationStopFailures = aws.params.ignoreApplicationStopFailures /* Type boolean */;
-  var deploymentGroupName = aws.params.deploymentGroupName;
+  var revision = aws.params.revision;
   if (!applicationName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter applicationName'];
   }
@@ -237,28 +291,67 @@ module.exports.CreateDeployment = function CreateDeployment(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.ListApplications = function ListApplications(aws) {
-  var nextToken = aws.params.nextToken;
+module.exports.CreateDeploymentConfig = function CreateDeploymentConfig(aws) {
+  var deploymentConfigName = aws.params.deploymentConfigName;
+  var minimumHealthyHosts = aws.params.minimumHealthyHosts;
+  if (!deploymentConfigName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter deploymentConfigName'];
+  }
 
 
   // TODO implement code
 
   var ret = {
-    applications: /*S9*/[ '', /* ...*/ ],
-    nextToken: '',
+    deploymentConfigId: '',
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.RegisterApplicationRevision = function RegisterApplicationRevision(aws) {
+module.exports.CreateDeploymentGroup = function CreateDeploymentGroup(aws) {
   var applicationName = aws.params.applicationName;
-  var revision = aws.params.revision;
-  var description = aws.params.description;
+  var autoScalingGroups = aws.params.autoScalingGroups;
+  var deploymentConfigName = aws.params.deploymentConfigName;
+  var deploymentGroupName = aws.params.deploymentGroupName;
+  var ec2TagFilters = aws.params.ec2TagFilters;
+  var onPremisesInstanceTagFilters = aws.params.onPremisesInstanceTagFilters;
+  var serviceRoleArn = aws.params.serviceRoleArn;
+  var triggerConfigurations = aws.params.triggerConfigurations;
   if (!applicationName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter applicationName'];
   }
-  if (!revision) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter revision'];
+  if (!deploymentGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter deploymentGroupName'];
+  }
+  if (!serviceRoleArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter serviceRoleArn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    deploymentGroupId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteApplication = function DeleteApplication(aws) {
+  var applicationName = aws.params.applicationName;
+  if (!applicationName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter applicationName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteDeploymentConfig = function DeleteDeploymentConfig(aws) {
+  var deploymentConfigName = aws.params.deploymentConfigName;
+  if (!deploymentConfigName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter deploymentConfigName'];
   }
 
 
@@ -282,37 +375,43 @@ module.exports.DeleteDeploymentGroup = function DeleteDeploymentGroup(aws) {
   // TODO implement code
 
   var ret = {
-    hooksNotCleanedUp: /*S24*/[ {
-      name: '',
+    hooksNotCleanedUp: /*S1e*/[ {
       hook: '',
+      name: '',
     }, /* ...*/ ],
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.CreateDeploymentGroup = function CreateDeploymentGroup(aws) {
-  var deploymentConfigName = aws.params.deploymentConfigName;
+module.exports.DeregisterOnPremisesInstance = function DeregisterOnPremisesInstance(aws) {
+  var instanceName = aws.params.instanceName;
+  if (!instanceName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter instanceName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetApplication = function GetApplication(aws) {
   var applicationName = aws.params.applicationName;
-  var deploymentGroupName = aws.params.deploymentGroupName;
-  var onPremisesInstanceTagFilters = aws.params.onPremisesInstanceTagFilters;
-  var ec2TagFilters = aws.params.ec2TagFilters;
-  var autoScalingGroups = aws.params.autoScalingGroups;
-  var serviceRoleArn = aws.params.serviceRoleArn;
   if (!applicationName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter applicationName'];
-  }
-  if (!deploymentGroupName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter deploymentGroupName'];
-  }
-  if (!serviceRoleArn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter serviceRoleArn'];
   }
 
 
   // TODO implement code
 
   var ret = {
-    deploymentGroupId: '',
+    application: /*Sz*/{
+      applicationId: '',
+      applicationName: '',
+      createTime: awsCommon.timestamp(),
+      linkedToGitHub: false,
+    },
   };
   return [200, ret];
 };
@@ -332,88 +431,269 @@ module.exports.GetApplicationRevision = function GetApplicationRevision(aws) {
 
   var ret = {
     applicationName: '',
-    revision: /*Sp*/{
-      revisionType: '',
+    revision: /*Sb*/{
       gitHubLocation: {
-        repository: '',
         commitId: '',
+        repository: '',
       },
+      revisionType: '',
       s3Location: {
+        bucket: '',
+        bundleType: '',
         eTag: '',
         key: '',
-        bundleType: '',
         version: '',
-        bucket: '',
       },
     },
-    revisionInfo: {
-      deploymentGroups: /*S2d*/[ '', /* ...*/ ],
+    revisionInfo: /*Sq*/{
+      deploymentGroups: /*Ss*/[ '', /* ...*/ ],
+      description: '',
       firstUsedTime: awsCommon.timestamp(),
       lastUsedTime: awsCommon.timestamp(),
       registerTime: awsCommon.timestamp(),
-      description: '',
     },
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.BatchGetApplications = function BatchGetApplications(aws) {
-  var applicationNames = aws.params.applicationNames;
+module.exports.GetDeployment = function GetDeployment(aws) {
+  var deploymentId = aws.params.deploymentId;
+  if (!deploymentId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter deploymentId'];
+  }
 
 
   // TODO implement code
 
   var ret = {
-    applicationsInfo: [ /*Sd*/{
+    deploymentInfo: /*S2a*/{
       applicationName: '',
+      completeTime: awsCommon.timestamp(),
       createTime: awsCommon.timestamp(),
-      applicationId: '',
-      linkedToGitHub: false,
+      creator: '',
+      deploymentConfigName: '',
+      deploymentGroupName: '',
+      deploymentId: '',
+      deploymentOverview: {
+        Failed: 0 /*Long*/,
+        InProgress: 0 /*Long*/,
+        Pending: 0 /*Long*/,
+        Skipped: 0 /*Long*/,
+        Succeeded: 0 /*Long*/,
+      },
+      description: '',
+      errorInformation: {
+        code: '',
+        message: '',
+      },
+      ignoreApplicationStopFailures: false,
+      revision: /*Sb*/{
+        gitHubLocation: {
+          commitId: '',
+          repository: '',
+        },
+        revisionType: '',
+        s3Location: {
+          bucket: '',
+          bundleType: '',
+          eTag: '',
+          key: '',
+          version: '',
+        },
+      },
+      startTime: awsCommon.timestamp(),
+      status: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetDeploymentConfig = function GetDeploymentConfig(aws) {
+  var deploymentConfigName = aws.params.deploymentConfigName;
+  if (!deploymentConfigName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter deploymentConfigName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    deploymentConfigInfo: {
+      createTime: awsCommon.timestamp(),
+      deploymentConfigId: '',
+      deploymentConfigName: '',
+      minimumHealthyHosts: /*S2s*/{
+        type: '',
+        value: 0,
+      },
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetDeploymentGroup = function GetDeploymentGroup(aws) {
+  var applicationName = aws.params.applicationName;
+  var deploymentGroupName = aws.params.deploymentGroupName;
+  if (!applicationName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter applicationName'];
+  }
+  if (!deploymentGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter deploymentGroupName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    deploymentGroupInfo: /*S15*/{
+      applicationName: '',
+      autoScalingGroups: /*S1e*/[ {
+        hook: '',
+        name: '',
+      }, /* ...*/ ],
+      deploymentConfigName: '',
+      deploymentGroupId: '',
+      deploymentGroupName: '',
+      ec2TagFilters: /*S18*/[ {
+        Key: '',
+        Type: '',
+        Value: '',
+      }, /* ...*/ ],
+      onPremisesInstanceTagFilters: /*S1b*/[ {
+        Key: '',
+        Type: '',
+        Value: '',
+      }, /* ...*/ ],
+      serviceRoleArn: '',
+      targetRevision: /*Sb*/{
+        gitHubLocation: {
+          commitId: '',
+          repository: '',
+        },
+        revisionType: '',
+        s3Location: {
+          bucket: '',
+          bundleType: '',
+          eTag: '',
+          key: '',
+          version: '',
+        },
+      },
+      triggerConfigurations: /*S1j*/[ {
+        triggerEvents: [ '', /* ...*/ ],
+        triggerName: '',
+        triggerTargetArn: '',
+      }, /* ...*/ ],
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetDeploymentInstance = function GetDeploymentInstance(aws) {
+  var deploymentId = aws.params.deploymentId;
+  var instanceId = aws.params.instanceId;
+  if (!deploymentId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter deploymentId'];
+  }
+  if (!instanceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter instanceId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    instanceSummary: /*S1v*/{
+      deploymentId: '',
+      instanceId: '',
+      lastUpdatedAt: awsCommon.timestamp(),
+      lifecycleEvents: [ {
+        diagnostics: {
+          errorCode: '',
+          logTail: '',
+          message: '',
+          scriptName: '',
+        },
+        endTime: awsCommon.timestamp(),
+        lifecycleEventName: '',
+        startTime: awsCommon.timestamp(),
+        status: '',
+      }, /* ...*/ ],
+      status: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetOnPremisesInstance = function GetOnPremisesInstance(aws) {
+  var instanceName = aws.params.instanceName;
+  if (!instanceName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter instanceName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    instanceInfo: /*S2k*/{
+      deregisterTime: awsCommon.timestamp(),
+      iamUserArn: '',
+      instanceArn: '',
+      instanceName: '',
+      registerTime: awsCommon.timestamp(),
+      tags: /*S2*/[ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListApplicationRevisions = function ListApplicationRevisions(aws) {
+  var applicationName = aws.params.applicationName;
+  var deployed = aws.params.deployed;
+  var nextToken = aws.params.nextToken;
+  var s3Bucket = aws.params.s3Bucket;
+  var s3KeyPrefix = aws.params.s3KeyPrefix;
+  var sortBy = aws.params.sortBy;
+  var sortOrder = aws.params.sortOrder;
+  if (!applicationName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter applicationName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    nextToken: '',
+    revisions: /*Sa*/[ /*Sb*/{
+      gitHubLocation: {
+        commitId: '',
+        repository: '',
+      },
+      revisionType: '',
+      s3Location: {
+        bucket: '',
+        bundleType: '',
+        eTag: '',
+        key: '',
+        version: '',
+      },
     }, /* ...*/ ],
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.ListDeploymentGroups = function ListDeploymentGroups(aws) {
-  var applicationName = aws.params.applicationName;
+module.exports.ListApplications = function ListApplications(aws) {
   var nextToken = aws.params.nextToken;
-  if (!applicationName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter applicationName'];
-  }
 
 
   // TODO implement code
 
   var ret = {
-    applicationName: '',
+    applications: /*Sw*/[ '', /* ...*/ ],
     nextToken: '',
-    deploymentGroups: /*S2d*/[ '', /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.UpdateApplication = function UpdateApplication(aws) {
-  var applicationName = aws.params.applicationName;
-  var newApplicationName = aws.params.newApplicationName;
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateApplication = function CreateApplication(aws) {
-  var applicationName = aws.params.applicationName;
-  if (!applicationName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter applicationName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    applicationId: '',
   };
   return [200, ret];
 };
@@ -431,14 +711,83 @@ module.exports.ListDeploymentConfigs = function ListDeploymentConfigs(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.AddTagsToOnPremisesInstances = function AddTagsToOnPremisesInstances(aws) {
-  var instanceNames = aws.params.instanceNames;
-  var tags = aws.params.tags;
-  if (!tags) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter tags'];
+module.exports.ListDeploymentGroups = function ListDeploymentGroups(aws) {
+  var applicationName = aws.params.applicationName;
+  var nextToken = aws.params.nextToken;
+  if (!applicationName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter applicationName'];
   }
-  if (!instanceNames) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter instanceNames'];
+
+
+  // TODO implement code
+
+  var ret = {
+    applicationName: '',
+    deploymentGroups: /*Ss*/[ '', /* ...*/ ],
+    nextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListDeploymentInstances = function ListDeploymentInstances(aws) {
+  var deploymentId = aws.params.deploymentId;
+  var instanceStatusFilter = aws.params.instanceStatusFilter /* Type list */;
+  var nextToken = aws.params.nextToken;
+  if (!deploymentId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter deploymentId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    instancesList: /*S1r*/[ '', /* ...*/ ],
+    nextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListDeployments = function ListDeployments(aws) {
+  var applicationName = aws.params.applicationName;
+  var createTimeRange = aws.params.createTimeRange /* Type structure */;
+  var deploymentGroupName = aws.params.deploymentGroupName;
+  var includeOnlyStatuses = aws.params.includeOnlyStatuses /* Type list */;
+  var nextToken = aws.params.nextToken;
+
+
+  // TODO implement code
+
+  var ret = {
+    deployments: /*S27*/[ '', /* ...*/ ],
+    nextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListOnPremisesInstances = function ListOnPremisesInstances(aws) {
+  var nextToken = aws.params.nextToken;
+  var registrationStatus = aws.params.registrationStatus;
+  var tagFilters = aws.params.tagFilters;
+
+
+  // TODO implement code
+
+  var ret = {
+    instanceNames: /*S6*/[ '', /* ...*/ ],
+    nextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RegisterApplicationRevision = function RegisterApplicationRevision(aws) {
+  var applicationName = aws.params.applicationName;
+  var description = aws.params.description;
+  var revision = aws.params.revision;
+  if (!applicationName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter applicationName'];
+  }
+  if (!revision) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter revision'];
   }
 
 
@@ -451,11 +800,11 @@ module.exports.AddTagsToOnPremisesInstances = function AddTagsToOnPremisesInstan
 module.exports.RegisterOnPremisesInstance = function RegisterOnPremisesInstance(aws) {
   var iamUserArn = aws.params.iamUserArn;
   var instanceName = aws.params.instanceName;
-  if (!instanceName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter instanceName'];
-  }
   if (!iamUserArn) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter iamUserArn'];
+  }
+  if (!instanceName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter instanceName'];
   }
 
 
@@ -465,10 +814,14 @@ module.exports.RegisterOnPremisesInstance = function RegisterOnPremisesInstance(
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DeregisterOnPremisesInstance = function DeregisterOnPremisesInstance(aws) {
-  var instanceName = aws.params.instanceName;
-  if (!instanceName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter instanceName'];
+module.exports.RemoveTagsFromOnPremisesInstances = function RemoveTagsFromOnPremisesInstances(aws) {
+  var instanceNames = aws.params.instanceNames;
+  var tags = aws.params.tags;
+  if (!instanceNames) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter instanceNames'];
+  }
+  if (!tags) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter tags'];
   }
 
 
@@ -488,17 +841,15 @@ module.exports.StopDeployment = function StopDeployment(aws) {
   // TODO implement code
 
   var ret = {
-    statusMessage: '',
     status: '',
+    statusMessage: '',
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DeleteApplication = function DeleteApplication(aws) {
+module.exports.UpdateApplication = function UpdateApplication(aws) {
   var applicationName = aws.params.applicationName;
-  if (!applicationName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter applicationName'];
-  }
+  var newApplicationName = aws.params.newApplicationName;
 
 
   // TODO implement code
@@ -507,236 +858,31 @@ module.exports.DeleteApplication = function DeleteApplication(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.ListApplicationRevisions = function ListApplicationRevisions(aws) {
-  var deployed = aws.params.deployed;
+module.exports.UpdateDeploymentGroup = function UpdateDeploymentGroup(aws) {
   var applicationName = aws.params.applicationName;
-  var s3Bucket = aws.params.s3Bucket;
-  var sortBy = aws.params.sortBy;
-  var s3KeyPrefix = aws.params.s3KeyPrefix;
-  var sortOrder = aws.params.sortOrder;
-  var nextToken = aws.params.nextToken;
+  var autoScalingGroups = aws.params.autoScalingGroups;
+  var currentDeploymentGroupName = aws.params.currentDeploymentGroupName;
+  var deploymentConfigName = aws.params.deploymentConfigName;
+  var ec2TagFilters = aws.params.ec2TagFilters;
+  var newDeploymentGroupName = aws.params.newDeploymentGroupName;
+  var onPremisesInstanceTagFilters = aws.params.onPremisesInstanceTagFilters;
+  var serviceRoleArn = aws.params.serviceRoleArn;
+  var triggerConfigurations = aws.params.triggerConfigurations;
   if (!applicationName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter applicationName'];
   }
+  if (!currentDeploymentGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter currentDeploymentGroupName'];
+  }
 
 
   // TODO implement code
 
   var ret = {
-    revisions: [ /*Sp*/{
-      revisionType: '',
-      gitHubLocation: {
-        repository: '',
-        commitId: '',
-      },
-      s3Location: {
-        eTag: '',
-        key: '',
-        bundleType: '',
-        version: '',
-        bucket: '',
-      },
+    hooksNotCleanedUp: /*S1e*/[ {
+      hook: '',
+      name: '',
     }, /* ...*/ ],
-    nextToken: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.BatchGetOnPremisesInstances = function BatchGetOnPremisesInstances(aws) {
-  var instanceNames = aws.params.instanceNames;
-
-
-  // TODO implement code
-
-  var ret = {
-    instanceInfos: [ /*S1b*/{
-      deregisterTime: awsCommon.timestamp(),
-      instanceArn: '',
-      iamUserArn: '',
-      instanceName: '',
-      tags: /*S2*/[ {
-        Value: '',
-        Key: '',
-      }, /* ...*/ ],
-      registerTime: awsCommon.timestamp(),
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.BatchGetDeployments = function BatchGetDeployments(aws) {
-  var deploymentIds = aws.params.deploymentIds;
-
-
-  // TODO implement code
-
-  var ret = {
-    deploymentsInfo: [ /*Sm*/{
-      applicationName: '',
-      deploymentGroupName: '',
-      deploymentOverview: {
-        Pending: 0 /*Long*/,
-        Failed: 0 /*Long*/,
-        Skipped: 0 /*Long*/,
-        Succeeded: 0 /*Long*/,
-        InProgress: 0 /*Long*/,
-      },
-      description: '',
-      status: '',
-      deploymentConfigName: '',
-      createTime: awsCommon.timestamp(),
-      completeTime: awsCommon.timestamp(),
-      revision: /*Sp*/{
-        revisionType: '',
-        gitHubLocation: {
-          repository: '',
-          commitId: '',
-        },
-        s3Location: {
-          eTag: '',
-          key: '',
-          bundleType: '',
-          version: '',
-          bucket: '',
-        },
-      },
-      deploymentId: '',
-      ignoreApplicationStopFailures: false,
-      errorInformation: {
-        message: '',
-        code: '',
-      },
-      creator: '',
-      startTime: awsCommon.timestamp(),
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListDeploymentInstances = function ListDeploymentInstances(aws) {
-  var instanceStatusFilter = aws.params.instanceStatusFilter /* Type list */;
-  var nextToken = aws.params.nextToken;
-  var deploymentId = aws.params.deploymentId;
-  if (!deploymentId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter deploymentId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    nextToken: '',
-    instancesList: [ '', /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.GetOnPremisesInstance = function GetOnPremisesInstance(aws) {
-  var instanceName = aws.params.instanceName;
-  if (!instanceName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter instanceName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    instanceInfo: /*S1b*/{
-      deregisterTime: awsCommon.timestamp(),
-      instanceArn: '',
-      iamUserArn: '',
-      instanceName: '',
-      tags: /*S2*/[ {
-        Value: '',
-        Key: '',
-      }, /* ...*/ ],
-      registerTime: awsCommon.timestamp(),
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListDeployments = function ListDeployments(aws) {
-  var createTimeRange = aws.params.createTimeRange /* Type structure */;
-  var applicationName = aws.params.applicationName;
-  var nextToken = aws.params.nextToken;
-  var includeOnlyStatuses = aws.params.includeOnlyStatuses /* Type list */;
-  var deploymentGroupName = aws.params.deploymentGroupName;
-
-
-  // TODO implement code
-
-  var ret = {
-    deployments: /*Si*/[ '', /* ...*/ ],
-    nextToken: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateDeploymentConfig = function CreateDeploymentConfig(aws) {
-  var deploymentConfigName = aws.params.deploymentConfigName;
-  var minimumHealthyHosts = aws.params.minimumHealthyHosts;
-  if (!deploymentConfigName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter deploymentConfigName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    deploymentConfigId: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.GetDeployment = function GetDeployment(aws) {
-  var deploymentId = aws.params.deploymentId;
-  if (!deploymentId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter deploymentId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    deploymentInfo: /*Sm*/{
-      applicationName: '',
-      deploymentGroupName: '',
-      deploymentOverview: {
-        Pending: 0 /*Long*/,
-        Failed: 0 /*Long*/,
-        Skipped: 0 /*Long*/,
-        Succeeded: 0 /*Long*/,
-        InProgress: 0 /*Long*/,
-      },
-      description: '',
-      status: '',
-      deploymentConfigName: '',
-      createTime: awsCommon.timestamp(),
-      completeTime: awsCommon.timestamp(),
-      revision: /*Sp*/{
-        revisionType: '',
-        gitHubLocation: {
-          repository: '',
-          commitId: '',
-        },
-        s3Location: {
-          eTag: '',
-          key: '',
-          bundleType: '',
-          version: '',
-          bucket: '',
-        },
-      },
-      deploymentId: '',
-      ignoreApplicationStopFailures: false,
-      errorInformation: {
-        message: '',
-        code: '',
-      },
-      creator: '',
-      startTime: awsCommon.timestamp(),
-    },
   };
   return [200, ret];
 };

@@ -50,7 +50,10 @@ require('../../lib/aws-common/shape_http')('{2}', module.exports, {3});
             api_entry["api"]["metadata"]["apiVersion"],
             api_entry["api"]["metadata"]["protocol"],
             namespace)
-    for operation_name in api_entry["api"]["operations"].keys():
+    # Note: sort the keys so it's easy to diff with upgrades.
+    api_entry_keys = list(api_entry["api"]["operations"].keys())
+    api_entry_keys.sort()
+    for operation_name in api_entry_keys:
         ret += build_action(operation_name, api_entry["api"])
 
     return ret
@@ -91,7 +94,11 @@ def build_arguments(operation_name, api, indent):
     ret = ''
     if "input" in api["operations"][operation_name]:
         if "members" in api["operations"][operation_name]["input"]:
-            for k, v in api["operations"][operation_name]["input"]["members"].items():
+            # Note: sorting members, so future diffs are easy
+            member_names = list(api["operations"][operation_name]["input"]["members"].keys())
+            member_names.sort()
+            for k in member_names:
+                v = api["operations"][operation_name]["input"]["members"][k]
                 vname = as_js_variable(k)
                 if "location" in v and v["location"] == 'uri':
                     # It's in the actual url path
@@ -115,7 +122,10 @@ def build_arguments(operation_name, api, indent):
                     ret += ' /* Type ' + v["type"] + ' */'
                 ret += ';\n'
         if "required" in api["operations"][operation_name]["input"]:
-            for k in api["operations"][operation_name]["input"]["required"]:
+            # Note: sort for ease of diff.
+            required_keys = list(api["operations"][operation_name]["input"]["required"])
+            required_keys.sort()
+            for k in required_keys:
                 vname = as_js_variable(k)
                 ret += (indent + 'if (!' + vname + ') {\n' +
                     indent + "  return [400, 'Sender', 'MissingParameter', 'Did not specify parameter " + k + "'];\n" +
@@ -185,7 +195,11 @@ def build_return_shape(indent, shape, api, found=None):
     if shape["type"] == 'structure':
         ret = '{\n'
         members = []
-        for k, v in shape["members"].items():
+        # Note: sort for ease of diffs
+        member_keys = list(shape["members"].keys())
+        member_keys.sort()
+        for k in member_keys:
+            v = shape["members"][k]
             members.append(indent + '  ' + k + ': ' + build_return_shape(indent + '  ', v, api, found) + ',')
         return '{\n' + "\n".join(members) + '\n' + indent + '}'
     if shape["type"] == 'map':
@@ -220,6 +234,7 @@ def build_requires_list(api_name, version_entries):
     has_no_version_uri_count = 0
     version_count = 0
     # Check how many versions have URI paths
+    # This is constructing the alt version list, so sorting isn't necessary
     for version, api_entry in version_entries.items():
         versionPath = re.compile("^/" + version + "/")
         versions[version] = True
@@ -271,7 +286,11 @@ def build_requires_list(api_name, version_entries):
     else:
         # Each version is its own path
         ret = []
-        for path_version, real_version_list in alt_versions.items():
+        # Sort for ease of diff
+        path_version_keys = list(alt_versions.keys())
+        path_version_keys.sort()
+        for path_version in path_version_keys:
+            real_version_list = alt_versions[path_version]
             if path_version in versions and not versions[path_version]:
                 if len(real_version_list) > 1:
                     raise Exception("{0} has path version {1} which is not versioned, but it has multiple API versions mapped to it ({2})".format(
@@ -297,6 +316,7 @@ def build_route_file(outdir, api_version_entries):
     routeList = []
     for api_name, version_entries in api_version_entries.items():
         routeList.extend(build_requires_list(api_name, version_entries))
+    # Note: sort for ease of diff
     routeList.sort()
 
     with open(os.path.join(outdir, 'boilerplate-routes.js'), 'w') as f:
@@ -362,6 +382,7 @@ def find_files(api_dir):
 
 def build_all_files(outdir, api_dir):
     api_entries = find_files(api_dir)
+    # No need to sort, because this is just building each file (which is diffed independently)
     for api_name, versions in api_entries.items():
         for api_version, api_entry in versions.items():
             build_file(outdir, api_entry)

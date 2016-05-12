@@ -99,6 +99,7 @@ EventBus.prototype.sendExternalEvents = function sendExternalEvents(eventList) {
   this.__handleAllEvents({
     eventList: eventList,
   }).forEach(function fe(event) {
+    // ` console.log(`[EVENTBUS] queueing event ${event.name} for ${event.destination.workflowId}`);
     workflows[event.destination.runId] = event.destination;
     event.destination._addEvent(event);
   });
@@ -115,6 +116,7 @@ EventBus.prototype.sendExternalEvents = function sendExternalEvents(eventList) {
       var taskList = this.domain.getOrCreateDecisionTaskList(workflow.executionConfiguration.taskList);
       var scheduledEvent = this._createEvent(workflow.createDecisionTaskScheduledEvent());
       workflow._addEvent(scheduledEvent);
+      // ` console.log(`[EVENTBUS] adding decision task for ${workflow.workflowId}`);
       var task = taskList.addDecisionTaskFor({
         workflow: workflow,
         scheduledEvent: scheduledEvent,
@@ -133,25 +135,39 @@ EventBus.prototype.sendExternalEvents = function sendExternalEvents(eventList) {
 EventBus.prototype.sendDecisionEvents = function sendDecisionEvents(p) {
   var eventList = p.eventList;
   var sourceWorkflow = p.sourceWorkflow;
-  var byWorkflow = {};
-  var t = this;
-  var event, srcEvent, newEvents;
 
+  // Create events and sort them by workflow.
+  var externalEvents = [];
+  var localEvents = [];
+  var hasTriggeredEvent = false;
+  var t = this;
   this.__handleAllEvents({
     eventList: eventList,
-    preEventFunc: function pef(evt) {
-      evt.sourceWorkflow = sourceWorkflow;
+    preEventFunc: function preEventFunc(event) {
+      event.sourceWorkflow = sourceWorkflow;
     },
   }).forEach(function fe(event) {
-    if (!byWorkflow[event.destination.runId]) {
-      byWorkflow[event.destination.runId] = [];
+    // ` console.log(`[EVENTBUS] queueing event ${event.name} for ${event.destination.workflowId}`);
+    if (event.destination !== sourceWorkflow) {
+      externalEvents.push(event);
+    } else {
+      localEvents.push(event);
+      hasTriggeredEvent |= t.__isImmediateEvent(event);
     }
-    byWorkflow[event.destination.runId].push(event);
   });
 
-  // FIXME put the byWorkflow objects into the decision task lists.
+  if (hasTriggeredEvent) {
+    this.sendExternalEvents(localEvents);
+  }
+
+  this.sendExternalEvents(eventList);
 };
 
+
+EventBus.prototype.__isImmediateEvent = function __isImmediateEvent(event) {
+  // TODO see what other conditions to ignore.
+  return (!event.name.startsWith('DecisionTask'));
+};
 
 /**
  * Create the events for starting a workflow, send them to the right destination
@@ -231,7 +247,7 @@ EventBus.prototype._createEvent = function _createEvent(p) {
     });
   }
   if (!workflow) {
-    console.log(`[EVENTBUS] no such workflow object ${p.workflowId}/${p.runId}`);
+    console.error(`[EVENTBUS] no such workflow object ${p.workflowId}/${p.runId}`);
     return null;
   }
   if (!this.workflowEventIds[workflow.runId]) {

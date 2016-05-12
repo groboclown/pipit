@@ -12,158 +12,42 @@ const awsCommon = require('../../lib/aws-common');
 // Setup input and output to use AWS protocol json
 require('../../lib/aws-common/shape_http')('json', module.exports, null);
 // -----------------------------------
-module.exports.DescribeWorkingStorage = function DescribeWorkingStorage(aws) {
-  var gatewayARN = aws.params.GatewayARN;
-  if (!gatewayARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
+module.exports.ActivateGateway = function ActivateGateway(aws) {
+  var activationKey = aws.params.ActivationKey;
+  var gatewayName = aws.params.GatewayName;
+  var gatewayRegion = aws.params.GatewayRegion;
+  var gatewayTimezone = aws.params.GatewayTimezone;
+  var gatewayType = aws.params.GatewayType;
+  var mediumChangerType = aws.params.MediumChangerType;
+  var tapeDriveType = aws.params.TapeDriveType;
+  if (!activationKey) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ActivationKey'];
+  }
+  if (!gatewayName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayName'];
+  }
+  if (!gatewayRegion) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayRegion'];
+  }
+  if (!gatewayTimezone) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayTimezone'];
   }
 
 
   // TODO implement code
 
   var ret = {
-    WorkingStorageUsedInBytes: 0 /*Long*/,
-    DiskIds: /*Sc*/[ '', /* ...*/ ],
-    GatewayARN: '',
-    WorkingStorageAllocatedInBytes: 0 /*Long*/,
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateSnapshotFromVolumeRecoveryPoint = function CreateSnapshotFromVolumeRecoveryPoint(aws) {
-  var volumeARN = aws.params.VolumeARN;
-  var snapshotDescription = aws.params.SnapshotDescription;
-  if (!volumeARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VolumeARN'];
-  }
-  if (!snapshotDescription) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SnapshotDescription'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    VolumeARN: '',
-    VolumeRecoveryPointTime: '',
-    SnapshotId: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateSnapshot = function CreateSnapshot(aws) {
-  var volumeARN = aws.params.VolumeARN;
-  var snapshotDescription = aws.params.SnapshotDescription;
-  if (!volumeARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VolumeARN'];
-  }
-  if (!snapshotDescription) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SnapshotDescription'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    VolumeARN: '',
-    SnapshotId: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeVTLDevices = function DescribeVTLDevices(aws) {
-  var marker = aws.params.Marker;
-  var vTLDeviceARNs = aws.params.VTLDeviceARNs /* Type list */;
-  var limit = aws.params.Limit /* Type integer */;
-  var gatewayARN = aws.params.GatewayARN;
-  if (!gatewayARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Marker: '',
-    VTLDevices: [ {
-      VTLDeviceProductIdentifier: '',
-      DeviceiSCSIAttributes: {
-        NetworkInterfaceId: '',
-        NetworkInterfacePort: 0,
-        TargetARN: '',
-        ChapEnabled: false,
-      },
-      VTLDeviceVendor: '',
-      VTLDeviceARN: '',
-      VTLDeviceType: '',
-    }, /* ...*/ ],
     GatewayARN: '',
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DescribeChapCredentials = function DescribeChapCredentials(aws) {
-  var targetARN = aws.params.TargetARN;
-  if (!targetARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TargetARN'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    ChapCredentials: [ {
-      SecretToAuthenticateInitiator: '',
-      SecretToAuthenticateTarget: '',
-      TargetARN: '',
-      InitiatorName: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteTape = function DeleteTape(aws) {
-  var tapeARN = aws.params.TapeARN;
-  var gatewayARN = aws.params.GatewayARN;
-  if (!gatewayARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
-  }
-  if (!tapeARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TapeARN'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    TapeARN: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.AddUploadBuffer = function AddUploadBuffer(aws) {
+module.exports.AddCache = function AddCache(aws) {
   var diskIds = aws.params.DiskIds;
   var gatewayARN = aws.params.GatewayARN;
-  if (!gatewayARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
-  }
   if (!diskIds) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DiskIds'];
   }
-
-
-  // TODO implement code
-
-  var ret = {
-    GatewayARN: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.UpdateGatewayInformation = function UpdateGatewayInformation(aws) {
-  var gatewayName = aws.params.GatewayName;
-  var gatewayTimezone = aws.params.GatewayTimezone;
-  var gatewayARN = aws.params.GatewayARN;
   if (!gatewayARN) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
   }
@@ -172,23 +56,7 @@ module.exports.UpdateGatewayInformation = function UpdateGatewayInformation(aws)
   // TODO implement code
 
   var ret = {
-    GatewayName: '',
     GatewayARN: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteTapeArchive = function DeleteTapeArchive(aws) {
-  var tapeARN = aws.params.TapeARN;
-  if (!tapeARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TapeARN'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    TapeARN: '',
   };
   return [200, ret];
 };
@@ -212,6 +80,379 @@ module.exports.AddTagsToResource = function AddTagsToResource(aws) {
   return [200, ret];
 };
 // -----------------------------------
+module.exports.AddUploadBuffer = function AddUploadBuffer(aws) {
+  var diskIds = aws.params.DiskIds;
+  var gatewayARN = aws.params.GatewayARN;
+  if (!diskIds) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DiskIds'];
+  }
+  if (!gatewayARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    GatewayARN: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.AddWorkingStorage = function AddWorkingStorage(aws) {
+  var diskIds = aws.params.DiskIds;
+  var gatewayARN = aws.params.GatewayARN;
+  if (!diskIds) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DiskIds'];
+  }
+  if (!gatewayARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    GatewayARN: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CancelArchival = function CancelArchival(aws) {
+  var gatewayARN = aws.params.GatewayARN;
+  var tapeARN = aws.params.TapeARN;
+  if (!gatewayARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
+  }
+  if (!tapeARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TapeARN'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    TapeARN: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CancelRetrieval = function CancelRetrieval(aws) {
+  var gatewayARN = aws.params.GatewayARN;
+  var tapeARN = aws.params.TapeARN;
+  if (!gatewayARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
+  }
+  if (!tapeARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TapeARN'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    TapeARN: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateCachediSCSIVolume = function CreateCachediSCSIVolume(aws) {
+  var clientToken = aws.params.ClientToken;
+  var gatewayARN = aws.params.GatewayARN;
+  var networkInterfaceId = aws.params.NetworkInterfaceId;
+  var snapshotId = aws.params.SnapshotId;
+  var targetName = aws.params.TargetName;
+  var volumeSizeInBytes = aws.params.VolumeSizeInBytes /* Type long */;
+  if (!clientToken) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClientToken'];
+  }
+  if (!gatewayARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
+  }
+  if (!networkInterfaceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter NetworkInterfaceId'];
+  }
+  if (!targetName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TargetName'];
+  }
+  if (!volumeSizeInBytes) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VolumeSizeInBytes'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    TargetARN: '',
+    VolumeARN: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateSnapshot = function CreateSnapshot(aws) {
+  var snapshotDescription = aws.params.SnapshotDescription;
+  var volumeARN = aws.params.VolumeARN;
+  if (!snapshotDescription) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SnapshotDescription'];
+  }
+  if (!volumeARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VolumeARN'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    SnapshotId: '',
+    VolumeARN: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateSnapshotFromVolumeRecoveryPoint = function CreateSnapshotFromVolumeRecoveryPoint(aws) {
+  var snapshotDescription = aws.params.SnapshotDescription;
+  var volumeARN = aws.params.VolumeARN;
+  if (!snapshotDescription) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SnapshotDescription'];
+  }
+  if (!volumeARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VolumeARN'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    SnapshotId: '',
+    VolumeARN: '',
+    VolumeRecoveryPointTime: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateStorediSCSIVolume = function CreateStorediSCSIVolume(aws) {
+  var diskId = aws.params.DiskId;
+  var gatewayARN = aws.params.GatewayARN;
+  var networkInterfaceId = aws.params.NetworkInterfaceId;
+  var preserveExistingData = aws.params.PreserveExistingData /* Type boolean */;
+  var snapshotId = aws.params.SnapshotId;
+  var targetName = aws.params.TargetName;
+  if (!diskId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DiskId'];
+  }
+  if (!gatewayARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
+  }
+  if (!networkInterfaceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter NetworkInterfaceId'];
+  }
+  if (!preserveExistingData) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PreserveExistingData'];
+  }
+  if (!targetName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TargetName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    TargetARN: '',
+    VolumeARN: '',
+    VolumeSizeInBytes: 0 /*Long*/,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateTapeWithBarcode = function CreateTapeWithBarcode(aws) {
+  var gatewayARN = aws.params.GatewayARN;
+  var tapeBarcode = aws.params.TapeBarcode;
+  var tapeSizeInBytes = aws.params.TapeSizeInBytes /* Type long */;
+  if (!gatewayARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
+  }
+  if (!tapeBarcode) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TapeBarcode'];
+  }
+  if (!tapeSizeInBytes) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TapeSizeInBytes'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    TapeARN: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateTapes = function CreateTapes(aws) {
+  var clientToken = aws.params.ClientToken;
+  var gatewayARN = aws.params.GatewayARN;
+  var numTapesToCreate = aws.params.NumTapesToCreate /* Type integer */;
+  var tapeBarcodePrefix = aws.params.TapeBarcodePrefix;
+  var tapeSizeInBytes = aws.params.TapeSizeInBytes /* Type long */;
+  if (!clientToken) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClientToken'];
+  }
+  if (!gatewayARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
+  }
+  if (!numTapesToCreate) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter NumTapesToCreate'];
+  }
+  if (!tapeBarcodePrefix) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TapeBarcodePrefix'];
+  }
+  if (!tapeSizeInBytes) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TapeSizeInBytes'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    TapeARNs: /*S1l*/[ '', /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteBandwidthRateLimit = function DeleteBandwidthRateLimit(aws) {
+  var bandwidthType = aws.params.BandwidthType;
+  var gatewayARN = aws.params.GatewayARN;
+  if (!bandwidthType) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter BandwidthType'];
+  }
+  if (!gatewayARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    GatewayARN: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteChapCredentials = function DeleteChapCredentials(aws) {
+  var initiatorName = aws.params.InitiatorName;
+  var targetARN = aws.params.TargetARN;
+  if (!initiatorName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InitiatorName'];
+  }
+  if (!targetARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TargetARN'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    InitiatorName: '',
+    TargetARN: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteGateway = function DeleteGateway(aws) {
+  var gatewayARN = aws.params.GatewayARN;
+  if (!gatewayARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    GatewayARN: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteSnapshotSchedule = function DeleteSnapshotSchedule(aws) {
+  var volumeARN = aws.params.VolumeARN;
+  if (!volumeARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VolumeARN'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    VolumeARN: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteTape = function DeleteTape(aws) {
+  var gatewayARN = aws.params.GatewayARN;
+  var tapeARN = aws.params.TapeARN;
+  if (!gatewayARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
+  }
+  if (!tapeARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TapeARN'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    TapeARN: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteTapeArchive = function DeleteTapeArchive(aws) {
+  var tapeARN = aws.params.TapeARN;
+  if (!tapeARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TapeARN'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    TapeARN: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteVolume = function DeleteVolume(aws) {
+  var volumeARN = aws.params.VolumeARN;
+  if (!volumeARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VolumeARN'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    VolumeARN: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeBandwidthRateLimit = function DescribeBandwidthRateLimit(aws) {
+  var gatewayARN = aws.params.GatewayARN;
+  if (!gatewayARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    AverageDownloadRateLimitInBitsPerSec: 0 /*Long*/,
+    AverageUploadRateLimitInBitsPerSec: 0 /*Long*/,
+    GatewayARN: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.DescribeCache = function DescribeCache(aws) {
   var gatewayARN = aws.params.GatewayARN;
   if (!gatewayARN) {
@@ -222,21 +463,305 @@ module.exports.DescribeCache = function DescribeCache(aws) {
   // TODO implement code
 
   var ret = {
-    CacheDirtyPercentage: 0.0 /*Double*/,
-    DiskIds: /*Sc*/[ '', /* ...*/ ],
     CacheAllocatedInBytes: 0 /*Long*/,
-    CacheMissPercentage: 0.0 /*Double*/,
-    GatewayARN: '',
-    CacheUsedPercentage: 0.0 /*Double*/,
+    CacheDirtyPercentage: 0.0 /*Double*/,
     CacheHitPercentage: 0.0 /*Double*/,
+    CacheMissPercentage: 0.0 /*Double*/,
+    CacheUsedPercentage: 0.0 /*Double*/,
+    DiskIds: /*Sc*/[ '', /* ...*/ ],
+    GatewayARN: '',
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.UpdateBandwidthRateLimit = function UpdateBandwidthRateLimit(aws) {
-  var averageDownloadRateLimitInBitsPerSec = aws.params.AverageDownloadRateLimitInBitsPerSec /* Type long */;
+module.exports.DescribeCachediSCSIVolumes = function DescribeCachediSCSIVolumes(aws) {
+  var volumeARNs = aws.params.VolumeARNs;
+  if (!volumeARNs) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VolumeARNs'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    CachediSCSIVolumes: [ {
+      SourceSnapshotId: '',
+      VolumeARN: '',
+      VolumeId: '',
+      VolumeProgress: 0.0 /*Double*/,
+      VolumeSizeInBytes: 0 /*Long*/,
+      VolumeStatus: '',
+      VolumeType: '',
+      VolumeiSCSIAttributes: /*S2i*/{
+        ChapEnabled: false,
+        LunNumber: 0,
+        NetworkInterfaceId: '',
+        NetworkInterfacePort: 0,
+        TargetARN: '',
+      },
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeChapCredentials = function DescribeChapCredentials(aws) {
+  var targetARN = aws.params.TargetARN;
+  if (!targetARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TargetARN'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ChapCredentials: [ {
+      InitiatorName: '',
+      SecretToAuthenticateInitiator: '',
+      SecretToAuthenticateTarget: '',
+      TargetARN: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeGatewayInformation = function DescribeGatewayInformation(aws) {
   var gatewayARN = aws.params.GatewayARN;
-  var averageUploadRateLimitInBitsPerSec = aws.params.AverageUploadRateLimitInBitsPerSec /* Type long */;
+  if (!gatewayARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    GatewayARN: '',
+    GatewayId: '',
+    GatewayName: '',
+    GatewayNetworkInterfaces: [ {
+      Ipv4Address: '',
+      Ipv6Address: '',
+      MacAddress: '',
+    }, /* ...*/ ],
+    GatewayState: '',
+    GatewayTimezone: '',
+    GatewayType: '',
+    LastSoftwareUpdate: '',
+    NextUpdateAvailabilityDate: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeMaintenanceStartTime = function DescribeMaintenanceStartTime(aws) {
+  var gatewayARN = aws.params.GatewayARN;
+  if (!gatewayARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    DayOfWeek: 0,
+    GatewayARN: '',
+    HourOfDay: 0,
+    MinuteOfHour: 0,
+    Timezone: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeSnapshotSchedule = function DescribeSnapshotSchedule(aws) {
+  var volumeARN = aws.params.VolumeARN;
+  if (!volumeARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VolumeARN'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Description: '',
+    RecurrenceInHours: 0,
+    StartAt: 0,
+    Timezone: '',
+    VolumeARN: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeStorediSCSIVolumes = function DescribeStorediSCSIVolumes(aws) {
+  var volumeARNs = aws.params.VolumeARNs;
+  if (!volumeARNs) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VolumeARNs'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    StorediSCSIVolumes: [ {
+      PreservedExistingData: false,
+      SourceSnapshotId: '',
+      VolumeARN: '',
+      VolumeDiskId: '',
+      VolumeId: '',
+      VolumeProgress: 0.0 /*Double*/,
+      VolumeSizeInBytes: 0 /*Long*/,
+      VolumeStatus: '',
+      VolumeType: '',
+      VolumeiSCSIAttributes: /*S2i*/{
+        ChapEnabled: false,
+        LunNumber: 0,
+        NetworkInterfaceId: '',
+        NetworkInterfacePort: 0,
+        TargetARN: '',
+      },
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeTapeArchives = function DescribeTapeArchives(aws) {
+  var limit = aws.params.Limit /* Type integer */;
+  var marker = aws.params.Marker;
+  var tapeARNs = aws.params.TapeARNs;
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    TapeArchives: [ {
+      CompletionTime: awsCommon.timestamp(),
+      RetrievedTo: '',
+      TapeARN: '',
+      TapeBarcode: '',
+      TapeSizeInBytes: 0 /*Long*/,
+      TapeStatus: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeTapeRecoveryPoints = function DescribeTapeRecoveryPoints(aws) {
+  var gatewayARN = aws.params.GatewayARN;
+  var limit = aws.params.Limit /* Type integer */;
+  var marker = aws.params.Marker;
+  if (!gatewayARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    GatewayARN: '',
+    Marker: '',
+    TapeRecoveryPointInfos: [ {
+      TapeARN: '',
+      TapeRecoveryPointTime: awsCommon.timestamp(),
+      TapeSizeInBytes: 0 /*Long*/,
+      TapeStatus: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeTapes = function DescribeTapes(aws) {
+  var gatewayARN = aws.params.GatewayARN;
+  var limit = aws.params.Limit /* Type integer */;
+  var marker = aws.params.Marker;
+  var tapeARNs = aws.params.TapeARNs;
+  if (!gatewayARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    Tapes: [ {
+      Progress: 0.0 /*Double*/,
+      TapeARN: '',
+      TapeBarcode: '',
+      TapeSizeInBytes: 0 /*Long*/,
+      TapeStatus: '',
+      VTLDevice: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeUploadBuffer = function DescribeUploadBuffer(aws) {
+  var gatewayARN = aws.params.GatewayARN;
+  if (!gatewayARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    DiskIds: /*Sc*/[ '', /* ...*/ ],
+    GatewayARN: '',
+    UploadBufferAllocatedInBytes: 0 /*Long*/,
+    UploadBufferUsedInBytes: 0 /*Long*/,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeVTLDevices = function DescribeVTLDevices(aws) {
+  var gatewayARN = aws.params.GatewayARN;
+  var limit = aws.params.Limit /* Type integer */;
+  var marker = aws.params.Marker;
+  var vTLDeviceARNs = aws.params.VTLDeviceARNs /* Type list */;
+  if (!gatewayARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    GatewayARN: '',
+    Marker: '',
+    VTLDevices: [ {
+      DeviceiSCSIAttributes: {
+        ChapEnabled: false,
+        NetworkInterfaceId: '',
+        NetworkInterfacePort: 0,
+        TargetARN: '',
+      },
+      VTLDeviceARN: '',
+      VTLDeviceProductIdentifier: '',
+      VTLDeviceType: '',
+      VTLDeviceVendor: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeWorkingStorage = function DescribeWorkingStorage(aws) {
+  var gatewayARN = aws.params.GatewayARN;
+  if (!gatewayARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    DiskIds: /*Sc*/[ '', /* ...*/ ],
+    GatewayARN: '',
+    WorkingStorageAllocatedInBytes: 0 /*Long*/,
+    WorkingStorageUsedInBytes: 0 /*Long*/,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DisableGateway = function DisableGateway(aws) {
+  var gatewayARN = aws.params.GatewayARN;
   if (!gatewayARN) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
   }
@@ -250,22 +775,232 @@ module.exports.UpdateBandwidthRateLimit = function UpdateBandwidthRateLimit(aws)
   return [200, ret];
 };
 // -----------------------------------
-module.exports.UpdateMaintenanceStartTime = function UpdateMaintenanceStartTime(aws) {
-  var dayOfWeek = aws.params.DayOfWeek /* Type integer */;
-  var hourOfDay = aws.params.HourOfDay /* Type integer */;
+module.exports.ListGateways = function ListGateways(aws) {
+  var limit = aws.params.Limit /* Type integer */;
+  var marker = aws.params.Marker;
+
+
+  // TODO implement code
+
+  var ret = {
+    Gateways: [ {
+      GatewayARN: '',
+      GatewayId: '',
+      GatewayName: '',
+      GatewayOperationalState: '',
+      GatewayType: '',
+    }, /* ...*/ ],
+    Marker: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListLocalDisks = function ListLocalDisks(aws) {
   var gatewayARN = aws.params.GatewayARN;
-  var minuteOfHour = aws.params.MinuteOfHour /* Type integer */;
   if (!gatewayARN) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
   }
-  if (!hourOfDay) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HourOfDay'];
+
+
+  // TODO implement code
+
+  var ret = {
+    Disks: [ {
+      DiskAllocationResource: '',
+      DiskAllocationType: '',
+      DiskId: '',
+      DiskNode: '',
+      DiskPath: '',
+      DiskSizeInBytes: 0 /*Long*/,
+      DiskStatus: '',
+    }, /* ...*/ ],
+    GatewayARN: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListTagsForResource = function ListTagsForResource(aws) {
+  var limit = aws.params.Limit /* Type integer */;
+  var marker = aws.params.Marker;
+  var resourceARN = aws.params.ResourceARN;
+  if (!resourceARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ResourceARN'];
   }
-  if (!minuteOfHour) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MinuteOfHour'];
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    ResourceARN: '',
+    Tags: /*Sh*/[ {
+      Key: '',
+      Value: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListTapes = function ListTapes(aws) {
+  var limit = aws.params.Limit /* Type integer */;
+  var marker = aws.params.Marker;
+  var tapeARNs = aws.params.TapeARNs;
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    TapeInfos: [ {
+      GatewayARN: '',
+      TapeARN: '',
+      TapeBarcode: '',
+      TapeSizeInBytes: 0 /*Long*/,
+      TapeStatus: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListVolumeInitiators = function ListVolumeInitiators(aws) {
+  var volumeARN = aws.params.VolumeARN;
+  if (!volumeARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VolumeARN'];
   }
-  if (!dayOfWeek) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DayOfWeek'];
+
+
+  // TODO implement code
+
+  var ret = {
+    Initiators: [ '', /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListVolumeRecoveryPoints = function ListVolumeRecoveryPoints(aws) {
+  var gatewayARN = aws.params.GatewayARN;
+  if (!gatewayARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    GatewayARN: '',
+    VolumeRecoveryPointInfos: [ {
+      VolumeARN: '',
+      VolumeRecoveryPointTime: '',
+      VolumeSizeInBytes: 0 /*Long*/,
+      VolumeUsageInBytes: 0 /*Long*/,
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListVolumes = function ListVolumes(aws) {
+  var gatewayARN = aws.params.GatewayARN;
+  var limit = aws.params.Limit /* Type integer */;
+  var marker = aws.params.Marker;
+
+
+  // TODO implement code
+
+  var ret = {
+    GatewayARN: '',
+    Marker: '',
+    VolumeInfos: [ {
+      GatewayARN: '',
+      GatewayId: '',
+      VolumeARN: '',
+      VolumeId: '',
+      VolumeSizeInBytes: 0 /*Long*/,
+      VolumeType: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RemoveTagsFromResource = function RemoveTagsFromResource(aws) {
+  var resourceARN = aws.params.ResourceARN;
+  var tagKeys = aws.params.TagKeys /* Type list */;
+  if (!resourceARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ResourceARN'];
+  }
+  if (!tagKeys) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TagKeys'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ResourceARN: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ResetCache = function ResetCache(aws) {
+  var gatewayARN = aws.params.GatewayARN;
+  if (!gatewayARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    GatewayARN: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RetrieveTapeArchive = function RetrieveTapeArchive(aws) {
+  var gatewayARN = aws.params.GatewayARN;
+  var tapeARN = aws.params.TapeARN;
+  if (!gatewayARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
+  }
+  if (!tapeARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TapeARN'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    TapeARN: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RetrieveTapeRecoveryPoint = function RetrieveTapeRecoveryPoint(aws) {
+  var gatewayARN = aws.params.GatewayARN;
+  var tapeARN = aws.params.TapeARN;
+  if (!gatewayARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
+  }
+  if (!tapeARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TapeARN'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    TapeARN: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.SetLocalConsolePassword = function SetLocalConsolePassword(aws) {
+  var gatewayARN = aws.params.GatewayARN;
+  var localConsolePassword = aws.params.LocalConsolePassword /* Type string */;
+  if (!gatewayARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
+  }
+  if (!localConsolePassword) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LocalConsolePassword'];
   }
 
 
@@ -292,39 +1027,7 @@ module.exports.ShutdownGateway = function ShutdownGateway(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DescribeStorediSCSIVolumes = function DescribeStorediSCSIVolumes(aws) {
-  var volumeARNs = aws.params.VolumeARNs;
-  if (!volumeARNs) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VolumeARNs'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    StorediSCSIVolumes: [ {
-      VolumeARN: '',
-      VolumeProgress: 0.0 /*Double*/,
-      VolumeiSCSIAttributes: /*S2f*/{
-        ChapEnabled: false,
-        NetworkInterfaceId: '',
-        NetworkInterfacePort: 0,
-        TargetARN: '',
-        LunNumber: 0,
-      },
-      PreservedExistingData: false,
-      VolumeSizeInBytes: 0 /*Long*/,
-      VolumeId: '',
-      VolumeStatus: '',
-      VolumeDiskId: '',
-      VolumeType: '',
-      SourceSnapshotId: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DisableGateway = function DisableGateway(aws) {
+module.exports.StartGateway = function StartGateway(aws) {
   var gatewayARN = aws.params.GatewayARN;
   if (!gatewayARN) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
@@ -339,28 +1042,9 @@ module.exports.DisableGateway = function DisableGateway(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.ListTagsForResource = function ListTagsForResource(aws) {
-  var marker = aws.params.Marker;
-  var resourceARN = aws.params.ResourceARN;
-  var limit = aws.params.Limit /* Type integer */;
-
-
-  // TODO implement code
-
-  var ret = {
-    Marker: '',
-    ResourceARN: '',
-    Tags: /*Sh*/[ {
-      Value: '',
-      Key: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListVolumes = function ListVolumes(aws) {
-  var marker = aws.params.Marker;
-  var limit = aws.params.Limit /* Type integer */;
+module.exports.UpdateBandwidthRateLimit = function UpdateBandwidthRateLimit(aws) {
+  var averageDownloadRateLimitInBitsPerSec = aws.params.AverageDownloadRateLimitInBitsPerSec /* Type long */;
+  var averageUploadRateLimitInBitsPerSec = aws.params.AverageUploadRateLimitInBitsPerSec /* Type long */;
   var gatewayARN = aws.params.GatewayARN;
   if (!gatewayARN) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
@@ -370,12 +1054,50 @@ module.exports.ListVolumes = function ListVolumes(aws) {
   // TODO implement code
 
   var ret = {
-    Marker: '',
-    VolumeInfos: [ {
-      VolumeARN: '',
-      VolumeType: '',
-    }, /* ...*/ ],
     GatewayARN: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateChapCredentials = function UpdateChapCredentials(aws) {
+  var initiatorName = aws.params.InitiatorName;
+  var secretToAuthenticateInitiator = aws.params.SecretToAuthenticateInitiator;
+  var secretToAuthenticateTarget = aws.params.SecretToAuthenticateTarget;
+  var targetARN = aws.params.TargetARN;
+  if (!initiatorName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InitiatorName'];
+  }
+  if (!secretToAuthenticateInitiator) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SecretToAuthenticateInitiator'];
+  }
+  if (!targetARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TargetARN'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    InitiatorName: '',
+    TargetARN: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateGatewayInformation = function UpdateGatewayInformation(aws) {
+  var gatewayARN = aws.params.GatewayARN;
+  var gatewayName = aws.params.GatewayName;
+  var gatewayTimezone = aws.params.GatewayTimezone;
+  if (!gatewayARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    GatewayARN: '',
+    GatewayName: '',
   };
   return [200, ret];
 };
@@ -395,8 +1117,44 @@ module.exports.UpdateGatewaySoftwareNow = function UpdateGatewaySoftwareNow(aws)
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DescribeSnapshotSchedule = function DescribeSnapshotSchedule(aws) {
+module.exports.UpdateMaintenanceStartTime = function UpdateMaintenanceStartTime(aws) {
+  var dayOfWeek = aws.params.DayOfWeek /* Type integer */;
+  var gatewayARN = aws.params.GatewayARN;
+  var hourOfDay = aws.params.HourOfDay /* Type integer */;
+  var minuteOfHour = aws.params.MinuteOfHour /* Type integer */;
+  if (!dayOfWeek) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DayOfWeek'];
+  }
+  if (!gatewayARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
+  }
+  if (!hourOfDay) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HourOfDay'];
+  }
+  if (!minuteOfHour) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MinuteOfHour'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    GatewayARN: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateSnapshotSchedule = function UpdateSnapshotSchedule(aws) {
+  var description = aws.params.Description;
+  var recurrenceInHours = aws.params.RecurrenceInHours /* Type integer */;
+  var startAt = aws.params.StartAt /* Type integer */;
   var volumeARN = aws.params.VolumeARN;
+  if (!recurrenceInHours) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RecurrenceInHours'];
+  }
+  if (!startAt) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StartAt'];
+  }
   if (!volumeARN) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VolumeARN'];
   }
@@ -406,423 +1164,6 @@ module.exports.DescribeSnapshotSchedule = function DescribeSnapshotSchedule(aws)
 
   var ret = {
     VolumeARN: '',
-    StartAt: 0,
-    Timezone: '',
-    Description: '',
-    RecurrenceInHours: 0,
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.RetrieveTapeRecoveryPoint = function RetrieveTapeRecoveryPoint(aws) {
-  var tapeARN = aws.params.TapeARN;
-  var gatewayARN = aws.params.GatewayARN;
-  if (!tapeARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TapeARN'];
-  }
-  if (!gatewayARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    TapeARN: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.RemoveTagsFromResource = function RemoveTagsFromResource(aws) {
-  var tagKeys = aws.params.TagKeys /* Type list */;
-  var resourceARN = aws.params.ResourceARN;
-
-
-  // TODO implement code
-
-  var ret = {
-    ResourceARN: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.UpdateChapCredentials = function UpdateChapCredentials(aws) {
-  var secretToAuthenticateInitiator = aws.params.SecretToAuthenticateInitiator;
-  var secretToAuthenticateTarget = aws.params.SecretToAuthenticateTarget;
-  var targetARN = aws.params.TargetARN;
-  var initiatorName = aws.params.InitiatorName;
-  if (!targetARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TargetARN'];
-  }
-  if (!secretToAuthenticateInitiator) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SecretToAuthenticateInitiator'];
-  }
-  if (!initiatorName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InitiatorName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    TargetARN: '',
-    InitiatorName: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateCachediSCSIVolume = function CreateCachediSCSIVolume(aws) {
-  var networkInterfaceId = aws.params.NetworkInterfaceId;
-  var targetName = aws.params.TargetName;
-  var gatewayARN = aws.params.GatewayARN;
-  var volumeSizeInBytes = aws.params.VolumeSizeInBytes /* Type long */;
-  var clientToken = aws.params.ClientToken;
-  var snapshotId = aws.params.SnapshotId;
-  if (!gatewayARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
-  }
-  if (!volumeSizeInBytes) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VolumeSizeInBytes'];
-  }
-  if (!targetName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TargetName'];
-  }
-  if (!networkInterfaceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter NetworkInterfaceId'];
-  }
-  if (!clientToken) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClientToken'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    VolumeARN: '',
-    TargetARN: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListVolumeInitiators = function ListVolumeInitiators(aws) {
-  var volumeARN = aws.params.VolumeARN;
-  if (!volumeARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VolumeARN'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Initiators: [ '', /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeTapes = function DescribeTapes(aws) {
-  var marker = aws.params.Marker;
-  var limit = aws.params.Limit /* Type integer */;
-  var tapeARNs = aws.params.TapeARNs;
-  var gatewayARN = aws.params.GatewayARN;
-  if (!gatewayARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Marker: '',
-    Tapes: [ {
-      TapeSizeInBytes: 0 /*Long*/,
-      TapeBarcode: '',
-      Progress: 0.0 /*Double*/,
-      VTLDevice: '',
-      TapeARN: '',
-      TapeStatus: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteChapCredentials = function DeleteChapCredentials(aws) {
-  var targetARN = aws.params.TargetARN;
-  var initiatorName = aws.params.InitiatorName;
-  if (!targetARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TargetARN'];
-  }
-  if (!initiatorName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InitiatorName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    TargetARN: '',
-    InitiatorName: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.RetrieveTapeArchive = function RetrieveTapeArchive(aws) {
-  var tapeARN = aws.params.TapeARN;
-  var gatewayARN = aws.params.GatewayARN;
-  if (!tapeARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TapeARN'];
-  }
-  if (!gatewayARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    TapeARN: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeBandwidthRateLimit = function DescribeBandwidthRateLimit(aws) {
-  var gatewayARN = aws.params.GatewayARN;
-  if (!gatewayARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    AverageDownloadRateLimitInBitsPerSec: 0 /*Long*/,
-    GatewayARN: '',
-    AverageUploadRateLimitInBitsPerSec: 0 /*Long*/,
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.AddCache = function AddCache(aws) {
-  var diskIds = aws.params.DiskIds;
-  var gatewayARN = aws.params.GatewayARN;
-  if (!gatewayARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
-  }
-  if (!diskIds) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DiskIds'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    GatewayARN: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ResetCache = function ResetCache(aws) {
-  var gatewayARN = aws.params.GatewayARN;
-  if (!gatewayARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    GatewayARN: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteVolume = function DeleteVolume(aws) {
-  var volumeARN = aws.params.VolumeARN;
-  if (!volumeARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VolumeARN'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    VolumeARN: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListVolumeRecoveryPoints = function ListVolumeRecoveryPoints(aws) {
-  var gatewayARN = aws.params.GatewayARN;
-  if (!gatewayARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    VolumeRecoveryPointInfos: [ {
-      VolumeARN: '',
-      VolumeRecoveryPointTime: '',
-      VolumeUsageInBytes: 0 /*Long*/,
-      VolumeSizeInBytes: 0 /*Long*/,
-    }, /* ...*/ ],
-    GatewayARN: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeUploadBuffer = function DescribeUploadBuffer(aws) {
-  var gatewayARN = aws.params.GatewayARN;
-  if (!gatewayARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    UploadBufferAllocatedInBytes: 0 /*Long*/,
-    DiskIds: /*Sc*/[ '', /* ...*/ ],
-    UploadBufferUsedInBytes: 0 /*Long*/,
-    GatewayARN: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeMaintenanceStartTime = function DescribeMaintenanceStartTime(aws) {
-  var gatewayARN = aws.params.GatewayARN;
-  if (!gatewayARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    DayOfWeek: 0,
-    Timezone: '',
-    HourOfDay: 0,
-    GatewayARN: '',
-    MinuteOfHour: 0,
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateTapes = function CreateTapes(aws) {
-  var tapeBarcodePrefix = aws.params.TapeBarcodePrefix;
-  var tapeSizeInBytes = aws.params.TapeSizeInBytes /* Type long */;
-  var clientToken = aws.params.ClientToken;
-  var numTapesToCreate = aws.params.NumTapesToCreate /* Type integer */;
-  var gatewayARN = aws.params.GatewayARN;
-  if (!gatewayARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
-  }
-  if (!tapeSizeInBytes) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TapeSizeInBytes'];
-  }
-  if (!clientToken) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClientToken'];
-  }
-  if (!numTapesToCreate) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter NumTapesToCreate'];
-  }
-  if (!tapeBarcodePrefix) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TapeBarcodePrefix'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    TapeARNs: /*S1i*/[ '', /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeCachediSCSIVolumes = function DescribeCachediSCSIVolumes(aws) {
-  var volumeARNs = aws.params.VolumeARNs;
-  if (!volumeARNs) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VolumeARNs'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    CachediSCSIVolumes: [ {
-      VolumeARN: '',
-      VolumeProgress: 0.0 /*Double*/,
-      VolumeiSCSIAttributes: /*S2f*/{
-        ChapEnabled: false,
-        NetworkInterfaceId: '',
-        NetworkInterfacePort: 0,
-        TargetARN: '',
-        LunNumber: 0,
-      },
-      VolumeSizeInBytes: 0 /*Long*/,
-      VolumeId: '',
-      VolumeStatus: '',
-      VolumeType: '',
-      SourceSnapshotId: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeTapeRecoveryPoints = function DescribeTapeRecoveryPoints(aws) {
-  var marker = aws.params.Marker;
-  var limit = aws.params.Limit /* Type integer */;
-  var gatewayARN = aws.params.GatewayARN;
-  if (!gatewayARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Marker: '',
-    TapeRecoveryPointInfos: [ {
-      TapeSizeInBytes: 0 /*Long*/,
-      TapeARN: '',
-      TapeRecoveryPointTime: awsCommon.timestamp(),
-      TapeStatus: '',
-    }, /* ...*/ ],
-    GatewayARN: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateStorediSCSIVolume = function CreateStorediSCSIVolume(aws) {
-  var diskId = aws.params.DiskId;
-  var networkInterfaceId = aws.params.NetworkInterfaceId;
-  var targetName = aws.params.TargetName;
-  var gatewayARN = aws.params.GatewayARN;
-  var preserveExistingData = aws.params.PreserveExistingData /* Type boolean */;
-  var snapshotId = aws.params.SnapshotId;
-  if (!gatewayARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
-  }
-  if (!diskId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DiskId'];
-  }
-  if (!preserveExistingData) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PreserveExistingData'];
-  }
-  if (!targetName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TargetName'];
-  }
-  if (!networkInterfaceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter NetworkInterfaceId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    VolumeARN: '',
-    TargetARN: '',
-    VolumeSizeInBytes: 0 /*Long*/,
   };
   return [200, ret];
 };
@@ -830,11 +1171,11 @@ module.exports.CreateStorediSCSIVolume = function CreateStorediSCSIVolume(aws) {
 module.exports.UpdateVTLDeviceType = function UpdateVTLDeviceType(aws) {
   var deviceType = aws.params.DeviceType;
   var vTLDeviceARN = aws.params.VTLDeviceARN;
-  if (!vTLDeviceARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VTLDeviceARN'];
-  }
   if (!deviceType) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DeviceType'];
+  }
+  if (!vTLDeviceARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VTLDeviceARN'];
   }
 
 
@@ -842,273 +1183,6 @@ module.exports.UpdateVTLDeviceType = function UpdateVTLDeviceType(aws) {
 
   var ret = {
     VTLDeviceARN: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.UpdateSnapshotSchedule = function UpdateSnapshotSchedule(aws) {
-  var volumeARN = aws.params.VolumeARN;
-  var startAt = aws.params.StartAt /* Type integer */;
-  var description = aws.params.Description;
-  var recurrenceInHours = aws.params.RecurrenceInHours /* Type integer */;
-  if (!volumeARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VolumeARN'];
-  }
-  if (!startAt) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StartAt'];
-  }
-  if (!recurrenceInHours) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RecurrenceInHours'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    VolumeARN: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeTapeArchives = function DescribeTapeArchives(aws) {
-  var marker = aws.params.Marker;
-  var limit = aws.params.Limit /* Type integer */;
-  var tapeARNs = aws.params.TapeARNs;
-
-
-  // TODO implement code
-
-  var ret = {
-    Marker: '',
-    TapeArchives: [ {
-      TapeSizeInBytes: 0 /*Long*/,
-      RetrievedTo: '',
-      TapeBarcode: '',
-      TapeARN: '',
-      TapeStatus: '',
-      CompletionTime: awsCommon.timestamp(),
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteGateway = function DeleteGateway(aws) {
-  var gatewayARN = aws.params.GatewayARN;
-  if (!gatewayARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    GatewayARN: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CancelRetrieval = function CancelRetrieval(aws) {
-  var tapeARN = aws.params.TapeARN;
-  var gatewayARN = aws.params.GatewayARN;
-  if (!gatewayARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
-  }
-  if (!tapeARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TapeARN'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    TapeARN: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeGatewayInformation = function DescribeGatewayInformation(aws) {
-  var gatewayARN = aws.params.GatewayARN;
-  if (!gatewayARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    GatewayTimezone: '',
-    GatewayState: '',
-    LastSoftwareUpdate: '',
-    GatewayARN: '',
-    GatewayName: '',
-    GatewayType: '',
-    GatewayNetworkInterfaces: [ {
-      Ipv4Address: '',
-      Ipv6Address: '',
-      MacAddress: '',
-    }, /* ...*/ ],
-    GatewayId: '',
-    NextUpdateAvailabilityDate: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListLocalDisks = function ListLocalDisks(aws) {
-  var gatewayARN = aws.params.GatewayARN;
-  if (!gatewayARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Disks: [ {
-      DiskId: '',
-      DiskPath: '',
-      DiskNode: '',
-      DiskAllocationType: '',
-      DiskAllocationResource: '',
-      DiskStatus: '',
-      DiskSizeInBytes: 0 /*Long*/,
-    }, /* ...*/ ],
-    GatewayARN: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ActivateGateway = function ActivateGateway(aws) {
-  var gatewayTimezone = aws.params.GatewayTimezone;
-  var gatewayRegion = aws.params.GatewayRegion;
-  var mediumChangerType = aws.params.MediumChangerType;
-  var gatewayName = aws.params.GatewayName;
-  var activationKey = aws.params.ActivationKey;
-  var tapeDriveType = aws.params.TapeDriveType;
-  var gatewayType = aws.params.GatewayType;
-  if (!activationKey) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ActivationKey'];
-  }
-  if (!gatewayName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayName'];
-  }
-  if (!gatewayTimezone) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayTimezone'];
-  }
-  if (!gatewayRegion) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayRegion'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    GatewayARN: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.AddWorkingStorage = function AddWorkingStorage(aws) {
-  var diskIds = aws.params.DiskIds;
-  var gatewayARN = aws.params.GatewayARN;
-  if (!gatewayARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
-  }
-  if (!diskIds) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DiskIds'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    GatewayARN: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListGateways = function ListGateways(aws) {
-  var marker = aws.params.Marker;
-  var limit = aws.params.Limit /* Type integer */;
-
-
-  // TODO implement code
-
-  var ret = {
-    Marker: '',
-    Gateways: [ {
-      GatewayName: '',
-      GatewayOperationalState: '',
-      GatewayType: '',
-      GatewayARN: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CancelArchival = function CancelArchival(aws) {
-  var tapeARN = aws.params.TapeARN;
-  var gatewayARN = aws.params.GatewayARN;
-  if (!gatewayARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
-  }
-  if (!tapeARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TapeARN'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    TapeARN: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteSnapshotSchedule = function DeleteSnapshotSchedule(aws) {
-  var volumeARN = aws.params.VolumeARN;
-  if (!volumeARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VolumeARN'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    VolumeARN: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteBandwidthRateLimit = function DeleteBandwidthRateLimit(aws) {
-  var bandwidthType = aws.params.BandwidthType;
-  var gatewayARN = aws.params.GatewayARN;
-  if (!gatewayARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
-  }
-  if (!bandwidthType) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter BandwidthType'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    GatewayARN: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.StartGateway = function StartGateway(aws) {
-  var gatewayARN = aws.params.GatewayARN;
-  if (!gatewayARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayARN'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    GatewayARN: '',
   };
   return [200, ret];
 };

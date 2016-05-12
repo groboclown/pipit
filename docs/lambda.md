@@ -9,3 +9,8 @@ other services.
 The lambda functions supported are only node instances.  They can be registered either
 through the S3 functionality - stored as an S3 zip file, or passed in as a
 base 64 encoded string.
+
+Limitations of the implementation:
+
+* Does not allow for choosing functions based on just the account id and
+  function name.

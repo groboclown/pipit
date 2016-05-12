@@ -51,7 +51,7 @@ Decider.prototype.addDecisionTaskFor = function addDecisionTaskFor(p) {
 /** Returns a promise, or null if a pull w/ an invalid next page token. */
 Decider.prototype.pull = function pull(deciderId, nextPageToken, maximumPageSize, reverseOrder) {
   if (!!nextPageToken) {
-    console.log('Request w/ page token ' + nextPageToken);
+    console.log(`[DECIDER ${this.name}] Request w/ page token ${nextPageToken}`);
 
     // User requesting paged results from a previously requested poll.
     // The start of the token contains the decision task token.
@@ -60,19 +60,18 @@ Decider.prototype.pull = function pull(deciderId, nextPageToken, maximumPageSize
           nextPageToken, maximumPageSize, reverseOrder);
       if (!!page) {
         // `page[0]` indicates whether there are more pages or not.
-        if (!page[0]) {
+        if (page[0]) {
           // Remove this particular workflow run from the pending runs;
           // it might be in the list more than once, if there are
           // more than one decision, then there will be more than
           // one entry in the pending runs.
+          // ` console.log(`[DECIDER ${this.name}] ${nextPageToken} fetched the last page for the decision task; remove it`);
           this._pendingDecisionTasks.splice(i, 1);
 
           // Note that the owning workflow run will only remove the
           // decision task from its list of open decision tasks
           // when the task is closed.
         }
-
-        console.log(`[DECIDER ${this.name}] Returning cached page result`);
 
         return Q(page[1]);
       }

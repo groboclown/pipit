@@ -12,39 +12,14 @@ const awsCommon = require('../../lib/aws-common');
 // Setup input and output to use AWS protocol query
 require('../../lib/aws-common/shape_http')('query', module.exports, 'http://elasticloadbalancing.amazonaws.com/doc/2012-06-01/');
 // -----------------------------------
-module.exports.RegisterInstancesWithLoadBalancer = function RegisterInstancesWithLoadBalancer(aws) {
-  var instances = aws.params.Instances;
-  var loadBalancerName = aws.params.LoadBalancerName;
-  if (!loadBalancerName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerName'];
+module.exports.AddTags = function AddTags(aws) {
+  var loadBalancerNames = aws.params.LoadBalancerNames;
+  var tags = aws.params.Tags;
+  if (!loadBalancerNames) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerNames'];
   }
-  if (!instances) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Instances'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Instances: /*S1p*/[ {
-      InstanceId: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateAppCookieStickinessPolicy = function CreateAppCookieStickinessPolicy(aws) {
-  var policyName = aws.params.PolicyName;
-  var cookieName = aws.params.CookieName;
-  var loadBalancerName = aws.params.LoadBalancerName;
-  if (!loadBalancerName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerName'];
-  }
-  if (!policyName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyName'];
-  }
-  if (!cookieName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CookieName'];
+  if (!tags) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Tags'];
   }
 
 
@@ -52,237 +27,13 @@ module.exports.CreateAppCookieStickinessPolicy = function CreateAppCookieStickin
 
   var ret = {
 
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DisableAvailabilityZonesForLoadBalancer = function DisableAvailabilityZonesForLoadBalancer(aws) {
-  var availabilityZones = aws.params.AvailabilityZones;
-  var loadBalancerName = aws.params.LoadBalancerName;
-  if (!loadBalancerName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerName'];
-  }
-  if (!availabilityZones) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AvailabilityZones'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    AvailabilityZones: /*S13*/[ '', /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeregisterInstancesFromLoadBalancer = function DeregisterInstancesFromLoadBalancer(aws) {
-  var instances = aws.params.Instances;
-  var loadBalancerName = aws.params.LoadBalancerName;
-  if (!loadBalancerName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerName'];
-  }
-  if (!instances) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Instances'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Instances: /*S1p*/[ {
-      InstanceId: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateLoadBalancerListeners = function CreateLoadBalancerListeners(aws) {
-  var listeners = aws.params.Listeners;
-  var loadBalancerName = aws.params.LoadBalancerName;
-  if (!loadBalancerName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerName'];
-  }
-  if (!listeners) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Listeners'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.SetLoadBalancerPoliciesForBackendServer = function SetLoadBalancerPoliciesForBackendServer(aws) {
-  var policyNames = aws.params.PolicyNames;
-  var instancePort = aws.params.InstancePort /* Type integer */;
-  var loadBalancerName = aws.params.LoadBalancerName;
-  if (!loadBalancerName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerName'];
-  }
-  if (!instancePort) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstancePort'];
-  }
-  if (!policyNames) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyNames'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ModifyLoadBalancerAttributes = function ModifyLoadBalancerAttributes(aws) {
-  var loadBalancerAttributes = aws.params.LoadBalancerAttributes;
-  var loadBalancerName = aws.params.LoadBalancerName;
-  if (!loadBalancerName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerName'];
-  }
-  if (!loadBalancerAttributes) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerAttributes'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    LoadBalancerAttributes: /*S22*/{
-      AdditionalAttributes: [ {
-        Value: '',
-        Key: '',
-      }, /* ...*/ ],
-      ConnectionSettings: {
-        IdleTimeout: 0,
-      },
-      ConnectionDraining: {
-        Enabled: false,
-        Timeout: 0,
-      },
-      CrossZoneLoadBalancing: {
-        Enabled: false,
-      },
-      AccessLog: {
-        Enabled: false,
-        S3BucketName: '',
-        EmitInterval: 0,
-        S3BucketPrefix: '',
-      },
-    },
-    LoadBalancerName: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteLoadBalancerPolicy = function DeleteLoadBalancerPolicy(aws) {
-  var policyName = aws.params.PolicyName;
-  var loadBalancerName = aws.params.LoadBalancerName;
-  if (!loadBalancerName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerName'];
-  }
-  if (!policyName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeLoadBalancerPolicies = function DescribeLoadBalancerPolicies(aws) {
-  var policyNames = aws.params.PolicyNames;
-  var loadBalancerName = aws.params.LoadBalancerName;
-
-
-  // TODO implement code
-
-  var ret = {
-    PolicyDescriptions: [ {
-      PolicyAttributeDescriptions: [ {
-        AttributeName: '',
-        AttributeValue: '',
-      }, /* ...*/ ],
-      PolicyTypeName: '',
-      PolicyName: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.AttachLoadBalancerToSubnets = function AttachLoadBalancerToSubnets(aws) {
-  var subnets = aws.params.Subnets;
-  var loadBalancerName = aws.params.LoadBalancerName;
-  if (!loadBalancerName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerName'];
-  }
-  if (!subnets) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Subnets'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Subnets: /*Se*/[ '', /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateLoadBalancerPolicy = function CreateLoadBalancerPolicy(aws) {
-  var policyAttributes = aws.params.PolicyAttributes /* Type list */;
-  var policyName = aws.params.PolicyName;
-  var policyTypeName = aws.params.PolicyTypeName;
-  var loadBalancerName = aws.params.LoadBalancerName;
-  if (!loadBalancerName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerName'];
-  }
-  if (!policyName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyName'];
-  }
-  if (!policyTypeName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyTypeName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DetachLoadBalancerFromSubnets = function DetachLoadBalancerFromSubnets(aws) {
-  var subnets = aws.params.Subnets;
-  var loadBalancerName = aws.params.LoadBalancerName;
-  if (!loadBalancerName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerName'];
-  }
-  if (!subnets) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Subnets'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Subnets: /*Se*/[ '', /* ...*/ ],
   };
   return [200, ret];
 };
 // -----------------------------------
 module.exports.ApplySecurityGroupsToLoadBalancer = function ApplySecurityGroupsToLoadBalancer(aws) {
-  var securityGroups = aws.params.SecurityGroups;
   var loadBalancerName = aws.params.LoadBalancerName;
+  var securityGroups = aws.params.SecurityGroups;
   if (!loadBalancerName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerName'];
   }
@@ -299,161 +50,31 @@ module.exports.ApplySecurityGroupsToLoadBalancer = function ApplySecurityGroupsT
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DescribeLoadBalancers = function DescribeLoadBalancers(aws) {
-  var loadBalancerNames = aws.params.LoadBalancerNames;
-  var marker = aws.params.Marker;
-  var pageSize = aws.params.PageSize /* Type integer */;
-
-
-  // TODO implement code
-
-  var ret = {
-    NextMarker: '',
-    LoadBalancerDescriptions: [ {
-      CanonicalHostedZoneNameID: '',
-      Instances: /*S1p*/[ {
-        InstanceId: '',
-      }, /* ...*/ ],
-      LoadBalancerName: '',
-      DNSName: '',
-      SourceSecurityGroup: {
-        GroupName: '',
-        OwnerAlias: '',
-      },
-      SecurityGroups: /*Sa*/[ '', /* ...*/ ],
-      HealthCheck: /*Si*/{
-        Target: '',
-        UnhealthyThreshold: 0,
-        HealthyThreshold: 0,
-        Timeout: 0,
-        Interval: 0,
-      },
-      BackendServerDescriptions: [ {
-        PolicyNames: /*S2j*/[ '', /* ...*/ ],
-        InstancePort: 0,
-      }, /* ...*/ ],
-      CreatedTime: awsCommon.timestamp(),
-      AvailabilityZones: /*S13*/[ '', /* ...*/ ],
-      CanonicalHostedZoneName: '',
-      Scheme: '',
-      Policies: {
-        LBCookieStickinessPolicies: [ {
-          CookieExpirationPeriod: 0 /*Long*/,
-          PolicyName: '',
-        }, /* ...*/ ],
-        AppCookieStickinessPolicies: [ {
-          CookieName: '',
-          PolicyName: '',
-        }, /* ...*/ ],
-        OtherPolicies: /*S2j*/[ '', /* ...*/ ],
-      },
-      Subnets: /*Se*/[ '', /* ...*/ ],
-      ListenerDescriptions: [ {
-        PolicyNames: /*S2j*/[ '', /* ...*/ ],
-        Listener: /*Sy*/{
-          SSLCertificateId: '',
-          InstanceProtocol: '',
-          LoadBalancerPort: 0,
-          Protocol: '',
-          InstancePort: 0,
-        },
-      }, /* ...*/ ],
-      VPCId: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.SetLoadBalancerListenerSSLCertificate = function SetLoadBalancerListenerSSLCertificate(aws) {
-  var sSLCertificateId = aws.params.SSLCertificateId;
-  var loadBalancerPort = aws.params.LoadBalancerPort /* Type integer */;
+module.exports.AttachLoadBalancerToSubnets = function AttachLoadBalancerToSubnets(aws) {
   var loadBalancerName = aws.params.LoadBalancerName;
-  if (!loadBalancerName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerName'];
-  }
-  if (!loadBalancerPort) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerPort'];
-  }
-  if (!sSLCertificateId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SSLCertificateId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.RemoveTags = function RemoveTags(aws) {
-  var loadBalancerNames = aws.params.LoadBalancerNames;
-  var tags = aws.params.Tags /* Type list */;
-  if (!loadBalancerNames) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerNames'];
-  }
-  if (!tags) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Tags'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeTags = function DescribeTags(aws) {
-  var loadBalancerNames = aws.params.LoadBalancerNames /* Type list */;
-  if (!loadBalancerNames) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerNames'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    TagDescriptions: [ {
-      Tags: /*S4*/[ {
-        Value: '',
-        Key: '',
-      }, /* ...*/ ],
-      LoadBalancerName: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateLoadBalancer = function CreateLoadBalancer(aws) {
-  var loadBalancerName = aws.params.LoadBalancerName;
-  var availabilityZones = aws.params.AvailabilityZones;
   var subnets = aws.params.Subnets;
-  var scheme = aws.params.Scheme;
-  var listeners = aws.params.Listeners;
-  var securityGroups = aws.params.SecurityGroups;
-  var tags = aws.params.Tags;
   if (!loadBalancerName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerName'];
   }
-  if (!listeners) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Listeners'];
+  if (!subnets) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Subnets'];
   }
 
 
   // TODO implement code
 
   var ret = {
-    DNSName: '',
+    Subnets: /*Se*/[ '', /* ...*/ ],
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DescribeInstanceHealth = function DescribeInstanceHealth(aws) {
-  var instances = aws.params.Instances;
+module.exports.ConfigureHealthCheck = function ConfigureHealthCheck(aws) {
+  var healthCheck = aws.params.HealthCheck;
   var loadBalancerName = aws.params.LoadBalancerName;
+  if (!healthCheck) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HealthCheck'];
+  }
   if (!loadBalancerName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerName'];
   }
@@ -462,20 +83,24 @@ module.exports.DescribeInstanceHealth = function DescribeInstanceHealth(aws) {
   // TODO implement code
 
   var ret = {
-    InstanceStates: [ {
-      Description: '',
-      State: '',
-      ReasonCode: '',
-      InstanceId: '',
-    }, /* ...*/ ],
+    HealthCheck: /*Si*/{
+      HealthyThreshold: 0,
+      Interval: 0,
+      Target: '',
+      Timeout: 0,
+      UnhealthyThreshold: 0,
+    },
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.CreateLBCookieStickinessPolicy = function CreateLBCookieStickinessPolicy(aws) {
+module.exports.CreateAppCookieStickinessPolicy = function CreateAppCookieStickinessPolicy(aws) {
+  var cookieName = aws.params.CookieName;
+  var loadBalancerName = aws.params.LoadBalancerName;
   var policyName = aws.params.PolicyName;
-  var cookieExpirationPeriod = aws.params.CookieExpirationPeriod /* Type long */;
-  var loadBalancerName = aws.params.LoadBalancerName;
+  if (!cookieName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CookieName'];
+  }
   if (!loadBalancerName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerName'];
   }
@@ -492,97 +117,82 @@ module.exports.CreateLBCookieStickinessPolicy = function CreateLBCookieStickines
   return [200, ret];
 };
 // -----------------------------------
-module.exports.EnableAvailabilityZonesForLoadBalancer = function EnableAvailabilityZonesForLoadBalancer(aws) {
+module.exports.CreateLBCookieStickinessPolicy = function CreateLBCookieStickinessPolicy(aws) {
+  var cookieExpirationPeriod = aws.params.CookieExpirationPeriod /* Type long */;
+  var loadBalancerName = aws.params.LoadBalancerName;
+  var policyName = aws.params.PolicyName;
+  if (!loadBalancerName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerName'];
+  }
+  if (!policyName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateLoadBalancer = function CreateLoadBalancer(aws) {
   var availabilityZones = aws.params.AvailabilityZones;
+  var listeners = aws.params.Listeners;
   var loadBalancerName = aws.params.LoadBalancerName;
-  if (!loadBalancerName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerName'];
-  }
-  if (!availabilityZones) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AvailabilityZones'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    AvailabilityZones: /*S13*/[ '', /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.SetLoadBalancerPoliciesOfListener = function SetLoadBalancerPoliciesOfListener(aws) {
-  var policyNames = aws.params.PolicyNames;
-  var loadBalancerPort = aws.params.LoadBalancerPort /* Type integer */;
-  var loadBalancerName = aws.params.LoadBalancerName;
-  if (!loadBalancerName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerName'];
-  }
-  if (!loadBalancerPort) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerPort'];
-  }
-  if (!policyNames) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyNames'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeLoadBalancerPolicyTypes = function DescribeLoadBalancerPolicyTypes(aws) {
-  var policyTypeNames = aws.params.PolicyTypeNames /* Type list */;
-
-
-  // TODO implement code
-
-  var ret = {
-    PolicyTypeDescriptions: [ {
-      Description: '',
-      PolicyAttributeTypeDescriptions: [ {
-        Description: '',
-        AttributeName: '',
-        DefaultValue: '',
-        Cardinality: '',
-        AttributeType: '',
-      }, /* ...*/ ],
-      PolicyTypeName: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteLoadBalancerListeners = function DeleteLoadBalancerListeners(aws) {
-  var loadBalancerPorts = aws.params.LoadBalancerPorts /* Type list */;
-  var loadBalancerName = aws.params.LoadBalancerName;
-  if (!loadBalancerName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerName'];
-  }
-  if (!loadBalancerPorts) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerPorts'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.AddTags = function AddTags(aws) {
-  var loadBalancerNames = aws.params.LoadBalancerNames;
+  var scheme = aws.params.Scheme;
+  var securityGroups = aws.params.SecurityGroups;
+  var subnets = aws.params.Subnets;
   var tags = aws.params.Tags;
-  if (!loadBalancerNames) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerNames'];
+  if (!listeners) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Listeners'];
   }
-  if (!tags) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Tags'];
+  if (!loadBalancerName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    DNSName: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateLoadBalancerListeners = function CreateLoadBalancerListeners(aws) {
+  var listeners = aws.params.Listeners;
+  var loadBalancerName = aws.params.LoadBalancerName;
+  if (!listeners) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Listeners'];
+  }
+  if (!loadBalancerName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateLoadBalancerPolicy = function CreateLoadBalancerPolicy(aws) {
+  var loadBalancerName = aws.params.LoadBalancerName;
+  var policyAttributes = aws.params.PolicyAttributes /* Type list */;
+  var policyName = aws.params.PolicyName;
+  var policyTypeName = aws.params.PolicyTypeName;
+  if (!loadBalancerName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerName'];
+  }
+  if (!policyName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyName'];
+  }
+  if (!policyTypeName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyTypeName'];
   }
 
 
@@ -609,6 +219,86 @@ module.exports.DeleteLoadBalancer = function DeleteLoadBalancer(aws) {
   return [200, ret];
 };
 // -----------------------------------
+module.exports.DeleteLoadBalancerListeners = function DeleteLoadBalancerListeners(aws) {
+  var loadBalancerName = aws.params.LoadBalancerName;
+  var loadBalancerPorts = aws.params.LoadBalancerPorts /* Type list */;
+  if (!loadBalancerName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerName'];
+  }
+  if (!loadBalancerPorts) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerPorts'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteLoadBalancerPolicy = function DeleteLoadBalancerPolicy(aws) {
+  var loadBalancerName = aws.params.LoadBalancerName;
+  var policyName = aws.params.PolicyName;
+  if (!loadBalancerName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerName'];
+  }
+  if (!policyName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeregisterInstancesFromLoadBalancer = function DeregisterInstancesFromLoadBalancer(aws) {
+  var instances = aws.params.Instances;
+  var loadBalancerName = aws.params.LoadBalancerName;
+  if (!instances) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Instances'];
+  }
+  if (!loadBalancerName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Instances: /*S1p*/[ {
+      InstanceId: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeInstanceHealth = function DescribeInstanceHealth(aws) {
+  var instances = aws.params.Instances;
+  var loadBalancerName = aws.params.LoadBalancerName;
+  if (!loadBalancerName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    InstanceStates: [ {
+      Description: '',
+      InstanceId: '',
+      ReasonCode: '',
+      State: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.DescribeLoadBalancerAttributes = function DescribeLoadBalancerAttributes(aws) {
   var loadBalancerName = aws.params.LoadBalancerName;
   if (!loadBalancerName) {
@@ -620,52 +310,362 @@ module.exports.DescribeLoadBalancerAttributes = function DescribeLoadBalancerAtt
 
   var ret = {
     LoadBalancerAttributes: /*S22*/{
-      AdditionalAttributes: [ {
-        Value: '',
-        Key: '',
-      }, /* ...*/ ],
-      ConnectionSettings: {
-        IdleTimeout: 0,
+      AccessLog: {
+        EmitInterval: 0,
+        Enabled: false,
+        S3BucketName: '',
+        S3BucketPrefix: '',
       },
+      AdditionalAttributes: [ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
       ConnectionDraining: {
         Enabled: false,
         Timeout: 0,
       },
+      ConnectionSettings: {
+        IdleTimeout: 0,
+      },
       CrossZoneLoadBalancing: {
         Enabled: false,
-      },
-      AccessLog: {
-        Enabled: false,
-        S3BucketName: '',
-        EmitInterval: 0,
-        S3BucketPrefix: '',
       },
     },
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.ConfigureHealthCheck = function ConfigureHealthCheck(aws) {
-  var healthCheck = aws.params.HealthCheck;
+module.exports.DescribeLoadBalancerPolicies = function DescribeLoadBalancerPolicies(aws) {
   var loadBalancerName = aws.params.LoadBalancerName;
-  if (!loadBalancerName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerName'];
-  }
-  if (!healthCheck) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HealthCheck'];
+  var policyNames = aws.params.PolicyNames;
+
+
+  // TODO implement code
+
+  var ret = {
+    PolicyDescriptions: [ {
+      PolicyAttributeDescriptions: [ {
+        AttributeName: '',
+        AttributeValue: '',
+      }, /* ...*/ ],
+      PolicyName: '',
+      PolicyTypeName: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeLoadBalancerPolicyTypes = function DescribeLoadBalancerPolicyTypes(aws) {
+  var policyTypeNames = aws.params.PolicyTypeNames /* Type list */;
+
+
+  // TODO implement code
+
+  var ret = {
+    PolicyTypeDescriptions: [ {
+      Description: '',
+      PolicyAttributeTypeDescriptions: [ {
+        AttributeName: '',
+        AttributeType: '',
+        Cardinality: '',
+        DefaultValue: '',
+        Description: '',
+      }, /* ...*/ ],
+      PolicyTypeName: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeLoadBalancers = function DescribeLoadBalancers(aws) {
+  var loadBalancerNames = aws.params.LoadBalancerNames;
+  var marker = aws.params.Marker;
+  var pageSize = aws.params.PageSize /* Type integer */;
+
+
+  // TODO implement code
+
+  var ret = {
+    LoadBalancerDescriptions: [ {
+      AvailabilityZones: /*S13*/[ '', /* ...*/ ],
+      BackendServerDescriptions: [ {
+        InstancePort: 0,
+        PolicyNames: /*S2j*/[ '', /* ...*/ ],
+      }, /* ...*/ ],
+      CanonicalHostedZoneName: '',
+      CanonicalHostedZoneNameID: '',
+      CreatedTime: awsCommon.timestamp(),
+      DNSName: '',
+      HealthCheck: /*Si*/{
+        HealthyThreshold: 0,
+        Interval: 0,
+        Target: '',
+        Timeout: 0,
+        UnhealthyThreshold: 0,
+      },
+      Instances: /*S1p*/[ {
+        InstanceId: '',
+      }, /* ...*/ ],
+      ListenerDescriptions: [ {
+        Listener: /*Sy*/{
+          InstancePort: 0,
+          InstanceProtocol: '',
+          LoadBalancerPort: 0,
+          Protocol: '',
+          SSLCertificateId: '',
+        },
+        PolicyNames: /*S2j*/[ '', /* ...*/ ],
+      }, /* ...*/ ],
+      LoadBalancerName: '',
+      Policies: {
+        AppCookieStickinessPolicies: [ {
+          CookieName: '',
+          PolicyName: '',
+        }, /* ...*/ ],
+        LBCookieStickinessPolicies: [ {
+          CookieExpirationPeriod: 0 /*Long*/,
+          PolicyName: '',
+        }, /* ...*/ ],
+        OtherPolicies: /*S2j*/[ '', /* ...*/ ],
+      },
+      Scheme: '',
+      SecurityGroups: /*Sa*/[ '', /* ...*/ ],
+      SourceSecurityGroup: {
+        GroupName: '',
+        OwnerAlias: '',
+      },
+      Subnets: /*Se*/[ '', /* ...*/ ],
+      VPCId: '',
+    }, /* ...*/ ],
+    NextMarker: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeTags = function DescribeTags(aws) {
+  var loadBalancerNames = aws.params.LoadBalancerNames /* Type list */;
+  if (!loadBalancerNames) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerNames'];
   }
 
 
   // TODO implement code
 
   var ret = {
-    HealthCheck: /*Si*/{
-      Target: '',
-      UnhealthyThreshold: 0,
-      HealthyThreshold: 0,
-      Timeout: 0,
-      Interval: 0,
+    TagDescriptions: [ {
+      LoadBalancerName: '',
+      Tags: /*S4*/[ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DetachLoadBalancerFromSubnets = function DetachLoadBalancerFromSubnets(aws) {
+  var loadBalancerName = aws.params.LoadBalancerName;
+  var subnets = aws.params.Subnets;
+  if (!loadBalancerName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerName'];
+  }
+  if (!subnets) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Subnets'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Subnets: /*Se*/[ '', /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DisableAvailabilityZonesForLoadBalancer = function DisableAvailabilityZonesForLoadBalancer(aws) {
+  var availabilityZones = aws.params.AvailabilityZones;
+  var loadBalancerName = aws.params.LoadBalancerName;
+  if (!availabilityZones) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AvailabilityZones'];
+  }
+  if (!loadBalancerName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    AvailabilityZones: /*S13*/[ '', /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.EnableAvailabilityZonesForLoadBalancer = function EnableAvailabilityZonesForLoadBalancer(aws) {
+  var availabilityZones = aws.params.AvailabilityZones;
+  var loadBalancerName = aws.params.LoadBalancerName;
+  if (!availabilityZones) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AvailabilityZones'];
+  }
+  if (!loadBalancerName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    AvailabilityZones: /*S13*/[ '', /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ModifyLoadBalancerAttributes = function ModifyLoadBalancerAttributes(aws) {
+  var loadBalancerAttributes = aws.params.LoadBalancerAttributes;
+  var loadBalancerName = aws.params.LoadBalancerName;
+  if (!loadBalancerAttributes) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerAttributes'];
+  }
+  if (!loadBalancerName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    LoadBalancerAttributes: /*S22*/{
+      AccessLog: {
+        EmitInterval: 0,
+        Enabled: false,
+        S3BucketName: '',
+        S3BucketPrefix: '',
+      },
+      AdditionalAttributes: [ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      ConnectionDraining: {
+        Enabled: false,
+        Timeout: 0,
+      },
+      ConnectionSettings: {
+        IdleTimeout: 0,
+      },
+      CrossZoneLoadBalancing: {
+        Enabled: false,
+      },
     },
+    LoadBalancerName: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RegisterInstancesWithLoadBalancer = function RegisterInstancesWithLoadBalancer(aws) {
+  var instances = aws.params.Instances;
+  var loadBalancerName = aws.params.LoadBalancerName;
+  if (!instances) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Instances'];
+  }
+  if (!loadBalancerName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Instances: /*S1p*/[ {
+      InstanceId: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RemoveTags = function RemoveTags(aws) {
+  var loadBalancerNames = aws.params.LoadBalancerNames;
+  var tags = aws.params.Tags /* Type list */;
+  if (!loadBalancerNames) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerNames'];
+  }
+  if (!tags) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Tags'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.SetLoadBalancerListenerSSLCertificate = function SetLoadBalancerListenerSSLCertificate(aws) {
+  var loadBalancerName = aws.params.LoadBalancerName;
+  var loadBalancerPort = aws.params.LoadBalancerPort /* Type integer */;
+  var sSLCertificateId = aws.params.SSLCertificateId;
+  if (!loadBalancerName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerName'];
+  }
+  if (!loadBalancerPort) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerPort'];
+  }
+  if (!sSLCertificateId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SSLCertificateId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.SetLoadBalancerPoliciesForBackendServer = function SetLoadBalancerPoliciesForBackendServer(aws) {
+  var instancePort = aws.params.InstancePort /* Type integer */;
+  var loadBalancerName = aws.params.LoadBalancerName;
+  var policyNames = aws.params.PolicyNames;
+  if (!instancePort) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstancePort'];
+  }
+  if (!loadBalancerName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerName'];
+  }
+  if (!policyNames) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyNames'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.SetLoadBalancerPoliciesOfListener = function SetLoadBalancerPoliciesOfListener(aws) {
+  var loadBalancerName = aws.params.LoadBalancerName;
+  var loadBalancerPort = aws.params.LoadBalancerPort /* Type integer */;
+  var policyNames = aws.params.PolicyNames;
+  if (!loadBalancerName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerName'];
+  }
+  if (!loadBalancerPort) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LoadBalancerPort'];
+  }
+  if (!policyNames) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyNames'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+
   };
   return [200, ret];
 };

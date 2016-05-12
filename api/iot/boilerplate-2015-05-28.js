@@ -12,52 +12,14 @@ const awsCommon = require('../../lib/aws-common');
 // Setup input and output to use AWS protocol rest-json
 require('../../lib/aws-common/shape_http')('rest-json', module.exports, null);
 // -----------------------------------
-module.exports.DescribeEndpoint = awsCommon.as(
-  'GET',
-  '/endpoint',
-  function DescribeEndpoint(aws) {
-
-
-    // TODO implement code
-
-    var ret = {
-      endpointAddress: '',
-    };
-    return [200, ret];
-  });
-// -----------------------------------
-module.exports.ListPolicies = awsCommon.as(
-  'GET',
-  '/policies',
-  function ListPolicies(aws) {
-    var ascendingOrder = aws.params.ascendingOrder /* Type boolean */;
-    var pageSize = aws.params.pageSize /* Type integer */;
-    var marker = aws.params.marker;
-
-
-    // TODO implement code
-
-    var ret = {
-      policies: /*S35*/[ {
-        policyName: '',
-        policyArn: '',
-      }, /* ...*/ ],
-      nextMarker: '',
-    };
-    return [200, ret];
-  });
-// -----------------------------------
-module.exports.DeletePolicyVersion = awsCommon.as(
-  'DELETE',
-  '/policies/:policyName/version/:policyVersionId',
-  function DeletePolicyVersion(aws) {
-    var policyVersionId = aws.reqParams.policyVersionId;
-    var policyName = aws.reqParams.policyName;
-    if (!policyName) {
-      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter policyName'];
-    }
-    if (!policyVersionId) {
-      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter policyVersionId'];
+module.exports.AcceptCertificateTransfer = awsCommon.as(
+  'PATCH',
+  '/accept-certificate-transfer/:certificateId',
+  function AcceptCertificateTransfer(aws) {
+    var certificateId = aws.reqParams.certificateId;
+    var setAsActive = aws.params.setAsActive /* Type boolean */;
+    if (!certificateId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter certificateId'];
     }
 
 
@@ -67,149 +29,175 @@ module.exports.DeletePolicyVersion = awsCommon.as(
     return [200, ret];
   });
 // -----------------------------------
-module.exports.GetTopicRule = awsCommon.as(
-  'GET',
-  '/rules/:ruleName',
-  function GetTopicRule(aws) {
-    var ruleName = aws.reqParams.ruleName;
-    if (!ruleName) {
-      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ruleName'];
+module.exports.AttachPrincipalPolicy = awsCommon.as(
+  'PUT',
+  '/principal-policies/:policyName',
+  function AttachPrincipalPolicy(aws) {
+    var policyName = aws.reqParams.policyName;
+    var principal = aws.params.principal;
+    if (!policyName) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter policyName'];
+    }
+    if (!principal) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter principal'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {};
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.AttachThingPrincipal = awsCommon.as(
+  'PUT',
+  '/things/:thingName/principals',
+  function AttachThingPrincipal(aws) {
+    var principal = aws.params.principal;
+    var thingName = aws.reqParams.thingName;
+    if (!principal) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter principal'];
+    }
+    if (!thingName) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter thingName'];
     }
 
 
     // TODO implement code
 
     var ret = {
-      ruleArn: '',
-      rule: {
-        ruleName: '',
-        createdAt: awsCommon.timestamp(),
-        actions: /*S16*/[ {
-          sqs: {
-            queueUrl: '',
-            useBase64: false,
-            roleArn: '',
-          },
-          kinesis: {
-            partitionKey: '',
-            roleArn: '',
-            streamName: '',
-          },
-          s3: {
-            key: '',
-            bucketName: '',
-            roleArn: '',
-          },
-          dynamoDB: {
-            rangeKeyValue: '',
-            rangeKeyField: '',
-            roleArn: '',
-            hashKeyValue: '',
-            payloadField: '',
-            hashKeyField: '',
-            tableName: '',
-          },
-          republish: {
-            topic: '',
-            roleArn: '',
-          },
-          sns: {
-            roleArn: '',
-            targetArn: '',
-          },
-          firehose: {
-            deliveryStreamName: '',
-            roleArn: '',
-          },
-          lambda: {
-            functionArn: '',
-          },
-        }, /* ...*/ ],
-        description: '',
-        sql: '',
-        ruleDisabled: false,
+
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.CancelCertificateTransfer = awsCommon.as(
+  'PATCH',
+  '/cancel-certificate-transfer/:certificateId',
+  function CancelCertificateTransfer(aws) {
+    var certificateId = aws.reqParams.certificateId;
+    if (!certificateId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter certificateId'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {};
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.CreateCertificateFromCsr = awsCommon.as(
+  '/certificates',
+  function CreateCertificateFromCsr(aws) {
+    var certificateSigningRequest = aws.params.certificateSigningRequest;
+    var setAsActive = aws.params.setAsActive /* Type boolean */;
+    if (!certificateSigningRequest) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter certificateSigningRequest'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      certificateArn: '',
+      certificateId: '',
+      certificatePem: '',
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.CreateKeysAndCertificate = awsCommon.as(
+  '/keys-and-certificate',
+  function CreateKeysAndCertificate(aws) {
+    var setAsActive = aws.params.setAsActive /* Type boolean */;
+
+
+    // TODO implement code
+
+    var ret = {
+      certificateArn: '',
+      certificateId: '',
+      certificatePem: '',
+      keyPair: {
+        PrivateKey: '',
+        PublicKey: '',
       },
     };
     return [200, ret];
   });
 // -----------------------------------
-module.exports.TransferCertificate = awsCommon.as(
-  'PATCH',
-  '/transfer-certificate/:certificateId',
-  function TransferCertificate(aws) {
-    var certificateId = aws.reqParams.certificateId;
-    var targetAwsAccount = aws.params.targetAwsAccount;
-    if (!certificateId) {
-      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter certificateId'];
-    }
-    if (!targetAwsAccount) {
-      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter targetAwsAccount'];
-    }
-
-
-    // TODO implement code
-
-    var ret = {
-      transferredCertificateArn: '',
-    };
-    return [200, ret];
-  });
-// -----------------------------------
-module.exports.GetPolicyVersion = awsCommon.as(
-  'GET',
-  '/policies/:policyName/version/:policyVersionId',
-  function GetPolicyVersion(aws) {
-    var policyVersionId = aws.reqParams.policyVersionId;
+module.exports.CreatePolicy = awsCommon.as(
+  '/policies/:policyName',
+  function CreatePolicy(aws) {
+    var policyDocument = aws.params.policyDocument;
     var policyName = aws.reqParams.policyName;
+    if (!policyDocument) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter policyDocument'];
+    }
     if (!policyName) {
       return [400, 'Sender', 'MissingParameter', 'Did not specify parameter policyName'];
     }
-    if (!policyVersionId) {
-      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter policyVersionId'];
+
+
+    // TODO implement code
+
+    var ret = {
+      policyArn: '',
+      policyDocument: '',
+      policyName: '',
+      policyVersionId: '',
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.CreatePolicyVersion = awsCommon.as(
+  '/policies/:policyName/version',
+  function CreatePolicyVersion(aws) {
+    var policyDocument = aws.params.policyDocument;
+    var policyName = aws.reqParams.policyName;
+    var setAsDefault = aws.params.setAsDefault /* Type boolean */;
+    if (!policyDocument) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter policyDocument'];
+    }
+    if (!policyName) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter policyName'];
     }
 
 
     // TODO implement code
 
     var ret = {
-      policyVersionId: '',
+      isDefaultVersion: false,
       policyArn: '',
       policyDocument: '',
-      isDefaultVersion: false,
-      policyName: '',
+      policyVersionId: '',
     };
     return [200, ret];
   });
 // -----------------------------------
-module.exports.ListTopicRules = awsCommon.as(
-  'GET',
-  '/rules',
-  function ListTopicRules(aws) {
-    var topic = aws.params.topic;
-    var maxResults = aws.params.maxResults /* Type integer */;
-    var ruleDisabled = aws.params.ruleDisabled /* Type boolean */;
-    var nextToken = aws.params.nextToken;
+module.exports.CreateThing = awsCommon.as(
+  '/things/:thingName',
+  function CreateThing(aws) {
+    var attributePayload = aws.params.attributePayload;
+    var thingName = aws.reqParams.thingName;
+    if (!thingName) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter thingName'];
+    }
 
 
     // TODO implement code
 
     var ret = {
-      rules: [ {
-        ruleName: '',
-        createdAt: awsCommon.timestamp(),
-        ruleArn: '',
-        topicPattern: '',
-        ruleDisabled: false,
-      }, /* ...*/ ],
-      nextToken: '',
+      thingArn: '',
+      thingName: '',
     };
     return [200, ret];
   });
 // -----------------------------------
-module.exports.ReplaceTopicRule = awsCommon.as(
-  'PATCH',
+module.exports.CreateTopicRule = awsCommon.as(
   '/rules/:ruleName',
-  function ReplaceTopicRule(aws) {
+  function CreateTopicRule(aws) {
     var ruleName = aws.reqParams.ruleName;
     var topicRulePayload = aws.params.topicRulePayload;
     if (!ruleName) {
@@ -226,11 +214,28 @@ module.exports.ReplaceTopicRule = awsCommon.as(
     return [200, ret];
   });
 // -----------------------------------
-module.exports.AcceptCertificateTransfer = awsCommon.as(
-  'PATCH',
-  '/accept-certificate-transfer/:certificateId',
-  function AcceptCertificateTransfer(aws) {
-    var setAsActive = aws.params.setAsActive /* Type boolean */;
+module.exports.DeleteCACertificate = awsCommon.as(
+  'DELETE',
+  '/cacertificate/:certificateId',
+  function DeleteCACertificate(aws) {
+    var certificateId = aws.reqParams.certificateId;
+    if (!certificateId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter certificateId'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.DeleteCertificate = awsCommon.as(
+  'DELETE',
+  '/certificates/:certificateId',
+  function DeleteCertificate(aws) {
     var certificateId = aws.reqParams.certificateId;
     if (!certificateId) {
       return [400, 'Sender', 'MissingParameter', 'Did not specify parameter certificateId'];
@@ -243,36 +248,190 @@ module.exports.AcceptCertificateTransfer = awsCommon.as(
     return [200, ret];
   });
 // -----------------------------------
-module.exports.CreatePolicy = awsCommon.as(
+module.exports.DeletePolicy = awsCommon.as(
+  'DELETE',
   '/policies/:policyName',
-  function CreatePolicy(aws) {
+  function DeletePolicy(aws) {
     var policyName = aws.reqParams.policyName;
-    var policyDocument = aws.params.policyDocument;
     if (!policyName) {
       return [400, 'Sender', 'MissingParameter', 'Did not specify parameter policyName'];
     }
-    if (!policyDocument) {
-      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter policyDocument'];
+
+
+    // TODO implement code
+
+    var ret = {};
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.DeletePolicyVersion = awsCommon.as(
+  'DELETE',
+  '/policies/:policyName/version/:policyVersionId',
+  function DeletePolicyVersion(aws) {
+    var policyName = aws.reqParams.policyName;
+    var policyVersionId = aws.reqParams.policyVersionId;
+    if (!policyName) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter policyName'];
+    }
+    if (!policyVersionId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter policyVersionId'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {};
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.DeleteRegistrationCode = awsCommon.as(
+  'DELETE',
+  '/registrationcode',
+  function DeleteRegistrationCode(aws) {
+
+
+    // TODO implement code
+
+    var ret = {
+
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.DeleteThing = awsCommon.as(
+  'DELETE',
+  '/things/:thingName',
+  function DeleteThing(aws) {
+    var thingName = aws.reqParams.thingName;
+    if (!thingName) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter thingName'];
     }
 
 
     // TODO implement code
 
     var ret = {
-      policyDocument: '',
-      policyVersionId: '',
-      policyName: '',
-      policyArn: '',
+
     };
     return [200, ret];
   });
 // -----------------------------------
-module.exports.AttachPrincipalPolicy = awsCommon.as(
-  'PUT',
+module.exports.DeleteTopicRule = awsCommon.as(
+  'DELETE',
+  '/rules/:ruleName',
+  function DeleteTopicRule(aws) {
+    var ruleName = aws.reqParams.ruleName;
+    if (!ruleName) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ruleName'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {};
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.DescribeCACertificate = awsCommon.as(
+  'GET',
+  '/cacertificate/:certificateId',
+  function DescribeCACertificate(aws) {
+    var certificateId = aws.reqParams.certificateId;
+    if (!certificateId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter certificateId'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      certificateDescription: {
+        certificateArn: '',
+        certificateId: '',
+        certificatePem: '',
+        creationDate: awsCommon.timestamp(),
+        ownedBy: '',
+        status: '',
+      },
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.DescribeCertificate = awsCommon.as(
+  'GET',
+  '/certificates/:certificateId',
+  function DescribeCertificate(aws) {
+    var certificateId = aws.reqParams.certificateId;
+    if (!certificateId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter certificateId'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      certificateDescription: {
+        caCertificateId: '',
+        certificateArn: '',
+        certificateId: '',
+        certificatePem: '',
+        creationDate: awsCommon.timestamp(),
+        lastModifiedDate: awsCommon.timestamp(),
+        ownedBy: '',
+        previousOwnedBy: '',
+        status: '',
+        transferData: {
+          acceptDate: awsCommon.timestamp(),
+          rejectDate: awsCommon.timestamp(),
+          rejectReason: '',
+          transferDate: awsCommon.timestamp(),
+          transferMessage: '',
+        },
+      },
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.DescribeEndpoint = awsCommon.as(
+  'GET',
+  '/endpoint',
+  function DescribeEndpoint(aws) {
+
+
+    // TODO implement code
+
+    var ret = {
+      endpointAddress: '',
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.DescribeThing = awsCommon.as(
+  'GET',
+  '/things/:thingName',
+  function DescribeThing(aws) {
+    var thingName = aws.reqParams.thingName;
+    if (!thingName) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter thingName'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      attributes: /*Sw*/{} /*Map*/,
+      defaultClientId: '',
+      thingName: '',
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.DetachPrincipalPolicy = awsCommon.as(
+  'DELETE',
   '/principal-policies/:policyName',
-  function AttachPrincipalPolicy(aws) {
-    var principal = aws.params.principal;
+  function DetachPrincipalPolicy(aws) {
     var policyName = aws.reqParams.policyName;
+    var principal = aws.params.principal;
     if (!policyName) {
       return [400, 'Sender', 'MissingParameter', 'Did not specify parameter policyName'];
     }
@@ -287,10 +446,46 @@ module.exports.AttachPrincipalPolicy = awsCommon.as(
     return [200, ret];
   });
 // -----------------------------------
-module.exports.DeleteTopicRule = awsCommon.as(
+module.exports.DetachThingPrincipal = awsCommon.as(
   'DELETE',
-  '/rules/:ruleName',
-  function DeleteTopicRule(aws) {
+  '/things/:thingName/principals',
+  function DetachThingPrincipal(aws) {
+    var principal = aws.params.principal;
+    var thingName = aws.reqParams.thingName;
+    if (!principal) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter principal'];
+    }
+    if (!thingName) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter thingName'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.DisableTopicRule = awsCommon.as(
+  '/rules/:ruleName/disable',
+  function DisableTopicRule(aws) {
+    var ruleName = aws.reqParams.ruleName;
+    if (!ruleName) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ruleName'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {};
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.EnableTopicRule = awsCommon.as(
+  '/rules/:ruleName/enable',
+  function EnableTopicRule(aws) {
     var ruleName = aws.reqParams.ruleName;
     if (!ruleName) {
       return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ruleName'];
@@ -312,18 +507,39 @@ module.exports.GetLoggingOptions = awsCommon.as(
     // TODO implement code
 
     var ret = {
-      roleArn: '',
       logLevel: '',
+      roleArn: '',
     };
     return [200, ret];
   });
 // -----------------------------------
-module.exports.SetDefaultPolicyVersion = awsCommon.as(
-  'PATCH',
-  '/policies/:policyName/version/:policyVersionId',
-  function SetDefaultPolicyVersion(aws) {
-    var policyVersionId = aws.reqParams.policyVersionId;
+module.exports.GetPolicy = awsCommon.as(
+  'GET',
+  '/policies/:policyName',
+  function GetPolicy(aws) {
     var policyName = aws.reqParams.policyName;
+    if (!policyName) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter policyName'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      defaultVersionId: '',
+      policyArn: '',
+      policyDocument: '',
+      policyName: '',
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.GetPolicyVersion = awsCommon.as(
+  'GET',
+  '/policies/:policyName/version/:policyVersionId',
+  function GetPolicyVersion(aws) {
+    var policyName = aws.reqParams.policyName;
+    var policyVersionId = aws.reqParams.policyVersionId;
     if (!policyName) {
       return [400, 'Sender', 'MissingParameter', 'Did not specify parameter policyName'];
     }
@@ -334,7 +550,139 @@ module.exports.SetDefaultPolicyVersion = awsCommon.as(
 
     // TODO implement code
 
-    var ret = {};
+    var ret = {
+      isDefaultVersion: false,
+      policyArn: '',
+      policyDocument: '',
+      policyName: '',
+      policyVersionId: '',
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.GetRegistrationCode = awsCommon.as(
+  'GET',
+  '/registrationcode',
+  function GetRegistrationCode(aws) {
+
+
+    // TODO implement code
+
+    var ret = {
+      registrationCode: '',
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.GetTopicRule = awsCommon.as(
+  'GET',
+  '/rules/:ruleName',
+  function GetTopicRule(aws) {
+    var ruleName = aws.reqParams.ruleName;
+    if (!ruleName) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ruleName'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      rule: {
+        actions: /*S16*/[ {
+          cloudwatchAlarm: {
+            alarmName: '',
+            roleArn: '',
+            stateReason: '',
+            stateValue: '',
+          },
+          cloudwatchMetric: {
+            metricName: '',
+            metricNamespace: '',
+            metricTimestamp: '',
+            metricUnit: '',
+            metricValue: '',
+            roleArn: '',
+          },
+          dynamoDB: {
+            hashKeyField: '',
+            hashKeyValue: '',
+            payloadField: '',
+            rangeKeyField: '',
+            rangeKeyValue: '',
+            roleArn: '',
+            tableName: '',
+          },
+          elasticsearch: {
+            endpoint: '',
+            id: '',
+            index: '',
+            roleArn: '',
+            type: '',
+          },
+          firehose: {
+            deliveryStreamName: '',
+            roleArn: '',
+          },
+          kinesis: {
+            partitionKey: '',
+            roleArn: '',
+            streamName: '',
+          },
+          lambda: {
+            functionArn: '',
+          },
+          republish: {
+            roleArn: '',
+            topic: '',
+          },
+          s3: {
+            bucketName: '',
+            key: '',
+            roleArn: '',
+          },
+          sns: {
+            messageFormat: '',
+            roleArn: '',
+            targetArn: '',
+          },
+          sqs: {
+            queueUrl: '',
+            roleArn: '',
+            useBase64: false,
+          },
+        }, /* ...*/ ],
+        awsIotSqlVersion: '',
+        createdAt: awsCommon.timestamp(),
+        description: '',
+        ruleDisabled: false,
+        ruleName: '',
+        sql: '',
+      },
+      ruleArn: '',
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.ListCACertificates = awsCommon.as(
+  'GET',
+  '/cacertificates',
+  function ListCACertificates(aws) {
+    var ascendingOrder = aws.params.ascendingOrder /* Type boolean */;
+    var marker = aws.params.marker;
+    var pageSize = aws.params.pageSize /* Type integer */;
+
+
+    // TODO implement code
+
+    var ret = {
+      certificates: [ {
+        certificateArn: '',
+        certificateId: '',
+        creationDate: awsCommon.timestamp(),
+        status: '',
+      }, /* ...*/ ],
+      nextMarker: '',
+    };
     return [200, ret];
   });
 // -----------------------------------
@@ -343,78 +691,68 @@ module.exports.ListCertificates = awsCommon.as(
   '/certificates',
   function ListCertificates(aws) {
     var ascendingOrder = aws.params.ascendingOrder /* Type boolean */;
-    var pageSize = aws.params.pageSize /* Type integer */;
     var marker = aws.params.marker;
+    var pageSize = aws.params.pageSize /* Type integer */;
+
+
+    // TODO implement code
+
+    var ret = {
+      certificates: /*S3z*/[ {
+        certificateArn: '',
+        certificateId: '',
+        creationDate: awsCommon.timestamp(),
+        status: '',
+      }, /* ...*/ ],
+      nextMarker: '',
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.ListCertificatesByCA = awsCommon.as(
+  'GET',
+  '/certificates-by-ca/:caCertificateId',
+  function ListCertificatesByCA(aws) {
+    var ascendingOrder = aws.params.ascendingOrder /* Type boolean */;
+    var caCertificateId = aws.reqParams.caCertificateId;
+    var marker = aws.params.marker;
+    var pageSize = aws.params.pageSize /* Type integer */;
+    if (!caCertificateId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter caCertificateId'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      certificates: /*S3z*/[ {
+        certificateArn: '',
+        certificateId: '',
+        creationDate: awsCommon.timestamp(),
+        status: '',
+      }, /* ...*/ ],
+      nextMarker: '',
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.ListPolicies = awsCommon.as(
+  'GET',
+  '/policies',
+  function ListPolicies(aws) {
+    var ascendingOrder = aws.params.ascendingOrder /* Type boolean */;
+    var marker = aws.params.marker;
+    var pageSize = aws.params.pageSize /* Type integer */;
 
 
     // TODO implement code
 
     var ret = {
       nextMarker: '',
-      certificates: [ {
-        creationDate: awsCommon.timestamp(),
-        certificateArn: '',
-        certificateId: '',
-        status: '',
+      policies: /*S45*/[ {
+        policyArn: '',
+        policyName: '',
       }, /* ...*/ ],
-    };
-    return [200, ret];
-  });
-// -----------------------------------
-module.exports.DeleteCertificate = awsCommon.as(
-  'DELETE',
-  '/certificates/:certificateId',
-  function DeleteCertificate(aws) {
-    var certificateId = aws.reqParams.certificateId;
-    if (!certificateId) {
-      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter certificateId'];
-    }
-
-
-    // TODO implement code
-
-    var ret = {};
-    return [200, ret];
-  });
-// -----------------------------------
-module.exports.ListThings = awsCommon.as(
-  'GET',
-  '/things',
-  function ListThings(aws) {
-    var attributeValue = aws.params.attributeValue;
-    var attributeName = aws.params.attributeName;
-    var maxResults = aws.params.maxResults /* Type integer */;
-    var nextToken = aws.params.nextToken;
-
-
-    // TODO implement code
-
-    var ret = {
-      things: [ {
-        thingName: '',
-        attributes: /*Sw*/{} /*Map*/,
-      }, /* ...*/ ],
-      nextToken: '',
-    };
-    return [200, ret];
-  });
-// -----------------------------------
-module.exports.CreateCertificateFromCsr = awsCommon.as(
-  '/certificates',
-  function CreateCertificateFromCsr(aws) {
-    var setAsActive = aws.params.setAsActive /* Type boolean */;
-    var certificateSigningRequest = aws.params.certificateSigningRequest;
-    if (!certificateSigningRequest) {
-      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter certificateSigningRequest'];
-    }
-
-
-    // TODO implement code
-
-    var ret = {
-      certificateArn: '',
-      certificateId: '',
-      certificatePem: '',
     };
     return [200, ret];
   });
@@ -441,6 +779,52 @@ module.exports.ListPolicyVersions = awsCommon.as(
     return [200, ret];
   });
 // -----------------------------------
+module.exports.ListPrincipalPolicies = awsCommon.as(
+  'GET',
+  '/principal-policies',
+  function ListPrincipalPolicies(aws) {
+    var ascendingOrder = aws.params.ascendingOrder /* Type boolean */;
+    var marker = aws.params.marker;
+    var pageSize = aws.params.pageSize /* Type integer */;
+    var principal = aws.params.principal;
+    if (!principal) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter principal'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      nextMarker: '',
+      policies: /*S45*/[ {
+        policyArn: '',
+        policyName: '',
+      }, /* ...*/ ],
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.ListPrincipalThings = awsCommon.as(
+  'GET',
+  '/principals/things',
+  function ListPrincipalThings(aws) {
+    var maxResults = aws.params.maxResults /* Type integer */;
+    var nextToken = aws.params.nextToken;
+    var principal = aws.params.principal;
+    if (!principal) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter principal'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      nextToken: '',
+      things: [ '', /* ...*/ ],
+    };
+    return [200, ret];
+  });
+// -----------------------------------
 module.exports.ListThingPrincipals = awsCommon.as(
   'GET',
   '/things/:thingName/principals',
@@ -459,9 +843,117 @@ module.exports.ListThingPrincipals = awsCommon.as(
     return [200, ret];
   });
 // -----------------------------------
-module.exports.CreateTopicRule = awsCommon.as(
+module.exports.ListThings = awsCommon.as(
+  'GET',
+  '/things',
+  function ListThings(aws) {
+    var attributeName = aws.params.attributeName;
+    var attributeValue = aws.params.attributeValue;
+    var maxResults = aws.params.maxResults /* Type integer */;
+    var nextToken = aws.params.nextToken;
+
+
+    // TODO implement code
+
+    var ret = {
+      nextToken: '',
+      things: [ {
+        attributes: /*Sw*/{} /*Map*/,
+        thingName: '',
+      }, /* ...*/ ],
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.ListTopicRules = awsCommon.as(
+  'GET',
+  '/rules',
+  function ListTopicRules(aws) {
+    var maxResults = aws.params.maxResults /* Type integer */;
+    var nextToken = aws.params.nextToken;
+    var ruleDisabled = aws.params.ruleDisabled /* Type boolean */;
+    var topic = aws.params.topic;
+
+
+    // TODO implement code
+
+    var ret = {
+      nextToken: '',
+      rules: [ {
+        createdAt: awsCommon.timestamp(),
+        ruleArn: '',
+        ruleDisabled: false,
+        ruleName: '',
+        topicPattern: '',
+      }, /* ...*/ ],
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.RegisterCACertificate = awsCommon.as(
+  '/cacertificate',
+  function RegisterCACertificate(aws) {
+    var caCertificate = aws.params.caCertificate;
+    var setAsActive = aws.params.setAsActive /* Type boolean */;
+    var verificationCertificate = aws.params.verificationCertificate;
+    if (!caCertificate) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter caCertificate'];
+    }
+    if (!verificationCertificate) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter verificationCertificate'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      certificateArn: '',
+      certificateId: '',
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.RegisterCertificate = awsCommon.as(
+  '/certificate/register',
+  function RegisterCertificate(aws) {
+    var caCertificatePem = aws.params.caCertificatePem;
+    var certificatePem = aws.params.certificatePem;
+    var setAsActive = aws.params.setAsActive /* Type boolean */;
+    if (!certificatePem) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter certificatePem'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      certificateArn: '',
+      certificateId: '',
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.RejectCertificateTransfer = awsCommon.as(
+  'PATCH',
+  '/reject-certificate-transfer/:certificateId',
+  function RejectCertificateTransfer(aws) {
+    var certificateId = aws.reqParams.certificateId;
+    var rejectReason = aws.params.rejectReason;
+    if (!certificateId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter certificateId'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {};
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.ReplaceTopicRule = awsCommon.as(
+  'PATCH',
   '/rules/:ruleName',
-  function CreateTopicRule(aws) {
+  function ReplaceTopicRule(aws) {
     var ruleName = aws.reqParams.ruleName;
     var topicRulePayload = aws.params.topicRulePayload;
     if (!ruleName) {
@@ -469,6 +961,26 @@ module.exports.CreateTopicRule = awsCommon.as(
     }
     if (!topicRulePayload) {
       return [400, 'Sender', 'MissingParameter', 'Did not specify parameter topicRulePayload'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {};
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.SetDefaultPolicyVersion = awsCommon.as(
+  'PATCH',
+  '/policies/:policyName/version/:policyVersionId',
+  function SetDefaultPolicyVersion(aws) {
+    var policyName = aws.reqParams.policyName;
+    var policyVersionId = aws.reqParams.policyVersionId;
+    if (!policyName) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter policyName'];
+    }
+    if (!policyVersionId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter policyVersionId'];
     }
 
 
@@ -493,51 +1005,35 @@ module.exports.SetLoggingOptions = awsCommon.as(
     return [200, ret];
   });
 // -----------------------------------
-module.exports.ListPrincipalThings = awsCommon.as(
-  'GET',
-  '/principals/things',
-  function ListPrincipalThings(aws) {
-    var principal = aws.params.principal;
-    var maxResults = aws.params.maxResults /* Type integer */;
-    var nextToken = aws.params.nextToken;
-    if (!principal) {
-      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter principal'];
-    }
-
-
-    // TODO implement code
-
-    var ret = {
-      things: [ '', /* ...*/ ],
-      nextToken: '',
-    };
-    return [200, ret];
-  });
-// -----------------------------------
-module.exports.DeleteThing = awsCommon.as(
-  'DELETE',
-  '/things/:thingName',
-  function DeleteThing(aws) {
-    var thingName = aws.reqParams.thingName;
-    if (!thingName) {
-      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter thingName'];
-    }
-
-
-    // TODO implement code
-
-    var ret = {
-
-    };
-    return [200, ret];
-  });
-// -----------------------------------
-module.exports.UpdateCertificate = awsCommon.as(
-  'PUT',
-  '/certificates/:certificateId',
-  function UpdateCertificate(aws) {
-    var newStatus = aws.params.newStatus;
+module.exports.TransferCertificate = awsCommon.as(
+  'PATCH',
+  '/transfer-certificate/:certificateId',
+  function TransferCertificate(aws) {
     var certificateId = aws.reqParams.certificateId;
+    var targetAwsAccount = aws.params.targetAwsAccount;
+    var transferMessage = aws.params.transferMessage;
+    if (!certificateId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter certificateId'];
+    }
+    if (!targetAwsAccount) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter targetAwsAccount'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      transferredCertificateArn: '',
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.UpdateCACertificate = awsCommon.as(
+  'PUT',
+  '/cacertificate/:certificateId',
+  function UpdateCACertificate(aws) {
+    var certificateId = aws.reqParams.certificateId;
+    var newStatus = aws.params.newStatus;
     if (!certificateId) {
       return [400, 'Sender', 'MissingParameter', 'Did not specify parameter certificateId'];
     }
@@ -552,260 +1048,17 @@ module.exports.UpdateCertificate = awsCommon.as(
     return [200, ret];
   });
 // -----------------------------------
-module.exports.CreateKeysAndCertificate = awsCommon.as(
-  '/keys-and-certificate',
-  function CreateKeysAndCertificate(aws) {
-    var setAsActive = aws.params.setAsActive /* Type boolean */;
-
-
-    // TODO implement code
-
-    var ret = {
-      certificateArn: '',
-      keyPair: {
-        PublicKey: '',
-        PrivateKey: '',
-      },
-      certificateId: '',
-      certificatePem: '',
-    };
-    return [200, ret];
-  });
-// -----------------------------------
-module.exports.DescribeCertificate = awsCommon.as(
-  'GET',
-  '/certificates/:certificateId',
-  function DescribeCertificate(aws) {
-    var certificateId = aws.reqParams.certificateId;
-    if (!certificateId) {
-      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter certificateId'];
-    }
-
-
-    // TODO implement code
-
-    var ret = {
-      certificateDescription: {
-        ownedBy: '',
-        certificateId: '',
-        certificateArn: '',
-        creationDate: awsCommon.timestamp(),
-        lastModifiedDate: awsCommon.timestamp(),
-        status: '',
-        certificatePem: '',
-      },
-    };
-    return [200, ret];
-  });
-// -----------------------------------
-module.exports.AttachThingPrincipal = awsCommon.as(
+module.exports.UpdateCertificate = awsCommon.as(
   'PUT',
-  '/things/:thingName/principals',
-  function AttachThingPrincipal(aws) {
-    var thingName = aws.reqParams.thingName;
-    var principal = aws.params.principal;
-    if (!thingName) {
-      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter thingName'];
-    }
-    if (!principal) {
-      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter principal'];
-    }
-
-
-    // TODO implement code
-
-    var ret = {
-
-    };
-    return [200, ret];
-  });
-// -----------------------------------
-module.exports.EnableTopicRule = awsCommon.as(
-  '/rules/:ruleName/enable',
-  function EnableTopicRule(aws) {
-    var ruleName = aws.reqParams.ruleName;
-    if (!ruleName) {
-      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ruleName'];
-    }
-
-
-    // TODO implement code
-
-    var ret = {};
-    return [200, ret];
-  });
-// -----------------------------------
-module.exports.CancelCertificateTransfer = awsCommon.as(
-  'PATCH',
-  '/cancel-certificate-transfer/:certificateId',
-  function CancelCertificateTransfer(aws) {
+  '/certificates/:certificateId',
+  function UpdateCertificate(aws) {
     var certificateId = aws.reqParams.certificateId;
+    var newStatus = aws.params.newStatus;
     if (!certificateId) {
       return [400, 'Sender', 'MissingParameter', 'Did not specify parameter certificateId'];
     }
-
-
-    // TODO implement code
-
-    var ret = {};
-    return [200, ret];
-  });
-// -----------------------------------
-module.exports.DetachThingPrincipal = awsCommon.as(
-  'DELETE',
-  '/things/:thingName/principals',
-  function DetachThingPrincipal(aws) {
-    var thingName = aws.reqParams.thingName;
-    var principal = aws.params.principal;
-    if (!thingName) {
-      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter thingName'];
-    }
-    if (!principal) {
-      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter principal'];
-    }
-
-
-    // TODO implement code
-
-    var ret = {
-
-    };
-    return [200, ret];
-  });
-// -----------------------------------
-module.exports.CreatePolicyVersion = awsCommon.as(
-  '/policies/:policyName/version',
-  function CreatePolicyVersion(aws) {
-    var setAsDefault = aws.params.setAsDefault /* Type boolean */;
-    var policyName = aws.reqParams.policyName;
-    var policyDocument = aws.params.policyDocument;
-    if (!policyName) {
-      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter policyName'];
-    }
-    if (!policyDocument) {
-      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter policyDocument'];
-    }
-
-
-    // TODO implement code
-
-    var ret = {
-      policyVersionId: '',
-      policyArn: '',
-      policyDocument: '',
-      isDefaultVersion: false,
-    };
-    return [200, ret];
-  });
-// -----------------------------------
-module.exports.ListPrincipalPolicies = awsCommon.as(
-  'GET',
-  '/principal-policies',
-  function ListPrincipalPolicies(aws) {
-    var ascendingOrder = aws.params.ascendingOrder /* Type boolean */;
-    var principal = aws.params.principal;
-    var pageSize = aws.params.pageSize /* Type integer */;
-    var marker = aws.params.marker;
-    if (!principal) {
-      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter principal'];
-    }
-
-
-    // TODO implement code
-
-    var ret = {
-      policies: /*S35*/[ {
-        policyName: '',
-        policyArn: '',
-      }, /* ...*/ ],
-      nextMarker: '',
-    };
-    return [200, ret];
-  });
-// -----------------------------------
-module.exports.CreateThing = awsCommon.as(
-  '/things/:thingName',
-  function CreateThing(aws) {
-    var thingName = aws.reqParams.thingName;
-    var attributePayload = aws.params.attributePayload;
-    if (!thingName) {
-      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter thingName'];
-    }
-
-
-    // TODO implement code
-
-    var ret = {
-      thingName: '',
-      thingArn: '',
-    };
-    return [200, ret];
-  });
-// -----------------------------------
-module.exports.DescribeThing = awsCommon.as(
-  'GET',
-  '/things/:thingName',
-  function DescribeThing(aws) {
-    var thingName = aws.reqParams.thingName;
-    if (!thingName) {
-      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter thingName'];
-    }
-
-
-    // TODO implement code
-
-    var ret = {
-      thingName: '',
-      defaultClientId: '',
-      attributes: /*Sw*/{} /*Map*/,
-    };
-    return [200, ret];
-  });
-// -----------------------------------
-module.exports.DeletePolicy = awsCommon.as(
-  'DELETE',
-  '/policies/:policyName',
-  function DeletePolicy(aws) {
-    var policyName = aws.reqParams.policyName;
-    if (!policyName) {
-      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter policyName'];
-    }
-
-
-    // TODO implement code
-
-    var ret = {};
-    return [200, ret];
-  });
-// -----------------------------------
-module.exports.GetPolicy = awsCommon.as(
-  'GET',
-  '/policies/:policyName',
-  function GetPolicy(aws) {
-    var policyName = aws.reqParams.policyName;
-    if (!policyName) {
-      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter policyName'];
-    }
-
-
-    // TODO implement code
-
-    var ret = {
-      policyDocument: '',
-      defaultVersionId: '',
-      policyName: '',
-      policyArn: '',
-    };
-    return [200, ret];
-  });
-// -----------------------------------
-module.exports.RejectCertificateTransfer = awsCommon.as(
-  'PATCH',
-  '/reject-certificate-transfer/:certificateId',
-  function RejectCertificateTransfer(aws) {
-    var certificateId = aws.reqParams.certificateId;
-    if (!certificateId) {
-      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter certificateId'];
+    if (!newStatus) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter newStatus'];
     }
 
 
@@ -819,13 +1072,13 @@ module.exports.UpdateThing = awsCommon.as(
   'PATCH',
   '/things/:thingName',
   function UpdateThing(aws) {
-    var thingName = aws.reqParams.thingName;
     var attributePayload = aws.params.attributePayload;
-    if (!thingName) {
-      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter thingName'];
-    }
+    var thingName = aws.reqParams.thingName;
     if (!attributePayload) {
       return [400, 'Sender', 'MissingParameter', 'Did not specify parameter attributePayload'];
+    }
+    if (!thingName) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter thingName'];
     }
 
 
@@ -834,40 +1087,5 @@ module.exports.UpdateThing = awsCommon.as(
     var ret = {
 
     };
-    return [200, ret];
-  });
-// -----------------------------------
-module.exports.DetachPrincipalPolicy = awsCommon.as(
-  'DELETE',
-  '/principal-policies/:policyName',
-  function DetachPrincipalPolicy(aws) {
-    var principal = aws.params.principal;
-    var policyName = aws.reqParams.policyName;
-    if (!policyName) {
-      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter policyName'];
-    }
-    if (!principal) {
-      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter principal'];
-    }
-
-
-    // TODO implement code
-
-    var ret = {};
-    return [200, ret];
-  });
-// -----------------------------------
-module.exports.DisableTopicRule = awsCommon.as(
-  '/rules/:ruleName/disable',
-  function DisableTopicRule(aws) {
-    var ruleName = aws.reqParams.ruleName;
-    if (!ruleName) {
-      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ruleName'];
-    }
-
-
-    // TODO implement code
-
-    var ret = {};
     return [200, ret];
   });

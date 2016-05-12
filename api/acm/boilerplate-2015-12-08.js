@@ -12,70 +12,14 @@ const awsCommon = require('../../lib/aws-common');
 // Setup input and output to use AWS protocol json
 require('../../lib/aws-common/shape_http')('json', module.exports, null);
 // -----------------------------------
-module.exports.ListCertificates = function ListCertificates(aws) {
-  var nextToken = aws.params.NextToken;
-  var certificateStatuses = aws.params.CertificateStatuses /* Type list */;
-  var maxItems = aws.params.MaxItems /* Type integer */;
-
-
-  // TODO implement code
-
-  var ret = {
-    CertificateSummaryList: [ {
-      CertificateArn: '',
-      DomainName: '',
-    }, /* ...*/ ],
-    NextToken: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.GetCertificate = function GetCertificate(aws) {
+module.exports.AddTagsToCertificate = function AddTagsToCertificate(aws) {
   var certificateArn = aws.params.CertificateArn;
+  var tags = aws.params.Tags;
   if (!certificateArn) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CertificateArn'];
   }
-
-
-  // TODO implement code
-
-  var ret = {
-    Certificate: '',
-    CertificateChain: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.RequestCertificate = function RequestCertificate(aws) {
-  var idempotencyToken = aws.params.IdempotencyToken;
-  var domainName = aws.params.DomainName;
-  var domainValidationOptions = aws.params.DomainValidationOptions /* Type list */;
-  var subjectAlternativeNames = aws.params.SubjectAlternativeNames;
-  if (!domainName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    CertificateArn: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ResendValidationEmail = function ResendValidationEmail(aws) {
-  var certificateArn = aws.params.CertificateArn;
-  var validationDomain = aws.params.ValidationDomain;
-  var domain = aws.params.Domain;
-  if (!certificateArn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CertificateArn'];
-  }
-  if (!domain) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Domain'];
-  }
-  if (!validationDomain) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ValidationDomain'];
+  if (!tags) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Tags'];
   }
 
 
@@ -109,28 +53,136 @@ module.exports.DescribeCertificate = function DescribeCertificate(aws) {
 
   var ret = {
     Certificate: {
-      Subject: '',
-      Status: '',
+      CertificateArn: '',
+      CreatedAt: awsCommon.timestamp(),
       DomainName: '',
-      InUseBy: [ '', /* ...*/ ],
       DomainValidationOptions: [ {
         DomainName: '',
-        ValidationEmails: [ '', /* ...*/ ],
         ValidationDomain: '',
+        ValidationEmails: [ '', /* ...*/ ],
       }, /* ...*/ ],
-      CertificateArn: '',
-      NotBefore: awsCommon.timestamp(),
-      SubjectAlternativeNames: /*S7*/[ '', /* ...*/ ],
-      RevocationReason: '',
-      Serial: '',
-      CreatedAt: awsCommon.timestamp(),
-      KeyAlgorithm: '',
+      InUseBy: [ '', /* ...*/ ],
       IssuedAt: awsCommon.timestamp(),
-      RevokedAt: awsCommon.timestamp(),
-      NotAfter: awsCommon.timestamp(),
       Issuer: '',
+      KeyAlgorithm: '',
+      NotAfter: awsCommon.timestamp(),
+      NotBefore: awsCommon.timestamp(),
+      RevocationReason: '',
+      RevokedAt: awsCommon.timestamp(),
+      Serial: '',
       SignatureAlgorithm: '',
+      Status: '',
+      Subject: '',
+      SubjectAlternativeNames: /*Sc*/[ '', /* ...*/ ],
     },
   };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetCertificate = function GetCertificate(aws) {
+  var certificateArn = aws.params.CertificateArn;
+  if (!certificateArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CertificateArn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Certificate: '',
+    CertificateChain: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListCertificates = function ListCertificates(aws) {
+  var certificateStatuses = aws.params.CertificateStatuses /* Type list */;
+  var maxItems = aws.params.MaxItems /* Type integer */;
+  var nextToken = aws.params.NextToken;
+
+
+  // TODO implement code
+
+  var ret = {
+    CertificateSummaryList: [ {
+      CertificateArn: '',
+      DomainName: '',
+    }, /* ...*/ ],
+    NextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListTagsForCertificate = function ListTagsForCertificate(aws) {
+  var certificateArn = aws.params.CertificateArn;
+  if (!certificateArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CertificateArn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Tags: /*S3*/[ {
+      Key: '',
+      Value: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RemoveTagsFromCertificate = function RemoveTagsFromCertificate(aws) {
+  var certificateArn = aws.params.CertificateArn;
+  var tags = aws.params.Tags;
+  if (!certificateArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CertificateArn'];
+  }
+  if (!tags) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Tags'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RequestCertificate = function RequestCertificate(aws) {
+  var domainName = aws.params.DomainName;
+  var domainValidationOptions = aws.params.DomainValidationOptions /* Type list */;
+  var idempotencyToken = aws.params.IdempotencyToken;
+  var subjectAlternativeNames = aws.params.SubjectAlternativeNames;
+  if (!domainName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DomainName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    CertificateArn: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ResendValidationEmail = function ResendValidationEmail(aws) {
+  var certificateArn = aws.params.CertificateArn;
+  var domain = aws.params.Domain;
+  var validationDomain = aws.params.ValidationDomain;
+  if (!certificateArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CertificateArn'];
+  }
+  if (!domain) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Domain'];
+  }
+  if (!validationDomain) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ValidationDomain'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
   return [200, ret];
 };

@@ -50,7 +50,7 @@ function DecisionTask(p) {
   // Snapshot the events up to this point
   for (var i = 0; i < this.workflowRun.eventHistory.length; i++) {
     var event = this.workflowRun.eventHistory[i].describe();
-    console.log(`[DECISION ${this.taskToken}] added event ${JSON.stringify(event)}`);
+    // ` console.log(`[DECISION ${this.taskToken}] added event ${JSON.stringify(event)}`);
     this.eventList.push(event);
   }
 
@@ -75,8 +75,7 @@ DecisionTask.prototype.start = function start(p) {
   var deciderId = p.deciderId;
 
   if (this.runState === RUN_STATE_CREATED) {
-    // FIXME DEBUG
-    console.log(`[DECISION ${this.taskToken}] Starting decision task`);
+    // ` console.log(`[DECISION ${this.taskToken}] Starting decision task`);
 
     this.runState = RUN_STATE_STARTED;
 
@@ -100,7 +99,7 @@ DecisionTask.prototype.start = function start(p) {
 
     setTimeout(
       function() {
-        console.log(`[DECISION ${this.taskToken}] timed out after ${t.workflowRun.executionConfiguration.taskStartToCloseTimeout} seconds`);
+        // ` console.log(`[DECISION ${t.taskToken}] timed out after ${t.workflowRun.executionConfiguration.taskStartToCloseTimeout} seconds`);
         t.__timeout();
       },
       // AWS timeout property is in seconds, timeout is in ms.
@@ -151,6 +150,7 @@ DecisionTask.prototype.pageEvents = function pageEvents(
   if (pageToken !== null  && pageToken.substr(0, pageToken.indexOf('^')) !== this.taskToken) {
     return null;
   }
+  pageToken = (!!pageToken) ? 1 * pageToken.substr(pageToken.indexOf('^') + 1) : null;
   var ret = awsCommon.pageResults({
     reverseOrder: reverseOrder,
     maximumPageSize: maximumPageSize,
@@ -173,7 +173,7 @@ DecisionTask.prototype.pageEvents = function pageEvents(
   if (!!ret.nextPageToken) {
     ret.nextPageToken = this.taskToken + '^' + ret.nextPageToken;
   }
-  console.log(`[DECISION ${this.taskToken}] returning paged events ${JSON.stringify(ret)}`);
+  // ` console.log(`[DECISION ${this.taskToken}] returning paged events ${JSON.stringify(ret)}`);
   return [
     // Is last?
     !ret.nextPageToken,
@@ -186,7 +186,7 @@ DecisionTask.prototype.pageEvents = function pageEvents(
 
 DecisionTask.prototype.__timeout = function __timeout() {
   if (this.isOpen()) {
-    console.log(`[DECISION TASK ${this.taskToken}] Timed out`);
+    console.log(`[DECISION ${this.taskToken}] Timed out`);
     this.runState = RUN_STATE_TIMED_OUT;
     this.outOfBandEventFunc([{
       workflow: this.workflowRun,

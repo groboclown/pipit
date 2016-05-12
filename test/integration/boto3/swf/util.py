@@ -6,6 +6,7 @@ import inspect
 import os
 import zipfile
 import io
+import traceback
 from ..aws_common import create_client
 
 def create_new_name():
@@ -25,6 +26,8 @@ def background_task(task_func):
             ret  = task_func()
             q.put([True, ret])
         except:
+            print('Background task failed')
+            traceback.print_exc()
             q.put([False, sys.exc_info()[1]])
 
     t = threading.Thread(target=background)
@@ -33,6 +36,15 @@ def background_task(task_func):
 
     return q
 
+
+def get_event(name, event_list):
+    attr_name = name[0].lower() + name[1:] + 'EventAttributes';
+    for event in event_list:
+        if event['eventType'] == name and attr_name in event:
+            return (event, event[attr_name])
+        if event['eventType'] == name:
+            raise Exception('Encountered event with wrong attribute name: ' + repr(event))
+    return (None, None)
 
 
 class BasicSwfSetup(object):
@@ -92,11 +104,66 @@ class BasicSwfSetup(object):
         )['runId']
         return workflow_id, run_id
 
+    def assert_workflow_state(self, decision_task, valid_events=None, invalid_events=None):
+        valid_events = valid_events or []
+        invalid_events = invalid_events or [
+            'ActivityTaskCanceled',
+            'ActivityTaskFailed',
+            'ActivityTaskTimedOut',
+            'CancelTimerFailed',
+            'CancelWorkflowExecutionFailed',
+            'ChildWorkflowExecutionCanceled',
+            'ChildWorkflowExecutionFailed',
+            'ChildWorkflowExecutionTerminated',
+            'ChildWorkflowExecutionTimedOut',
+            'CompleteWorkflowExecutionFailed',
+            'ContinueAsNewWorkflowExecutionFailed',
+            'DecisionTaskTimedOut',
+            'FailWorkflowExecutionFailed',
+            'LambdaFunctionFailed',
+            'LambdaFunctionTimedOut',
+            'RecordMarkerFailed',
+            'RequestCancelActivityTaskFailed',
+            'RequestCancelExternalWorkflowExecutionFailed',
+            'ScheduleActivityTaskFailed',
+            'ScheduleLambdaFunctionFailed',
+            'SignalExternalWorkflowExecutionFailed',
+            'StartChildWorkflowExecutionFailed',
+            'StartLambdaFunctionFailed',
+            'StartTimerFailed',
+            'WorkflowExecutionCanceled',
+            'WorkflowExecutionFailed',
+            'WorkflowExecutionTerminated',
+            'WorkflowExecutionTimedOut',
+
+            # Callers must pass these in as a valid event.
+            'WorkflowExecutionCompleted',
+            'WorkflowExecutionContinuedAsNew'
+
+            # Don't check activity or child workflow success.
+        ]
+        for k in valid_events:
+            if k in invalid_events:
+                invalid_events.remove(k)
+        self.test_instance.assertIsNotNone(decision_task, 'Did not fetch a decision task in time')
+        events = decision_task['events']
+
+        for k in invalid_events:
+            event, attributes = get_event(k, events)
+            self.test_instance.assertIsNone(event, 'encountered ' + repr(event))
+
+    def assert_has_event(self, decision_task, event_name):
+        events = decision_task['events']
+        event, attributes = get_event(event_name, events)
+        self.test_instance.assertIsNotNone(event, 'Did not find ' + event_name)
+        return event, attributes
+
+
     def poll_for_decision(self, task_list=None, max_retry=4, reverse_order=True, max_page_size=10):
         """Poll in the current thread.  This is different than the pager
         in that it doesn't loop forever performing the poll."""
         if task_list is None:
-            task_list = self.workflow_type.task_list_name
+            task_list = self.workflow_types[0].task_list_name
         identity = 'Decider ' + task_list
         for i in range(0, max_retry):
             response = self.client.poll_for_decision_task(
@@ -135,11 +202,13 @@ class BasicSwfSetup(object):
         return None
 
     def poll_for_activity_task(self, task_list_name=None, identity=None, max_retry=4):
+        if task_list_name is None:
+            task_list_name = self.activity_types[0].task_list_name
         for i in range(0, 4):
             print('DEBUG: polling for activity task')
-            res = swf.client.poll_for_activity_task(
-                domain=domain_name,
-                taskList={ 'name': activity_type.task_list_name },
+            res = self.client.poll_for_activity_task(
+                domain=self.domain_name,
+                taskList={ 'name': task_list_name },
                 identity='activity_poller test_PollForActivityTask'
             )
             if res is not None and 'taskToken' in res:
@@ -190,16 +259,8 @@ class BasicSwfSetup(object):
         )
         functionArn = response['FunctionArn']
 
-        # Boto3 has a bug where FunctionName isn't being passed in.
-        # alias = name + '_' + create_new_name().replace(':', '_').replace('-', '_')
-        # response = lambda_client.create_alias(
-        #     FunctionName=name,
-        #     FunctionVersion=version,
-        #     Name=alias,
-        #     Description='lambda for test'
-        # )
-        # aliasArn = response['AliasArn']
-        # return alias
+        # Aliases are only used for published versions.
+        # We aren't publishing here, so aliases don't work.
 
         return functionArn
 
@@ -243,12 +304,3 @@ class ActivityTypeDef(object):
             defaultTaskList={'name': self.task_list_name},
             defaultTaskScheduleToStartTimeout='60',
             defaultTaskScheduleToCloseTimeout='60')
-
-
-
-def get_event(name, event_list):
-    attr_name = name[0].lower() + name[1:] + 'EventAttributes';
-    for event in event_list:
-        if event['eventType'] == name and attr_name in event:
-            return (event, event[attr_name])
-    return (None, None)

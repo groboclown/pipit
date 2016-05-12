@@ -12,42 +12,22 @@ const awsCommon = require('../../lib/aws-common');
 // Setup input and output to use AWS protocol query
 require('../../lib/aws-common/shape_http')('query', module.exports, 'http://sns.amazonaws.com/doc/2010-03-31/');
 // -----------------------------------
-module.exports.ListEndpointsByPlatformApplication = function ListEndpointsByPlatformApplication(aws) {
-  var nextToken = aws.params.NextToken;
-  var platformApplicationArn = aws.params.PlatformApplicationArn;
-  if (!platformApplicationArn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PlatformApplicationArn'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    NextToken: '',
-    Endpoints: [ {
-      Attributes: /*Sf*/{} /*Map*/,
-      EndpointArn: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
 module.exports.AddPermission = function AddPermission(aws) {
   var aWSAccountId = aws.params.AWSAccountId /* Type list */;
-  var topicArn = aws.params.TopicArn;
   var actionName = aws.params.ActionName /* Type list */;
   var label = aws.params.Label;
-  if (!topicArn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TopicArn'];
-  }
-  if (!label) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Label'];
-  }
+  var topicArn = aws.params.TopicArn;
   if (!aWSAccountId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AWSAccountId'];
   }
   if (!actionName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ActionName'];
+  }
+  if (!label) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Label'];
+  }
+  if (!topicArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TopicArn'];
   }
 
 
@@ -57,18 +37,38 @@ module.exports.AddPermission = function AddPermission(aws) {
   return [200, ret];
 };
 // -----------------------------------
+module.exports.ConfirmSubscription = function ConfirmSubscription(aws) {
+  var authenticateOnUnsubscribe = aws.params.AuthenticateOnUnsubscribe;
+  var token = aws.params.Token;
+  var topicArn = aws.params.TopicArn;
+  if (!token) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Token'];
+  }
+  if (!topicArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TopicArn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    SubscriptionArn: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.CreatePlatformApplication = function CreatePlatformApplication(aws) {
+  var attributes = aws.params.Attributes;
   var name = aws.params.Name;
   var platform = aws.params.Platform;
-  var attributes = aws.params.Attributes;
+  if (!attributes) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Attributes'];
+  }
   if (!name) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
   }
   if (!platform) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Platform'];
-  }
-  if (!attributes) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Attributes'];
   }
 
 
@@ -80,40 +80,23 @@ module.exports.CreatePlatformApplication = function CreatePlatformApplication(aw
   return [200, ret];
 };
 // -----------------------------------
-module.exports.GetPlatformApplicationAttributes = function GetPlatformApplicationAttributes(aws) {
+module.exports.CreatePlatformEndpoint = function CreatePlatformEndpoint(aws) {
+  var attributes = aws.params.Attributes;
+  var customUserData = aws.params.CustomUserData;
   var platformApplicationArn = aws.params.PlatformApplicationArn;
+  var token = aws.params.Token;
   if (!platformApplicationArn) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PlatformApplicationArn'];
   }
-
-
-  // TODO implement code
-
-  var ret = {
-    Attributes: /*Sf*/{} /*Map*/,
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListSubscriptionsByTopic = function ListSubscriptionsByTopic(aws) {
-  var nextToken = aws.params.NextToken;
-  var topicArn = aws.params.TopicArn;
-  if (!topicArn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TopicArn'];
+  if (!token) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Token'];
   }
 
 
   // TODO implement code
 
   var ret = {
-    Subscriptions: /*S1c*/[ {
-      Protocol: '',
-      TopicArn: '',
-      SubscriptionArn: '',
-      Owner: '',
-      Endpoint: '',
-    }, /* ...*/ ],
-    NextToken: '',
+    EndpointArn: '',
   };
   return [200, ret];
 };
@@ -133,36 +116,6 @@ module.exports.CreateTopic = function CreateTopic(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.GetEndpointAttributes = function GetEndpointAttributes(aws) {
-  var endpointArn = aws.params.EndpointArn;
-  if (!endpointArn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter EndpointArn'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Attributes: /*Sf*/{} /*Map*/,
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.GetTopicAttributes = function GetTopicAttributes(aws) {
-  var topicArn = aws.params.TopicArn;
-  if (!topicArn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TopicArn'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Attributes: {} /*Map*/,
-  };
-  return [200, ret];
-};
-// -----------------------------------
 module.exports.DeleteEndpoint = function DeleteEndpoint(aws) {
   var endpointArn = aws.params.EndpointArn;
   if (!endpointArn) {
@@ -176,55 +129,16 @@ module.exports.DeleteEndpoint = function DeleteEndpoint(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.RemovePermission = function RemovePermission(aws) {
-  var topicArn = aws.params.TopicArn;
-  var label = aws.params.Label;
-  if (!topicArn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TopicArn'];
-  }
-  if (!label) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Label'];
+module.exports.DeletePlatformApplication = function DeletePlatformApplication(aws) {
+  var platformApplicationArn = aws.params.PlatformApplicationArn;
+  if (!platformApplicationArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PlatformApplicationArn'];
   }
 
 
   // TODO implement code
 
   var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListTopics = function ListTopics(aws) {
-  var nextToken = aws.params.NextToken;
-
-
-  // TODO implement code
-
-  var ret = {
-    NextToken: '',
-    Topics: [ {
-      TopicArn: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ConfirmSubscription = function ConfirmSubscription(aws) {
-  var token = aws.params.Token;
-  var topicArn = aws.params.TopicArn;
-  var authenticateOnUnsubscribe = aws.params.AuthenticateOnUnsubscribe;
-  if (!topicArn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TopicArn'];
-  }
-  if (!token) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Token'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    SubscriptionArn: '',
-  };
   return [200, ret];
 };
 // -----------------------------------
@@ -241,163 +155,32 @@ module.exports.DeleteTopic = function DeleteTopic(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.Unsubscribe = function Unsubscribe(aws) {
-  var subscriptionArn = aws.params.SubscriptionArn;
-  if (!subscriptionArn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SubscriptionArn'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListPlatformApplications = function ListPlatformApplications(aws) {
-  var nextToken = aws.params.NextToken;
-
-
-  // TODO implement code
-
-  var ret = {
-    NextToken: '',
-    PlatformApplications: [ {
-      Attributes: /*Sf*/{} /*Map*/,
-      PlatformApplicationArn: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.SetSubscriptionAttributes = function SetSubscriptionAttributes(aws) {
-  var attributeName = aws.params.AttributeName;
-  var attributeValue = aws.params.AttributeValue;
-  var subscriptionArn = aws.params.SubscriptionArn;
-  if (!subscriptionArn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SubscriptionArn'];
-  }
-  if (!attributeName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AttributeName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListSubscriptions = function ListSubscriptions(aws) {
-  var nextToken = aws.params.NextToken;
-
-
-  // TODO implement code
-
-  var ret = {
-    Subscriptions: /*S1c*/[ {
-      Protocol: '',
-      TopicArn: '',
-      SubscriptionArn: '',
-      Owner: '',
-      Endpoint: '',
-    }, /* ...*/ ],
-    NextToken: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.SetPlatformApplicationAttributes = function SetPlatformApplicationAttributes(aws) {
-  var attributes = aws.params.Attributes;
-  var platformApplicationArn = aws.params.PlatformApplicationArn;
-  if (!platformApplicationArn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PlatformApplicationArn'];
-  }
-  if (!attributes) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Attributes'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.Subscribe = function Subscribe(aws) {
-  var topicArn = aws.params.TopicArn;
-  var endpoint = aws.params.Endpoint;
-  var protocol = aws.params.Protocol;
-  if (!topicArn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TopicArn'];
-  }
-  if (!protocol) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Protocol'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    SubscriptionArn: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.SetEndpointAttributes = function SetEndpointAttributes(aws) {
-  var attributes = aws.params.Attributes;
+module.exports.GetEndpointAttributes = function GetEndpointAttributes(aws) {
   var endpointArn = aws.params.EndpointArn;
   if (!endpointArn) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter EndpointArn'];
   }
-  if (!attributes) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Attributes'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.Publish = function Publish(aws) {
-  var message = aws.params.Message;
-  var targetArn = aws.params.TargetArn;
-  var subject = aws.params.Subject;
-  var topicArn = aws.params.TopicArn;
-  var messageAttributes = aws.params.MessageAttributes /* Type map */;
-  var messageStructure = aws.params.MessageStructure;
-  if (!message) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Message'];
-  }
 
 
   // TODO implement code
 
   var ret = {
-    MessageId: '',
+    Attributes: /*Sf*/{} /*Map*/,
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.CreatePlatformEndpoint = function CreatePlatformEndpoint(aws) {
-  var token = aws.params.Token;
-  var attributes = aws.params.Attributes;
+module.exports.GetPlatformApplicationAttributes = function GetPlatformApplicationAttributes(aws) {
   var platformApplicationArn = aws.params.PlatformApplicationArn;
-  var customUserData = aws.params.CustomUserData;
   if (!platformApplicationArn) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PlatformApplicationArn'];
-  }
-  if (!token) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Token'];
   }
 
 
   // TODO implement code
 
   var ret = {
-    EndpointArn: '',
+    Attributes: /*Sf*/{} /*Map*/,
   };
   return [200, ret];
 };
@@ -417,10 +200,194 @@ module.exports.GetSubscriptionAttributes = function GetSubscriptionAttributes(aw
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DeletePlatformApplication = function DeletePlatformApplication(aws) {
+module.exports.GetTopicAttributes = function GetTopicAttributes(aws) {
+  var topicArn = aws.params.TopicArn;
+  if (!topicArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TopicArn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Attributes: {} /*Map*/,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListEndpointsByPlatformApplication = function ListEndpointsByPlatformApplication(aws) {
+  var nextToken = aws.params.NextToken;
   var platformApplicationArn = aws.params.PlatformApplicationArn;
   if (!platformApplicationArn) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PlatformApplicationArn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Endpoints: [ {
+      Attributes: /*Sf*/{} /*Map*/,
+      EndpointArn: '',
+    }, /* ...*/ ],
+    NextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListPlatformApplications = function ListPlatformApplications(aws) {
+  var nextToken = aws.params.NextToken;
+
+
+  // TODO implement code
+
+  var ret = {
+    NextToken: '',
+    PlatformApplications: [ {
+      Attributes: /*Sf*/{} /*Map*/,
+      PlatformApplicationArn: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListSubscriptions = function ListSubscriptions(aws) {
+  var nextToken = aws.params.NextToken;
+
+
+  // TODO implement code
+
+  var ret = {
+    NextToken: '',
+    Subscriptions: /*S1c*/[ {
+      Endpoint: '',
+      Owner: '',
+      Protocol: '',
+      SubscriptionArn: '',
+      TopicArn: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListSubscriptionsByTopic = function ListSubscriptionsByTopic(aws) {
+  var nextToken = aws.params.NextToken;
+  var topicArn = aws.params.TopicArn;
+  if (!topicArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TopicArn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    NextToken: '',
+    Subscriptions: /*S1c*/[ {
+      Endpoint: '',
+      Owner: '',
+      Protocol: '',
+      SubscriptionArn: '',
+      TopicArn: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListTopics = function ListTopics(aws) {
+  var nextToken = aws.params.NextToken;
+
+
+  // TODO implement code
+
+  var ret = {
+    NextToken: '',
+    Topics: [ {
+      TopicArn: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.Publish = function Publish(aws) {
+  var message = aws.params.Message;
+  var messageAttributes = aws.params.MessageAttributes /* Type map */;
+  var messageStructure = aws.params.MessageStructure;
+  var subject = aws.params.Subject;
+  var targetArn = aws.params.TargetArn;
+  var topicArn = aws.params.TopicArn;
+  if (!message) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Message'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    MessageId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RemovePermission = function RemovePermission(aws) {
+  var label = aws.params.Label;
+  var topicArn = aws.params.TopicArn;
+  if (!label) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Label'];
+  }
+  if (!topicArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TopicArn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.SetEndpointAttributes = function SetEndpointAttributes(aws) {
+  var attributes = aws.params.Attributes;
+  var endpointArn = aws.params.EndpointArn;
+  if (!attributes) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Attributes'];
+  }
+  if (!endpointArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter EndpointArn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.SetPlatformApplicationAttributes = function SetPlatformApplicationAttributes(aws) {
+  var attributes = aws.params.Attributes;
+  var platformApplicationArn = aws.params.PlatformApplicationArn;
+  if (!attributes) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Attributes'];
+  }
+  if (!platformApplicationArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PlatformApplicationArn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.SetSubscriptionAttributes = function SetSubscriptionAttributes(aws) {
+  var attributeName = aws.params.AttributeName;
+  var attributeValue = aws.params.AttributeValue;
+  var subscriptionArn = aws.params.SubscriptionArn;
+  if (!attributeName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AttributeName'];
+  }
+  if (!subscriptionArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SubscriptionArn'];
   }
 
 
@@ -434,11 +401,44 @@ module.exports.SetTopicAttributes = function SetTopicAttributes(aws) {
   var attributeName = aws.params.AttributeName;
   var attributeValue = aws.params.AttributeValue;
   var topicArn = aws.params.TopicArn;
+  if (!attributeName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AttributeName'];
+  }
   if (!topicArn) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TopicArn'];
   }
-  if (!attributeName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AttributeName'];
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.Subscribe = function Subscribe(aws) {
+  var endpoint = aws.params.Endpoint;
+  var protocol = aws.params.Protocol;
+  var topicArn = aws.params.TopicArn;
+  if (!protocol) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Protocol'];
+  }
+  if (!topicArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TopicArn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    SubscriptionArn: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.Unsubscribe = function Unsubscribe(aws) {
+  var subscriptionArn = aws.params.SubscriptionArn;
+  if (!subscriptionArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SubscriptionArn'];
   }
 
 

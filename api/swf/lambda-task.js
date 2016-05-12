@@ -29,15 +29,16 @@ function LambdaTask(p) {
   this.startedEventId = null;
   this.started = false;
   this.stopped = false;
-
-  this.workflowRun.registerLambda(this);
 }
 
 LambdaTask.prototype.createScheduledEvents = function createScheduledEvents(p) {
   var decisionTaskCompletedEventId = p.decisionTaskCompletedEventId;
 
+  console.log(`[LAMBDA ${this.lambdaId}] scheduling event`);
+
   // Perform all the correct validation for the lambda.
   if (!textParse.isValidIdentifier(this.lambdaId)) {
+    console.log(`[LAMBDA ${this.lambdaId}] invalid id`);
     return [{
       ERROR: true,
       // FIXME fix this exception name
@@ -46,11 +47,14 @@ LambdaTask.prototype.createScheduledEvents = function createScheduledEvents(p) {
   }
 
   if (!!this.workflowRun.getLambdaTaskById(this.lambdaId)) {
+    console.log(`[LAMBDA ${this.lambdaId}] id already in use`);
     return this.__createScheduleFailedEvents({
       cause: 'ID_ALREADY_IN_USE',
       decisionTaskCompletedEventId: decisionTaskCompletedEventId,
     });
   }
+
+  this.workflowRun.registerLambda(this);
 
   var t = this;
 
@@ -66,9 +70,11 @@ LambdaTask.prototype.createScheduledEvents = function createScheduledEvents(p) {
       startToCloseTimeout: this.startToCloseTimeout,
     },
     postEventCreation: function postEventCreation(p) {
+      console.log(`[LAMBDA ${t.lambdaId}] finished scheduling ${p.sourceEvent.id}, queueing now`);
       var sourceEvent = p.sourceEvent;
       t.scheduledEventId = sourceEvent.id;
       t.__queueLambda();
+      return null;
     },
   },];
 };
@@ -82,35 +88,45 @@ LambdaTask.prototype.isOpen = function isOpen() {
 // Run the lambda processing in the background.
 LambdaTask.prototype.__queueLambda = function __queueLambda() {
   var t = this;
-  Q.delay(1).then(function() {
+  setTimeout(function() {
     if (t.started) {
-      throw new Error(`already started ${t.name}`);
+      throw new Error(`Code usage error: already started ${t.name} / ${t.lambdaId}`);
     }
-    this.started = true;
-    var lambdaFunction = lambdas.getByName(t.name);
+    t.started = true;
+    var lambdaFunction = lambdas.getLambda(t.name);
     if (!lambdaFunction) {
+      console.log(`[LAMBDA ${t.lambdaId}] start failed - no lambda`);
       t.outOfBandEventFunc(t.__createStartFailedEvents({
         cause: 'LAMBDA_NOT_FOUND',
         message: `No such lambda found ${t.name}`,
       }));
       t.stopped = true;
     } else {
+      console.log(`[LAMBDA ${t.lambdaId}] start event`);
       t.outOfBandEventFunc(t.__createStartEvents({}));
       setTimeout(function() {
         t.__timeout();
-      }, this.startToCloseTimeout * 1000);
+      }, t.startToCloseTimeout * 1000);
       // TODO what additional parameters are passed in?
-      lambdaFunction.invoke({
-        event: t.input,
-      })
+      console.log(`[LAMBDA ${t.lambdaId}] invoking lambda`);
+      try {
+        lambdaFunction.invoke({
+          event: t.input,
+        })
         .then(function(result) {
+          console.log(`[LAMBDA ${t.lambdaId}] lambda completed`);
           t.__handleLambdaComplete(result);
         })
         .fail(function(err) {
+          console.log(`[LAMBDA ${t.lambdaId}] lambda failed: ${err.message}\n${err.stack}`);
           t.__handleLambdaFailed(err);
         });
+      } catch (err) {
+        console.log(`[LAMBDA ${t.lambdaId}] lambda invocation failed: ${err.message}\n${err.stack}`);
+        t.__handleLambdaFailed(err);
+      }
     }
-  });
+  }, 1);
 };
 
 

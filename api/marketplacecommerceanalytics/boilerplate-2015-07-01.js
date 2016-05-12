@@ -13,23 +13,24 @@ const awsCommon = require('../../lib/aws-common');
 require('../../lib/aws-common/shape_http')('json', module.exports, null);
 // -----------------------------------
 module.exports.GenerateDataSet = function GenerateDataSet(aws) {
-  var roleNameArn = aws.params.roleNameArn;
-  var destinationS3Prefix = aws.params.destinationS3Prefix;
+  var customerDefinedValues = aws.params.customerDefinedValues /* Type map */;
   var dataSetPublicationDate = aws.params.dataSetPublicationDate /* Type timestamp */;
   var dataSetType = aws.params.dataSetType;
-  var snsTopicArn = aws.params.snsTopicArn;
   var destinationS3BucketName = aws.params.destinationS3BucketName;
-  if (!dataSetType) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter dataSetType'];
-  }
+  var destinationS3Prefix = aws.params.destinationS3Prefix;
+  var roleNameArn = aws.params.roleNameArn;
+  var snsTopicArn = aws.params.snsTopicArn;
   if (!dataSetPublicationDate) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter dataSetPublicationDate'];
   }
-  if (!roleNameArn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter roleNameArn'];
+  if (!dataSetType) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter dataSetType'];
   }
   if (!destinationS3BucketName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter destinationS3BucketName'];
+  }
+  if (!roleNameArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter roleNameArn'];
   }
   if (!snsTopicArn) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter snsTopicArn'];

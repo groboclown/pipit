@@ -12,73 +12,29 @@ const awsCommon = require('../../lib/aws-common');
 // Setup input and output to use AWS protocol json
 require('../../lib/aws-common/shape_http')('json', module.exports, null);
 // -----------------------------------
-module.exports.GetDocument = function GetDocument(aws) {
-  var name = aws.params.Name;
-  if (!name) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Name: '',
-    Content: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListCommands = function ListCommands(aws) {
-  var maxResults = aws.params.MaxResults /* Type integer */;
+module.exports.CancelCommand = function CancelCommand(aws) {
   var commandId = aws.params.CommandId;
-  var filters = aws.params.Filters;
-  var nextToken = aws.params.NextToken;
-  var instanceId = aws.params.InstanceId;
-
-
-  // TODO implement code
-
-  var ret = {
-    NextToken: '',
-    Commands: [ /*S2s*/{
-      CommandId: '',
-      Comment: '',
-      DocumentName: '',
-      Status: '',
-      RequestedDateTime: awsCommon.timestamp(),
-      ExpiresAfter: awsCommon.timestamp(),
-      InstanceIds: /*S3*/[ '', /* ...*/ ],
-      OutputS3BucketName: '',
-      OutputS3KeyPrefix: '',
-      Parameters: /*S8*/{} /*Map*/,
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListAssociations = function ListAssociations(aws) {
-  var maxResults = aws.params.MaxResults /* Type integer */;
-  var associationFilterList = aws.params.AssociationFilterList /* Type list */;
-  var nextToken = aws.params.NextToken;
-  if (!associationFilterList) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AssociationFilterList'];
+  var instanceIds = aws.params.InstanceIds;
+  if (!commandId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CommandId'];
   }
 
 
   // TODO implement code
 
   var ret = {
-    Associations: [ {
-      Name: '',
-      InstanceId: '',
-    }, /* ...*/ ],
-    NextToken: '',
+
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DescribeDocument = function DescribeDocument(aws) {
+module.exports.CreateAssociation = function CreateAssociation(aws) {
+  var instanceId = aws.params.InstanceId;
   var name = aws.params.Name;
+  var parameters = aws.params.Parameters;
+  if (!instanceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
+  }
   if (!name) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
   }
@@ -87,73 +43,52 @@ module.exports.DescribeDocument = function DescribeDocument(aws) {
   // TODO implement code
 
   var ret = {
-    Document: /*Sv*/{
-      PlatformTypes: /*S15*/[ '', /* ...*/ ],
-      Status: '',
-      Description: '',
+    AssociationDescription: /*Sd*/{
+      Date: awsCommon.timestamp(),
+      InstanceId: '',
       Name: '',
-      CreatedDate: awsCommon.timestamp(),
-      Sha1: '',
-      Parameters: [ {
-        Description: '',
+      Parameters: /*S8*/{} /*Map*/,
+      Status: /*Sf*/{
+        AdditionalInfo: '',
+        Date: awsCommon.timestamp(),
+        Message: '',
         Name: '',
-        DefaultValue: '',
-        Type: '',
-      }, /* ...*/ ],
+      },
     },
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.ListDocuments = function ListDocuments(aws) {
-  var maxResults = aws.params.MaxResults /* Type integer */;
-  var documentFilterList = aws.params.DocumentFilterList /* Type list */;
-  var nextToken = aws.params.NextToken;
+module.exports.CreateAssociationBatch = function CreateAssociationBatch(aws) {
+  var entries = aws.params.Entries /* Type list */;
+  if (!entries) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Entries'];
+  }
 
 
   // TODO implement code
 
   var ret = {
-    NextToken: '',
-    DocumentIdentifiers: [ {
-      Name: '',
-      PlatformTypes: /*S15*/[ '', /* ...*/ ],
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListCommandInvocations = function ListCommandInvocations(aws) {
-  var maxResults = aws.params.MaxResults /* Type integer */;
-  var commandId = aws.params.CommandId;
-  var details = aws.params.Details /* Type boolean */;
-  var nextToken = aws.params.NextToken;
-  var filters = aws.params.Filters;
-  var instanceId = aws.params.InstanceId;
-
-
-  // TODO implement code
-
-  var ret = {
-    NextToken: '',
-    CommandInvocations: [ {
-      CommandId: '',
-      Comment: '',
-      DocumentName: '',
-      Status: '',
-      RequestedDateTime: awsCommon.timestamp(),
-      CommandPlugins: [ {
-        ResponseStartDateTime: awsCommon.timestamp(),
-        ResponseFinishDateTime: awsCommon.timestamp(),
-        Status: '',
-        ResponseCode: 0,
+    Failed: [ {
+      Entry: /*Sl*/{
+        InstanceId: '',
         Name: '',
-        Output: '',
-        OutputS3KeyPrefix: '',
-        OutputS3BucketName: '',
-      }, /* ...*/ ],
-      TraceOutput: '',
+        Parameters: /*S8*/{} /*Map*/,
+      },
+      Fault: '',
+      Message: '',
+    }, /* ...*/ ],
+    Successful: [ /*Sd*/{
+      Date: awsCommon.timestamp(),
       InstanceId: '',
+      Name: '',
+      Parameters: /*S8*/{} /*Map*/,
+      Status: /*Sf*/{
+        AdditionalInfo: '',
+        Date: awsCommon.timestamp(),
+        Message: '',
+        Name: '',
+      },
     }, /* ...*/ ],
   };
   return [200, ret];
@@ -174,108 +109,38 @@ module.exports.CreateDocument = function CreateDocument(aws) {
 
   var ret = {
     DocumentDescription: /*Sv*/{
-      PlatformTypes: /*S15*/[ '', /* ...*/ ],
-      Status: '',
+      CreatedDate: awsCommon.timestamp(),
       Description: '',
       Name: '',
-      CreatedDate: awsCommon.timestamp(),
-      Sha1: '',
       Parameters: [ {
+        DefaultValue: '',
         Description: '',
         Name: '',
-        DefaultValue: '',
         Type: '',
       }, /* ...*/ ],
+      PlatformTypes: /*S15*/[ '', /* ...*/ ],
+      Sha1: '',
+      Status: '',
     },
   };
   return [200, ret];
 };
 // -----------------------------------
 module.exports.DeleteAssociation = function DeleteAssociation(aws) {
-  var name = aws.params.Name;
   var instanceId = aws.params.InstanceId;
-  if (!name) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
-  }
+  var name = aws.params.Name;
   if (!instanceId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
   }
-
-
-  // TODO implement code
-
-  var ret = {
-
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateAssociationBatch = function CreateAssociationBatch(aws) {
-  var entries = aws.params.Entries /* Type list */;
-  if (!entries) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Entries'];
+  if (!name) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
   }
 
 
   // TODO implement code
 
   var ret = {
-    Failed: [ {
-      Message: '',
-      Fault: '',
-      Entry: /*Sl*/{
-        Name: '',
-        Parameters: /*S8*/{} /*Map*/,
-        InstanceId: '',
-      },
-    }, /* ...*/ ],
-    Successful: [ /*Sd*/{
-      Name: '',
-      Parameters: /*S8*/{} /*Map*/,
-      Status: /*Sf*/{
-        Name: '',
-        Message: '',
-        Date: awsCommon.timestamp(),
-        AdditionalInfo: '',
-      },
-      Date: awsCommon.timestamp(),
-      InstanceId: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.SendCommand = function SendCommand(aws) {
-  var timeoutSeconds = aws.params.TimeoutSeconds /* Type integer */;
-  var comment = aws.params.Comment;
-  var documentName = aws.params.DocumentName;
-  var instanceIds = aws.params.InstanceIds;
-  var outputS3BucketName = aws.params.OutputS3BucketName;
-  var outputS3KeyPrefix = aws.params.OutputS3KeyPrefix;
-  var parameters = aws.params.Parameters;
-  if (!instanceIds) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceIds'];
-  }
-  if (!documentName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DocumentName'];
-  }
 
-
-  // TODO implement code
-
-  var ret = {
-    Command: /*S2s*/{
-      CommandId: '',
-      Comment: '',
-      DocumentName: '',
-      Status: '',
-      RequestedDateTime: awsCommon.timestamp(),
-      ExpiresAfter: awsCommon.timestamp(),
-      InstanceIds: /*S3*/[ '', /* ...*/ ],
-      OutputS3BucketName: '',
-      OutputS3KeyPrefix: '',
-      Parameters: /*S8*/{} /*Map*/,
-    },
   };
   return [200, ret];
 };
@@ -295,6 +160,64 @@ module.exports.DeleteDocument = function DeleteDocument(aws) {
   return [200, ret];
 };
 // -----------------------------------
+module.exports.DescribeAssociation = function DescribeAssociation(aws) {
+  var instanceId = aws.params.InstanceId;
+  var name = aws.params.Name;
+  if (!instanceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
+  }
+  if (!name) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    AssociationDescription: /*Sd*/{
+      Date: awsCommon.timestamp(),
+      InstanceId: '',
+      Name: '',
+      Parameters: /*S8*/{} /*Map*/,
+      Status: /*Sf*/{
+        AdditionalInfo: '',
+        Date: awsCommon.timestamp(),
+        Message: '',
+        Name: '',
+      },
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeDocument = function DescribeDocument(aws) {
+  var name = aws.params.Name;
+  if (!name) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Document: /*Sv*/{
+      CreatedDate: awsCommon.timestamp(),
+      Description: '',
+      Name: '',
+      Parameters: [ {
+        DefaultValue: '',
+        Description: '',
+        Name: '',
+        Type: '',
+      }, /* ...*/ ],
+      PlatformTypes: /*S15*/[ '', /* ...*/ ],
+      Sha1: '',
+      Status: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.DescribeInstanceInformation = function DescribeInstanceInformation(aws) {
   var instanceInformationFilterList = aws.params.InstanceInformationFilterList /* Type list */;
   var maxResults = aws.params.MaxResults /* Type integer */;
@@ -304,46 +227,170 @@ module.exports.DescribeInstanceInformation = function DescribeInstanceInformatio
   // TODO implement code
 
   var ret = {
-    NextToken: '',
     InstanceInformationList: [ {
-      PlatformName: '',
-      PlatformVersion: '',
-      LastPingDateTime: awsCommon.timestamp(),
-      PlatformType: '',
-      IsLatestVersion: false,
-      InstanceId: '',
       AgentVersion: '',
+      InstanceId: '',
+      IsLatestVersion: false,
+      LastPingDateTime: awsCommon.timestamp(),
       PingStatus: '',
+      PlatformName: '',
+      PlatformType: '',
+      PlatformVersion: '',
     }, /* ...*/ ],
+    NextToken: '',
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DescribeAssociation = function DescribeAssociation(aws) {
+module.exports.GetDocument = function GetDocument(aws) {
   var name = aws.params.Name;
-  var instanceId = aws.params.InstanceId;
   if (!name) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
-  }
-  if (!instanceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
   }
 
 
   // TODO implement code
 
   var ret = {
-    AssociationDescription: /*Sd*/{
-      Name: '',
-      Parameters: /*S8*/{} /*Map*/,
-      Status: /*Sf*/{
-        Name: '',
-        Message: '',
-        Date: awsCommon.timestamp(),
-        AdditionalInfo: '',
-      },
-      Date: awsCommon.timestamp(),
+    Content: '',
+    Name: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListAssociations = function ListAssociations(aws) {
+  var associationFilterList = aws.params.AssociationFilterList /* Type list */;
+  var maxResults = aws.params.MaxResults /* Type integer */;
+  var nextToken = aws.params.NextToken;
+  if (!associationFilterList) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AssociationFilterList'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Associations: [ {
       InstanceId: '',
+      Name: '',
+    }, /* ...*/ ],
+    NextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListCommandInvocations = function ListCommandInvocations(aws) {
+  var commandId = aws.params.CommandId;
+  var details = aws.params.Details /* Type boolean */;
+  var filters = aws.params.Filters;
+  var instanceId = aws.params.InstanceId;
+  var maxResults = aws.params.MaxResults /* Type integer */;
+  var nextToken = aws.params.NextToken;
+
+
+  // TODO implement code
+
+  var ret = {
+    CommandInvocations: [ {
+      CommandId: '',
+      CommandPlugins: [ {
+        Name: '',
+        Output: '',
+        OutputS3BucketName: '',
+        OutputS3KeyPrefix: '',
+        ResponseCode: 0,
+        ResponseFinishDateTime: awsCommon.timestamp(),
+        ResponseStartDateTime: awsCommon.timestamp(),
+        Status: '',
+      }, /* ...*/ ],
+      Comment: '',
+      DocumentName: '',
+      InstanceId: '',
+      RequestedDateTime: awsCommon.timestamp(),
+      Status: '',
+      TraceOutput: '',
+    }, /* ...*/ ],
+    NextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListCommands = function ListCommands(aws) {
+  var commandId = aws.params.CommandId;
+  var filters = aws.params.Filters;
+  var instanceId = aws.params.InstanceId;
+  var maxResults = aws.params.MaxResults /* Type integer */;
+  var nextToken = aws.params.NextToken;
+
+
+  // TODO implement code
+
+  var ret = {
+    Commands: [ /*S2s*/{
+      CommandId: '',
+      Comment: '',
+      DocumentName: '',
+      ExpiresAfter: awsCommon.timestamp(),
+      InstanceIds: /*S3*/[ '', /* ...*/ ],
+      OutputS3BucketName: '',
+      OutputS3KeyPrefix: '',
+      Parameters: /*S8*/{} /*Map*/,
+      RequestedDateTime: awsCommon.timestamp(),
+      Status: '',
+    }, /* ...*/ ],
+    NextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListDocuments = function ListDocuments(aws) {
+  var documentFilterList = aws.params.DocumentFilterList /* Type list */;
+  var maxResults = aws.params.MaxResults /* Type integer */;
+  var nextToken = aws.params.NextToken;
+
+
+  // TODO implement code
+
+  var ret = {
+    DocumentIdentifiers: [ {
+      Name: '',
+      PlatformTypes: /*S15*/[ '', /* ...*/ ],
+    }, /* ...*/ ],
+    NextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.SendCommand = function SendCommand(aws) {
+  var comment = aws.params.Comment;
+  var documentName = aws.params.DocumentName;
+  var instanceIds = aws.params.InstanceIds;
+  var outputS3BucketName = aws.params.OutputS3BucketName;
+  var outputS3KeyPrefix = aws.params.OutputS3KeyPrefix;
+  var parameters = aws.params.Parameters;
+  var timeoutSeconds = aws.params.TimeoutSeconds /* Type integer */;
+  if (!documentName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DocumentName'];
+  }
+  if (!instanceIds) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceIds'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Command: /*S2s*/{
+      CommandId: '',
+      Comment: '',
+      DocumentName: '',
+      ExpiresAfter: awsCommon.timestamp(),
+      InstanceIds: /*S3*/[ '', /* ...*/ ],
+      OutputS3BucketName: '',
+      OutputS3KeyPrefix: '',
+      Parameters: /*S8*/{} /*Map*/,
+      RequestedDateTime: awsCommon.timestamp(),
+      Status: '',
     },
   };
   return [200, ret];
@@ -351,80 +398,33 @@ module.exports.DescribeAssociation = function DescribeAssociation(aws) {
 // -----------------------------------
 module.exports.UpdateAssociationStatus = function UpdateAssociationStatus(aws) {
   var associationStatus = aws.params.AssociationStatus;
-  var name = aws.params.Name;
   var instanceId = aws.params.InstanceId;
-  if (!name) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
-  }
-  if (!instanceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
-  }
+  var name = aws.params.Name;
   if (!associationStatus) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AssociationStatus'];
   }
-
-
-  // TODO implement code
-
-  var ret = {
-    AssociationDescription: /*Sd*/{
-      Name: '',
-      Parameters: /*S8*/{} /*Map*/,
-      Status: /*Sf*/{
-        Name: '',
-        Message: '',
-        Date: awsCommon.timestamp(),
-        AdditionalInfo: '',
-      },
-      Date: awsCommon.timestamp(),
-      InstanceId: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CancelCommand = function CancelCommand(aws) {
-  var instanceIds = aws.params.InstanceIds;
-  var commandId = aws.params.CommandId;
-  if (!commandId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CommandId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateAssociation = function CreateAssociation(aws) {
-  var name = aws.params.Name;
-  var parameters = aws.params.Parameters;
-  var instanceId = aws.params.InstanceId;
-  if (!name) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
-  }
   if (!instanceId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
   }
+  if (!name) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
+  }
 
 
   // TODO implement code
 
   var ret = {
     AssociationDescription: /*Sd*/{
+      Date: awsCommon.timestamp(),
+      InstanceId: '',
       Name: '',
       Parameters: /*S8*/{} /*Map*/,
       Status: /*Sf*/{
-        Name: '',
-        Message: '',
-        Date: awsCommon.timestamp(),
         AdditionalInfo: '',
+        Date: awsCommon.timestamp(),
+        Message: '',
+        Name: '',
       },
-      Date: awsCommon.timestamp(),
-      InstanceId: '',
     },
   };
   return [200, ret];

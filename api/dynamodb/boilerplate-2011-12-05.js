@@ -12,44 +12,6 @@ const awsCommon = require('../../lib/aws-common');
 // Setup input and output to use AWS protocol json
 require('../../lib/aws-common/shape_http')('json', module.exports, null);
 // -----------------------------------
-module.exports.DeleteTable = function DeleteTable(aws) {
-  var tableName = aws.params.TableName;
-  if (!tableName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TableName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    TableDescription: /*S15*/{
-      TableSizeBytes: 0 /*Long*/,
-      TableName: '',
-      ItemCount: 0 /*Long*/,
-      KeySchema: /*Sy*/{
-        HashKeyElement: /*Sz*/{
-          AttributeName: '',
-          AttributeType: '',
-        },
-        RangeKeyElement: /*Sz*/{
-          AttributeName: '',
-          AttributeType: '',
-        },
-      },
-      ProvisionedThroughput: {
-        LastIncreaseDateTime: awsCommon.timestamp(),
-        LastDecreaseDateTime: awsCommon.timestamp(),
-        NumberOfDecreasesToday: 0 /*Long*/,
-        WriteCapacityUnits: 0 /*Long*/,
-        ReadCapacityUnits: 0 /*Long*/,
-      },
-      CreationDateTime: awsCommon.timestamp(),
-      TableStatus: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
 module.exports.BatchGetItem = function BatchGetItem(aws) {
   var requestItems = aws.params.RequestItems;
   if (!requestItems) {
@@ -60,8 +22,8 @@ module.exports.BatchGetItem = function BatchGetItem(aws) {
   // TODO implement code
 
   var ret = {
-    UnprocessedKeys: /*S2*/{} /*Map*/,
     Responses: {} /*Map*/,
+    UnprocessedKeys: /*S2*/{} /*Map*/,
   };
   return [200, ret];
 };
@@ -76,22 +38,166 @@ module.exports.BatchWriteItem = function BatchWriteItem(aws) {
   // TODO implement code
 
   var ret = {
-    UnprocessedItems: /*So*/{} /*Map*/,
     Responses: {} /*Map*/,
+    UnprocessedItems: /*So*/{} /*Map*/,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateTable = function CreateTable(aws) {
+  var keySchema = aws.params.KeySchema;
+  var provisionedThroughput = aws.params.ProvisionedThroughput;
+  var tableName = aws.params.TableName;
+  if (!keySchema) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter KeySchema'];
+  }
+  if (!provisionedThroughput) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ProvisionedThroughput'];
+  }
+  if (!tableName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TableName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    TableDescription: /*S15*/{
+      CreationDateTime: awsCommon.timestamp(),
+      ItemCount: 0 /*Long*/,
+      KeySchema: /*Sy*/{
+        HashKeyElement: /*Sz*/{
+          AttributeName: '',
+          AttributeType: '',
+        },
+        RangeKeyElement: /*Sz*/{
+          AttributeName: '',
+          AttributeType: '',
+        },
+      },
+      ProvisionedThroughput: {
+        LastDecreaseDateTime: awsCommon.timestamp(),
+        LastIncreaseDateTime: awsCommon.timestamp(),
+        NumberOfDecreasesToday: 0 /*Long*/,
+        ReadCapacityUnits: 0 /*Long*/,
+        WriteCapacityUnits: 0 /*Long*/,
+      },
+      TableName: '',
+      TableSizeBytes: 0 /*Long*/,
+      TableStatus: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteItem = function DeleteItem(aws) {
+  var expected = aws.params.Expected;
+  var key = aws.params.Key;
+  var returnValues = aws.params.ReturnValues;
+  var tableName = aws.params.TableName;
+  if (!key) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Key'];
+  }
+  if (!tableName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TableName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Attributes: /*Sl*/{} /*Map*/,
+    ConsumedCapacityUnits: 0.0 /*Double*/,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteTable = function DeleteTable(aws) {
+  var tableName = aws.params.TableName;
+  if (!tableName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TableName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    TableDescription: /*S15*/{
+      CreationDateTime: awsCommon.timestamp(),
+      ItemCount: 0 /*Long*/,
+      KeySchema: /*Sy*/{
+        HashKeyElement: /*Sz*/{
+          AttributeName: '',
+          AttributeType: '',
+        },
+        RangeKeyElement: /*Sz*/{
+          AttributeName: '',
+          AttributeType: '',
+        },
+      },
+      ProvisionedThroughput: {
+        LastDecreaseDateTime: awsCommon.timestamp(),
+        LastIncreaseDateTime: awsCommon.timestamp(),
+        NumberOfDecreasesToday: 0 /*Long*/,
+        ReadCapacityUnits: 0 /*Long*/,
+        WriteCapacityUnits: 0 /*Long*/,
+      },
+      TableName: '',
+      TableSizeBytes: 0 /*Long*/,
+      TableStatus: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeTable = function DescribeTable(aws) {
+  var tableName = aws.params.TableName;
+  if (!tableName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TableName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Table: /*S15*/{
+      CreationDateTime: awsCommon.timestamp(),
+      ItemCount: 0 /*Long*/,
+      KeySchema: /*Sy*/{
+        HashKeyElement: /*Sz*/{
+          AttributeName: '',
+          AttributeType: '',
+        },
+        RangeKeyElement: /*Sz*/{
+          AttributeName: '',
+          AttributeType: '',
+        },
+      },
+      ProvisionedThroughput: {
+        LastDecreaseDateTime: awsCommon.timestamp(),
+        LastIncreaseDateTime: awsCommon.timestamp(),
+        NumberOfDecreasesToday: 0 /*Long*/,
+        ReadCapacityUnits: 0 /*Long*/,
+        WriteCapacityUnits: 0 /*Long*/,
+      },
+      TableName: '',
+      TableSizeBytes: 0 /*Long*/,
+      TableStatus: '',
+    },
   };
   return [200, ret];
 };
 // -----------------------------------
 module.exports.GetItem = function GetItem(aws) {
-  var consistentRead = aws.params.ConsistentRead /* Type boolean */;
-  var tableName = aws.params.TableName;
-  var key = aws.params.Key;
   var attributesToGet = aws.params.AttributesToGet;
-  if (!tableName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TableName'];
-  }
+  var consistentRead = aws.params.ConsistentRead /* Type boolean */;
+  var key = aws.params.Key;
+  var tableName = aws.params.TableName;
   if (!key) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Key'];
+  }
+  if (!tableName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TableName'];
   }
 
 
@@ -100,52 +206,6 @@ module.exports.GetItem = function GetItem(aws) {
   var ret = {
     ConsumedCapacityUnits: 0.0 /*Double*/,
     Item: /*Sl*/{} /*Map*/,
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.Query = function Query(aws) {
-  var consistentRead = aws.params.ConsistentRead /* Type boolean */;
-  var count = aws.params.Count /* Type boolean */;
-  var tableName = aws.params.TableName;
-  var limit = aws.params.Limit /* Type integer */;
-  var rangeKeyCondition = aws.params.RangeKeyCondition;
-  var attributesToGet = aws.params.AttributesToGet;
-  var exclusiveStartKey = aws.params.ExclusiveStartKey;
-  var hashKeyValue = aws.params.HashKeyValue;
-  var scanIndexForward = aws.params.ScanIndexForward /* Type boolean */;
-  if (!tableName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TableName'];
-  }
-  if (!hashKeyValue) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HashKeyValue'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Count: 0,
-    ConsumedCapacityUnits: 0.0 /*Double*/,
-    Items: /*Sk*/[ /*Sl*/{} /*Map*/, /* ...*/ ],
-    LastEvaluatedKey: /*S6*/{
-      HashKeyElement: /*S7*/{
-        B: null /*Blob*/,
-        NS: [ '', /* ...*/ ],
-        SS: [ '', /* ...*/ ],
-        BS: [ null /*Blob*/, /* ...*/ ],
-        N: '',
-        S: '',
-      },
-      RangeKeyElement: /*S7*/{
-        B: null /*Blob*/,
-        NS: [ '', /* ...*/ ],
-        SS: [ '', /* ...*/ ],
-        BS: [ null /*Blob*/, /* ...*/ ],
-        N: '',
-        S: '',
-      },
-    },
   };
   return [200, ret];
 };
@@ -164,16 +224,16 @@ module.exports.ListTables = function ListTables(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DeleteItem = function DeleteItem(aws) {
-  var tableName = aws.params.TableName;
+module.exports.PutItem = function PutItem(aws) {
   var expected = aws.params.Expected;
-  var key = aws.params.Key;
+  var item = aws.params.Item;
   var returnValues = aws.params.ReturnValues;
+  var tableName = aws.params.TableName;
+  if (!item) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Item'];
+  }
   if (!tableName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TableName'];
-  }
-  if (!key) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Key'];
   }
 
 
@@ -186,7 +246,58 @@ module.exports.DeleteItem = function DeleteItem(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DescribeTable = function DescribeTable(aws) {
+module.exports.Query = function Query(aws) {
+  var attributesToGet = aws.params.AttributesToGet;
+  var consistentRead = aws.params.ConsistentRead /* Type boolean */;
+  var count = aws.params.Count /* Type boolean */;
+  var exclusiveStartKey = aws.params.ExclusiveStartKey;
+  var hashKeyValue = aws.params.HashKeyValue;
+  var limit = aws.params.Limit /* Type integer */;
+  var rangeKeyCondition = aws.params.RangeKeyCondition;
+  var scanIndexForward = aws.params.ScanIndexForward /* Type boolean */;
+  var tableName = aws.params.TableName;
+  if (!hashKeyValue) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HashKeyValue'];
+  }
+  if (!tableName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TableName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ConsumedCapacityUnits: 0.0 /*Double*/,
+    Count: 0,
+    Items: /*Sk*/[ /*Sl*/{} /*Map*/, /* ...*/ ],
+    LastEvaluatedKey: /*S6*/{
+      HashKeyElement: /*S7*/{
+        B: null /*Blob*/,
+        BS: [ null /*Blob*/, /* ...*/ ],
+        N: '',
+        NS: [ '', /* ...*/ ],
+        S: '',
+        SS: [ '', /* ...*/ ],
+      },
+      RangeKeyElement: /*S7*/{
+        B: null /*Blob*/,
+        BS: [ null /*Blob*/, /* ...*/ ],
+        N: '',
+        NS: [ '', /* ...*/ ],
+        S: '',
+        SS: [ '', /* ...*/ ],
+      },
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.Scan = function Scan(aws) {
+  var attributesToGet = aws.params.AttributesToGet;
+  var count = aws.params.Count /* Type boolean */;
+  var exclusiveStartKey = aws.params.ExclusiveStartKey;
+  var limit = aws.params.Limit /* Type integer */;
+  var scanFilter = aws.params.ScanFilter /* Type map */;
   var tableName = aws.params.TableName;
   if (!tableName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TableName'];
@@ -196,44 +307,46 @@ module.exports.DescribeTable = function DescribeTable(aws) {
   // TODO implement code
 
   var ret = {
-    Table: /*S15*/{
-      TableSizeBytes: 0 /*Long*/,
-      TableName: '',
-      ItemCount: 0 /*Long*/,
-      KeySchema: /*Sy*/{
-        HashKeyElement: /*Sz*/{
-          AttributeName: '',
-          AttributeType: '',
-        },
-        RangeKeyElement: /*Sz*/{
-          AttributeName: '',
-          AttributeType: '',
-        },
+    ConsumedCapacityUnits: 0.0 /*Double*/,
+    Count: 0,
+    Items: /*Sk*/[ /*Sl*/{} /*Map*/, /* ...*/ ],
+    LastEvaluatedKey: /*S6*/{
+      HashKeyElement: /*S7*/{
+        B: null /*Blob*/,
+        BS: [ null /*Blob*/, /* ...*/ ],
+        N: '',
+        NS: [ '', /* ...*/ ],
+        S: '',
+        SS: [ '', /* ...*/ ],
       },
-      ProvisionedThroughput: {
-        LastIncreaseDateTime: awsCommon.timestamp(),
-        LastDecreaseDateTime: awsCommon.timestamp(),
-        NumberOfDecreasesToday: 0 /*Long*/,
-        WriteCapacityUnits: 0 /*Long*/,
-        ReadCapacityUnits: 0 /*Long*/,
+      RangeKeyElement: /*S7*/{
+        B: null /*Blob*/,
+        BS: [ null /*Blob*/, /* ...*/ ],
+        N: '',
+        NS: [ '', /* ...*/ ],
+        S: '',
+        SS: [ '', /* ...*/ ],
       },
-      CreationDateTime: awsCommon.timestamp(),
-      TableStatus: '',
     },
+    ScannedCount: 0,
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.PutItem = function PutItem(aws) {
+module.exports.UpdateItem = function UpdateItem(aws) {
+  var attributeUpdates = aws.params.AttributeUpdates /* Type map */;
   var expected = aws.params.Expected;
-  var tableName = aws.params.TableName;
-  var item = aws.params.Item;
+  var key = aws.params.Key;
   var returnValues = aws.params.ReturnValues;
+  var tableName = aws.params.TableName;
+  if (!attributeUpdates) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AttributeUpdates'];
+  }
+  if (!key) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Key'];
+  }
   if (!tableName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TableName'];
-  }
-  if (!item) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Item'];
   }
 
 
@@ -247,13 +360,13 @@ module.exports.PutItem = function PutItem(aws) {
 };
 // -----------------------------------
 module.exports.UpdateTable = function UpdateTable(aws) {
-  var tableName = aws.params.TableName;
   var provisionedThroughput = aws.params.ProvisionedThroughput;
-  if (!tableName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TableName'];
-  }
+  var tableName = aws.params.TableName;
   if (!provisionedThroughput) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ProvisionedThroughput'];
+  }
+  if (!tableName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TableName'];
   }
 
 
@@ -261,8 +374,7 @@ module.exports.UpdateTable = function UpdateTable(aws) {
 
   var ret = {
     TableDescription: /*S15*/{
-      TableSizeBytes: 0 /*Long*/,
-      TableName: '',
+      CreationDateTime: awsCommon.timestamp(),
       ItemCount: 0 /*Long*/,
       KeySchema: /*Sy*/{
         HashKeyElement: /*Sz*/{
@@ -275,126 +387,14 @@ module.exports.UpdateTable = function UpdateTable(aws) {
         },
       },
       ProvisionedThroughput: {
-        LastIncreaseDateTime: awsCommon.timestamp(),
         LastDecreaseDateTime: awsCommon.timestamp(),
+        LastIncreaseDateTime: awsCommon.timestamp(),
         NumberOfDecreasesToday: 0 /*Long*/,
-        WriteCapacityUnits: 0 /*Long*/,
         ReadCapacityUnits: 0 /*Long*/,
+        WriteCapacityUnits: 0 /*Long*/,
       },
-      CreationDateTime: awsCommon.timestamp(),
-      TableStatus: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.UpdateItem = function UpdateItem(aws) {
-  var tableName = aws.params.TableName;
-  var expected = aws.params.Expected;
-  var key = aws.params.Key;
-  var attributeUpdates = aws.params.AttributeUpdates /* Type map */;
-  var returnValues = aws.params.ReturnValues;
-  if (!tableName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TableName'];
-  }
-  if (!key) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Key'];
-  }
-  if (!attributeUpdates) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AttributeUpdates'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Attributes: /*Sl*/{} /*Map*/,
-    ConsumedCapacityUnits: 0.0 /*Double*/,
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.Scan = function Scan(aws) {
-  var count = aws.params.Count /* Type boolean */;
-  var tableName = aws.params.TableName;
-  var limit = aws.params.Limit /* Type integer */;
-  var attributesToGet = aws.params.AttributesToGet;
-  var exclusiveStartKey = aws.params.ExclusiveStartKey;
-  var scanFilter = aws.params.ScanFilter /* Type map */;
-  if (!tableName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TableName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    LastEvaluatedKey: /*S6*/{
-      HashKeyElement: /*S7*/{
-        B: null /*Blob*/,
-        NS: [ '', /* ...*/ ],
-        SS: [ '', /* ...*/ ],
-        BS: [ null /*Blob*/, /* ...*/ ],
-        N: '',
-        S: '',
-      },
-      RangeKeyElement: /*S7*/{
-        B: null /*Blob*/,
-        NS: [ '', /* ...*/ ],
-        SS: [ '', /* ...*/ ],
-        BS: [ null /*Blob*/, /* ...*/ ],
-        N: '',
-        S: '',
-      },
-    },
-    Count: 0,
-    ConsumedCapacityUnits: 0.0 /*Double*/,
-    Items: /*Sk*/[ /*Sl*/{} /*Map*/, /* ...*/ ],
-    ScannedCount: 0,
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateTable = function CreateTable(aws) {
-  var tableName = aws.params.TableName;
-  var keySchema = aws.params.KeySchema;
-  var provisionedThroughput = aws.params.ProvisionedThroughput;
-  if (!tableName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TableName'];
-  }
-  if (!keySchema) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter KeySchema'];
-  }
-  if (!provisionedThroughput) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ProvisionedThroughput'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    TableDescription: /*S15*/{
-      TableSizeBytes: 0 /*Long*/,
       TableName: '',
-      ItemCount: 0 /*Long*/,
-      KeySchema: /*Sy*/{
-        HashKeyElement: /*Sz*/{
-          AttributeName: '',
-          AttributeType: '',
-        },
-        RangeKeyElement: /*Sz*/{
-          AttributeName: '',
-          AttributeType: '',
-        },
-      },
-      ProvisionedThroughput: {
-        LastIncreaseDateTime: awsCommon.timestamp(),
-        LastDecreaseDateTime: awsCommon.timestamp(),
-        NumberOfDecreasesToday: 0 /*Long*/,
-        WriteCapacityUnits: 0 /*Long*/,
-        ReadCapacityUnits: 0 /*Long*/,
-      },
-      CreationDateTime: awsCommon.timestamp(),
+      TableSizeBytes: 0 /*Long*/,
       TableStatus: '',
     },
   };

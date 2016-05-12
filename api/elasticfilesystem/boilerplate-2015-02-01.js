@@ -12,41 +12,40 @@ const awsCommon = require('../../lib/aws-common');
 // Setup input and output to use AWS protocol rest-json
 require('../../lib/aws-common/shape_http')('rest-json', module.exports, null);
 // -----------------------------------
-module.exports.DescribeMountTargets = awsCommon.as(
-  'GET',
-  '/2015-02-01/mount-targets',
-  function DescribeMountTargets(aws) {
-    var marker = aws.params.Marker;
-    var maxItems = aws.params.MaxItems /* Type integer */;
-    var mountTargetId = aws.params.MountTargetId;
-    var fileSystemId = aws.params.FileSystemId;
+module.exports.CreateFileSystem = awsCommon.as(
+  '/2015-02-01/file-systems',
+  function CreateFileSystem(aws) {
+    var creationToken = aws.params.CreationToken;
+    if (!creationToken) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CreationToken'];
+    }
 
 
     // TODO implement code
 
-    var ret = {
-      Marker: '',
-      NextMarker: '',
-      MountTargets: [ /*Sh*/{
-        NetworkInterfaceId: '',
-        LifeCycleState: '',
-        OwnerId: '',
-        FileSystemId: '',
-        IpAddress: '',
-        MountTargetId: '',
-        SubnetId: '',
-      }, /* ...*/ ],
+    var ret = /*S3*/{
+      CreationTime: awsCommon.timestamp(),
+      CreationToken: '',
+      FileSystemId: '',
+      LifeCycleState: '',
+      Name: '',
+      NumberOfMountTargets: 0,
+      OwnerId: '',
+      SizeInBytes: {
+        Timestamp: awsCommon.timestamp(),
+        Value: 0 /*Long*/,
+      },
     };
-    return [200, ret];
+    return [201, ret];
   });
 // -----------------------------------
 module.exports.CreateMountTarget = awsCommon.as(
   '/2015-02-01/mount-targets',
   function CreateMountTarget(aws) {
+    var fileSystemId = aws.params.FileSystemId;
     var ipAddress = aws.params.IpAddress;
     var securityGroups = aws.params.SecurityGroups;
     var subnetId = aws.params.SubnetId;
-    var fileSystemId = aws.params.FileSystemId;
     if (!fileSystemId) {
       return [400, 'Sender', 'MissingParameter', 'Did not specify parameter FileSystemId'];
     }
@@ -58,92 +57,27 @@ module.exports.CreateMountTarget = awsCommon.as(
     // TODO implement code
 
     var ret = /*Sh*/{
-      NetworkInterfaceId: '',
-      LifeCycleState: '',
-      OwnerId: '',
       FileSystemId: '',
       IpAddress: '',
+      LifeCycleState: '',
       MountTargetId: '',
+      NetworkInterfaceId: '',
+      OwnerId: '',
       SubnetId: '',
     };
     return [200, ret];
   });
 // -----------------------------------
-module.exports.DeleteTags = awsCommon.as(
-  '/2015-02-01/delete-tags/:FileSystemId',
-  function DeleteTags(aws) {
-    var tagKeys = aws.params.TagKeys /* Type list */;
+module.exports.CreateTags = awsCommon.as(
+  '/2015-02-01/create-tags/:FileSystemId',
+  function CreateTags(aws) {
     var fileSystemId = aws.reqParams.FileSystemId;
+    var tags = aws.params.Tags;
     if (!fileSystemId) {
       return [400, 'Sender', 'MissingParameter', 'Did not specify parameter FileSystemId'];
     }
-    if (!tagKeys) {
-      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TagKeys'];
-    }
-
-
-    // TODO implement code
-
-    var ret = {};
-    return [204, ret];
-  });
-// -----------------------------------
-module.exports.DescribeFileSystems = awsCommon.as(
-  'GET',
-  '/2015-02-01/file-systems',
-  function DescribeFileSystems(aws) {
-    var marker = aws.params.Marker;
-    var maxItems = aws.params.MaxItems /* Type integer */;
-    var creationToken = aws.params.CreationToken;
-    var fileSystemId = aws.params.FileSystemId;
-
-
-    // TODO implement code
-
-    var ret = {
-      Marker: '',
-      NextMarker: '',
-      FileSystems: [ /*S3*/{
-        SizeInBytes: {
-          Timestamp: awsCommon.timestamp(),
-          Value: 0 /*Long*/,
-        },
-        LifeCycleState: '',
-        OwnerId: '',
-        CreationToken: '',
-        NumberOfMountTargets: 0,
-        FileSystemId: '',
-        CreationTime: awsCommon.timestamp(),
-        Name: '',
-      }, /* ...*/ ],
-    };
-    return [200, ret];
-  });
-// -----------------------------------
-module.exports.DeleteMountTarget = awsCommon.as(
-  'DELETE',
-  '/2015-02-01/mount-targets/:MountTargetId',
-  function DeleteMountTarget(aws) {
-    var mountTargetId = aws.reqParams.MountTargetId;
-    if (!mountTargetId) {
-      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MountTargetId'];
-    }
-
-
-    // TODO implement code
-
-    var ret = {};
-    return [204, ret];
-  });
-// -----------------------------------
-module.exports.ModifyMountTargetSecurityGroups = awsCommon.as(
-  'PUT',
-  '/2015-02-01/mount-targets/:MountTargetId/security-groups',
-  function ModifyMountTargetSecurityGroups(aws) {
-    var securityGroups = aws.params.SecurityGroups;
-    var mountTargetId = aws.reqParams.MountTargetId;
-    if (!mountTargetId) {
-      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MountTargetId'];
+    if (!tags) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Tags'];
     }
 
 
@@ -169,54 +103,69 @@ module.exports.DeleteFileSystem = awsCommon.as(
     return [204, ret];
   });
 // -----------------------------------
-module.exports.CreateFileSystem = awsCommon.as(
-  '/2015-02-01/file-systems',
-  function CreateFileSystem(aws) {
-    var creationToken = aws.params.CreationToken;
-    if (!creationToken) {
-      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CreationToken'];
+module.exports.DeleteMountTarget = awsCommon.as(
+  'DELETE',
+  '/2015-02-01/mount-targets/:MountTargetId',
+  function DeleteMountTarget(aws) {
+    var mountTargetId = aws.reqParams.MountTargetId;
+    if (!mountTargetId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MountTargetId'];
     }
 
 
     // TODO implement code
 
-    var ret = /*S3*/{
-      SizeInBytes: {
-        Timestamp: awsCommon.timestamp(),
-        Value: 0 /*Long*/,
-      },
-      LifeCycleState: '',
-      OwnerId: '',
-      CreationToken: '',
-      NumberOfMountTargets: 0,
-      FileSystemId: '',
-      CreationTime: awsCommon.timestamp(),
-      Name: '',
-    };
-    return [201, ret];
+    var ret = {};
+    return [204, ret];
   });
 // -----------------------------------
-module.exports.DescribeTags = awsCommon.as(
-  'GET',
-  '/2015-02-01/tags/:FileSystemId/',
-  function DescribeTags(aws) {
-    var marker = aws.params.Marker;
-    var maxItems = aws.params.MaxItems /* Type integer */;
+module.exports.DeleteTags = awsCommon.as(
+  '/2015-02-01/delete-tags/:FileSystemId',
+  function DeleteTags(aws) {
     var fileSystemId = aws.reqParams.FileSystemId;
+    var tagKeys = aws.params.TagKeys /* Type list */;
     if (!fileSystemId) {
       return [400, 'Sender', 'MissingParameter', 'Did not specify parameter FileSystemId'];
     }
+    if (!tagKeys) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TagKeys'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {};
+    return [204, ret];
+  });
+// -----------------------------------
+module.exports.DescribeFileSystems = awsCommon.as(
+  'GET',
+  '/2015-02-01/file-systems',
+  function DescribeFileSystems(aws) {
+    var creationToken = aws.params.CreationToken;
+    var fileSystemId = aws.params.FileSystemId;
+    var marker = aws.params.Marker;
+    var maxItems = aws.params.MaxItems /* Type integer */;
 
 
     // TODO implement code
 
     var ret = {
+      FileSystems: [ /*S3*/{
+        CreationTime: awsCommon.timestamp(),
+        CreationToken: '',
+        FileSystemId: '',
+        LifeCycleState: '',
+        Name: '',
+        NumberOfMountTargets: 0,
+        OwnerId: '',
+        SizeInBytes: {
+          Timestamp: awsCommon.timestamp(),
+          Value: 0 /*Long*/,
+        },
+      }, /* ...*/ ],
       Marker: '',
       NextMarker: '',
-      Tags: /*Sl*/[ {
-        Value: '',
-        Key: '',
-      }, /* ...*/ ],
     };
     return [200, ret];
   });
@@ -239,16 +188,67 @@ module.exports.DescribeMountTargetSecurityGroups = awsCommon.as(
     return [200, ret];
   });
 // -----------------------------------
-module.exports.CreateTags = awsCommon.as(
-  '/2015-02-01/create-tags/:FileSystemId',
-  function CreateTags(aws) {
-    var tags = aws.params.Tags;
+module.exports.DescribeMountTargets = awsCommon.as(
+  'GET',
+  '/2015-02-01/mount-targets',
+  function DescribeMountTargets(aws) {
+    var fileSystemId = aws.params.FileSystemId;
+    var marker = aws.params.Marker;
+    var maxItems = aws.params.MaxItems /* Type integer */;
+    var mountTargetId = aws.params.MountTargetId;
+
+
+    // TODO implement code
+
+    var ret = {
+      Marker: '',
+      MountTargets: [ /*Sh*/{
+        FileSystemId: '',
+        IpAddress: '',
+        LifeCycleState: '',
+        MountTargetId: '',
+        NetworkInterfaceId: '',
+        OwnerId: '',
+        SubnetId: '',
+      }, /* ...*/ ],
+      NextMarker: '',
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.DescribeTags = awsCommon.as(
+  'GET',
+  '/2015-02-01/tags/:FileSystemId/',
+  function DescribeTags(aws) {
     var fileSystemId = aws.reqParams.FileSystemId;
+    var marker = aws.params.Marker;
+    var maxItems = aws.params.MaxItems /* Type integer */;
     if (!fileSystemId) {
       return [400, 'Sender', 'MissingParameter', 'Did not specify parameter FileSystemId'];
     }
-    if (!tags) {
-      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Tags'];
+
+
+    // TODO implement code
+
+    var ret = {
+      Marker: '',
+      NextMarker: '',
+      Tags: /*Sl*/[ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.ModifyMountTargetSecurityGroups = awsCommon.as(
+  'PUT',
+  '/2015-02-01/mount-targets/:MountTargetId/security-groups',
+  function ModifyMountTargetSecurityGroups(aws) {
+    var mountTargetId = aws.reqParams.MountTargetId;
+    var securityGroups = aws.params.SecurityGroups;
+    if (!mountTargetId) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MountTargetId'];
     }
 
 

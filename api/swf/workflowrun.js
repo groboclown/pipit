@@ -850,9 +850,13 @@ WorkflowRun.prototype.handleDecision = function handleDecision(p) {
         input: input,
       });
 
-      return lambda.createScheduledEvents({
+      let ret = lambda.createScheduledEvents({
         decisionTaskCompletedEventId: decisionTaskCompletedEventId,
       });
+      // ` for (let i = 0; i < ret.length; i++) {
+      // `   console.log(`[WORKFLOW ${this.workflowId}] lambda scheduled event: ${ret[i].name}`);
+      // ` }
+      return ret;
     }
 
     // .....................................................................

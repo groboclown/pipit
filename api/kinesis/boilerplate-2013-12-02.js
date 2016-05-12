@@ -12,231 +12,6 @@ const awsCommon = require('../../lib/aws-common');
 // Setup input and output to use AWS protocol json
 require('../../lib/aws-common/shape_http')('json', module.exports, null);
 // -----------------------------------
-module.exports.RemoveTagsFromStream = function RemoveTagsFromStream(aws) {
-  var tagKeys = aws.params.TagKeys /* Type list */;
-  var streamName = aws.params.StreamName;
-  if (!streamName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StreamName'];
-  }
-  if (!tagKeys) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TagKeys'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListTagsForStream = function ListTagsForStream(aws) {
-  var exclusiveStartTagKey = aws.params.ExclusiveStartTagKey;
-  var limit = aws.params.Limit /* Type integer */;
-  var streamName = aws.params.StreamName;
-  if (!streamName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StreamName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Tags: [ {
-      Value: '',
-      Key: '',
-    }, /* ...*/ ],
-    HasMoreTags: false,
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateStream = function CreateStream(aws) {
-  var shardCount = aws.params.ShardCount /* Type integer */;
-  var streamName = aws.params.StreamName;
-  if (!streamName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StreamName'];
-  }
-  if (!shardCount) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ShardCount'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.PutRecords = function PutRecords(aws) {
-  var records = aws.params.Records /* Type list */;
-  var streamName = aws.params.StreamName;
-  if (!records) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Records'];
-  }
-  if (!streamName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StreamName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Records: [ {
-      ErrorCode: '',
-      ErrorMessage: '',
-      SequenceNumber: '',
-      ShardId: '',
-    }, /* ...*/ ],
-    FailedRecordCount: 0,
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.IncreaseStreamRetentionPeriod = function IncreaseStreamRetentionPeriod(aws) {
-  var retentionPeriodHours = aws.params.RetentionPeriodHours /* Type integer */;
-  var streamName = aws.params.StreamName;
-  if (!streamName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StreamName'];
-  }
-  if (!retentionPeriodHours) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RetentionPeriodHours'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeStream = function DescribeStream(aws) {
-  var limit = aws.params.Limit /* Type integer */;
-  var streamName = aws.params.StreamName;
-  var exclusiveStartShardId = aws.params.ExclusiveStartShardId;
-  if (!streamName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StreamName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    StreamDescription: {
-      RetentionPeriodHours: 0,
-      HasMoreShards: false,
-      Shards: [ {
-        AdjacentParentShardId: '',
-        SequenceNumberRange: {
-          StartingSequenceNumber: '',
-          EndingSequenceNumber: '',
-        },
-        HashKeyRange: {
-          StartingHashKey: '',
-          EndingHashKey: '',
-        },
-        ParentShardId: '',
-        ShardId: '',
-      }, /* ...*/ ],
-      StreamARN: '',
-      StreamStatus: '',
-      StreamName: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.GetShardIterator = function GetShardIterator(aws) {
-  var startingSequenceNumber = aws.params.StartingSequenceNumber;
-  var shardIteratorType = aws.params.ShardIteratorType;
-  var streamName = aws.params.StreamName;
-  var shardId = aws.params.ShardId;
-  if (!streamName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StreamName'];
-  }
-  if (!shardId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ShardId'];
-  }
-  if (!shardIteratorType) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ShardIteratorType'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    ShardIterator: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.PutRecord = function PutRecord(aws) {
-  var explicitHashKey = aws.params.ExplicitHashKey;
-  var sequenceNumberForOrdering = aws.params.SequenceNumberForOrdering;
-  var data = aws.params.Data /* Type blob */;
-  var streamName = aws.params.StreamName;
-  var partitionKey = aws.params.PartitionKey;
-  if (!streamName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StreamName'];
-  }
-  if (!data) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Data'];
-  }
-  if (!partitionKey) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PartitionKey'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    SequenceNumber: '',
-    ShardId: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.MergeShards = function MergeShards(aws) {
-  var adjacentShardToMerge = aws.params.AdjacentShardToMerge;
-  var streamName = aws.params.StreamName;
-  var shardToMerge = aws.params.ShardToMerge;
-  if (!streamName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StreamName'];
-  }
-  if (!shardToMerge) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ShardToMerge'];
-  }
-  if (!adjacentShardToMerge) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AdjacentShardToMerge'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.SplitShard = function SplitShard(aws) {
-  var shardToSplit = aws.params.ShardToSplit;
-  var streamName = aws.params.StreamName;
-  var newStartingHashKey = aws.params.NewStartingHashKey;
-  if (!streamName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StreamName'];
-  }
-  if (!shardToSplit) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ShardToSplit'];
-  }
-  if (!newStartingHashKey) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter NewStartingHashKey'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
 module.exports.AddTagsToStream = function AddTagsToStream(aws) {
   var streamName = aws.params.StreamName;
   var tags = aws.params.Tags /* Type map */;
@@ -254,14 +29,14 @@ module.exports.AddTagsToStream = function AddTagsToStream(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DecreaseStreamRetentionPeriod = function DecreaseStreamRetentionPeriod(aws) {
-  var retentionPeriodHours = aws.params.RetentionPeriodHours /* Type integer */;
+module.exports.CreateStream = function CreateStream(aws) {
+  var shardCount = aws.params.ShardCount /* Type integer */;
   var streamName = aws.params.StreamName;
+  if (!shardCount) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ShardCount'];
+  }
   if (!streamName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StreamName'];
-  }
-  if (!retentionPeriodHours) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RetentionPeriodHours'];
   }
 
 
@@ -271,16 +46,113 @@ module.exports.DecreaseStreamRetentionPeriod = function DecreaseStreamRetentionP
   return [200, ret];
 };
 // -----------------------------------
-module.exports.ListStreams = function ListStreams(aws) {
+module.exports.DecreaseStreamRetentionPeriod = function DecreaseStreamRetentionPeriod(aws) {
+  var retentionPeriodHours = aws.params.RetentionPeriodHours /* Type integer */;
+  var streamName = aws.params.StreamName;
+  if (!retentionPeriodHours) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RetentionPeriodHours'];
+  }
+  if (!streamName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StreamName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteStream = function DeleteStream(aws) {
+  var streamName = aws.params.StreamName;
+  if (!streamName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StreamName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeStream = function DescribeStream(aws) {
+  var exclusiveStartShardId = aws.params.ExclusiveStartShardId;
   var limit = aws.params.Limit /* Type integer */;
-  var exclusiveStartStreamName = aws.params.ExclusiveStartStreamName;
+  var streamName = aws.params.StreamName;
+  if (!streamName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StreamName'];
+  }
 
 
   // TODO implement code
 
   var ret = {
-    StreamNames: [ '', /* ...*/ ],
-    HasMoreStreams: false,
+    StreamDescription: {
+      EnhancedMonitoring: [ {
+        ShardLevelMetrics: /*Sr*/[ '', /* ...*/ ],
+      }, /* ...*/ ],
+      HasMoreShards: false,
+      RetentionPeriodHours: 0,
+      Shards: [ {
+        AdjacentParentShardId: '',
+        HashKeyRange: {
+          EndingHashKey: '',
+          StartingHashKey: '',
+        },
+        ParentShardId: '',
+        SequenceNumberRange: {
+          EndingSequenceNumber: '',
+          StartingSequenceNumber: '',
+        },
+        ShardId: '',
+      }, /* ...*/ ],
+      StreamARN: '',
+      StreamName: '',
+      StreamStatus: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DisableEnhancedMonitoring = function DisableEnhancedMonitoring(aws) {
+  var shardLevelMetrics = aws.params.ShardLevelMetrics;
+  var streamName = aws.params.StreamName;
+  if (!shardLevelMetrics) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ShardLevelMetrics'];
+  }
+  if (!streamName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StreamName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = /*Su*/{
+    CurrentShardLevelMetrics: /*Sr*/[ '', /* ...*/ ],
+    DesiredShardLevelMetrics: /*Sr*/[ '', /* ...*/ ],
+    StreamName: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.EnableEnhancedMonitoring = function EnableEnhancedMonitoring(aws) {
+  var shardLevelMetrics = aws.params.ShardLevelMetrics;
+  var streamName = aws.params.StreamName;
+  if (!shardLevelMetrics) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ShardLevelMetrics'];
+  }
+  if (!streamName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StreamName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = /*Su*/{
+    CurrentShardLevelMetrics: /*Sr*/[ '', /* ...*/ ],
+    DesiredShardLevelMetrics: /*Sr*/[ '', /* ...*/ ],
+    StreamName: '',
   };
   return [200, ret];
 };
@@ -296,20 +168,194 @@ module.exports.GetRecords = function GetRecords(aws) {
   // TODO implement code
 
   var ret = {
+    MillisBehindLatest: 0 /*Long*/,
     NextShardIterator: '',
     Records: [ {
       ApproximateArrivalTimestamp: awsCommon.timestamp(),
       Data: null /*Blob*/,
-      SequenceNumber: '',
       PartitionKey: '',
+      SequenceNumber: '',
     }, /* ...*/ ],
-    MillisBehindLatest: 0 /*Long*/,
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DeleteStream = function DeleteStream(aws) {
+module.exports.GetShardIterator = function GetShardIterator(aws) {
+  var shardId = aws.params.ShardId;
+  var shardIteratorType = aws.params.ShardIteratorType;
+  var startingSequenceNumber = aws.params.StartingSequenceNumber;
   var streamName = aws.params.StreamName;
+  var timestamp = aws.params.Timestamp /* Type timestamp */;
+  if (!shardId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ShardId'];
+  }
+  if (!shardIteratorType) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ShardIteratorType'];
+  }
+  if (!streamName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StreamName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ShardIterator: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.IncreaseStreamRetentionPeriod = function IncreaseStreamRetentionPeriod(aws) {
+  var retentionPeriodHours = aws.params.RetentionPeriodHours /* Type integer */;
+  var streamName = aws.params.StreamName;
+  if (!retentionPeriodHours) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RetentionPeriodHours'];
+  }
+  if (!streamName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StreamName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListStreams = function ListStreams(aws) {
+  var exclusiveStartStreamName = aws.params.ExclusiveStartStreamName;
+  var limit = aws.params.Limit /* Type integer */;
+
+
+  // TODO implement code
+
+  var ret = {
+    HasMoreStreams: false,
+    StreamNames: [ '', /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListTagsForStream = function ListTagsForStream(aws) {
+  var exclusiveStartTagKey = aws.params.ExclusiveStartTagKey;
+  var limit = aws.params.Limit /* Type integer */;
+  var streamName = aws.params.StreamName;
+  if (!streamName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StreamName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    HasMoreTags: false,
+    Tags: [ {
+      Key: '',
+      Value: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.MergeShards = function MergeShards(aws) {
+  var adjacentShardToMerge = aws.params.AdjacentShardToMerge;
+  var shardToMerge = aws.params.ShardToMerge;
+  var streamName = aws.params.StreamName;
+  if (!adjacentShardToMerge) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AdjacentShardToMerge'];
+  }
+  if (!shardToMerge) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ShardToMerge'];
+  }
+  if (!streamName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StreamName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.PutRecord = function PutRecord(aws) {
+  var data = aws.params.Data /* Type blob */;
+  var explicitHashKey = aws.params.ExplicitHashKey;
+  var partitionKey = aws.params.PartitionKey;
+  var sequenceNumberForOrdering = aws.params.SequenceNumberForOrdering;
+  var streamName = aws.params.StreamName;
+  if (!data) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Data'];
+  }
+  if (!partitionKey) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PartitionKey'];
+  }
+  if (!streamName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StreamName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    SequenceNumber: '',
+    ShardId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.PutRecords = function PutRecords(aws) {
+  var records = aws.params.Records /* Type list */;
+  var streamName = aws.params.StreamName;
+  if (!records) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Records'];
+  }
+  if (!streamName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StreamName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    FailedRecordCount: 0,
+    Records: [ {
+      ErrorCode: '',
+      ErrorMessage: '',
+      SequenceNumber: '',
+      ShardId: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RemoveTagsFromStream = function RemoveTagsFromStream(aws) {
+  var streamName = aws.params.StreamName;
+  var tagKeys = aws.params.TagKeys /* Type list */;
+  if (!streamName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StreamName'];
+  }
+  if (!tagKeys) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TagKeys'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.SplitShard = function SplitShard(aws) {
+  var newStartingHashKey = aws.params.NewStartingHashKey;
+  var shardToSplit = aws.params.ShardToSplit;
+  var streamName = aws.params.StreamName;
+  if (!newStartingHashKey) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter NewStartingHashKey'];
+  }
+  if (!shardToSplit) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ShardToSplit'];
+  }
   if (!streamName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StreamName'];
   }

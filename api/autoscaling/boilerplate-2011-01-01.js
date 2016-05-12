@@ -12,209 +12,83 @@ const awsCommon = require('../../lib/aws-common');
 // Setup input and output to use AWS protocol query
 require('../../lib/aws-common/shape_http')('query', module.exports, 'http://autoscaling.amazonaws.com/doc/2011-01-01/');
 // -----------------------------------
-module.exports.DescribeScheduledActions = function DescribeScheduledActions(aws) {
-  var endTime = aws.params.EndTime /* Type timestamp */;
-  var startTime = aws.params.StartTime /* Type timestamp */;
-  var nextToken = aws.params.NextToken;
+module.exports.AttachInstances = function AttachInstances(aws) {
   var autoScalingGroupName = aws.params.AutoScalingGroupName;
-  var scheduledActionNames = aws.params.ScheduledActionNames /* Type list */;
-  var maxRecords = aws.params.MaxRecords /* Type integer */;
+  var instanceIds = aws.params.InstanceIds;
+  if (!autoScalingGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AutoScalingGroupName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.AttachLoadBalancers = function AttachLoadBalancers(aws) {
+  var autoScalingGroupName = aws.params.AutoScalingGroupName;
+  var loadBalancerNames = aws.params.LoadBalancerNames;
 
 
   // TODO implement code
 
   var ret = {
-    NextToken: '',
-    ScheduledUpdateGroupActions: [ {
-      EndTime: awsCommon.timestamp(),
-      Time: awsCommon.timestamp(),
-      Recurrence: '',
-      MaxSize: 0,
-      StartTime: awsCommon.timestamp(),
-      DesiredCapacity: 0,
-      ScheduledActionARN: '',
-      ScheduledActionName: '',
-      AutoScalingGroupName: '',
-      MinSize: 0,
-    }, /* ...*/ ],
+
   };
   return [200, ret];
 };
 // -----------------------------------
 module.exports.CompleteLifecycleAction = function CompleteLifecycleAction(aws) {
   var autoScalingGroupName = aws.params.AutoScalingGroupName;
-  var lifecycleActionToken = aws.params.LifecycleActionToken;
+  var instanceId = aws.params.InstanceId;
   var lifecycleActionResult = aws.params.LifecycleActionResult;
+  var lifecycleActionToken = aws.params.LifecycleActionToken;
   var lifecycleHookName = aws.params.LifecycleHookName;
-  if (!lifecycleHookName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LifecycleHookName'];
-  }
   if (!autoScalingGroupName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AutoScalingGroupName'];
-  }
-  if (!lifecycleActionToken) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LifecycleActionToken'];
   }
   if (!lifecycleActionResult) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LifecycleActionResult'];
   }
-
-
-  // TODO implement code
-
-  var ret = {
-
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeAutoScalingGroups = function DescribeAutoScalingGroups(aws) {
-  var nextToken = aws.params.NextToken;
-  var autoScalingGroupNames = aws.params.AutoScalingGroupNames;
-  var maxRecords = aws.params.MaxRecords /* Type integer */;
-
-
-  // TODO implement code
-
-  var ret = {
-    NextToken: '',
-    AutoScalingGroups: [ {
-      LaunchConfigurationName: '',
-      PlacementGroup: '',
-      HealthCheckType: '',
-      DesiredCapacity: 0,
-      EnabledMetrics: [ {
-        Granularity: '',
-        Metric: '',
-      }, /* ...*/ ],
-      SuspendedProcesses: [ {
-        SuspensionReason: '',
-        ProcessName: '',
-      }, /* ...*/ ],
-      AutoScalingGroupName: '',
-      CreatedTime: awsCommon.timestamp(),
-      MinSize: 0,
-      Tags: /*S2a*/[ {
-        ResourceId: '',
-        ResourceType: '',
-        Value: '',
-        Key: '',
-        PropagateAtLaunch: false,
-      }, /* ...*/ ],
-      LoadBalancerNames: /*S6*/[ '', /* ...*/ ],
-      Instances: [ {
-        ProtectedFromScaleIn: false,
-        InstanceId: '',
-        HealthStatus: '',
-        LaunchConfigurationName: '',
-        LifecycleState: '',
-        AvailabilityZone: '',
-      }, /* ...*/ ],
-      AutoScalingGroupARN: '',
-      AvailabilityZones: /*Sj*/[ '', /* ...*/ ],
-      Status: '',
-      VPCZoneIdentifier: '',
-      TerminationPolicies: /*Sm*/[ '', /* ...*/ ],
-      HealthCheckGracePeriod: 0,
-      MaxSize: 0,
-      DefaultCooldown: 0,
-      NewInstancesProtectedFromScaleIn: false,
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.TerminateInstanceInAutoScalingGroup = function TerminateInstanceInAutoScalingGroup(aws) {
-  var shouldDecrementDesiredCapacity = aws.params.ShouldDecrementDesiredCapacity /* Type boolean */;
-  var instanceId = aws.params.InstanceId;
-  if (!instanceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
-  }
-  if (!shouldDecrementDesiredCapacity) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ShouldDecrementDesiredCapacity'];
+  if (!lifecycleHookName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LifecycleHookName'];
   }
 
 
   // TODO implement code
 
   var ret = {
-    Activity: /*S3t*/{
-      EndTime: awsCommon.timestamp(),
-      StatusCode: '',
-      ActivityId: '',
-      StartTime: awsCommon.timestamp(),
-      StatusMessage: '',
-      Description: '',
-      Cause: '',
-      AutoScalingGroupName: '',
-      Details: '',
-      Progress: 0,
-    },
+
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DisableMetricsCollection = function DisableMetricsCollection(aws) {
-  var metrics = aws.params.Metrics;
+module.exports.CreateAutoScalingGroup = function CreateAutoScalingGroup(aws) {
   var autoScalingGroupName = aws.params.AutoScalingGroupName;
-  if (!autoScalingGroupName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AutoScalingGroupName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteTags = function DeleteTags(aws) {
-  var tags = aws.params.Tags;
-  if (!tags) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Tags'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.UpdateAutoScalingGroup = function UpdateAutoScalingGroup(aws) {
-  var maxSize = aws.params.MaxSize /* Type integer */;
-  var healthCheckType = aws.params.HealthCheckType;
-  var placementGroup = aws.params.PlacementGroup;
-  var desiredCapacity = aws.params.DesiredCapacity /* Type integer */;
-  var autoScalingGroupName = aws.params.AutoScalingGroupName;
-  var minSize = aws.params.MinSize /* Type integer */;
   var availabilityZones = aws.params.AvailabilityZones;
-  var vPCZoneIdentifier = aws.params.VPCZoneIdentifier;
-  var terminationPolicies = aws.params.TerminationPolicies;
-  var healthCheckGracePeriod = aws.params.HealthCheckGracePeriod /* Type integer */;
-  var launchConfigurationName = aws.params.LaunchConfigurationName;
   var defaultCooldown = aws.params.DefaultCooldown /* Type integer */;
-  var newInstancesProtectedFromScaleIn = aws.params.NewInstancesProtectedFromScaleIn /* Type boolean */;
-  if (!autoScalingGroupName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AutoScalingGroupName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.SetDesiredCapacity = function SetDesiredCapacity(aws) {
-  var autoScalingGroupName = aws.params.AutoScalingGroupName;
-  var honorCooldown = aws.params.HonorCooldown /* Type boolean */;
   var desiredCapacity = aws.params.DesiredCapacity /* Type integer */;
+  var healthCheckGracePeriod = aws.params.HealthCheckGracePeriod /* Type integer */;
+  var healthCheckType = aws.params.HealthCheckType;
+  var instanceId = aws.params.InstanceId;
+  var launchConfigurationName = aws.params.LaunchConfigurationName;
+  var loadBalancerNames = aws.params.LoadBalancerNames;
+  var maxSize = aws.params.MaxSize /* Type integer */;
+  var minSize = aws.params.MinSize /* Type integer */;
+  var newInstancesProtectedFromScaleIn = aws.params.NewInstancesProtectedFromScaleIn /* Type boolean */;
+  var placementGroup = aws.params.PlacementGroup;
+  var tags = aws.params.Tags;
+  var terminationPolicies = aws.params.TerminationPolicies;
+  var vPCZoneIdentifier = aws.params.VPCZoneIdentifier;
   if (!autoScalingGroupName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AutoScalingGroupName'];
   }
-  if (!desiredCapacity) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DesiredCapacity'];
+  if (!maxSize) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MaxSize'];
+  }
+  if (!minSize) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MinSize'];
   }
 
 
@@ -224,186 +98,28 @@ module.exports.SetDesiredCapacity = function SetDesiredCapacity(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DeleteNotificationConfiguration = function DeleteNotificationConfiguration(aws) {
-  var topicARN = aws.params.TopicARN;
-  var autoScalingGroupName = aws.params.AutoScalingGroupName;
-  if (!autoScalingGroupName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AutoScalingGroupName'];
+module.exports.CreateLaunchConfiguration = function CreateLaunchConfiguration(aws) {
+  var associatePublicIpAddress = aws.params.AssociatePublicIpAddress /* Type boolean */;
+  var blockDeviceMappings = aws.params.BlockDeviceMappings;
+  var classicLinkVPCId = aws.params.ClassicLinkVPCId;
+  var classicLinkVPCSecurityGroups = aws.params.ClassicLinkVPCSecurityGroups;
+  var ebsOptimized = aws.params.EbsOptimized /* Type boolean */;
+  var iamInstanceProfile = aws.params.IamInstanceProfile;
+  var imageId = aws.params.ImageId;
+  var instanceId = aws.params.InstanceId;
+  var instanceMonitoring = aws.params.InstanceMonitoring;
+  var instanceType = aws.params.InstanceType;
+  var kernelId = aws.params.KernelId;
+  var keyName = aws.params.KeyName;
+  var launchConfigurationName = aws.params.LaunchConfigurationName;
+  var placementTenancy = aws.params.PlacementTenancy;
+  var ramdiskId = aws.params.RamdiskId;
+  var securityGroups = aws.params.SecurityGroups;
+  var spotPrice = aws.params.SpotPrice;
+  var userData = aws.params.UserData;
+  if (!launchConfigurationName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LaunchConfigurationName'];
   }
-  if (!topicARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TopicARN'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.EnableMetricsCollection = function EnableMetricsCollection(aws) {
-  var granularity = aws.params.Granularity;
-  var metrics = aws.params.Metrics;
-  var autoScalingGroupName = aws.params.AutoScalingGroupName;
-  if (!autoScalingGroupName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AutoScalingGroupName'];
-  }
-  if (!granularity) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Granularity'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.SuspendProcesses = function SuspendProcesses(aws) {
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeLifecycleHooks = function DescribeLifecycleHooks(aws) {
-  var lifecycleHookNames = aws.params.LifecycleHookNames /* Type list */;
-  var autoScalingGroupName = aws.params.AutoScalingGroupName;
-  if (!autoScalingGroupName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AutoScalingGroupName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    LifecycleHooks: [ {
-      HeartbeatTimeout: 0,
-      NotificationTargetARN: '',
-      DefaultResult: '',
-      LifecycleHookName: '',
-      NotificationMetadata: '',
-      AutoScalingGroupName: '',
-      GlobalTimeout: 0,
-      RoleARN: '',
-      LifecycleTransition: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.EnterStandby = function EnterStandby(aws) {
-  var instanceIds = aws.params.InstanceIds;
-  var autoScalingGroupName = aws.params.AutoScalingGroupName;
-  var shouldDecrementDesiredCapacity = aws.params.ShouldDecrementDesiredCapacity /* Type boolean */;
-  if (!autoScalingGroupName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AutoScalingGroupName'];
-  }
-  if (!shouldDecrementDesiredCapacity) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ShouldDecrementDesiredCapacity'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Activities: /*S3s*/[ /*S3t*/{
-      EndTime: awsCommon.timestamp(),
-      StatusCode: '',
-      ActivityId: '',
-      StartTime: awsCommon.timestamp(),
-      StatusMessage: '',
-      Description: '',
-      Cause: '',
-      AutoScalingGroupName: '',
-      Details: '',
-      Progress: 0,
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.PutNotificationConfiguration = function PutNotificationConfiguration(aws) {
-  var topicARN = aws.params.TopicARN;
-  var autoScalingGroupName = aws.params.AutoScalingGroupName;
-  var notificationTypes = aws.params.NotificationTypes;
-  if (!autoScalingGroupName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AutoScalingGroupName'];
-  }
-  if (!topicARN) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TopicARN'];
-  }
-  if (!notificationTypes) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter NotificationTypes'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeTerminationPolicyTypes = function DescribeTerminationPolicyTypes(aws) {
-
-
-  // TODO implement code
-
-  var ret = {
-    TerminationPolicyTypes: /*Sm*/[ '', /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.AttachInstances = function AttachInstances(aws) {
-  var instanceIds = aws.params.InstanceIds;
-  var autoScalingGroupName = aws.params.AutoScalingGroupName;
-  if (!autoScalingGroupName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AutoScalingGroupName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeLifecycleHookTypes = function DescribeLifecycleHookTypes(aws) {
-
-
-  // TODO implement code
-
-  var ret = {
-    LifecycleHookTypes: /*S2h*/[ '', /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeTags = function DescribeTags(aws) {
-  var filters = aws.params.Filters /* Type list */;
-  var maxRecords = aws.params.MaxRecords /* Type integer */;
-  var nextToken = aws.params.NextToken;
-
-
-  // TODO implement code
-
-  var ret = {
-    NextToken: '',
-    Tags: /*S2a*/[ {
-      ResourceId: '',
-      ResourceType: '',
-      Value: '',
-      Key: '',
-      PropagateAtLaunch: false,
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ResumeProcesses = function ResumeProcesses(aws) {
 
 
   // TODO implement code
@@ -425,250 +141,11 @@ module.exports.CreateOrUpdateTags = function CreateOrUpdateTags(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DetachLoadBalancers = function DetachLoadBalancers(aws) {
-  var loadBalancerNames = aws.params.LoadBalancerNames;
+module.exports.DeleteAutoScalingGroup = function DeleteAutoScalingGroup(aws) {
   var autoScalingGroupName = aws.params.AutoScalingGroupName;
-
-
-  // TODO implement code
-
-  var ret = {
-
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.SetInstanceProtection = function SetInstanceProtection(aws) {
-  var instanceIds = aws.params.InstanceIds;
-  var autoScalingGroupName = aws.params.AutoScalingGroupName;
-  var protectedFromScaleIn = aws.params.ProtectedFromScaleIn /* Type boolean */;
-  if (!instanceIds) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceIds'];
-  }
+  var forceDelete = aws.params.ForceDelete /* Type boolean */;
   if (!autoScalingGroupName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AutoScalingGroupName'];
-  }
-  if (!protectedFromScaleIn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ProtectedFromScaleIn'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeLaunchConfigurations = function DescribeLaunchConfigurations(aws) {
-  var nextToken = aws.params.NextToken;
-  var launchConfigurationNames = aws.params.LaunchConfigurationNames /* Type list */;
-  var maxRecords = aws.params.MaxRecords /* Type integer */;
-
-
-  // TODO implement code
-
-  var ret = {
-    NextToken: '',
-    LaunchConfigurations: [ {
-      ImageId: '',
-      PlacementTenancy: '',
-      ClassicLinkVPCSecurityGroups: /*Sx*/[ '', /* ...*/ ],
-      BlockDeviceMappings: /*Sz*/[ {
-        NoDevice: false,
-        DeviceName: '',
-        Ebs: {
-          Encrypted: false,
-          DeleteOnTermination: false,
-          SnapshotId: '',
-          VolumeSize: 0,
-          Iops: 0,
-          VolumeType: '',
-        },
-        VirtualName: '',
-      }, /* ...*/ ],
-      EbsOptimized: false,
-      ClassicLinkVPCId: '',
-      InstanceMonitoring: /*S18*/{
-        Enabled: false,
-      },
-      SecurityGroups: /*Sw*/[ '', /* ...*/ ],
-      UserData: '',
-      SpotPrice: '',
-      KeyName: '',
-      InstanceType: '',
-      CreatedTime: awsCommon.timestamp(),
-      LaunchConfigurationARN: '',
-      IamInstanceProfile: '',
-      RamdiskId: '',
-      LaunchConfigurationName: '',
-      AssociatePublicIpAddress: false,
-      KernelId: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DetachInstances = function DetachInstances(aws) {
-  var instanceIds = aws.params.InstanceIds;
-  var autoScalingGroupName = aws.params.AutoScalingGroupName;
-  var shouldDecrementDesiredCapacity = aws.params.ShouldDecrementDesiredCapacity /* Type boolean */;
-  if (!autoScalingGroupName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AutoScalingGroupName'];
-  }
-  if (!shouldDecrementDesiredCapacity) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ShouldDecrementDesiredCapacity'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Activities: /*S3s*/[ /*S3t*/{
-      EndTime: awsCommon.timestamp(),
-      StatusCode: '',
-      ActivityId: '',
-      StartTime: awsCommon.timestamp(),
-      StatusMessage: '',
-      Description: '',
-      Cause: '',
-      AutoScalingGroupName: '',
-      Details: '',
-      Progress: 0,
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeAdjustmentTypes = function DescribeAdjustmentTypes(aws) {
-
-
-  // TODO implement code
-
-  var ret = {
-    AdjustmentTypes: [ {
-      AdjustmentType: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.RecordLifecycleActionHeartbeat = function RecordLifecycleActionHeartbeat(aws) {
-  var autoScalingGroupName = aws.params.AutoScalingGroupName;
-  var lifecycleActionToken = aws.params.LifecycleActionToken;
-  var lifecycleHookName = aws.params.LifecycleHookName;
-  if (!lifecycleHookName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LifecycleHookName'];
-  }
-  if (!autoScalingGroupName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AutoScalingGroupName'];
-  }
-  if (!lifecycleActionToken) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LifecycleActionToken'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteLifecycleHook = function DeleteLifecycleHook(aws) {
-  var autoScalingGroupName = aws.params.AutoScalingGroupName;
-  var lifecycleHookName = aws.params.LifecycleHookName;
-  if (!lifecycleHookName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LifecycleHookName'];
-  }
-  if (!autoScalingGroupName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AutoScalingGroupName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.PutScalingPolicy = function PutScalingPolicy(aws) {
-  var minAdjustmentMagnitude = aws.params.MinAdjustmentMagnitude /* Type integer */;
-  var cooldown = aws.params.Cooldown /* Type integer */;
-  var minAdjustmentStep = aws.params.MinAdjustmentStep;
-  var policyType = aws.params.PolicyType;
-  var adjustmentType = aws.params.AdjustmentType;
-  var policyName = aws.params.PolicyName;
-  var stepAdjustments = aws.params.StepAdjustments;
-  var scalingAdjustment = aws.params.ScalingAdjustment /* Type integer */;
-  var autoScalingGroupName = aws.params.AutoScalingGroupName;
-  var estimatedInstanceWarmup = aws.params.EstimatedInstanceWarmup /* Type integer */;
-  var metricAggregationType = aws.params.MetricAggregationType;
-  if (!autoScalingGroupName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AutoScalingGroupName'];
-  }
-  if (!policyName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyName'];
-  }
-  if (!adjustmentType) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AdjustmentType'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    PolicyARN: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeAccountLimits = function DescribeAccountLimits(aws) {
-
-
-  // TODO implement code
-
-  var ret = {
-    NumberOfLaunchConfigurations: 0,
-    NumberOfAutoScalingGroups: 0,
-    MaxNumberOfAutoScalingGroups: 0,
-    MaxNumberOfLaunchConfigurations: 0,
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeScalingProcessTypes = function DescribeScalingProcessTypes(aws) {
-
-
-  // TODO implement code
-
-  var ret = {
-    Processes: [ {
-      ProcessName: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.PutScheduledUpdateGroupAction = function PutScheduledUpdateGroupAction(aws) {
-  var endTime = aws.params.EndTime /* Type timestamp */;
-  var time = aws.params.Time /* Type timestamp */;
-  var recurrence = aws.params.Recurrence;
-  var maxSize = aws.params.MaxSize /* Type integer */;
-  var startTime = aws.params.StartTime /* Type timestamp */;
-  var desiredCapacity = aws.params.DesiredCapacity /* Type integer */;
-  var scheduledActionName = aws.params.ScheduledActionName;
-  var autoScalingGroupName = aws.params.AutoScalingGroupName;
-  var minSize = aws.params.MinSize /* Type integer */;
-  if (!autoScalingGroupName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AutoScalingGroupName'];
-  }
-  if (!scheduledActionName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ScheduledActionName'];
   }
 
 
@@ -678,63 +155,8 @@ module.exports.PutScheduledUpdateGroupAction = function PutScheduledUpdateGroupA
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DescribeScalingActivities = function DescribeScalingActivities(aws) {
-  var autoScalingGroupName = aws.params.AutoScalingGroupName;
-  var activityIds = aws.params.ActivityIds /* Type list */;
-  var nextToken = aws.params.NextToken;
-  var maxRecords = aws.params.MaxRecords /* Type integer */;
-
-
-  // TODO implement code
-
-  var ret = {
-    NextToken: '',
-    Activities: /*S3s*/[ /*S3t*/{
-      EndTime: awsCommon.timestamp(),
-      StatusCode: '',
-      ActivityId: '',
-      StartTime: awsCommon.timestamp(),
-      StatusMessage: '',
-      Description: '',
-      Cause: '',
-      AutoScalingGroupName: '',
-      Details: '',
-      Progress: 0,
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeAutoScalingNotificationTypes = function DescribeAutoScalingNotificationTypes(aws) {
-
-
-  // TODO implement code
-
-  var ret = {
-    AutoScalingNotificationTypes: /*S2h*/[ '', /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateLaunchConfiguration = function CreateLaunchConfiguration(aws) {
-  var imageId = aws.params.ImageId;
-  var blockDeviceMappings = aws.params.BlockDeviceMappings;
-  var classicLinkVPCSecurityGroups = aws.params.ClassicLinkVPCSecurityGroups;
-  var instanceId = aws.params.InstanceId;
-  var placementTenancy = aws.params.PlacementTenancy;
-  var classicLinkVPCId = aws.params.ClassicLinkVPCId;
-  var instanceMonitoring = aws.params.InstanceMonitoring;
-  var securityGroups = aws.params.SecurityGroups;
-  var userData = aws.params.UserData;
-  var spotPrice = aws.params.SpotPrice;
-  var keyName = aws.params.KeyName;
-  var instanceType = aws.params.InstanceType;
-  var ebsOptimized = aws.params.EbsOptimized /* Type boolean */;
-  var iamInstanceProfile = aws.params.IamInstanceProfile;
-  var ramdiskId = aws.params.RamdiskId;
+module.exports.DeleteLaunchConfiguration = function DeleteLaunchConfiguration(aws) {
   var launchConfigurationName = aws.params.LaunchConfigurationName;
-  var associatePublicIpAddress = aws.params.AssociatePublicIpAddress /* Type boolean */;
-  var kernelId = aws.params.KernelId;
   if (!launchConfigurationName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LaunchConfigurationName'];
   }
@@ -746,79 +168,33 @@ module.exports.CreateLaunchConfiguration = function CreateLaunchConfiguration(aw
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DescribeMetricCollectionTypes = function DescribeMetricCollectionTypes(aws) {
+module.exports.DeleteLifecycleHook = function DeleteLifecycleHook(aws) {
+  var autoScalingGroupName = aws.params.AutoScalingGroupName;
+  var lifecycleHookName = aws.params.LifecycleHookName;
+  if (!autoScalingGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AutoScalingGroupName'];
+  }
+  if (!lifecycleHookName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LifecycleHookName'];
+  }
 
 
   // TODO implement code
 
   var ret = {
-    Metrics: [ {
-      Metric: '',
-    }, /* ...*/ ],
-    Granularities: [ {
-      Granularity: '',
-    }, /* ...*/ ],
+
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DeleteScheduledAction = function DeleteScheduledAction(aws) {
-  var scheduledActionName = aws.params.ScheduledActionName;
+module.exports.DeleteNotificationConfiguration = function DeleteNotificationConfiguration(aws) {
   var autoScalingGroupName = aws.params.AutoScalingGroupName;
-  if (!scheduledActionName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ScheduledActionName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.SetInstanceHealth = function SetInstanceHealth(aws) {
-  var healthStatus = aws.params.HealthStatus;
-  var shouldRespectGracePeriod = aws.params.ShouldRespectGracePeriod /* Type boolean */;
-  var instanceId = aws.params.InstanceId;
-  if (!instanceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
-  }
-  if (!healthStatus) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HealthStatus'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateAutoScalingGroup = function CreateAutoScalingGroup(aws) {
-  var maxSize = aws.params.MaxSize /* Type integer */;
-  var placementGroup = aws.params.PlacementGroup;
-  var healthCheckType = aws.params.HealthCheckType;
-  var desiredCapacity = aws.params.DesiredCapacity /* Type integer */;
-  var autoScalingGroupName = aws.params.AutoScalingGroupName;
-  var tags = aws.params.Tags;
-  var minSize = aws.params.MinSize /* Type integer */;
-  var loadBalancerNames = aws.params.LoadBalancerNames;
-  var availabilityZones = aws.params.AvailabilityZones;
-  var vPCZoneIdentifier = aws.params.VPCZoneIdentifier;
-  var terminationPolicies = aws.params.TerminationPolicies;
-  var healthCheckGracePeriod = aws.params.HealthCheckGracePeriod /* Type integer */;
-  var launchConfigurationName = aws.params.LaunchConfigurationName;
-  var defaultCooldown = aws.params.DefaultCooldown /* Type integer */;
-  var newInstancesProtectedFromScaleIn = aws.params.NewInstancesProtectedFromScaleIn /* Type boolean */;
-  var instanceId = aws.params.InstanceId;
+  var topicARN = aws.params.TopicARN;
   if (!autoScalingGroupName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AutoScalingGroupName'];
   }
-  if (!minSize) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MinSize'];
-  }
-  if (!maxSize) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MaxSize'];
+  if (!topicARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TopicARN'];
   }
 
 
@@ -842,73 +218,11 @@ module.exports.DeletePolicy = function DeletePolicy(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.PutLifecycleHook = function PutLifecycleHook(aws) {
-  var heartbeatTimeout = aws.params.HeartbeatTimeout /* Type integer */;
-  var notificationTargetARN = aws.params.NotificationTargetARN;
-  var lifecycleHookName = aws.params.LifecycleHookName;
-  var notificationMetadata = aws.params.NotificationMetadata;
+module.exports.DeleteScheduledAction = function DeleteScheduledAction(aws) {
   var autoScalingGroupName = aws.params.AutoScalingGroupName;
-  var defaultResult = aws.params.DefaultResult;
-  var roleARN = aws.params.RoleARN;
-  var lifecycleTransition = aws.params.LifecycleTransition;
-  if (!lifecycleHookName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LifecycleHookName'];
-  }
-  if (!autoScalingGroupName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AutoScalingGroupName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribePolicies = function DescribePolicies(aws) {
-  var policyTypes = aws.params.PolicyTypes /* Type list */;
-  var policyNames = aws.params.PolicyNames /* Type list */;
-  var autoScalingGroupName = aws.params.AutoScalingGroupName;
-  var maxRecords = aws.params.MaxRecords /* Type integer */;
-  var nextToken = aws.params.NextToken;
-
-
-  // TODO implement code
-
-  var ret = {
-    ScalingPolicies: [ {
-      StepAdjustments: /*S3j*/[ {
-        MetricIntervalLowerBound: 0.0 /*Double*/,
-        ScalingAdjustment: 0,
-        MetricIntervalUpperBound: 0.0 /*Double*/,
-      }, /* ...*/ ],
-      AutoScalingGroupName: '',
-      PolicyType: '',
-      PolicyName: '',
-      Alarms: [ {
-        AlarmARN: '',
-        AlarmName: '',
-      }, /* ...*/ ],
-      MinAdjustmentMagnitude: 0,
-      EstimatedInstanceWarmup: 0,
-      Cooldown: 0,
-      MinAdjustmentStep: /*S3g*/0,
-      AdjustmentType: '',
-      ScalingAdjustment: 0,
-      PolicyARN: '',
-      MetricAggregationType: '',
-    }, /* ...*/ ],
-    NextToken: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteLaunchConfiguration = function DeleteLaunchConfiguration(aws) {
-  var launchConfigurationName = aws.params.LaunchConfigurationName;
-  if (!launchConfigurationName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LaunchConfigurationName'];
+  var scheduledActionName = aws.params.ScheduledActionName;
+  if (!scheduledActionName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ScheduledActionName'];
   }
 
 
@@ -918,10 +232,199 @@ module.exports.DeleteLaunchConfiguration = function DeleteLaunchConfiguration(aw
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DescribeLoadBalancers = function DescribeLoadBalancers(aws) {
-  var nextToken = aws.params.NextToken;
-  var autoScalingGroupName = aws.params.AutoScalingGroupName;
+module.exports.DeleteTags = function DeleteTags(aws) {
+  var tags = aws.params.Tags;
+  if (!tags) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Tags'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeAccountLimits = function DescribeAccountLimits(aws) {
+
+
+  // TODO implement code
+
+  var ret = {
+    MaxNumberOfAutoScalingGroups: 0,
+    MaxNumberOfLaunchConfigurations: 0,
+    NumberOfAutoScalingGroups: 0,
+    NumberOfLaunchConfigurations: 0,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeAdjustmentTypes = function DescribeAdjustmentTypes(aws) {
+
+
+  // TODO implement code
+
+  var ret = {
+    AdjustmentTypes: [ {
+      AdjustmentType: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeAutoScalingGroups = function DescribeAutoScalingGroups(aws) {
+  var autoScalingGroupNames = aws.params.AutoScalingGroupNames;
   var maxRecords = aws.params.MaxRecords /* Type integer */;
+  var nextToken = aws.params.NextToken;
+
+
+  // TODO implement code
+
+  var ret = {
+    AutoScalingGroups: [ {
+      AutoScalingGroupARN: '',
+      AutoScalingGroupName: '',
+      AvailabilityZones: /*Sj*/[ '', /* ...*/ ],
+      CreatedTime: awsCommon.timestamp(),
+      DefaultCooldown: 0,
+      DesiredCapacity: 0,
+      EnabledMetrics: [ {
+        Granularity: '',
+        Metric: '',
+      }, /* ...*/ ],
+      HealthCheckGracePeriod: 0,
+      HealthCheckType: '',
+      Instances: [ {
+        AvailabilityZone: '',
+        HealthStatus: '',
+        InstanceId: '',
+        LaunchConfigurationName: '',
+        LifecycleState: '',
+        ProtectedFromScaleIn: false,
+      }, /* ...*/ ],
+      LaunchConfigurationName: '',
+      LoadBalancerNames: /*S6*/[ '', /* ...*/ ],
+      MaxSize: 0,
+      MinSize: 0,
+      NewInstancesProtectedFromScaleIn: false,
+      PlacementGroup: '',
+      Status: '',
+      SuspendedProcesses: [ {
+        ProcessName: '',
+        SuspensionReason: '',
+      }, /* ...*/ ],
+      Tags: /*S2a*/[ {
+        Key: '',
+        PropagateAtLaunch: false,
+        ResourceId: '',
+        ResourceType: '',
+        Value: '',
+      }, /* ...*/ ],
+      TerminationPolicies: /*Sm*/[ '', /* ...*/ ],
+      VPCZoneIdentifier: '',
+    }, /* ...*/ ],
+    NextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeAutoScalingInstances = function DescribeAutoScalingInstances(aws) {
+  var instanceIds = aws.params.InstanceIds;
+  var maxRecords = aws.params.MaxRecords /* Type integer */;
+  var nextToken = aws.params.NextToken;
+
+
+  // TODO implement code
+
+  var ret = {
+    AutoScalingInstances: [ {
+      AutoScalingGroupName: '',
+      AvailabilityZone: '',
+      HealthStatus: '',
+      InstanceId: '',
+      LaunchConfigurationName: '',
+      LifecycleState: '',
+      ProtectedFromScaleIn: false,
+    }, /* ...*/ ],
+    NextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeAutoScalingNotificationTypes = function DescribeAutoScalingNotificationTypes(aws) {
+
+
+  // TODO implement code
+
+  var ret = {
+    AutoScalingNotificationTypes: /*S2h*/[ '', /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeLaunchConfigurations = function DescribeLaunchConfigurations(aws) {
+  var launchConfigurationNames = aws.params.LaunchConfigurationNames /* Type list */;
+  var maxRecords = aws.params.MaxRecords /* Type integer */;
+  var nextToken = aws.params.NextToken;
+
+
+  // TODO implement code
+
+  var ret = {
+    LaunchConfigurations: [ {
+      AssociatePublicIpAddress: false,
+      BlockDeviceMappings: /*Sz*/[ {
+        DeviceName: '',
+        Ebs: {
+          DeleteOnTermination: false,
+          Encrypted: false,
+          Iops: 0,
+          SnapshotId: '',
+          VolumeSize: 0,
+          VolumeType: '',
+        },
+        NoDevice: false,
+        VirtualName: '',
+      }, /* ...*/ ],
+      ClassicLinkVPCId: '',
+      ClassicLinkVPCSecurityGroups: /*Sx*/[ '', /* ...*/ ],
+      CreatedTime: awsCommon.timestamp(),
+      EbsOptimized: false,
+      IamInstanceProfile: '',
+      ImageId: '',
+      InstanceMonitoring: /*S18*/{
+        Enabled: false,
+      },
+      InstanceType: '',
+      KernelId: '',
+      KeyName: '',
+      LaunchConfigurationARN: '',
+      LaunchConfigurationName: '',
+      PlacementTenancy: '',
+      RamdiskId: '',
+      SecurityGroups: /*Sw*/[ '', /* ...*/ ],
+      SpotPrice: '',
+      UserData: '',
+    }, /* ...*/ ],
+    NextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeLifecycleHookTypes = function DescribeLifecycleHookTypes(aws) {
+
+
+  // TODO implement code
+
+  var ret = {
+    LifecycleHookTypes: /*S2h*/[ '', /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeLifecycleHooks = function DescribeLifecycleHooks(aws) {
+  var autoScalingGroupName = aws.params.AutoScalingGroupName;
+  var lifecycleHookNames = aws.params.LifecycleHookNames /* Type list */;
   if (!autoScalingGroupName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AutoScalingGroupName'];
   }
@@ -930,56 +433,225 @@ module.exports.DescribeLoadBalancers = function DescribeLoadBalancers(aws) {
   // TODO implement code
 
   var ret = {
-    NextToken: '',
-    LoadBalancers: [ {
-      State: '',
-      LoadBalancerName: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeAutoScalingInstances = function DescribeAutoScalingInstances(aws) {
-  var nextToken = aws.params.NextToken;
-  var instanceIds = aws.params.InstanceIds;
-  var maxRecords = aws.params.MaxRecords /* Type integer */;
-
-
-  // TODO implement code
-
-  var ret = {
-    NextToken: '',
-    AutoScalingInstances: [ {
-      ProtectedFromScaleIn: false,
-      LaunchConfigurationName: '',
-      InstanceId: '',
-      HealthStatus: '',
+    LifecycleHooks: [ {
       AutoScalingGroupName: '',
-      LifecycleState: '',
-      AvailabilityZone: '',
+      DefaultResult: '',
+      GlobalTimeout: 0,
+      HeartbeatTimeout: 0,
+      LifecycleHookName: '',
+      LifecycleTransition: '',
+      NotificationMetadata: '',
+      NotificationTargetARN: '',
+      RoleARN: '',
     }, /* ...*/ ],
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.AttachLoadBalancers = function AttachLoadBalancers(aws) {
-  var loadBalancerNames = aws.params.LoadBalancerNames;
+module.exports.DescribeLoadBalancers = function DescribeLoadBalancers(aws) {
   var autoScalingGroupName = aws.params.AutoScalingGroupName;
-
-
-  // TODO implement code
-
-  var ret = {
-
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ExitStandby = function ExitStandby(aws) {
-  var instanceIds = aws.params.InstanceIds;
-  var autoScalingGroupName = aws.params.AutoScalingGroupName;
+  var maxRecords = aws.params.MaxRecords /* Type integer */;
+  var nextToken = aws.params.NextToken;
   if (!autoScalingGroupName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AutoScalingGroupName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    LoadBalancers: [ {
+      LoadBalancerName: '',
+      State: '',
+    }, /* ...*/ ],
+    NextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeMetricCollectionTypes = function DescribeMetricCollectionTypes(aws) {
+
+
+  // TODO implement code
+
+  var ret = {
+    Granularities: [ {
+      Granularity: '',
+    }, /* ...*/ ],
+    Metrics: [ {
+      Metric: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeNotificationConfigurations = function DescribeNotificationConfigurations(aws) {
+  var autoScalingGroupNames = aws.params.AutoScalingGroupNames;
+  var maxRecords = aws.params.MaxRecords /* Type integer */;
+  var nextToken = aws.params.NextToken;
+
+
+  // TODO implement code
+
+  var ret = {
+    NextToken: '',
+    NotificationConfigurations: [ {
+      AutoScalingGroupName: '',
+      NotificationType: '',
+      TopicARN: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribePolicies = function DescribePolicies(aws) {
+  var autoScalingGroupName = aws.params.AutoScalingGroupName;
+  var maxRecords = aws.params.MaxRecords /* Type integer */;
+  var nextToken = aws.params.NextToken;
+  var policyNames = aws.params.PolicyNames /* Type list */;
+  var policyTypes = aws.params.PolicyTypes /* Type list */;
+
+
+  // TODO implement code
+
+  var ret = {
+    NextToken: '',
+    ScalingPolicies: [ {
+      AdjustmentType: '',
+      Alarms: [ {
+        AlarmARN: '',
+        AlarmName: '',
+      }, /* ...*/ ],
+      AutoScalingGroupName: '',
+      Cooldown: 0,
+      EstimatedInstanceWarmup: 0,
+      MetricAggregationType: '',
+      MinAdjustmentMagnitude: 0,
+      MinAdjustmentStep: /*S3g*/0,
+      PolicyARN: '',
+      PolicyName: '',
+      PolicyType: '',
+      ScalingAdjustment: 0,
+      StepAdjustments: /*S3j*/[ {
+        MetricIntervalLowerBound: 0.0 /*Double*/,
+        MetricIntervalUpperBound: 0.0 /*Double*/,
+        ScalingAdjustment: 0,
+      }, /* ...*/ ],
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeScalingActivities = function DescribeScalingActivities(aws) {
+  var activityIds = aws.params.ActivityIds /* Type list */;
+  var autoScalingGroupName = aws.params.AutoScalingGroupName;
+  var maxRecords = aws.params.MaxRecords /* Type integer */;
+  var nextToken = aws.params.NextToken;
+
+
+  // TODO implement code
+
+  var ret = {
+    Activities: /*S3s*/[ /*S3t*/{
+      ActivityId: '',
+      AutoScalingGroupName: '',
+      Cause: '',
+      Description: '',
+      Details: '',
+      EndTime: awsCommon.timestamp(),
+      Progress: 0,
+      StartTime: awsCommon.timestamp(),
+      StatusCode: '',
+      StatusMessage: '',
+    }, /* ...*/ ],
+    NextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeScalingProcessTypes = function DescribeScalingProcessTypes(aws) {
+
+
+  // TODO implement code
+
+  var ret = {
+    Processes: [ {
+      ProcessName: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeScheduledActions = function DescribeScheduledActions(aws) {
+  var autoScalingGroupName = aws.params.AutoScalingGroupName;
+  var endTime = aws.params.EndTime /* Type timestamp */;
+  var maxRecords = aws.params.MaxRecords /* Type integer */;
+  var nextToken = aws.params.NextToken;
+  var scheduledActionNames = aws.params.ScheduledActionNames /* Type list */;
+  var startTime = aws.params.StartTime /* Type timestamp */;
+
+
+  // TODO implement code
+
+  var ret = {
+    NextToken: '',
+    ScheduledUpdateGroupActions: [ {
+      AutoScalingGroupName: '',
+      DesiredCapacity: 0,
+      EndTime: awsCommon.timestamp(),
+      MaxSize: 0,
+      MinSize: 0,
+      Recurrence: '',
+      ScheduledActionARN: '',
+      ScheduledActionName: '',
+      StartTime: awsCommon.timestamp(),
+      Time: awsCommon.timestamp(),
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeTags = function DescribeTags(aws) {
+  var filters = aws.params.Filters /* Type list */;
+  var maxRecords = aws.params.MaxRecords /* Type integer */;
+  var nextToken = aws.params.NextToken;
+
+
+  // TODO implement code
+
+  var ret = {
+    NextToken: '',
+    Tags: /*S2a*/[ {
+      Key: '',
+      PropagateAtLaunch: false,
+      ResourceId: '',
+      ResourceType: '',
+      Value: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeTerminationPolicyTypes = function DescribeTerminationPolicyTypes(aws) {
+
+
+  // TODO implement code
+
+  var ret = {
+    TerminationPolicyTypes: /*Sm*/[ '', /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DetachInstances = function DetachInstances(aws) {
+  var autoScalingGroupName = aws.params.AutoScalingGroupName;
+  var instanceIds = aws.params.InstanceIds;
+  var shouldDecrementDesiredCapacity = aws.params.ShouldDecrementDesiredCapacity /* Type boolean */;
+  if (!autoScalingGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AutoScalingGroupName'];
+  }
+  if (!shouldDecrementDesiredCapacity) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ShouldDecrementDesiredCapacity'];
   }
 
 
@@ -987,26 +659,102 @@ module.exports.ExitStandby = function ExitStandby(aws) {
 
   var ret = {
     Activities: /*S3s*/[ /*S3t*/{
-      EndTime: awsCommon.timestamp(),
-      StatusCode: '',
       ActivityId: '',
-      StartTime: awsCommon.timestamp(),
-      StatusMessage: '',
-      Description: '',
-      Cause: '',
       AutoScalingGroupName: '',
+      Cause: '',
+      Description: '',
       Details: '',
+      EndTime: awsCommon.timestamp(),
       Progress: 0,
+      StartTime: awsCommon.timestamp(),
+      StatusCode: '',
+      StatusMessage: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DetachLoadBalancers = function DetachLoadBalancers(aws) {
+  var autoScalingGroupName = aws.params.AutoScalingGroupName;
+  var loadBalancerNames = aws.params.LoadBalancerNames;
+
+
+  // TODO implement code
+
+  var ret = {
+
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DisableMetricsCollection = function DisableMetricsCollection(aws) {
+  var autoScalingGroupName = aws.params.AutoScalingGroupName;
+  var metrics = aws.params.Metrics;
+  if (!autoScalingGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AutoScalingGroupName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.EnableMetricsCollection = function EnableMetricsCollection(aws) {
+  var autoScalingGroupName = aws.params.AutoScalingGroupName;
+  var granularity = aws.params.Granularity;
+  var metrics = aws.params.Metrics;
+  if (!autoScalingGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AutoScalingGroupName'];
+  }
+  if (!granularity) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Granularity'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.EnterStandby = function EnterStandby(aws) {
+  var autoScalingGroupName = aws.params.AutoScalingGroupName;
+  var instanceIds = aws.params.InstanceIds;
+  var shouldDecrementDesiredCapacity = aws.params.ShouldDecrementDesiredCapacity /* Type boolean */;
+  if (!autoScalingGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AutoScalingGroupName'];
+  }
+  if (!shouldDecrementDesiredCapacity) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ShouldDecrementDesiredCapacity'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Activities: /*S3s*/[ /*S3t*/{
+      ActivityId: '',
+      AutoScalingGroupName: '',
+      Cause: '',
+      Description: '',
+      Details: '',
+      EndTime: awsCommon.timestamp(),
+      Progress: 0,
+      StartTime: awsCommon.timestamp(),
+      StatusCode: '',
+      StatusMessage: '',
     }, /* ...*/ ],
   };
   return [200, ret];
 };
 // -----------------------------------
 module.exports.ExecutePolicy = function ExecutePolicy(aws) {
-  var metricValue = aws.params.MetricValue /* Type double */;
   var autoScalingGroupName = aws.params.AutoScalingGroupName;
-  var honorCooldown = aws.params.HonorCooldown /* Type boolean */;
   var breachThreshold = aws.params.BreachThreshold /* Type double */;
+  var honorCooldown = aws.params.HonorCooldown /* Type boolean */;
+  var metricValue = aws.params.MetricValue /* Type double */;
   var policyName = aws.params.PolicyName;
   if (!policyName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyName'];
@@ -1019,28 +767,276 @@ module.exports.ExecutePolicy = function ExecutePolicy(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DescribeNotificationConfigurations = function DescribeNotificationConfigurations(aws) {
-  var nextToken = aws.params.NextToken;
-  var autoScalingGroupNames = aws.params.AutoScalingGroupNames;
-  var maxRecords = aws.params.MaxRecords /* Type integer */;
+module.exports.ExitStandby = function ExitStandby(aws) {
+  var autoScalingGroupName = aws.params.AutoScalingGroupName;
+  var instanceIds = aws.params.InstanceIds;
+  if (!autoScalingGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AutoScalingGroupName'];
+  }
 
 
   // TODO implement code
 
   var ret = {
-    NextToken: '',
-    NotificationConfigurations: [ {
-      TopicARN: '',
+    Activities: /*S3s*/[ /*S3t*/{
+      ActivityId: '',
       AutoScalingGroupName: '',
-      NotificationType: '',
+      Cause: '',
+      Description: '',
+      Details: '',
+      EndTime: awsCommon.timestamp(),
+      Progress: 0,
+      StartTime: awsCommon.timestamp(),
+      StatusCode: '',
+      StatusMessage: '',
     }, /* ...*/ ],
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DeleteAutoScalingGroup = function DeleteAutoScalingGroup(aws) {
+module.exports.PutLifecycleHook = function PutLifecycleHook(aws) {
   var autoScalingGroupName = aws.params.AutoScalingGroupName;
-  var forceDelete = aws.params.ForceDelete /* Type boolean */;
+  var defaultResult = aws.params.DefaultResult;
+  var heartbeatTimeout = aws.params.HeartbeatTimeout /* Type integer */;
+  var lifecycleHookName = aws.params.LifecycleHookName;
+  var lifecycleTransition = aws.params.LifecycleTransition;
+  var notificationMetadata = aws.params.NotificationMetadata;
+  var notificationTargetARN = aws.params.NotificationTargetARN;
+  var roleARN = aws.params.RoleARN;
+  if (!autoScalingGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AutoScalingGroupName'];
+  }
+  if (!lifecycleHookName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LifecycleHookName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.PutNotificationConfiguration = function PutNotificationConfiguration(aws) {
+  var autoScalingGroupName = aws.params.AutoScalingGroupName;
+  var notificationTypes = aws.params.NotificationTypes;
+  var topicARN = aws.params.TopicARN;
+  if (!autoScalingGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AutoScalingGroupName'];
+  }
+  if (!notificationTypes) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter NotificationTypes'];
+  }
+  if (!topicARN) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TopicARN'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.PutScalingPolicy = function PutScalingPolicy(aws) {
+  var adjustmentType = aws.params.AdjustmentType;
+  var autoScalingGroupName = aws.params.AutoScalingGroupName;
+  var cooldown = aws.params.Cooldown /* Type integer */;
+  var estimatedInstanceWarmup = aws.params.EstimatedInstanceWarmup /* Type integer */;
+  var metricAggregationType = aws.params.MetricAggregationType;
+  var minAdjustmentMagnitude = aws.params.MinAdjustmentMagnitude /* Type integer */;
+  var minAdjustmentStep = aws.params.MinAdjustmentStep;
+  var policyName = aws.params.PolicyName;
+  var policyType = aws.params.PolicyType;
+  var scalingAdjustment = aws.params.ScalingAdjustment /* Type integer */;
+  var stepAdjustments = aws.params.StepAdjustments;
+  if (!adjustmentType) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AdjustmentType'];
+  }
+  if (!autoScalingGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AutoScalingGroupName'];
+  }
+  if (!policyName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PolicyName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    PolicyARN: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.PutScheduledUpdateGroupAction = function PutScheduledUpdateGroupAction(aws) {
+  var autoScalingGroupName = aws.params.AutoScalingGroupName;
+  var desiredCapacity = aws.params.DesiredCapacity /* Type integer */;
+  var endTime = aws.params.EndTime /* Type timestamp */;
+  var maxSize = aws.params.MaxSize /* Type integer */;
+  var minSize = aws.params.MinSize /* Type integer */;
+  var recurrence = aws.params.Recurrence;
+  var scheduledActionName = aws.params.ScheduledActionName;
+  var startTime = aws.params.StartTime /* Type timestamp */;
+  var time = aws.params.Time /* Type timestamp */;
+  if (!autoScalingGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AutoScalingGroupName'];
+  }
+  if (!scheduledActionName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ScheduledActionName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RecordLifecycleActionHeartbeat = function RecordLifecycleActionHeartbeat(aws) {
+  var autoScalingGroupName = aws.params.AutoScalingGroupName;
+  var instanceId = aws.params.InstanceId;
+  var lifecycleActionToken = aws.params.LifecycleActionToken;
+  var lifecycleHookName = aws.params.LifecycleHookName;
+  if (!autoScalingGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AutoScalingGroupName'];
+  }
+  if (!lifecycleHookName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LifecycleHookName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ResumeProcesses = function ResumeProcesses(aws) {
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.SetDesiredCapacity = function SetDesiredCapacity(aws) {
+  var autoScalingGroupName = aws.params.AutoScalingGroupName;
+  var desiredCapacity = aws.params.DesiredCapacity /* Type integer */;
+  var honorCooldown = aws.params.HonorCooldown /* Type boolean */;
+  if (!autoScalingGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AutoScalingGroupName'];
+  }
+  if (!desiredCapacity) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DesiredCapacity'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.SetInstanceHealth = function SetInstanceHealth(aws) {
+  var healthStatus = aws.params.HealthStatus;
+  var instanceId = aws.params.InstanceId;
+  var shouldRespectGracePeriod = aws.params.ShouldRespectGracePeriod /* Type boolean */;
+  if (!healthStatus) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HealthStatus'];
+  }
+  if (!instanceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.SetInstanceProtection = function SetInstanceProtection(aws) {
+  var autoScalingGroupName = aws.params.AutoScalingGroupName;
+  var instanceIds = aws.params.InstanceIds;
+  var protectedFromScaleIn = aws.params.ProtectedFromScaleIn /* Type boolean */;
+  if (!autoScalingGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AutoScalingGroupName'];
+  }
+  if (!instanceIds) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceIds'];
+  }
+  if (!protectedFromScaleIn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ProtectedFromScaleIn'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.SuspendProcesses = function SuspendProcesses(aws) {
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.TerminateInstanceInAutoScalingGroup = function TerminateInstanceInAutoScalingGroup(aws) {
+  var instanceId = aws.params.InstanceId;
+  var shouldDecrementDesiredCapacity = aws.params.ShouldDecrementDesiredCapacity /* Type boolean */;
+  if (!instanceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
+  }
+  if (!shouldDecrementDesiredCapacity) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ShouldDecrementDesiredCapacity'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Activity: /*S3t*/{
+      ActivityId: '',
+      AutoScalingGroupName: '',
+      Cause: '',
+      Description: '',
+      Details: '',
+      EndTime: awsCommon.timestamp(),
+      Progress: 0,
+      StartTime: awsCommon.timestamp(),
+      StatusCode: '',
+      StatusMessage: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateAutoScalingGroup = function UpdateAutoScalingGroup(aws) {
+  var autoScalingGroupName = aws.params.AutoScalingGroupName;
+  var availabilityZones = aws.params.AvailabilityZones;
+  var defaultCooldown = aws.params.DefaultCooldown /* Type integer */;
+  var desiredCapacity = aws.params.DesiredCapacity /* Type integer */;
+  var healthCheckGracePeriod = aws.params.HealthCheckGracePeriod /* Type integer */;
+  var healthCheckType = aws.params.HealthCheckType;
+  var launchConfigurationName = aws.params.LaunchConfigurationName;
+  var maxSize = aws.params.MaxSize /* Type integer */;
+  var minSize = aws.params.MinSize /* Type integer */;
+  var newInstancesProtectedFromScaleIn = aws.params.NewInstancesProtectedFromScaleIn /* Type boolean */;
+  var placementGroup = aws.params.PlacementGroup;
+  var terminationPolicies = aws.params.TerminationPolicies;
+  var vPCZoneIdentifier = aws.params.VPCZoneIdentifier;
   if (!autoScalingGroupName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AutoScalingGroupName'];
   }

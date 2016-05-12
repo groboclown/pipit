@@ -16,19 +16,20 @@ module.exports.Search = awsCommon.as(
   'GET',
   '/2013-01-01/search?format=sdk&pretty=true',
   function Search(aws) {
-    var _return = aws.params.return;
-    var partial = aws.params.partial /* Type boolean */;
-    var expr = aws.params.expr;
-    var query = aws.params.query;
-    var filterQuery = aws.params.filterQuery;
     var cursor = aws.params.cursor;
-    var queryOptions = aws.params.queryOptions;
-    var size = aws.params.size /* Type long */;
-    var queryParser = aws.params.queryParser;
-    var highlight = aws.params.highlight;
-    var sort = aws.params.sort;
+    var expr = aws.params.expr;
     var facet = aws.params.facet;
+    var filterQuery = aws.params.filterQuery;
+    var highlight = aws.params.highlight;
+    var partial = aws.params.partial /* Type boolean */;
+    var query = aws.params.query;
+    var queryOptions = aws.params.queryOptions;
+    var queryParser = aws.params.queryParser;
+    var _return = aws.params.return;
+    var size = aws.params.size /* Type long */;
+    var sort = aws.params.sort;
     var start = aws.params.start /* Type long */;
+    var stats = aws.params.stats;
     if (!query) {
       return [400, 'Sender', 'MissingParameter', 'Did not specify parameter query'];
     }
@@ -40,45 +41,20 @@ module.exports.Search = awsCommon.as(
       facets: {} /*Map*/,
       hits: {
         cursor: '',
-        start: 0 /*Long*/,
-        hit: [ {
-          id: '',
-          exprs: {} /*Map*/,
-          highlights: {} /*Map*/,
-          fields: {} /*Map*/,
-        }, /* ...*/ ],
         found: 0 /*Long*/,
+        hit: [ {
+          exprs: {} /*Map*/,
+          fields: {} /*Map*/,
+          highlights: {} /*Map*/,
+          id: '',
+        }, /* ...*/ ],
+        start: 0 /*Long*/,
       },
+      stats: {} /*Map*/,
       status: {
-        timems: 0 /*Long*/,
         rid: '',
+        timems: 0 /*Long*/,
       },
-    };
-    return [200, ret];
-  });
-// -----------------------------------
-module.exports.UploadDocuments = awsCommon.as(
-  '/2013-01-01/documents/batch?format=sdk',
-  function UploadDocuments(aws) {
-    var documents = aws.params.documents /* Type blob */;
-    var contentType = aws.params.contentType;
-    if (!documents) {
-      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter documents'];
-    }
-    if (!contentType) {
-      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter contentType'];
-    }
-
-
-    // TODO implement code
-
-    var ret = {
-      warnings: [ {
-        message: '',
-      }, /* ...*/ ],
-      deletes: 0 /*Long*/,
-      adds: 0 /*Long*/,
-      status: '',
     };
     return [200, ret];
   });
@@ -87,8 +63,8 @@ module.exports.Suggest = awsCommon.as(
   'GET',
   '/2013-01-01/suggest?format=sdk&pretty=true',
   function Suggest(aws) {
-    var size = aws.params.size /* Type long */;
     var query = aws.params.query;
+    var size = aws.params.size /* Type long */;
     var suggester = aws.params.suggester;
     if (!query) {
       return [400, 'Sender', 'MissingParameter', 'Did not specify parameter query'];
@@ -101,19 +77,45 @@ module.exports.Suggest = awsCommon.as(
     // TODO implement code
 
     var ret = {
+      status: {
+        rid: '',
+        timems: 0 /*Long*/,
+      },
       suggest: {
+        found: 0 /*Long*/,
+        query: '',
         suggestions: [ {
+          id: '',
           score: 0 /*Long*/,
           suggestion: '',
-          id: '',
         }, /* ...*/ ],
-        query: '',
-        found: 0 /*Long*/,
       },
-      status: {
-        timems: 0 /*Long*/,
-        rid: '',
-      },
+    };
+    return [200, ret];
+  });
+// -----------------------------------
+module.exports.UploadDocuments = awsCommon.as(
+  '/2013-01-01/documents/batch?format=sdk',
+  function UploadDocuments(aws) {
+    var contentType = aws.params.contentType;
+    var documents = aws.params.documents /* Type blob */;
+    if (!contentType) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter contentType'];
+    }
+    if (!documents) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter documents'];
+    }
+
+
+    // TODO implement code
+
+    var ret = {
+      adds: 0 /*Long*/,
+      deletes: 0 /*Long*/,
+      status: '',
+      warnings: [ {
+        message: '',
+      }, /* ...*/ ],
     };
     return [200, ret];
   });

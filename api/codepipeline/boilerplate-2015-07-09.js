@@ -13,8 +13,8 @@ const awsCommon = require('../../lib/aws-common');
 require('../../lib/aws-common/shape_http')('json', module.exports, null);
 // -----------------------------------
 module.exports.AcknowledgeJob = function AcknowledgeJob(aws) {
-  var nonce = aws.params.nonce;
   var jobId = aws.params.jobId;
+  var nonce = aws.params.nonce;
   if (!jobId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter jobId'];
   }
@@ -31,34 +31,18 @@ module.exports.AcknowledgeJob = function AcknowledgeJob(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.PutJobSuccessResult = function PutJobSuccessResult(aws) {
-  var currentRevision = aws.params.currentRevision;
-  var continuationToken = aws.params.continuationToken;
-  var executionDetails = aws.params.executionDetails;
-  var jobId = aws.params.jobId;
-  if (!jobId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter jobId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
 module.exports.AcknowledgeThirdPartyJob = function AcknowledgeThirdPartyJob(aws) {
-  var nonce = aws.params.nonce;
-  var jobId = aws.params.jobId;
   var clientToken = aws.params.clientToken;
+  var jobId = aws.params.jobId;
+  var nonce = aws.params.nonce;
+  if (!clientToken) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter clientToken'];
+  }
   if (!jobId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter jobId'];
   }
   if (!nonce) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter nonce'];
-  }
-  if (!clientToken) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter clientToken'];
   }
 
 
@@ -72,20 +56,14 @@ module.exports.AcknowledgeThirdPartyJob = function AcknowledgeThirdPartyJob(aws)
 // -----------------------------------
 module.exports.CreateCustomActionType = function CreateCustomActionType(aws) {
   var category = aws.params.category;
-  var settings = aws.params.settings;
-  var inputArtifactDetails = aws.params.inputArtifactDetails;
-  var version = aws.params.version;
   var configurationProperties = aws.params.configurationProperties;
+  var inputArtifactDetails = aws.params.inputArtifactDetails;
   var outputArtifactDetails = aws.params.outputArtifactDetails;
   var provider = aws.params.provider;
+  var settings = aws.params.settings;
+  var version = aws.params.version;
   if (!category) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter category'];
-  }
-  if (!provider) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter provider'];
-  }
-  if (!version) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter version'];
   }
   if (!inputArtifactDetails) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter inputArtifactDetails'];
@@ -93,23 +71,32 @@ module.exports.CreateCustomActionType = function CreateCustomActionType(aws) {
   if (!outputArtifactDetails) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter outputArtifactDetails'];
   }
+  if (!provider) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter provider'];
+  }
+  if (!version) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter version'];
+  }
 
 
   // TODO implement code
 
   var ret = {
     actionType: /*Sr*/{
-      settings: /*Se*/{
-        thirdPartyConfigurationUrl: '',
-        entityUrlTemplate: '',
-        executionUrlTemplate: '',
-        revisionUrlTemplate: '',
-      },
+      actionConfigurationProperties: /*Sh*/[ {
+        description: '',
+        key: false,
+        name: '',
+        queryable: false,
+        required: false,
+        secret: false,
+        type: '',
+      }, /* ...*/ ],
       id: /*Ss*/{
         category: '',
         owner: '',
-        version: '',
         provider: '',
+        version: '',
       },
       inputArtifactDetails: /*Sn*/{
         maximumCount: 0,
@@ -119,17 +106,87 @@ module.exports.CreateCustomActionType = function CreateCustomActionType(aws) {
         maximumCount: 0,
         minimumCount: 0,
       },
-      actionConfigurationProperties: /*Sh*/[ {
-        secret: false,
-        key: false,
-        required: false,
-        description: '',
-        name: '',
-        queryable: false,
-        type: '',
-      }, /* ...*/ ],
+      settings: /*Se*/{
+        entityUrlTemplate: '',
+        executionUrlTemplate: '',
+        revisionUrlTemplate: '',
+        thirdPartyConfigurationUrl: '',
+      },
     },
   };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreatePipeline = function CreatePipeline(aws) {
+  var pipeline = aws.params.pipeline;
+  if (!pipeline) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter pipeline'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    pipeline: /*Sv*/{
+      artifactStore: {
+        encryptionKey: /*S11*/{
+          id: '',
+          type: '',
+        },
+        location: '',
+        type: '',
+      },
+      name: '',
+      roleArn: '',
+      stages: [ {
+        actions: [ {
+          actionTypeId: /*Ss*/{
+            category: '',
+            owner: '',
+            provider: '',
+            version: '',
+          },
+          configuration: /*S1f*/{} /*Map*/,
+          inputArtifacts: [ {
+            name: '',
+          }, /* ...*/ ],
+          name: '',
+          outputArtifacts: [ {
+            name: '',
+          }, /* ...*/ ],
+          roleArn: '',
+          runOrder: 0,
+        }, /* ...*/ ],
+        blockers: [ {
+          name: '',
+          type: '',
+        }, /* ...*/ ],
+        name: '',
+      }, /* ...*/ ],
+      version: 0,
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteCustomActionType = function DeleteCustomActionType(aws) {
+  var category = aws.params.category;
+  var provider = aws.params.provider;
+  var version = aws.params.version;
+  if (!category) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter category'];
+  }
+  if (!provider) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter provider'];
+  }
+  if (!version) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter version'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
   return [200, ret];
 };
 // -----------------------------------
@@ -137,6 +194,52 @@ module.exports.DeletePipeline = function DeletePipeline(aws) {
   var name = aws.params.name;
   if (!name) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter name'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DisableStageTransition = function DisableStageTransition(aws) {
+  var pipelineName = aws.params.pipelineName;
+  var reason = aws.params.reason;
+  var stageName = aws.params.stageName;
+  var transitionType = aws.params.transitionType;
+  if (!pipelineName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter pipelineName'];
+  }
+  if (!reason) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter reason'];
+  }
+  if (!stageName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter stageName'];
+  }
+  if (!transitionType) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter transitionType'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.EnableStageTransition = function EnableStageTransition(aws) {
+  var pipelineName = aws.params.pipelineName;
+  var stageName = aws.params.stageName;
+  var transitionType = aws.params.transitionType;
+  if (!pipelineName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter pipelineName'];
+  }
+  if (!stageName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter stageName'];
+  }
+  if (!transitionType) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter transitionType'];
   }
 
 
@@ -157,68 +260,307 @@ module.exports.GetJobDetails = function GetJobDetails(aws) {
 
   var ret = {
     jobDetails: {
-      id: '',
+      accountId: '',
       data: /*S1x*/{
-        continuationToken: '',
-        pipelineContext: /*S1z*/{
-          action: {
-            name: '',
-          },
-          stage: {
-            name: '',
-          },
-          pipelineName: '',
+        actionConfiguration: /*S1y*/{
+          configuration: /*S1f*/{} /*Map*/,
         },
-        outputArtifacts: /*S22*/[ {
-          name: '',
-          location: {
-            s3Location: {
-              objectKey: '',
-              bucketName: '',
-            },
-            type: '',
-          },
-          revision: '',
-        }, /* ...*/ ],
         actionTypeId: /*Ss*/{
           category: '',
           owner: '',
-          version: '',
           provider: '',
+          version: '',
         },
+        artifactCredentials: /*S2a*/{
+          accessKeyId: '',
+          secretAccessKey: '',
+          sessionToken: '',
+        },
+        continuationToken: '',
         encryptionKey: /*S11*/{
           id: '',
           type: '',
         },
-        artifactCredentials: /*S2a*/{
-          secretAccessKey: '',
-          accessKeyId: '',
-          sessionToken: '',
-        },
         inputArtifacts: /*S22*/[ {
-          name: '',
           location: {
             s3Location: {
-              objectKey: '',
               bucketName: '',
+              objectKey: '',
             },
             type: '',
           },
+          name: '',
           revision: '',
         }, /* ...*/ ],
-        actionConfiguration: /*S1y*/{
-          configuration: /*S1f*/{} /*Map*/,
+        outputArtifacts: /*S22*/[ {
+          location: {
+            s3Location: {
+              bucketName: '',
+              objectKey: '',
+            },
+            type: '',
+          },
+          name: '',
+          revision: '',
+        }, /* ...*/ ],
+        pipelineContext: /*S1z*/{
+          action: {
+            name: '',
+          },
+          pipelineName: '',
+          stage: {
+            name: '',
+          },
         },
       },
-      accountId: '',
+      id: '',
     },
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.PollForThirdPartyJobs = function PollForThirdPartyJobs(aws) {
-  var maxBatchSize = aws.params.maxBatchSize /* Type integer */;
+module.exports.GetPipeline = function GetPipeline(aws) {
+  var name = aws.params.name;
+  var version = aws.params.version /* Type integer */;
+  if (!name) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter name'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    pipeline: /*Sv*/{
+      artifactStore: {
+        encryptionKey: /*S11*/{
+          id: '',
+          type: '',
+        },
+        location: '',
+        type: '',
+      },
+      name: '',
+      roleArn: '',
+      stages: [ {
+        actions: [ {
+          actionTypeId: /*Ss*/{
+            category: '',
+            owner: '',
+            provider: '',
+            version: '',
+          },
+          configuration: /*S1f*/{} /*Map*/,
+          inputArtifacts: [ {
+            name: '',
+          }, /* ...*/ ],
+          name: '',
+          outputArtifacts: [ {
+            name: '',
+          }, /* ...*/ ],
+          roleArn: '',
+          runOrder: 0,
+        }, /* ...*/ ],
+        blockers: [ {
+          name: '',
+          type: '',
+        }, /* ...*/ ],
+        name: '',
+      }, /* ...*/ ],
+      version: 0,
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetPipelineState = function GetPipelineState(aws) {
+  var name = aws.params.name;
+  if (!name) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter name'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    created: awsCommon.timestamp(),
+    pipelineName: '',
+    pipelineVersion: 0,
+    stageStates: [ {
+      actionStates: [ {
+        actionName: '',
+        currentRevision: /*S2s*/{
+          created: awsCommon.timestamp(),
+          revisionChangeId: '',
+          revisionId: '',
+        },
+        entityUrl: '',
+        latestExecution: {
+          errorDetails: {
+            code: '',
+            message: '',
+          },
+          externalExecutionId: '',
+          externalExecutionUrl: '',
+          lastStatusChange: awsCommon.timestamp(),
+          percentComplete: 0,
+          status: '',
+          summary: '',
+        },
+        revisionUrl: '',
+      }, /* ...*/ ],
+      inboundTransitionState: {
+        disabledReason: '',
+        enabled: false,
+        lastChangedAt: awsCommon.timestamp(),
+        lastChangedBy: '',
+      },
+      stageName: '',
+    }, /* ...*/ ],
+    updated: awsCommon.timestamp(),
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetThirdPartyJobDetails = function GetThirdPartyJobDetails(aws) {
+  var clientToken = aws.params.clientToken;
+  var jobId = aws.params.jobId;
+  if (!clientToken) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter clientToken'];
+  }
+  if (!jobId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter jobId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    jobDetails: {
+      data: {
+        actionConfiguration: /*S1y*/{
+          configuration: /*S1f*/{} /*Map*/,
+        },
+        actionTypeId: /*Ss*/{
+          category: '',
+          owner: '',
+          provider: '',
+          version: '',
+        },
+        artifactCredentials: /*S2a*/{
+          accessKeyId: '',
+          secretAccessKey: '',
+          sessionToken: '',
+        },
+        continuationToken: '',
+        encryptionKey: /*S11*/{
+          id: '',
+          type: '',
+        },
+        inputArtifacts: /*S22*/[ {
+          location: {
+            s3Location: {
+              bucketName: '',
+              objectKey: '',
+            },
+            type: '',
+          },
+          name: '',
+          revision: '',
+        }, /* ...*/ ],
+        outputArtifacts: /*S22*/[ {
+          location: {
+            s3Location: {
+              bucketName: '',
+              objectKey: '',
+            },
+            type: '',
+          },
+          name: '',
+          revision: '',
+        }, /* ...*/ ],
+        pipelineContext: /*S1z*/{
+          action: {
+            name: '',
+          },
+          pipelineName: '',
+          stage: {
+            name: '',
+          },
+        },
+      },
+      id: '',
+      nonce: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListActionTypes = function ListActionTypes(aws) {
+  var actionOwnerFilter = aws.params.actionOwnerFilter;
+  var nextToken = aws.params.nextToken;
+
+
+  // TODO implement code
+
+  var ret = {
+    actionTypes: [ /*Sr*/{
+      actionConfigurationProperties: /*Sh*/[ {
+        description: '',
+        key: false,
+        name: '',
+        queryable: false,
+        required: false,
+        secret: false,
+        type: '',
+      }, /* ...*/ ],
+      id: /*Ss*/{
+        category: '',
+        owner: '',
+        provider: '',
+        version: '',
+      },
+      inputArtifactDetails: /*Sn*/{
+        maximumCount: 0,
+        minimumCount: 0,
+      },
+      outputArtifactDetails: /*Sn*/{
+        maximumCount: 0,
+        minimumCount: 0,
+      },
+      settings: /*Se*/{
+        entityUrlTemplate: '',
+        executionUrlTemplate: '',
+        revisionUrlTemplate: '',
+        thirdPartyConfigurationUrl: '',
+      },
+    }, /* ...*/ ],
+    nextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListPipelines = function ListPipelines(aws) {
+  var nextToken = aws.params.nextToken;
+
+
+  // TODO implement code
+
+  var ret = {
+    nextToken: '',
+    pipelines: [ {
+      created: awsCommon.timestamp(),
+      name: '',
+      updated: awsCommon.timestamp(),
+      version: 0,
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.PollForJobs = function PollForJobs(aws) {
   var actionTypeId = aws.params.actionTypeId;
+  var maxBatchSize = aws.params.maxBatchSize /* Type integer */;
+  var queryParam = aws.params.queryParam /* Type map */;
   if (!actionTypeId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter actionTypeId'];
   }
@@ -228,10 +570,184 @@ module.exports.PollForThirdPartyJobs = function PollForThirdPartyJobs(aws) {
 
   var ret = {
     jobs: [ {
-      jobId: '',
-      clientId: '',
+      accountId: '',
+      data: /*S1x*/{
+        actionConfiguration: /*S1y*/{
+          configuration: /*S1f*/{} /*Map*/,
+        },
+        actionTypeId: /*Ss*/{
+          category: '',
+          owner: '',
+          provider: '',
+          version: '',
+        },
+        artifactCredentials: /*S2a*/{
+          accessKeyId: '',
+          secretAccessKey: '',
+          sessionToken: '',
+        },
+        continuationToken: '',
+        encryptionKey: /*S11*/{
+          id: '',
+          type: '',
+        },
+        inputArtifacts: /*S22*/[ {
+          location: {
+            s3Location: {
+              bucketName: '',
+              objectKey: '',
+            },
+            type: '',
+          },
+          name: '',
+          revision: '',
+        }, /* ...*/ ],
+        outputArtifacts: /*S22*/[ {
+          location: {
+            s3Location: {
+              bucketName: '',
+              objectKey: '',
+            },
+            type: '',
+          },
+          name: '',
+          revision: '',
+        }, /* ...*/ ],
+        pipelineContext: /*S1z*/{
+          action: {
+            name: '',
+          },
+          pipelineName: '',
+          stage: {
+            name: '',
+          },
+        },
+      },
+      id: '',
+      nonce: '',
     }, /* ...*/ ],
   };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.PollForThirdPartyJobs = function PollForThirdPartyJobs(aws) {
+  var actionTypeId = aws.params.actionTypeId;
+  var maxBatchSize = aws.params.maxBatchSize /* Type integer */;
+  if (!actionTypeId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter actionTypeId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    jobs: [ {
+      clientId: '',
+      jobId: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.PutActionRevision = function PutActionRevision(aws) {
+  var actionName = aws.params.actionName;
+  var actionRevision = aws.params.actionRevision;
+  var pipelineName = aws.params.pipelineName;
+  var stageName = aws.params.stageName;
+  if (!actionName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter actionName'];
+  }
+  if (!actionRevision) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter actionRevision'];
+  }
+  if (!pipelineName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter pipelineName'];
+  }
+  if (!stageName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter stageName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    newRevision: false,
+    pipelineExecutionId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.PutJobFailureResult = function PutJobFailureResult(aws) {
+  var failureDetails = aws.params.failureDetails;
+  var jobId = aws.params.jobId;
+  if (!failureDetails) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter failureDetails'];
+  }
+  if (!jobId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter jobId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.PutJobSuccessResult = function PutJobSuccessResult(aws) {
+  var continuationToken = aws.params.continuationToken;
+  var currentRevision = aws.params.currentRevision;
+  var executionDetails = aws.params.executionDetails;
+  var jobId = aws.params.jobId;
+  if (!jobId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter jobId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.PutThirdPartyJobFailureResult = function PutThirdPartyJobFailureResult(aws) {
+  var clientToken = aws.params.clientToken;
+  var failureDetails = aws.params.failureDetails;
+  var jobId = aws.params.jobId;
+  if (!clientToken) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter clientToken'];
+  }
+  if (!failureDetails) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter failureDetails'];
+  }
+  if (!jobId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter jobId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.PutThirdPartyJobSuccessResult = function PutThirdPartyJobSuccessResult(aws) {
+  var clientToken = aws.params.clientToken;
+  var continuationToken = aws.params.continuationToken;
+  var currentRevision = aws.params.currentRevision;
+  var executionDetails = aws.params.executionDetails;
+  var jobId = aws.params.jobId;
+  if (!clientToken) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter clientToken'];
+  }
+  if (!jobId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter jobId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
   return [200, ret];
 };
 // -----------------------------------
@@ -261,559 +777,43 @@ module.exports.UpdatePipeline = function UpdatePipeline(aws) {
 
   var ret = {
     pipeline: /*Sv*/{
+      artifactStore: {
+        encryptionKey: /*S11*/{
+          id: '',
+          type: '',
+        },
+        location: '',
+        type: '',
+      },
       name: '',
+      roleArn: '',
       stages: [ {
-        name: '',
+        actions: [ {
+          actionTypeId: /*Ss*/{
+            category: '',
+            owner: '',
+            provider: '',
+            version: '',
+          },
+          configuration: /*S1f*/{} /*Map*/,
+          inputArtifacts: [ {
+            name: '',
+          }, /* ...*/ ],
+          name: '',
+          outputArtifacts: [ {
+            name: '',
+          }, /* ...*/ ],
+          roleArn: '',
+          runOrder: 0,
+        }, /* ...*/ ],
         blockers: [ {
           name: '',
           type: '',
         }, /* ...*/ ],
-        actions: [ {
-          inputArtifacts: [ {
-            name: '',
-          }, /* ...*/ ],
-          roleArn: '',
-          outputArtifacts: [ {
-            name: '',
-          }, /* ...*/ ],
-          actionTypeId: /*Ss*/{
-            category: '',
-            owner: '',
-            version: '',
-            provider: '',
-          },
-          name: '',
-          configuration: /*S1f*/{} /*Map*/,
-          runOrder: 0,
-        }, /* ...*/ ],
-      }, /* ...*/ ],
-      artifactStore: {
-        location: '',
-        encryptionKey: /*S11*/{
-          id: '',
-          type: '',
-        },
-        type: '',
-      },
-      roleArn: '',
-      version: 0,
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListPipelines = function ListPipelines(aws) {
-  var nextToken = aws.params.nextToken;
-
-
-  // TODO implement code
-
-  var ret = {
-    pipelines: [ {
-      name: '',
-      updated: awsCommon.timestamp(),
-      created: awsCommon.timestamp(),
-      version: 0,
-    }, /* ...*/ ],
-    nextToken: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.PollForJobs = function PollForJobs(aws) {
-  var queryParam = aws.params.queryParam /* Type map */;
-  var maxBatchSize = aws.params.maxBatchSize /* Type integer */;
-  var actionTypeId = aws.params.actionTypeId;
-  if (!actionTypeId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter actionTypeId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    jobs: [ {
-      id: '',
-      data: /*S1x*/{
-        continuationToken: '',
-        pipelineContext: /*S1z*/{
-          action: {
-            name: '',
-          },
-          stage: {
-            name: '',
-          },
-          pipelineName: '',
-        },
-        outputArtifacts: /*S22*/[ {
-          name: '',
-          location: {
-            s3Location: {
-              objectKey: '',
-              bucketName: '',
-            },
-            type: '',
-          },
-          revision: '',
-        }, /* ...*/ ],
-        actionTypeId: /*Ss*/{
-          category: '',
-          owner: '',
-          version: '',
-          provider: '',
-        },
-        encryptionKey: /*S11*/{
-          id: '',
-          type: '',
-        },
-        artifactCredentials: /*S2a*/{
-          secretAccessKey: '',
-          accessKeyId: '',
-          sessionToken: '',
-        },
-        inputArtifacts: /*S22*/[ {
-          name: '',
-          location: {
-            s3Location: {
-              objectKey: '',
-              bucketName: '',
-            },
-            type: '',
-          },
-          revision: '',
-        }, /* ...*/ ],
-        actionConfiguration: /*S1y*/{
-          configuration: /*S1f*/{} /*Map*/,
-        },
-      },
-      nonce: '',
-      accountId: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.EnableStageTransition = function EnableStageTransition(aws) {
-  var transitionType = aws.params.transitionType;
-  var stageName = aws.params.stageName;
-  var pipelineName = aws.params.pipelineName;
-  if (!pipelineName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter pipelineName'];
-  }
-  if (!stageName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter stageName'];
-  }
-  if (!transitionType) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter transitionType'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.PutThirdPartyJobSuccessResult = function PutThirdPartyJobSuccessResult(aws) {
-  var currentRevision = aws.params.currentRevision;
-  var continuationToken = aws.params.continuationToken;
-  var executionDetails = aws.params.executionDetails;
-  var jobId = aws.params.jobId;
-  var clientToken = aws.params.clientToken;
-  if (!jobId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter jobId'];
-  }
-  if (!clientToken) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter clientToken'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.GetPipelineState = function GetPipelineState(aws) {
-  var name = aws.params.name;
-  if (!name) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter name'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    created: awsCommon.timestamp(),
-    updated: awsCommon.timestamp(),
-    pipelineVersion: 0,
-    pipelineName: '',
-    stageStates: [ {
-      actionStates: [ {
-        currentRevision: /*S2s*/{
-          revisionId: '',
-          revisionChangeId: '',
-          created: awsCommon.timestamp(),
-        },
-        actionName: '',
-        latestExecution: {
-          lastStatusChange: awsCommon.timestamp(),
-          percentComplete: 0,
-          externalExecutionUrl: '',
-          status: '',
-          externalExecutionId: '',
-          errorDetails: {
-            message: '',
-            code: '',
-          },
-          summary: '',
-        },
-        entityUrl: '',
-        revisionUrl: '',
-      }, /* ...*/ ],
-      inboundTransitionState: {
-        lastChangedAt: awsCommon.timestamp(),
-        lastChangedBy: '',
-        enabled: false,
-        disabledReason: '',
-      },
-      stageName: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListActionTypes = function ListActionTypes(aws) {
-  var actionOwnerFilter = aws.params.actionOwnerFilter;
-  var nextToken = aws.params.nextToken;
-
-
-  // TODO implement code
-
-  var ret = {
-    actionTypes: [ /*Sr*/{
-      settings: /*Se*/{
-        thirdPartyConfigurationUrl: '',
-        entityUrlTemplate: '',
-        executionUrlTemplate: '',
-        revisionUrlTemplate: '',
-      },
-      id: /*Ss*/{
-        category: '',
-        owner: '',
-        version: '',
-        provider: '',
-      },
-      inputArtifactDetails: /*Sn*/{
-        maximumCount: 0,
-        minimumCount: 0,
-      },
-      outputArtifactDetails: /*Sn*/{
-        maximumCount: 0,
-        minimumCount: 0,
-      },
-      actionConfigurationProperties: /*Sh*/[ {
-        secret: false,
-        key: false,
-        required: false,
-        description: '',
         name: '',
-        queryable: false,
-        type: '',
       }, /* ...*/ ],
-    }, /* ...*/ ],
-    nextToken: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.PutThirdPartyJobFailureResult = function PutThirdPartyJobFailureResult(aws) {
-  var failureDetails = aws.params.failureDetails;
-  var jobId = aws.params.jobId;
-  var clientToken = aws.params.clientToken;
-  if (!jobId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter jobId'];
-  }
-  if (!clientToken) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter clientToken'];
-  }
-  if (!failureDetails) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter failureDetails'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.GetThirdPartyJobDetails = function GetThirdPartyJobDetails(aws) {
-  var jobId = aws.params.jobId;
-  var clientToken = aws.params.clientToken;
-  if (!jobId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter jobId'];
-  }
-  if (!clientToken) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter clientToken'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    jobDetails: {
-      id: '',
-      data: {
-        continuationToken: '',
-        pipelineContext: /*S1z*/{
-          action: {
-            name: '',
-          },
-          stage: {
-            name: '',
-          },
-          pipelineName: '',
-        },
-        outputArtifacts: /*S22*/[ {
-          name: '',
-          location: {
-            s3Location: {
-              objectKey: '',
-              bucketName: '',
-            },
-            type: '',
-          },
-          revision: '',
-        }, /* ...*/ ],
-        actionTypeId: /*Ss*/{
-          category: '',
-          owner: '',
-          version: '',
-          provider: '',
-        },
-        encryptionKey: /*S11*/{
-          id: '',
-          type: '',
-        },
-        artifactCredentials: /*S2a*/{
-          secretAccessKey: '',
-          accessKeyId: '',
-          sessionToken: '',
-        },
-        inputArtifacts: /*S22*/[ {
-          name: '',
-          location: {
-            s3Location: {
-              objectKey: '',
-              bucketName: '',
-            },
-            type: '',
-          },
-          revision: '',
-        }, /* ...*/ ],
-        actionConfiguration: /*S1y*/{
-          configuration: /*S1f*/{} /*Map*/,
-        },
-      },
-      nonce: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DisableStageTransition = function DisableStageTransition(aws) {
-  var transitionType = aws.params.transitionType;
-  var stageName = aws.params.stageName;
-  var pipelineName = aws.params.pipelineName;
-  var reason = aws.params.reason;
-  if (!pipelineName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter pipelineName'];
-  }
-  if (!stageName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter stageName'];
-  }
-  if (!transitionType) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter transitionType'];
-  }
-  if (!reason) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter reason'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.GetPipeline = function GetPipeline(aws) {
-  var name = aws.params.name;
-  var version = aws.params.version /* Type integer */;
-  if (!name) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter name'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    pipeline: /*Sv*/{
-      name: '',
-      stages: [ {
-        name: '',
-        blockers: [ {
-          name: '',
-          type: '',
-        }, /* ...*/ ],
-        actions: [ {
-          inputArtifacts: [ {
-            name: '',
-          }, /* ...*/ ],
-          roleArn: '',
-          outputArtifacts: [ {
-            name: '',
-          }, /* ...*/ ],
-          actionTypeId: /*Ss*/{
-            category: '',
-            owner: '',
-            version: '',
-            provider: '',
-          },
-          name: '',
-          configuration: /*S1f*/{} /*Map*/,
-          runOrder: 0,
-        }, /* ...*/ ],
-      }, /* ...*/ ],
-      artifactStore: {
-        location: '',
-        encryptionKey: /*S11*/{
-          id: '',
-          type: '',
-        },
-        type: '',
-      },
-      roleArn: '',
       version: 0,
     },
   };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreatePipeline = function CreatePipeline(aws) {
-  var pipeline = aws.params.pipeline;
-  if (!pipeline) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter pipeline'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    pipeline: /*Sv*/{
-      name: '',
-      stages: [ {
-        name: '',
-        blockers: [ {
-          name: '',
-          type: '',
-        }, /* ...*/ ],
-        actions: [ {
-          inputArtifacts: [ {
-            name: '',
-          }, /* ...*/ ],
-          roleArn: '',
-          outputArtifacts: [ {
-            name: '',
-          }, /* ...*/ ],
-          actionTypeId: /*Ss*/{
-            category: '',
-            owner: '',
-            version: '',
-            provider: '',
-          },
-          name: '',
-          configuration: /*S1f*/{} /*Map*/,
-          runOrder: 0,
-        }, /* ...*/ ],
-      }, /* ...*/ ],
-      artifactStore: {
-        location: '',
-        encryptionKey: /*S11*/{
-          id: '',
-          type: '',
-        },
-        type: '',
-      },
-      roleArn: '',
-      version: 0,
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteCustomActionType = function DeleteCustomActionType(aws) {
-  var category = aws.params.category;
-  var provider = aws.params.provider;
-  var version = aws.params.version;
-  if (!category) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter category'];
-  }
-  if (!provider) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter provider'];
-  }
-  if (!version) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter version'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.PutActionRevision = function PutActionRevision(aws) {
-  var actionName = aws.params.actionName;
-  var stageName = aws.params.stageName;
-  var actionRevision = aws.params.actionRevision;
-  var pipelineName = aws.params.pipelineName;
-  if (!pipelineName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter pipelineName'];
-  }
-  if (!stageName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter stageName'];
-  }
-  if (!actionName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter actionName'];
-  }
-  if (!actionRevision) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter actionRevision'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    newRevision: false,
-    pipelineExecutionId: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.PutJobFailureResult = function PutJobFailureResult(aws) {
-  var failureDetails = aws.params.failureDetails;
-  var jobId = aws.params.jobId;
-  if (!jobId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter jobId'];
-  }
-  if (!failureDetails) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter failureDetails'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
   return [200, ret];
 };

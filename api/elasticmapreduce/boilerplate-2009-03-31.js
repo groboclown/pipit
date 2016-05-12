@@ -12,43 +12,23 @@ const awsCommon = require('../../lib/aws-common');
 // Setup input and output to use AWS protocol json
 require('../../lib/aws-common/shape_http')('json', module.exports, null);
 // -----------------------------------
-module.exports.TerminateJobFlows = function TerminateJobFlows(aws) {
-  var jobFlowIds = aws.params.JobFlowIds;
-  if (!jobFlowIds) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter JobFlowIds'];
+module.exports.AddInstanceGroups = function AddInstanceGroups(aws) {
+  var instanceGroups = aws.params.InstanceGroups;
+  var jobFlowId = aws.params.JobFlowId;
+  if (!instanceGroups) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceGroups'];
+  }
+  if (!jobFlowId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter JobFlowId'];
   }
 
 
   // TODO implement code
 
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.SetTerminationProtection = function SetTerminationProtection(aws) {
-  var jobFlowIds = aws.params.JobFlowIds;
-  var terminationProtected = aws.params.TerminationProtected /* Type boolean */;
-  if (!jobFlowIds) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter JobFlowIds'];
-  }
-  if (!terminationProtected) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TerminationProtected'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ModifyInstanceGroups = function ModifyInstanceGroups(aws) {
-  var instanceGroups = aws.params.InstanceGroups /* Type list */;
-
-
-  // TODO implement code
-
-  var ret = {};
+  var ret = {
+    InstanceGroupIds: [ '', /* ...*/ ],
+    JobFlowId: '',
+  };
   return [200, ret];
 };
 // -----------------------------------
@@ -71,8 +51,26 @@ module.exports.AddJobFlowSteps = function AddJobFlowSteps(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.ListInstanceGroups = function ListInstanceGroups(aws) {
-  var marker = aws.params.Marker;
+module.exports.AddTags = function AddTags(aws) {
+  var resourceId = aws.params.ResourceId;
+  var tags = aws.params.Tags;
+  if (!resourceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ResourceId'];
+  }
+  if (!tags) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Tags'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeCluster = function DescribeCluster(aws) {
   var clusterId = aws.params.ClusterId;
   if (!clusterId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClusterId'];
@@ -82,35 +80,403 @@ module.exports.ListInstanceGroups = function ListInstanceGroups(aws) {
   // TODO implement code
 
   var ret = {
-    Marker: '',
-    InstanceGroups: [ {
-      Market: '',
-      InstanceType: '',
-      InstanceGroupType: '',
+    Cluster: {
+      Applications: /*S1d*/[ {
+        AdditionalInfo: /*Sc*/{} /*Map*/,
+        Args: /*S1b*/[ '', /* ...*/ ],
+        Name: '',
+        Version: '',
+      }, /* ...*/ ],
+      AutoTerminate: false,
       Configurations: /*S9*/[ {
         Classification: '',
         Configurations: null /* Recursive S9*/,
         Properties: /*Sc*/{} /*Map*/,
       }, /* ...*/ ],
-      Status: {
+      Ec2InstanceAttributes: {
+        AdditionalMasterSecurityGroups: /*S1b*/[ '', /* ...*/ ],
+        AdditionalSlaveSecurityGroups: /*S1b*/[ '', /* ...*/ ],
+        Ec2AvailabilityZone: '',
+        Ec2KeyName: '',
+        Ec2SubnetId: '',
+        EmrManagedMasterSecurityGroup: '',
+        EmrManagedSlaveSecurityGroup: '',
+        IamInstanceProfile: '',
+        ServiceAccessSecurityGroup: '',
+      },
+      Id: '',
+      LogUri: '',
+      MasterPublicDnsName: '',
+      Name: '',
+      NormalizedInstanceHours: 0,
+      ReleaseLabel: '',
+      RequestedAmiVersion: '',
+      RunningAmiVersion: '',
+      ServiceRole: '',
+      Status: /*S14*/{
         State: '',
-        Timeline: {
-          ReadyDateTime: awsCommon.timestamp(),
-          CreationDateTime: awsCommon.timestamp(),
-          EndDateTime: awsCommon.timestamp(),
-        },
         StateChangeReason: {
           Code: '',
           Message: '',
         },
+        Timeline: {
+          CreationDateTime: awsCommon.timestamp(),
+          EndDateTime: awsCommon.timestamp(),
+          ReadyDateTime: awsCommon.timestamp(),
+        },
       },
-      RequestedInstanceCount: 0,
+      Tags: /*Sx*/[ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      TerminationProtected: false,
+      VisibleToAllUsers: false,
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeJobFlows = function DescribeJobFlows(aws) {
+  var createdAfter = aws.params.CreatedAfter /* Type timestamp */;
+  var createdBefore = aws.params.CreatedBefore /* Type timestamp */;
+  var jobFlowIds = aws.params.JobFlowIds;
+  var jobFlowStates = aws.params.JobFlowStates /* Type list */;
+
+
+  // TODO implement code
+
+  var ret = {
+    JobFlows: [ {
+      AmiVersion: '',
+      BootstrapActions: [ {
+        BootstrapActionConfig: /*S1x*/{
+          Name: '',
+          ScriptBootstrapAction: {
+            Args: /*Ss*/[ '', /* ...*/ ],
+            Path: '',
+          },
+        },
+      }, /* ...*/ ],
+      ExecutionStatusDetail: {
+        CreationDateTime: awsCommon.timestamp(),
+        EndDateTime: awsCommon.timestamp(),
+        LastStateChangeReason: '',
+        ReadyDateTime: awsCommon.timestamp(),
+        StartDateTime: awsCommon.timestamp(),
+        State: '',
+      },
+      Instances: {
+        Ec2KeyName: '',
+        Ec2SubnetId: '',
+        HadoopVersion: '',
+        InstanceCount: 0,
+        InstanceGroups: [ {
+          BidPrice: '',
+          CreationDateTime: awsCommon.timestamp(),
+          EndDateTime: awsCommon.timestamp(),
+          InstanceGroupId: '',
+          InstanceRequestCount: 0,
+          InstanceRole: '',
+          InstanceRunningCount: 0,
+          InstanceType: '',
+          LastStateChangeReason: '',
+          Market: '',
+          Name: '',
+          ReadyDateTime: awsCommon.timestamp(),
+          StartDateTime: awsCommon.timestamp(),
+          State: '',
+        }, /* ...*/ ],
+        KeepJobFlowAliveWhenNoSteps: false,
+        MasterInstanceId: '',
+        MasterInstanceType: '',
+        MasterPublicDnsName: '',
+        NormalizedInstanceHours: 0,
+        Placement: /*S1q*/{
+          AvailabilityZone: '',
+        },
+        SlaveInstanceType: '',
+        TerminationProtected: false,
+      },
+      JobFlowId: '',
+      JobFlowRole: '',
+      LogUri: '',
       Name: '',
-      Id: '',
-      BidPrice: '',
-      RunningInstanceCount: 0,
+      ServiceRole: '',
+      Steps: [ {
+        ExecutionStatusDetail: {
+          CreationDateTime: awsCommon.timestamp(),
+          EndDateTime: awsCommon.timestamp(),
+          LastStateChangeReason: '',
+          StartDateTime: awsCommon.timestamp(),
+          State: '',
+        },
+        StepConfig: /*Sm*/{
+          ActionOnFailure: '',
+          HadoopJarStep: {
+            Args: /*Ss*/[ '', /* ...*/ ],
+            Jar: '',
+            MainClass: '',
+            Properties: [ {
+              Key: '',
+              Value: '',
+            }, /* ...*/ ],
+          },
+          Name: '',
+        },
+      }, /* ...*/ ],
+      SupportedProducts: /*S1z*/[ '', /* ...*/ ],
+      VisibleToAllUsers: false,
     }, /* ...*/ ],
   };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeStep = function DescribeStep(aws) {
+  var clusterId = aws.params.ClusterId;
+  var stepId = aws.params.StepId;
+  if (!clusterId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClusterId'];
+  }
+  if (!stepId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StepId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Step: {
+      ActionOnFailure: '',
+      Config: /*S24*/{
+        Args: /*S1b*/[ '', /* ...*/ ],
+        Jar: '',
+        MainClass: '',
+        Properties: /*Sc*/{} /*Map*/,
+      },
+      Id: '',
+      Name: '',
+      Status: /*S25*/{
+        State: '',
+        StateChangeReason: {
+          Code: '',
+          Message: '',
+        },
+        Timeline: {
+          CreationDateTime: awsCommon.timestamp(),
+          EndDateTime: awsCommon.timestamp(),
+          StartDateTime: awsCommon.timestamp(),
+        },
+      },
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListBootstrapActions = function ListBootstrapActions(aws) {
+  var clusterId = aws.params.ClusterId;
+  var marker = aws.params.Marker;
+  if (!clusterId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClusterId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    BootstrapActions: [ {
+      Args: /*S1b*/[ '', /* ...*/ ],
+      Name: '',
+      ScriptPath: '',
+    }, /* ...*/ ],
+    Marker: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListClusters = function ListClusters(aws) {
+  var clusterStates = aws.params.ClusterStates /* Type list */;
+  var createdAfter = aws.params.CreatedAfter /* Type timestamp */;
+  var createdBefore = aws.params.CreatedBefore /* Type timestamp */;
+  var marker = aws.params.Marker;
+
+
+  // TODO implement code
+
+  var ret = {
+    Clusters: [ {
+      Id: '',
+      Name: '',
+      NormalizedInstanceHours: 0,
+      Status: /*S14*/{
+        State: '',
+        StateChangeReason: {
+          Code: '',
+          Message: '',
+        },
+        Timeline: {
+          CreationDateTime: awsCommon.timestamp(),
+          EndDateTime: awsCommon.timestamp(),
+          ReadyDateTime: awsCommon.timestamp(),
+        },
+      },
+    }, /* ...*/ ],
+    Marker: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListInstanceGroups = function ListInstanceGroups(aws) {
+  var clusterId = aws.params.ClusterId;
+  var marker = aws.params.Marker;
+  if (!clusterId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClusterId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    InstanceGroups: [ {
+      BidPrice: '',
+      Configurations: /*S9*/[ {
+        Classification: '',
+        Configurations: null /* Recursive S9*/,
+        Properties: /*Sc*/{} /*Map*/,
+      }, /* ...*/ ],
+      EbsBlockDevices: [ {
+        Device: '',
+        VolumeSpecification: /*Sg*/{
+          Iops: 0,
+          SizeInGB: 0,
+          VolumeType: '',
+        },
+      }, /* ...*/ ],
+      EbsOptimized: false,
+      Id: '',
+      InstanceGroupType: '',
+      InstanceType: '',
+      Market: '',
+      Name: '',
+      RequestedInstanceCount: 0,
+      RunningInstanceCount: 0,
+      ShrinkPolicy: /*S2w*/{
+        DecommissionTimeout: 0,
+        InstanceResizePolicy: {
+          InstanceTerminationTimeout: 0,
+          InstancesToProtect: /*S2y*/[ '', /* ...*/ ],
+          InstancesToTerminate: /*S2y*/[ '', /* ...*/ ],
+        },
+      },
+      Status: {
+        State: '',
+        StateChangeReason: {
+          Code: '',
+          Message: '',
+        },
+        Timeline: {
+          CreationDateTime: awsCommon.timestamp(),
+          EndDateTime: awsCommon.timestamp(),
+          ReadyDateTime: awsCommon.timestamp(),
+        },
+      },
+    }, /* ...*/ ],
+    Marker: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListInstances = function ListInstances(aws) {
+  var clusterId = aws.params.ClusterId;
+  var instanceGroupId = aws.params.InstanceGroupId;
+  var instanceGroupTypes = aws.params.InstanceGroupTypes /* Type list */;
+  var instanceStates = aws.params.InstanceStates /* Type list */;
+  var marker = aws.params.Marker;
+  if (!clusterId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClusterId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Instances: [ {
+      EbsVolumes: [ {
+        Device: '',
+        VolumeId: '',
+      }, /* ...*/ ],
+      Ec2InstanceId: '',
+      Id: '',
+      InstanceGroupId: '',
+      PrivateDnsName: '',
+      PrivateIpAddress: '',
+      PublicDnsName: '',
+      PublicIpAddress: '',
+      Status: {
+        State: '',
+        StateChangeReason: {
+          Code: '',
+          Message: '',
+        },
+        Timeline: {
+          CreationDateTime: awsCommon.timestamp(),
+          EndDateTime: awsCommon.timestamp(),
+          ReadyDateTime: awsCommon.timestamp(),
+        },
+      },
+    }, /* ...*/ ],
+    Marker: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ListSteps = function ListSteps(aws) {
+  var clusterId = aws.params.ClusterId;
+  var marker = aws.params.Marker;
+  var stepIds = aws.params.StepIds;
+  var stepStates = aws.params.StepStates /* Type list */;
+  if (!clusterId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClusterId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Marker: '',
+    Steps: [ {
+      ActionOnFailure: '',
+      Config: /*S24*/{
+        Args: /*S1b*/[ '', /* ...*/ ],
+        Jar: '',
+        MainClass: '',
+        Properties: /*Sc*/{} /*Map*/,
+      },
+      Id: '',
+      Name: '',
+      Status: /*S25*/{
+        State: '',
+        StateChangeReason: {
+          Code: '',
+          Message: '',
+        },
+        Timeline: {
+          CreationDateTime: awsCommon.timestamp(),
+          EndDateTime: awsCommon.timestamp(),
+          StartDateTime: awsCommon.timestamp(),
+        },
+      },
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ModifyInstanceGroups = function ModifyInstanceGroups(aws) {
+  var instanceGroups = aws.params.InstanceGroups /* Type list */;
+
+
+  // TODO implement code
+
+  var ret = {};
   return [200, ret];
 };
 // -----------------------------------
@@ -133,55 +499,28 @@ module.exports.RemoveTags = function RemoveTags(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DescribeStep = function DescribeStep(aws) {
-  var stepId = aws.params.StepId;
-  var clusterId = aws.params.ClusterId;
-  if (!clusterId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClusterId'];
+module.exports.RunJobFlow = function RunJobFlow(aws) {
+  var additionalInfo = aws.params.AdditionalInfo;
+  var amiVersion = aws.params.AmiVersion;
+  var applications = aws.params.Applications;
+  var bootstrapActions = aws.params.BootstrapActions /* Type list */;
+  var configurations = aws.params.Configurations;
+  var instances = aws.params.Instances /* Type structure */;
+  var jobFlowRole = aws.params.JobFlowRole;
+  var logUri = aws.params.LogUri;
+  var name = aws.params.Name;
+  var newSupportedProducts = aws.params.NewSupportedProducts /* Type list */;
+  var releaseLabel = aws.params.ReleaseLabel;
+  var serviceRole = aws.params.ServiceRole;
+  var steps = aws.params.Steps;
+  var supportedProducts = aws.params.SupportedProducts;
+  var tags = aws.params.Tags;
+  var visibleToAllUsers = aws.params.VisibleToAllUsers /* Type boolean */;
+  if (!instances) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Instances'];
   }
-  if (!stepId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StepId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Step: {
-      Config: /*S1z*/{
-        MainClass: '',
-        Properties: /*Sc*/{} /*Map*/,
-        Args: /*S16*/[ '', /* ...*/ ],
-        Jar: '',
-      },
-      Name: '',
-      Id: '',
-      Status: /*S20*/{
-        State: '',
-        Timeline: {
-          EndDateTime: awsCommon.timestamp(),
-          CreationDateTime: awsCommon.timestamp(),
-          StartDateTime: awsCommon.timestamp(),
-        },
-        StateChangeReason: {
-          Code: '',
-          Message: '',
-        },
-      },
-      ActionOnFailure: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.AddInstanceGroups = function AddInstanceGroups(aws) {
-  var jobFlowId = aws.params.JobFlowId;
-  var instanceGroups = aws.params.InstanceGroups;
-  if (!instanceGroups) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceGroups'];
-  }
-  if (!jobFlowId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter JobFlowId'];
+  if (!name) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
   }
 
 
@@ -189,8 +528,24 @@ module.exports.AddInstanceGroups = function AddInstanceGroups(aws) {
 
   var ret = {
     JobFlowId: '',
-    InstanceGroupIds: [ '', /* ...*/ ],
   };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.SetTerminationProtection = function SetTerminationProtection(aws) {
+  var jobFlowIds = aws.params.JobFlowIds;
+  var terminationProtected = aws.params.TerminationProtected /* Type boolean */;
+  if (!jobFlowIds) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter JobFlowIds'];
+  }
+  if (!terminationProtected) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TerminationProtected'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
   return [200, ret];
 };
 // -----------------------------------
@@ -211,347 +566,15 @@ module.exports.SetVisibleToAllUsers = function SetVisibleToAllUsers(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DescribeJobFlows = function DescribeJobFlows(aws) {
-  var jobFlowStates = aws.params.JobFlowStates /* Type list */;
-  var createdBefore = aws.params.CreatedBefore /* Type timestamp */;
+module.exports.TerminateJobFlows = function TerminateJobFlows(aws) {
   var jobFlowIds = aws.params.JobFlowIds;
-  var createdAfter = aws.params.CreatedAfter /* Type timestamp */;
-
-
-  // TODO implement code
-
-  var ret = {
-    JobFlows: [ {
-      JobFlowId: '',
-      ExecutionStatusDetail: {
-        EndDateTime: awsCommon.timestamp(),
-        CreationDateTime: awsCommon.timestamp(),
-        ReadyDateTime: awsCommon.timestamp(),
-        State: '',
-        LastStateChangeReason: '',
-        StartDateTime: awsCommon.timestamp(),
-      },
-      BootstrapActions: [ {
-        BootstrapActionConfig: /*S1s*/{
-          Name: '',
-          ScriptBootstrapAction: {
-            Path: '',
-            Args: /*Sn*/[ '', /* ...*/ ],
-          },
-        },
-      }, /* ...*/ ],
-      Steps: [ {
-        ExecutionStatusDetail: {
-          EndDateTime: awsCommon.timestamp(),
-          State: '',
-          LastStateChangeReason: '',
-          StartDateTime: awsCommon.timestamp(),
-          CreationDateTime: awsCommon.timestamp(),
-        },
-        StepConfig: /*Sh*/{
-          Name: '',
-          HadoopJarStep: {
-            MainClass: '',
-            Properties: [ {
-              Value: '',
-              Key: '',
-            }, /* ...*/ ],
-            Args: /*Sn*/[ '', /* ...*/ ],
-            Jar: '',
-          },
-          ActionOnFailure: '',
-        },
-      }, /* ...*/ ],
-      LogUri: '',
-      Instances: {
-        MasterInstanceId: '',
-        MasterPublicDnsName: '',
-        Placement: /*S1l*/{
-          AvailabilityZone: '',
-        },
-        MasterInstanceType: '',
-        KeepJobFlowAliveWhenNoSteps: false,
-        Ec2KeyName: '',
-        Ec2SubnetId: '',
-        InstanceCount: 0,
-        SlaveInstanceType: '',
-        TerminationProtected: false,
-        InstanceGroups: [ {
-          Market: '',
-          LastStateChangeReason: '',
-          EndDateTime: awsCommon.timestamp(),
-          StartDateTime: awsCommon.timestamp(),
-          Name: '',
-          InstanceType: '',
-          InstanceRole: '',
-          InstanceGroupId: '',
-          CreationDateTime: awsCommon.timestamp(),
-          ReadyDateTime: awsCommon.timestamp(),
-          State: '',
-          BidPrice: '',
-          InstanceRequestCount: 0,
-          InstanceRunningCount: 0,
-        }, /* ...*/ ],
-        NormalizedInstanceHours: 0,
-        HadoopVersion: '',
-      },
-      SupportedProducts: /*S1u*/[ '', /* ...*/ ],
-      JobFlowRole: '',
-      AmiVersion: '',
-      Name: '',
-      VisibleToAllUsers: false,
-      ServiceRole: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeCluster = function DescribeCluster(aws) {
-  var clusterId = aws.params.ClusterId;
-  if (!clusterId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClusterId'];
+  if (!jobFlowIds) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter JobFlowIds'];
   }
 
 
   // TODO implement code
 
-  var ret = {
-    Cluster: {
-      Ec2InstanceAttributes: {
-        Ec2SubnetId: '',
-        ServiceAccessSecurityGroup: '',
-        EmrManagedMasterSecurityGroup: '',
-        AdditionalSlaveSecurityGroups: /*S16*/[ '', /* ...*/ ],
-        AdditionalMasterSecurityGroups: /*S16*/[ '', /* ...*/ ],
-        IamInstanceProfile: '',
-        Ec2AvailabilityZone: '',
-        EmrManagedSlaveSecurityGroup: '',
-        Ec2KeyName: '',
-      },
-      MasterPublicDnsName: '',
-      Status: /*Sz*/{
-        State: '',
-        Timeline: {
-          ReadyDateTime: awsCommon.timestamp(),
-          CreationDateTime: awsCommon.timestamp(),
-          EndDateTime: awsCommon.timestamp(),
-        },
-        StateChangeReason: {
-          Code: '',
-          Message: '',
-        },
-      },
-      AutoTerminate: false,
-      Applications: /*S18*/[ {
-        Name: '',
-        AdditionalInfo: /*Sc*/{} /*Map*/,
-        Args: /*S16*/[ '', /* ...*/ ],
-        Version: '',
-      }, /* ...*/ ],
-      LogUri: '',
-      Tags: /*Ss*/[ {
-        Value: '',
-        Key: '',
-      }, /* ...*/ ],
-      ReleaseLabel: '',
-      RequestedAmiVersion: '',
-      RunningAmiVersion: '',
-      TerminationProtected: false,
-      Configurations: /*S9*/[ {
-        Classification: '',
-        Configurations: null /* Recursive S9*/,
-        Properties: /*Sc*/{} /*Map*/,
-      }, /* ...*/ ],
-      Name: '',
-      Id: '',
-      VisibleToAllUsers: false,
-      NormalizedInstanceHours: 0,
-      ServiceRole: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListInstances = function ListInstances(aws) {
-  var marker = aws.params.Marker;
-  var instanceGroupId = aws.params.InstanceGroupId;
-  var clusterId = aws.params.ClusterId;
-  var instanceGroupTypes = aws.params.InstanceGroupTypes /* Type list */;
-  if (!clusterId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClusterId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Marker: '',
-    Instances: [ {
-      PrivateIpAddress: '',
-      PublicDnsName: '',
-      Status: {
-        State: '',
-        Timeline: {
-          ReadyDateTime: awsCommon.timestamp(),
-          CreationDateTime: awsCommon.timestamp(),
-          EndDateTime: awsCommon.timestamp(),
-        },
-        StateChangeReason: {
-          Code: '',
-          Message: '',
-        },
-      },
-      PublicIpAddress: '',
-      Id: '',
-      Ec2InstanceId: '',
-      PrivateDnsName: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListSteps = function ListSteps(aws) {
-  var marker = aws.params.Marker;
-  var stepStates = aws.params.StepStates /* Type list */;
-  var clusterId = aws.params.ClusterId;
-  var stepIds = aws.params.StepIds;
-  if (!clusterId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClusterId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Marker: '',
-    Steps: [ {
-      Config: /*S1z*/{
-        MainClass: '',
-        Properties: /*Sc*/{} /*Map*/,
-        Args: /*S16*/[ '', /* ...*/ ],
-        Jar: '',
-      },
-      Name: '',
-      Id: '',
-      Status: /*S20*/{
-        State: '',
-        Timeline: {
-          EndDateTime: awsCommon.timestamp(),
-          CreationDateTime: awsCommon.timestamp(),
-          StartDateTime: awsCommon.timestamp(),
-        },
-        StateChangeReason: {
-          Code: '',
-          Message: '',
-        },
-      },
-      ActionOnFailure: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListBootstrapActions = function ListBootstrapActions(aws) {
-  var marker = aws.params.Marker;
-  var clusterId = aws.params.ClusterId;
-  if (!clusterId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClusterId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Marker: '',
-    BootstrapActions: [ {
-      Name: '',
-      ScriptPath: '',
-      Args: /*S16*/[ '', /* ...*/ ],
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ListClusters = function ListClusters(aws) {
-  var marker = aws.params.Marker;
-  var createdBefore = aws.params.CreatedBefore /* Type timestamp */;
-  var clusterStates = aws.params.ClusterStates /* Type list */;
-  var createdAfter = aws.params.CreatedAfter /* Type timestamp */;
-
-
-  // TODO implement code
-
-  var ret = {
-    Clusters: [ {
-      Name: '',
-      Id: '',
-      NormalizedInstanceHours: 0,
-      Status: /*Sz*/{
-        State: '',
-        Timeline: {
-          ReadyDateTime: awsCommon.timestamp(),
-          CreationDateTime: awsCommon.timestamp(),
-          EndDateTime: awsCommon.timestamp(),
-        },
-        StateChangeReason: {
-          Code: '',
-          Message: '',
-        },
-      },
-    }, /* ...*/ ],
-    Marker: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.RunJobFlow = function RunJobFlow(aws) {
-  var applications = aws.params.Applications;
-  var serviceRole = aws.params.ServiceRole;
-  var bootstrapActions = aws.params.BootstrapActions /* Type list */;
-  var jobFlowRole = aws.params.JobFlowRole;
-  var steps = aws.params.Steps;
-  var logUri = aws.params.LogUri;
-  var supportedProducts = aws.params.SupportedProducts;
-  var tags = aws.params.Tags;
-  var instances = aws.params.Instances /* Type structure */;
-  var releaseLabel = aws.params.ReleaseLabel;
-  var configurations = aws.params.Configurations;
-  var name = aws.params.Name;
-  var amiVersion = aws.params.AmiVersion;
-  var newSupportedProducts = aws.params.NewSupportedProducts /* Type list */;
-  var visibleToAllUsers = aws.params.VisibleToAllUsers /* Type boolean */;
-  var additionalInfo = aws.params.AdditionalInfo;
-  if (!name) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
-  }
-  if (!instances) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Instances'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    JobFlowId: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.AddTags = function AddTags(aws) {
-  var resourceId = aws.params.ResourceId;
-  var tags = aws.params.Tags;
-  if (!resourceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ResourceId'];
-  }
-  if (!tags) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Tags'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-
-  };
+  var ret = {};
   return [200, ret];
 };

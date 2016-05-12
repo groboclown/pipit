@@ -12,8 +12,41 @@ const awsCommon = require('../../lib/aws-common');
 // Setup input and output to use AWS protocol json
 require('../../lib/aws-common/shape_http')('json', module.exports, null);
 // -----------------------------------
-module.exports.GetSnapshotLimits = function GetSnapshotLimits(aws) {
+module.exports.ConnectDirectory = function ConnectDirectory(aws) {
+  var connectSettings = aws.params.ConnectSettings /* Type structure */;
+  var description = aws.params.Description;
+  var name = aws.params.Name;
+  var password = aws.params.Password;
+  var shortName = aws.params.ShortName;
+  var size = aws.params.Size;
+  if (!connectSettings) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ConnectSettings'];
+  }
+  if (!name) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
+  }
+  if (!password) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Password'];
+  }
+  if (!size) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Size'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    DirectoryId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateAlias = function CreateAlias(aws) {
+  var alias = aws.params.Alias;
   var directoryId = aws.params.DirectoryId;
+  if (!alias) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Alias'];
+  }
   if (!directoryId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DirectoryId'];
   }
@@ -22,11 +55,114 @@ module.exports.GetSnapshotLimits = function GetSnapshotLimits(aws) {
   // TODO implement code
 
   var ret = {
-    SnapshotLimits: {
-      ManualSnapshotsLimit: 0,
-      ManualSnapshotsCurrentCount: 0,
-      ManualSnapshotsLimitReached: false,
+    Alias: '',
+    DirectoryId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateComputer = function CreateComputer(aws) {
+  var computerAttributes = aws.params.ComputerAttributes;
+  var computerName = aws.params.ComputerName;
+  var directoryId = aws.params.DirectoryId;
+  var organizationalUnitDistinguishedName = aws.params.OrganizationalUnitDistinguishedName;
+  var password = aws.params.Password /* Type string */;
+  if (!computerName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ComputerName'];
+  }
+  if (!directoryId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DirectoryId'];
+  }
+  if (!password) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Password'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Computer: {
+      ComputerAttributes: /*Sn*/[ {
+        Name: '',
+        Value: '',
+      }, /* ...*/ ],
+      ComputerId: '',
+      ComputerName: '',
     },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateConditionalForwarder = function CreateConditionalForwarder(aws) {
+  var directoryId = aws.params.DirectoryId;
+  var dnsIpAddrs = aws.params.DnsIpAddrs;
+  var remoteDomainName = aws.params.RemoteDomainName;
+  if (!directoryId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DirectoryId'];
+  }
+  if (!dnsIpAddrs) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DnsIpAddrs'];
+  }
+  if (!remoteDomainName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RemoteDomainName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateDirectory = function CreateDirectory(aws) {
+  var description = aws.params.Description;
+  var name = aws.params.Name;
+  var password = aws.params.Password;
+  var shortName = aws.params.ShortName;
+  var size = aws.params.Size;
+  var vpcSettings = aws.params.VpcSettings;
+  if (!name) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
+  }
+  if (!password) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Password'];
+  }
+  if (!size) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Size'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    DirectoryId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateMicrosoftAD = function CreateMicrosoftAD(aws) {
+  var description = aws.params.Description;
+  var name = aws.params.Name;
+  var password = aws.params.Password;
+  var shortName = aws.params.ShortName;
+  var vpcSettings = aws.params.VpcSettings;
+  if (!name) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
+  }
+  if (!password) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Password'];
+  }
+  if (!vpcSettings) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpcSettings'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    DirectoryId: '',
   };
   return [200, ret];
 };
@@ -48,111 +184,23 @@ module.exports.CreateSnapshot = function CreateSnapshot(aws) {
 };
 // -----------------------------------
 module.exports.CreateTrust = function CreateTrust(aws) {
+  var conditionalForwarderIpAddrs = aws.params.ConditionalForwarderIpAddrs;
   var directoryId = aws.params.DirectoryId;
   var remoteDomainName = aws.params.RemoteDomainName;
   var trustDirection = aws.params.TrustDirection;
-  var trustType = aws.params.TrustType;
   var trustPassword = aws.params.TrustPassword /* Type string */;
+  var trustType = aws.params.TrustType;
   if (!directoryId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DirectoryId'];
   }
   if (!remoteDomainName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RemoteDomainName'];
   }
-  if (!trustPassword) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TrustPassword'];
-  }
   if (!trustDirection) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TrustDirection'];
   }
-
-
-  // TODO implement code
-
-  var ret = {
-    TrustId: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.EnableRadius = function EnableRadius(aws) {
-  var directoryId = aws.params.DirectoryId;
-  var radiusSettings = aws.params.RadiusSettings;
-  if (!directoryId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DirectoryId'];
-  }
-  if (!radiusSettings) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RadiusSettings'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeDirectories = function DescribeDirectories(aws) {
-  var nextToken = aws.params.NextToken;
-  var limit = aws.params.Limit /* Type integer */;
-  var directoryIds = aws.params.DirectoryIds /* Type list */;
-
-
-  // TODO implement code
-
-  var ret = {
-    DirectoryDescriptions: [ {
-      LaunchTime: awsCommon.timestamp(),
-      ConnectSettings: {
-        AvailabilityZones: /*S1v*/[ '', /* ...*/ ],
-        CustomerUserName: '',
-        SubnetIds: /*S9*/[ '', /* ...*/ ],
-        SecurityGroupId: '',
-        ConnectIps: [ '', /* ...*/ ],
-        VpcId: '',
-      },
-      StageReason: '',
-      DnsIpAddrs: /*Sb*/[ '', /* ...*/ ],
-      DirectoryId: '',
-      Size: '',
-      RadiusSettings: /*S1z*/{
-        DisplayLabel: '',
-        RadiusTimeout: 0,
-        RadiusServers: [ '', /* ...*/ ],
-        RadiusRetries: 0,
-        RadiusPort: 0,
-        UseSameUsername: false,
-        AuthenticationProtocol: '',
-        SharedSecret: '',
-      },
-      Alias: '',
-      Stage: '',
-      Type: '',
-      ShortName: '',
-      RadiusStatus: '',
-      AccessUrl: '',
-      VpcSettings: {
-        SecurityGroupId: '',
-        AvailabilityZones: /*S1v*/[ '', /* ...*/ ],
-        VpcId: '',
-        SubnetIds: /*S9*/[ '', /* ...*/ ],
-      },
-      Description: '',
-      Name: '',
-      SsoEnabled: false,
-      StageLastUpdatedDateTime: awsCommon.timestamp(),
-    }, /* ...*/ ],
-    NextToken: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.VerifyTrust = function VerifyTrust(aws) {
-  var trustId = aws.params.TrustId;
-  if (!trustId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TrustId'];
+  if (!trustPassword) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TrustPassword'];
   }
 
 
@@ -164,243 +212,14 @@ module.exports.VerifyTrust = function VerifyTrust(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.CreateComputer = function CreateComputer(aws) {
+module.exports.DeleteConditionalForwarder = function DeleteConditionalForwarder(aws) {
   var directoryId = aws.params.DirectoryId;
-  var computerName = aws.params.ComputerName;
-  var organizationalUnitDistinguishedName = aws.params.OrganizationalUnitDistinguishedName;
-  var computerAttributes = aws.params.ComputerAttributes;
-  var password = aws.params.Password /* Type string */;
+  var remoteDomainName = aws.params.RemoteDomainName;
   if (!directoryId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DirectoryId'];
   }
-  if (!computerName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ComputerName'];
-  }
-  if (!password) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Password'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Computer: {
-      ComputerId: '',
-      ComputerAttributes: /*Sn*/[ {
-        Name: '',
-        Value: '',
-      }, /* ...*/ ],
-      ComputerName: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateAlias = function CreateAlias(aws) {
-  var directoryId = aws.params.DirectoryId;
-  var alias = aws.params.Alias;
-  if (!directoryId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DirectoryId'];
-  }
-  if (!alias) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Alias'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    DirectoryId: '',
-    Alias: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.EnableSso = function EnableSso(aws) {
-  var directoryId = aws.params.DirectoryId;
-  var password = aws.params.Password;
-  var userName = aws.params.UserName;
-  if (!directoryId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DirectoryId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateMicrosoftAD = function CreateMicrosoftAD(aws) {
-  var description = aws.params.Description;
-  var name = aws.params.Name;
-  var shortName = aws.params.ShortName;
-  var password = aws.params.Password;
-  var vpcSettings = aws.params.VpcSettings;
-  if (!name) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
-  }
-  if (!password) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Password'];
-  }
-  if (!vpcSettings) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpcSettings'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    DirectoryId: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteTrust = function DeleteTrust(aws) {
-  var trustId = aws.params.TrustId;
-  if (!trustId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TrustId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    TrustId: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.UpdateRadius = function UpdateRadius(aws) {
-  var directoryId = aws.params.DirectoryId;
-  var radiusSettings = aws.params.RadiusSettings;
-  if (!directoryId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DirectoryId'];
-  }
-  if (!radiusSettings) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RadiusSettings'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.GetDirectoryLimits = function GetDirectoryLimits(aws) {
-
-
-  // TODO implement code
-
-  var ret = {
-    DirectoryLimits: {
-      CloudOnlyMicrosoftADLimitReached: false,
-      ConnectedDirectoriesCurrentCount: 0,
-      CloudOnlyMicrosoftADCurrentCount: 0,
-      ConnectedDirectoriesLimitReached: false,
-      ConnectedDirectoriesLimit: 0,
-      CloudOnlyDirectoriesCurrentCount: 0,
-      CloudOnlyMicrosoftADLimit: 0,
-      CloudOnlyDirectoriesLimit: 0,
-      CloudOnlyDirectoriesLimitReached: false,
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.RestoreFromSnapshot = function RestoreFromSnapshot(aws) {
-  var snapshotId = aws.params.SnapshotId;
-  if (!snapshotId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SnapshotId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ConnectDirectory = function ConnectDirectory(aws) {
-  var shortName = aws.params.ShortName;
-  var connectSettings = aws.params.ConnectSettings /* Type structure */;
-  var size = aws.params.Size;
-  var description = aws.params.Description;
-  var name = aws.params.Name;
-  var password = aws.params.Password;
-  if (!name) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
-  }
-  if (!password) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Password'];
-  }
-  if (!size) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Size'];
-  }
-  if (!connectSettings) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ConnectSettings'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    DirectoryId: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DisableRadius = function DisableRadius(aws) {
-  var directoryId = aws.params.DirectoryId;
-  if (!directoryId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DirectoryId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeSnapshots = function DescribeSnapshots(aws) {
-  var directoryId = aws.params.DirectoryId;
-  var nextToken = aws.params.NextToken;
-  var snapshotIds = aws.params.SnapshotIds /* Type list */;
-  var limit = aws.params.Limit /* Type integer */;
-
-
-  // TODO implement code
-
-  var ret = {
-    NextToken: '',
-    Snapshots: [ {
-      StartTime: awsCommon.timestamp(),
-      Status: '',
-      DirectoryId: '',
-      Name: '',
-      SnapshotId: '',
-      Type: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DisableSso = function DisableSso(aws) {
-  var directoryId = aws.params.DirectoryId;
-  var password = aws.params.Password;
-  var userName = aws.params.UserName;
-  if (!directoryId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DirectoryId'];
+  if (!remoteDomainName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RemoteDomainName'];
   }
 
 
@@ -442,36 +261,162 @@ module.exports.DeleteSnapshot = function DeleteSnapshot(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.CreateDirectory = function CreateDirectory(aws) {
-  var shortName = aws.params.ShortName;
-  var size = aws.params.Size;
-  var description = aws.params.Description;
-  var name = aws.params.Name;
-  var vpcSettings = aws.params.VpcSettings;
-  var password = aws.params.Password;
-  if (!name) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
-  }
-  if (!password) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Password'];
-  }
-  if (!size) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Size'];
+module.exports.DeleteTrust = function DeleteTrust(aws) {
+  var deleteAssociatedConditionalForwarder = aws.params.DeleteAssociatedConditionalForwarder /* Type boolean */;
+  var trustId = aws.params.TrustId;
+  if (!trustId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TrustId'];
   }
 
 
   // TODO implement code
 
   var ret = {
-    DirectoryId: '',
+    TrustId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeregisterEventTopic = function DeregisterEventTopic(aws) {
+  var directoryId = aws.params.DirectoryId;
+  var topicName = aws.params.TopicName;
+  if (!directoryId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DirectoryId'];
+  }
+  if (!topicName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TopicName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeConditionalForwarders = function DescribeConditionalForwarders(aws) {
+  var directoryId = aws.params.DirectoryId;
+  var remoteDomainNames = aws.params.RemoteDomainNames /* Type list */;
+  if (!directoryId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DirectoryId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ConditionalForwarders: [ {
+      DnsIpAddrs: /*Sb*/[ '', /* ...*/ ],
+      RemoteDomainName: '',
+      ReplicationScope: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeDirectories = function DescribeDirectories(aws) {
+  var directoryIds = aws.params.DirectoryIds /* Type list */;
+  var limit = aws.params.Limit /* Type integer */;
+  var nextToken = aws.params.NextToken;
+
+
+  // TODO implement code
+
+  var ret = {
+    DirectoryDescriptions: [ {
+      AccessUrl: '',
+      Alias: '',
+      ConnectSettings: {
+        AvailabilityZones: /*S29*/[ '', /* ...*/ ],
+        ConnectIps: [ '', /* ...*/ ],
+        CustomerUserName: '',
+        SecurityGroupId: '',
+        SubnetIds: /*S9*/[ '', /* ...*/ ],
+        VpcId: '',
+      },
+      Description: '',
+      DirectoryId: '',
+      DnsIpAddrs: /*Sb*/[ '', /* ...*/ ],
+      LaunchTime: awsCommon.timestamp(),
+      Name: '',
+      RadiusSettings: /*S2d*/{
+        AuthenticationProtocol: '',
+        DisplayLabel: '',
+        RadiusPort: 0,
+        RadiusRetries: 0,
+        RadiusServers: [ '', /* ...*/ ],
+        RadiusTimeout: 0,
+        SharedSecret: '',
+        UseSameUsername: false,
+      },
+      RadiusStatus: '',
+      ShortName: '',
+      Size: '',
+      SsoEnabled: false,
+      Stage: '',
+      StageLastUpdatedDateTime: awsCommon.timestamp(),
+      StageReason: '',
+      Type: '',
+      VpcSettings: {
+        AvailabilityZones: /*S29*/[ '', /* ...*/ ],
+        SecurityGroupId: '',
+        SubnetIds: /*S9*/[ '', /* ...*/ ],
+        VpcId: '',
+      },
+    }, /* ...*/ ],
+    NextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeEventTopics = function DescribeEventTopics(aws) {
+  var directoryId = aws.params.DirectoryId;
+  var topicNames = aws.params.TopicNames /* Type list */;
+
+
+  // TODO implement code
+
+  var ret = {
+    EventTopics: [ {
+      CreatedDateTime: awsCommon.timestamp(),
+      DirectoryId: '',
+      Status: '',
+      TopicArn: '',
+      TopicName: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeSnapshots = function DescribeSnapshots(aws) {
+  var directoryId = aws.params.DirectoryId;
+  var limit = aws.params.Limit /* Type integer */;
+  var nextToken = aws.params.NextToken;
+  var snapshotIds = aws.params.SnapshotIds /* Type list */;
+
+
+  // TODO implement code
+
+  var ret = {
+    NextToken: '',
+    Snapshots: [ {
+      DirectoryId: '',
+      Name: '',
+      SnapshotId: '',
+      StartTime: awsCommon.timestamp(),
+      Status: '',
+      Type: '',
+    }, /* ...*/ ],
   };
   return [200, ret];
 };
 // -----------------------------------
 module.exports.DescribeTrusts = function DescribeTrusts(aws) {
   var directoryId = aws.params.DirectoryId;
-  var nextToken = aws.params.NextToken;
   var limit = aws.params.Limit /* Type integer */;
+  var nextToken = aws.params.NextToken;
   var trustIds = aws.params.TrustIds /* Type list */;
 
 
@@ -480,16 +425,216 @@ module.exports.DescribeTrusts = function DescribeTrusts(aws) {
   var ret = {
     NextToken: '',
     Trusts: [ {
-      RemoteDomainName: '',
       CreatedDateTime: awsCommon.timestamp(),
-      StateLastUpdatedDateTime: awsCommon.timestamp(),
-      TrustType: '',
       DirectoryId: '',
-      TrustDirection: '',
       LastUpdatedDateTime: awsCommon.timestamp(),
-      TrustState: '',
+      RemoteDomainName: '',
+      StateLastUpdatedDateTime: awsCommon.timestamp(),
+      TrustDirection: '',
       TrustId: '',
+      TrustState: '',
+      TrustStateReason: '',
+      TrustType: '',
     }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DisableRadius = function DisableRadius(aws) {
+  var directoryId = aws.params.DirectoryId;
+  if (!directoryId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DirectoryId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DisableSso = function DisableSso(aws) {
+  var directoryId = aws.params.DirectoryId;
+  var password = aws.params.Password;
+  var userName = aws.params.UserName;
+  if (!directoryId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DirectoryId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.EnableRadius = function EnableRadius(aws) {
+  var directoryId = aws.params.DirectoryId;
+  var radiusSettings = aws.params.RadiusSettings;
+  if (!directoryId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DirectoryId'];
+  }
+  if (!radiusSettings) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RadiusSettings'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.EnableSso = function EnableSso(aws) {
+  var directoryId = aws.params.DirectoryId;
+  var password = aws.params.Password;
+  var userName = aws.params.UserName;
+  if (!directoryId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DirectoryId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetDirectoryLimits = function GetDirectoryLimits(aws) {
+
+
+  // TODO implement code
+
+  var ret = {
+    DirectoryLimits: {
+      CloudOnlyDirectoriesCurrentCount: 0,
+      CloudOnlyDirectoriesLimit: 0,
+      CloudOnlyDirectoriesLimitReached: false,
+      CloudOnlyMicrosoftADCurrentCount: 0,
+      CloudOnlyMicrosoftADLimit: 0,
+      CloudOnlyMicrosoftADLimitReached: false,
+      ConnectedDirectoriesCurrentCount: 0,
+      ConnectedDirectoriesLimit: 0,
+      ConnectedDirectoriesLimitReached: false,
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetSnapshotLimits = function GetSnapshotLimits(aws) {
+  var directoryId = aws.params.DirectoryId;
+  if (!directoryId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DirectoryId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    SnapshotLimits: {
+      ManualSnapshotsCurrentCount: 0,
+      ManualSnapshotsLimit: 0,
+      ManualSnapshotsLimitReached: false,
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RegisterEventTopic = function RegisterEventTopic(aws) {
+  var directoryId = aws.params.DirectoryId;
+  var topicName = aws.params.TopicName;
+  if (!directoryId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DirectoryId'];
+  }
+  if (!topicName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TopicName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RestoreFromSnapshot = function RestoreFromSnapshot(aws) {
+  var snapshotId = aws.params.SnapshotId;
+  if (!snapshotId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SnapshotId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateConditionalForwarder = function UpdateConditionalForwarder(aws) {
+  var directoryId = aws.params.DirectoryId;
+  var dnsIpAddrs = aws.params.DnsIpAddrs;
+  var remoteDomainName = aws.params.RemoteDomainName;
+  if (!directoryId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DirectoryId'];
+  }
+  if (!dnsIpAddrs) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DnsIpAddrs'];
+  }
+  if (!remoteDomainName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RemoteDomainName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UpdateRadius = function UpdateRadius(aws) {
+  var directoryId = aws.params.DirectoryId;
+  var radiusSettings = aws.params.RadiusSettings;
+  if (!directoryId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DirectoryId'];
+  }
+  if (!radiusSettings) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RadiusSettings'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.VerifyTrust = function VerifyTrust(aws) {
+  var trustId = aws.params.TrustId;
+  if (!trustId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TrustId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    TrustId: '',
   };
   return [200, ret];
 };

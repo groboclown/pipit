@@ -12,18 +12,95 @@ const awsCommon = require('../../lib/aws-common');
 // Setup input and output to use AWS protocol ec2
 require('../../lib/aws-common/shape_http')('ec2', module.exports, 'http://ec2.amazonaws.com/doc/2015-10-01');
 // -----------------------------------
-module.exports.AuthorizeSecurityGroupEgress = function AuthorizeSecurityGroupEgress(aws) {
-  var cidrIp = aws.params.CidrIp;
-  var sourceSecurityGroupName = aws.params.SourceSecurityGroupName;
-  var ipPermissions = aws.params.IpPermissions;
-  var toPort = aws.params.ToPort /* Type integer */;
-  var ipProtocol = aws.params.IpProtocol;
-  var fromPort = aws.params.FromPort /* Type integer */;
-  var sourceSecurityGroupOwnerId = aws.params.SourceSecurityGroupOwnerId;
-  var groupId = aws.params.GroupId;
+module.exports.AcceptVpcPeeringConnection = function AcceptVpcPeeringConnection(aws) {
   var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!groupId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GroupId'];
+  var vpcPeeringConnectionId = aws.params.VpcPeeringConnectionId;
+
+
+  // TODO implement code
+
+  var ret = {
+    VpcPeeringConnection: /*S5*/{
+      AccepterVpcInfo: /*S6*/{
+        CidrBlock: '',
+        OwnerId: '',
+        PeeringOptions: {
+          AllowEgressFromLocalClassicLinkToRemoteVpc: false,
+          AllowEgressFromLocalVpcToRemoteClassicLink: false,
+        },
+        VpcId: '',
+      },
+      ExpirationTime: awsCommon.timestamp(),
+      RequesterVpcInfo: /*S6*/{
+        CidrBlock: '',
+        OwnerId: '',
+        PeeringOptions: {
+          AllowEgressFromLocalClassicLinkToRemoteVpc: false,
+          AllowEgressFromLocalVpcToRemoteClassicLink: false,
+        },
+        VpcId: '',
+      },
+      Status: {
+        Code: '',
+        Message: '',
+      },
+      Tags: /*Sb*/[ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      VpcPeeringConnectionId: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.AllocateAddress = function AllocateAddress(aws) {
+  var domain = aws.params.Domain;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+
+
+  // TODO implement code
+
+  var ret = {
+    AllocationId: '',
+    Domain: '',
+    PublicIp: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.AllocateHosts = function AllocateHosts(aws) {
+  var autoPlacement = aws.params.AutoPlacement;
+  var availabilityZone = aws.params.AvailabilityZone;
+  var clientToken = aws.params.ClientToken;
+  var instanceType = aws.params.InstanceType;
+  var quantity = aws.params.Quantity /* Type integer */;
+  if (!availabilityZone) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AvailabilityZone'];
+  }
+  if (!instanceType) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceType'];
+  }
+  if (!quantity) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Quantity'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    HostIds: /*Sk*/[ '', /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.AssignPrivateIpAddresses = function AssignPrivateIpAddresses(aws) {
+  var allowReassignment = aws.params.AllowReassignment /* Type boolean */;
+  var networkInterfaceId = aws.params.NetworkInterfaceId;
+  var privateIpAddresses = aws.params.PrivateIpAddresses;
+  var secondaryPrivateIpAddressCount = aws.params.SecondaryPrivateIpAddressCount /* Type integer */;
+  if (!networkInterfaceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter NetworkInterfaceId'];
   }
 
 
@@ -33,9 +110,31 @@ module.exports.AuthorizeSecurityGroupEgress = function AuthorizeSecurityGroupEgr
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DeleteVpc = function DeleteVpc(aws) {
-  var vpcId = aws.params.VpcId;
+module.exports.AssociateAddress = function AssociateAddress(aws) {
+  var allocationId = aws.params.AllocationId;
+  var allowReassociation = aws.params.AllowReassociation /* Type boolean */;
   var dryRun = aws.params.DryRun /* Type boolean */;
+  var instanceId = aws.params.InstanceId;
+  var networkInterfaceId = aws.params.NetworkInterfaceId;
+  var privateIpAddress = aws.params.PrivateIpAddress;
+  var publicIp = aws.params.PublicIp;
+
+
+  // TODO implement code
+
+  var ret = {
+    AssociationId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.AssociateDhcpOptions = function AssociateDhcpOptions(aws) {
+  var dhcpOptionsId = aws.params.DhcpOptionsId;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var vpcId = aws.params.VpcId;
+  if (!dhcpOptionsId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DhcpOptionsId'];
+  }
   if (!vpcId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpcId'];
   }
@@ -47,191 +146,59 @@ module.exports.DeleteVpc = function DeleteVpc(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.RegisterImage = function RegisterImage(aws) {
-  var rootDeviceName = aws.params.RootDeviceName;
+module.exports.AssociateRouteTable = function AssociateRouteTable(aws) {
   var dryRun = aws.params.DryRun /* Type boolean */;
-  var sriovNetSupport = aws.params.SriovNetSupport;
-  var blockDeviceMappings = aws.params.BlockDeviceMappings;
-  var kernelId = aws.params.KernelId;
-  var description = aws.params.Description;
-  var name = aws.params.Name;
-  var ramdiskId = aws.params.RamdiskId;
-  var architecture = aws.params.Architecture;
-  var virtualizationType = aws.params.VirtualizationType;
-  var imageLocation = aws.params.ImageLocation;
-  if (!name) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    ImageId: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeInstanceAttribute = function DescribeInstanceAttribute(aws) {
-  var attribute = aws.params.Attribute;
-  var instanceId = aws.params.InstanceId;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!instanceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
-  }
-  if (!attribute) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Attribute'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    ProductCodes: /*S9t*/[ {
-      ProductCodeId: '',
-      ProductCodeType: '',
-    }, /* ...*/ ],
-    RootDeviceName: /*S33*/{
-      Value: '',
-    },
-    InstanceInitiatedShutdownBehavior: /*S33*/{
-      Value: '',
-    },
-    UserData: /*S33*/{
-      Value: '',
-    },
-    Groups: /*S4m*/[ {
-      GroupName: '',
-      GroupId: '',
-    }, /* ...*/ ],
-    InstanceType: /*S33*/{
-      Value: '',
-    },
-    EbsOptimized: /*Sar*/{
-      Value: false,
-    },
-    SriovNetSupport: /*S33*/{
-      Value: '',
-    },
-    DisableApiTermination: /*Sar*/{
-      Value: false,
-    },
-    SourceDestCheck: /*Sar*/{
-      Value: false,
-    },
-    KernelId: /*S33*/{
-      Value: '',
-    },
-    RamdiskId: /*S33*/{
-      Value: '',
-    },
-    InstanceId: '',
-    BlockDeviceMappings: /*Sas*/[ {
-      DeviceName: '',
-      Ebs: {
-        VolumeId: '',
-        DeleteOnTermination: false,
-        AttachTime: awsCommon.timestamp(),
-        Status: '',
-      },
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeInstanceStatus = function DescribeInstanceStatus(aws) {
-  var maxResults = aws.params.MaxResults /* Type integer */;
-  var nextToken = aws.params.NextToken;
-  var includeAllInstances = aws.params.IncludeAllInstances /* Type boolean */;
-  var filters = aws.params.Filters;
-  var instanceIds = aws.params.InstanceIds;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {
-    NextToken: '',
-    InstanceStatuses: [ {
-      InstanceState: /*Sb2*/{
-        Code: 0,
-        Name: '',
-      },
-      InstanceId: '',
-      InstanceStatus: /*Sb4*/{
-        Details: [ {
-          Name: '',
-          ImpairedSince: awsCommon.timestamp(),
-          Status: '',
-        }, /* ...*/ ],
-        Status: '',
-      },
-      Events: [ {
-        Description: '',
-        Code: '',
-        NotAfter: awsCommon.timestamp(),
-        NotBefore: awsCommon.timestamp(),
-      }, /* ...*/ ],
-      AvailabilityZone: '',
-      SystemStatus: /*Sb4*/{
-        Details: [ {
-          Name: '',
-          ImpairedSince: awsCommon.timestamp(),
-          Status: '',
-        }, /* ...*/ ],
-        Status: '',
-      },
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteTags = function DeleteTags(aws) {
-  var resources = aws.params.Resources;
-  var tags = aws.params.Tags;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!resources) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Resources'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.UnassignPrivateIpAddresses = function UnassignPrivateIpAddresses(aws) {
-  var networkInterfaceId = aws.params.NetworkInterfaceId;
-  var privateIpAddresses = aws.params.PrivateIpAddresses;
-  if (!networkInterfaceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter NetworkInterfaceId'];
-  }
-  if (!privateIpAddresses) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PrivateIpAddresses'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ReplaceRoute = function ReplaceRoute(aws) {
-  var destinationCidrBlock = aws.params.DestinationCidrBlock;
-  var natGatewayId = aws.params.NatGatewayId;
-  var networkInterfaceId = aws.params.NetworkInterfaceId;
-  var vpcPeeringConnectionId = aws.params.VpcPeeringConnectionId;
   var routeTableId = aws.params.RouteTableId;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  var gatewayId = aws.params.GatewayId;
-  var instanceId = aws.params.InstanceId;
+  var subnetId = aws.params.SubnetId;
   if (!routeTableId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RouteTableId'];
   }
-  if (!destinationCidrBlock) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DestinationCidrBlock'];
+  if (!subnetId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SubnetId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    AssociationId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.AttachClassicLinkVpc = function AttachClassicLinkVpc(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var groups = aws.params.Groups;
+  var instanceId = aws.params.InstanceId;
+  var vpcId = aws.params.VpcId;
+  if (!groups) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Groups'];
+  }
+  if (!instanceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
+  }
+  if (!vpcId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpcId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Return: false,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.AttachInternetGateway = function AttachInternetGateway(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var internetGatewayId = aws.params.InternetGatewayId;
+  var vpcId = aws.params.VpcId;
+  if (!internetGatewayId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InternetGatewayId'];
+  }
+  if (!vpcId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpcId'];
   }
 
 
@@ -241,75 +208,158 @@ module.exports.ReplaceRoute = function ReplaceRoute(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DescribeImageAttribute = function DescribeImageAttribute(aws) {
-  var imageId = aws.params.ImageId;
-  var attribute = aws.params.Attribute;
+module.exports.AttachNetworkInterface = function AttachNetworkInterface(aws) {
+  var deviceIndex = aws.params.DeviceIndex /* Type integer */;
   var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!imageId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ImageId'];
+  var instanceId = aws.params.InstanceId;
+  var networkInterfaceId = aws.params.NetworkInterfaceId;
+  if (!deviceIndex) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DeviceIndex'];
   }
-  if (!attribute) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Attribute'];
+  if (!instanceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
+  }
+  if (!networkInterfaceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter NetworkInterfaceId'];
   }
 
 
   // TODO implement code
 
   var ret = {
-    ImageId: '',
-    ProductCodes: /*S9t*/[ {
-      ProductCodeId: '',
-      ProductCodeType: '',
-    }, /* ...*/ ],
-    LaunchPermissions: /*S9q*/[ {
-      Group: '',
-      UserId: '',
-    }, /* ...*/ ],
-    SriovNetSupport: /*S33*/{
-      Value: '',
-    },
-    Description: /*S33*/{
-      Value: '',
-    },
-    RamdiskId: /*S33*/{
-      Value: '',
-    },
-    BlockDeviceMappings: /*S9w*/[ /*S3d*/{
-      NoDevice: '',
-      DeviceName: '',
-      Ebs: {
-        Encrypted: false,
-        DeleteOnTermination: false,
-        VolumeType: '',
-        VolumeSize: 0,
-        Iops: 0,
-        SnapshotId: '',
-      },
-      VirtualName: '',
-    }, /* ...*/ ],
-    KernelId: /*S33*/{
-      Value: '',
+    AttachmentId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.AttachVolume = function AttachVolume(aws) {
+  var device = aws.params.Device;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var instanceId = aws.params.InstanceId;
+  var volumeId = aws.params.VolumeId;
+  if (!device) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Device'];
+  }
+  if (!instanceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
+  }
+  if (!volumeId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VolumeId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = /*Sz*/{
+    AttachTime: awsCommon.timestamp(),
+    DeleteOnTermination: false,
+    Device: '',
+    InstanceId: '',
+    State: '',
+    VolumeId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.AttachVpnGateway = function AttachVpnGateway(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var vpcId = aws.params.VpcId;
+  var vpnGatewayId = aws.params.VpnGatewayId;
+  if (!vpcId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpcId'];
+  }
+  if (!vpnGatewayId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpnGatewayId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    VpcAttachment: /*S13*/{
+      State: '',
+      VpcId: '',
     },
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DescribeMovingAddresses = function DescribeMovingAddresses(aws) {
-  var maxResults = aws.params.MaxResults /* Type integer */;
-  var nextToken = aws.params.NextToken;
-  var publicIps = aws.params.PublicIps;
-  var filters = aws.params.Filters;
+module.exports.AuthorizeSecurityGroupEgress = function AuthorizeSecurityGroupEgress(aws) {
+  var cidrIp = aws.params.CidrIp;
   var dryRun = aws.params.DryRun /* Type boolean */;
+  var fromPort = aws.params.FromPort /* Type integer */;
+  var groupId = aws.params.GroupId;
+  var ipPermissions = aws.params.IpPermissions;
+  var ipProtocol = aws.params.IpProtocol;
+  var sourceSecurityGroupName = aws.params.SourceSecurityGroupName;
+  var sourceSecurityGroupOwnerId = aws.params.SourceSecurityGroupOwnerId;
+  var toPort = aws.params.ToPort /* Type integer */;
+  if (!groupId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GroupId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.AuthorizeSecurityGroupIngress = function AuthorizeSecurityGroupIngress(aws) {
+  var cidrIp = aws.params.CidrIp;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var fromPort = aws.params.FromPort /* Type integer */;
+  var groupId = aws.params.GroupId;
+  var groupName = aws.params.GroupName;
+  var ipPermissions = aws.params.IpPermissions;
+  var ipProtocol = aws.params.IpProtocol;
+  var sourceSecurityGroupName = aws.params.SourceSecurityGroupName;
+  var sourceSecurityGroupOwnerId = aws.params.SourceSecurityGroupOwnerId;
+  var toPort = aws.params.ToPort /* Type integer */;
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.BundleInstance = function BundleInstance(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var instanceId = aws.params.InstanceId;
+  var storage = aws.params.Storage;
+  if (!instanceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
+  }
+  if (!storage) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Storage'];
+  }
 
 
   // TODO implement code
 
   var ret = {
-    NextToken: '',
-    MovingAddressStatuses: [ {
-      PublicIp: '',
-      MoveStatus: '',
-    }, /* ...*/ ],
+    BundleTask: /*S1k*/{
+      BundleId: '',
+      BundleTaskError: {
+        Code: '',
+        Message: '',
+      },
+      InstanceId: '',
+      Progress: '',
+      StartTime: awsCommon.timestamp(),
+      State: '',
+      Storage: /*S1g*/{
+        S3: {
+          AWSAccessKeyId: '',
+          Bucket: '',
+          Prefix: '',
+          UploadPolicy: null /*Blob*/,
+          UploadPolicySignature: '',
+        },
+      },
+      UpdateTime: awsCommon.timestamp(),
+    },
   };
   return [200, ret];
 };
@@ -325,85 +375,37 @@ module.exports.CancelBundleTask = function CancelBundleTask(aws) {
   // TODO implement code
 
   var ret = {
-    BundleTask: /*S1j*/{
-      Storage: /*S1f*/{
-        S3: {
-          AWSAccessKeyId: '',
-          UploadPolicySignature: '',
-          UploadPolicy: null /*Blob*/,
-          Bucket: '',
-          Prefix: '',
-        },
-      },
-      StartTime: awsCommon.timestamp(),
-      UpdateTime: awsCommon.timestamp(),
-      Progress: '',
-      State: '',
+    BundleTask: /*S1k*/{
+      BundleId: '',
       BundleTaskError: {
         Code: '',
         Message: '',
       },
-      BundleId: '',
       InstanceId: '',
+      Progress: '',
+      StartTime: awsCommon.timestamp(),
+      State: '',
+      Storage: /*S1g*/{
+        S3: {
+          AWSAccessKeyId: '',
+          Bucket: '',
+          Prefix: '',
+          UploadPolicy: null /*Blob*/,
+          UploadPolicySignature: '',
+        },
+      },
+      UpdateTime: awsCommon.timestamp(),
     },
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.CreateReservedInstancesListing = function CreateReservedInstancesListing(aws) {
-  var clientToken = aws.params.ClientToken;
-  var reservedInstancesId = aws.params.ReservedInstancesId;
-  var instanceCount = aws.params.InstanceCount /* Type integer */;
-  var priceSchedules = aws.params.PriceSchedules /* Type list */;
-  if (!reservedInstancesId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ReservedInstancesId'];
-  }
-  if (!instanceCount) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceCount'];
-  }
-  if (!priceSchedules) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PriceSchedules'];
-  }
-  if (!clientToken) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClientToken'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    ReservedInstancesListings: /*S1u*/[ {
-      InstanceCounts: [ {
-        State: '',
-        InstanceCount: 0,
-      }, /* ...*/ ],
-      ReservedInstancesId: '',
-      ReservedInstancesListingId: '',
-      PriceSchedules: [ {
-        Price: 0.0 /*Double*/,
-        Active: false,
-        CurrencyCode: '',
-        Term: 0 /*Long*/,
-      }, /* ...*/ ],
-      Status: '',
-      StatusMessage: '',
-      ClientToken: '',
-      UpdateDate: awsCommon.timestamp(),
-      CreateDate: awsCommon.timestamp(),
-      Tags: /*Sa*/[ {
-        Value: '',
-        Key: '',
-      }, /* ...*/ ],
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteKeyPair = function DeleteKeyPair(aws) {
-  var keyName = aws.params.KeyName;
+module.exports.CancelConversionTask = function CancelConversionTask(aws) {
+  var conversionTaskId = aws.params.ConversionTaskId;
   var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!keyName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter KeyName'];
+  var reasonMessage = aws.params.ReasonMessage;
+  if (!conversionTaskId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ConversionTaskId'];
   }
 
 
@@ -413,120 +415,76 @@ module.exports.DeleteKeyPair = function DeleteKeyPair(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DescribeVolumeStatus = function DescribeVolumeStatus(aws) {
-  var filters = aws.params.Filters;
-  var nextToken = aws.params.NextToken;
-  var maxResults = aws.params.MaxResults /* Type integer */;
-  var volumeIds = aws.params.VolumeIds;
+module.exports.CancelExportTask = function CancelExportTask(aws) {
+  var exportTaskId = aws.params.ExportTaskId;
+  if (!exportTaskId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ExportTaskId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CancelImportTask = function CancelImportTask(aws) {
+  var cancelReason = aws.params.CancelReason;
   var dryRun = aws.params.DryRun /* Type boolean */;
+  var importTaskId = aws.params.ImportTaskId;
 
 
   // TODO implement code
 
   var ret = {
-    VolumeStatuses: [ {
-      VolumeId: '',
-      VolumeStatus: {
-        Details: [ {
-          Name: '',
-          Status: '',
-        }, /* ...*/ ],
-        Status: '',
-      },
-      Events: [ {
-        Description: '',
-        EventType: '',
-        NotAfter: awsCommon.timestamp(),
-        EventId: '',
-        NotBefore: awsCommon.timestamp(),
-      }, /* ...*/ ],
-      Actions: [ {
-        Description: '',
-        Code: '',
-        EventType: '',
-        EventId: '',
-      }, /* ...*/ ],
-      AvailabilityZone: '',
-    }, /* ...*/ ],
-    NextToken: '',
+    ImportTaskId: '',
+    PreviousState: '',
+    State: '',
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DeleteNatGateway = function DeleteNatGateway(aws) {
-  var natGatewayId = aws.params.NatGatewayId;
-  if (!natGatewayId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter NatGatewayId'];
+module.exports.CancelReservedInstancesListing = function CancelReservedInstancesListing(aws) {
+  var reservedInstancesListingId = aws.params.ReservedInstancesListingId;
+  if (!reservedInstancesListingId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ReservedInstancesListingId'];
   }
 
 
   // TODO implement code
 
   var ret = {
-    NatGatewayId: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.AcceptVpcPeeringConnection = function AcceptVpcPeeringConnection(aws) {
-  var vpcPeeringConnectionId = aws.params.VpcPeeringConnectionId;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {
-    VpcPeeringConnection: /*S5*/{
-      VpcPeeringConnectionId: '',
-      Status: {
-        Code: '',
-        Message: '',
-      },
-      AccepterVpcInfo: /*S6*/{
-        CidrBlock: '',
-        VpcId: '',
-        OwnerId: '',
-      },
-      RequesterVpcInfo: /*S6*/{
-        CidrBlock: '',
-        VpcId: '',
-        OwnerId: '',
-      },
-      ExpirationTime: awsCommon.timestamp(),
-      Tags: /*Sa*/[ {
-        Value: '',
-        Key: '',
+    ReservedInstancesListings: /*S1v*/[ {
+      ClientToken: '',
+      CreateDate: awsCommon.timestamp(),
+      InstanceCounts: [ {
+        InstanceCount: 0,
+        State: '',
       }, /* ...*/ ],
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeSpotDatafeedSubscription = function DescribeSpotDatafeedSubscription(aws) {
-  var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {
-    SpotDatafeedSubscription: /*S5j*/{
-      Fault: /*S5l*/{
-        Code: '',
-        Message: '',
-      },
-      State: '',
-      OwnerId: '',
-      Bucket: '',
-      Prefix: '',
-    },
+      PriceSchedules: [ {
+        Active: false,
+        CurrencyCode: '',
+        Price: 0.0 /*Double*/,
+        Term: 0 /*Long*/,
+      }, /* ...*/ ],
+      ReservedInstancesId: '',
+      ReservedInstancesListingId: '',
+      Status: '',
+      StatusMessage: '',
+      Tags: /*Sb*/[ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      UpdateDate: awsCommon.timestamp(),
+    }, /* ...*/ ],
   };
   return [200, ret];
 };
 // -----------------------------------
 module.exports.CancelSpotFleetRequests = function CancelSpotFleetRequests(aws) {
-  var terminateInstances = aws.params.TerminateInstances /* Type boolean */;
-  var spotFleetRequestIds = aws.params.SpotFleetRequestIds;
   var dryRun = aws.params.DryRun /* Type boolean */;
+  var spotFleetRequestIds = aws.params.SpotFleetRequestIds;
+  var terminateInstances = aws.params.TerminateInstances /* Type boolean */;
   if (!spotFleetRequestIds) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SpotFleetRequestIds'];
   }
@@ -538,6 +496,11 @@ module.exports.CancelSpotFleetRequests = function CancelSpotFleetRequests(aws) {
   // TODO implement code
 
   var ret = {
+    SuccessfulFleetRequests: [ {
+      CurrentSpotFleetRequestState: '',
+      PreviousSpotFleetRequestState: '',
+      SpotFleetRequestId: '',
+    }, /* ...*/ ],
     UnsuccessfulFleetRequests: [ {
       Error: {
         Code: '',
@@ -545,829 +508,13 @@ module.exports.CancelSpotFleetRequests = function CancelSpotFleetRequests(aws) {
       },
       SpotFleetRequestId: '',
     }, /* ...*/ ],
-    SuccessfulFleetRequests: [ {
-      SpotFleetRequestId: '',
-      CurrentSpotFleetRequestState: '',
-      PreviousSpotFleetRequestState: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteSnapshot = function DeleteSnapshot(aws) {
-  var snapshotId = aws.params.SnapshotId;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!snapshotId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SnapshotId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateRoute = function CreateRoute(aws) {
-  var destinationCidrBlock = aws.params.DestinationCidrBlock;
-  var natGatewayId = aws.params.NatGatewayId;
-  var networkInterfaceId = aws.params.NetworkInterfaceId;
-  var vpcPeeringConnectionId = aws.params.VpcPeeringConnectionId;
-  var routeTableId = aws.params.RouteTableId;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  var gatewayId = aws.params.GatewayId;
-  var instanceId = aws.params.InstanceId;
-  if (!routeTableId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RouteTableId'];
-  }
-  if (!destinationCidrBlock) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DestinationCidrBlock'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Return: false,
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.MonitorInstances = function MonitorInstances(aws) {
-  var instanceIds = aws.params.InstanceIds;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!instanceIds) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceIds'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    InstanceMonitorings: /*Sju*/[ {
-      Monitoring: /*Sbi*/{
-        State: '',
-      },
-      InstanceId: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateCustomerGateway = function CreateCustomerGateway(aws) {
-  var bgpAsn = aws.params.BgpAsn /* Type integer */;
-  var type = aws.params.Type;
-  var publicIp = aws.params.PublicIp;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!type) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Type'];
-  }
-  if (!publicIp) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PublicIp'];
-  }
-  if (!bgpAsn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter BgpAsn'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    CustomerGateway: /*S2u*/{
-      IpAddress: '',
-      CustomerGatewayId: '',
-      State: '',
-      BgpAsn: '',
-      Tags: /*Sa*/[ {
-        Value: '',
-        Key: '',
-      }, /* ...*/ ],
-      Type: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteRoute = function DeleteRoute(aws) {
-  var destinationCidrBlock = aws.params.DestinationCidrBlock;
-  var routeTableId = aws.params.RouteTableId;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!routeTableId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RouteTableId'];
-  }
-  if (!destinationCidrBlock) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DestinationCidrBlock'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteNetworkAcl = function DeleteNetworkAcl(aws) {
-  var networkAclId = aws.params.NetworkAclId;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!networkAclId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter NetworkAclId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateInternetGateway = function CreateInternetGateway(aws) {
-  var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {
-    InternetGateway: /*S3t*/{
-      InternetGatewayId: '',
-      Attachments: [ {
-        State: '',
-        VpcId: '',
-      }, /* ...*/ ],
-      Tags: /*Sa*/[ {
-        Value: '',
-        Key: '',
-      }, /* ...*/ ],
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ImportVolume = function ImportVolume(aws) {
-  var image = aws.params.Image;
-  var description = aws.params.Description;
-  var volume = aws.params.Volume;
-  var availabilityZone = aws.params.AvailabilityZone;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!availabilityZone) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AvailabilityZone'];
-  }
-  if (!image) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Image'];
-  }
-  if (!volume) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Volume'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    ConversionTask: /*S8i*/{
-      StatusMessage: '',
-      ImportInstance: {
-        Description: '',
-        InstanceId: '',
-        Platform: '',
-        Volumes: [ {
-          Image: /*S8m*/{
-            Size: 0 /*Long*/,
-            Checksum: '',
-            Format: '',
-            ImportManifestUrl: '',
-          },
-          Description: '',
-          BytesConverted: 0 /*Long*/,
-          Status: '',
-          Volume: /*S8n*/{
-            Size: 0 /*Long*/,
-            Id: '',
-          },
-          StatusMessage: '',
-          AvailabilityZone: '',
-        }, /* ...*/ ],
-      },
-      ImportVolume: {
-        Description: '',
-        Image: /*S8m*/{
-            Size: 0 /*Long*/,
-            Checksum: '',
-            Format: '',
-            ImportManifestUrl: '',
-          },
-        Volume: /*S8n*/{
-            Size: 0 /*Long*/,
-            Id: '',
-          },
-        BytesConverted: 0 /*Long*/,
-        AvailabilityZone: '',
-      },
-      State: '',
-      ConversionTaskId: '',
-      ExpirationTime: '',
-      Tags: /*Sa*/[ {
-        Value: '',
-        Key: '',
-      }, /* ...*/ ],
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CopyImage = function CopyImage(aws) {
-  var encrypted = aws.params.Encrypted /* Type boolean */;
-  var kmsKeyId = aws.params.KmsKeyId;
-  var sourceImageId = aws.params.SourceImageId;
-  var description = aws.params.Description;
-  var name = aws.params.Name;
-  var clientToken = aws.params.ClientToken;
-  var sourceRegion = aws.params.SourceRegion;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!sourceRegion) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SourceRegion'];
-  }
-  if (!sourceImageId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SourceImageId'];
-  }
-  if (!name) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    ImageId: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateSpotDatafeedSubscription = function CreateSpotDatafeedSubscription(aws) {
-  var prefix = aws.params.Prefix;
-  var bucket = aws.params.Bucket;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!bucket) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    SpotDatafeedSubscription: /*S5j*/{
-      Fault: /*S5l*/{
-        Code: '',
-        Message: '',
-      },
-      State: '',
-      OwnerId: '',
-      Bucket: '',
-      Prefix: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ModifySpotFleetRequest = function ModifySpotFleetRequest(aws) {
-  var excessCapacityTerminationPolicy = aws.params.ExcessCapacityTerminationPolicy;
-  var spotFleetRequestId = aws.params.SpotFleetRequestId;
-  var targetCapacity = aws.params.TargetCapacity /* Type integer */;
-  if (!spotFleetRequestId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SpotFleetRequestId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Return: false,
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribePrefixLists = function DescribePrefixLists(aws) {
-  var filters = aws.params.Filters;
-  var maxResults = aws.params.MaxResults /* Type integer */;
-  var prefixListIds = aws.params.PrefixListIds;
-  var nextToken = aws.params.NextToken;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {
-    NextToken: '',
-    PrefixLists: [ {
-      Cidrs: /*S26*/[ '', /* ...*/ ],
-      PrefixListId: '',
-      PrefixListName: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateKeyPair = function CreateKeyPair(aws) {
-  var keyName = aws.params.KeyName;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!keyName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter KeyName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    KeyName: '',
-    KeyMaterial: '',
-    KeyFingerprint: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ReleaseHosts = function ReleaseHosts(aws) {
-  var hostIds = aws.params.HostIds;
-  if (!hostIds) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HostIds'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Unsuccessful: /*Six*/[ /*S39*/{
-      ResourceId: '',
-      Error: {
-        Code: '',
-        Message: '',
-      },
-    }, /* ...*/ ],
-    Successful: /*Sj*/[ '', /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.EnableVpcClassicLinkDnsSupport = function EnableVpcClassicLinkDnsSupport(aws) {
-  var vpcId = aws.params.VpcId;
-
-
-  // TODO implement code
-
-  var ret = {
-    Return: false,
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeClassicLinkInstances = function DescribeClassicLinkInstances(aws) {
-  var filters = aws.params.Filters;
-  var instanceIds = aws.params.InstanceIds;
-  var maxResults = aws.params.MaxResults /* Type integer */;
-  var nextToken = aws.params.NextToken;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {
-    Instances: [ {
-      Groups: /*S4m*/[ {
-        GroupName: '',
-        GroupId: '',
-      }, /* ...*/ ],
-      Tags: /*Sa*/[ {
-        Value: '',
-        Key: '',
-      }, /* ...*/ ],
-      VpcId: '',
-      InstanceId: '',
-    }, /* ...*/ ],
-    NextToken: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreatePlacementGroup = function CreatePlacementGroup(aws) {
-  var groupName = aws.params.GroupName;
-  var strategy = aws.params.Strategy;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!groupName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GroupName'];
-  }
-  if (!strategy) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Strategy'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ModifySnapshotAttribute = function ModifySnapshotAttribute(aws) {
-  var createVolumePermission = aws.params.CreateVolumePermission /* Type structure */;
-  var userIds = aws.params.UserIds;
-  var groupNames = aws.params.GroupNames;
-  var snapshotId = aws.params.SnapshotId;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  var operationType = aws.params.OperationType;
-  var attribute = aws.params.Attribute;
-  if (!snapshotId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SnapshotId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.AttachVolume = function AttachVolume(aws) {
-  var volumeId = aws.params.VolumeId;
-  var device = aws.params.Device;
-  var instanceId = aws.params.InstanceId;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!volumeId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VolumeId'];
-  }
-  if (!instanceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
-  }
-  if (!device) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Device'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*Sy*/{
-    Device: '',
-    DeleteOnTermination: false,
-    VolumeId: '',
-    State: '',
-    AttachTime: awsCommon.timestamp(),
-    InstanceId: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateNetworkAclEntry = function CreateNetworkAclEntry(aws) {
-  var ruleAction = aws.params.RuleAction;
-  var cidrBlock = aws.params.CidrBlock;
-  var egress = aws.params.Egress /* Type boolean */;
-  var portRange = aws.params.PortRange;
-  var networkAclId = aws.params.NetworkAclId;
-  var ruleNumber = aws.params.RuleNumber /* Type integer */;
-  var icmpTypeCode = aws.params.IcmpTypeCode;
-  var protocol = aws.params.Protocol;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!networkAclId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter NetworkAclId'];
-  }
-  if (!ruleNumber) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RuleNumber'];
-  }
-  if (!protocol) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Protocol'];
-  }
-  if (!ruleAction) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RuleAction'];
-  }
-  if (!egress) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Egress'];
-  }
-  if (!cidrBlock) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CidrBlock'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteSubnet = function DeleteSubnet(aws) {
-  var subnetId = aws.params.SubnetId;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!subnetId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SubnetId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeNetworkInterfaces = function DescribeNetworkInterfaces(aws) {
-  var filters = aws.params.Filters;
-  var networkInterfaceIds = aws.params.NetworkInterfaceIds /* Type list */;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {
-    NetworkInterfaces: [ /*S4k*/{
-      Attachment: /*S4o*/{
-        DeleteOnTermination: false,
-        AttachmentId: '',
-        InstanceOwnerId: '',
-        Status: '',
-        DeviceIndex: 0,
-        AttachTime: awsCommon.timestamp(),
-        InstanceId: '',
-      },
-      OwnerId: '',
-      InterfaceType: '',
-      Status: '',
-      PrivateIpAddresses: [ {
-        PrivateIpAddress: '',
-        Association: /*S4p*/{
-          AssociationId: '',
-          PublicDnsName: '',
-          IpOwnerId: '',
-          PublicIp: '',
-          AllocationId: '',
-        },
-        Primary: false,
-        PrivateDnsName: '',
-      }, /* ...*/ ],
-      PrivateIpAddress: '',
-      RequesterId: '',
-      PrivateDnsName: '',
-      Groups: /*S4m*/[ {
-        GroupName: '',
-        GroupId: '',
-      }, /* ...*/ ],
-      NetworkInterfaceId: '',
-      MacAddress: '',
-      SourceDestCheck: false,
-      Association: /*S4p*/{
-          AssociationId: '',
-          PublicDnsName: '',
-          IpOwnerId: '',
-          PublicIp: '',
-          AllocationId: '',
-        },
-      Description: '',
-      RequesterManaged: false,
-      TagSet: /*Sa*/[ {
-        Value: '',
-        Key: '',
-      }, /* ...*/ ],
-      VpcId: '',
-      SubnetId: '',
-      AvailabilityZone: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.RequestSpotFleet = function RequestSpotFleet(aws) {
-  var spotFleetRequestConfig = aws.params.SpotFleetRequestConfig;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!spotFleetRequestConfig) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SpotFleetRequestConfig'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    SpotFleetRequestId: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateNetworkInterface = function CreateNetworkInterface(aws) {
-  var groups = aws.params.Groups;
-  var privateIpAddresses = aws.params.PrivateIpAddresses;
-  var description = aws.params.Description;
-  var privateIpAddress = aws.params.PrivateIpAddress;
-  var secondaryPrivateIpAddressCount = aws.params.SecondaryPrivateIpAddressCount /* Type integer */;
-  var subnetId = aws.params.SubnetId;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!subnetId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SubnetId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    NetworkInterface: /*S4k*/{
-      Attachment: /*S4o*/{
-        DeleteOnTermination: false,
-        AttachmentId: '',
-        InstanceOwnerId: '',
-        Status: '',
-        DeviceIndex: 0,
-        AttachTime: awsCommon.timestamp(),
-        InstanceId: '',
-      },
-      OwnerId: '',
-      InterfaceType: '',
-      Status: '',
-      PrivateIpAddresses: [ {
-        PrivateIpAddress: '',
-        Association: /*S4p*/{
-          AssociationId: '',
-          PublicDnsName: '',
-          IpOwnerId: '',
-          PublicIp: '',
-          AllocationId: '',
-        },
-        Primary: false,
-        PrivateDnsName: '',
-      }, /* ...*/ ],
-      PrivateIpAddress: '',
-      RequesterId: '',
-      PrivateDnsName: '',
-      Groups: /*S4m*/[ {
-        GroupName: '',
-        GroupId: '',
-      }, /* ...*/ ],
-      NetworkInterfaceId: '',
-      MacAddress: '',
-      SourceDestCheck: false,
-      Association: /*S4p*/{
-          AssociationId: '',
-          PublicDnsName: '',
-          IpOwnerId: '',
-          PublicIp: '',
-          AllocationId: '',
-        },
-      Description: '',
-      RequesterManaged: false,
-      TagSet: /*Sa*/[ {
-        Value: '',
-        Key: '',
-      }, /* ...*/ ],
-      VpcId: '',
-      SubnetId: '',
-      AvailabilityZone: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.StopInstances = function StopInstances(aws) {
-  var instanceIds = aws.params.InstanceIds;
-  var force = aws.params.Force /* Type boolean */;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!instanceIds) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceIds'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    StoppingInstances: /*Sll*/[ {
-      CurrentState: /*Sb2*/{
-        Code: 0,
-        Name: '',
-      },
-      PreviousState: /*Sb2*/{
-        Code: 0,
-        Name: '',
-      },
-      InstanceId: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeReservedInstances = function DescribeReservedInstances(aws) {
-  var offeringType = aws.params.OfferingType;
-  var filters = aws.params.Filters;
-  var reservedInstancesIds = aws.params.ReservedInstancesIds;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {
-    ReservedInstances: [ {
-      UsagePrice: 9.0,
-      ReservedInstancesId: '',
-      Start: awsCommon.timestamp(),
-      CurrencyCode: '',
-      InstanceTenancy: '',
-      OfferingType: '',
-      Duration: 0 /*Long*/,
-      Tags: /*Sa*/[ {
-        Value: '',
-        Key: '',
-      }, /* ...*/ ],
-      ProductDescription: '',
-      InstanceType: '',
-      InstanceCount: 0,
-      FixedPrice: 9.0,
-      RecurringCharges: /*Sd6*/[ {
-        Amount: 0.0 /*Double*/,
-        Frequency: '',
-      }, /* ...*/ ],
-      State: '',
-      End: awsCommon.timestamp(),
-      AvailabilityZone: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeNatGateways = function DescribeNatGateways(aws) {
-  var natGatewayIds = aws.params.NatGatewayIds;
-  var maxResults = aws.params.MaxResults /* Type integer */;
-  var filter = aws.params.Filter;
-  var nextToken = aws.params.NextToken;
-
-
-  // TODO implement code
-
-  var ret = {
-    NextToken: '',
-    NatGateways: [ /*S40*/{
-      FailureMessage: '',
-      NatGatewayId: '',
-      DeleteTime: awsCommon.timestamp(),
-      State: '',
-      NatGatewayAddresses: [ {
-        NetworkInterfaceId: '',
-        PrivateIp: '',
-        PublicIp: '',
-        AllocationId: '',
-      }, /* ...*/ ],
-      FailureCode: '',
-      VpcId: '',
-      SubnetId: '',
-      CreateTime: awsCommon.timestamp(),
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ModifyInstanceAttribute = function ModifyInstanceAttribute(aws) {
-  var instanceInitiatedShutdownBehavior = aws.params.InstanceInitiatedShutdownBehavior;
-  var value = aws.params.Value;
-  var instanceId = aws.params.InstanceId;
-  var ramdisk = aws.params.Ramdisk;
-  var userData = aws.params.UserData /* Type structure */;
-  var attribute = aws.params.Attribute;
-  var groups = aws.params.Groups;
-  var instanceType = aws.params.InstanceType;
-  var ebsOptimized = aws.params.EbsOptimized;
-  var sriovNetSupport = aws.params.SriovNetSupport;
-  var disableApiTermination = aws.params.DisableApiTermination;
-  var sourceDestCheck = aws.params.SourceDestCheck;
-  var kernel = aws.params.Kernel;
-  var blockDeviceMappings = aws.params.BlockDeviceMappings /* Type list */;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!instanceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateVpc = function CreateVpc(aws) {
-  var instanceTenancy = aws.params.InstanceTenancy;
-  var cidrBlock = aws.params.CidrBlock;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!cidrBlock) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CidrBlock'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Vpc: /*S5z*/{
-      InstanceTenancy: '',
-      DhcpOptionsId: '',
-      State: '',
-      CidrBlock: '',
-      IsDefault: false,
-      VpcId: '',
-      Tags: /*Sa*/[ {
-        Value: '',
-        Key: '',
-      }, /* ...*/ ],
-    },
   };
   return [200, ret];
 };
 // -----------------------------------
 module.exports.CancelSpotInstanceRequests = function CancelSpotInstanceRequests(aws) {
-  var spotInstanceRequestIds = aws.params.SpotInstanceRequestIds;
   var dryRun = aws.params.DryRun /* Type boolean */;
+  var spotInstanceRequestIds = aws.params.SpotInstanceRequestIds;
   if (!spotInstanceRequestIds) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SpotInstanceRequestIds'];
   }
@@ -1384,74 +531,155 @@ module.exports.CancelSpotInstanceRequests = function CancelSpotInstanceRequests(
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DescribeHosts = function DescribeHosts(aws) {
-  var hostIds = aws.params.HostIds;
-  var nextToken = aws.params.NextToken;
-  var filter = aws.params.Filter;
-  var maxResults = aws.params.MaxResults /* Type integer */;
+module.exports.ConfirmProductInstance = function ConfirmProductInstance(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var instanceId = aws.params.InstanceId;
+  var productCode = aws.params.ProductCode;
+  if (!instanceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
+  }
+  if (!productCode) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ProductCode'];
+  }
 
 
   // TODO implement code
 
   var ret = {
-    NextToken: '',
-    Hosts: [ {
-      HostId: '',
-      AvailableCapacity: {
-        AvailableInstanceCapacity: [ {
-          TotalCapacity: 0,
-          InstanceType: '',
-          AvailableCapacity: 0,
-        }, /* ...*/ ],
-        AvailableVCpus: 0,
-      },
-      HostProperties: {
-        InstanceType: '',
-        TotalVCpus: 0,
-        Cores: 0,
-        Sockets: 0,
-      },
-      Instances: [ {
-        InstanceType: '',
-        InstanceId: '',
-      }, /* ...*/ ],
-      State: '',
-      HostReservationId: '',
-      ClientToken: '',
-      AutoPlacement: '',
-      AvailabilityZone: '',
-    }, /* ...*/ ],
+    OwnerId: '',
+    Return: false,
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.AssociateRouteTable = function AssociateRouteTable(aws) {
-  var routeTableId = aws.params.RouteTableId;
-  var subnetId = aws.params.SubnetId;
+module.exports.CopyImage = function CopyImage(aws) {
+  var clientToken = aws.params.ClientToken;
+  var description = aws.params.Description;
   var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!subnetId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SubnetId'];
+  var encrypted = aws.params.Encrypted /* Type boolean */;
+  var kmsKeyId = aws.params.KmsKeyId;
+  var name = aws.params.Name;
+  var sourceImageId = aws.params.SourceImageId;
+  var sourceRegion = aws.params.SourceRegion;
+  if (!name) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
   }
-  if (!routeTableId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RouteTableId'];
+  if (!sourceImageId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SourceImageId'];
+  }
+  if (!sourceRegion) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SourceRegion'];
   }
 
 
   // TODO implement code
 
   var ret = {
-    AssociationId: '',
+    ImageId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CopySnapshot = function CopySnapshot(aws) {
+  var description = aws.params.Description;
+  var destinationRegion = aws.params.DestinationRegion;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var encrypted = aws.params.Encrypted /* Type boolean */;
+  var kmsKeyId = aws.params.KmsKeyId;
+  var presignedUrl = aws.params.PresignedUrl;
+  var sourceRegion = aws.params.SourceRegion;
+  var sourceSnapshotId = aws.params.SourceSnapshotId;
+  if (!sourceRegion) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SourceRegion'];
+  }
+  if (!sourceSnapshotId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SourceSnapshotId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    SnapshotId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateCustomerGateway = function CreateCustomerGateway(aws) {
+  var bgpAsn = aws.params.BgpAsn /* Type integer */;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var publicIp = aws.params.PublicIp;
+  var type = aws.params.Type;
+  if (!bgpAsn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter BgpAsn'];
+  }
+  if (!publicIp) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PublicIp'];
+  }
+  if (!type) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Type'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    CustomerGateway: /*S2v*/{
+      BgpAsn: '',
+      CustomerGatewayId: '',
+      IpAddress: '',
+      State: '',
+      Tags: /*Sb*/[ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      Type: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateDhcpOptions = function CreateDhcpOptions(aws) {
+  var dhcpConfigurations = aws.params.DhcpConfigurations /* Type list */;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  if (!dhcpConfigurations) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DhcpConfigurations'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    DhcpOptions: /*S30*/{
+      DhcpConfigurations: [ {
+        Key: '',
+        Values: [ /*S34*/{
+          Value: '',
+        }, /* ...*/ ],
+      }, /* ...*/ ],
+      DhcpOptionsId: '',
+      Tags: /*Sb*/[ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+    },
   };
   return [200, ret];
 };
 // -----------------------------------
 module.exports.CreateFlowLogs = function CreateFlowLogs(aws) {
+  var clientToken = aws.params.ClientToken;
+  var deliverLogsPermissionArn = aws.params.DeliverLogsPermissionArn;
+  var logGroupName = aws.params.LogGroupName;
   var resourceIds = aws.params.ResourceIds;
   var resourceType = aws.params.ResourceType;
-  var logGroupName = aws.params.LogGroupName;
   var trafficType = aws.params.TrafficType;
-  var deliverLogsPermissionArn = aws.params.DeliverLogsPermissionArn;
-  var clientToken = aws.params.ClientToken;
+  if (!deliverLogsPermissionArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DeliverLogsPermissionArn'];
+  }
+  if (!logGroupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LogGroupName'];
+  }
   if (!resourceIds) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ResourceIds'];
   }
@@ -1461,11 +689,129 @@ module.exports.CreateFlowLogs = function CreateFlowLogs(aws) {
   if (!trafficType) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TrafficType'];
   }
-  if (!logGroupName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LogGroupName'];
+
+
+  // TODO implement code
+
+  var ret = {
+    ClientToken: '',
+    FlowLogIds: /*S27*/[ '', /* ...*/ ],
+    Unsuccessful: /*S39*/[ /*S3a*/{
+      Error: {
+        Code: '',
+        Message: '',
+      },
+      ResourceId: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateImage = function CreateImage(aws) {
+  var blockDeviceMappings = aws.params.BlockDeviceMappings;
+  var description = aws.params.Description;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var instanceId = aws.params.InstanceId;
+  var name = aws.params.Name;
+  var noReboot = aws.params.NoReboot /* Type boolean */;
+  if (!instanceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
   }
-  if (!deliverLogsPermissionArn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DeliverLogsPermissionArn'];
+  if (!name) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ImageId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateInstanceExportTask = function CreateInstanceExportTask(aws) {
+  var description = aws.params.Description;
+  var exportToS3Task = aws.params.ExportToS3Task /* Type structure */;
+  var instanceId = aws.params.InstanceId;
+  var targetEnvironment = aws.params.TargetEnvironment;
+  if (!instanceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ExportTask: /*S3o*/{
+      Description: '',
+      ExportTaskId: '',
+      ExportToS3Task: {
+        ContainerFormat: '',
+        DiskImageFormat: '',
+        S3Bucket: '',
+        S3Key: '',
+      },
+      InstanceExportDetails: {
+        InstanceId: '',
+        TargetEnvironment: '',
+      },
+      State: '',
+      StatusMessage: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateInternetGateway = function CreateInternetGateway(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+
+
+  // TODO implement code
+
+  var ret = {
+    InternetGateway: /*S3u*/{
+      Attachments: [ {
+        State: '',
+        VpcId: '',
+      }, /* ...*/ ],
+      InternetGatewayId: '',
+      Tags: /*Sb*/[ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateKeyPair = function CreateKeyPair(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var keyName = aws.params.KeyName;
+  if (!keyName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter KeyName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    KeyFingerprint: '',
+    KeyMaterial: '',
+    KeyName: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateNatGateway = function CreateNatGateway(aws) {
+  var allocationId = aws.params.AllocationId;
+  var clientToken = aws.params.ClientToken;
+  var subnetId = aws.params.SubnetId;
+  if (!allocationId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AllocationId'];
+  }
+  if (!subnetId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SubnetId'];
   }
 
 
@@ -1473,436 +819,97 @@ module.exports.CreateFlowLogs = function CreateFlowLogs(aws) {
 
   var ret = {
     ClientToken: '',
-    FlowLogIds: /*S26*/[ '', /* ...*/ ],
-    Unsuccessful: /*S38*/[ /*S39*/{
-      ResourceId: '',
-      Error: {
-        Code: '',
-        Message: '',
-      },
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeDhcpOptions = function DescribeDhcpOptions(aws) {
-  var filters = aws.params.Filters;
-  var dhcpOptionsIds = aws.params.DhcpOptionsIds /* Type list */;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {
-    DhcpOptions: [ /*S2z*/{
-      DhcpConfigurations: [ {
-        Values: [ /*S33*/{
-          Value: '',
-        }, /* ...*/ ],
-        Key: '',
+    NatGateway: /*S41*/{
+      CreateTime: awsCommon.timestamp(),
+      DeleteTime: awsCommon.timestamp(),
+      FailureCode: '',
+      FailureMessage: '',
+      NatGatewayAddresses: [ {
+        AllocationId: '',
+        NetworkInterfaceId: '',
+        PrivateIp: '',
+        PublicIp: '',
       }, /* ...*/ ],
-      DhcpOptionsId: '',
-      Tags: /*Sa*/[ {
-        Value: '',
-        Key: '',
-      }, /* ...*/ ],
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeAvailabilityZones = function DescribeAvailabilityZones(aws) {
-  var filters = aws.params.Filters;
-  var zoneNames = aws.params.ZoneNames /* Type list */;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {
-    AvailabilityZones: [ {
-      RegionName: '',
+      NatGatewayId: '',
       State: '',
-      ZoneName: '',
-      Messages: [ {
-        Message: '',
-      }, /* ...*/ ],
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeImages = function DescribeImages(aws) {
-  var owners = aws.params.Owners;
-  var filters = aws.params.Filters;
-  var executableUsers = aws.params.ExecutableUsers /* Type list */;
-  var imageIds = aws.params.ImageIds /* Type list */;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {
-    Images: [ {
-      Hypervisor: '',
-      OwnerId: '',
-      Platform: '',
-      VirtualizationType: '',
-      ImageLocation: '',
-      RamdiskId: '',
-      Description: '',
-      StateReason: /*Sa7*/{
-        Code: '',
-        Message: '',
-      },
-      ImageType: '',
-      State: '',
-      BlockDeviceMappings: /*S9w*/[ /*S3d*/{
-        NoDevice: '',
-        DeviceName: '',
-        Ebs: {
-          Encrypted: false,
-          DeleteOnTermination: false,
-          VolumeType: '',
-          VolumeSize: 0,
-          Iops: 0,
-          SnapshotId: '',
-        },
-        VirtualName: '',
-      }, /* ...*/ ],
-      ImageId: '',
-      ImageOwnerAlias: '',
-      ProductCodes: /*S9t*/[ {
-        ProductCodeId: '',
-        ProductCodeType: '',
-      }, /* ...*/ ],
-      RootDeviceType: '',
-      RootDeviceName: '',
-      Tags: /*Sa*/[ {
-        Value: '',
-        Key: '',
-      }, /* ...*/ ],
-      Architecture: '',
-      SriovNetSupport: '',
-      Name: '',
-      CreationDate: '',
-      Public: false,
-      KernelId: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.AssociateDhcpOptions = function AssociateDhcpOptions(aws) {
-  var dhcpOptionsId = aws.params.DhcpOptionsId;
-  var vpcId = aws.params.VpcId;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!dhcpOptionsId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DhcpOptionsId'];
-  }
-  if (!vpcId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpcId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.StartInstances = function StartInstances(aws) {
-  var instanceIds = aws.params.InstanceIds;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  var additionalInfo = aws.params.AdditionalInfo;
-  if (!instanceIds) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceIds'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    StartingInstances: /*Sll*/[ {
-      CurrentState: /*Sb2*/{
-        Code: 0,
-        Name: '',
-      },
-      PreviousState: /*Sb2*/{
-        Code: 0,
-        Name: '',
-      },
-      InstanceId: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.AttachVpnGateway = function AttachVpnGateway(aws) {
-  var vpnGatewayId = aws.params.VpnGatewayId;
-  var vpcId = aws.params.VpcId;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!vpnGatewayId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpnGatewayId'];
-  }
-  if (!vpcId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpcId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    VpcAttachment: /*S12*/{
-      State: '',
+      SubnetId: '',
       VpcId: '',
     },
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DescribeSecurityGroups = function DescribeSecurityGroups(aws) {
-  var groupIds = aws.params.GroupIds;
-  var filters = aws.params.Filters;
-  var groupNames = aws.params.GroupNames;
+module.exports.CreateNetworkAcl = function CreateNetworkAcl(aws) {
   var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {
-    SecurityGroups: [ {
-      IpPermissions: /*S15*/[ {
-        PrefixListIds: [ {
-          PrefixListId: '',
-        }, /* ...*/ ],
-        IpRanges: [ {
-          CidrIp: '',
-        }, /* ...*/ ],
-        IpProtocol: '',
-        ToPort: 0,
-        FromPort: 0,
-        UserIdGroupPairs: [ {
-          GroupName: '',
-          GroupId: '',
-          UserId: '',
-        }, /* ...*/ ],
-      }, /* ...*/ ],
-      IpPermissionsEgress: /*S15*/[ {
-        PrefixListIds: [ {
-          PrefixListId: '',
-        }, /* ...*/ ],
-        IpRanges: [ {
-          CidrIp: '',
-        }, /* ...*/ ],
-        IpProtocol: '',
-        ToPort: 0,
-        FromPort: 0,
-        UserIdGroupPairs: [ {
-          GroupName: '',
-          GroupId: '',
-          UserId: '',
-        }, /* ...*/ ],
-      }, /* ...*/ ],
-      OwnerId: '',
-      Description: '',
-      GroupName: '',
-      GroupId: '',
-      VpcId: '',
-      Tags: /*Sa*/[ {
-        Value: '',
-        Key: '',
-      }, /* ...*/ ],
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeSpotFleetRequests = function DescribeSpotFleetRequests(aws) {
-  var maxResults = aws.params.MaxResults /* Type integer */;
-  var nextToken = aws.params.NextToken;
-  var spotFleetRequestIds = aws.params.SpotFleetRequestIds;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {
-    NextToken: '',
-    SpotFleetRequestConfigs: [ {
-      SpotFleetRequestId: '',
-      CreateTime: awsCommon.timestamp(),
-      SpotFleetRequestConfig: /*Sf5*/{
-        IamFleetRole: '',
-        AllocationStrategy: '',
-        ClientToken: '',
-        ValidUntil: awsCommon.timestamp(),
-        ExcessCapacityTerminationPolicy: '',
-        LaunchSpecifications: [ {
-          ImageId: '',
-          SecurityGroups: /*S4m*/[ {
-            GroupName: '',
-            GroupId: '',
-          }, /* ...*/ ],
-          WeightedCapacity: 0.0 /*Double*/,
-          NetworkInterfaces: /*Sfa*/[ {
-            Groups: /*S4g*/[ '', /* ...*/ ],
-            NetworkInterfaceId: '',
-            PrivateIpAddresses: /*S4h*/[ {
-              PrivateIpAddress: '',
-              Primary: false,
-            }, /* ...*/ ],
-            AssociatePublicIpAddress: false,
-            DeleteOnTermination: false,
-            Description: '',
-            DeviceIndex: 0,
-            SecondaryPrivateIpAddressCount: 0,
-            PrivateIpAddress: '',
-            SubnetId: '',
-          }, /* ...*/ ],
-          AddressingType: '',
-          Placement: /*Sf8*/{
-            GroupName: '',
-            AvailabilityZone: '',
-          },
-          UserData: '',
-          SpotPrice: '',
-          KeyName: '',
-          InstanceType: '',
-          EbsOptimized: false,
-          IamInstanceProfile: /*Sfc*/{
-            Name: '',
-            Arn: '',
-          },
-          RamdiskId: '',
-          Monitoring: {
-            Enabled: false,
-          },
-          KernelId: '',
-          SubnetId: '',
-          BlockDeviceMappings: /*S9w*/[ /*S3d*/{
-            NoDevice: '',
-            DeviceName: '',
-            Ebs: {
-              Encrypted: false,
-              DeleteOnTermination: false,
-              VolumeType: '',
-              VolumeSize: 0,
-              Iops: 0,
-              SnapshotId: '',
-            },
-            VirtualName: '',
-          }, /* ...*/ ],
-        }, /* ...*/ ],
-        ValidFrom: awsCommon.timestamp(),
-        SpotPrice: '',
-        TargetCapacity: 0,
-        TerminateInstancesWithExpiration: false,
-      },
-      SpotFleetRequestState: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeInternetGateways = function DescribeInternetGateways(aws) {
-  var filters = aws.params.Filters;
-  var internetGatewayIds = aws.params.InternetGatewayIds;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {
-    InternetGateways: [ /*S3t*/{
-      InternetGatewayId: '',
-      Attachments: [ {
-        State: '',
-        VpcId: '',
-      }, /* ...*/ ],
-      Tags: /*Sa*/[ {
-        Value: '',
-        Key: '',
-      }, /* ...*/ ],
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeVpnGateways = function DescribeVpnGateways(aws) {
-  var filters = aws.params.Filters;
-  var vpnGatewayIds = aws.params.VpnGatewayIds /* Type list */;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {
-    VpnGateways: [ /*S6m*/{
-      VpcAttachments: [ /*S12*/{
-        State: '',
-        VpcId: '',
-      }, /* ...*/ ],
-      State: '',
-      Type: '',
-      VpnGatewayId: '',
-      Tags: /*Sa*/[ {
-        Value: '',
-        Key: '',
-      }, /* ...*/ ],
-      AvailabilityZone: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.GetPasswordData = function GetPasswordData(aws) {
-  var instanceId = aws.params.InstanceId;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!instanceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
+  var vpcId = aws.params.VpcId;
+  if (!vpcId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpcId'];
   }
 
 
   // TODO implement code
 
   var ret = {
-    Timestamp: awsCommon.timestamp(),
-    PasswordData: '',
-    InstanceId: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeVpcClassicLink = function DescribeVpcClassicLink(aws) {
-  var filters = aws.params.Filters;
-  var vpcIds = aws.params.VpcIds;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {
-    Vpcs: [ {
-      VpcId: '',
-      ClassicLinkEnabled: false,
-      Tags: /*Sa*/[ {
-        Value: '',
-        Key: '',
+    NetworkAcl: /*S47*/{
+      Associations: [ {
+        NetworkAclAssociationId: '',
+        NetworkAclId: '',
+        SubnetId: '',
       }, /* ...*/ ],
-    }, /* ...*/ ],
+      Entries: [ {
+        CidrBlock: '',
+        Egress: false,
+        IcmpTypeCode: /*S4b*/{
+          Code: 0,
+          Type: 0,
+        },
+        PortRange: /*S4c*/{
+          From: 0,
+          To: 0,
+        },
+        Protocol: '',
+        RuleAction: '',
+        RuleNumber: 0,
+      }, /* ...*/ ],
+      IsDefault: false,
+      NetworkAclId: '',
+      Tags: /*Sb*/[ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      VpcId: '',
+    },
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DeleteVpnConnectionRoute = function DeleteVpnConnectionRoute(aws) {
-  var destinationCidrBlock = aws.params.DestinationCidrBlock;
-  var vpnConnectionId = aws.params.VpnConnectionId;
-  if (!vpnConnectionId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpnConnectionId'];
+module.exports.CreateNetworkAclEntry = function CreateNetworkAclEntry(aws) {
+  var cidrBlock = aws.params.CidrBlock;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var egress = aws.params.Egress /* Type boolean */;
+  var icmpTypeCode = aws.params.IcmpTypeCode;
+  var networkAclId = aws.params.NetworkAclId;
+  var portRange = aws.params.PortRange;
+  var protocol = aws.params.Protocol;
+  var ruleAction = aws.params.RuleAction;
+  var ruleNumber = aws.params.RuleNumber /* Type integer */;
+  if (!cidrBlock) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CidrBlock'];
   }
-  if (!destinationCidrBlock) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DestinationCidrBlock'];
+  if (!egress) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Egress'];
+  }
+  if (!networkAclId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter NetworkAclId'];
+  }
+  if (!protocol) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Protocol'];
+  }
+  if (!ruleAction) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RuleAction'];
+  }
+  if (!ruleNumber) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RuleNumber'];
   }
 
 
@@ -1912,34 +919,586 @@ module.exports.DeleteVpnConnectionRoute = function DeleteVpnConnectionRoute(aws)
   return [200, ret];
 };
 // -----------------------------------
-module.exports.CreateInstanceExportTask = function CreateInstanceExportTask(aws) {
+module.exports.CreateNetworkInterface = function CreateNetworkInterface(aws) {
   var description = aws.params.Description;
-  var exportToS3Task = aws.params.ExportToS3Task /* Type structure */;
-  var targetEnvironment = aws.params.TargetEnvironment;
-  var instanceId = aws.params.InstanceId;
-  if (!instanceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var groups = aws.params.Groups;
+  var privateIpAddress = aws.params.PrivateIpAddress;
+  var privateIpAddresses = aws.params.PrivateIpAddresses;
+  var secondaryPrivateIpAddressCount = aws.params.SecondaryPrivateIpAddressCount /* Type integer */;
+  var subnetId = aws.params.SubnetId;
+  if (!subnetId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SubnetId'];
   }
 
 
   // TODO implement code
 
   var ret = {
-    ExportTask: /*S3n*/{
-      InstanceExportDetails: {
-        TargetEnvironment: '',
+    NetworkInterface: /*S4l*/{
+      Association: /*S4q*/{
+        AllocationId: '',
+        AssociationId: '',
+        IpOwnerId: '',
+        PublicDnsName: '',
+        PublicIp: '',
+      },
+      Attachment: /*S4p*/{
+        AttachTime: awsCommon.timestamp(),
+        AttachmentId: '',
+        DeleteOnTermination: false,
+        DeviceIndex: 0,
         InstanceId: '',
+        InstanceOwnerId: '',
+        Status: '',
       },
-      ExportToS3Task: {
-        S3Key: '',
-        ContainerFormat: '',
-        DiskImageFormat: '',
-        S3Bucket: '',
-      },
-      StatusMessage: '',
+      AvailabilityZone: '',
       Description: '',
+      Groups: /*S4n*/[ {
+        GroupId: '',
+        GroupName: '',
+      }, /* ...*/ ],
+      InterfaceType: '',
+      MacAddress: '',
+      NetworkInterfaceId: '',
+      OwnerId: '',
+      PrivateDnsName: '',
+      PrivateIpAddress: '',
+      PrivateIpAddresses: [ {
+        Association: /*S4q*/{
+        AllocationId: '',
+        AssociationId: '',
+        IpOwnerId: '',
+        PublicDnsName: '',
+        PublicIp: '',
+      },
+        Primary: false,
+        PrivateDnsName: '',
+        PrivateIpAddress: '',
+      }, /* ...*/ ],
+      RequesterId: '',
+      RequesterManaged: false,
+      SourceDestCheck: false,
+      Status: '',
+      SubnetId: '',
+      TagSet: /*Sb*/[ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      VpcId: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreatePlacementGroup = function CreatePlacementGroup(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var groupName = aws.params.GroupName;
+  var strategy = aws.params.Strategy;
+  if (!groupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GroupName'];
+  }
+  if (!strategy) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Strategy'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateReservedInstancesListing = function CreateReservedInstancesListing(aws) {
+  var clientToken = aws.params.ClientToken;
+  var instanceCount = aws.params.InstanceCount /* Type integer */;
+  var priceSchedules = aws.params.PriceSchedules /* Type list */;
+  var reservedInstancesId = aws.params.ReservedInstancesId;
+  if (!clientToken) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ClientToken'];
+  }
+  if (!instanceCount) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceCount'];
+  }
+  if (!priceSchedules) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PriceSchedules'];
+  }
+  if (!reservedInstancesId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ReservedInstancesId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ReservedInstancesListings: /*S1v*/[ {
+      ClientToken: '',
+      CreateDate: awsCommon.timestamp(),
+      InstanceCounts: [ {
+        InstanceCount: 0,
+        State: '',
+      }, /* ...*/ ],
+      PriceSchedules: [ {
+        Active: false,
+        CurrencyCode: '',
+        Price: 0.0 /*Double*/,
+        Term: 0 /*Long*/,
+      }, /* ...*/ ],
+      ReservedInstancesId: '',
+      ReservedInstancesListingId: '',
+      Status: '',
+      StatusMessage: '',
+      Tags: /*Sb*/[ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      UpdateDate: awsCommon.timestamp(),
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateRoute = function CreateRoute(aws) {
+  var destinationCidrBlock = aws.params.DestinationCidrBlock;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var gatewayId = aws.params.GatewayId;
+  var instanceId = aws.params.InstanceId;
+  var natGatewayId = aws.params.NatGatewayId;
+  var networkInterfaceId = aws.params.NetworkInterfaceId;
+  var routeTableId = aws.params.RouteTableId;
+  var vpcPeeringConnectionId = aws.params.VpcPeeringConnectionId;
+  if (!destinationCidrBlock) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DestinationCidrBlock'];
+  }
+  if (!routeTableId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RouteTableId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Return: false,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateRouteTable = function CreateRouteTable(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var vpcId = aws.params.VpcId;
+  if (!vpcId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpcId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    RouteTable: /*S54*/{
+      Associations: [ {
+        Main: false,
+        RouteTableAssociationId: '',
+        RouteTableId: '',
+        SubnetId: '',
+      }, /* ...*/ ],
+      PropagatingVgws: [ {
+        GatewayId: '',
+      }, /* ...*/ ],
+      RouteTableId: '',
+      Routes: [ {
+        DestinationCidrBlock: '',
+        DestinationPrefixListId: '',
+        GatewayId: '',
+        InstanceId: '',
+        InstanceOwnerId: '',
+        NatGatewayId: '',
+        NetworkInterfaceId: '',
+        Origin: '',
+        State: '',
+        VpcPeeringConnectionId: '',
+      }, /* ...*/ ],
+      Tags: /*Sb*/[ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      VpcId: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateSecurityGroup = function CreateSecurityGroup(aws) {
+  var description = aws.params.Description;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var groupName = aws.params.GroupName;
+  var vpcId = aws.params.VpcId;
+  if (!description) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Description'];
+  }
+  if (!groupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GroupName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    GroupId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateSnapshot = function CreateSnapshot(aws) {
+  var description = aws.params.Description;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var volumeId = aws.params.VolumeId;
+  if (!volumeId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VolumeId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = /*S5g*/{
+    DataEncryptionKeyId: '',
+    Description: '',
+    Encrypted: false,
+    KmsKeyId: '',
+    OwnerAlias: '',
+    OwnerId: '',
+    Progress: '',
+    SnapshotId: '',
+    StartTime: awsCommon.timestamp(),
+    State: '',
+    StateMessage: '',
+    Tags: /*Sb*/[ {
+      Key: '',
+      Value: '',
+    }, /* ...*/ ],
+    VolumeId: '',
+    VolumeSize: 0,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateSpotDatafeedSubscription = function CreateSpotDatafeedSubscription(aws) {
+  var bucket = aws.params.Bucket;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var prefix = aws.params.Prefix;
+  if (!bucket) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Bucket'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    SpotDatafeedSubscription: /*S5k*/{
+      Bucket: '',
+      Fault: /*S5m*/{
+        Code: '',
+        Message: '',
+      },
+      OwnerId: '',
+      Prefix: '',
       State: '',
-      ExportTaskId: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateSubnet = function CreateSubnet(aws) {
+  var availabilityZone = aws.params.AvailabilityZone;
+  var cidrBlock = aws.params.CidrBlock;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var vpcId = aws.params.VpcId;
+  if (!cidrBlock) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CidrBlock'];
+  }
+  if (!vpcId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpcId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Subnet: /*S5p*/{
+      AvailabilityZone: '',
+      AvailableIpAddressCount: 0,
+      CidrBlock: '',
+      DefaultForAz: false,
+      MapPublicIpOnLaunch: false,
+      State: '',
+      SubnetId: '',
+      Tags: /*Sb*/[ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      VpcId: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateTags = function CreateTags(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var resources = aws.params.Resources;
+  var tags = aws.params.Tags;
+  if (!resources) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Resources'];
+  }
+  if (!tags) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Tags'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateVolume = function CreateVolume(aws) {
+  var availabilityZone = aws.params.AvailabilityZone;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var encrypted = aws.params.Encrypted /* Type boolean */;
+  var iops = aws.params.Iops /* Type integer */;
+  var kmsKeyId = aws.params.KmsKeyId;
+  var size = aws.params.Size /* Type integer */;
+  var snapshotId = aws.params.SnapshotId;
+  var volumeType = aws.params.VolumeType;
+  if (!availabilityZone) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AvailabilityZone'];
+  }
+
+
+  // TODO implement code
+
+  var ret = /*S5u*/{
+    Attachments: [ /*Sz*/{
+      AttachTime: awsCommon.timestamp(),
+      DeleteOnTermination: false,
+      Device: '',
+      InstanceId: '',
+      State: '',
+      VolumeId: '',
+    }, /* ...*/ ],
+    AvailabilityZone: '',
+    CreateTime: awsCommon.timestamp(),
+    Encrypted: false,
+    Iops: 0,
+    KmsKeyId: '',
+    Size: 0,
+    SnapshotId: '',
+    State: '',
+    Tags: /*Sb*/[ {
+      Key: '',
+      Value: '',
+    }, /* ...*/ ],
+    VolumeId: '',
+    VolumeType: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateVpc = function CreateVpc(aws) {
+  var cidrBlock = aws.params.CidrBlock;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var instanceTenancy = aws.params.InstanceTenancy;
+  if (!cidrBlock) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CidrBlock'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Vpc: /*S60*/{
+      CidrBlock: '',
+      DhcpOptionsId: '',
+      InstanceTenancy: '',
+      IsDefault: false,
+      State: '',
+      Tags: /*Sb*/[ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      VpcId: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateVpcEndpoint = function CreateVpcEndpoint(aws) {
+  var clientToken = aws.params.ClientToken;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var policyDocument = aws.params.PolicyDocument;
+  var routeTableIds = aws.params.RouteTableIds;
+  var serviceName = aws.params.ServiceName;
+  var vpcId = aws.params.VpcId;
+  if (!serviceName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ServiceName'];
+  }
+  if (!vpcId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpcId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ClientToken: '',
+    VpcEndpoint: /*S64*/{
+      CreationTimestamp: awsCommon.timestamp(),
+      PolicyDocument: '',
+      RouteTableIds: /*S27*/[ '', /* ...*/ ],
+      ServiceName: '',
+      State: '',
+      VpcEndpointId: '',
+      VpcId: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateVpcPeeringConnection = function CreateVpcPeeringConnection(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var peerOwnerId = aws.params.PeerOwnerId;
+  var peerVpcId = aws.params.PeerVpcId;
+  var vpcId = aws.params.VpcId;
+
+
+  // TODO implement code
+
+  var ret = {
+    VpcPeeringConnection: /*S5*/{
+      AccepterVpcInfo: /*S6*/{
+        CidrBlock: '',
+        OwnerId: '',
+        PeeringOptions: {
+          AllowEgressFromLocalClassicLinkToRemoteVpc: false,
+          AllowEgressFromLocalVpcToRemoteClassicLink: false,
+        },
+        VpcId: '',
+      },
+      ExpirationTime: awsCommon.timestamp(),
+      RequesterVpcInfo: /*S6*/{
+        CidrBlock: '',
+        OwnerId: '',
+        PeeringOptions: {
+          AllowEgressFromLocalClassicLinkToRemoteVpc: false,
+          AllowEgressFromLocalVpcToRemoteClassicLink: false,
+        },
+        VpcId: '',
+      },
+      Status: {
+        Code: '',
+        Message: '',
+      },
+      Tags: /*Sb*/[ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      VpcPeeringConnectionId: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateVpnConnection = function CreateVpnConnection(aws) {
+  var customerGatewayId = aws.params.CustomerGatewayId;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var options = aws.params.Options /* Type structure */;
+  var type = aws.params.Type;
+  var vpnGatewayId = aws.params.VpnGatewayId;
+  if (!customerGatewayId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CustomerGatewayId'];
+  }
+  if (!type) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Type'];
+  }
+  if (!vpnGatewayId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpnGatewayId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    VpnConnection: /*S6b*/{
+      CustomerGatewayConfiguration: '',
+      CustomerGatewayId: '',
+      Options: {
+        StaticRoutesOnly: false,
+      },
+      Routes: [ {
+        DestinationCidrBlock: '',
+        Source: '',
+        State: '',
+      }, /* ...*/ ],
+      State: '',
+      Tags: /*Sb*/[ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      Type: '',
+      VgwTelemetry: [ {
+        AcceptedRouteCount: 0,
+        LastStatusChange: awsCommon.timestamp(),
+        OutsideIpAddress: '',
+        Status: '',
+        StatusMessage: '',
+      }, /* ...*/ ],
+      VpnConnectionId: '',
+      VpnGatewayId: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateVpnConnectionRoute = function CreateVpnConnectionRoute(aws) {
+  var destinationCidrBlock = aws.params.DestinationCidrBlock;
+  var vpnConnectionId = aws.params.VpnConnectionId;
+  if (!destinationCidrBlock) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DestinationCidrBlock'];
+  }
+  if (!vpnConnectionId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpnConnectionId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateVpnGateway = function CreateVpnGateway(aws) {
+  var availabilityZone = aws.params.AvailabilityZone;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var type = aws.params.Type;
+  if (!type) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Type'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    VpnGateway: /*S6n*/{
+      AvailabilityZone: '',
+      State: '',
+      Tags: /*Sb*/[ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      Type: '',
+      VpcAttachments: [ /*S13*/{
+        State: '',
+        VpcId: '',
+      }, /* ...*/ ],
+      VpnGatewayId: '',
     },
   };
   return [200, ret];
@@ -1959,482 +1518,17 @@ module.exports.DeleteCustomerGateway = function DeleteCustomerGateway(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.AssignPrivateIpAddresses = function AssignPrivateIpAddresses(aws) {
-  var networkInterfaceId = aws.params.NetworkInterfaceId;
-  var secondaryPrivateIpAddressCount = aws.params.SecondaryPrivateIpAddressCount /* Type integer */;
-  var allowReassignment = aws.params.AllowReassignment /* Type boolean */;
-  var privateIpAddresses = aws.params.PrivateIpAddresses;
-  if (!networkInterfaceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter NetworkInterfaceId'];
+module.exports.DeleteDhcpOptions = function DeleteDhcpOptions(aws) {
+  var dhcpOptionsId = aws.params.DhcpOptionsId;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  if (!dhcpOptionsId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DhcpOptionsId'];
   }
 
 
   // TODO implement code
 
   var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DisableVpcClassicLinkDnsSupport = function DisableVpcClassicLinkDnsSupport(aws) {
-  var vpcId = aws.params.VpcId;
-
-
-  // TODO implement code
-
-  var ret = {
-    Return: false,
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ImportSnapshot = function ImportSnapshot(aws) {
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  var roleName = aws.params.RoleName;
-  var diskContainer = aws.params.DiskContainer /* Type structure */;
-  var description = aws.params.Description;
-  var clientToken = aws.params.ClientToken;
-  var clientData = aws.params.ClientData;
-
-
-  // TODO implement code
-
-  var ret = {
-    Description: '',
-    ImportTaskId: '',
-    SnapshotTaskDetail: /*San*/{
-      UserBucket: /*Sai*/{
-        S3Key: '',
-        S3Bucket: '',
-      },
-      Url: '',
-      Format: '',
-      Status: '',
-      Progress: '',
-      Description: '',
-      StatusMessage: '',
-      SnapshotId: '',
-      DiskImageSize: 0.0 /*Double*/,
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ModifyVpcAttribute = function ModifyVpcAttribute(aws) {
-  var enableDnsHostnames = aws.params.EnableDnsHostnames;
-  var vpcId = aws.params.VpcId;
-  var enableDnsSupport = aws.params.EnableDnsSupport;
-  if (!vpcId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpcId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeInstances = function DescribeInstances(aws) {
-  var filters = aws.params.Filters;
-  var instanceIds = aws.params.InstanceIds;
-  var maxResults = aws.params.MaxResults /* Type integer */;
-  var nextToken = aws.params.NextToken;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {
-    NextToken: '',
-    Reservations: [ /*Sbd*/{
-      Groups: /*S4m*/[ {
-        GroupName: '',
-        GroupId: '',
-      }, /* ...*/ ],
-      Instances: [ {
-        Hypervisor: '',
-        PublicDnsName: '',
-        SecurityGroups: /*S4m*/[ {
-        GroupName: '',
-        GroupId: '',
-      }, /* ...*/ ],
-        Platform: '',
-        NetworkInterfaces: [ {
-          PrivateIpAddresses: [ {
-            PrivateIpAddress: '',
-            Association: /*Sbo*/{
-              PublicDnsName: '',
-              IpOwnerId: '',
-              PublicIp: '',
-            },
-            Primary: false,
-            PrivateDnsName: '',
-          }, /* ...*/ ],
-          OwnerId: '',
-          Status: '',
-          PrivateIpAddress: '',
-          PrivateDnsName: '',
-          Groups: /*S4m*/[ {
-        GroupName: '',
-        GroupId: '',
-      }, /* ...*/ ],
-          NetworkInterfaceId: '',
-          MacAddress: '',
-          SourceDestCheck: false,
-          Association: /*Sbo*/{
-              PublicDnsName: '',
-              IpOwnerId: '',
-              PublicIp: '',
-            },
-          Description: '',
-          VpcId: '',
-          SubnetId: '',
-          Attachment: {
-            DeleteOnTermination: false,
-            AttachmentId: '',
-            AttachTime: awsCommon.timestamp(),
-            DeviceIndex: 0,
-            Status: '',
-          },
-        }, /* ...*/ ],
-        PublicIpAddress: '',
-        StateTransitionReason: '',
-        PrivateIpAddress: '',
-        ClientToken: '',
-        VirtualizationType: '',
-        LaunchTime: awsCommon.timestamp(),
-        PrivateDnsName: '',
-        KeyName: '',
-        SourceDestCheck: false,
-        State: /*Sb2*/{
-          Code: 0,
-          Name: '',
-        },
-        SpotInstanceRequestId: '',
-        StateReason: /*Sa7*/{
-          Code: '',
-          Message: '',
-        },
-        Architecture: '',
-        Monitoring: /*Sbi*/{
-          State: '',
-        },
-        InstanceId: '',
-        ImageId: '',
-        ProductCodes: /*S9t*/[ {
-          ProductCodeId: '',
-          ProductCodeType: '',
-        }, /* ...*/ ],
-        RootDeviceType: '',
-        RootDeviceName: '',
-        InstanceLifecycle: '',
-        Placement: /*Sbh*/{
-          HostId: '',
-          Affinity: '',
-          GroupName: '',
-          Tenancy: '',
-          AvailabilityZone: '',
-        },
-        Tags: /*Sa*/[ {
-          Value: '',
-          Key: '',
-        }, /* ...*/ ],
-        VpcId: '',
-        InstanceType: '',
-        EbsOptimized: false,
-        SriovNetSupport: '',
-        AmiLaunchIndex: 0,
-        IamInstanceProfile: {
-          Id: '',
-          Arn: '',
-        },
-        RamdiskId: '',
-        BlockDeviceMappings: /*Sas*/[ {
-          DeviceName: '',
-          Ebs: {
-            VolumeId: '',
-            DeleteOnTermination: false,
-            AttachTime: awsCommon.timestamp(),
-            Status: '',
-          },
-        }, /* ...*/ ],
-        SubnetId: '',
-        KernelId: '',
-      }, /* ...*/ ],
-      OwnerId: '',
-      RequesterId: '',
-      ReservationId: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeSpotPriceHistory = function DescribeSpotPriceHistory(aws) {
-  var endTime = aws.params.EndTime /* Type timestamp */;
-  var maxResults = aws.params.MaxResults /* Type integer */;
-  var startTime = aws.params.StartTime /* Type timestamp */;
-  var filters = aws.params.Filters;
-  var instanceTypes = aws.params.InstanceTypes /* Type list */;
-  var productDescriptions = aws.params.ProductDescriptions /* Type list */;
-  var availabilityZone = aws.params.AvailabilityZone;
-  var nextToken = aws.params.NextToken;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {
-    NextToken: '',
-    SpotPriceHistory: [ {
-      Timestamp: awsCommon.timestamp(),
-      InstanceType: '',
-      AvailabilityZone: '',
-      SpotPrice: '',
-      ProductDescription: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.TerminateInstances = function TerminateInstances(aws) {
-  var instanceIds = aws.params.InstanceIds;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!instanceIds) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceIds'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    TerminatingInstances: /*Sll*/[ {
-      CurrentState: /*Sb2*/{
-        Code: 0,
-        Name: '',
-      },
-      PreviousState: /*Sb2*/{
-        Code: 0,
-        Name: '',
-      },
-      InstanceId: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.RevokeSecurityGroupEgress = function RevokeSecurityGroupEgress(aws) {
-  var cidrIp = aws.params.CidrIp;
-  var sourceSecurityGroupName = aws.params.SourceSecurityGroupName;
-  var ipPermissions = aws.params.IpPermissions;
-  var toPort = aws.params.ToPort /* Type integer */;
-  var ipProtocol = aws.params.IpProtocol;
-  var fromPort = aws.params.FromPort /* Type integer */;
-  var sourceSecurityGroupOwnerId = aws.params.SourceSecurityGroupOwnerId;
-  var groupId = aws.params.GroupId;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!groupId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GroupId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.AttachNetworkInterface = function AttachNetworkInterface(aws) {
-  var networkInterfaceId = aws.params.NetworkInterfaceId;
-  var deviceIndex = aws.params.DeviceIndex /* Type integer */;
-  var instanceId = aws.params.InstanceId;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!networkInterfaceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter NetworkInterfaceId'];
-  }
-  if (!instanceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
-  }
-  if (!deviceIndex) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DeviceIndex'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    AttachmentId: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.AttachClassicLinkVpc = function AttachClassicLinkVpc(aws) {
-  var groups = aws.params.Groups;
-  var instanceId = aws.params.InstanceId;
-  var vpcId = aws.params.VpcId;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!instanceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
-  }
-  if (!vpcId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpcId'];
-  }
-  if (!groups) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Groups'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Return: false,
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribePlacementGroups = function DescribePlacementGroups(aws) {
-  var filters = aws.params.Filters;
-  var groupNames = aws.params.GroupNames /* Type list */;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {
-    PlacementGroups: [ {
-      State: '',
-      GroupName: '',
-      Strategy: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.BundleInstance = function BundleInstance(aws) {
-  var storage = aws.params.Storage;
-  var instanceId = aws.params.InstanceId;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!instanceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
-  }
-  if (!storage) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Storage'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    BundleTask: /*S1j*/{
-      Storage: /*S1f*/{
-        S3: {
-          AWSAccessKeyId: '',
-          UploadPolicySignature: '',
-          UploadPolicy: null /*Blob*/,
-          Bucket: '',
-          Prefix: '',
-        },
-      },
-      StartTime: awsCommon.timestamp(),
-      UpdateTime: awsCommon.timestamp(),
-      Progress: '',
-      State: '',
-      BundleTaskError: {
-        Code: '',
-        Message: '',
-      },
-      BundleId: '',
-      InstanceId: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ModifyReservedInstances = function ModifyReservedInstances(aws) {
-  var targetConfigurations = aws.params.TargetConfigurations /* Type list */;
-  var reservedInstancesIds = aws.params.ReservedInstancesIds;
-  var clientToken = aws.params.ClientToken;
-  if (!reservedInstancesIds) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ReservedInstancesIds'];
-  }
-  if (!targetConfigurations) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TargetConfigurations'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    ReservedInstancesModificationId: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DetachVpnGateway = function DetachVpnGateway(aws) {
-  var vpnGatewayId = aws.params.VpnGatewayId;
-  var vpcId = aws.params.VpcId;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!vpnGatewayId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpnGatewayId'];
-  }
-  if (!vpcId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpcId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateVpnConnection = function CreateVpnConnection(aws) {
-  var customerGatewayId = aws.params.CustomerGatewayId;
-  var type = aws.params.Type;
-  var vpnGatewayId = aws.params.VpnGatewayId;
-  var options = aws.params.Options /* Type structure */;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!type) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Type'];
-  }
-  if (!customerGatewayId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CustomerGatewayId'];
-  }
-  if (!vpnGatewayId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpnGatewayId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    VpnConnection: /*S6a*/{
-      VgwTelemetry: [ {
-        StatusMessage: '',
-        AcceptedRouteCount: 0,
-        LastStatusChange: awsCommon.timestamp(),
-        Status: '',
-        OutsideIpAddress: '',
-      }, /* ...*/ ],
-      Routes: [ {
-        Source: '',
-        DestinationCidrBlock: '',
-        State: '',
-      }, /* ...*/ ],
-      VpnConnectionId: '',
-      CustomerGatewayId: '',
-      State: '',
-      CustomerGatewayConfiguration: '',
-      VpnGatewayId: '',
-      Tags: /*Sa*/[ {
-        Value: '',
-        Key: '',
-      }, /* ...*/ ],
-      Options: {
-        StaticRoutesOnly: false,
-      },
-      Type: '',
-    },
-  };
   return [200, ret];
 };
 // -----------------------------------
@@ -2448,1341 +1542,20 @@ module.exports.DeleteFlowLogs = function DeleteFlowLogs(aws) {
   // TODO implement code
 
   var ret = {
-    Unsuccessful: /*S38*/[ /*S39*/{
-      ResourceId: '',
+    Unsuccessful: /*S39*/[ /*S3a*/{
       Error: {
         Code: '',
         Message: '',
       },
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeVolumeAttribute = function DescribeVolumeAttribute(aws) {
-  var volumeId = aws.params.VolumeId;
-  var attribute = aws.params.Attribute;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!volumeId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VolumeId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    VolumeId: '',
-    ProductCodes: /*S9t*/[ {
-      ProductCodeId: '',
-      ProductCodeType: '',
-    }, /* ...*/ ],
-    AutoEnableIO: /*Sar*/{
-      Value: false,
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DisassociateAddress = function DisassociateAddress(aws) {
-  var associationId = aws.params.AssociationId;
-  var publicIp = aws.params.PublicIp;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeSpotFleetRequestHistory = function DescribeSpotFleetRequestHistory(aws) {
-  var maxResults = aws.params.MaxResults /* Type integer */;
-  var startTime = aws.params.StartTime /* Type timestamp */;
-  var nextToken = aws.params.NextToken;
-  var eventType = aws.params.EventType;
-  var spotFleetRequestId = aws.params.SpotFleetRequestId;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!spotFleetRequestId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SpotFleetRequestId'];
-  }
-  if (!startTime) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StartTime'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    NextToken: '',
-    LastEvaluatedTime: awsCommon.timestamp(),
-    SpotFleetRequestId: '',
-    StartTime: awsCommon.timestamp(),
-    HistoryRecords: [ {
-      Timestamp: awsCommon.timestamp(),
-      EventInformation: {
-        EventDescription: '',
-        EventSubType: '',
-        InstanceId: '',
-      },
-      EventType: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateVpnConnectionRoute = function CreateVpnConnectionRoute(aws) {
-  var destinationCidrBlock = aws.params.DestinationCidrBlock;
-  var vpnConnectionId = aws.params.VpnConnectionId;
-  if (!vpnConnectionId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpnConnectionId'];
-  }
-  if (!destinationCidrBlock) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DestinationCidrBlock'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DisassociateRouteTable = function DisassociateRouteTable(aws) {
-  var associationId = aws.params.AssociationId;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!associationId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AssociationId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeVpcs = function DescribeVpcs(aws) {
-  var filters = aws.params.Filters;
-  var vpcIds = aws.params.VpcIds /* Type list */;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {
-    Vpcs: [ /*S5z*/{
-      InstanceTenancy: '',
-      DhcpOptionsId: '',
-      State: '',
-      CidrBlock: '',
-      IsDefault: false,
-      VpcId: '',
-      Tags: /*Sa*/[ {
-        Value: '',
-        Key: '',
-      }, /* ...*/ ],
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.RevokeSecurityGroupIngress = function RevokeSecurityGroupIngress(aws) {
-  var cidrIp = aws.params.CidrIp;
-  var sourceSecurityGroupName = aws.params.SourceSecurityGroupName;
-  var ipPermissions = aws.params.IpPermissions;
-  var groupName = aws.params.GroupName;
-  var toPort = aws.params.ToPort /* Type integer */;
-  var ipProtocol = aws.params.IpProtocol;
-  var fromPort = aws.params.FromPort /* Type integer */;
-  var sourceSecurityGroupOwnerId = aws.params.SourceSecurityGroupOwnerId;
-  var groupId = aws.params.GroupId;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ResetNetworkInterfaceAttribute = function ResetNetworkInterfaceAttribute(aws) {
-  var networkInterfaceId = aws.params.NetworkInterfaceId;
-  var sourceDestCheck = aws.params.SourceDestCheck;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!networkInterfaceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter NetworkInterfaceId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateImage = function CreateImage(aws) {
-  var blockDeviceMappings = aws.params.BlockDeviceMappings;
-  var description = aws.params.Description;
-  var name = aws.params.Name;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  var noReboot = aws.params.NoReboot /* Type boolean */;
-  var instanceId = aws.params.InstanceId;
-  if (!instanceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
-  }
-  if (!name) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    ImageId: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ImportKeyPair = function ImportKeyPair(aws) {
-  var keyName = aws.params.KeyName;
-  var publicKeyMaterial = aws.params.PublicKeyMaterial /* Type blob */;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!keyName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter KeyName'];
-  }
-  if (!publicKeyMaterial) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PublicKeyMaterial'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    KeyName: '',
-    KeyFingerprint: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ConfirmProductInstance = function ConfirmProductInstance(aws) {
-  var instanceId = aws.params.InstanceId;
-  var productCode = aws.params.ProductCode;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!productCode) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ProductCode'];
-  }
-  if (!instanceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    OwnerId: '',
-    Return: false,
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeImportSnapshotTasks = function DescribeImportSnapshotTasks(aws) {
-  var nextToken = aws.params.NextToken;
-  var importTaskIds = aws.params.ImportTaskIds;
-  var maxResults = aws.params.MaxResults /* Type integer */;
-  var filters = aws.params.Filters;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {
-    ImportSnapshotTasks: [ {
-      Description: '',
-      ImportTaskId: '',
-      SnapshotTaskDetail: /*San*/{
-        UserBucket: /*Sai*/{
-          S3Key: '',
-          S3Bucket: '',
-        },
-        Url: '',
-        Format: '',
-        Status: '',
-        Progress: '',
-        Description: '',
-        StatusMessage: '',
-        SnapshotId: '',
-        DiskImageSize: 0.0 /*Double*/,
-      },
-    }, /* ...*/ ],
-    NextToken: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateNetworkAcl = function CreateNetworkAcl(aws) {
-  var vpcId = aws.params.VpcId;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!vpcId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpcId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    NetworkAcl: /*S46*/{
-      Entries: [ {
-        RuleAction: '',
-        IcmpTypeCode: /*S4a*/{
-          Code: 0,
-          Type: 0,
-        },
-        PortRange: /*S4b*/{
-          From: 0,
-          To: 0,
-        },
-        RuleNumber: 0,
-        CidrBlock: '',
-        Protocol: '',
-        Egress: false,
-      }, /* ...*/ ],
-      NetworkAclId: '',
-      Associations: [ {
-        NetworkAclId: '',
-        SubnetId: '',
-        NetworkAclAssociationId: '',
-      }, /* ...*/ ],
-      IsDefault: false,
-      VpcId: '',
-      Tags: /*Sa*/[ {
-        Value: '',
-        Key: '',
-      }, /* ...*/ ],
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeScheduledInstanceAvailability = function DescribeScheduledInstanceAvailability(aws) {
-  var maxSlotDurationInHours = aws.params.MaxSlotDurationInHours /* Type integer */;
-  var recurrence = aws.params.Recurrence /* Type structure */;
-  var firstSlotStartTimeRange = aws.params.FirstSlotStartTimeRange /* Type structure */;
-  var maxResults = aws.params.MaxResults /* Type integer */;
-  var nextToken = aws.params.NextToken;
-  var filters = aws.params.Filters;
-  var minSlotDurationInHours = aws.params.MinSlotDurationInHours /* Type integer */;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!recurrence) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Recurrence'];
-  }
-  if (!firstSlotStartTimeRange) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter FirstSlotStartTimeRange'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    ScheduledInstanceAvailabilitySet: [ {
-      AvailableInstanceCount: 0,
-      Platform: '',
-      PurchaseToken: '',
-      Recurrence: /*Se2*/{
-        Frequency: '',
-        OccurrenceRelativeToEnd: false,
-        OccurrenceDaySet: [ 0, /* ...*/ ],
-        Interval: 0,
-        OccurrenceUnit: '',
-      },
-      MaxTermDurationInDays: 0,
-      FirstSlotStartTime: awsCommon.timestamp(),
-      InstanceType: '',
-      TotalScheduledInstanceHours: 0,
-      NetworkPlatform: '',
-      SlotDurationInHours: 0,
-      MinTermDurationInDays: 0,
-      HourlyPrice: '',
-      AvailabilityZone: '',
-    }, /* ...*/ ],
-    NextToken: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ModifyImageAttribute = function ModifyImageAttribute(aws) {
-  var imageId = aws.params.ImageId;
-  var productCodes = aws.params.ProductCodes /* Type list */;
-  var userIds = aws.params.UserIds;
-  var userGroups = aws.params.UserGroups /* Type list */;
-  var launchPermission = aws.params.LaunchPermission /* Type structure */;
-  var description = aws.params.Description;
-  var value = aws.params.Value;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  var operationType = aws.params.OperationType;
-  var attribute = aws.params.Attribute;
-  if (!imageId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ImageId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateRouteTable = function CreateRouteTable(aws) {
-  var vpcId = aws.params.VpcId;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!vpcId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpcId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    RouteTable: /*S53*/{
-      Associations: [ {
-        Main: false,
-        RouteTableId: '',
-        RouteTableAssociationId: '',
-        SubnetId: '',
-      }, /* ...*/ ],
-      Routes: [ {
-        DestinationCidrBlock: '',
-        InstanceOwnerId: '',
-        NatGatewayId: '',
-        Origin: '',
-        NetworkInterfaceId: '',
-        VpcPeeringConnectionId: '',
-        State: '',
-        GatewayId: '',
-        DestinationPrefixListId: '',
-        InstanceId: '',
-      }, /* ...*/ ],
-      RouteTableId: '',
-      VpcId: '',
-      PropagatingVgws: [ {
-        GatewayId: '',
-      }, /* ...*/ ],
-      Tags: /*Sa*/[ {
-        Value: '',
-        Key: '',
-      }, /* ...*/ ],
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.EnableVgwRoutePropagation = function EnableVgwRoutePropagation(aws) {
-  var routeTableId = aws.params.RouteTableId;
-  var gatewayId = aws.params.GatewayId;
-  if (!routeTableId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RouteTableId'];
-  }
-  if (!gatewayId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.MoveAddressToVpc = function MoveAddressToVpc(aws) {
-  var publicIp = aws.params.PublicIp;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!publicIp) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PublicIp'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Status: '',
-    AllocationId: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.UnmonitorInstances = function UnmonitorInstances(aws) {
-  var instanceIds = aws.params.InstanceIds;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!instanceIds) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceIds'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    InstanceMonitorings: /*Sju*/[ {
-      Monitoring: /*Sbi*/{
-        State: '',
-      },
-      InstanceId: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.PurchaseScheduledInstances = function PurchaseScheduledInstances(aws) {
-  var clientToken = aws.params.ClientToken;
-  var purchaseRequests = aws.params.PurchaseRequests /* Type list */;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!purchaseRequests) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PurchaseRequests'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    ScheduledInstanceSet: [ /*Se9*/{
-      PreviousSlotEndTime: awsCommon.timestamp(),
-      Platform: '',
-      CreateDate: awsCommon.timestamp(),
-      TermEndDate: awsCommon.timestamp(),
-      Recurrence: /*Se2*/{
-        Frequency: '',
-        OccurrenceRelativeToEnd: false,
-        OccurrenceDaySet: [ 0, /* ...*/ ],
-        Interval: 0,
-        OccurrenceUnit: '',
-      },
-      NextSlotStartTime: awsCommon.timestamp(),
-      InstanceType: '',
-      TotalScheduledInstanceHours: 0,
-      NetworkPlatform: '',
-      TermStartDate: awsCommon.timestamp(),
-      SlotDurationInHours: 0,
-      ScheduledInstanceId: '',
-      InstanceCount: 0,
-      HourlyPrice: '',
-      AvailabilityZone: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeConversionTasks = function DescribeConversionTasks(aws) {
-  var filters = aws.params.Filters;
-  var conversionTaskIds = aws.params.ConversionTaskIds /* Type list */;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {
-    ConversionTasks: [ /*S8i*/{
-      StatusMessage: '',
-      ImportInstance: {
-        Description: '',
-        InstanceId: '',
-        Platform: '',
-        Volumes: [ {
-          Image: /*S8m*/{
-            Size: 0 /*Long*/,
-            Checksum: '',
-            Format: '',
-            ImportManifestUrl: '',
-          },
-          Description: '',
-          BytesConverted: 0 /*Long*/,
-          Status: '',
-          Volume: /*S8n*/{
-            Size: 0 /*Long*/,
-            Id: '',
-          },
-          StatusMessage: '',
-          AvailabilityZone: '',
-        }, /* ...*/ ],
-      },
-      ImportVolume: {
-        Description: '',
-        Image: /*S8m*/{
-            Size: 0 /*Long*/,
-            Checksum: '',
-            Format: '',
-            ImportManifestUrl: '',
-          },
-        Volume: /*S8n*/{
-            Size: 0 /*Long*/,
-            Id: '',
-          },
-        BytesConverted: 0 /*Long*/,
-        AvailabilityZone: '',
-      },
-      State: '',
-      ConversionTaskId: '',
-      ExpirationTime: '',
-      Tags: /*Sa*/[ {
-        Value: '',
-        Key: '',
-      }, /* ...*/ ],
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.GetConsoleOutput = function GetConsoleOutput(aws) {
-  var instanceId = aws.params.InstanceId;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!instanceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Timestamp: awsCommon.timestamp(),
-    Output: '',
-    InstanceId: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeIdFormat = function DescribeIdFormat(aws) {
-  var resource = aws.params.Resource;
-
-
-  // TODO implement code
-
-  var ret = {
-    Statuses: [ {
-      Resource: '',
-      UseLongIds: false,
-      Deadline: awsCommon.timestamp(),
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CopySnapshot = function CopySnapshot(aws) {
-  var encrypted = aws.params.Encrypted /* Type boolean */;
-  var kmsKeyId = aws.params.KmsKeyId;
-  var destinationRegion = aws.params.DestinationRegion;
-  var description = aws.params.Description;
-  var presignedUrl = aws.params.PresignedUrl;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  var sourceSnapshotId = aws.params.SourceSnapshotId;
-  var sourceRegion = aws.params.SourceRegion;
-  if (!sourceRegion) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SourceRegion'];
-  }
-  if (!sourceSnapshotId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SourceSnapshotId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    SnapshotId: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeCustomerGateways = function DescribeCustomerGateways(aws) {
-  var filters = aws.params.Filters;
-  var customerGatewayIds = aws.params.CustomerGatewayIds /* Type list */;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {
-    CustomerGateways: [ /*S2u*/{
-      IpAddress: '',
-      CustomerGatewayId: '',
-      State: '',
-      BgpAsn: '',
-      Tags: /*Sa*/[ {
-        Value: '',
-        Key: '',
-      }, /* ...*/ ],
-      Type: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateNatGateway = function CreateNatGateway(aws) {
-  var clientToken = aws.params.ClientToken;
-  var allocationId = aws.params.AllocationId;
-  var subnetId = aws.params.SubnetId;
-  if (!subnetId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SubnetId'];
-  }
-  if (!allocationId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AllocationId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    NatGateway: /*S40*/{
-      FailureMessage: '',
-      NatGatewayId: '',
-      DeleteTime: awsCommon.timestamp(),
-      State: '',
-      NatGatewayAddresses: [ {
-        NetworkInterfaceId: '',
-        PrivateIp: '',
-        PublicIp: '',
-        AllocationId: '',
-      }, /* ...*/ ],
-      FailureCode: '',
-      VpcId: '',
-      SubnetId: '',
-      CreateTime: awsCommon.timestamp(),
-    },
-    ClientToken: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ModifyVolumeAttribute = function ModifyVolumeAttribute(aws) {
-  var volumeId = aws.params.VolumeId;
-  var autoEnableIO = aws.params.AutoEnableIO;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!volumeId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VolumeId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ModifyInstancePlacement = function ModifyInstancePlacement(aws) {
-  var hostId = aws.params.HostId;
-  var affinity = aws.params.Affinity;
-  var tenancy = aws.params.Tenancy;
-  var instanceId = aws.params.InstanceId;
-  if (!instanceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Return: false,
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeReservedInstancesListings = function DescribeReservedInstancesListings(aws) {
-  var filters = aws.params.Filters;
-  var reservedInstancesId = aws.params.ReservedInstancesId;
-  var reservedInstancesListingId = aws.params.ReservedInstancesListingId;
-
-
-  // TODO implement code
-
-  var ret = {
-    ReservedInstancesListings: /*S1u*/[ {
-      InstanceCounts: [ {
-        State: '',
-        InstanceCount: 0,
-      }, /* ...*/ ],
-      ReservedInstancesId: '',
-      ReservedInstancesListingId: '',
-      PriceSchedules: [ {
-        Price: 0.0 /*Double*/,
-        Active: false,
-        CurrencyCode: '',
-        Term: 0 /*Long*/,
-      }, /* ...*/ ],
-      Status: '',
-      StatusMessage: '',
-      ClientToken: '',
-      UpdateDate: awsCommon.timestamp(),
-      CreateDate: awsCommon.timestamp(),
-      Tags: /*Sa*/[ {
-        Value: '',
-        Key: '',
-      }, /* ...*/ ],
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeRouteTables = function DescribeRouteTables(aws) {
-  var routeTableIds = aws.params.RouteTableIds;
-  var filters = aws.params.Filters;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {
-    RouteTables: [ /*S53*/{
-      Associations: [ {
-        Main: false,
-        RouteTableId: '',
-        RouteTableAssociationId: '',
-        SubnetId: '',
-      }, /* ...*/ ],
-      Routes: [ {
-        DestinationCidrBlock: '',
-        InstanceOwnerId: '',
-        NatGatewayId: '',
-        Origin: '',
-        NetworkInterfaceId: '',
-        VpcPeeringConnectionId: '',
-        State: '',
-        GatewayId: '',
-        DestinationPrefixListId: '',
-        InstanceId: '',
-      }, /* ...*/ ],
-      RouteTableId: '',
-      VpcId: '',
-      PropagatingVgws: [ {
-        GatewayId: '',
-      }, /* ...*/ ],
-      Tags: /*Sa*/[ {
-        Value: '',
-        Key: '',
-      }, /* ...*/ ],
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteRouteTable = function DeleteRouteTable(aws) {
-  var routeTableId = aws.params.RouteTableId;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!routeTableId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RouteTableId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ImportImage = function ImportImage(aws) {
-  var licenseType = aws.params.LicenseType;
-  var hypervisor = aws.params.Hypervisor;
-  var roleName = aws.params.RoleName;
-  var clientToken = aws.params.ClientToken;
-  var platform = aws.params.Platform;
-  var diskContainers = aws.params.DiskContainers /* Type list */;
-  var description = aws.params.Description;
-  var clientData = aws.params.ClientData;
-  var architecture = aws.params.Architecture;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {
-    LicenseType: '',
-    Hypervisor: '',
-    Platform: '',
-    Status: '',
-    Progress: '',
-    Description: '',
-    ImportTaskId: '',
-    ImageId: '',
-    SnapshotDetails: /*Sag*/[ {
-      StatusMessage: '',
-      UserBucket: /*Sai*/{
-        S3Key: '',
-        S3Bucket: '',
-      },
-      Url: '',
-      Format: '',
-      Status: '',
-      Progress: '',
-      Description: '',
-      DeviceName: '',
-      SnapshotId: '',
-      DiskImageSize: 0.0 /*Double*/,
-    }, /* ...*/ ],
-    StatusMessage: '',
-    Architecture: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateVpnGateway = function CreateVpnGateway(aws) {
-  var availabilityZone = aws.params.AvailabilityZone;
-  var type = aws.params.Type;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!type) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Type'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    VpnGateway: /*S6m*/{
-      VpcAttachments: [ /*S12*/{
-        State: '',
-        VpcId: '',
-      }, /* ...*/ ],
-      State: '',
-      Type: '',
-      VpnGatewayId: '',
-      Tags: /*Sa*/[ {
-        Value: '',
-        Key: '',
-      }, /* ...*/ ],
-      AvailabilityZone: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeTags = function DescribeTags(aws) {
-  var filters = aws.params.Filters;
-  var maxResults = aws.params.MaxResults /* Type integer */;
-  var nextToken = aws.params.NextToken;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {
-    NextToken: '',
-    Tags: [ {
       ResourceId: '',
-      ResourceType: '',
-      Value: '',
-      Key: '',
     }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ReplaceRouteTableAssociation = function ReplaceRouteTableAssociation(aws) {
-  var associationId = aws.params.AssociationId;
-  var routeTableId = aws.params.RouteTableId;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!associationId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AssociationId'];
-  }
-  if (!routeTableId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RouteTableId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    NewAssociationId: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.AllocateAddress = function AllocateAddress(aws) {
-  var domain = aws.params.Domain;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {
-    PublicIp: '',
-    AllocationId: '',
-    Domain: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CancelImportTask = function CancelImportTask(aws) {
-  var importTaskId = aws.params.ImportTaskId;
-  var cancelReason = aws.params.CancelReason;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {
-    ImportTaskId: '',
-    PreviousState: '',
-    State: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteVpnGateway = function DeleteVpnGateway(aws) {
-  var vpnGatewayId = aws.params.VpnGatewayId;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!vpnGatewayId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpnGatewayId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.RebootInstances = function RebootInstances(aws) {
-  var instanceIds = aws.params.InstanceIds;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!instanceIds) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceIds'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeSubnets = function DescribeSubnets(aws) {
-  var filters = aws.params.Filters;
-  var subnetIds = aws.params.SubnetIds /* Type list */;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {
-    Subnets: [ /*S5o*/{
-      Tags: /*Sa*/[ {
-        Value: '',
-        Key: '',
-      }, /* ...*/ ],
-      DefaultForAz: false,
-      MapPublicIpOnLaunch: false,
-      State: '',
-      CidrBlock: '',
-      AvailableIpAddressCount: 0,
-      VpcId: '',
-      SubnetId: '',
-      AvailabilityZone: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateDhcpOptions = function CreateDhcpOptions(aws) {
-  var dhcpConfigurations = aws.params.DhcpConfigurations /* Type list */;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!dhcpConfigurations) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DhcpConfigurations'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    DhcpOptions: /*S2z*/{
-      DhcpConfigurations: [ {
-        Values: [ /*S33*/{
-          Value: '',
-        }, /* ...*/ ],
-        Key: '',
-      }, /* ...*/ ],
-      DhcpOptionsId: '',
-      Tags: /*Sa*/[ {
-        Value: '',
-        Key: '',
-      }, /* ...*/ ],
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ModifyNetworkInterfaceAttribute = function ModifyNetworkInterfaceAttribute(aws) {
-  var groups = aws.params.Groups;
-  var networkInterfaceId = aws.params.NetworkInterfaceId;
-  var sourceDestCheck = aws.params.SourceDestCheck;
-  var description = aws.params.Description;
-  var attachment = aws.params.Attachment /* Type structure */;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!networkInterfaceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter NetworkInterfaceId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeVolumes = function DescribeVolumes(aws) {
-  var filters = aws.params.Filters;
-  var nextToken = aws.params.NextToken;
-  var maxResults = aws.params.MaxResults /* Type integer */;
-  var volumeIds = aws.params.VolumeIds;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {
-    NextToken: '',
-    Volumes: [ /*S5t*/{
-      Encrypted: false,
-      KmsKeyId: '',
-      Size: 0,
-      Iops: 0,
-      Tags: /*Sa*/[ {
-        Value: '',
-        Key: '',
-      }, /* ...*/ ],
-      SnapshotId: '',
-      VolumeId: '',
-      State: '',
-      Attachments: [ /*Sy*/{
-        Device: '',
-        DeleteOnTermination: false,
-        VolumeId: '',
-        State: '',
-        AttachTime: awsCommon.timestamp(),
-        InstanceId: '',
-      }, /* ...*/ ],
-      VolumeType: '',
-      CreateTime: awsCommon.timestamp(),
-      AvailabilityZone: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteVolume = function DeleteVolume(aws) {
-  var volumeId = aws.params.VolumeId;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!volumeId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VolumeId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateVpcEndpoint = function CreateVpcEndpoint(aws) {
-  var serviceName = aws.params.ServiceName;
-  var routeTableIds = aws.params.RouteTableIds;
-  var policyDocument = aws.params.PolicyDocument;
-  var clientToken = aws.params.ClientToken;
-  var vpcId = aws.params.VpcId;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!vpcId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpcId'];
-  }
-  if (!serviceName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ServiceName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    VpcEndpoint: /*S63*/{
-      CreationTimestamp: awsCommon.timestamp(),
-      ServiceName: '',
-      RouteTableIds: /*S26*/[ '', /* ...*/ ],
-      State: '',
-      PolicyDocument: '',
-      VpcEndpointId: '',
-      VpcId: '',
-    },
-    ClientToken: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteSecurityGroup = function DeleteSecurityGroup(aws) {
-  var groupName = aws.params.GroupName;
-  var groupId = aws.params.GroupId;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeAddresses = function DescribeAddresses(aws) {
-  var filters = aws.params.Filters;
-  var publicIps = aws.params.PublicIps /* Type list */;
-  var allocationIds = aws.params.AllocationIds /* Type list */;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {
-    Addresses: [ {
-      AssociationId: '',
-      NetworkInterfaceId: '',
-      PublicIp: '',
-      AllocationId: '',
-      NetworkInterfaceOwnerId: '',
-      PrivateIpAddress: '',
-      InstanceId: '',
-      Domain: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeExportTasks = function DescribeExportTasks(aws) {
-  var exportTaskIds = aws.params.ExportTaskIds /* Type list */;
-
-
-  // TODO implement code
-
-  var ret = {
-    ExportTasks: [ /*S3n*/{
-      InstanceExportDetails: {
-        TargetEnvironment: '',
-        InstanceId: '',
-      },
-      ExportToS3Task: {
-        S3Key: '',
-        ContainerFormat: '',
-        DiskImageFormat: '',
-        S3Bucket: '',
-      },
-      StatusMessage: '',
-      Description: '',
-      State: '',
-      ExportTaskId: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeletePlacementGroup = function DeletePlacementGroup(aws) {
-  var groupName = aws.params.GroupName;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!groupName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GroupName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ReleaseAddress = function ReleaseAddress(aws) {
-  var publicIp = aws.params.PublicIp;
-  var allocationId = aws.params.AllocationId;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ModifyHosts = function ModifyHosts(aws) {
-  var hostIds = aws.params.HostIds;
-  var autoPlacement = aws.params.AutoPlacement;
-  if (!hostIds) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HostIds'];
-  }
-  if (!autoPlacement) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AutoPlacement'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Unsuccessful: /*Six*/[ /*S39*/{
-      ResourceId: '',
-      Error: {
-        Code: '',
-        Message: '',
-      },
-    }, /* ...*/ ],
-    Successful: /*Sj*/[ '', /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteVpcEndpoints = function DeleteVpcEndpoints(aws) {
-  var vpcEndpointIds = aws.params.VpcEndpointIds;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!vpcEndpointIds) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpcEndpointIds'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Unsuccessful: /*S38*/[ /*S39*/{
-      ResourceId: '',
-      Error: {
-        Code: '',
-        Message: '',
-      },
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateVpcPeeringConnection = function CreateVpcPeeringConnection(aws) {
-  var peerVpcId = aws.params.PeerVpcId;
-  var peerOwnerId = aws.params.PeerOwnerId;
-  var vpcId = aws.params.VpcId;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {
-    VpcPeeringConnection: /*S5*/{
-      VpcPeeringConnectionId: '',
-      Status: {
-        Code: '',
-        Message: '',
-      },
-      AccepterVpcInfo: /*S6*/{
-        CidrBlock: '',
-        VpcId: '',
-        OwnerId: '',
-      },
-      RequesterVpcInfo: /*S6*/{
-        CidrBlock: '',
-        VpcId: '',
-        OwnerId: '',
-      },
-      ExpirationTime: awsCommon.timestamp(),
-      Tags: /*Sa*/[ {
-        Value: '',
-        Key: '',
-      }, /* ...*/ ],
-    },
   };
   return [200, ret];
 };
 // -----------------------------------
 module.exports.DeleteInternetGateway = function DeleteInternetGateway(aws) {
-  var internetGatewayId = aws.params.InternetGatewayId;
   var dryRun = aws.params.DryRun /* Type boolean */;
+  var internetGatewayId = aws.params.InternetGatewayId;
   if (!internetGatewayId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InternetGatewayId'];
   }
@@ -3794,44 +1567,74 @@ module.exports.DeleteInternetGateway = function DeleteInternetGateway(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DescribeReservedInstancesModifications = function DescribeReservedInstancesModifications(aws) {
-  var nextToken = aws.params.NextToken;
-  var reservedInstancesModificationIds = aws.params.ReservedInstancesModificationIds /* Type list */;
-  var filters = aws.params.Filters;
+module.exports.DeleteKeyPair = function DeleteKeyPair(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var keyName = aws.params.KeyName;
+  if (!keyName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter KeyName'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteNatGateway = function DeleteNatGateway(aws) {
+  var natGatewayId = aws.params.NatGatewayId;
+  if (!natGatewayId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter NatGatewayId'];
+  }
 
 
   // TODO implement code
 
   var ret = {
-    NextToken: '',
-    ReservedInstancesModifications: [ {
-      CreateDate: awsCommon.timestamp(),
-      ReservedInstancesIds: [ {
-        ReservedInstancesId: '',
-      }, /* ...*/ ],
-      Status: '',
-      StatusMessage: '',
-      ClientToken: '',
-      ReservedInstancesModificationId: '',
-      EffectiveDate: awsCommon.timestamp(),
-      UpdateDate: awsCommon.timestamp(),
-      ModificationResults: [ {
-        TargetConfiguration: /*Sdk*/{
-          InstanceType: '',
-          InstanceCount: 0,
-          Platform: '',
-          AvailabilityZone: '',
-        },
-        ReservedInstancesId: '',
-      }, /* ...*/ ],
-    }, /* ...*/ ],
+    NatGatewayId: '',
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DeleteNetworkInterface = function DeleteNetworkInterface(aws) {
-  var networkInterfaceId = aws.params.NetworkInterfaceId;
+module.exports.DeleteNetworkAcl = function DeleteNetworkAcl(aws) {
   var dryRun = aws.params.DryRun /* Type boolean */;
+  var networkAclId = aws.params.NetworkAclId;
+  if (!networkAclId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter NetworkAclId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteNetworkAclEntry = function DeleteNetworkAclEntry(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var egress = aws.params.Egress /* Type boolean */;
+  var networkAclId = aws.params.NetworkAclId;
+  var ruleNumber = aws.params.RuleNumber /* Type integer */;
+  if (!egress) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Egress'];
+  }
+  if (!networkAclId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter NetworkAclId'];
+  }
+  if (!ruleNumber) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RuleNumber'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteNetworkInterface = function DeleteNetworkInterface(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var networkInterfaceId = aws.params.NetworkInterfaceId;
   if (!networkInterfaceId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter NetworkInterfaceId'];
   }
@@ -3843,88 +1646,11 @@ module.exports.DeleteNetworkInterface = function DeleteNetworkInterface(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DescribeRegions = function DescribeRegions(aws) {
-  var filters = aws.params.Filters;
-  var regionNames = aws.params.RegionNames /* Type list */;
+module.exports.DeletePlacementGroup = function DeletePlacementGroup(aws) {
   var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {
-    Regions: [ {
-      RegionName: '',
-      Endpoint: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeSpotFleetInstances = function DescribeSpotFleetInstances(aws) {
-  var maxResults = aws.params.MaxResults /* Type integer */;
-  var nextToken = aws.params.NextToken;
-  var spotFleetRequestId = aws.params.SpotFleetRequestId;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!spotFleetRequestId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SpotFleetRequestId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    NextToken: '',
-    SpotFleetRequestId: '',
-    ActiveInstances: [ {
-      SpotInstanceRequestId: '',
-      InstanceType: '',
-      InstanceId: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeVpcPeeringConnections = function DescribeVpcPeeringConnections(aws) {
-  var filters = aws.params.Filters;
-  var vpcPeeringConnectionIds = aws.params.VpcPeeringConnectionIds;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {
-    VpcPeeringConnections: [ /*S5*/{
-      VpcPeeringConnectionId: '',
-      Status: {
-        Code: '',
-        Message: '',
-      },
-      AccepterVpcInfo: /*S6*/{
-        CidrBlock: '',
-        VpcId: '',
-        OwnerId: '',
-      },
-      RequesterVpcInfo: /*S6*/{
-        CidrBlock: '',
-        VpcId: '',
-        OwnerId: '',
-      },
-      ExpirationTime: awsCommon.timestamp(),
-      Tags: /*Sa*/[ {
-        Value: '',
-        Key: '',
-      }, /* ...*/ ],
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CancelConversionTask = function CancelConversionTask(aws) {
-  var reasonMessage = aws.params.ReasonMessage;
-  var conversionTaskId = aws.params.ConversionTaskId;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!conversionTaskId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ConversionTaskId'];
+  var groupName = aws.params.GroupName;
+  if (!groupName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GroupName'];
   }
 
 
@@ -3934,15 +1660,108 @@ module.exports.CancelConversionTask = function CancelConversionTask(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.CreateTags = function CreateTags(aws) {
+module.exports.DeleteRoute = function DeleteRoute(aws) {
+  var destinationCidrBlock = aws.params.DestinationCidrBlock;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var routeTableId = aws.params.RouteTableId;
+  if (!destinationCidrBlock) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DestinationCidrBlock'];
+  }
+  if (!routeTableId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RouteTableId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteRouteTable = function DeleteRouteTable(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var routeTableId = aws.params.RouteTableId;
+  if (!routeTableId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RouteTableId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteSecurityGroup = function DeleteSecurityGroup(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var groupId = aws.params.GroupId;
+  var groupName = aws.params.GroupName;
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteSnapshot = function DeleteSnapshot(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var snapshotId = aws.params.SnapshotId;
+  if (!snapshotId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SnapshotId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteSpotDatafeedSubscription = function DeleteSpotDatafeedSubscription(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteSubnet = function DeleteSubnet(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var subnetId = aws.params.SubnetId;
+  if (!subnetId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SubnetId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteTags = function DeleteTags(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
   var resources = aws.params.Resources;
   var tags = aws.params.Tags;
-  var dryRun = aws.params.DryRun /* Type boolean */;
   if (!resources) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Resources'];
   }
-  if (!tags) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Tags'];
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteVolume = function DeleteVolume(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var volumeId = aws.params.VolumeId;
+  if (!volumeId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VolumeId'];
   }
 
 
@@ -3952,87 +1771,9 @@ module.exports.CreateTags = function CreateTags(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.CancelReservedInstancesListing = function CancelReservedInstancesListing(aws) {
-  var reservedInstancesListingId = aws.params.ReservedInstancesListingId;
-  if (!reservedInstancesListingId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ReservedInstancesListingId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    ReservedInstancesListings: /*S1u*/[ {
-      InstanceCounts: [ {
-        State: '',
-        InstanceCount: 0,
-      }, /* ...*/ ],
-      ReservedInstancesId: '',
-      ReservedInstancesListingId: '',
-      PriceSchedules: [ {
-        Price: 0.0 /*Double*/,
-        Active: false,
-        CurrencyCode: '',
-        Term: 0 /*Long*/,
-      }, /* ...*/ ],
-      Status: '',
-      StatusMessage: '',
-      ClientToken: '',
-      UpdateDate: awsCommon.timestamp(),
-      CreateDate: awsCommon.timestamp(),
-      Tags: /*Sa*/[ {
-        Value: '',
-        Key: '',
-      }, /* ...*/ ],
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeVpcEndpointServices = function DescribeVpcEndpointServices(aws) {
-  var maxResults = aws.params.MaxResults /* Type integer */;
-  var nextToken = aws.params.NextToken;
+module.exports.DeleteVpc = function DeleteVpc(aws) {
   var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {
-    NextToken: '',
-    ServiceNames: /*S26*/[ '', /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.RunScheduledInstances = function RunScheduledInstances(aws) {
-  var launchSpecification = aws.params.LaunchSpecification /* Type structure */;
-  var scheduledInstanceId = aws.params.ScheduledInstanceId;
-  var clientToken = aws.params.ClientToken;
-  var instanceCount = aws.params.InstanceCount /* Type integer */;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!scheduledInstanceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ScheduledInstanceId'];
-  }
-  if (!launchSpecification) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LaunchSpecification'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    InstanceIdSet: [ '', /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DetachClassicLinkVpc = function DetachClassicLinkVpc(aws) {
-  var instanceId = aws.params.InstanceId;
   var vpcId = aws.params.VpcId;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!instanceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
-  }
   if (!vpcId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpcId'];
   }
@@ -4040,80 +1781,35 @@ module.exports.DetachClassicLinkVpc = function DetachClassicLinkVpc(aws) {
 
   // TODO implement code
 
-  var ret = {
-    Return: false,
-  };
+  var ret = {};
   return [200, ret];
 };
 // -----------------------------------
-module.exports.ImportInstance = function ImportInstance(aws) {
-  var description = aws.params.Description;
-  var launchSpecification = aws.params.LaunchSpecification /* Type structure */;
-  var diskImages = aws.params.DiskImages /* Type list */;
-  var platform = aws.params.Platform;
+module.exports.DeleteVpcEndpoints = function DeleteVpcEndpoints(aws) {
   var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!platform) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Platform'];
+  var vpcEndpointIds = aws.params.VpcEndpointIds;
+  if (!vpcEndpointIds) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpcEndpointIds'];
   }
 
 
   // TODO implement code
 
   var ret = {
-    ConversionTask: /*S8i*/{
-      StatusMessage: '',
-      ImportInstance: {
-        Description: '',
-        InstanceId: '',
-        Platform: '',
-        Volumes: [ {
-          Image: /*S8m*/{
-            Size: 0 /*Long*/,
-            Checksum: '',
-            Format: '',
-            ImportManifestUrl: '',
-          },
-          Description: '',
-          BytesConverted: 0 /*Long*/,
-          Status: '',
-          Volume: /*S8n*/{
-            Size: 0 /*Long*/,
-            Id: '',
-          },
-          StatusMessage: '',
-          AvailabilityZone: '',
-        }, /* ...*/ ],
+    Unsuccessful: /*S39*/[ /*S3a*/{
+      Error: {
+        Code: '',
+        Message: '',
       },
-      ImportVolume: {
-        Description: '',
-        Image: /*S8m*/{
-            Size: 0 /*Long*/,
-            Checksum: '',
-            Format: '',
-            ImportManifestUrl: '',
-          },
-        Volume: /*S8n*/{
-            Size: 0 /*Long*/,
-            Id: '',
-          },
-        BytesConverted: 0 /*Long*/,
-        AvailabilityZone: '',
-      },
-      State: '',
-      ConversionTaskId: '',
-      ExpirationTime: '',
-      Tags: /*Sa*/[ {
-        Value: '',
-        Key: '',
-      }, /* ...*/ ],
-    },
+      ResourceId: '',
+    }, /* ...*/ ],
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.RejectVpcPeeringConnection = function RejectVpcPeeringConnection(aws) {
-  var vpcPeeringConnectionId = aws.params.VpcPeeringConnectionId;
+module.exports.DeleteVpcPeeringConnection = function DeleteVpcPeeringConnection(aws) {
   var dryRun = aws.params.DryRun /* Type boolean */;
+  var vpcPeeringConnectionId = aws.params.VpcPeeringConnectionId;
   if (!vpcPeeringConnectionId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpcPeeringConnectionId'];
   }
@@ -4127,11 +1823,56 @@ module.exports.RejectVpcPeeringConnection = function RejectVpcPeeringConnection(
   return [200, ret];
 };
 // -----------------------------------
-module.exports.EnableVolumeIO = function EnableVolumeIO(aws) {
-  var volumeId = aws.params.VolumeId;
+module.exports.DeleteVpnConnection = function DeleteVpnConnection(aws) {
   var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!volumeId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VolumeId'];
+  var vpnConnectionId = aws.params.VpnConnectionId;
+  if (!vpnConnectionId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpnConnectionId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteVpnConnectionRoute = function DeleteVpnConnectionRoute(aws) {
+  var destinationCidrBlock = aws.params.DestinationCidrBlock;
+  var vpnConnectionId = aws.params.VpnConnectionId;
+  if (!destinationCidrBlock) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DestinationCidrBlock'];
+  }
+  if (!vpnConnectionId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpnConnectionId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteVpnGateway = function DeleteVpnGateway(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var vpnGatewayId = aws.params.VpnGatewayId;
+  if (!vpnGatewayId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpnGatewayId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeregisterImage = function DeregisterImage(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var imageId = aws.params.ImageId;
+  if (!imageId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ImageId'];
   }
 
 
@@ -4159,256 +1900,1817 @@ module.exports.DescribeAccountAttributes = function DescribeAccountAttributes(aw
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DescribeVpcAttribute = function DescribeVpcAttribute(aws) {
-  var attribute = aws.params.Attribute;
-  var vpcId = aws.params.VpcId;
+module.exports.DescribeAddresses = function DescribeAddresses(aws) {
+  var allocationIds = aws.params.AllocationIds /* Type list */;
   var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!vpcId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpcId'];
-  }
+  var filters = aws.params.Filters;
+  var publicIps = aws.params.PublicIps /* Type list */;
+
+
+  // TODO implement code
+
+  var ret = {
+    Addresses: [ {
+      AllocationId: '',
+      AssociationId: '',
+      Domain: '',
+      InstanceId: '',
+      NetworkInterfaceId: '',
+      NetworkInterfaceOwnerId: '',
+      PrivateIpAddress: '',
+      PublicIp: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeAvailabilityZones = function DescribeAvailabilityZones(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var filters = aws.params.Filters;
+  var zoneNames = aws.params.ZoneNames /* Type list */;
+
+
+  // TODO implement code
+
+  var ret = {
+    AvailabilityZones: [ {
+      Messages: [ {
+        Message: '',
+      }, /* ...*/ ],
+      RegionName: '',
+      State: '',
+      ZoneName: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeBundleTasks = function DescribeBundleTasks(aws) {
+  var bundleIds = aws.params.BundleIds /* Type list */;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var filters = aws.params.Filters;
+
+
+  // TODO implement code
+
+  var ret = {
+    BundleTasks: [ /*S1k*/{
+      BundleId: '',
+      BundleTaskError: {
+        Code: '',
+        Message: '',
+      },
+      InstanceId: '',
+      Progress: '',
+      StartTime: awsCommon.timestamp(),
+      State: '',
+      Storage: /*S1g*/{
+        S3: {
+          AWSAccessKeyId: '',
+          Bucket: '',
+          Prefix: '',
+          UploadPolicy: null /*Blob*/,
+          UploadPolicySignature: '',
+        },
+      },
+      UpdateTime: awsCommon.timestamp(),
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeClassicLinkInstances = function DescribeClassicLinkInstances(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var filters = aws.params.Filters;
+  var instanceIds = aws.params.InstanceIds;
+  var maxResults = aws.params.MaxResults /* Type integer */;
+  var nextToken = aws.params.NextToken;
+
+
+  // TODO implement code
+
+  var ret = {
+    Instances: [ {
+      Groups: /*S4n*/[ {
+        GroupId: '',
+        GroupName: '',
+      }, /* ...*/ ],
+      InstanceId: '',
+      Tags: /*Sb*/[ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      VpcId: '',
+    }, /* ...*/ ],
+    NextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeConversionTasks = function DescribeConversionTasks(aws) {
+  var conversionTaskIds = aws.params.ConversionTaskIds /* Type list */;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var filters = aws.params.Filters;
+
+
+  // TODO implement code
+
+  var ret = {
+    ConversionTasks: [ /*S8j*/{
+      ConversionTaskId: '',
+      ExpirationTime: '',
+      ImportInstance: {
+        Description: '',
+        InstanceId: '',
+        Platform: '',
+        Volumes: [ {
+          AvailabilityZone: '',
+          BytesConverted: 0 /*Long*/,
+          Description: '',
+          Image: /*S8n*/{
+            Checksum: '',
+            Format: '',
+            ImportManifestUrl: '',
+            Size: 0 /*Long*/,
+          },
+          Status: '',
+          StatusMessage: '',
+          Volume: /*S8o*/{
+            Id: '',
+            Size: 0 /*Long*/,
+          },
+        }, /* ...*/ ],
+      },
+      ImportVolume: {
+        AvailabilityZone: '',
+        BytesConverted: 0 /*Long*/,
+        Description: '',
+        Image: /*S8n*/{
+            Checksum: '',
+            Format: '',
+            ImportManifestUrl: '',
+            Size: 0 /*Long*/,
+          },
+        Volume: /*S8o*/{
+            Id: '',
+            Size: 0 /*Long*/,
+          },
+      },
+      State: '',
+      StatusMessage: '',
+      Tags: /*Sb*/[ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeCustomerGateways = function DescribeCustomerGateways(aws) {
+  var customerGatewayIds = aws.params.CustomerGatewayIds /* Type list */;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var filters = aws.params.Filters;
+
+
+  // TODO implement code
+
+  var ret = {
+    CustomerGateways: [ /*S2v*/{
+      BgpAsn: '',
+      CustomerGatewayId: '',
+      IpAddress: '',
+      State: '',
+      Tags: /*Sb*/[ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      Type: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeDhcpOptions = function DescribeDhcpOptions(aws) {
+  var dhcpOptionsIds = aws.params.DhcpOptionsIds /* Type list */;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var filters = aws.params.Filters;
+
+
+  // TODO implement code
+
+  var ret = {
+    DhcpOptions: [ /*S30*/{
+      DhcpConfigurations: [ {
+        Key: '',
+        Values: [ /*S34*/{
+          Value: '',
+        }, /* ...*/ ],
+      }, /* ...*/ ],
+      DhcpOptionsId: '',
+      Tags: /*Sb*/[ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeExportTasks = function DescribeExportTasks(aws) {
+  var exportTaskIds = aws.params.ExportTaskIds /* Type list */;
+
+
+  // TODO implement code
+
+  var ret = {
+    ExportTasks: [ /*S3o*/{
+      Description: '',
+      ExportTaskId: '',
+      ExportToS3Task: {
+        ContainerFormat: '',
+        DiskImageFormat: '',
+        S3Bucket: '',
+        S3Key: '',
+      },
+      InstanceExportDetails: {
+        InstanceId: '',
+        TargetEnvironment: '',
+      },
+      State: '',
+      StatusMessage: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeFlowLogs = function DescribeFlowLogs(aws) {
+  var filter = aws.params.Filter;
+  var flowLogIds = aws.params.FlowLogIds;
+  var maxResults = aws.params.MaxResults /* Type integer */;
+  var nextToken = aws.params.NextToken;
+
+
+  // TODO implement code
+
+  var ret = {
+    FlowLogs: [ {
+      CreationTime: awsCommon.timestamp(),
+      DeliverLogsErrorMessage: '',
+      DeliverLogsPermissionArn: '',
+      DeliverLogsStatus: '',
+      FlowLogId: '',
+      FlowLogStatus: '',
+      LogGroupName: '',
+      ResourceId: '',
+      TrafficType: '',
+    }, /* ...*/ ],
+    NextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeHosts = function DescribeHosts(aws) {
+  var filter = aws.params.Filter;
+  var hostIds = aws.params.HostIds;
+  var maxResults = aws.params.MaxResults /* Type integer */;
+  var nextToken = aws.params.NextToken;
+
+
+  // TODO implement code
+
+  var ret = {
+    Hosts: [ {
+      AutoPlacement: '',
+      AvailabilityZone: '',
+      AvailableCapacity: {
+        AvailableInstanceCapacity: [ {
+          AvailableCapacity: 0,
+          InstanceType: '',
+          TotalCapacity: 0,
+        }, /* ...*/ ],
+        AvailableVCpus: 0,
+      },
+      ClientToken: '',
+      HostId: '',
+      HostProperties: {
+        Cores: 0,
+        InstanceType: '',
+        Sockets: 0,
+        TotalVCpus: 0,
+      },
+      HostReservationId: '',
+      Instances: [ {
+        InstanceId: '',
+        InstanceType: '',
+      }, /* ...*/ ],
+      State: '',
+    }, /* ...*/ ],
+    NextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeIdFormat = function DescribeIdFormat(aws) {
+  var resource = aws.params.Resource;
+
+
+  // TODO implement code
+
+  var ret = {
+    Statuses: [ {
+      Deadline: awsCommon.timestamp(),
+      Resource: '',
+      UseLongIds: false,
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeImageAttribute = function DescribeImageAttribute(aws) {
+  var attribute = aws.params.Attribute;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var imageId = aws.params.ImageId;
   if (!attribute) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Attribute'];
   }
-
-
-  // TODO implement code
-
-  var ret = {
-    EnableDnsHostnames: /*Sar*/{
-      Value: false,
-    },
-    VpcId: '',
-    EnableDnsSupport: /*Sar*/{
-      Value: false,
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DisableVpcClassicLink = function DisableVpcClassicLink(aws) {
-  var vpcId = aws.params.VpcId;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!vpcId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpcId'];
+  if (!imageId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ImageId'];
   }
 
 
   // TODO implement code
 
   var ret = {
-    Return: false,
+    BlockDeviceMappings: /*S9x*/[ /*S3e*/{
+      DeviceName: '',
+      Ebs: {
+        DeleteOnTermination: false,
+        Encrypted: false,
+        Iops: 0,
+        SnapshotId: '',
+        VolumeSize: 0,
+        VolumeType: '',
+      },
+      NoDevice: '',
+      VirtualName: '',
+    }, /* ...*/ ],
+    Description: /*S34*/{
+      Value: '',
+    },
+    ImageId: '',
+    KernelId: /*S34*/{
+      Value: '',
+    },
+    LaunchPermissions: /*S9r*/[ {
+      Group: '',
+      UserId: '',
+    }, /* ...*/ ],
+    ProductCodes: /*S9u*/[ {
+      ProductCodeId: '',
+      ProductCodeType: '',
+    }, /* ...*/ ],
+    RamdiskId: /*S34*/{
+      Value: '',
+    },
+    SriovNetSupport: /*S34*/{
+      Value: '',
+    },
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DeleteVpnConnection = function DeleteVpnConnection(aws) {
-  var vpnConnectionId = aws.params.VpnConnectionId;
+module.exports.DescribeImages = function DescribeImages(aws) {
   var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!vpnConnectionId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpnConnectionId'];
+  var executableUsers = aws.params.ExecutableUsers /* Type list */;
+  var filters = aws.params.Filters;
+  var imageIds = aws.params.ImageIds /* Type list */;
+  var owners = aws.params.Owners;
+
+
+  // TODO implement code
+
+  var ret = {
+    Images: [ {
+      Architecture: '',
+      BlockDeviceMappings: /*S9x*/[ /*S3e*/{
+        DeviceName: '',
+        Ebs: {
+          DeleteOnTermination: false,
+          Encrypted: false,
+          Iops: 0,
+          SnapshotId: '',
+          VolumeSize: 0,
+          VolumeType: '',
+        },
+        NoDevice: '',
+        VirtualName: '',
+      }, /* ...*/ ],
+      CreationDate: '',
+      Description: '',
+      Hypervisor: '',
+      ImageId: '',
+      ImageLocation: '',
+      ImageOwnerAlias: '',
+      ImageType: '',
+      KernelId: '',
+      Name: '',
+      OwnerId: '',
+      Platform: '',
+      ProductCodes: /*S9u*/[ {
+        ProductCodeId: '',
+        ProductCodeType: '',
+      }, /* ...*/ ],
+      Public: false,
+      RamdiskId: '',
+      RootDeviceName: '',
+      RootDeviceType: '',
+      SriovNetSupport: '',
+      State: '',
+      StateReason: /*Sa8*/{
+        Code: '',
+        Message: '',
+      },
+      Tags: /*Sb*/[ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      VirtualizationType: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeImportImageTasks = function DescribeImportImageTasks(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var filters = aws.params.Filters;
+  var importTaskIds = aws.params.ImportTaskIds;
+  var maxResults = aws.params.MaxResults /* Type integer */;
+  var nextToken = aws.params.NextToken;
+
+
+  // TODO implement code
+
+  var ret = {
+    ImportImageTasks: [ {
+      Architecture: '',
+      Description: '',
+      Hypervisor: '',
+      ImageId: '',
+      ImportTaskId: '',
+      LicenseType: '',
+      Platform: '',
+      Progress: '',
+      SnapshotDetails: /*Sah*/[ {
+        Description: '',
+        DeviceName: '',
+        DiskImageSize: 0.0 /*Double*/,
+        Format: '',
+        Progress: '',
+        SnapshotId: '',
+        Status: '',
+        StatusMessage: '',
+        Url: '',
+        UserBucket: /*Saj*/{
+          S3Bucket: '',
+          S3Key: '',
+        },
+      }, /* ...*/ ],
+      Status: '',
+      StatusMessage: '',
+    }, /* ...*/ ],
+    NextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeImportSnapshotTasks = function DescribeImportSnapshotTasks(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var filters = aws.params.Filters;
+  var importTaskIds = aws.params.ImportTaskIds;
+  var maxResults = aws.params.MaxResults /* Type integer */;
+  var nextToken = aws.params.NextToken;
+
+
+  // TODO implement code
+
+  var ret = {
+    ImportSnapshotTasks: [ {
+      Description: '',
+      ImportTaskId: '',
+      SnapshotTaskDetail: /*Sao*/{
+        Description: '',
+        DiskImageSize: 0.0 /*Double*/,
+        Format: '',
+        Progress: '',
+        SnapshotId: '',
+        Status: '',
+        StatusMessage: '',
+        Url: '',
+        UserBucket: /*Saj*/{
+          S3Bucket: '',
+          S3Key: '',
+        },
+      },
+    }, /* ...*/ ],
+    NextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeInstanceAttribute = function DescribeInstanceAttribute(aws) {
+  var attribute = aws.params.Attribute;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var instanceId = aws.params.InstanceId;
+  if (!attribute) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Attribute'];
+  }
+  if (!instanceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
   }
 
 
   // TODO implement code
 
-  var ret = {};
+  var ret = {
+    BlockDeviceMappings: /*Sat*/[ {
+      DeviceName: '',
+      Ebs: {
+        AttachTime: awsCommon.timestamp(),
+        DeleteOnTermination: false,
+        Status: '',
+        VolumeId: '',
+      },
+    }, /* ...*/ ],
+    DisableApiTermination: /*Sas*/{
+      Value: false,
+    },
+    EbsOptimized: /*Sas*/{
+      Value: false,
+    },
+    Groups: /*S4n*/[ {
+      GroupId: '',
+      GroupName: '',
+    }, /* ...*/ ],
+    InstanceId: '',
+    InstanceInitiatedShutdownBehavior: /*S34*/{
+      Value: '',
+    },
+    InstanceType: /*S34*/{
+      Value: '',
+    },
+    KernelId: /*S34*/{
+      Value: '',
+    },
+    ProductCodes: /*S9u*/[ {
+      ProductCodeId: '',
+      ProductCodeType: '',
+    }, /* ...*/ ],
+    RamdiskId: /*S34*/{
+      Value: '',
+    },
+    RootDeviceName: /*S34*/{
+      Value: '',
+    },
+    SourceDestCheck: /*Sas*/{
+      Value: false,
+    },
+    SriovNetSupport: /*S34*/{
+      Value: '',
+    },
+    UserData: /*S34*/{
+      Value: '',
+    },
+  };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DeleteNetworkAclEntry = function DeleteNetworkAclEntry(aws) {
-  var networkAclId = aws.params.NetworkAclId;
-  var egress = aws.params.Egress /* Type boolean */;
-  var ruleNumber = aws.params.RuleNumber /* Type integer */;
+module.exports.DescribeInstanceStatus = function DescribeInstanceStatus(aws) {
   var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!networkAclId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter NetworkAclId'];
-  }
-  if (!ruleNumber) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RuleNumber'];
-  }
-  if (!egress) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Egress'];
+  var filters = aws.params.Filters;
+  var includeAllInstances = aws.params.IncludeAllInstances /* Type boolean */;
+  var instanceIds = aws.params.InstanceIds;
+  var maxResults = aws.params.MaxResults /* Type integer */;
+  var nextToken = aws.params.NextToken;
+
+
+  // TODO implement code
+
+  var ret = {
+    InstanceStatuses: [ {
+      AvailabilityZone: '',
+      Events: [ {
+        Code: '',
+        Description: '',
+        NotAfter: awsCommon.timestamp(),
+        NotBefore: awsCommon.timestamp(),
+      }, /* ...*/ ],
+      InstanceId: '',
+      InstanceState: /*Sb3*/{
+        Code: 0,
+        Name: '',
+      },
+      InstanceStatus: /*Sb5*/{
+        Details: [ {
+          ImpairedSince: awsCommon.timestamp(),
+          Name: '',
+          Status: '',
+        }, /* ...*/ ],
+        Status: '',
+      },
+      SystemStatus: /*Sb5*/{
+        Details: [ {
+          ImpairedSince: awsCommon.timestamp(),
+          Name: '',
+          Status: '',
+        }, /* ...*/ ],
+        Status: '',
+      },
+    }, /* ...*/ ],
+    NextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeInstances = function DescribeInstances(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var filters = aws.params.Filters;
+  var instanceIds = aws.params.InstanceIds;
+  var maxResults = aws.params.MaxResults /* Type integer */;
+  var nextToken = aws.params.NextToken;
+
+
+  // TODO implement code
+
+  var ret = {
+    NextToken: '',
+    Reservations: [ /*Sbe*/{
+      Groups: /*S4n*/[ {
+        GroupId: '',
+        GroupName: '',
+      }, /* ...*/ ],
+      Instances: [ {
+        AmiLaunchIndex: 0,
+        Architecture: '',
+        BlockDeviceMappings: /*Sat*/[ {
+          DeviceName: '',
+          Ebs: {
+            AttachTime: awsCommon.timestamp(),
+            DeleteOnTermination: false,
+            Status: '',
+            VolumeId: '',
+          },
+        }, /* ...*/ ],
+        ClientToken: '',
+        EbsOptimized: false,
+        Hypervisor: '',
+        IamInstanceProfile: {
+          Arn: '',
+          Id: '',
+        },
+        ImageId: '',
+        InstanceId: '',
+        InstanceLifecycle: '',
+        InstanceType: '',
+        KernelId: '',
+        KeyName: '',
+        LaunchTime: awsCommon.timestamp(),
+        Monitoring: /*Sbj*/{
+          State: '',
+        },
+        NetworkInterfaces: [ {
+          Association: /*Sbp*/{
+            IpOwnerId: '',
+            PublicDnsName: '',
+            PublicIp: '',
+          },
+          Attachment: {
+            AttachTime: awsCommon.timestamp(),
+            AttachmentId: '',
+            DeleteOnTermination: false,
+            DeviceIndex: 0,
+            Status: '',
+          },
+          Description: '',
+          Groups: /*S4n*/[ {
+        GroupId: '',
+        GroupName: '',
+      }, /* ...*/ ],
+          MacAddress: '',
+          NetworkInterfaceId: '',
+          OwnerId: '',
+          PrivateDnsName: '',
+          PrivateIpAddress: '',
+          PrivateIpAddresses: [ {
+            Association: /*Sbp*/{
+            IpOwnerId: '',
+            PublicDnsName: '',
+            PublicIp: '',
+          },
+            Primary: false,
+            PrivateDnsName: '',
+            PrivateIpAddress: '',
+          }, /* ...*/ ],
+          SourceDestCheck: false,
+          Status: '',
+          SubnetId: '',
+          VpcId: '',
+        }, /* ...*/ ],
+        Placement: /*Sbi*/{
+          Affinity: '',
+          AvailabilityZone: '',
+          GroupName: '',
+          HostId: '',
+          Tenancy: '',
+        },
+        Platform: '',
+        PrivateDnsName: '',
+        PrivateIpAddress: '',
+        ProductCodes: /*S9u*/[ {
+          ProductCodeId: '',
+          ProductCodeType: '',
+        }, /* ...*/ ],
+        PublicDnsName: '',
+        PublicIpAddress: '',
+        RamdiskId: '',
+        RootDeviceName: '',
+        RootDeviceType: '',
+        SecurityGroups: /*S4n*/[ {
+        GroupId: '',
+        GroupName: '',
+      }, /* ...*/ ],
+        SourceDestCheck: false,
+        SpotInstanceRequestId: '',
+        SriovNetSupport: '',
+        State: /*Sb3*/{
+          Code: 0,
+          Name: '',
+        },
+        StateReason: /*Sa8*/{
+          Code: '',
+          Message: '',
+        },
+        StateTransitionReason: '',
+        SubnetId: '',
+        Tags: /*Sb*/[ {
+          Key: '',
+          Value: '',
+        }, /* ...*/ ],
+        VirtualizationType: '',
+        VpcId: '',
+      }, /* ...*/ ],
+      OwnerId: '',
+      RequesterId: '',
+      ReservationId: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeInternetGateways = function DescribeInternetGateways(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var filters = aws.params.Filters;
+  var internetGatewayIds = aws.params.InternetGatewayIds;
+
+
+  // TODO implement code
+
+  var ret = {
+    InternetGateways: [ /*S3u*/{
+      Attachments: [ {
+        State: '',
+        VpcId: '',
+      }, /* ...*/ ],
+      InternetGatewayId: '',
+      Tags: /*Sb*/[ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeKeyPairs = function DescribeKeyPairs(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var filters = aws.params.Filters;
+  var keyNames = aws.params.KeyNames /* Type list */;
+
+
+  // TODO implement code
+
+  var ret = {
+    KeyPairs: [ {
+      KeyFingerprint: '',
+      KeyName: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeMovingAddresses = function DescribeMovingAddresses(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var filters = aws.params.Filters;
+  var maxResults = aws.params.MaxResults /* Type integer */;
+  var nextToken = aws.params.NextToken;
+  var publicIps = aws.params.PublicIps;
+
+
+  // TODO implement code
+
+  var ret = {
+    MovingAddressStatuses: [ {
+      MoveStatus: '',
+      PublicIp: '',
+    }, /* ...*/ ],
+    NextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeNatGateways = function DescribeNatGateways(aws) {
+  var filter = aws.params.Filter;
+  var maxResults = aws.params.MaxResults /* Type integer */;
+  var natGatewayIds = aws.params.NatGatewayIds;
+  var nextToken = aws.params.NextToken;
+
+
+  // TODO implement code
+
+  var ret = {
+    NatGateways: [ /*S41*/{
+      CreateTime: awsCommon.timestamp(),
+      DeleteTime: awsCommon.timestamp(),
+      FailureCode: '',
+      FailureMessage: '',
+      NatGatewayAddresses: [ {
+        AllocationId: '',
+        NetworkInterfaceId: '',
+        PrivateIp: '',
+        PublicIp: '',
+      }, /* ...*/ ],
+      NatGatewayId: '',
+      State: '',
+      SubnetId: '',
+      VpcId: '',
+    }, /* ...*/ ],
+    NextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeNetworkAcls = function DescribeNetworkAcls(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var filters = aws.params.Filters;
+  var networkAclIds = aws.params.NetworkAclIds;
+
+
+  // TODO implement code
+
+  var ret = {
+    NetworkAcls: [ /*S47*/{
+      Associations: [ {
+        NetworkAclAssociationId: '',
+        NetworkAclId: '',
+        SubnetId: '',
+      }, /* ...*/ ],
+      Entries: [ {
+        CidrBlock: '',
+        Egress: false,
+        IcmpTypeCode: /*S4b*/{
+          Code: 0,
+          Type: 0,
+        },
+        PortRange: /*S4c*/{
+          From: 0,
+          To: 0,
+        },
+        Protocol: '',
+        RuleAction: '',
+        RuleNumber: 0,
+      }, /* ...*/ ],
+      IsDefault: false,
+      NetworkAclId: '',
+      Tags: /*Sb*/[ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      VpcId: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeNetworkInterfaceAttribute = function DescribeNetworkInterfaceAttribute(aws) {
+  var attribute = aws.params.Attribute;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var networkInterfaceId = aws.params.NetworkInterfaceId;
+  if (!networkInterfaceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter NetworkInterfaceId'];
   }
 
 
   // TODO implement code
 
-  var ret = {};
+  var ret = {
+    Attachment: /*S4p*/{
+      AttachTime: awsCommon.timestamp(),
+      AttachmentId: '',
+      DeleteOnTermination: false,
+      DeviceIndex: 0,
+      InstanceId: '',
+      InstanceOwnerId: '',
+      Status: '',
+    },
+    Description: /*S34*/{
+      Value: '',
+    },
+    Groups: /*S4n*/[ {
+      GroupId: '',
+      GroupName: '',
+    }, /* ...*/ ],
+    NetworkInterfaceId: '',
+    SourceDestCheck: /*Sas*/{
+      Value: false,
+    },
+  };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.CreateVolume = function CreateVolume(aws) {
-  var encrypted = aws.params.Encrypted /* Type boolean */;
-  var kmsKeyId = aws.params.KmsKeyId;
-  var iops = aws.params.Iops /* Type integer */;
-  var volumeType = aws.params.VolumeType;
-  var size = aws.params.Size /* Type integer */;
+module.exports.DescribeNetworkInterfaces = function DescribeNetworkInterfaces(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var filters = aws.params.Filters;
+  var networkInterfaceIds = aws.params.NetworkInterfaceIds /* Type list */;
+
+
+  // TODO implement code
+
+  var ret = {
+    NetworkInterfaces: [ /*S4l*/{
+      Association: /*S4q*/{
+        AllocationId: '',
+        AssociationId: '',
+        IpOwnerId: '',
+        PublicDnsName: '',
+        PublicIp: '',
+      },
+      Attachment: /*S4p*/{
+        AttachTime: awsCommon.timestamp(),
+        AttachmentId: '',
+        DeleteOnTermination: false,
+        DeviceIndex: 0,
+        InstanceId: '',
+        InstanceOwnerId: '',
+        Status: '',
+      },
+      AvailabilityZone: '',
+      Description: '',
+      Groups: /*S4n*/[ {
+        GroupId: '',
+        GroupName: '',
+      }, /* ...*/ ],
+      InterfaceType: '',
+      MacAddress: '',
+      NetworkInterfaceId: '',
+      OwnerId: '',
+      PrivateDnsName: '',
+      PrivateIpAddress: '',
+      PrivateIpAddresses: [ {
+        Association: /*S4q*/{
+        AllocationId: '',
+        AssociationId: '',
+        IpOwnerId: '',
+        PublicDnsName: '',
+        PublicIp: '',
+      },
+        Primary: false,
+        PrivateDnsName: '',
+        PrivateIpAddress: '',
+      }, /* ...*/ ],
+      RequesterId: '',
+      RequesterManaged: false,
+      SourceDestCheck: false,
+      Status: '',
+      SubnetId: '',
+      TagSet: /*Sb*/[ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      VpcId: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribePlacementGroups = function DescribePlacementGroups(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var filters = aws.params.Filters;
+  var groupNames = aws.params.GroupNames /* Type list */;
+
+
+  // TODO implement code
+
+  var ret = {
+    PlacementGroups: [ {
+      GroupName: '',
+      State: '',
+      Strategy: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribePrefixLists = function DescribePrefixLists(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var filters = aws.params.Filters;
+  var maxResults = aws.params.MaxResults /* Type integer */;
+  var nextToken = aws.params.NextToken;
+  var prefixListIds = aws.params.PrefixListIds;
+
+
+  // TODO implement code
+
+  var ret = {
+    NextToken: '',
+    PrefixLists: [ {
+      Cidrs: /*S27*/[ '', /* ...*/ ],
+      PrefixListId: '',
+      PrefixListName: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeRegions = function DescribeRegions(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var filters = aws.params.Filters;
+  var regionNames = aws.params.RegionNames /* Type list */;
+
+
+  // TODO implement code
+
+  var ret = {
+    Regions: [ {
+      Endpoint: '',
+      RegionName: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeReservedInstances = function DescribeReservedInstances(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var filters = aws.params.Filters;
+  var offeringType = aws.params.OfferingType;
+  var reservedInstancesIds = aws.params.ReservedInstancesIds;
+
+
+  // TODO implement code
+
+  var ret = {
+    ReservedInstances: [ {
+      AvailabilityZone: '',
+      CurrencyCode: '',
+      Duration: 0 /*Long*/,
+      End: awsCommon.timestamp(),
+      FixedPrice: 9.0,
+      InstanceCount: 0,
+      InstanceTenancy: '',
+      InstanceType: '',
+      OfferingType: '',
+      ProductDescription: '',
+      RecurringCharges: /*Sd7*/[ {
+        Amount: 0.0 /*Double*/,
+        Frequency: '',
+      }, /* ...*/ ],
+      ReservedInstancesId: '',
+      Start: awsCommon.timestamp(),
+      State: '',
+      Tags: /*Sb*/[ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      UsagePrice: 9.0,
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeReservedInstancesListings = function DescribeReservedInstancesListings(aws) {
+  var filters = aws.params.Filters;
+  var reservedInstancesId = aws.params.ReservedInstancesId;
+  var reservedInstancesListingId = aws.params.ReservedInstancesListingId;
+
+
+  // TODO implement code
+
+  var ret = {
+    ReservedInstancesListings: /*S1v*/[ {
+      ClientToken: '',
+      CreateDate: awsCommon.timestamp(),
+      InstanceCounts: [ {
+        InstanceCount: 0,
+        State: '',
+      }, /* ...*/ ],
+      PriceSchedules: [ {
+        Active: false,
+        CurrencyCode: '',
+        Price: 0.0 /*Double*/,
+        Term: 0 /*Long*/,
+      }, /* ...*/ ],
+      ReservedInstancesId: '',
+      ReservedInstancesListingId: '',
+      Status: '',
+      StatusMessage: '',
+      Tags: /*Sb*/[ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      UpdateDate: awsCommon.timestamp(),
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeReservedInstancesModifications = function DescribeReservedInstancesModifications(aws) {
+  var filters = aws.params.Filters;
+  var nextToken = aws.params.NextToken;
+  var reservedInstancesModificationIds = aws.params.ReservedInstancesModificationIds /* Type list */;
+
+
+  // TODO implement code
+
+  var ret = {
+    NextToken: '',
+    ReservedInstancesModifications: [ {
+      ClientToken: '',
+      CreateDate: awsCommon.timestamp(),
+      EffectiveDate: awsCommon.timestamp(),
+      ModificationResults: [ {
+        ReservedInstancesId: '',
+        TargetConfiguration: /*Sdl*/{
+          AvailabilityZone: '',
+          InstanceCount: 0,
+          InstanceType: '',
+          Platform: '',
+        },
+      }, /* ...*/ ],
+      ReservedInstancesIds: [ {
+        ReservedInstancesId: '',
+      }, /* ...*/ ],
+      ReservedInstancesModificationId: '',
+      Status: '',
+      StatusMessage: '',
+      UpdateDate: awsCommon.timestamp(),
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeReservedInstancesOfferings = function DescribeReservedInstancesOfferings(aws) {
+  var availabilityZone = aws.params.AvailabilityZone;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var filters = aws.params.Filters;
+  var includeMarketplace = aws.params.IncludeMarketplace /* Type boolean */;
+  var instanceTenancy = aws.params.InstanceTenancy;
+  var instanceType = aws.params.InstanceType;
+  var maxDuration = aws.params.MaxDuration /* Type long */;
+  var maxInstanceCount = aws.params.MaxInstanceCount /* Type integer */;
+  var maxResults = aws.params.MaxResults /* Type integer */;
+  var minDuration = aws.params.MinDuration /* Type long */;
+  var nextToken = aws.params.NextToken;
+  var offeringType = aws.params.OfferingType;
+  var productDescription = aws.params.ProductDescription;
+  var reservedInstancesOfferingIds = aws.params.ReservedInstancesOfferingIds /* Type list */;
+
+
+  // TODO implement code
+
+  var ret = {
+    NextToken: '',
+    ReservedInstancesOfferings: [ {
+      AvailabilityZone: '',
+      CurrencyCode: '',
+      Duration: 0 /*Long*/,
+      FixedPrice: 9.0,
+      InstanceTenancy: '',
+      InstanceType: '',
+      Marketplace: false,
+      OfferingType: '',
+      PricingDetails: [ {
+        Count: 0,
+        Price: 0.0 /*Double*/,
+      }, /* ...*/ ],
+      ProductDescription: '',
+      RecurringCharges: /*Sd7*/[ {
+        Amount: 0.0 /*Double*/,
+        Frequency: '',
+      }, /* ...*/ ],
+      ReservedInstancesOfferingId: '',
+      UsagePrice: 9.0,
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeRouteTables = function DescribeRouteTables(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var filters = aws.params.Filters;
+  var routeTableIds = aws.params.RouteTableIds;
+
+
+  // TODO implement code
+
+  var ret = {
+    RouteTables: [ /*S54*/{
+      Associations: [ {
+        Main: false,
+        RouteTableAssociationId: '',
+        RouteTableId: '',
+        SubnetId: '',
+      }, /* ...*/ ],
+      PropagatingVgws: [ {
+        GatewayId: '',
+      }, /* ...*/ ],
+      RouteTableId: '',
+      Routes: [ {
+        DestinationCidrBlock: '',
+        DestinationPrefixListId: '',
+        GatewayId: '',
+        InstanceId: '',
+        InstanceOwnerId: '',
+        NatGatewayId: '',
+        NetworkInterfaceId: '',
+        Origin: '',
+        State: '',
+        VpcPeeringConnectionId: '',
+      }, /* ...*/ ],
+      Tags: /*Sb*/[ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      VpcId: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeScheduledInstanceAvailability = function DescribeScheduledInstanceAvailability(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var filters = aws.params.Filters;
+  var firstSlotStartTimeRange = aws.params.FirstSlotStartTimeRange /* Type structure */;
+  var maxResults = aws.params.MaxResults /* Type integer */;
+  var maxSlotDurationInHours = aws.params.MaxSlotDurationInHours /* Type integer */;
+  var minSlotDurationInHours = aws.params.MinSlotDurationInHours /* Type integer */;
+  var nextToken = aws.params.NextToken;
+  var recurrence = aws.params.Recurrence /* Type structure */;
+  if (!firstSlotStartTimeRange) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter FirstSlotStartTimeRange'];
+  }
+  if (!recurrence) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Recurrence'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    NextToken: '',
+    ScheduledInstanceAvailabilitySet: [ {
+      AvailabilityZone: '',
+      AvailableInstanceCount: 0,
+      FirstSlotStartTime: awsCommon.timestamp(),
+      HourlyPrice: '',
+      InstanceType: '',
+      MaxTermDurationInDays: 0,
+      MinTermDurationInDays: 0,
+      NetworkPlatform: '',
+      Platform: '',
+      PurchaseToken: '',
+      Recurrence: /*Se3*/{
+        Frequency: '',
+        Interval: 0,
+        OccurrenceDaySet: [ 0, /* ...*/ ],
+        OccurrenceRelativeToEnd: false,
+        OccurrenceUnit: '',
+      },
+      SlotDurationInHours: 0,
+      TotalScheduledInstanceHours: 0,
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeScheduledInstances = function DescribeScheduledInstances(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var filters = aws.params.Filters;
+  var maxResults = aws.params.MaxResults /* Type integer */;
+  var nextToken = aws.params.NextToken;
+  var scheduledInstanceIds = aws.params.ScheduledInstanceIds /* Type list */;
+  var slotStartTimeRange = aws.params.SlotStartTimeRange /* Type structure */;
+
+
+  // TODO implement code
+
+  var ret = {
+    NextToken: '',
+    ScheduledInstanceSet: [ /*Sea*/{
+      AvailabilityZone: '',
+      CreateDate: awsCommon.timestamp(),
+      HourlyPrice: '',
+      InstanceCount: 0,
+      InstanceType: '',
+      NetworkPlatform: '',
+      NextSlotStartTime: awsCommon.timestamp(),
+      Platform: '',
+      PreviousSlotEndTime: awsCommon.timestamp(),
+      Recurrence: /*Se3*/{
+        Frequency: '',
+        Interval: 0,
+        OccurrenceDaySet: [ 0, /* ...*/ ],
+        OccurrenceRelativeToEnd: false,
+        OccurrenceUnit: '',
+      },
+      ScheduledInstanceId: '',
+      SlotDurationInHours: 0,
+      TermEndDate: awsCommon.timestamp(),
+      TermStartDate: awsCommon.timestamp(),
+      TotalScheduledInstanceHours: 0,
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeSecurityGroups = function DescribeSecurityGroups(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var filters = aws.params.Filters;
+  var groupIds = aws.params.GroupIds;
+  var groupNames = aws.params.GroupNames;
+
+
+  // TODO implement code
+
+  var ret = {
+    SecurityGroups: [ {
+      Description: '',
+      GroupId: '',
+      GroupName: '',
+      IpPermissions: /*S16*/[ {
+        FromPort: 0,
+        IpProtocol: '',
+        IpRanges: [ {
+          CidrIp: '',
+        }, /* ...*/ ],
+        PrefixListIds: [ {
+          PrefixListId: '',
+        }, /* ...*/ ],
+        ToPort: 0,
+        UserIdGroupPairs: [ {
+          GroupId: '',
+          GroupName: '',
+          PeeringStatus: '',
+          UserId: '',
+          VpcId: '',
+          VpcPeeringConnectionId: '',
+        }, /* ...*/ ],
+      }, /* ...*/ ],
+      IpPermissionsEgress: /*S16*/[ {
+        FromPort: 0,
+        IpProtocol: '',
+        IpRanges: [ {
+          CidrIp: '',
+        }, /* ...*/ ],
+        PrefixListIds: [ {
+          PrefixListId: '',
+        }, /* ...*/ ],
+        ToPort: 0,
+        UserIdGroupPairs: [ {
+          GroupId: '',
+          GroupName: '',
+          PeeringStatus: '',
+          UserId: '',
+          VpcId: '',
+          VpcPeeringConnectionId: '',
+        }, /* ...*/ ],
+      }, /* ...*/ ],
+      OwnerId: '',
+      Tags: /*Sb*/[ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      VpcId: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeSnapshotAttribute = function DescribeSnapshotAttribute(aws) {
+  var attribute = aws.params.Attribute;
   var dryRun = aws.params.DryRun /* Type boolean */;
   var snapshotId = aws.params.SnapshotId;
-  var availabilityZone = aws.params.AvailabilityZone;
-  if (!availabilityZone) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AvailabilityZone'];
+  if (!attribute) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Attribute'];
   }
-
-
-  // TODO implement code
-
-  var ret = /*S5t*/{
-    Encrypted: false,
-    KmsKeyId: '',
-    Size: 0,
-    Iops: 0,
-    Tags: /*Sa*/[ {
-      Value: '',
-      Key: '',
-    }, /* ...*/ ],
-    SnapshotId: '',
-    VolumeId: '',
-    State: '',
-    Attachments: [ /*Sy*/{
-      Device: '',
-      DeleteOnTermination: false,
-      VolumeId: '',
-      State: '',
-      AttachTime: awsCommon.timestamp(),
-      InstanceId: '',
-    }, /* ...*/ ],
-    VolumeType: '',
-    CreateTime: awsCommon.timestamp(),
-    AvailabilityZone: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.RequestSpotInstances = function RequestSpotInstances(aws) {
-  var blockDurationMinutes = aws.params.BlockDurationMinutes /* Type integer */;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  var instanceCount = aws.params.InstanceCount /* Type integer */;
-  var validUntil = aws.params.ValidUntil /* Type timestamp */;
-  var validFrom = aws.params.ValidFrom /* Type timestamp */;
-  var availabilityZoneGroup = aws.params.AvailabilityZoneGroup;
-  var launchGroup = aws.params.LaunchGroup;
-  var launchSpecification = aws.params.LaunchSpecification /* Type structure */;
-  var clientToken = aws.params.ClientToken;
-  var spotPrice = aws.params.SpotPrice;
-  var type = aws.params.Type;
-  if (!spotPrice) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SpotPrice'];
+  if (!snapshotId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SnapshotId'];
   }
 
 
   // TODO implement code
 
   var ret = {
-    SpotInstanceRequests: /*Sfh*/[ {
+    CreateVolumePermissions: /*Sej*/[ {
+      Group: '',
+      UserId: '',
+    }, /* ...*/ ],
+    ProductCodes: /*S9u*/[ {
+      ProductCodeId: '',
+      ProductCodeType: '',
+    }, /* ...*/ ],
+    SnapshotId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeSnapshots = function DescribeSnapshots(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var filters = aws.params.Filters;
+  var maxResults = aws.params.MaxResults /* Type integer */;
+  var nextToken = aws.params.NextToken;
+  var ownerIds = aws.params.OwnerIds;
+  var restorableByUserIds = aws.params.RestorableByUserIds /* Type list */;
+  var snapshotIds = aws.params.SnapshotIds /* Type list */;
+
+
+  // TODO implement code
+
+  var ret = {
+    NextToken: '',
+    Snapshots: [ /*S5g*/{
+      DataEncryptionKeyId: '',
+      Description: '',
+      Encrypted: false,
+      KmsKeyId: '',
+      OwnerAlias: '',
+      OwnerId: '',
+      Progress: '',
+      SnapshotId: '',
+      StartTime: awsCommon.timestamp(),
+      State: '',
+      StateMessage: '',
+      Tags: /*Sb*/[ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      VolumeId: '',
+      VolumeSize: 0,
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeSpotDatafeedSubscription = function DescribeSpotDatafeedSubscription(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+
+
+  // TODO implement code
+
+  var ret = {
+    SpotDatafeedSubscription: /*S5k*/{
+      Bucket: '',
+      Fault: /*S5m*/{
+        Code: '',
+        Message: '',
+      },
+      OwnerId: '',
+      Prefix: '',
+      State: '',
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeSpotFleetInstances = function DescribeSpotFleetInstances(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var maxResults = aws.params.MaxResults /* Type integer */;
+  var nextToken = aws.params.NextToken;
+  var spotFleetRequestId = aws.params.SpotFleetRequestId;
+  if (!spotFleetRequestId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SpotFleetRequestId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ActiveInstances: [ {
+      InstanceId: '',
+      InstanceType: '',
+      SpotInstanceRequestId: '',
+    }, /* ...*/ ],
+    NextToken: '',
+    SpotFleetRequestId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeSpotFleetRequestHistory = function DescribeSpotFleetRequestHistory(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var eventType = aws.params.EventType;
+  var maxResults = aws.params.MaxResults /* Type integer */;
+  var nextToken = aws.params.NextToken;
+  var spotFleetRequestId = aws.params.SpotFleetRequestId;
+  var startTime = aws.params.StartTime /* Type timestamp */;
+  if (!spotFleetRequestId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SpotFleetRequestId'];
+  }
+  if (!startTime) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StartTime'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    HistoryRecords: [ {
+      EventInformation: {
+        EventDescription: '',
+        EventSubType: '',
+        InstanceId: '',
+      },
+      EventType: '',
+      Timestamp: awsCommon.timestamp(),
+    }, /* ...*/ ],
+    LastEvaluatedTime: awsCommon.timestamp(),
+    NextToken: '',
+    SpotFleetRequestId: '',
+    StartTime: awsCommon.timestamp(),
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeSpotFleetRequests = function DescribeSpotFleetRequests(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var maxResults = aws.params.MaxResults /* Type integer */;
+  var nextToken = aws.params.NextToken;
+  var spotFleetRequestIds = aws.params.SpotFleetRequestIds;
+
+
+  // TODO implement code
+
+  var ret = {
+    NextToken: '',
+    SpotFleetRequestConfigs: [ {
+      CreateTime: awsCommon.timestamp(),
+      SpotFleetRequestConfig: /*Sf6*/{
+        AllocationStrategy: '',
+        ClientToken: '',
+        ExcessCapacityTerminationPolicy: '',
+        IamFleetRole: '',
+        LaunchSpecifications: [ {
+          AddressingType: '',
+          BlockDeviceMappings: /*S9x*/[ /*S3e*/{
+            DeviceName: '',
+            Ebs: {
+              DeleteOnTermination: false,
+              Encrypted: false,
+              Iops: 0,
+              SnapshotId: '',
+              VolumeSize: 0,
+              VolumeType: '',
+            },
+            NoDevice: '',
+            VirtualName: '',
+          }, /* ...*/ ],
+          EbsOptimized: false,
+          IamInstanceProfile: /*Sfd*/{
+            Arn: '',
+            Name: '',
+          },
+          ImageId: '',
+          InstanceType: '',
+          KernelId: '',
+          KeyName: '',
+          Monitoring: {
+            Enabled: false,
+          },
+          NetworkInterfaces: /*Sfb*/[ {
+            AssociatePublicIpAddress: false,
+            DeleteOnTermination: false,
+            Description: '',
+            DeviceIndex: 0,
+            Groups: /*S4h*/[ '', /* ...*/ ],
+            NetworkInterfaceId: '',
+            PrivateIpAddress: '',
+            PrivateIpAddresses: /*S4i*/[ {
+              Primary: false,
+              PrivateIpAddress: '',
+            }, /* ...*/ ],
+            SecondaryPrivateIpAddressCount: 0,
+            SubnetId: '',
+          }, /* ...*/ ],
+          Placement: /*Sf9*/{
+            AvailabilityZone: '',
+            GroupName: '',
+          },
+          RamdiskId: '',
+          SecurityGroups: /*S4n*/[ {
+            GroupId: '',
+            GroupName: '',
+          }, /* ...*/ ],
+          SpotPrice: '',
+          SubnetId: '',
+          UserData: '',
+          WeightedCapacity: 0.0 /*Double*/,
+        }, /* ...*/ ],
+        SpotPrice: '',
+        TargetCapacity: 0,
+        TerminateInstancesWithExpiration: false,
+        ValidFrom: awsCommon.timestamp(),
+        ValidUntil: awsCommon.timestamp(),
+      },
+      SpotFleetRequestId: '',
+      SpotFleetRequestState: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeSpotInstanceRequests = function DescribeSpotInstanceRequests(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var filters = aws.params.Filters;
+  var spotInstanceRequestIds = aws.params.SpotInstanceRequestIds;
+
+
+  // TODO implement code
+
+  var ret = {
+    SpotInstanceRequests: /*Sfi*/[ {
+      ActualBlockHourlyPrice: '',
+      AvailabilityZoneGroup: '',
       BlockDurationMinutes: 0,
-      ValidUntil: awsCommon.timestamp(),
+      CreateTime: awsCommon.timestamp(),
+      Fault: /*S5m*/{
+        Code: '',
+        Message: '',
+      },
+      InstanceId: '',
+      LaunchGroup: '',
+      LaunchSpecification: {
+        AddressingType: '',
+        BlockDeviceMappings: /*S9x*/[ /*S3e*/{
+          DeviceName: '',
+          Ebs: {
+            DeleteOnTermination: false,
+            Encrypted: false,
+            Iops: 0,
+            SnapshotId: '',
+            VolumeSize: 0,
+            VolumeType: '',
+          },
+          NoDevice: '',
+          VirtualName: '',
+        }, /* ...*/ ],
+        EbsOptimized: false,
+        IamInstanceProfile: /*Sfd*/{
+          Arn: '',
+          Name: '',
+        },
+        ImageId: '',
+        InstanceType: '',
+        KernelId: '',
+        KeyName: '',
+        Monitoring: /*Sfo*/{
+          Enabled: false,
+        },
+        NetworkInterfaces: /*Sfb*/[ {
+          AssociatePublicIpAddress: false,
+          DeleteOnTermination: false,
+          Description: '',
+          DeviceIndex: 0,
+          Groups: /*S4h*/[ '', /* ...*/ ],
+          NetworkInterfaceId: '',
+          PrivateIpAddress: '',
+          PrivateIpAddresses: /*S4i*/[ {
+            Primary: false,
+            PrivateIpAddress: '',
+          }, /* ...*/ ],
+          SecondaryPrivateIpAddressCount: 0,
+          SubnetId: '',
+        }, /* ...*/ ],
+        Placement: /*Sf9*/{
+          AvailabilityZone: '',
+          GroupName: '',
+        },
+        RamdiskId: '',
+        SecurityGroups: /*S4n*/[ {
+          GroupId: '',
+          GroupName: '',
+        }, /* ...*/ ],
+        SubnetId: '',
+        UserData: '',
+      },
       LaunchedAvailabilityZone: '',
+      ProductDescription: '',
+      SpotInstanceRequestId: '',
+      SpotPrice: '',
+      State: '',
       Status: {
         Code: '',
         Message: '',
         UpdateTime: awsCommon.timestamp(),
       },
-      ActualBlockHourlyPrice: '',
-      LaunchSpecification: {
-        ImageId: '',
-        SecurityGroups: /*S4m*/[ {
-          GroupName: '',
-          GroupId: '',
-        }, /* ...*/ ],
-        NetworkInterfaces: /*Sfa*/[ {
-          Groups: /*S4g*/[ '', /* ...*/ ],
-          NetworkInterfaceId: '',
-          PrivateIpAddresses: /*S4h*/[ {
-            PrivateIpAddress: '',
-            Primary: false,
-          }, /* ...*/ ],
-          AssociatePublicIpAddress: false,
-          DeleteOnTermination: false,
-          Description: '',
-          DeviceIndex: 0,
-          SecondaryPrivateIpAddressCount: 0,
-          PrivateIpAddress: '',
-          SubnetId: '',
-        }, /* ...*/ ],
-        AddressingType: '',
-        Placement: /*Sf8*/{
-          GroupName: '',
-          AvailabilityZone: '',
-        },
-        UserData: '',
-        KeyName: '',
-        InstanceType: '',
-        EbsOptimized: false,
-        IamInstanceProfile: /*Sfc*/{
-          Name: '',
-          Arn: '',
-        },
-        RamdiskId: '',
-        Monitoring: /*Sfn*/{
-          Enabled: false,
-        },
-        KernelId: '',
-        SubnetId: '',
-        BlockDeviceMappings: /*S9w*/[ /*S3d*/{
-          NoDevice: '',
-          DeviceName: '',
-          Ebs: {
-            Encrypted: false,
-            DeleteOnTermination: false,
-            VolumeType: '',
-            VolumeSize: 0,
-            Iops: 0,
-            SnapshotId: '',
-          },
-          VirtualName: '',
-        }, /* ...*/ ],
-      },
-      AvailabilityZoneGroup: '',
-      SpotPrice: '',
-      Type: '',
-      ProductDescription: '',
-      Fault: /*S5l*/{
-        Code: '',
-        Message: '',
-      },
-      Tags: /*Sa*/[ {
-        Value: '',
+      Tags: /*Sb*/[ {
         Key: '',
+        Value: '',
       }, /* ...*/ ],
-      State: '',
-      SpotInstanceRequestId: '',
-      LaunchGroup: '',
+      Type: '',
       ValidFrom: awsCommon.timestamp(),
-      CreateTime: awsCommon.timestamp(),
-      InstanceId: '',
+      ValidUntil: awsCommon.timestamp(),
     }, /* ...*/ ],
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.EnableVpcClassicLink = function EnableVpcClassicLink(aws) {
-  var vpcId = aws.params.VpcId;
+module.exports.DescribeSpotPriceHistory = function DescribeSpotPriceHistory(aws) {
+  var availabilityZone = aws.params.AvailabilityZone;
   var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!vpcId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpcId'];
-  }
+  var endTime = aws.params.EndTime /* Type timestamp */;
+  var filters = aws.params.Filters;
+  var instanceTypes = aws.params.InstanceTypes /* Type list */;
+  var maxResults = aws.params.MaxResults /* Type integer */;
+  var nextToken = aws.params.NextToken;
+  var productDescriptions = aws.params.ProductDescriptions /* Type list */;
+  var startTime = aws.params.StartTime /* Type timestamp */;
 
 
   // TODO implement code
 
   var ret = {
-    Return: false,
+    NextToken: '',
+    SpotPriceHistory: [ {
+      AvailabilityZone: '',
+      InstanceType: '',
+      ProductDescription: '',
+      SpotPrice: '',
+      Timestamp: awsCommon.timestamp(),
+    }, /* ...*/ ],
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DetachVolume = function DetachVolume(aws) {
-  var volumeId = aws.params.VolumeId;
-  var device = aws.params.Device;
-  var instanceId = aws.params.InstanceId;
-  var force = aws.params.Force /* Type boolean */;
+module.exports.DescribeSubnets = function DescribeSubnets(aws) {
   var dryRun = aws.params.DryRun /* Type boolean */;
+  var filters = aws.params.Filters;
+  var subnetIds = aws.params.SubnetIds /* Type list */;
+
+
+  // TODO implement code
+
+  var ret = {
+    Subnets: [ /*S5p*/{
+      AvailabilityZone: '',
+      AvailableIpAddressCount: 0,
+      CidrBlock: '',
+      DefaultForAz: false,
+      MapPublicIpOnLaunch: false,
+      State: '',
+      SubnetId: '',
+      Tags: /*Sb*/[ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      VpcId: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeTags = function DescribeTags(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var filters = aws.params.Filters;
+  var maxResults = aws.params.MaxResults /* Type integer */;
+  var nextToken = aws.params.NextToken;
+
+
+  // TODO implement code
+
+  var ret = {
+    NextToken: '',
+    Tags: [ {
+      Key: '',
+      ResourceId: '',
+      ResourceType: '',
+      Value: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeVolumeAttribute = function DescribeVolumeAttribute(aws) {
+  var attribute = aws.params.Attribute;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var volumeId = aws.params.VolumeId;
   if (!volumeId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VolumeId'];
   }
@@ -4416,39 +3718,348 @@ module.exports.DetachVolume = function DetachVolume(aws) {
 
   // TODO implement code
 
-  var ret = /*Sy*/{
-    Device: '',
-    DeleteOnTermination: false,
+  var ret = {
+    AutoEnableIO: /*Sas*/{
+      Value: false,
+    },
+    ProductCodes: /*S9u*/[ {
+      ProductCodeId: '',
+      ProductCodeType: '',
+    }, /* ...*/ ],
     VolumeId: '',
-    State: '',
-    AttachTime: awsCommon.timestamp(),
-    InstanceId: '',
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DescribeKeyPairs = function DescribeKeyPairs(aws) {
-  var filters = aws.params.Filters;
-  var keyNames = aws.params.KeyNames /* Type list */;
+module.exports.DescribeVolumeStatus = function DescribeVolumeStatus(aws) {
   var dryRun = aws.params.DryRun /* Type boolean */;
+  var filters = aws.params.Filters;
+  var maxResults = aws.params.MaxResults /* Type integer */;
+  var nextToken = aws.params.NextToken;
+  var volumeIds = aws.params.VolumeIds;
 
 
   // TODO implement code
 
   var ret = {
-    KeyPairs: [ {
-      KeyName: '',
-      KeyFingerprint: '',
+    NextToken: '',
+    VolumeStatuses: [ {
+      Actions: [ {
+        Code: '',
+        Description: '',
+        EventId: '',
+        EventType: '',
+      }, /* ...*/ ],
+      AvailabilityZone: '',
+      Events: [ {
+        Description: '',
+        EventId: '',
+        EventType: '',
+        NotAfter: awsCommon.timestamp(),
+        NotBefore: awsCommon.timestamp(),
+      }, /* ...*/ ],
+      VolumeId: '',
+      VolumeStatus: {
+        Details: [ {
+          Name: '',
+          Status: '',
+        }, /* ...*/ ],
+        Status: '',
+      },
     }, /* ...*/ ],
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DeleteVpcPeeringConnection = function DeleteVpcPeeringConnection(aws) {
-  var vpcPeeringConnectionId = aws.params.VpcPeeringConnectionId;
+module.exports.DescribeVolumes = function DescribeVolumes(aws) {
   var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!vpcPeeringConnectionId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpcPeeringConnectionId'];
+  var filters = aws.params.Filters;
+  var maxResults = aws.params.MaxResults /* Type integer */;
+  var nextToken = aws.params.NextToken;
+  var volumeIds = aws.params.VolumeIds;
+
+
+  // TODO implement code
+
+  var ret = {
+    NextToken: '',
+    Volumes: [ /*S5u*/{
+      Attachments: [ /*Sz*/{
+        AttachTime: awsCommon.timestamp(),
+        DeleteOnTermination: false,
+        Device: '',
+        InstanceId: '',
+        State: '',
+        VolumeId: '',
+      }, /* ...*/ ],
+      AvailabilityZone: '',
+      CreateTime: awsCommon.timestamp(),
+      Encrypted: false,
+      Iops: 0,
+      KmsKeyId: '',
+      Size: 0,
+      SnapshotId: '',
+      State: '',
+      Tags: /*Sb*/[ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      VolumeId: '',
+      VolumeType: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeVpcAttribute = function DescribeVpcAttribute(aws) {
+  var attribute = aws.params.Attribute;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var vpcId = aws.params.VpcId;
+  if (!attribute) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Attribute'];
+  }
+  if (!vpcId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpcId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    EnableDnsHostnames: /*Sas*/{
+      Value: false,
+    },
+    EnableDnsSupport: /*Sas*/{
+      Value: false,
+    },
+    VpcId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeVpcClassicLink = function DescribeVpcClassicLink(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var filters = aws.params.Filters;
+  var vpcIds = aws.params.VpcIds;
+
+
+  // TODO implement code
+
+  var ret = {
+    Vpcs: [ {
+      ClassicLinkEnabled: false,
+      Tags: /*Sb*/[ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      VpcId: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeVpcClassicLinkDnsSupport = function DescribeVpcClassicLinkDnsSupport(aws) {
+  var maxResults = aws.params.MaxResults /* Type integer */;
+  var nextToken = aws.params.NextToken;
+  var vpcIds = aws.params.VpcIds;
+
+
+  // TODO implement code
+
+  var ret = {
+    NextToken: '',
+    Vpcs: [ {
+      ClassicLinkDnsSupported: false,
+      VpcId: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeVpcEndpointServices = function DescribeVpcEndpointServices(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var maxResults = aws.params.MaxResults /* Type integer */;
+  var nextToken = aws.params.NextToken;
+
+
+  // TODO implement code
+
+  var ret = {
+    NextToken: '',
+    ServiceNames: /*S27*/[ '', /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeVpcEndpoints = function DescribeVpcEndpoints(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var filters = aws.params.Filters;
+  var maxResults = aws.params.MaxResults /* Type integer */;
+  var nextToken = aws.params.NextToken;
+  var vpcEndpointIds = aws.params.VpcEndpointIds;
+
+
+  // TODO implement code
+
+  var ret = {
+    NextToken: '',
+    VpcEndpoints: [ /*S64*/{
+      CreationTimestamp: awsCommon.timestamp(),
+      PolicyDocument: '',
+      RouteTableIds: /*S27*/[ '', /* ...*/ ],
+      ServiceName: '',
+      State: '',
+      VpcEndpointId: '',
+      VpcId: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeVpcPeeringConnections = function DescribeVpcPeeringConnections(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var filters = aws.params.Filters;
+  var vpcPeeringConnectionIds = aws.params.VpcPeeringConnectionIds;
+
+
+  // TODO implement code
+
+  var ret = {
+    VpcPeeringConnections: [ /*S5*/{
+      AccepterVpcInfo: /*S6*/{
+        CidrBlock: '',
+        OwnerId: '',
+        PeeringOptions: {
+          AllowEgressFromLocalClassicLinkToRemoteVpc: false,
+          AllowEgressFromLocalVpcToRemoteClassicLink: false,
+        },
+        VpcId: '',
+      },
+      ExpirationTime: awsCommon.timestamp(),
+      RequesterVpcInfo: /*S6*/{
+        CidrBlock: '',
+        OwnerId: '',
+        PeeringOptions: {
+          AllowEgressFromLocalClassicLinkToRemoteVpc: false,
+          AllowEgressFromLocalVpcToRemoteClassicLink: false,
+        },
+        VpcId: '',
+      },
+      Status: {
+        Code: '',
+        Message: '',
+      },
+      Tags: /*Sb*/[ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      VpcPeeringConnectionId: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeVpcs = function DescribeVpcs(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var filters = aws.params.Filters;
+  var vpcIds = aws.params.VpcIds /* Type list */;
+
+
+  // TODO implement code
+
+  var ret = {
+    Vpcs: [ /*S60*/{
+      CidrBlock: '',
+      DhcpOptionsId: '',
+      InstanceTenancy: '',
+      IsDefault: false,
+      State: '',
+      Tags: /*Sb*/[ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      VpcId: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeVpnConnections = function DescribeVpnConnections(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var filters = aws.params.Filters;
+  var vpnConnectionIds = aws.params.VpnConnectionIds /* Type list */;
+
+
+  // TODO implement code
+
+  var ret = {
+    VpnConnections: [ /*S6b*/{
+      CustomerGatewayConfiguration: '',
+      CustomerGatewayId: '',
+      Options: {
+        StaticRoutesOnly: false,
+      },
+      Routes: [ {
+        DestinationCidrBlock: '',
+        Source: '',
+        State: '',
+      }, /* ...*/ ],
+      State: '',
+      Tags: /*Sb*/[ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      Type: '',
+      VgwTelemetry: [ {
+        AcceptedRouteCount: 0,
+        LastStatusChange: awsCommon.timestamp(),
+        OutsideIpAddress: '',
+        Status: '',
+        StatusMessage: '',
+      }, /* ...*/ ],
+      VpnConnectionId: '',
+      VpnGatewayId: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeVpnGateways = function DescribeVpnGateways(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var filters = aws.params.Filters;
+  var vpnGatewayIds = aws.params.VpnGatewayIds /* Type list */;
+
+
+  // TODO implement code
+
+  var ret = {
+    VpnGateways: [ /*S6n*/{
+      AvailabilityZone: '',
+      State: '',
+      Tags: /*Sb*/[ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      Type: '',
+      VpcAttachments: [ /*S13*/{
+        State: '',
+        VpcId: '',
+      }, /* ...*/ ],
+      VpnGatewayId: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DetachClassicLinkVpc = function DetachClassicLinkVpc(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var instanceId = aws.params.InstanceId;
+  var vpcId = aws.params.VpcId;
+  if (!instanceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
+  }
+  if (!vpcId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpcId'];
   }
 
 
@@ -4460,64 +4071,503 @@ module.exports.DeleteVpcPeeringConnection = function DeleteVpcPeeringConnection(
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DescribeNetworkAcls = function DescribeNetworkAcls(aws) {
-  var filters = aws.params.Filters;
-  var networkAclIds = aws.params.NetworkAclIds;
+module.exports.DetachInternetGateway = function DetachInternetGateway(aws) {
   var dryRun = aws.params.DryRun /* Type boolean */;
+  var internetGatewayId = aws.params.InternetGatewayId;
+  var vpcId = aws.params.VpcId;
+  if (!internetGatewayId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InternetGatewayId'];
+  }
+  if (!vpcId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpcId'];
+  }
 
 
   // TODO implement code
 
-  var ret = {
-    NetworkAcls: [ /*S46*/{
-      Entries: [ {
-        RuleAction: '',
-        IcmpTypeCode: /*S4a*/{
-          Code: 0,
-          Type: 0,
-        },
-        PortRange: /*S4b*/{
-          From: 0,
-          To: 0,
-        },
-        RuleNumber: 0,
-        CidrBlock: '',
-        Protocol: '',
-        Egress: false,
-      }, /* ...*/ ],
-      NetworkAclId: '',
-      Associations: [ {
-        NetworkAclId: '',
-        SubnetId: '',
-        NetworkAclAssociationId: '',
-      }, /* ...*/ ],
-      IsDefault: false,
-      VpcId: '',
-      Tags: /*Sa*/[ {
-        Value: '',
-        Key: '',
-      }, /* ...*/ ],
-    }, /* ...*/ ],
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DetachNetworkInterface = function DetachNetworkInterface(aws) {
+  var attachmentId = aws.params.AttachmentId;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var force = aws.params.Force /* Type boolean */;
+  if (!attachmentId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AttachmentId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DetachVolume = function DetachVolume(aws) {
+  var device = aws.params.Device;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var force = aws.params.Force /* Type boolean */;
+  var instanceId = aws.params.InstanceId;
+  var volumeId = aws.params.VolumeId;
+  if (!volumeId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VolumeId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = /*Sz*/{
+    AttachTime: awsCommon.timestamp(),
+    DeleteOnTermination: false,
+    Device: '',
+    InstanceId: '',
+    State: '',
+    VolumeId: '',
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.ReplaceNetworkAclAssociation = function ReplaceNetworkAclAssociation(aws) {
-  var associationId = aws.params.AssociationId;
-  var networkAclId = aws.params.NetworkAclId;
+module.exports.DetachVpnGateway = function DetachVpnGateway(aws) {
   var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!associationId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AssociationId'];
+  var vpcId = aws.params.VpcId;
+  var vpnGatewayId = aws.params.VpnGatewayId;
+  if (!vpcId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpcId'];
   }
-  if (!networkAclId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter NetworkAclId'];
+  if (!vpnGatewayId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpnGatewayId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DisableVgwRoutePropagation = function DisableVgwRoutePropagation(aws) {
+  var gatewayId = aws.params.GatewayId;
+  var routeTableId = aws.params.RouteTableId;
+  if (!gatewayId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayId'];
+  }
+  if (!routeTableId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RouteTableId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DisableVpcClassicLink = function DisableVpcClassicLink(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var vpcId = aws.params.VpcId;
+  if (!vpcId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpcId'];
   }
 
 
   // TODO implement code
 
   var ret = {
-    NewAssociationId: '',
+    Return: false,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DisableVpcClassicLinkDnsSupport = function DisableVpcClassicLinkDnsSupport(aws) {
+  var vpcId = aws.params.VpcId;
+
+
+  // TODO implement code
+
+  var ret = {
+    Return: false,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DisassociateAddress = function DisassociateAddress(aws) {
+  var associationId = aws.params.AssociationId;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var publicIp = aws.params.PublicIp;
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DisassociateRouteTable = function DisassociateRouteTable(aws) {
+  var associationId = aws.params.AssociationId;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  if (!associationId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AssociationId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.EnableVgwRoutePropagation = function EnableVgwRoutePropagation(aws) {
+  var gatewayId = aws.params.GatewayId;
+  var routeTableId = aws.params.RouteTableId;
+  if (!gatewayId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayId'];
+  }
+  if (!routeTableId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RouteTableId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.EnableVolumeIO = function EnableVolumeIO(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var volumeId = aws.params.VolumeId;
+  if (!volumeId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VolumeId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.EnableVpcClassicLink = function EnableVpcClassicLink(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var vpcId = aws.params.VpcId;
+  if (!vpcId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpcId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Return: false,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.EnableVpcClassicLinkDnsSupport = function EnableVpcClassicLinkDnsSupport(aws) {
+  var vpcId = aws.params.VpcId;
+
+
+  // TODO implement code
+
+  var ret = {
+    Return: false,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetConsoleOutput = function GetConsoleOutput(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var instanceId = aws.params.InstanceId;
+  if (!instanceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    InstanceId: '',
+    Output: '',
+    Timestamp: awsCommon.timestamp(),
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.GetPasswordData = function GetPasswordData(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var instanceId = aws.params.InstanceId;
+  if (!instanceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    InstanceId: '',
+    PasswordData: '',
+    Timestamp: awsCommon.timestamp(),
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ImportImage = function ImportImage(aws) {
+  var architecture = aws.params.Architecture;
+  var clientData = aws.params.ClientData;
+  var clientToken = aws.params.ClientToken;
+  var description = aws.params.Description;
+  var diskContainers = aws.params.DiskContainers /* Type list */;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var hypervisor = aws.params.Hypervisor;
+  var licenseType = aws.params.LicenseType;
+  var platform = aws.params.Platform;
+  var roleName = aws.params.RoleName;
+
+
+  // TODO implement code
+
+  var ret = {
+    Architecture: '',
+    Description: '',
+    Hypervisor: '',
+    ImageId: '',
+    ImportTaskId: '',
+    LicenseType: '',
+    Platform: '',
+    Progress: '',
+    SnapshotDetails: /*Sah*/[ {
+      Description: '',
+      DeviceName: '',
+      DiskImageSize: 0.0 /*Double*/,
+      Format: '',
+      Progress: '',
+      SnapshotId: '',
+      Status: '',
+      StatusMessage: '',
+      Url: '',
+      UserBucket: /*Saj*/{
+        S3Bucket: '',
+        S3Key: '',
+      },
+    }, /* ...*/ ],
+    Status: '',
+    StatusMessage: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ImportInstance = function ImportInstance(aws) {
+  var description = aws.params.Description;
+  var diskImages = aws.params.DiskImages /* Type list */;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var launchSpecification = aws.params.LaunchSpecification /* Type structure */;
+  var platform = aws.params.Platform;
+  if (!platform) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Platform'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ConversionTask: /*S8j*/{
+      ConversionTaskId: '',
+      ExpirationTime: '',
+      ImportInstance: {
+        Description: '',
+        InstanceId: '',
+        Platform: '',
+        Volumes: [ {
+          AvailabilityZone: '',
+          BytesConverted: 0 /*Long*/,
+          Description: '',
+          Image: /*S8n*/{
+            Checksum: '',
+            Format: '',
+            ImportManifestUrl: '',
+            Size: 0 /*Long*/,
+          },
+          Status: '',
+          StatusMessage: '',
+          Volume: /*S8o*/{
+            Id: '',
+            Size: 0 /*Long*/,
+          },
+        }, /* ...*/ ],
+      },
+      ImportVolume: {
+        AvailabilityZone: '',
+        BytesConverted: 0 /*Long*/,
+        Description: '',
+        Image: /*S8n*/{
+            Checksum: '',
+            Format: '',
+            ImportManifestUrl: '',
+            Size: 0 /*Long*/,
+          },
+        Volume: /*S8o*/{
+            Id: '',
+            Size: 0 /*Long*/,
+          },
+      },
+      State: '',
+      StatusMessage: '',
+      Tags: /*Sb*/[ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ImportKeyPair = function ImportKeyPair(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var keyName = aws.params.KeyName;
+  var publicKeyMaterial = aws.params.PublicKeyMaterial /* Type blob */;
+  if (!keyName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter KeyName'];
+  }
+  if (!publicKeyMaterial) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PublicKeyMaterial'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    KeyFingerprint: '',
+    KeyName: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ImportSnapshot = function ImportSnapshot(aws) {
+  var clientData = aws.params.ClientData;
+  var clientToken = aws.params.ClientToken;
+  var description = aws.params.Description;
+  var diskContainer = aws.params.DiskContainer /* Type structure */;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var roleName = aws.params.RoleName;
+
+
+  // TODO implement code
+
+  var ret = {
+    Description: '',
+    ImportTaskId: '',
+    SnapshotTaskDetail: /*Sao*/{
+      Description: '',
+      DiskImageSize: 0.0 /*Double*/,
+      Format: '',
+      Progress: '',
+      SnapshotId: '',
+      Status: '',
+      StatusMessage: '',
+      Url: '',
+      UserBucket: /*Saj*/{
+        S3Bucket: '',
+        S3Key: '',
+      },
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ImportVolume = function ImportVolume(aws) {
+  var availabilityZone = aws.params.AvailabilityZone;
+  var description = aws.params.Description;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var image = aws.params.Image;
+  var volume = aws.params.Volume;
+  if (!availabilityZone) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AvailabilityZone'];
+  }
+  if (!image) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Image'];
+  }
+  if (!volume) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Volume'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ConversionTask: /*S8j*/{
+      ConversionTaskId: '',
+      ExpirationTime: '',
+      ImportInstance: {
+        Description: '',
+        InstanceId: '',
+        Platform: '',
+        Volumes: [ {
+          AvailabilityZone: '',
+          BytesConverted: 0 /*Long*/,
+          Description: '',
+          Image: /*S8n*/{
+            Checksum: '',
+            Format: '',
+            ImportManifestUrl: '',
+            Size: 0 /*Long*/,
+          },
+          Status: '',
+          StatusMessage: '',
+          Volume: /*S8o*/{
+            Id: '',
+            Size: 0 /*Long*/,
+          },
+        }, /* ...*/ ],
+      },
+      ImportVolume: {
+        AvailabilityZone: '',
+        BytesConverted: 0 /*Long*/,
+        Description: '',
+        Image: /*S8n*/{
+            Checksum: '',
+            Format: '',
+            ImportManifestUrl: '',
+            Size: 0 /*Long*/,
+          },
+        Volume: /*S8o*/{
+            Id: '',
+            Size: 0 /*Long*/,
+          },
+      },
+      State: '',
+      StatusMessage: '',
+      Tags: /*Sb*/[ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ModifyHosts = function ModifyHosts(aws) {
+  var autoPlacement = aws.params.AutoPlacement;
+  var hostIds = aws.params.HostIds;
+  if (!autoPlacement) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AutoPlacement'];
+  }
+  if (!hostIds) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HostIds'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Successful: /*Sk*/[ '', /* ...*/ ],
+    Unsuccessful: /*Siy*/[ /*S3a*/{
+      Error: {
+        Code: '',
+        Message: '',
+      },
+      ResourceId: '',
+    }, /* ...*/ ],
   };
   return [200, ret];
 };
@@ -4539,32 +4589,19 @@ module.exports.ModifyIdFormat = function ModifyIdFormat(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.PurchaseReservedInstancesOffering = function PurchaseReservedInstancesOffering(aws) {
-  var limitPrice = aws.params.LimitPrice /* Type structure */;
-  var reservedInstancesOfferingId = aws.params.ReservedInstancesOfferingId;
-  var instanceCount = aws.params.InstanceCount /* Type integer */;
+module.exports.ModifyImageAttribute = function ModifyImageAttribute(aws) {
+  var attribute = aws.params.Attribute;
+  var description = aws.params.Description;
   var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!reservedInstancesOfferingId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ReservedInstancesOfferingId'];
-  }
-  if (!instanceCount) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceCount'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    ReservedInstancesId: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeleteDhcpOptions = function DeleteDhcpOptions(aws) {
-  var dhcpOptionsId = aws.params.DhcpOptionsId;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!dhcpOptionsId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DhcpOptionsId'];
+  var imageId = aws.params.ImageId;
+  var launchPermission = aws.params.LaunchPermission /* Type structure */;
+  var operationType = aws.params.OperationType;
+  var productCodes = aws.params.ProductCodes /* Type list */;
+  var userGroups = aws.params.UserGroups /* Type list */;
+  var userIds = aws.params.UserIds;
+  var value = aws.params.Value;
+  if (!imageId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ImageId'];
   }
 
 
@@ -4574,351 +4611,58 @@ module.exports.DeleteDhcpOptions = function DeleteDhcpOptions(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.RunInstances = function RunInstances(aws) {
-  var networkInterfaces = aws.params.NetworkInterfaces;
-  var privateIpAddress = aws.params.PrivateIpAddress;
-  var clientToken = aws.params.ClientToken;
-  var keyName = aws.params.KeyName;
-  var ebsOptimized = aws.params.EbsOptimized /* Type boolean */;
-  var disableApiTermination = aws.params.DisableApiTermination /* Type boolean */;
-  var monitoring = aws.params.Monitoring;
-  var securityGroupIds = aws.params.SecurityGroupIds;
-  var blockDeviceMappings = aws.params.BlockDeviceMappings;
-  var imageId = aws.params.ImageId;
-  var instanceInitiatedShutdownBehavior = aws.params.InstanceInitiatedShutdownBehavior;
-  var minCount = aws.params.MinCount /* Type integer */;
-  var maxCount = aws.params.MaxCount /* Type integer */;
-  var userData = aws.params.UserData;
-  var securityGroups = aws.params.SecurityGroups;
-  var instanceType = aws.params.InstanceType;
-  var placement = aws.params.Placement;
-  var kernelId = aws.params.KernelId;
-  var iamInstanceProfile = aws.params.IamInstanceProfile;
-  var ramdiskId = aws.params.RamdiskId;
-  var additionalInfo = aws.params.AdditionalInfo;
-  var subnetId = aws.params.SubnetId;
+module.exports.ModifyInstanceAttribute = function ModifyInstanceAttribute(aws) {
+  var attribute = aws.params.Attribute;
+  var blockDeviceMappings = aws.params.BlockDeviceMappings /* Type list */;
+  var disableApiTermination = aws.params.DisableApiTermination;
   var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!imageId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ImageId'];
-  }
-  if (!minCount) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MinCount'];
-  }
-  if (!maxCount) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MaxCount'];
+  var ebsOptimized = aws.params.EbsOptimized;
+  var groups = aws.params.Groups;
+  var instanceId = aws.params.InstanceId;
+  var instanceInitiatedShutdownBehavior = aws.params.InstanceInitiatedShutdownBehavior;
+  var instanceType = aws.params.InstanceType;
+  var kernel = aws.params.Kernel;
+  var ramdisk = aws.params.Ramdisk;
+  var sourceDestCheck = aws.params.SourceDestCheck;
+  var sriovNetSupport = aws.params.SriovNetSupport;
+  var userData = aws.params.UserData /* Type structure */;
+  var value = aws.params.Value;
+  if (!instanceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
   }
 
 
   // TODO implement code
 
-  var ret = /*Sbd*/{
-    Groups: /*S4m*/[ {
-      GroupName: '',
-      GroupId: '',
-    }, /* ...*/ ],
-    Instances: [ {
-      Hypervisor: '',
-      PublicDnsName: '',
-      SecurityGroups: /*S4m*/[ {
-      GroupName: '',
-      GroupId: '',
-    }, /* ...*/ ],
-      Platform: '',
-      NetworkInterfaces: [ {
-        PrivateIpAddresses: [ {
-          PrivateIpAddress: '',
-          Association: /*Sbo*/{
-            PublicDnsName: '',
-            IpOwnerId: '',
-            PublicIp: '',
-          },
-          Primary: false,
-          PrivateDnsName: '',
-        }, /* ...*/ ],
-        OwnerId: '',
-        Status: '',
-        PrivateIpAddress: '',
-        PrivateDnsName: '',
-        Groups: /*S4m*/[ {
-      GroupName: '',
-      GroupId: '',
-    }, /* ...*/ ],
-        NetworkInterfaceId: '',
-        MacAddress: '',
-        SourceDestCheck: false,
-        Association: /*Sbo*/{
-            PublicDnsName: '',
-            IpOwnerId: '',
-            PublicIp: '',
-          },
-        Description: '',
-        VpcId: '',
-        SubnetId: '',
-        Attachment: {
-          DeleteOnTermination: false,
-          AttachmentId: '',
-          AttachTime: awsCommon.timestamp(),
-          DeviceIndex: 0,
-          Status: '',
-        },
-      }, /* ...*/ ],
-      PublicIpAddress: '',
-      StateTransitionReason: '',
-      PrivateIpAddress: '',
-      ClientToken: '',
-      VirtualizationType: '',
-      LaunchTime: awsCommon.timestamp(),
-      PrivateDnsName: '',
-      KeyName: '',
-      SourceDestCheck: false,
-      State: /*Sb2*/{
-        Code: 0,
-        Name: '',
-      },
-      SpotInstanceRequestId: '',
-      StateReason: /*Sa7*/{
-        Code: '',
-        Message: '',
-      },
-      Architecture: '',
-      Monitoring: /*Sbi*/{
-        State: '',
-      },
-      InstanceId: '',
-      ImageId: '',
-      ProductCodes: /*S9t*/[ {
-        ProductCodeId: '',
-        ProductCodeType: '',
-      }, /* ...*/ ],
-      RootDeviceType: '',
-      RootDeviceName: '',
-      InstanceLifecycle: '',
-      Placement: /*Sbh*/{
-        HostId: '',
-        Affinity: '',
-        GroupName: '',
-        Tenancy: '',
-        AvailabilityZone: '',
-      },
-      Tags: /*Sa*/[ {
-        Value: '',
-        Key: '',
-      }, /* ...*/ ],
-      VpcId: '',
-      InstanceType: '',
-      EbsOptimized: false,
-      SriovNetSupport: '',
-      AmiLaunchIndex: 0,
-      IamInstanceProfile: {
-        Id: '',
-        Arn: '',
-      },
-      RamdiskId: '',
-      BlockDeviceMappings: /*Sas*/[ {
-        DeviceName: '',
-        Ebs: {
-          VolumeId: '',
-          DeleteOnTermination: false,
-          AttachTime: awsCommon.timestamp(),
-          Status: '',
-        },
-      }, /* ...*/ ],
-      SubnetId: '',
-      KernelId: '',
-    }, /* ...*/ ],
-    OwnerId: '',
-    RequesterId: '',
-    ReservationId: '',
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ModifyInstancePlacement = function ModifyInstancePlacement(aws) {
+  var affinity = aws.params.Affinity;
+  var hostId = aws.params.HostId;
+  var instanceId = aws.params.InstanceId;
+  var tenancy = aws.params.Tenancy;
+  if (!instanceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Return: false,
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.CreateSnapshot = function CreateSnapshot(aws) {
-  var volumeId = aws.params.VolumeId;
+module.exports.ModifyNetworkInterfaceAttribute = function ModifyNetworkInterfaceAttribute(aws) {
+  var attachment = aws.params.Attachment /* Type structure */;
   var description = aws.params.Description;
   var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!volumeId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VolumeId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*S5f*/{
-    StateMessage: '',
-    Encrypted: false,
-    OwnerId: '',
-    StartTime: awsCommon.timestamp(),
-    Progress: '',
-    Tags: /*Sa*/[ {
-      Value: '',
-      Key: '',
-    }, /* ...*/ ],
-    OwnerAlias: '',
-    DataEncryptionKeyId: '',
-    VolumeId: '',
-    Description: '',
-    State: '',
-    VolumeSize: 0,
-    KmsKeyId: '',
-    SnapshotId: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeVpnConnections = function DescribeVpnConnections(aws) {
-  var filters = aws.params.Filters;
-  var vpnConnectionIds = aws.params.VpnConnectionIds /* Type list */;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {
-    VpnConnections: [ /*S6a*/{
-      VgwTelemetry: [ {
-        StatusMessage: '',
-        AcceptedRouteCount: 0,
-        LastStatusChange: awsCommon.timestamp(),
-        Status: '',
-        OutsideIpAddress: '',
-      }, /* ...*/ ],
-      Routes: [ {
-        Source: '',
-        DestinationCidrBlock: '',
-        State: '',
-      }, /* ...*/ ],
-      VpnConnectionId: '',
-      CustomerGatewayId: '',
-      State: '',
-      CustomerGatewayConfiguration: '',
-      VpnGatewayId: '',
-      Tags: /*Sa*/[ {
-        Value: '',
-        Key: '',
-      }, /* ...*/ ],
-      Options: {
-        StaticRoutesOnly: false,
-      },
-      Type: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeVpcClassicLinkDnsSupport = function DescribeVpcClassicLinkDnsSupport(aws) {
-  var maxResults = aws.params.MaxResults /* Type integer */;
-  var nextToken = aws.params.NextToken;
-  var vpcIds = aws.params.VpcIds;
-
-
-  // TODO implement code
-
-  var ret = {
-    Vpcs: [ {
-      ClassicLinkDnsSupported: false,
-      VpcId: '',
-    }, /* ...*/ ],
-    NextToken: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeScheduledInstances = function DescribeScheduledInstances(aws) {
-  var scheduledInstanceIds = aws.params.ScheduledInstanceIds /* Type list */;
-  var maxResults = aws.params.MaxResults /* Type integer */;
-  var slotStartTimeRange = aws.params.SlotStartTimeRange /* Type structure */;
-  var filters = aws.params.Filters;
-  var nextToken = aws.params.NextToken;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {
-    NextToken: '',
-    ScheduledInstanceSet: [ /*Se9*/{
-      PreviousSlotEndTime: awsCommon.timestamp(),
-      Platform: '',
-      CreateDate: awsCommon.timestamp(),
-      TermEndDate: awsCommon.timestamp(),
-      Recurrence: /*Se2*/{
-        Frequency: '',
-        OccurrenceRelativeToEnd: false,
-        OccurrenceDaySet: [ 0, /* ...*/ ],
-        Interval: 0,
-        OccurrenceUnit: '',
-      },
-      NextSlotStartTime: awsCommon.timestamp(),
-      InstanceType: '',
-      TotalScheduledInstanceHours: 0,
-      NetworkPlatform: '',
-      TermStartDate: awsCommon.timestamp(),
-      SlotDurationInHours: 0,
-      ScheduledInstanceId: '',
-      InstanceCount: 0,
-      HourlyPrice: '',
-      AvailabilityZone: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.RestoreAddressToClassic = function RestoreAddressToClassic(aws) {
-  var publicIp = aws.params.PublicIp;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!publicIp) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PublicIp'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    PublicIp: '',
-    Status: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeBundleTasks = function DescribeBundleTasks(aws) {
-  var filters = aws.params.Filters;
-  var bundleIds = aws.params.BundleIds /* Type list */;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {
-    BundleTasks: [ /*S1j*/{
-      Storage: /*S1f*/{
-        S3: {
-          AWSAccessKeyId: '',
-          UploadPolicySignature: '',
-          UploadPolicy: null /*Blob*/,
-          Bucket: '',
-          Prefix: '',
-        },
-      },
-      StartTime: awsCommon.timestamp(),
-      UpdateTime: awsCommon.timestamp(),
-      Progress: '',
-      State: '',
-      BundleTaskError: {
-        Code: '',
-        Message: '',
-      },
-      BundleId: '',
-      InstanceId: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeNetworkInterfaceAttribute = function DescribeNetworkInterfaceAttribute(aws) {
+  var groups = aws.params.Groups;
   var networkInterfaceId = aws.params.NetworkInterfaceId;
-  var attribute = aws.params.Attribute;
-  var dryRun = aws.params.DryRun /* Type boolean */;
+  var sourceDestCheck = aws.params.SourceDestCheck;
   if (!networkInterfaceId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter NetworkInterfaceId'];
   }
@@ -4926,59 +4670,41 @@ module.exports.DescribeNetworkInterfaceAttribute = function DescribeNetworkInter
 
   // TODO implement code
 
-  var ret = {
-    Description: /*S33*/{
-      Value: '',
-    },
-    NetworkInterfaceId: '',
-    Attachment: /*S4o*/{
-      DeleteOnTermination: false,
-      AttachmentId: '',
-      InstanceOwnerId: '',
-      Status: '',
-      DeviceIndex: 0,
-      AttachTime: awsCommon.timestamp(),
-      InstanceId: '',
-    },
-    Groups: /*S4m*/[ {
-      GroupName: '',
-      GroupId: '',
-    }, /* ...*/ ],
-    SourceDestCheck: /*Sar*/{
-      Value: false,
-    },
-  };
+  var ret = {};
   return [200, ret];
 };
 // -----------------------------------
-module.exports.AssociateAddress = function AssociateAddress(aws) {
-  var allowReassociation = aws.params.AllowReassociation /* Type boolean */;
-  var networkInterfaceId = aws.params.NetworkInterfaceId;
-  var publicIp = aws.params.PublicIp;
-  var allocationId = aws.params.AllocationId;
-  var privateIpAddress = aws.params.PrivateIpAddress;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  var instanceId = aws.params.InstanceId;
+module.exports.ModifyReservedInstances = function ModifyReservedInstances(aws) {
+  var clientToken = aws.params.ClientToken;
+  var reservedInstancesIds = aws.params.ReservedInstancesIds;
+  var targetConfigurations = aws.params.TargetConfigurations /* Type list */;
+  if (!reservedInstancesIds) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ReservedInstancesIds'];
+  }
+  if (!targetConfigurations) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TargetConfigurations'];
+  }
 
 
   // TODO implement code
 
   var ret = {
-    AssociationId: '',
+    ReservedInstancesModificationId: '',
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.ResetSnapshotAttribute = function ResetSnapshotAttribute(aws) {
+module.exports.ModifySnapshotAttribute = function ModifySnapshotAttribute(aws) {
   var attribute = aws.params.Attribute;
-  var snapshotId = aws.params.SnapshotId;
+  var createVolumePermission = aws.params.CreateVolumePermission /* Type structure */;
   var dryRun = aws.params.DryRun /* Type boolean */;
+  var groupNames = aws.params.GroupNames;
+  var operationType = aws.params.OperationType;
+  var snapshotId = aws.params.SnapshotId;
+  var userIds = aws.params.UserIds;
   if (!snapshotId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SnapshotId'];
   }
-  if (!attribute) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Attribute'];
-  }
 
 
   // TODO implement code
@@ -4987,238 +4713,12 @@ module.exports.ResetSnapshotAttribute = function ResetSnapshotAttribute(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DeleteSpotDatafeedSubscription = function DeleteSpotDatafeedSubscription(aws) {
-  var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeReservedInstancesOfferings = function DescribeReservedInstancesOfferings(aws) {
-  var maxResults = aws.params.MaxResults /* Type integer */;
-  var maxInstanceCount = aws.params.MaxInstanceCount /* Type integer */;
-  var reservedInstancesOfferingIds = aws.params.ReservedInstancesOfferingIds /* Type list */;
-  var instanceTenancy = aws.params.InstanceTenancy;
-  var offeringType = aws.params.OfferingType;
-  var minDuration = aws.params.MinDuration /* Type long */;
-  var productDescription = aws.params.ProductDescription;
-  var includeMarketplace = aws.params.IncludeMarketplace /* Type boolean */;
-  var instanceType = aws.params.InstanceType;
-  var nextToken = aws.params.NextToken;
-  var filters = aws.params.Filters;
-  var maxDuration = aws.params.MaxDuration /* Type long */;
-  var availabilityZone = aws.params.AvailabilityZone;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {
-    NextToken: '',
-    ReservedInstancesOfferings: [ {
-      UsagePrice: 9.0,
-      Marketplace: false,
-      CurrencyCode: '',
-      InstanceTenancy: '',
-      OfferingType: '',
-      ReservedInstancesOfferingId: '',
-      Duration: 0 /*Long*/,
-      ProductDescription: '',
-      InstanceType: '',
-      FixedPrice: 9.0,
-      PricingDetails: [ {
-        Count: 0,
-        Price: 0.0 /*Double*/,
-      }, /* ...*/ ],
-      RecurringCharges: /*Sd6*/[ {
-        Amount: 0.0 /*Double*/,
-        Frequency: '',
-      }, /* ...*/ ],
-      AvailabilityZone: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeImportImageTasks = function DescribeImportImageTasks(aws) {
-  var nextToken = aws.params.NextToken;
-  var importTaskIds = aws.params.ImportTaskIds;
-  var maxResults = aws.params.MaxResults /* Type integer */;
-  var filters = aws.params.Filters;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {
-    ImportImageTasks: [ {
-      LicenseType: '',
-      Hypervisor: '',
-      Platform: '',
-      Status: '',
-      Progress: '',
-      Description: '',
-      ImportTaskId: '',
-      ImageId: '',
-      SnapshotDetails: /*Sag*/[ {
-        StatusMessage: '',
-        UserBucket: /*Sai*/{
-          S3Key: '',
-          S3Bucket: '',
-        },
-        Url: '',
-        Format: '',
-        Status: '',
-        Progress: '',
-        Description: '',
-        DeviceName: '',
-        SnapshotId: '',
-        DiskImageSize: 0.0 /*Double*/,
-      }, /* ...*/ ],
-      StatusMessage: '',
-      Architecture: '',
-    }, /* ...*/ ],
-    NextToken: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CancelExportTask = function CancelExportTask(aws) {
-  var exportTaskId = aws.params.ExportTaskId;
-  if (!exportTaskId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ExportTaskId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ReportInstanceStatus = function ReportInstanceStatus(aws) {
-  var endTime = aws.params.EndTime /* Type timestamp */;
-  var instances = aws.params.Instances;
-  var startTime = aws.params.StartTime /* Type timestamp */;
-  var status = aws.params.Status;
-  var reasonCodes = aws.params.ReasonCodes /* Type list */;
-  var description = aws.params.Description;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!instances) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Instances'];
-  }
-  if (!status) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Status'];
-  }
-  if (!reasonCodes) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ReasonCodes'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ReplaceNetworkAclEntry = function ReplaceNetworkAclEntry(aws) {
-  var ruleAction = aws.params.RuleAction;
-  var cidrBlock = aws.params.CidrBlock;
-  var egress = aws.params.Egress /* Type boolean */;
-  var portRange = aws.params.PortRange;
-  var networkAclId = aws.params.NetworkAclId;
-  var ruleNumber = aws.params.RuleNumber /* Type integer */;
-  var icmpTypeCode = aws.params.IcmpTypeCode;
-  var protocol = aws.params.Protocol;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!networkAclId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter NetworkAclId'];
-  }
-  if (!ruleNumber) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RuleNumber'];
-  }
-  if (!protocol) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Protocol'];
-  }
-  if (!ruleAction) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RuleAction'];
-  }
-  if (!egress) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Egress'];
-  }
-  if (!cidrBlock) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CidrBlock'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DetachInternetGateway = function DetachInternetGateway(aws) {
-  var internetGatewayId = aws.params.InternetGatewayId;
-  var vpcId = aws.params.VpcId;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!internetGatewayId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InternetGatewayId'];
-  }
-  if (!vpcId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpcId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DeregisterImage = function DeregisterImage(aws) {
-  var imageId = aws.params.ImageId;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!imageId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ImageId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ResetImageAttribute = function ResetImageAttribute(aws) {
-  var imageId = aws.params.ImageId;
-  var attribute = aws.params.Attribute;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!imageId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ImageId'];
-  }
-  if (!attribute) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Attribute'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {};
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ModifyVpcEndpoint = function ModifyVpcEndpoint(aws) {
-  var resetPolicy = aws.params.ResetPolicy /* Type boolean */;
-  var policyDocument = aws.params.PolicyDocument;
-  var vpcEndpointId = aws.params.VpcEndpointId;
-  var removeRouteTableIds = aws.params.RemoveRouteTableIds;
-  var addRouteTableIds = aws.params.AddRouteTableIds;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!vpcEndpointId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpcEndpointId'];
+module.exports.ModifySpotFleetRequest = function ModifySpotFleetRequest(aws) {
+  var excessCapacityTerminationPolicy = aws.params.ExcessCapacityTerminationPolicy;
+  var spotFleetRequestId = aws.params.SpotFleetRequestId;
+  var targetCapacity = aws.params.TargetCapacity /* Type integer */;
+  if (!spotFleetRequestId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SpotFleetRequestId'];
   }
 
 
@@ -5244,200 +4744,12 @@ module.exports.ModifySubnetAttribute = function ModifySubnetAttribute(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DescribeSnapshots = function DescribeSnapshots(aws) {
-  var ownerIds = aws.params.OwnerIds;
-  var maxResults = aws.params.MaxResults /* Type integer */;
-  var nextToken = aws.params.NextToken;
-  var filters = aws.params.Filters;
-  var snapshotIds = aws.params.SnapshotIds /* Type list */;
+module.exports.ModifyVolumeAttribute = function ModifyVolumeAttribute(aws) {
+  var autoEnableIO = aws.params.AutoEnableIO;
   var dryRun = aws.params.DryRun /* Type boolean */;
-  var restorableByUserIds = aws.params.RestorableByUserIds /* Type list */;
-
-
-  // TODO implement code
-
-  var ret = {
-    NextToken: '',
-    Snapshots: [ /*S5f*/{
-      StateMessage: '',
-      Encrypted: false,
-      OwnerId: '',
-      StartTime: awsCommon.timestamp(),
-      Progress: '',
-      Tags: /*Sa*/[ {
-        Value: '',
-        Key: '',
-      }, /* ...*/ ],
-      OwnerAlias: '',
-      DataEncryptionKeyId: '',
-      VolumeId: '',
-      Description: '',
-      State: '',
-      VolumeSize: 0,
-      KmsKeyId: '',
-      SnapshotId: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeSpotInstanceRequests = function DescribeSpotInstanceRequests(aws) {
-  var filters = aws.params.Filters;
-  var spotInstanceRequestIds = aws.params.SpotInstanceRequestIds;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-
-
-  // TODO implement code
-
-  var ret = {
-    SpotInstanceRequests: /*Sfh*/[ {
-      BlockDurationMinutes: 0,
-      ValidUntil: awsCommon.timestamp(),
-      LaunchedAvailabilityZone: '',
-      Status: {
-        Code: '',
-        Message: '',
-        UpdateTime: awsCommon.timestamp(),
-      },
-      ActualBlockHourlyPrice: '',
-      LaunchSpecification: {
-        ImageId: '',
-        SecurityGroups: /*S4m*/[ {
-          GroupName: '',
-          GroupId: '',
-        }, /* ...*/ ],
-        NetworkInterfaces: /*Sfa*/[ {
-          Groups: /*S4g*/[ '', /* ...*/ ],
-          NetworkInterfaceId: '',
-          PrivateIpAddresses: /*S4h*/[ {
-            PrivateIpAddress: '',
-            Primary: false,
-          }, /* ...*/ ],
-          AssociatePublicIpAddress: false,
-          DeleteOnTermination: false,
-          Description: '',
-          DeviceIndex: 0,
-          SecondaryPrivateIpAddressCount: 0,
-          PrivateIpAddress: '',
-          SubnetId: '',
-        }, /* ...*/ ],
-        AddressingType: '',
-        Placement: /*Sf8*/{
-          GroupName: '',
-          AvailabilityZone: '',
-        },
-        UserData: '',
-        KeyName: '',
-        InstanceType: '',
-        EbsOptimized: false,
-        IamInstanceProfile: /*Sfc*/{
-          Name: '',
-          Arn: '',
-        },
-        RamdiskId: '',
-        Monitoring: /*Sfn*/{
-          Enabled: false,
-        },
-        KernelId: '',
-        SubnetId: '',
-        BlockDeviceMappings: /*S9w*/[ /*S3d*/{
-          NoDevice: '',
-          DeviceName: '',
-          Ebs: {
-            Encrypted: false,
-            DeleteOnTermination: false,
-            VolumeType: '',
-            VolumeSize: 0,
-            Iops: 0,
-            SnapshotId: '',
-          },
-          VirtualName: '',
-        }, /* ...*/ ],
-      },
-      AvailabilityZoneGroup: '',
-      SpotPrice: '',
-      Type: '',
-      ProductDescription: '',
-      Fault: /*S5l*/{
-        Code: '',
-        Message: '',
-      },
-      Tags: /*Sa*/[ {
-        Value: '',
-        Key: '',
-      }, /* ...*/ ],
-      State: '',
-      SpotInstanceRequestId: '',
-      LaunchGroup: '',
-      ValidFrom: awsCommon.timestamp(),
-      CreateTime: awsCommon.timestamp(),
-      InstanceId: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateSecurityGroup = function CreateSecurityGroup(aws) {
-  var description = aws.params.Description;
-  var groupName = aws.params.GroupName;
-  var vpcId = aws.params.VpcId;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!groupName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GroupName'];
-  }
-  if (!description) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Description'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    GroupId: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateSubnet = function CreateSubnet(aws) {
-  var availabilityZone = aws.params.AvailabilityZone;
-  var cidrBlock = aws.params.CidrBlock;
-  var vpcId = aws.params.VpcId;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!vpcId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpcId'];
-  }
-  if (!cidrBlock) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CidrBlock'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    Subnet: /*S5o*/{
-      Tags: /*Sa*/[ {
-        Value: '',
-        Key: '',
-      }, /* ...*/ ],
-      DefaultForAz: false,
-      MapPublicIpOnLaunch: false,
-      State: '',
-      CidrBlock: '',
-      AvailableIpAddressCount: 0,
-      VpcId: '',
-      SubnetId: '',
-      AvailabilityZone: '',
-    },
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DetachNetworkInterface = function DetachNetworkInterface(aws) {
-  var attachmentId = aws.params.AttachmentId;
-  var force = aws.params.Force /* Type boolean */;
-  var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!attachmentId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AttachmentId'];
+  var volumeId = aws.params.VolumeId;
+  if (!volumeId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VolumeId'];
   }
 
 
@@ -5447,41 +4759,509 @@ module.exports.DetachNetworkInterface = function DetachNetworkInterface(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DescribeFlowLogs = function DescribeFlowLogs(aws) {
-  var nextToken = aws.params.NextToken;
-  var flowLogIds = aws.params.FlowLogIds;
-  var filter = aws.params.Filter;
-  var maxResults = aws.params.MaxResults /* Type integer */;
+module.exports.ModifyVpcAttribute = function ModifyVpcAttribute(aws) {
+  var enableDnsHostnames = aws.params.EnableDnsHostnames;
+  var enableDnsSupport = aws.params.EnableDnsSupport;
+  var vpcId = aws.params.VpcId;
+  if (!vpcId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpcId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ModifyVpcEndpoint = function ModifyVpcEndpoint(aws) {
+  var addRouteTableIds = aws.params.AddRouteTableIds;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var policyDocument = aws.params.PolicyDocument;
+  var removeRouteTableIds = aws.params.RemoveRouteTableIds;
+  var resetPolicy = aws.params.ResetPolicy /* Type boolean */;
+  var vpcEndpointId = aws.params.VpcEndpointId;
+  if (!vpcEndpointId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpcEndpointId'];
+  }
 
 
   // TODO implement code
 
   var ret = {
-    NextToken: '',
-    FlowLogs: [ {
-      ResourceId: '',
-      LogGroupName: '',
-      DeliverLogsPermissionArn: '',
-      TrafficType: '',
-      FlowLogId: '',
-      CreationTime: awsCommon.timestamp(),
-      DeliverLogsErrorMessage: '',
-      DeliverLogsStatus: '',
-      FlowLogStatus: '',
+    Return: false,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ModifyVpcPeeringConnectionOptions = function ModifyVpcPeeringConnectionOptions(aws) {
+  var accepterPeeringConnectionOptions = aws.params.AccepterPeeringConnectionOptions;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var requesterPeeringConnectionOptions = aws.params.RequesterPeeringConnectionOptions;
+  var vpcPeeringConnectionId = aws.params.VpcPeeringConnectionId;
+  if (!vpcPeeringConnectionId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpcPeeringConnectionId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    AccepterPeeringConnectionOptions: /*Sjw*/{
+      AllowEgressFromLocalClassicLinkToRemoteVpc: false,
+      AllowEgressFromLocalVpcToRemoteClassicLink: false,
+    },
+    RequesterPeeringConnectionOptions: /*Sjw*/{
+      AllowEgressFromLocalClassicLinkToRemoteVpc: false,
+      AllowEgressFromLocalVpcToRemoteClassicLink: false,
+    },
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.MonitorInstances = function MonitorInstances(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var instanceIds = aws.params.InstanceIds;
+  if (!instanceIds) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceIds'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    InstanceMonitorings: /*Sjz*/[ {
+      InstanceId: '',
+      Monitoring: /*Sbj*/{
+        State: '',
+      },
     }, /* ...*/ ],
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.AttachInternetGateway = function AttachInternetGateway(aws) {
-  var internetGatewayId = aws.params.InternetGatewayId;
-  var vpcId = aws.params.VpcId;
+module.exports.MoveAddressToVpc = function MoveAddressToVpc(aws) {
   var dryRun = aws.params.DryRun /* Type boolean */;
-  if (!internetGatewayId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InternetGatewayId'];
+  var publicIp = aws.params.PublicIp;
+  if (!publicIp) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PublicIp'];
   }
-  if (!vpcId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpcId'];
+
+
+  // TODO implement code
+
+  var ret = {
+    AllocationId: '',
+    Status: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.PurchaseReservedInstancesOffering = function PurchaseReservedInstancesOffering(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var instanceCount = aws.params.InstanceCount /* Type integer */;
+  var limitPrice = aws.params.LimitPrice /* Type structure */;
+  var reservedInstancesOfferingId = aws.params.ReservedInstancesOfferingId;
+  if (!instanceCount) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceCount'];
+  }
+  if (!reservedInstancesOfferingId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ReservedInstancesOfferingId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ReservedInstancesId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.PurchaseScheduledInstances = function PurchaseScheduledInstances(aws) {
+  var clientToken = aws.params.ClientToken;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var purchaseRequests = aws.params.PurchaseRequests /* Type list */;
+  if (!purchaseRequests) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PurchaseRequests'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ScheduledInstanceSet: [ /*Sea*/{
+      AvailabilityZone: '',
+      CreateDate: awsCommon.timestamp(),
+      HourlyPrice: '',
+      InstanceCount: 0,
+      InstanceType: '',
+      NetworkPlatform: '',
+      NextSlotStartTime: awsCommon.timestamp(),
+      Platform: '',
+      PreviousSlotEndTime: awsCommon.timestamp(),
+      Recurrence: /*Se3*/{
+        Frequency: '',
+        Interval: 0,
+        OccurrenceDaySet: [ 0, /* ...*/ ],
+        OccurrenceRelativeToEnd: false,
+        OccurrenceUnit: '',
+      },
+      ScheduledInstanceId: '',
+      SlotDurationInHours: 0,
+      TermEndDate: awsCommon.timestamp(),
+      TermStartDate: awsCommon.timestamp(),
+      TotalScheduledInstanceHours: 0,
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RebootInstances = function RebootInstances(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var instanceIds = aws.params.InstanceIds;
+  if (!instanceIds) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceIds'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RegisterImage = function RegisterImage(aws) {
+  var architecture = aws.params.Architecture;
+  var blockDeviceMappings = aws.params.BlockDeviceMappings;
+  var description = aws.params.Description;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var imageLocation = aws.params.ImageLocation;
+  var kernelId = aws.params.KernelId;
+  var name = aws.params.Name;
+  var ramdiskId = aws.params.RamdiskId;
+  var rootDeviceName = aws.params.RootDeviceName;
+  var sriovNetSupport = aws.params.SriovNetSupport;
+  var virtualizationType = aws.params.VirtualizationType;
+  if (!name) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Name'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    ImageId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RejectVpcPeeringConnection = function RejectVpcPeeringConnection(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var vpcPeeringConnectionId = aws.params.VpcPeeringConnectionId;
+  if (!vpcPeeringConnectionId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter VpcPeeringConnectionId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Return: false,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ReleaseAddress = function ReleaseAddress(aws) {
+  var allocationId = aws.params.AllocationId;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var publicIp = aws.params.PublicIp;
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ReleaseHosts = function ReleaseHosts(aws) {
+  var hostIds = aws.params.HostIds;
+  if (!hostIds) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter HostIds'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    Successful: /*Sk*/[ '', /* ...*/ ],
+    Unsuccessful: /*Siy*/[ /*S3a*/{
+      Error: {
+        Code: '',
+        Message: '',
+      },
+      ResourceId: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ReplaceNetworkAclAssociation = function ReplaceNetworkAclAssociation(aws) {
+  var associationId = aws.params.AssociationId;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var networkAclId = aws.params.NetworkAclId;
+  if (!associationId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AssociationId'];
+  }
+  if (!networkAclId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter NetworkAclId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    NewAssociationId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ReplaceNetworkAclEntry = function ReplaceNetworkAclEntry(aws) {
+  var cidrBlock = aws.params.CidrBlock;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var egress = aws.params.Egress /* Type boolean */;
+  var icmpTypeCode = aws.params.IcmpTypeCode;
+  var networkAclId = aws.params.NetworkAclId;
+  var portRange = aws.params.PortRange;
+  var protocol = aws.params.Protocol;
+  var ruleAction = aws.params.RuleAction;
+  var ruleNumber = aws.params.RuleNumber /* Type integer */;
+  if (!cidrBlock) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter CidrBlock'];
+  }
+  if (!egress) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Egress'];
+  }
+  if (!networkAclId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter NetworkAclId'];
+  }
+  if (!protocol) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Protocol'];
+  }
+  if (!ruleAction) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RuleAction'];
+  }
+  if (!ruleNumber) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RuleNumber'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ReplaceRoute = function ReplaceRoute(aws) {
+  var destinationCidrBlock = aws.params.DestinationCidrBlock;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var gatewayId = aws.params.GatewayId;
+  var instanceId = aws.params.InstanceId;
+  var natGatewayId = aws.params.NatGatewayId;
+  var networkInterfaceId = aws.params.NetworkInterfaceId;
+  var routeTableId = aws.params.RouteTableId;
+  var vpcPeeringConnectionId = aws.params.VpcPeeringConnectionId;
+  if (!destinationCidrBlock) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter DestinationCidrBlock'];
+  }
+  if (!routeTableId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RouteTableId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ReplaceRouteTableAssociation = function ReplaceRouteTableAssociation(aws) {
+  var associationId = aws.params.AssociationId;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var routeTableId = aws.params.RouteTableId;
+  if (!associationId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AssociationId'];
+  }
+  if (!routeTableId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RouteTableId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    NewAssociationId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ReportInstanceStatus = function ReportInstanceStatus(aws) {
+  var description = aws.params.Description;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var endTime = aws.params.EndTime /* Type timestamp */;
+  var instances = aws.params.Instances;
+  var reasonCodes = aws.params.ReasonCodes /* Type list */;
+  var startTime = aws.params.StartTime /* Type timestamp */;
+  var status = aws.params.Status;
+  if (!instances) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Instances'];
+  }
+  if (!reasonCodes) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ReasonCodes'];
+  }
+  if (!status) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Status'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RequestSpotFleet = function RequestSpotFleet(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var spotFleetRequestConfig = aws.params.SpotFleetRequestConfig;
+  if (!spotFleetRequestConfig) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SpotFleetRequestConfig'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    SpotFleetRequestId: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RequestSpotInstances = function RequestSpotInstances(aws) {
+  var availabilityZoneGroup = aws.params.AvailabilityZoneGroup;
+  var blockDurationMinutes = aws.params.BlockDurationMinutes /* Type integer */;
+  var clientToken = aws.params.ClientToken;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var instanceCount = aws.params.InstanceCount /* Type integer */;
+  var launchGroup = aws.params.LaunchGroup;
+  var launchSpecification = aws.params.LaunchSpecification /* Type structure */;
+  var spotPrice = aws.params.SpotPrice;
+  var type = aws.params.Type;
+  var validFrom = aws.params.ValidFrom /* Type timestamp */;
+  var validUntil = aws.params.ValidUntil /* Type timestamp */;
+  if (!spotPrice) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SpotPrice'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    SpotInstanceRequests: /*Sfi*/[ {
+      ActualBlockHourlyPrice: '',
+      AvailabilityZoneGroup: '',
+      BlockDurationMinutes: 0,
+      CreateTime: awsCommon.timestamp(),
+      Fault: /*S5m*/{
+        Code: '',
+        Message: '',
+      },
+      InstanceId: '',
+      LaunchGroup: '',
+      LaunchSpecification: {
+        AddressingType: '',
+        BlockDeviceMappings: /*S9x*/[ /*S3e*/{
+          DeviceName: '',
+          Ebs: {
+            DeleteOnTermination: false,
+            Encrypted: false,
+            Iops: 0,
+            SnapshotId: '',
+            VolumeSize: 0,
+            VolumeType: '',
+          },
+          NoDevice: '',
+          VirtualName: '',
+        }, /* ...*/ ],
+        EbsOptimized: false,
+        IamInstanceProfile: /*Sfd*/{
+          Arn: '',
+          Name: '',
+        },
+        ImageId: '',
+        InstanceType: '',
+        KernelId: '',
+        KeyName: '',
+        Monitoring: /*Sfo*/{
+          Enabled: false,
+        },
+        NetworkInterfaces: /*Sfb*/[ {
+          AssociatePublicIpAddress: false,
+          DeleteOnTermination: false,
+          Description: '',
+          DeviceIndex: 0,
+          Groups: /*S4h*/[ '', /* ...*/ ],
+          NetworkInterfaceId: '',
+          PrivateIpAddress: '',
+          PrivateIpAddresses: /*S4i*/[ {
+            Primary: false,
+            PrivateIpAddress: '',
+          }, /* ...*/ ],
+          SecondaryPrivateIpAddressCount: 0,
+          SubnetId: '',
+        }, /* ...*/ ],
+        Placement: /*Sf9*/{
+          AvailabilityZone: '',
+          GroupName: '',
+        },
+        RamdiskId: '',
+        SecurityGroups: /*S4n*/[ {
+          GroupId: '',
+          GroupName: '',
+        }, /* ...*/ ],
+        SubnetId: '',
+        UserData: '',
+      },
+      LaunchedAvailabilityZone: '',
+      ProductDescription: '',
+      SpotInstanceRequestId: '',
+      SpotPrice: '',
+      State: '',
+      Status: {
+        Code: '',
+        Message: '',
+        UpdateTime: awsCommon.timestamp(),
+      },
+      Tags: /*Sb*/[ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      Type: '',
+      ValidFrom: awsCommon.timestamp(),
+      ValidUntil: awsCommon.timestamp(),
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ResetImageAttribute = function ResetImageAttribute(aws) {
+  var attribute = aws.params.Attribute;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var imageId = aws.params.ImageId;
+  if (!attribute) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Attribute'];
+  }
+  if (!imageId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ImageId'];
   }
 
 
@@ -5493,13 +5273,28 @@ module.exports.AttachInternetGateway = function AttachInternetGateway(aws) {
 // -----------------------------------
 module.exports.ResetInstanceAttribute = function ResetInstanceAttribute(aws) {
   var attribute = aws.params.Attribute;
-  var instanceId = aws.params.InstanceId;
   var dryRun = aws.params.DryRun /* Type boolean */;
+  var instanceId = aws.params.InstanceId;
+  if (!attribute) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Attribute'];
+  }
   if (!instanceId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceId'];
   }
-  if (!attribute) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Attribute'];
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.ResetNetworkInterfaceAttribute = function ResetNetworkInterfaceAttribute(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var networkInterfaceId = aws.params.NetworkInterfaceId;
+  var sourceDestCheck = aws.params.SourceDestCheck;
+  if (!networkInterfaceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter NetworkInterfaceId'];
   }
 
 
@@ -5509,95 +5304,351 @@ module.exports.ResetInstanceAttribute = function ResetInstanceAttribute(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DescribeSnapshotAttribute = function DescribeSnapshotAttribute(aws) {
+module.exports.ResetSnapshotAttribute = function ResetSnapshotAttribute(aws) {
   var attribute = aws.params.Attribute;
-  var snapshotId = aws.params.SnapshotId;
   var dryRun = aws.params.DryRun /* Type boolean */;
+  var snapshotId = aws.params.SnapshotId;
+  if (!attribute) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Attribute'];
+  }
   if (!snapshotId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter SnapshotId'];
   }
-  if (!attribute) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Attribute'];
-  }
 
 
   // TODO implement code
 
-  var ret = {
-    CreateVolumePermissions: /*Sei*/[ {
-      Group: '',
-      UserId: '',
-    }, /* ...*/ ],
-    ProductCodes: /*S9t*/[ {
-      ProductCodeId: '',
-      ProductCodeType: '',
-    }, /* ...*/ ],
-    SnapshotId: '',
-  };
+  var ret = {};
   return [200, ret];
 };
 // -----------------------------------
-module.exports.AllocateHosts = function AllocateHosts(aws) {
-  var instanceType = aws.params.InstanceType;
-  var clientToken = aws.params.ClientToken;
-  var autoPlacement = aws.params.AutoPlacement;
-  var quantity = aws.params.Quantity /* Type integer */;
-  var availabilityZone = aws.params.AvailabilityZone;
-  if (!instanceType) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceType'];
-  }
-  if (!quantity) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Quantity'];
-  }
-  if (!availabilityZone) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter AvailabilityZone'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    HostIds: /*Sj*/[ '', /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeVpcEndpoints = function DescribeVpcEndpoints(aws) {
-  var vpcEndpointIds = aws.params.VpcEndpointIds;
-  var filters = aws.params.Filters;
-  var maxResults = aws.params.MaxResults /* Type integer */;
-  var nextToken = aws.params.NextToken;
+module.exports.RestoreAddressToClassic = function RestoreAddressToClassic(aws) {
   var dryRun = aws.params.DryRun /* Type boolean */;
+  var publicIp = aws.params.PublicIp;
+  if (!publicIp) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PublicIp'];
+  }
 
 
   // TODO implement code
 
   var ret = {
-    VpcEndpoints: [ /*S63*/{
-      CreationTimestamp: awsCommon.timestamp(),
-      ServiceName: '',
-      RouteTableIds: /*S26*/[ '', /* ...*/ ],
-      State: '',
-      PolicyDocument: '',
-      VpcEndpointId: '',
+    PublicIp: '',
+    Status: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RevokeSecurityGroupEgress = function RevokeSecurityGroupEgress(aws) {
+  var cidrIp = aws.params.CidrIp;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var fromPort = aws.params.FromPort /* Type integer */;
+  var groupId = aws.params.GroupId;
+  var ipPermissions = aws.params.IpPermissions;
+  var ipProtocol = aws.params.IpProtocol;
+  var sourceSecurityGroupName = aws.params.SourceSecurityGroupName;
+  var sourceSecurityGroupOwnerId = aws.params.SourceSecurityGroupOwnerId;
+  var toPort = aws.params.ToPort /* Type integer */;
+  if (!groupId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GroupId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RevokeSecurityGroupIngress = function RevokeSecurityGroupIngress(aws) {
+  var cidrIp = aws.params.CidrIp;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var fromPort = aws.params.FromPort /* Type integer */;
+  var groupId = aws.params.GroupId;
+  var groupName = aws.params.GroupName;
+  var ipPermissions = aws.params.IpPermissions;
+  var ipProtocol = aws.params.IpProtocol;
+  var sourceSecurityGroupName = aws.params.SourceSecurityGroupName;
+  var sourceSecurityGroupOwnerId = aws.params.SourceSecurityGroupOwnerId;
+  var toPort = aws.params.ToPort /* Type integer */;
+
+
+  // TODO implement code
+
+  var ret = {};
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.RunInstances = function RunInstances(aws) {
+  var additionalInfo = aws.params.AdditionalInfo;
+  var blockDeviceMappings = aws.params.BlockDeviceMappings;
+  var clientToken = aws.params.ClientToken;
+  var disableApiTermination = aws.params.DisableApiTermination /* Type boolean */;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var ebsOptimized = aws.params.EbsOptimized /* Type boolean */;
+  var iamInstanceProfile = aws.params.IamInstanceProfile;
+  var imageId = aws.params.ImageId;
+  var instanceInitiatedShutdownBehavior = aws.params.InstanceInitiatedShutdownBehavior;
+  var instanceType = aws.params.InstanceType;
+  var kernelId = aws.params.KernelId;
+  var keyName = aws.params.KeyName;
+  var maxCount = aws.params.MaxCount /* Type integer */;
+  var minCount = aws.params.MinCount /* Type integer */;
+  var monitoring = aws.params.Monitoring;
+  var networkInterfaces = aws.params.NetworkInterfaces;
+  var placement = aws.params.Placement;
+  var privateIpAddress = aws.params.PrivateIpAddress;
+  var ramdiskId = aws.params.RamdiskId;
+  var securityGroupIds = aws.params.SecurityGroupIds;
+  var securityGroups = aws.params.SecurityGroups;
+  var subnetId = aws.params.SubnetId;
+  var userData = aws.params.UserData;
+  if (!imageId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ImageId'];
+  }
+  if (!maxCount) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MaxCount'];
+  }
+  if (!minCount) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter MinCount'];
+  }
+
+
+  // TODO implement code
+
+  var ret = /*Sbe*/{
+    Groups: /*S4n*/[ {
+      GroupId: '',
+      GroupName: '',
+    }, /* ...*/ ],
+    Instances: [ {
+      AmiLaunchIndex: 0,
+      Architecture: '',
+      BlockDeviceMappings: /*Sat*/[ {
+        DeviceName: '',
+        Ebs: {
+          AttachTime: awsCommon.timestamp(),
+          DeleteOnTermination: false,
+          Status: '',
+          VolumeId: '',
+        },
+      }, /* ...*/ ],
+      ClientToken: '',
+      EbsOptimized: false,
+      Hypervisor: '',
+      IamInstanceProfile: {
+        Arn: '',
+        Id: '',
+      },
+      ImageId: '',
+      InstanceId: '',
+      InstanceLifecycle: '',
+      InstanceType: '',
+      KernelId: '',
+      KeyName: '',
+      LaunchTime: awsCommon.timestamp(),
+      Monitoring: /*Sbj*/{
+        State: '',
+      },
+      NetworkInterfaces: [ {
+        Association: /*Sbp*/{
+          IpOwnerId: '',
+          PublicDnsName: '',
+          PublicIp: '',
+        },
+        Attachment: {
+          AttachTime: awsCommon.timestamp(),
+          AttachmentId: '',
+          DeleteOnTermination: false,
+          DeviceIndex: 0,
+          Status: '',
+        },
+        Description: '',
+        Groups: /*S4n*/[ {
+      GroupId: '',
+      GroupName: '',
+    }, /* ...*/ ],
+        MacAddress: '',
+        NetworkInterfaceId: '',
+        OwnerId: '',
+        PrivateDnsName: '',
+        PrivateIpAddress: '',
+        PrivateIpAddresses: [ {
+          Association: /*Sbp*/{
+          IpOwnerId: '',
+          PublicDnsName: '',
+          PublicIp: '',
+        },
+          Primary: false,
+          PrivateDnsName: '',
+          PrivateIpAddress: '',
+        }, /* ...*/ ],
+        SourceDestCheck: false,
+        Status: '',
+        SubnetId: '',
+        VpcId: '',
+      }, /* ...*/ ],
+      Placement: /*Sbi*/{
+        Affinity: '',
+        AvailabilityZone: '',
+        GroupName: '',
+        HostId: '',
+        Tenancy: '',
+      },
+      Platform: '',
+      PrivateDnsName: '',
+      PrivateIpAddress: '',
+      ProductCodes: /*S9u*/[ {
+        ProductCodeId: '',
+        ProductCodeType: '',
+      }, /* ...*/ ],
+      PublicDnsName: '',
+      PublicIpAddress: '',
+      RamdiskId: '',
+      RootDeviceName: '',
+      RootDeviceType: '',
+      SecurityGroups: /*S4n*/[ {
+      GroupId: '',
+      GroupName: '',
+    }, /* ...*/ ],
+      SourceDestCheck: false,
+      SpotInstanceRequestId: '',
+      SriovNetSupport: '',
+      State: /*Sb3*/{
+        Code: 0,
+        Name: '',
+      },
+      StateReason: /*Sa8*/{
+        Code: '',
+        Message: '',
+      },
+      StateTransitionReason: '',
+      SubnetId: '',
+      Tags: /*Sb*/[ {
+        Key: '',
+        Value: '',
+      }, /* ...*/ ],
+      VirtualizationType: '',
       VpcId: '',
     }, /* ...*/ ],
-    NextToken: '',
+    OwnerId: '',
+    RequesterId: '',
+    ReservationId: '',
   };
   return [200, ret];
 };
 // -----------------------------------
-module.exports.AuthorizeSecurityGroupIngress = function AuthorizeSecurityGroupIngress(aws) {
-  var cidrIp = aws.params.CidrIp;
-  var sourceSecurityGroupName = aws.params.SourceSecurityGroupName;
-  var ipPermissions = aws.params.IpPermissions;
-  var groupName = aws.params.GroupName;
-  var toPort = aws.params.ToPort /* Type integer */;
-  var ipProtocol = aws.params.IpProtocol;
-  var fromPort = aws.params.FromPort /* Type integer */;
-  var sourceSecurityGroupOwnerId = aws.params.SourceSecurityGroupOwnerId;
-  var groupId = aws.params.GroupId;
+module.exports.RunScheduledInstances = function RunScheduledInstances(aws) {
+  var clientToken = aws.params.ClientToken;
   var dryRun = aws.params.DryRun /* Type boolean */;
+  var instanceCount = aws.params.InstanceCount /* Type integer */;
+  var launchSpecification = aws.params.LaunchSpecification /* Type structure */;
+  var scheduledInstanceId = aws.params.ScheduledInstanceId;
+  if (!launchSpecification) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter LaunchSpecification'];
+  }
+  if (!scheduledInstanceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ScheduledInstanceId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    InstanceIdSet: [ '', /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.StartInstances = function StartInstances(aws) {
+  var additionalInfo = aws.params.AdditionalInfo;
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var instanceIds = aws.params.InstanceIds;
+  if (!instanceIds) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceIds'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    StartingInstances: /*Slq*/[ {
+      CurrentState: /*Sb3*/{
+        Code: 0,
+        Name: '',
+      },
+      InstanceId: '',
+      PreviousState: /*Sb3*/{
+        Code: 0,
+        Name: '',
+      },
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.StopInstances = function StopInstances(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var force = aws.params.Force /* Type boolean */;
+  var instanceIds = aws.params.InstanceIds;
+  if (!instanceIds) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceIds'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    StoppingInstances: /*Slq*/[ {
+      CurrentState: /*Sb3*/{
+        Code: 0,
+        Name: '',
+      },
+      InstanceId: '',
+      PreviousState: /*Sb3*/{
+        Code: 0,
+        Name: '',
+      },
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.TerminateInstances = function TerminateInstances(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var instanceIds = aws.params.InstanceIds;
+  if (!instanceIds) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceIds'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    TerminatingInstances: /*Slq*/[ {
+      CurrentState: /*Sb3*/{
+        Code: 0,
+        Name: '',
+      },
+      InstanceId: '',
+      PreviousState: /*Sb3*/{
+        Code: 0,
+        Name: '',
+      },
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.UnassignPrivateIpAddresses = function UnassignPrivateIpAddresses(aws) {
+  var networkInterfaceId = aws.params.NetworkInterfaceId;
+  var privateIpAddresses = aws.params.PrivateIpAddresses;
+  if (!networkInterfaceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter NetworkInterfaceId'];
+  }
+  if (!privateIpAddresses) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter PrivateIpAddresses'];
+  }
 
 
   // TODO implement code
@@ -5606,19 +5657,23 @@ module.exports.AuthorizeSecurityGroupIngress = function AuthorizeSecurityGroupIn
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DisableVgwRoutePropagation = function DisableVgwRoutePropagation(aws) {
-  var routeTableId = aws.params.RouteTableId;
-  var gatewayId = aws.params.GatewayId;
-  if (!routeTableId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RouteTableId'];
-  }
-  if (!gatewayId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter GatewayId'];
+module.exports.UnmonitorInstances = function UnmonitorInstances(aws) {
+  var dryRun = aws.params.DryRun /* Type boolean */;
+  var instanceIds = aws.params.InstanceIds;
+  if (!instanceIds) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter InstanceIds'];
   }
 
 
   // TODO implement code
 
-  var ret = {};
+  var ret = {
+    InstanceMonitorings: /*Sjz*/[ {
+      InstanceId: '',
+      Monitoring: /*Sbj*/{
+        State: '',
+      },
+    }, /* ...*/ ],
+  };
   return [200, ret];
 };

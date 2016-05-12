@@ -38,3 +38,21 @@ and run the port forwarder from the `test/integration` directory:
 ```
 python3 port_forward.py 3000 localhost 2999
 ```
+
+
+## Generating Boilerplate API calls
+
+If the Amazon API was updated (the JavaScript aws-sdk), then the boilerplate
+code should likewise be updated.  To update the boilerplate code, run:
+
+```
+python3 bin/build-api.py node_modules/aws-sdk/apis ./api
+```
+
+Note that the boilerplate code does not do anything, and regenerating this
+will not overwrite non-boilerplate code.  You will need to merge the
+`api/boilerplate-routes.js` with the `api/routes.js` file.
+
+It looks like the "metering.marketplace" has the dot in some places and without
+in other places.  This needs to be fixed in `build-api.py`, but I'm not sure the
+right value.

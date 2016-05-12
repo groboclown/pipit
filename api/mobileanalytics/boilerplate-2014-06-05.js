@@ -15,14 +15,14 @@ require('../../lib/aws-common/shape_http')('rest-json', module.exports, null);
 module.exports.PutEvents = awsCommon.as(
   '/2014-06-05/events',
   function PutEvents(aws) {
-    var events = aws.params.events /* Type list */;
     var clientContext = aws.params.clientContext;
     var clientContextEncoding = aws.params.clientContextEncoding;
-    if (!events) {
-      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter events'];
-    }
+    var events = aws.params.events /* Type list */;
     if (!clientContext) {
       return [400, 'Sender', 'MissingParameter', 'Did not specify parameter clientContext'];
+    }
+    if (!events) {
+      return [400, 'Sender', 'MissingParameter', 'Did not specify parameter events'];
     }
 
 

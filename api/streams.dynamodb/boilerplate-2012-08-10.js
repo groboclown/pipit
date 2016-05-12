@@ -12,21 +12,39 @@ const awsCommon = require('../../lib/aws-common');
 // Setup input and output to use AWS protocol json
 require('../../lib/aws-common/shape_http')('json', module.exports, null);
 // -----------------------------------
-module.exports.ListStreams = function ListStreams(aws) {
-  var tableName = aws.params.TableName;
+module.exports.DescribeStream = function DescribeStream(aws) {
+  var exclusiveStartShardId = aws.params.ExclusiveStartShardId;
   var limit = aws.params.Limit /* Type integer */;
-  var exclusiveStartStreamArn = aws.params.ExclusiveStartStreamArn;
+  var streamArn = aws.params.StreamArn;
+  if (!streamArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StreamArn'];
+  }
 
 
   // TODO implement code
 
   var ret = {
-    Streams: [ {
-      TableName: '',
-      StreamLabel: '',
+    StreamDescription: {
+      CreationRequestDateTime: awsCommon.timestamp(),
+      KeySchema: [ {
+        AttributeName: '',
+        KeyType: '',
+      }, /* ...*/ ],
+      LastEvaluatedShardId: '',
+      Shards: [ {
+        ParentShardId: '',
+        SequenceNumberRange: {
+          EndingSequenceNumber: '',
+          StartingSequenceNumber: '',
+        },
+        ShardId: '',
+      }, /* ...*/ ],
       StreamArn: '',
-    }, /* ...*/ ],
-    LastEvaluatedStreamArn: '',
+      StreamLabel: '',
+      StreamStatus: '',
+      StreamViewType: '',
+      TableName: '',
+    },
   };
   return [200, ret];
 };
@@ -44,15 +62,15 @@ module.exports.GetRecords = function GetRecords(aws) {
   var ret = {
     NextShardIterator: '',
     Records: [ {
-      dynamodb: {
-        NewImage: /*Sr*/{} /*Map*/,
-        SizeBytes: 0 /*Long*/,
-        OldImage: /*Sr*/{} /*Map*/,
-        StreamViewType: '',
-        Keys: /*Sr*/{} /*Map*/,
-        SequenceNumber: '',
-      },
       awsRegion: '',
+      dynamodb: {
+        Keys: /*Sr*/{} /*Map*/,
+        NewImage: /*Sr*/{} /*Map*/,
+        OldImage: /*Sr*/{} /*Map*/,
+        SequenceNumber: '',
+        SizeBytes: 0 /*Long*/,
+        StreamViewType: '',
+      },
       eventID: '',
       eventName: '',
       eventSource: '',
@@ -67,14 +85,14 @@ module.exports.GetShardIterator = function GetShardIterator(aws) {
   var shardId = aws.params.ShardId;
   var shardIteratorType = aws.params.ShardIteratorType;
   var streamArn = aws.params.StreamArn;
-  if (!streamArn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StreamArn'];
-  }
   if (!shardId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ShardId'];
   }
   if (!shardIteratorType) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ShardIteratorType'];
+  }
+  if (!streamArn) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StreamArn'];
   }
 
 
@@ -86,39 +104,21 @@ module.exports.GetShardIterator = function GetShardIterator(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DescribeStream = function DescribeStream(aws) {
+module.exports.ListStreams = function ListStreams(aws) {
+  var exclusiveStartStreamArn = aws.params.ExclusiveStartStreamArn;
   var limit = aws.params.Limit /* Type integer */;
-  var exclusiveStartShardId = aws.params.ExclusiveStartShardId;
-  var streamArn = aws.params.StreamArn;
-  if (!streamArn) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter StreamArn'];
-  }
+  var tableName = aws.params.TableName;
 
 
   // TODO implement code
 
   var ret = {
-    StreamDescription: {
-      TableName: '',
-      KeySchema: [ {
-        AttributeName: '',
-        KeyType: '',
-      }, /* ...*/ ],
-      Shards: [ {
-        SequenceNumberRange: {
-          StartingSequenceNumber: '',
-          EndingSequenceNumber: '',
-        },
-        ParentShardId: '',
-        ShardId: '',
-      }, /* ...*/ ],
-      StreamViewType: '',
-      CreationRequestDateTime: awsCommon.timestamp(),
-      LastEvaluatedShardId: '',
-      StreamLabel: '',
+    LastEvaluatedStreamArn: '',
+    Streams: [ {
       StreamArn: '',
-      StreamStatus: '',
-    },
+      StreamLabel: '',
+      TableName: '',
+    }, /* ...*/ ],
   };
   return [200, ret];
 };

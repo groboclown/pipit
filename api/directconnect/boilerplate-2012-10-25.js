@@ -12,32 +12,9 @@ const awsCommon = require('../../lib/aws-common');
 // Setup input and output to use AWS protocol json
 require('../../lib/aws-common/shape_http')('json', module.exports, null);
 // -----------------------------------
-module.exports.DeleteConnection = function DeleteConnection(aws) {
-  var connectionId = aws.params.connectionId;
-  if (!connectionId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter connectionId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*S7*/{
-    partnerName: '',
-    vlan: 0,
-    connectionName: '',
-    bandwidth: '',
-    region: '',
-    location: '',
-    connectionState: '',
-    ownerAccount: '',
-    connectionId: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
 module.exports.AllocateConnectionOnInterconnect = function AllocateConnectionOnInterconnect(aws) {
-  var connectionName = aws.params.connectionName;
   var bandwidth = aws.params.bandwidth;
+  var connectionName = aws.params.connectionName;
   var interconnectId = aws.params.interconnectId;
   var ownerAccount = aws.params.ownerAccount;
   var vlan = aws.params.vlan /* Type integer */;
@@ -47,11 +24,11 @@ module.exports.AllocateConnectionOnInterconnect = function AllocateConnectionOnI
   if (!connectionName) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter connectionName'];
   }
-  if (!ownerAccount) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ownerAccount'];
-  }
   if (!interconnectId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter interconnectId'];
+  }
+  if (!ownerAccount) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ownerAccount'];
   }
   if (!vlan) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter vlan'];
@@ -61,15 +38,93 @@ module.exports.AllocateConnectionOnInterconnect = function AllocateConnectionOnI
   // TODO implement code
 
   var ret = /*S7*/{
-    partnerName: '',
-    vlan: 0,
-    connectionName: '',
     bandwidth: '',
-    region: '',
-    location: '',
-    connectionState: '',
-    ownerAccount: '',
     connectionId: '',
+    connectionName: '',
+    connectionState: '',
+    location: '',
+    ownerAccount: '',
+    partnerName: '',
+    region: '',
+    vlan: 0,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.AllocatePrivateVirtualInterface = function AllocatePrivateVirtualInterface(aws) {
+  var connectionId = aws.params.connectionId;
+  var newPrivateVirtualInterfaceAllocation = aws.params.newPrivateVirtualInterfaceAllocation /* Type structure */;
+  var ownerAccount = aws.params.ownerAccount;
+  if (!connectionId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter connectionId'];
+  }
+  if (!newPrivateVirtualInterfaceAllocation) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter newPrivateVirtualInterfaceAllocation'];
+  }
+  if (!ownerAccount) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ownerAccount'];
+  }
+
+
+  // TODO implement code
+
+  var ret = /*Sk*/{
+    amazonAddress: '',
+    asn: 0,
+    authKey: '',
+    connectionId: '',
+    customerAddress: '',
+    customerRouterConfig: '',
+    location: '',
+    ownerAccount: '',
+    routeFilterPrefixes: /*Sq*/[ {
+      cidr: '',
+    }, /* ...*/ ],
+    virtualGatewayId: '',
+    virtualInterfaceId: '',
+    virtualInterfaceName: '',
+    virtualInterfaceState: '',
+    virtualInterfaceType: '',
+    vlan: 0,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.AllocatePublicVirtualInterface = function AllocatePublicVirtualInterface(aws) {
+  var connectionId = aws.params.connectionId;
+  var newPublicVirtualInterfaceAllocation = aws.params.newPublicVirtualInterfaceAllocation /* Type structure */;
+  var ownerAccount = aws.params.ownerAccount;
+  if (!connectionId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter connectionId'];
+  }
+  if (!newPublicVirtualInterfaceAllocation) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter newPublicVirtualInterfaceAllocation'];
+  }
+  if (!ownerAccount) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ownerAccount'];
+  }
+
+
+  // TODO implement code
+
+  var ret = /*Sk*/{
+    amazonAddress: '',
+    asn: 0,
+    authKey: '',
+    connectionId: '',
+    customerAddress: '',
+    customerRouterConfig: '',
+    location: '',
+    ownerAccount: '',
+    routeFilterPrefixes: /*Sq*/[ {
+      cidr: '',
+    }, /* ...*/ ],
+    virtualGatewayId: '',
+    virtualInterfaceId: '',
+    virtualInterfaceName: '',
+    virtualInterfaceState: '',
+    virtualInterfaceType: '',
+    vlan: 0,
   };
   return [200, ret];
 };
@@ -89,8 +144,12 @@ module.exports.ConfirmConnection = function ConfirmConnection(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DeleteVirtualInterface = function DeleteVirtualInterface(aws) {
+module.exports.ConfirmPrivateVirtualInterface = function ConfirmPrivateVirtualInterface(aws) {
+  var virtualGatewayId = aws.params.virtualGatewayId;
   var virtualInterfaceId = aws.params.virtualInterfaceId;
+  if (!virtualGatewayId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter virtualGatewayId'];
+  }
   if (!virtualInterfaceId) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter virtualInterfaceId'];
   }
@@ -119,6 +178,158 @@ module.exports.ConfirmPublicVirtualInterface = function ConfirmPublicVirtualInte
   return [200, ret];
 };
 // -----------------------------------
+module.exports.CreateConnection = function CreateConnection(aws) {
+  var bandwidth = aws.params.bandwidth;
+  var connectionName = aws.params.connectionName;
+  var location = aws.params.location;
+  if (!bandwidth) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter bandwidth'];
+  }
+  if (!connectionName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter connectionName'];
+  }
+  if (!location) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter location'];
+  }
+
+
+  // TODO implement code
+
+  var ret = /*S7*/{
+    bandwidth: '',
+    connectionId: '',
+    connectionName: '',
+    connectionState: '',
+    location: '',
+    ownerAccount: '',
+    partnerName: '',
+    region: '',
+    vlan: 0,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreateInterconnect = function CreateInterconnect(aws) {
+  var bandwidth = aws.params.bandwidth;
+  var interconnectName = aws.params.interconnectName;
+  var location = aws.params.location;
+  if (!bandwidth) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter bandwidth'];
+  }
+  if (!interconnectName) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter interconnectName'];
+  }
+  if (!location) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter location'];
+  }
+
+
+  // TODO implement code
+
+  var ret = /*S14*/{
+    bandwidth: '',
+    interconnectId: '',
+    interconnectName: '',
+    interconnectState: '',
+    location: '',
+    region: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreatePrivateVirtualInterface = function CreatePrivateVirtualInterface(aws) {
+  var connectionId = aws.params.connectionId;
+  var newPrivateVirtualInterface = aws.params.newPrivateVirtualInterface /* Type structure */;
+  if (!connectionId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter connectionId'];
+  }
+  if (!newPrivateVirtualInterface) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter newPrivateVirtualInterface'];
+  }
+
+
+  // TODO implement code
+
+  var ret = /*Sk*/{
+    amazonAddress: '',
+    asn: 0,
+    authKey: '',
+    connectionId: '',
+    customerAddress: '',
+    customerRouterConfig: '',
+    location: '',
+    ownerAccount: '',
+    routeFilterPrefixes: /*Sq*/[ {
+      cidr: '',
+    }, /* ...*/ ],
+    virtualGatewayId: '',
+    virtualInterfaceId: '',
+    virtualInterfaceName: '',
+    virtualInterfaceState: '',
+    virtualInterfaceType: '',
+    vlan: 0,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.CreatePublicVirtualInterface = function CreatePublicVirtualInterface(aws) {
+  var connectionId = aws.params.connectionId;
+  var newPublicVirtualInterface = aws.params.newPublicVirtualInterface /* Type structure */;
+  if (!connectionId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter connectionId'];
+  }
+  if (!newPublicVirtualInterface) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter newPublicVirtualInterface'];
+  }
+
+
+  // TODO implement code
+
+  var ret = /*Sk*/{
+    amazonAddress: '',
+    asn: 0,
+    authKey: '',
+    connectionId: '',
+    customerAddress: '',
+    customerRouterConfig: '',
+    location: '',
+    ownerAccount: '',
+    routeFilterPrefixes: /*Sq*/[ {
+      cidr: '',
+    }, /* ...*/ ],
+    virtualGatewayId: '',
+    virtualInterfaceId: '',
+    virtualInterfaceName: '',
+    virtualInterfaceState: '',
+    virtualInterfaceType: '',
+    vlan: 0,
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DeleteConnection = function DeleteConnection(aws) {
+  var connectionId = aws.params.connectionId;
+  if (!connectionId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter connectionId'];
+  }
+
+
+  // TODO implement code
+
+  var ret = /*S7*/{
+    bandwidth: '',
+    connectionId: '',
+    connectionName: '',
+    connectionState: '',
+    location: '',
+    ownerAccount: '',
+    partnerName: '',
+    region: '',
+    vlan: 0,
+  };
+  return [200, ret];
+};
+// -----------------------------------
 module.exports.DeleteInterconnect = function DeleteInterconnect(aws) {
   var interconnectId = aws.params.interconnectId;
   if (!interconnectId) {
@@ -134,91 +345,17 @@ module.exports.DeleteInterconnect = function DeleteInterconnect(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.AllocatePrivateVirtualInterface = function AllocatePrivateVirtualInterface(aws) {
-  var newPrivateVirtualInterfaceAllocation = aws.params.newPrivateVirtualInterfaceAllocation /* Type structure */;
-  var ownerAccount = aws.params.ownerAccount;
-  var connectionId = aws.params.connectionId;
-  if (!connectionId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter connectionId'];
+module.exports.DeleteVirtualInterface = function DeleteVirtualInterface(aws) {
+  var virtualInterfaceId = aws.params.virtualInterfaceId;
+  if (!virtualInterfaceId) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter virtualInterfaceId'];
   }
-  if (!ownerAccount) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ownerAccount'];
-  }
-  if (!newPrivateVirtualInterfaceAllocation) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter newPrivateVirtualInterfaceAllocation'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*Sk*/{
-    connectionId: '',
-    virtualInterfaceState: '',
-    customerAddress: '',
-    customerRouterConfig: '',
-    virtualInterfaceId: '',
-    location: '',
-    ownerAccount: '',
-    virtualInterfaceType: '',
-    virtualGatewayId: '',
-    virtualInterfaceName: '',
-    routeFilterPrefixes: /*Sq*/[ {
-      cidr: '',
-    }, /* ...*/ ],
-    asn: 0,
-    authKey: '',
-    vlan: 0,
-    amazonAddress: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeInterconnects = function DescribeInterconnects(aws) {
-  var interconnectId = aws.params.interconnectId;
 
 
   // TODO implement code
 
   var ret = {
-    interconnects: [ /*S14*/{
-      interconnectState: '',
-      interconnectId: '',
-      interconnectName: '',
-      region: '',
-      location: '',
-      bandwidth: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateConnection = function CreateConnection(aws) {
-  var connectionName = aws.params.connectionName;
-  var bandwidth = aws.params.bandwidth;
-  var location = aws.params.location;
-  if (!location) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter location'];
-  }
-  if (!bandwidth) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter bandwidth'];
-  }
-  if (!connectionName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter connectionName'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*S7*/{
-    partnerName: '',
-    vlan: 0,
-    connectionName: '',
-    bandwidth: '',
-    region: '',
-    location: '',
-    connectionState: '',
-    ownerAccount: '',
-    connectionId: '',
+    virtualInterfaceState: '',
   };
   return [200, ret];
 };
@@ -231,217 +368,16 @@ module.exports.DescribeConnections = function DescribeConnections(aws) {
 
   var ret = /*S1g*/{
     connections: [ /*S7*/{
-      partnerName: '',
-      vlan: 0,
-      connectionName: '',
       bandwidth: '',
-      region: '',
-      location: '',
+      connectionId: '',
+      connectionName: '',
       connectionState: '',
-      ownerAccount: '',
-      connectionId: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreatePublicVirtualInterface = function CreatePublicVirtualInterface(aws) {
-  var newPublicVirtualInterface = aws.params.newPublicVirtualInterface /* Type structure */;
-  var connectionId = aws.params.connectionId;
-  if (!connectionId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter connectionId'];
-  }
-  if (!newPublicVirtualInterface) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter newPublicVirtualInterface'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*Sk*/{
-    connectionId: '',
-    virtualInterfaceState: '',
-    customerAddress: '',
-    customerRouterConfig: '',
-    virtualInterfaceId: '',
-    location: '',
-    ownerAccount: '',
-    virtualInterfaceType: '',
-    virtualGatewayId: '',
-    virtualInterfaceName: '',
-    routeFilterPrefixes: /*Sq*/[ {
-      cidr: '',
-    }, /* ...*/ ],
-    asn: 0,
-    authKey: '',
-    vlan: 0,
-    amazonAddress: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.AllocatePublicVirtualInterface = function AllocatePublicVirtualInterface(aws) {
-  var newPublicVirtualInterfaceAllocation = aws.params.newPublicVirtualInterfaceAllocation /* Type structure */;
-  var ownerAccount = aws.params.ownerAccount;
-  var connectionId = aws.params.connectionId;
-  if (!connectionId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter connectionId'];
-  }
-  if (!ownerAccount) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter ownerAccount'];
-  }
-  if (!newPublicVirtualInterfaceAllocation) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter newPublicVirtualInterfaceAllocation'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*Sk*/{
-    connectionId: '',
-    virtualInterfaceState: '',
-    customerAddress: '',
-    customerRouterConfig: '',
-    virtualInterfaceId: '',
-    location: '',
-    ownerAccount: '',
-    virtualInterfaceType: '',
-    virtualGatewayId: '',
-    virtualInterfaceName: '',
-    routeFilterPrefixes: /*Sq*/[ {
-      cidr: '',
-    }, /* ...*/ ],
-    asn: 0,
-    authKey: '',
-    vlan: 0,
-    amazonAddress: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeVirtualInterfaces = function DescribeVirtualInterfaces(aws) {
-  var virtualInterfaceId = aws.params.virtualInterfaceId;
-  var connectionId = aws.params.connectionId;
-
-
-  // TODO implement code
-
-  var ret = {
-    virtualInterfaces: [ /*Sk*/{
-      connectionId: '',
-      virtualInterfaceState: '',
-      customerAddress: '',
-      customerRouterConfig: '',
-      virtualInterfaceId: '',
       location: '',
       ownerAccount: '',
-      virtualInterfaceType: '',
-      virtualGatewayId: '',
-      virtualInterfaceName: '',
-      routeFilterPrefixes: /*Sq*/[ {
-        cidr: '',
-      }, /* ...*/ ],
-      asn: 0,
-      authKey: '',
+      partnerName: '',
+      region: '',
       vlan: 0,
-      amazonAddress: '',
     }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeVirtualGateways = function DescribeVirtualGateways(aws) {
-
-
-  // TODO implement code
-
-  var ret = {
-    virtualGateways: [ {
-      virtualGatewayState: '',
-      virtualGatewayId: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreatePrivateVirtualInterface = function CreatePrivateVirtualInterface(aws) {
-  var newPrivateVirtualInterface = aws.params.newPrivateVirtualInterface /* Type structure */;
-  var connectionId = aws.params.connectionId;
-  if (!connectionId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter connectionId'];
-  }
-  if (!newPrivateVirtualInterface) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter newPrivateVirtualInterface'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*Sk*/{
-    connectionId: '',
-    virtualInterfaceState: '',
-    customerAddress: '',
-    customerRouterConfig: '',
-    virtualInterfaceId: '',
-    location: '',
-    ownerAccount: '',
-    virtualInterfaceType: '',
-    virtualGatewayId: '',
-    virtualInterfaceName: '',
-    routeFilterPrefixes: /*Sq*/[ {
-      cidr: '',
-    }, /* ...*/ ],
-    asn: 0,
-    authKey: '',
-    vlan: 0,
-    amazonAddress: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.ConfirmPrivateVirtualInterface = function ConfirmPrivateVirtualInterface(aws) {
-  var virtualInterfaceId = aws.params.virtualInterfaceId;
-  var virtualGatewayId = aws.params.virtualGatewayId;
-  if (!virtualInterfaceId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter virtualInterfaceId'];
-  }
-  if (!virtualGatewayId) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter virtualGatewayId'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    virtualInterfaceState: '',
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.CreateInterconnect = function CreateInterconnect(aws) {
-  var bandwidth = aws.params.bandwidth;
-  var location = aws.params.location;
-  var interconnectName = aws.params.interconnectName;
-  if (!interconnectName) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter interconnectName'];
-  }
-  if (!bandwidth) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter bandwidth'];
-  }
-  if (!location) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter location'];
-  }
-
-
-  // TODO implement code
-
-  var ret = /*S14*/{
-    interconnectState: '',
-    interconnectId: '',
-    interconnectName: '',
-    region: '',
-    location: '',
-    bandwidth: '',
   };
   return [200, ret];
 };
@@ -457,15 +393,34 @@ module.exports.DescribeConnectionsOnInterconnect = function DescribeConnectionsO
 
   var ret = /*S1g*/{
     connections: [ /*S7*/{
-      partnerName: '',
-      vlan: 0,
-      connectionName: '',
       bandwidth: '',
-      region: '',
-      location: '',
-      connectionState: '',
-      ownerAccount: '',
       connectionId: '',
+      connectionName: '',
+      connectionState: '',
+      location: '',
+      ownerAccount: '',
+      partnerName: '',
+      region: '',
+      vlan: 0,
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeInterconnects = function DescribeInterconnects(aws) {
+  var interconnectId = aws.params.interconnectId;
+
+
+  // TODO implement code
+
+  var ret = {
+    interconnects: [ /*S14*/{
+      bandwidth: '',
+      interconnectId: '',
+      interconnectName: '',
+      interconnectState: '',
+      location: '',
+      region: '',
     }, /* ...*/ ],
   };
   return [200, ret];
@@ -478,8 +433,53 @@ module.exports.DescribeLocations = function DescribeLocations(aws) {
 
   var ret = {
     locations: [ {
-      locationName: '',
       locationCode: '',
+      locationName: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeVirtualGateways = function DescribeVirtualGateways(aws) {
+
+
+  // TODO implement code
+
+  var ret = {
+    virtualGateways: [ {
+      virtualGatewayId: '',
+      virtualGatewayState: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeVirtualInterfaces = function DescribeVirtualInterfaces(aws) {
+  var connectionId = aws.params.connectionId;
+  var virtualInterfaceId = aws.params.virtualInterfaceId;
+
+
+  // TODO implement code
+
+  var ret = {
+    virtualInterfaces: [ /*Sk*/{
+      amazonAddress: '',
+      asn: 0,
+      authKey: '',
+      connectionId: '',
+      customerAddress: '',
+      customerRouterConfig: '',
+      location: '',
+      ownerAccount: '',
+      routeFilterPrefixes: /*Sq*/[ {
+        cidr: '',
+      }, /* ...*/ ],
+      virtualGatewayId: '',
+      virtualInterfaceId: '',
+      virtualInterfaceName: '',
+      virtualInterfaceState: '',
+      virtualInterfaceType: '',
+      vlan: 0,
     }, /* ...*/ ],
   };
   return [200, ret];

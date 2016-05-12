@@ -12,34 +12,133 @@ const awsCommon = require('../../lib/aws-common');
 // Setup input and output to use AWS protocol json
 require('../../lib/aws-common/shape_http')('json', module.exports, null);
 // -----------------------------------
-module.exports.DescribeWorkspaceDirectories = function DescribeWorkspaceDirectories(aws) {
+module.exports.CreateWorkspaces = function CreateWorkspaces(aws) {
+  var workspaces = aws.params.Workspaces /* Type list */;
+  if (!workspaces) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Workspaces'];
+  }
+
+
+  // TODO implement code
+
+  var ret = {
+    FailedRequests: [ {
+      ErrorCode: '',
+      ErrorMessage: '',
+      WorkspaceRequest: /*S3*/{
+        BundleId: '',
+        DirectoryId: '',
+        RootVolumeEncryptionEnabled: false,
+        UserName: '',
+        UserVolumeEncryptionEnabled: false,
+        VolumeEncryptionKey: '',
+      },
+    }, /* ...*/ ],
+    PendingRequests: /*Se*/[ {
+      BundleId: '',
+      ComputerName: '',
+      DirectoryId: '',
+      ErrorCode: '',
+      ErrorMessage: '',
+      IpAddress: '',
+      RootVolumeEncryptionEnabled: false,
+      State: '',
+      SubnetId: '',
+      UserName: '',
+      UserVolumeEncryptionEnabled: false,
+      VolumeEncryptionKey: '',
+      WorkspaceId: '',
+    }, /* ...*/ ],
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeWorkspaceBundles = function DescribeWorkspaceBundles(aws) {
+  var bundleIds = aws.params.BundleIds /* Type list */;
   var nextToken = aws.params.NextToken;
+  var owner = aws.params.Owner;
+
+
+  // TODO implement code
+
+  var ret = {
+    Bundles: [ {
+      BundleId: '',
+      ComputeType: {
+        Name: '',
+      },
+      Description: '',
+      Name: '',
+      Owner: '',
+      UserStorage: {
+        Capacity: '',
+      },
+    }, /* ...*/ ],
+    NextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeWorkspaceDirectories = function DescribeWorkspaceDirectories(aws) {
   var directoryIds = aws.params.DirectoryIds /* Type list */;
+  var nextToken = aws.params.NextToken;
+
+
+  // TODO implement code
+
+  var ret = {
+    Directories: [ {
+      Alias: '',
+      CustomerUserName: '',
+      DirectoryId: '',
+      DirectoryName: '',
+      DirectoryType: '',
+      DnsIpAddresses: [ '', /* ...*/ ],
+      IamRoleId: '',
+      RegistrationCode: '',
+      State: '',
+      SubnetIds: [ '', /* ...*/ ],
+      WorkspaceCreationProperties: {
+        CustomSecurityGroupId: '',
+        DefaultOu: '',
+        EnableInternetAccess: false,
+        EnableWorkDocs: false,
+        UserEnabledAsLocalAdministrator: false,
+      },
+      WorkspaceSecurityGroupId: '',
+    }, /* ...*/ ],
+    NextToken: '',
+  };
+  return [200, ret];
+};
+// -----------------------------------
+module.exports.DescribeWorkspaces = function DescribeWorkspaces(aws) {
+  var bundleId = aws.params.BundleId;
+  var directoryId = aws.params.DirectoryId;
+  var limit = aws.params.Limit /* Type integer */;
+  var nextToken = aws.params.NextToken;
+  var userName = aws.params.UserName;
+  var workspaceIds = aws.params.WorkspaceIds /* Type list */;
 
 
   // TODO implement code
 
   var ret = {
     NextToken: '',
-    Directories: [ {
-      SubnetIds: [ '', /* ...*/ ],
+    Workspaces: /*Se*/[ {
+      BundleId: '',
+      ComputerName: '',
       DirectoryId: '',
-      Alias: '',
-      WorkspaceSecurityGroupId: '',
-      DirectoryName: '',
-      WorkspaceCreationProperties: {
-        EnableWorkDocs: false,
-        CustomSecurityGroupId: '',
-        DefaultOu: '',
-        UserEnabledAsLocalAdministrator: false,
-        EnableInternetAccess: false,
-      },
-      DirectoryType: '',
-      DnsIpAddresses: [ '', /* ...*/ ],
-      IamRoleId: '',
-      RegistrationCode: '',
+      ErrorCode: '',
+      ErrorMessage: '',
+      IpAddress: '',
+      RootVolumeEncryptionEnabled: false,
       State: '',
-      CustomerUserName: '',
+      SubnetId: '',
+      UserName: '',
+      UserVolumeEncryptionEnabled: false,
+      VolumeEncryptionKey: '',
+      WorkspaceId: '',
     }, /* ...*/ ],
   };
   return [200, ret];
@@ -64,68 +163,10 @@ module.exports.RebootWorkspaces = function RebootWorkspaces(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.DescribeWorkspaces = function DescribeWorkspaces(aws) {
-  var limit = aws.params.Limit /* Type integer */;
-  var directoryId = aws.params.DirectoryId;
-  var nextToken = aws.params.NextToken;
-  var workspaceIds = aws.params.WorkspaceIds /* Type list */;
-  var bundleId = aws.params.BundleId;
-  var userName = aws.params.UserName;
-
-
-  // TODO implement code
-
-  var ret = {
-    NextToken: '',
-    Workspaces: /*Se*/[ {
-      ErrorCode: '',
-      UserVolumeEncryptionEnabled: false,
-      DirectoryId: '',
-      BundleId: '',
-      VolumeEncryptionKey: '',
-      ComputerName: '',
-      IpAddress: '',
-      WorkspaceId: '',
-      State: '',
-      UserName: '',
-      RootVolumeEncryptionEnabled: false,
-      SubnetId: '',
-      ErrorMessage: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.DescribeWorkspaceBundles = function DescribeWorkspaceBundles(aws) {
-  var nextToken = aws.params.NextToken;
-  var bundleIds = aws.params.BundleIds /* Type list */;
-  var owner = aws.params.Owner;
-
-
-  // TODO implement code
-
-  var ret = {
-    NextToken: '',
-    Bundles: [ {
-      ComputeType: {
-        Name: '',
-      },
-      UserStorage: {
-        Capacity: '',
-      },
-      Description: '',
-      Name: '',
-      BundleId: '',
-      Owner: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.TerminateWorkspaces = function TerminateWorkspaces(aws) {
-  var terminateWorkspaceRequests = aws.params.TerminateWorkspaceRequests /* Type list */;
-  if (!terminateWorkspaceRequests) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TerminateWorkspaceRequests'];
+module.exports.RebuildWorkspaces = function RebuildWorkspaces(aws) {
+  var rebuildWorkspaceRequests = aws.params.RebuildWorkspaceRequests /* Type list */;
+  if (!rebuildWorkspaceRequests) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RebuildWorkspaceRequests'];
   }
 
 
@@ -141,51 +182,10 @@ module.exports.TerminateWorkspaces = function TerminateWorkspaces(aws) {
   return [200, ret];
 };
 // -----------------------------------
-module.exports.CreateWorkspaces = function CreateWorkspaces(aws) {
-  var workspaces = aws.params.Workspaces /* Type list */;
-  if (!workspaces) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter Workspaces'];
-  }
-
-
-  // TODO implement code
-
-  var ret = {
-    PendingRequests: /*Se*/[ {
-      ErrorCode: '',
-      UserVolumeEncryptionEnabled: false,
-      DirectoryId: '',
-      BundleId: '',
-      VolumeEncryptionKey: '',
-      ComputerName: '',
-      IpAddress: '',
-      WorkspaceId: '',
-      State: '',
-      UserName: '',
-      RootVolumeEncryptionEnabled: false,
-      SubnetId: '',
-      ErrorMessage: '',
-    }, /* ...*/ ],
-    FailedRequests: [ {
-      ErrorCode: '',
-      WorkspaceRequest: /*S3*/{
-        UserVolumeEncryptionEnabled: false,
-        RootVolumeEncryptionEnabled: false,
-        DirectoryId: '',
-        UserName: '',
-        BundleId: '',
-        VolumeEncryptionKey: '',
-      },
-      ErrorMessage: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
-};
-// -----------------------------------
-module.exports.RebuildWorkspaces = function RebuildWorkspaces(aws) {
-  var rebuildWorkspaceRequests = aws.params.RebuildWorkspaceRequests /* Type list */;
-  if (!rebuildWorkspaceRequests) {
-    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter RebuildWorkspaceRequests'];
+module.exports.TerminateWorkspaces = function TerminateWorkspaces(aws) {
+  var terminateWorkspaceRequests = aws.params.TerminateWorkspaceRequests /* Type list */;
+  if (!terminateWorkspaceRequests) {
+    return [400, 'Sender', 'MissingParameter', 'Did not specify parameter TerminateWorkspaceRequests'];
   }
 
 
