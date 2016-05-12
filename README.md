@@ -18,7 +18,8 @@ Currently supported emulated Amazon Web Services:
 
 * [SQS](docs/sqs.md)
 * [SWF](docs/swf.md)
-* [Lambda](docs/lambda.md) (in progress)
+* [Lambda](docs/lambda.md) (very limited support)
+* [ECS](docs/ecs.md) (just starting)
 
 All the other services are mocked out and perform no-ops.
 
