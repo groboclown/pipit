@@ -56,6 +56,12 @@ the endpoint, then you can do these two steps:
 
 Note that this will work if your Java application uses multiple AWS services.
 
+Unfortunately, the AWS sdk will force the connection to be in HTTPS mode (it ignores
+the Endpoint setting), unless you can alter the source code to have the connection use
+the http protocol.  If you can't change the protocol, then this requires running the
+server in [https.md](HTTPS mode), and ensuring that the certificate is loaded by the
+JVM.
+
 ### Override Region Enpoints with Java SDK After 1.10
 
 Starting with version 1.10 of the AWS SDK for Java, the endpoints has changed.

@@ -5,9 +5,12 @@
  * Module dependencies.
  */
 
-var app = require('../app');
-var debug = require('debug')('pipit:server');
-var http = require('http');
+const app = require('../app');
+const debug = require('debug')('pipit:server');
+const http = require('http');
+const https = require('https');
+const fs = require('fs');
+
 
 /**
  * Get port from environment and store in Express.
@@ -16,13 +19,22 @@ var port = normalizePort(
     process.env.PORT ||
     process.env['pipit_config_port'] ||
     '3000');
-console.log('Listening on port ' + port);
 app.set('port', port);
 
 /**
  * Create HTTP server.
  */
-var server = http.createServer(app);
+var server;
+if (!!process.env.SSL_KEY && !!process.env.SSL_CERT) {
+  console.log(`HTTPS Listening on port ${port}`);
+  server = https.createServer({
+    key: fs.readFileSync(process.env.SSL_KEY),
+    cert: fs.readFileSync(process.env.SSL_CERT),
+  }, app);
+} else {
+  console.log(`HTTP Listening on port ${port}`);
+  server = http.createServer(app);
+}
 
 /**
  * Listen on provided port, on all network interfaces.
