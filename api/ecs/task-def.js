@@ -1,15 +1,17 @@
 'use strict';
 
 const awsCommon = require('../../lib/aws-common');
+const textParse = require('../../lib/test-parse');
 
 module.exports = function createTaskDef(p) {
   return new TaskDef(p);
 }
 
-function TaskDef(aws, p) {
+function TaskDef(p) {
   this.family = p.family;
   this.version = -1; // Set when registered.
-  this.arn = awsCommon.getArn(p.aws);
+  this.genArnFunc = p.genArnFunc;
+  this.arn = p.genArnFunc('taskdef', p.family);
   var i;
   this.volumes = [];
   if (!!p.volumes) {
@@ -25,7 +27,7 @@ function TaskDef(aws, p) {
   this.containerDefinitions = [];
   for (i = 0; i < p.containerDefinitions.length; i++) {
     this.containerDefinitions.push(
-      new ContainerDef(p.containerDefinitions[i], this.volumes));
+      new ContainerDef(p.containerDefinitions[i]));
   }
 }
 
@@ -35,7 +37,7 @@ TaskDef.prototype.describe = function describe() {
     containerDefs.push(this.containerDefinitions[i].describe());
   }
   return {
-    taskDefinition: /*S12*/{
+    taskDefinition: {
       containerDefinitions: containerDefs,
       family: this.family,
       requiresAttributes: [/*{
@@ -50,65 +52,71 @@ TaskDef.prototype.describe = function describe() {
   };
 };
 
+TaskDef.prototype.getHostPathForSourceVolume = function getHostPathForSourceVolume(sourceVolume) {
+  if (!!this.volumes) {
+    for (var i = 0; i < this.volumes.length; i++) {
+      if (!!this.volumes[i].host && !!this.volumes[i].host.sourcePath &&
+          sourceVolume === this.volumes[i].name) {
+        return this.volumes[i].host.sourcePath;
+      }
+    }
+  }
+  return null;
+};
+
 // ===========================================================================
 
 /**
  * Stores the ContainerDefinition and allows it to
  * be used for creating a docker-compose.yml file.
  */
-function ContainerDef(def, volumes) {
+function ContainerDef(def) {
+  this.name = def.name;
+  var cpu = textParse.parseInteger(def.cpu, 2);
+  if (cpu <= 1) {
+    cpu = 2;
+  }
+  this.environment = {};
+  for (var i = 0; !!def.environment && i < def.environment[i]; i++) {
+    var keyPair = def.environment[i];
+    if (!!keyPair && !!keyPair.name && !!keyPair.value) {
+      this.environment[keyPair.name] = keyPair.value;
+    }
+  }
+  var extraHosts = [];
+  for (var i = 0; !!def.extraHosts && i < def.extraHosts[i]; i++) {
+    var keyPair = def.extraHosts[i];
+    if (!!keyPair && !!keyPair.hostname && !!keyPair.ipAddress) {
+      extraHosts.push({ hostname: keyPair.hostname, ipAddress: keyPair.ipAddress });
+    }
+  }
   this.originalDef = {
-    command: def.command || null, // List of strings
-    cpu: def.cpu || 1,
-    disableNetworking: def.disableNetworking || false,
-    dnsSearchDomains: /*Sv*/[ '', /* ...*/ ],
-    dnsServers: /*Sv*/[ '', /* ...*/ ],
-    dockerLabels: {} /*Map*/,
-    dockerSecurityOptions: /*Sv*/[ '', /* ...*/ ],
-    entryPoint: /*Sv*/[ '', /* ...*/ ],
-    environment: /*S18*/[ {
-      name: '',
-      value: '',
-    }, /* ...*/ ],
-    essential: false,
-    extraHosts: [ {
-      hostname: '',
-      ipAddress: '',
-    }, /* ...*/ ],
-    hostname: '',
-    image: '',
-    links: /*Sv*/[ '', /* ...*/ ],
-    logConfiguration: {
-      logDriver: '',
-      options: {} /*Map*/,
-    },
-    memory: 0,
-    mountPoints: [ {
-      containerPath: '',
-      readOnly: false,
-      sourceVolume: '',
-    }, /* ...*/ ],
-    name: '',
-    portMappings: [ {
-      containerPort: 0,
-      hostPort: 0,
-      protocol: '',
-    }, /* ...*/ ],
-    privileged: false,
-    readonlyRootFilesystem: false,
-    ulimits: [ {
-      hardLimit: 0,
-      name: '',
-      softLimit: 0,
-    }, /* ...*/ ],
-    user: '',
-    volumesFrom: [ {
-      readOnly: false,
-      sourceContainer: '',
-    }, /* ...*/ ],
-    workingDirectory: '',
+    command: textParse.asListOfStrings(def.command, null),
+    cpu: cpu, // 1024 CPU units per vCPU
+    disableNetworking: textParse.parseBoolean(def.disableNetworking, false),
+    dnsSearchDomains: textParse.asListOfStrings(def.dnsSearchDomains, []),
+    dnsServers: textParse.asListOfStrings(def.dnsServers, []),
+    dockerLabels: textParse.asStringToStringMap(def.dockerLabels),
+    dockerSecurityOptions: textParse.asListOfStrings(def.dockerSecurityOptions, []),
+    entryPoint: textParse.asListOfStrings(def.entryPoint, []),
+    environment: def.environment,
+    essential: textParse.parseBoolean(def.essential, false),
+    extraHosts: extraHosts,
+    hostname: def.hostname || null,
+    image: def.image || null,
+    links: textParse.asListOfStrings(def.links, []),
+    logConfiguration: def.logConfiguration || {}, // Complcated mapping...
+    memory: textParse.parseInteger(def.memory, 4),
+    mountPoints: def.mountPoints || [],
+    name: def.name || null,
+    portMappings: def.portMappings || [],
+    privileged: textParse.parseBoolean(def.privileged, false),
+    readonlyRootFilesystem: textParse.parseBoolean(def.readonlyRootFilesystem, false),
+    ulimits: def.ulimits || null,
+    user: def.user || null,
+    volumesFrom: def.volumesFrom || [],
+    workingDirectory: def.workingDirectory || null,
   };
-  this.volumes = volumes;
 }
 ContainerDef.prototype.describe = function describe() {
   return this.originalDef;

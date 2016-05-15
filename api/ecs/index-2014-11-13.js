@@ -1,7 +1,7 @@
 'use strict';
 
 const awsCommon = require('../../lib/aws-common');
-
+const textParse = require('../../lib/test-parse');
 
 /**
  * Amazon EC2 Container Service version 2014-11-13
@@ -15,7 +15,7 @@ require('../../lib/aws-common/shape_http')('json', module.exports, null);
 // Implemented
 
 
-const cluster = require('./cluster')();
+const clusterRegistry = require('./cluster-registry')();
 const taskDefRegistry = require('./task-def-registry')();
 
 
@@ -32,7 +32,7 @@ module.exports.RegisterTaskDefinition = function RegisterTaskDefinition(aws) {
   }
 
   var taskDef = taskDefRegistry.registerTaskDef({
-    aws: aws,
+    genArnFunc: awsCommon.createGenArnFunction(aws),
     family: family,
     volumes: volumes,
     containerDefinitions: containerDefinitions,
@@ -55,54 +55,31 @@ module.exports.RunTask = function RunTask(aws) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter taskDefinition'];
   }
 
+  var clusterObj = clusterRegistry.getCluster(cluster);
+  if (!clusterObj) {
+    return [400, 'Sender', 'ClusterNotFoundException', cluster];
+  }
 
-  // TODO implement code
+  var taskDefObj = taskDefRegistry.getFamily(taskDefinition);
+  if (!taskDefObj) {
+    return [400, 'Sender', 'InvalidParameterValue', `unknown task def ${taskDefinition}`];
+  }
 
-  var ret = {
-    failures: /*S1v*/[ {
-      arn: '',
-      reason: '',
-    }, /* ...*/ ],
-    tasks: /*S27*/[ /*S28*/{
-      clusterArn: '',
-      containerInstanceArn: '',
-      containers: [ {
-        containerArn: '',
-        exitCode: 0,
-        lastStatus: '',
-        name: '',
-        networkBindings: /*S2e*/[ {
-          bindIP: '',
-          containerPort: 0,
-          hostPort: 0,
-          protocol: '',
-        }, /* ...*/ ],
-        reason: '',
-        taskArn: '',
-      }, /* ...*/ ],
-      createdAt: awsCommon.timestamp(),
-      desiredStatus: '',
-      lastStatus: '',
-      overrides: /*S29*/{
-        containerOverrides: [ {
-          command: /*Sv*/[ '', /* ...*/ ],
-          environment: /*S18*/[ {
-            name: '',
-            value: '',
-          }, /* ...*/ ],
-          name: '',
-        }, /* ...*/ ],
-      },
-      startedAt: awsCommon.timestamp(),
-      startedBy: '',
-      stoppedAt: awsCommon.timestamp(),
-      stoppedReason: '',
-      taskArn: '',
-      taskDefinitionArn: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
+  if (!!count && textParse.parseInt(count, 1) > 10) {
+    return [400, 'Sender', 'InvalidParameterValue', `count too big (${count})`];
+  }
+
+  return clusterObj.runTask({
+    taskDef: taskDefObj,
+    count: textParse.parseInt(count, 1),
+    overrides: overrides,
+    startedBy: startedBy,
+    aws: aws,
+  }).then(function(ret) {
+    return [200, ret];
+  });
 };
+
 // -----------------------------------
 module.exports.StartTask = function StartTask(aws) {
   var cluster = aws.params.cluster;

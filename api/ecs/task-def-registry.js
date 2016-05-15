@@ -1,6 +1,7 @@
 'use strict';
 
 const createTaskDef = require('./task-def');
+const textParse = require('../../lib/test-parse.js');
 
 module.exports = function createTaskDefRegistry() {
   return new TaskDefRegistry();
@@ -22,11 +23,38 @@ TaskDefRegistry.prototype.registerTaskDef = function registerTaskDef(p) {
 };
 
 
-TaskDefRegistry.prototype.getLatestFamily = function getLatestFamily(name) {
-  if (!this.families[name]) {
+TaskDefRegistry.prototype.getFamily = function getFamily(name) {
+  if (!name) {
     return null;
   }
-  return this.families[name].getLatest();
+  var colonPos = name.lastIndexOf(':');
+  var taskDef;
+  if (colonPos > 0) {
+    var family = name.substr(0, colonPos);
+    var revision = textParse.parseInteger(name.substr(colonPos + 1));
+    var familyObj = this.families[family];
+    if (!!familyObj) {
+      taskDef = familyObj.getRevision(revision);
+      if (!!taskDef) {
+        return taskDef;
+      }
+    }
+  }
+  if (!!this.families[name]) {
+    return this.families[name].getLatest();
+  }
+  // Could be an arn.
+  if (name.startsWith('arn:aws:')) {
+    for (var familyName in this.families) {
+      if (this.families.hasOwnProperty(familyName)) {
+        taskDef = this.families[familyName].getByArn(name);
+        if (!!taskDef) {
+          return taskDef;
+        }
+      }
+    }
+  }
+  return null;
 };
 
 
@@ -38,9 +66,25 @@ function TaskDefFamily(p) {
   this.versions = [];
 }
 
+TaskDefFamily.prototype.getByArn = function getByArn(arn) {
+  for (var i = 0; i < this.versions.length; i++) {
+    if (arn === this.versions[i].arn) {
+      return this.versions[i];
+    }
+  }
+  return null;
+}
 
 TaskDefFamily.prototype.getLatest = function getLatest() {
+  // TODO return latest ACTIVE revision
   return this.versions[this.versions.length - 1];
+};
+
+TaskDefFamily.prototype.getRevision = function getRevision(revision) {
+  if (revision >= 0 && revision < this.versions.length) {
+    return this.versions[revision];
+  }
+  return null;
 };
 
 TaskDefFamily.prototype.addTaskDef = function addTaskDef(taskDef) {
