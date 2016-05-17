@@ -49,6 +49,7 @@ def get_event(name, event_list):
 
 class BasicSwfSetup(object):
     def __init__(self, test_instance):
+        object.__init__(self)
         self.test_instance = test_instance
         self.test_name = test_instance.__class__.__name__
         self.client = create_client('swf')

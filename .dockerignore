@@ -1,5 +1,6 @@
 test/
 docs/
 docker-dependencies/
+node_modules/
 *.md
 bin/build-api.py

@@ -39,12 +39,23 @@ util.inherits(Decider, BaseTaskList);
  * Returns the decision task for this run.
  */
 Decider.prototype.addDecisionTaskFor = function addDecisionTaskFor(p) {
-  p.outOfBandEventFunc = this.outOfBandEventFunc;
-  var task = createDecisionTask(p);
-  // The task will not be "open" until a decider receives the task message.
-  console.log(`[DECIDER ${this.name}] added task to inbox: decision task for run ${task.workflowRun.workflowId}`);
-  this.inbox.push(task, 0, 100);
-  this._pendingDecisionTasks.push(task);
+  // Check if there is an existing decision task that this can be part of.
+  var task = null;
+  for (var i = 0; !task && i < this._pendingDecisionTasks.length; i++) {
+    if (this._pendingDecisionTasks[i].tryJoin(p)) {
+      task = this._pendingDecisionTasks[i];
+    }
+  }
+  if (!task) {
+    p.outOfBandEventFunc = this.outOfBandEventFunc;
+    task = createDecisionTask(p);
+    // The task will not be "open" until a decider receives the task message.
+    console.log(`[DECIDER ${this.name}] added task to inbox: decision task for run ${task.workflowRun.workflowId}`);
+
+    this.inbox.push(task, 0, 100);
+    this._pendingDecisionTasks.push(task);
+  }
+
   return task;
 };
 
@@ -91,6 +102,10 @@ Decider.prototype.pull = function pull(deciderId, nextPageToken, maximumPageSize
   // the spec for how the decision task list works.
   return this.inbox.pull(1, 60, 1000)
     .then(function t1(msgs) {
+      if (!msgs || msgs.length <= 0) {
+        // The long poll timed out.
+        return {};
+      }
       console.log(`[DECIDER ${t.name}] received ${msgs.length} pending message(s) in inbox`);
       var task = msgs[0].value;
       t.inbox.deleteByMessageId(msgs[0].messageId);
@@ -119,11 +134,6 @@ Decider.prototype.pull = function pull(deciderId, nextPageToken, maximumPageSize
       // Something went wrong in the paging or the task creation.
       console.log(`[DECIDER ${t.name}] WARN: initial decision task poll returned no paged results`);
       return null;
-    })
-    .catch(function c1(err) {
-      // Generally a timeout
-      console.log(`[DECIDER ${t.name}] error pollling for task: ${err}\n${err.stack}`);
-      return {};
     });
 };
 
@@ -154,6 +164,18 @@ Activity.prototype.pull = function pull(p) {
   // the spec for how the decision task list works.
   return this.inbox.pull(1, 60, 1000)
     .then(function t1(msgs) {
+      if (!msgs || msgs.length <= 0) {
+        return {
+          // Empty version of the ActivityTask object.
+          // Note, specifically, that the taks token is given, but it's empty.
+          taskToken: '',
+          input: null,
+          workflowExecution: null,
+          activityType: null,
+          startedEventId: 0 /*Long*/,
+          activityId: '',
+        };
+      }
       console.log(`[ACTIVITY ${t.name}] received ${msgs.length} pending message(s) in inbox`);
       var task = msgs[0].value;
       t.inbox.deleteByMessageId(msgs[0].messageId);
@@ -168,19 +190,5 @@ Activity.prototype.pull = function pull(p) {
       }
 
       return result;
-    })
-    .catch(function c1(err) {
-      // Generally a timeout
-      console.log(`[ACTIVITY ${t.name}] error pollling for task: ${err}\n${err.stack}`);
-      return {
-        // Empty version of the ActivityTask object.
-        // Note, specifically, that the taks token is given, but it's empty.
-        taskToken: '',
-        input: null,
-        workflowExecution: null,
-        activityType: null,
-        startedEventId: 0 /*Long*/,
-        activityId: '',
-      };
     });
 };

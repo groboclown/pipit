@@ -10,9 +10,9 @@ module.exports = function createCluster(p) {
 
 
 function Cluster(p) {
-  this.arn = awsCommon.genArn(p.aws);
-  this.containerInstanceArn = awsCommon.genArn(p.aws);
-  this.name = p.clusterName || 'default';
+  this.containerInstanceArn = p.genArnFunc('cluster-instance', this.name);
+  this.name = p.clusterName;
+  this.arn = p.genArnFunc('cluster', this.name);
   this.runningTaskGroups = [];
   this.runningServiceGroups = [];
   this.taskCount = 0;
@@ -31,10 +31,10 @@ Cluster.prototype.runTask = function runTask(p) {
   var count = p.count;
   var overrides = p.overrides;
   var startedBy = p.startedBy;
-  var aws = p.aws;
+  var genArnFunc = p.genArnFunc;
 
   var taskGroup = this.__createTaskGroup({
-    aws: aws,
+    genArnFunc: genArnFunc,
     startedBy: startedBy,
     taskDef: taskDef,
     clusterArn: this.arn,
@@ -77,9 +77,59 @@ Cluster.prototype.runTask = function runTask(p) {
     return {
       failures: failureList,
       tasks,
-    }
+    };
   });
 };
+
+
+Cluster.prototype.startTask = function startTask(p) {
+  // TODO implement code
+  var ret = {
+    failures: /*S1v*/[ {
+      arn: '',
+      reason: '',
+    }, /* ...*/ ],
+    tasks: /*S27*/[ /*S28*/{
+      clusterArn: '',
+      containerInstanceArn: '',
+      containers: [ {
+        containerArn: '',
+        exitCode: 0,
+        lastStatus: '',
+        name: '',
+        networkBindings: /*S2e*/[ {
+          bindIP: '',
+          containerPort: 0,
+          hostPort: 0,
+          protocol: '',
+        }, /* ...*/ ],
+        reason: '',
+        taskArn: '',
+      }, /* ...*/ ],
+      createdAt: awsCommon.timestamp(),
+      desiredStatus: '',
+      lastStatus: '',
+      overrides: /*S29*/{
+        containerOverrides: [ {
+          command: /*Sv*/[ '', /* ...*/ ],
+          environment: /*S18*/[ {
+            name: '',
+            value: '',
+          }, /* ...*/ ],
+          name: '',
+        }, /* ...*/ ],
+      },
+      startedAt: awsCommon.timestamp(),
+      startedBy: '',
+      stoppedAt: awsCommon.timestamp(),
+      stoppedReason: '',
+      taskArn: '',
+      taskDefinitionArn: '',
+    }, /* ...*/ ],
+  };
+
+};
+
 
 Cluster.prototype.__createTaskGroup = function __createTaskGroup(p) {
   p.keepAlive = false;
@@ -96,7 +146,7 @@ Cluster.prototype.__createServiceGroup = function __createServiceGroup(p) {
 function DockerProcessGroup(p) {
   this.keepAlive = p.keepAlive;
   this.taskDef = p.taskDef;
-  this.count = p.count,
+  this.count = p.count;
   this.overrides = p.overrides;
   this.startedBy = p.startedBy;
   this.dockerTasks = [];
@@ -109,6 +159,9 @@ DockerProcessGroup.prototype.start = function start() {
 
   var ret = null;
   var index = 0;
+  function createRetFunc(r) {
+    return function() { return r; };
+  }
   for (var i = 0; i < this.count; i++) {
     var dockerTask = createDockerTask({
       taskDef: this.taskDef,
@@ -121,7 +174,7 @@ DockerProcessGroup.prototype.start = function start() {
     if (!ret) {
       ret = q;
     } else {
-      ret.then(function() { return q; });
+      ret.then(createRetFunc(q));
     }
   }
   return ret.then(function() {
@@ -165,6 +218,6 @@ DockerProcessGroup.prototype.start = function start() {
         taskArn: '',
         taskDefinitionArn: '',
       }, /* ...*/ ],
-    }
+    };
   });
 };

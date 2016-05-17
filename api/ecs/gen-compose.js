@@ -11,33 +11,44 @@ module.exports = function createComposeFile(p) {
 
 module.exports.__createComposeText = function __createComposeText(p) {
   var taskDef = p.taskDef;
-  var overrides = sortOverrides(p.override);
-  var index = p.index;
-  var keepAlive = p.keepAlive;
+  var containers = p.containers;
+
+  var nameToId = {};
+  var ci;
+  for (ci = 0; ci < containers.length; ci++) {
+    nameToId[containers[ci].name] = containers[ci].id;
+    console.log(`[[]] Mapped ${containers[ci].name} -> ${containers[ci].id}`);
+  }
 
   var ret = 'version: "2"\nservices:\n';
-  for (var ci = 0; ci < taskDef.containerDefinitions.length; ci++) {
-    var containerDef = taskDef.containerDefinitions[ci];
-    var override = overrides[containerDef.name];
+  for (ci = 0; ci < containers.length; ci++) {
+    var container = containers[ci];
     ret += createContainerText({
       taskDef: taskDef,
-      index: index,
-      containerDef: containerDef,
-      override: override,
-      keepAlive: keepAlive,
+      id: container.id,
+      containerDef: container.containerDefinition,
+      containerParams: container.containerParams,
+      override: container.override,
+      keepAlive: container.keepAlive,
+      index: container.index,
+      name: container.name,
+      nameToId: nameToId,
     });
   }
   return ret;
-}
+};
 
 
 function createContainerText(p) {
   var taskDef = p.taskDef;
+  var id = p.id;
   var index = p.index;
   var containerDef = p.containerDef;
   var override = p.override;
   var keepAlive = p.keepAlive;
-  var containerParams = containerDef.originalDef;
+  var name = p.name;
+  var containerParams = p.containerParams;
+  var nameToId = p.nameToId;
 
   var i;
 
@@ -60,8 +71,8 @@ function createContainerText(p) {
     override = null;
   }
 
-  var ret = '  ' + escapeString(containerDef.name + '_' + index) + ':\n';
-  ret += mkString('container_name', containerDef.name + '_' + index);
+  var ret = '  ' + escapeString(id) + ':\n';
+  ret += mkString('container_name', id);
   if (!!override && !!override.command && override.command.length > 0) {
     ret += `    command: ${JSON.stringify(override.command)}\n`;
   } else if (!!containerParams.command && containerParams.command.length > 0) {
@@ -74,7 +85,7 @@ function createContainerText(p) {
   }
   ret += mkStringList('dns_search', containerParams.dnsSearchDomains);
   ret += mkStringList('dns', containerParams.dnsServers);
-  ret += mkStringMap('labels', containerParams.dockerLabels, '    ', '_' + index);
+  ret += mkLabels(containerParams.dockerLabels, nameToId);
   ret += mkStringList('security_opt', containerParams.dockerSecurityOptions);
   if (!!containerParams.entryPoint && containerParams.entryPoint.length > 0) {
     ret += `    entrypoint: ${JSON.stringify(containerParams.entryPoint)}\n`;
@@ -89,7 +100,7 @@ function createContainerText(p) {
   }
   ret += mkString('hostname', containerParams.hostname);
   ret += mkString('image', containerParams.image);
-  ret += mkStringList('links', containerParams.links, '    ', '_' + index);
+  ret += mkLinks(containerParams.links, nameToId);
   if (!!containerParams.logConfiguration && !!containerParams.logConfiguration.logDriver) {
     ret += `    logging:\n      driver: ${containerParams.logConfiguration.logDriver}\n`;
     ret += mkStringMap('options', containerParams.logConfiguration.options, '      ');
@@ -125,7 +136,6 @@ function createContainerText(p) {
 
 
 function createFile(text) {
-  var text = this.__createComposeText();
   var deferred = Q.defer();
   tmp.file(function(err, path, fd, cleanupCallback) {
     if (err) {
@@ -139,18 +149,6 @@ function createFile(text) {
     });
   });
   return deferred.promise;
-};
-
-
-function sortOverrides(overrides) {
-  // Put the overrides into per-container name mapping.
-  var ret = {};
-  for (var i = 0; i < overrides.length; i++) {
-    if (!!overrides[i].name && (!!overrides[i].command || !!overrides[i].environment)) {
-      ret[overrides[i].name] = overrides[i];
-    }
-  }
-  return ret;
 }
 
 
@@ -188,6 +186,51 @@ function mkStringMap(mapName, map, prefix, valueSuffix) {
 }
 
 
+function mkString(key, value, prefix) {
+  prefix = prefix || '    ';
+  var ret = '';
+  if (!!value) {
+    value = escapeString(value);
+    ret = `${prefix}${key}: ${value}\n`;
+  }
+  return ret;
+}
+
+
+function mkLabels(labels, nameToId) {
+  var ret = '';
+  if (!!labels && Object.keys(labels).length > 0) {
+    ret = '    labels:\n';
+    for (var k in labels) {
+      if (labels.hasOwnProperty(k)) {
+        var id = nameToId[labels[k]];
+        if (!id) {
+          throw new Error(`No such container ${labels[k]}`);
+        }
+        ret += `      ${k}: ${escapeString(id)}\n`;
+      }
+    }
+  }
+  return ret;
+}
+
+
+function mkLinks(links, nameToId) {
+  var ret = '';
+  if (!!links && links.length > 0) {
+    ret = '    links:\n';
+    for (var i = 0; i < links.length; i++) {
+      var id = nameToId[links[i]];
+      if (!id) {
+        throw new Error(`No such container ${links[i]}`);
+      }
+      ret += `      - ${escapeString(id)}\n`;
+    }
+  }
+  return ret;
+}
+
+
 function mkMountPoints(taskDef, mountPoints) {
   var ret = '';
   var value;
@@ -207,16 +250,16 @@ function mkMountPoints(taskDef, mountPoints) {
 
 function mkPortMappings(portMappings) {
   var ret = '';
-  var value;
+  var value, append;
   if (!!portMappings && portMappings.length > 0) {
     ret = '    ports:\n';
     for (var i = 0; i < portMappings.length; i++) {
-      if (portMappings[i].protocol === 'udp') {
-        throw new Error('Does not support udp port mappings');
-      }
       value = portMappings[i].containerPort;
       if (!!portMappings[i].hostPort) {
         value += ':' + portMappings[i].hostPort;
+      }
+      if (portMappings[i].protocol === 'udp') {
+        value += '/udp';
       }
       ret += `      - ${escapeString(value)}"\n`;
     }
@@ -250,17 +293,6 @@ function mkVolumesFrom(taskDef, volumesFrom) {
       value = escapeString(taskDef.getHostPathForSourceVolume(volumesFrom[i].sourceContainer) + ro);
       ret += `      - ${value}\n`;
     }
-  }
-  return ret;
-}
-
-
-function mkString(key, value, prefix) {
-  prefix = prefix || '    ';
-  var ret = '';
-  if (!!value) {
-    value = escapeString(value);
-    ret = `${prefix}${key}: ${value}\n`;
   }
   return ret;
 }

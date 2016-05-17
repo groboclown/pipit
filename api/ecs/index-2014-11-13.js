@@ -55,6 +55,8 @@ module.exports.RunTask = function RunTask(aws) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter taskDefinition'];
   }
 
+  clusterRegistry.setupDefault({ genArnFunc: awsCommon.createGenArnFunction(aws) });
+
   var clusterObj = clusterRegistry.getCluster(cluster);
   if (!clusterObj) {
     return [400, 'Sender', 'ClusterNotFoundException', cluster];
@@ -74,7 +76,7 @@ module.exports.RunTask = function RunTask(aws) {
     count: textParse.parseInt(count, 1),
     overrides: overrides,
     startedBy: startedBy,
-    aws: aws,
+    genArnFunc: awsCommon.createGenArnFunction(aws),
   }).then(function(ret) {
     return [200, ret];
   });
@@ -94,53 +96,27 @@ module.exports.StartTask = function StartTask(aws) {
     return [400, 'Sender', 'MissingParameter', 'Did not specify parameter taskDefinition'];
   }
 
+  clusterRegistry.setupDefault({ genArnFunc: awsCommon.createGenArnFunction(aws) });
 
-  // TODO implement code
+  var clusterObj = clusterRegistry.getCluster(cluster);
+  if (!clusterObj) {
+    return [400, 'Sender', 'ClusterNotFoundException', cluster];
+  }
 
-  var ret = {
-    failures: /*S1v*/[ {
-      arn: '',
-      reason: '',
-    }, /* ...*/ ],
-    tasks: /*S27*/[ /*S28*/{
-      clusterArn: '',
-      containerInstanceArn: '',
-      containers: [ {
-        containerArn: '',
-        exitCode: 0,
-        lastStatus: '',
-        name: '',
-        networkBindings: /*S2e*/[ {
-          bindIP: '',
-          containerPort: 0,
-          hostPort: 0,
-          protocol: '',
-        }, /* ...*/ ],
-        reason: '',
-        taskArn: '',
-      }, /* ...*/ ],
-      createdAt: awsCommon.timestamp(),
-      desiredStatus: '',
-      lastStatus: '',
-      overrides: /*S29*/{
-        containerOverrides: [ {
-          command: /*Sv*/[ '', /* ...*/ ],
-          environment: /*S18*/[ {
-            name: '',
-            value: '',
-          }, /* ...*/ ],
-          name: '',
-        }, /* ...*/ ],
-      },
-      startedAt: awsCommon.timestamp(),
-      startedBy: '',
-      stoppedAt: awsCommon.timestamp(),
-      stoppedReason: '',
-      taskArn: '',
-      taskDefinitionArn: '',
-    }, /* ...*/ ],
-  };
-  return [200, ret];
+  var taskDefObj = taskDefRegistry.getFamily(taskDefinition);
+  if (!taskDefObj) {
+    return [400, 'Sender', 'InvalidParameterValue', `unknown task def ${taskDefinition}`];
+  }
+
+  return clusterObj.startTask({
+    containerInstances: containerInstances,
+    taskDef: taskDefObj,
+    overrides: overrides,
+    startedBy: startedBy,
+    genArnFunc: awsCommon.createGenArnFunction(aws),
+  }).then(function(ret) {
+    return [200, ret];
+  });
 };
 
 // =========================================================================

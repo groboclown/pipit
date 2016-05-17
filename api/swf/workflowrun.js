@@ -547,7 +547,9 @@ WorkflowRun.prototype.handleDecision = function handleDecision(p) {
     case 'CancelWorkflowExecution': {
       let attrs = decision.cancelWorkflowExecutionDecisionAttributes;
       let details = attrs.details;
-      if (this.openDecisionTasks.length > 0) {
+      // Don't include our own decision
+      if (this.openDecisionTasks.length > 1) {
+        console.log(`[WORKFLOW ${this.workflowId}] could not cancel because ${this.openDecisionTasks.length} decision tasks are unhandled`);
         return [{
           name: 'CancelWorkflowExecutionFailed',
           data: {
@@ -566,7 +568,9 @@ WorkflowRun.prototype.handleDecision = function handleDecision(p) {
     case 'CompleteWorkflowExecution': {
       let attrs = decision.completeWorkflowExecutionDecisionAttributes;
       let result = attrs.result;
-      if (this.openDecisionTasks.length > 0) {
+      // Don't include our own decision
+      if (this.openDecisionTasks.length > 1) {
+        console.log(`[WORKFLOW ${this.workflowId}] could not complete because ${this.openDecisionTasks.length} decision tasks are unhandled`);
         return [{
           name: 'CompleteWorkflowExecutionFailed',
           data: {
@@ -605,7 +609,9 @@ WorkflowRun.prototype.handleDecision = function handleDecision(p) {
       let attrs = decision.failWorkflowExecutionDecisionAttributes;
       let details = attrs.details;
       let reason = attrs.reason;
-      if (this.openDecisionTasks.length > 0) {
+      // Don't include our own workflow
+      if (this.openDecisionTasks.length > 1) {
+        console.log(`[WORKFLOW ${this.workflowId}] could not fail because ${this.openDecisionTasks.length} decision tasks are unhandled`);
         return [{
           name: 'FailWorkflowExecutionFailed',
           data: {

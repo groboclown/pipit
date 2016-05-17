@@ -73,7 +73,7 @@ TaskDefFamily.prototype.getByArn = function getByArn(arn) {
     }
   }
   return null;
-}
+};
 
 TaskDefFamily.prototype.getLatest = function getLatest() {
   // TODO return latest ACTIVE revision
@@ -93,5 +93,5 @@ TaskDefFamily.prototype.addTaskDef = function addTaskDef(taskDef) {
   }
   this.versions.push(taskDef);
   // First entry is version 1.
-  taskDef.version = this.versions.length;
+  taskDef.setVersion(this.versions.length);
 };

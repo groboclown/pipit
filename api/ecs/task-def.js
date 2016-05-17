@@ -5,7 +5,7 @@ const textParse = require('../../lib/test-parse');
 
 module.exports = function createTaskDef(p) {
   return new TaskDef(p);
-}
+};
 
 function TaskDef(p) {
   this.family = p.family;
@@ -64,6 +64,14 @@ TaskDef.prototype.getHostPathForSourceVolume = function getHostPathForSourceVolu
   return null;
 };
 
+TaskDef.prototype.setVersion = function setVersion(version) {
+  if (this.version !== -1) {
+    throw new Error(`incorrectly tried to set version ${version} to already versioned task def ${this.familyl}`);
+  }
+  this.version = version;
+  this.arn = this.arn + ':' + version;
+};
+
 // ===========================================================================
 
 /**
@@ -71,21 +79,22 @@ TaskDef.prototype.getHostPathForSourceVolume = function getHostPathForSourceVolu
  * be used for creating a docker-compose.yml file.
  */
 function ContainerDef(def) {
+  var i, keyPair;
   this.name = def.name;
   var cpu = textParse.parseInteger(def.cpu, 2);
   if (cpu <= 1) {
     cpu = 2;
   }
   this.environment = {};
-  for (var i = 0; !!def.environment && i < def.environment[i]; i++) {
-    var keyPair = def.environment[i];
+  for (i = 0; !!def.environment && i < def.environment[i]; i++) {
+    keyPair = def.environment[i];
     if (!!keyPair && !!keyPair.name && !!keyPair.value) {
       this.environment[keyPair.name] = keyPair.value;
     }
   }
   var extraHosts = [];
-  for (var i = 0; !!def.extraHosts && i < def.extraHosts[i]; i++) {
-    var keyPair = def.extraHosts[i];
+  for (i = 0; !!def.extraHosts && i < def.extraHosts[i]; i++) {
+    keyPair = def.extraHosts[i];
     if (!!keyPair && !!keyPair.hostname && !!keyPair.ipAddress) {
       extraHosts.push({ hostname: keyPair.hostname, ipAddress: keyPair.ipAddress });
     }

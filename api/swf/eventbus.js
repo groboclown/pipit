@@ -96,11 +96,16 @@ EventBus.prototype.handleStartDecisionEvent = function handleStartDecisionEvent(
 EventBus.prototype.sendExternalEvents = function sendExternalEvents(eventList) {
   // Create events and sort them by workflow.
   var workflows = {};
+  var debugEventsById = {};
   this.__handleAllEvents({
     eventList: eventList,
   }).forEach(function fe(event) {
     // ` console.log(`[EVENTBUS] queueing event ${event.name} for ${event.destination.workflowId}`);
     workflows[event.destination.runId] = event.destination;
+    if (!debugEventsById[event.destination.runId]) {
+      debugEventsById[event.destination.runId] = [];
+    }
+    debugEventsById[event.destination.runId].push(event.describe());
     event.destination._addEvent(event);
   });
 
@@ -115,13 +120,14 @@ EventBus.prototype.sendExternalEvents = function sendExternalEvents(eventList) {
 
       var taskList = this.domain.getOrCreateDecisionTaskList(workflow.executionConfiguration.taskList);
       var scheduledEvent = this._createEvent(workflow.createDecisionTaskScheduledEvent());
+      console.log(`[EVENTBUS] ${workflow.workflowId} adding decision task scheduled ${JSON.stringify(debugEventsById[runId])} events`);
       workflow._addEvent(scheduledEvent);
       // ` console.log(`[EVENTBUS] adding decision task for ${workflow.workflowId}`);
       var task = taskList.addDecisionTaskFor({
         workflow: workflow,
         scheduledEvent: scheduledEvent,
       });
-      // The task is started when the task is pulloed off the inbox.
+      // The task is started when the task is pulled off the inbox.
     }
   }
 };

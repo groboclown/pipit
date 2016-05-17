@@ -39,20 +39,14 @@ function DecisionTask(p) {
 
   // Can only populate the started id stuff once we've started.
   this.previousStartedEventId = null;
-  this.startedEventId = null;
+  this.scheduledEventId = scheduledEvent.id;
 
   this.deciderIdentity = null;
   this.completedEventId = null;
 
-  this.scheduledEventId = scheduledEvent.id;
 
-  this.eventList = [];
   // Snapshot the events up to this point
-  for (var i = 0; i < this.workflowRun.eventHistory.length; i++) {
-    var event = this.workflowRun.eventHistory[i].describe();
-    // ` console.log(`[DECISION ${this.taskToken}] added event ${JSON.stringify(event)}`);
-    this.eventList.push(event);
-  }
+  this.eventList = copyEvents(this.workflowRun);
 
   this.runState = RUN_STATE_CREATED;
 }
@@ -117,6 +111,13 @@ DecisionTask.prototype.complete = function complete() {
     throw new Error('Not started yet');
   }
   this.runState = RUN_STATE_COMPLETED;
+  // Remove the opened decision
+  for (var i = 0; i < this.workflowRun.openDecisionTasks.length; i++) {
+    if (this.workflowRun.openDecisionTasks[i] === this) {
+      this.workflowRun.openDecisionTasks.splice(i, 1);
+      break;
+    }
+  }
   return {
     name: 'DecisionTaskCompleted',
     data: {
@@ -131,6 +132,7 @@ DecisionTask.prototype.complete = function complete() {
 // FIXME do we need this method?  Is this ID really necessary?
 DecisionTask.prototype.setCompletedEvent = function setCompletedEvent(event) {
   this.completedEventId = event.id;
+
 };
 
 
@@ -184,6 +186,24 @@ DecisionTask.prototype.pageEvents = function pageEvents(
 };
 
 
+/**
+ * Try to join the given decision description (arguments to a DecisionTask),
+ * and if it's a match, the events will be updated.
+ *
+ * @return {boolean} true if the join was successful, or false if it failed
+ *    (the parameter and this task aren't compatible).
+ */
+DecisionTask.prototype.tryJoin = function tryJoin(p) {
+  if (this.runState <= RUN_STATE_CREATED && this.workflowRun === p.workflow) {
+    // The join is on this task, not the new one.
+    // Add in the new events.
+    this.eventList = copyEvents(this.workflowRun);
+    return true;
+  }
+  return false;
+};
+
+
 DecisionTask.prototype.__timeout = function __timeout() {
   if (this.isOpen()) {
     console.log(`[DECISION ${this.taskToken}] Timed out`);
@@ -198,4 +218,16 @@ DecisionTask.prototype.__timeout = function __timeout() {
       },
     },]);
   }
+};
+
+
+function copyEvents(workflowRun) {
+  var eventList = [];
+  // Snapshot the events up to this point
+  for (var i = 0; i < workflowRun.eventHistory.length; i++) {
+    var event = workflowRun.eventHistory[i].describe();
+    // ` console.log(`[DECISION ${this.taskToken}] added event ${JSON.stringify(event)}`);
+    eventList.push(event);
+  }
+  return eventList;
 };

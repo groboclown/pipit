@@ -244,7 +244,7 @@ ActivityTask.prototype.heartbeatStatus = function heartbeatStatus(p) {
     var t = this;
     var heartbeatId = ++this.heartbeatIndex;
     setTimeout(
-      function t() {
+      function t1() {
         if (t.isRunning() && t.heartbeatIndex === heartbeatId) {
           t.__timeout('HEARTBEAT');
         }
@@ -269,7 +269,7 @@ ActivityTask.prototype.canceled = function canceled(p) {
     data: {
       details: details,
       latestCancelRequestedEventId: this.latestCancelRequestedEventId,
-      scheduledEventId: this.startedEventId,
+      scheduledEventId: this.scheduledEventId,
       startedEventId: this.startedEventId,
     },
   },]);
@@ -288,7 +288,7 @@ ActivityTask.prototype.completed = function completed(p) {
     name: 'ActivityTaskCompleted',
     data: {
       result: result,
-      scheduledEventId: this.startedEventId,
+      scheduledEventId: this.scheduledEventId,
       startedEventId: this.startedEventId,
     },
   },]);
@@ -309,7 +309,7 @@ ActivityTask.prototype.failed = function failed(p) {
     data: {
       reason: reason,
       details: details,
-      scheduledEventId: this.startedEventId,
+      scheduledEventId: this.scheduledEventId,
       startedEventId: this.startedEventId,
     },
   },]);

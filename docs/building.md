@@ -27,10 +27,12 @@ python3 -m unittest integration
 This will run both the AWS CLI and Python Boto3 tests, which means you need
 the boto3 Python library installed, and the AWS CLI tool installed.
 
+## Monitor Network Connections with a Port Forwarder
+
 If you're running through the proxy, then you can setup the server with:
 
 ```
-PORT=2999 npm test
+PORT=2999 npm start
 ```
 
 and run the port forwarder from the `test/integration` directory:
@@ -39,6 +41,13 @@ and run the port forwarder from the `test/integration` directory:
 python3 port_forward.py 3000 localhost 2999
 ```
 
+To run the integration tests against whichever port or SSL connection setup
+you have the Pipit server running on, set the `ENDPOINT` environment variable,
+like so:
+
+```
+AWS_ENDPOINT=https://localhost:2101/ python3 -m unittest integration
+```
 
 ## Generating Boilerplate API calls
 

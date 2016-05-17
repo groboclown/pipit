@@ -7,15 +7,20 @@ module.exports = function createClusterRegistry() {
 };
 
 
-function ClusterRegistry(p) {
-  var aws = p.aws;
+function ClusterRegistry() {
   this.defaultClusterName = 'default';
   this.clusters = {};
-  this.registerCluster({
-    clusterName: this.defaultClusterName,
-    aws: aws,
-  });
 }
+
+
+ClusterRegistry.prototype.setupDefault = function setupDefault(p) {
+  if (!this.clusters[this.defaultClusterName]) {
+    this.registerCluster({
+      clusterName: this.defaultClusterName,
+      genArnFunc: p.genArnFunc,
+    });
+  }
+};
 
 
 ClusterRegistry.prototype.getCluster = function getCluster(name) {
@@ -27,14 +32,14 @@ ClusterRegistry.prototype.getCluster = function getCluster(name) {
 
 
 ClusterRegistry.prototype.registerCluster = function registerCluster(p) {
-  var clusterName = p.clusterName;
-  var aws = p.aws;
+  var clusterName = p.clusterName || this.defaultClusterName;
+  var genArnFunc = p.genArnFunc;
 
   if (!!this.getCluster(clusterName)) {
     throw new Error(`already registered ${clusterName}`);
   }
   this.clusters[clusterName] = createCluster({
     clusterName: clusterName,
-    aws: aws,
+    genArnFunc: genArnFunc,
   });
-}
+};

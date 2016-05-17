@@ -3,6 +3,7 @@
 const assert = require('chai').assert;
 const createComposeFile = require('../../../api/ecs/gen-compose.js');
 const createTaskDef = require('../../../api/ecs/task-def.js');
+const createDockerTask = require('../../../api/ecs/docker-task.js');
 
 describe('gen-compose', function() {
 
@@ -13,7 +14,7 @@ describe('gen-compose', function() {
       genArnFunc: function() { return 'arn:' + arguments[0] + ':' + arguments[1]; },
       containerDefinitions: [
         {
-          name: 'Web 1',
+          name: 'Web',
           command: ['a', 'b'],
           cpu: 10,
           disableNetworking: false,
@@ -27,7 +28,7 @@ describe('gen-compose', function() {
           extraHosts: [{ hostname: 'abc', ipAddress: '1.2.3.4' }],
           hostname: 'c.d.e',
           image: 'my/image:latest',
-          links: ['DB'],
+          links: ['Web'],
           logConfiguration: {
             logDriver: 'ldd',
             options: {
@@ -46,35 +47,39 @@ describe('gen-compose', function() {
         },
       ],
     });
-    var text = createComposeFile.__createComposeText({
+    var dockerTask = createDockerTask({
       taskDef: taskDef,
-      override: {},
-      index: 1,
+      overrides: [],
+      index: '2_3',
       keepAlive: false,
+    });
+    var text = createComposeFile.__createComposeText({
+      taskDef: dockerTask.taskDef,
+      containers: dockerTask.containers,
     });
     assert.equal(
       text,
       'version: "2"\n' +
       'services:\n' +
-      '  "Web 1_1"\n' +
-      '    container_name: "Web 1_1"\n' +
+      '  "' + dockerTask.containers[0].id + '":\n' +
+      '    container_name: "' + dockerTask.containers[0].id + '"\n' +
       '    command: ["a","b"]\n' +
       '    dns_search:\n' +
       '      - "a.b.c"\n' +
       '    dns:\n' +
       '      - "8.8.8.8"\n' +
       '    labels:\n' +
-      '      web.com: "Web_1"\n' +
+      '      web.com: "' + dockerTask.containers[0].id + '"\n' +
       '    hostname: "c.d.e"\n' +
       '    image: "my/image:latest"\n' +
       '    links:\n' +
-      '      - "DB_1"\n' +
+      '      - "' + dockerTask.containers[0].id + '"\n' +
       '    logging:\n' +
       '      driver: ldd\n' +
       '      options:\n' +
       '        a: "b"\n' +
       '    mem_limit: 20m\n' +
       '    working_dir: "/my/work/dir"\n' +
-      '    restart: no\n');
+      '    restart: "no"\n');
   });
 });

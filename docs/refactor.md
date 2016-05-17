@@ -19,6 +19,22 @@ scalable, that all the other APIs would build off of.
       shared between any service.
 * Timers.
     * A way to register a callback/promise to fire when a timer triggers.
+    * When triggered, makes a service invocation (service name, action,
+      parameters).
     * Stable outside of a single Node server.
 * Event Bus
     * Polling and publishing events.  Like what the Inbox is.
+
+# Near-Term Refactoring
+
+In the near term, some more practical things can be done:
+
+* The invocation handler should allow for a final parameter, which is a
+  deferred promise, that is invoked when the connection completes.  If
+  the final sending of the data works just fine, then the deferred promise
+  is resolved.  If the sending of data fails (say, the socket pipe was closed
+  before the data was sent), then the deferred promise is rejected.
+    * This will allow long poll actions to correctly clean themselves up.  If
+      the endpoint on the socket was disconnected before the data was sent,
+      then the long-polled object can be re-inserted into the top of the queue.
+    * Actually, this needs to be rethought.
