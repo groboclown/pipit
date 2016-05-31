@@ -101,7 +101,9 @@ module.exports.DeleteFunction = awsCommon.as(
   'DELETE',
   '/2015-03-31/functions/:FunctionName',
   function DeleteFunction(aws) {
-    var functionName = aws.reqParams.FunctionName;
+    // TODO the reqParams isn't loaded right.  It's instead loaded into
+    // restParams.
+    var functionName = aws.restParams.FunctionName;
     var qualifier = aws.params.Qualifier;
     if (!functionName) {
       return [400, 'Sender', 'MissingParameter', 'Did not specify parameter FunctionName'];

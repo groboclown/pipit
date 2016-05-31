@@ -26,7 +26,7 @@ class TaskDefTestCase(unittest.TestCase):
         )
         for page in pager:
             initial_task_families.extend(page['families'])
-        self.assertEqual(len(initial_task_families), 0, 'Found task families for new name')
+        self.assertEqual(len(initial_task_families), 0, 'Found task families for new name ' + repr(initial_task_families))
 
         # ListTaskDefinitions
         initial_task_def_arns = [];
@@ -43,9 +43,12 @@ class TaskDefTestCase(unittest.TestCase):
             family=task_family_name,
             containerDefinitions=[
                 {
-
+                    'name': 'Test1',
+                    'image': util.TEST_DOCKER_IMAGE_NAME,
+                    'command': ['/bin/sh']
                 }
-            ]
+            ],
+            volumes=[]
         )
         pass
 

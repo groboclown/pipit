@@ -743,12 +743,19 @@ module.exports.ListTaskDefinitionFamilies = function ListTaskDefinitionFamilies(
   var maxResults = aws.params.maxResults /* Type integer */;
   var nextToken = aws.params.nextToken;
 
-
   // TODO implement code
 
+  var families = [];
+  var paged = awsCommon.pageResults({
+    reverseOrder: false,
+    maximumPageSize: maxResults,
+    nextPageToken: nextToken,
+    key: 'families',
+    resultList: families,
+  });
   var ret = {
-    families: /*Sv*/[ '', /* ...*/ ],
-    nextToken: '',
+    families: paged.families,
+    nextToken: paged.nextPageToken,
   };
   return [200, ret];
 };
@@ -765,7 +772,7 @@ module.exports.ListTaskDefinitions = function ListTaskDefinitions(aws) {
 
   var ret = {
     nextToken: '',
-    taskDefinitionArns: /*Sv*/[ '', /* ...*/ ],
+    taskDefinitionArns: [], // List of strings
   };
   return [200, ret];
 };

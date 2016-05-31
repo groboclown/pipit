@@ -13,6 +13,7 @@ module.exports = {
   // '/lambda/2014-11-13': normalizeVersions('2014-11-13', [require('./lambda/lambda-2014-11-11.js'), require('./lambda/lambda-2015-03-31.js')]),
   '/lambda/2014-11-13': normalizeVersions('2014-11-13', [require('./lambda/index-2015-03-31.js')]),
   '/lambda/2015-03-31': normalizeVersions('2015-03-31', [require('./lambda/index-2015-03-31.js')]),
+  '/ecs': normalize(require('./ecs/index-2014-11-13.js')),
 
   '/acm': normalize(require('./acm/boilerplate-2015-12-08.js')),
   '/apigateway': normalize(require('./apigateway/boilerplate-2015-07-09.js')),
@@ -35,7 +36,7 @@ module.exports = {
   '/dynamodb': normalize(require('./dynamodb/boilerplate-2012-08-10.js')),
   '/ec2': normalize(require('./ec2/boilerplate-2015-10-01.js')),
   '/ecr': normalize(require('./ecr/boilerplate-2015-09-21.js')),
-  '/ecs': normalize(require('./ecs/boilerplate-2014-11-13.js')),
+  // '/ecs': normalize(require('./ecs/boilerplate-2014-11-13.js')),
   '/elasticache': normalize(require('./elasticache/boilerplate-2015-02-02.js')),
   '/elasticbeanstalk': normalize(require('./elasticbeanstalk/boilerplate-2010-12-01.js')),
   '/elasticfilesystem/2015-02-01': normalizeVersions('2015-02-01', [require('./elasticfilesystem/boilerplate-2015-02-01.js')]),
