@@ -448,5 +448,6 @@ Domain.prototype.signalWorkflow = function signalWorkflow(p) {
   var signalName = p.signalName;
   var input = p.input;
 
+  console.log(`[Domain ${this.name}] sending signal ${signalName} to ${workflow.workflowId}`);
   this.eventBus.sendExternalEvents([workflow.createSignalWorkflowEvent(p)]);
 };

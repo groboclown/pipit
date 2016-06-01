@@ -219,7 +219,7 @@ WorkflowRun.prototype.matches = function matches(workflowId, runId) {
   // must be set.
   return (
     (!!workflowId || !!runId) &&
-    (!!workflowId || this.workflowId === workflowId) &&
+    (!workflowId || this.workflowId === workflowId) &&
     (!runId || this.runId === runId)
   );
 };
