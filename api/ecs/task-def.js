@@ -93,7 +93,7 @@ function ContainerDef(def) {
     }
   }
   var extraHosts = [];
-  for (i = 0; !!def.extraHosts && i < def.extraHosts[i]; i++) {
+  for (i = 0; !!def.extraHosts && i < def.extraHosts.length; i++) {
     keyPair = def.extraHosts[i];
     if (!!keyPair && !!keyPair.hostname && !!keyPair.ipAddress) {
       extraHosts.push({ hostname: keyPair.hostname, ipAddress: keyPair.ipAddress });

@@ -17,7 +17,6 @@ module.exports.__createComposeText = function __createComposeText(p) {
   var ci;
   for (ci = 0; ci < containers.length; ci++) {
     nameToId[containers[ci].name] = containers[ci].id;
-    console.log(`[[]] Mapped ${containers[ci].name} -> ${containers[ci].id}`);
   }
 
   var ret = 'version: "2"\nservices:\n';
@@ -137,6 +136,8 @@ function createContainerText(p) {
 
 
 function createFile(text) {
+  console.log(`[DOCKER COMPOSE GEN] ------\n${text}\n[DOCKER COMPOSE GEN] ------`);
+  
   var deferred = Q.defer();
   tmp.file(function(err, path, fd, cleanupCallback) {
     if (err) {
@@ -242,14 +243,13 @@ function mkMountPoints(taskDef, mountPoints) {
       if (!!mountPoints[i].sourceVolume) {
         var hostPath = taskDef.getHostPathForSourceVolume(mountPoints[i].sourceVolume);
         // Convert the host path to a docker path.
-        if (hostPath[1] === ':') {
+        if (hostPath.substr(1, 2) === ':\\') {
           // Absolute Windows path.  Needs a conversion
-          // TODO see if this is right.
-          hostPath = '/' + hostPath.replace(':', '/');
+          hostPath = '/' + hostPath[0].toLowerCase() + '/' + hostPath.substr(3);
+          // Replace all instances of '\\' with '/'
+          hostPath = hostPath.split('\\').join('/');
         }
-        // Replace all instances of '\\' with '/'
-        hostPath = hostPath.split('\\').join('/');
-        value += ':' + hostPath;
+        value = hostPath + ':' + value;
       }
       ret += `      - ${escapeString(value)}\n`;
     }
