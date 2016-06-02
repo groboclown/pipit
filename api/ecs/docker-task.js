@@ -1,6 +1,6 @@
 'use strict';
 
-const docker = require('../../lib/docker');
+const docker = require('../../lib/docker')();
 const Q = require('q');
 const createComposeFile = require('./gen-compose');
 const awsCommon = require('../../lib/aws-common');
@@ -16,7 +16,7 @@ module.exports = function createDockerTask(p) {
 function DockerTask(p) {
   this.index = p.index; // String
   this.taskDef = p.taskDef;
-  this.overrides = p.overrides;
+  this.overrides = p.overrides || {};
   this.keepAlive = p.keepAlive;
   this.id = awsCommon.genRequestId();
   this.composeFile = null;
@@ -44,23 +44,24 @@ function DockerTask(p) {
 
 
 DockerTask.prototype.start = function start() {
-  var ret = createComposeFile({
-    taskDef: this.taskDef,
-    containers: this.containers,
+  var self = this;
+  return createComposeFile({
+    taskDef: self.taskDef,
+    containers: self.containers,
   })
   .then(function(path) {
-    this.composeFile = path;
-    this.running = true;
+    self.composeFile = path;
+    self.running = true;
     return docker.composeUp({
-      name: this.name,
+      name: self.name,
       file: path,
     });
   })
   .then(function(stdout) {
-    this.running = true;
+    self.running = true;
   })
   .catch(function(err) {
-    this.error = err.message;
+    self.error = err.message;
     throw err;
   });
 };
@@ -75,7 +76,8 @@ DockerTask.prototype.status = function status() {
 
   for (var i = 0; i < containerStatus.length; i++) {
     if (!!containerStatus[i] && !!containersByName[containerStatus.names]) {
-
+    
+      // FIXME finish
 
       // After we use a named container, remove it from our list.
       delete containersByName[containerStatus.names];
@@ -97,9 +99,10 @@ DockerTask.prototype.__getContainerById = function __getContainerById(id) {
 function mapifyOverrides(overrides) {
   // Put the overrides into per-container name mapping.
   var ret = {};
-  for (var i = 0; i < overrides.length; i++) {
-    if (!!overrides[i].name && (!!overrides[i].command || !!overrides[i].environment)) {
-      ret[overrides[i].name] = overrides[i];
+  var containerOverrides = overrides.containerOverrides || [];
+  for (var i = 0; i < containerOverrides.length; i++) {
+    if (!!containerOverrides[i].name && (!!containerOverrides[i].command || !!containerOverrides[i].environment)) {
+      ret[containerOverrides[i].name] = containerOverrides[i];
     }
   }
   return ret;

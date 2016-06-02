@@ -67,13 +67,13 @@ module.exports.RunTask = function RunTask(aws) {
     return [400, 'Sender', 'InvalidParameterValue', `unknown task def ${taskDefinition}`];
   }
 
-  if (!!count && textParse.parseInt(count, 1) > 10) {
+  if (!!count && textParse.parseInteger(count, 1) > 10) {
     return [400, 'Sender', 'InvalidParameterValue', `count too big (${count})`];
   }
 
   return clusterObj.runTask({
     taskDef: taskDefObj,
-    count: textParse.parseInt(count, 1),
+    count: textParse.parseInteger(count, 1),
     overrides: overrides,
     startedBy: startedBy,
     genArnFunc: awsCommon.createGenArnFunction(aws),

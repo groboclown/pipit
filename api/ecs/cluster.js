@@ -27,22 +27,31 @@ function Cluster(p) {
  * @return {Q} a promise with the task response.
  */
 Cluster.prototype.runTask = function runTask(p) {
+  var self = this;
   var taskDef = p.taskDef;
   var count = p.count;
   var overrides = p.overrides;
   var startedBy = p.startedBy;
   var genArnFunc = p.genArnFunc;
+  
+  if (count < 0 || count === 0) {
+    console.log('******** Foring count to be 1');
+    count = 1;
+  }
 
   var taskGroup = this.__createTaskGroup({
-    genArnFunc: genArnFunc,
-    startedBy: startedBy,
+    // genArnFunc: genArnFunc,
+    // clusterArn: this.arn,
+    // containerInstanceArn: this.containerInstanceArn,
+    
     taskDef: taskDef,
-    clusterArn: this.arn,
-    containerInstanceArn: this.containerInstanceArn,
+    count: count,
+    overrides: overrides,
+    startedBy: startedBy,
     taskIndex: this.taskCount++,
   });
 
-  taskGroup.start()
+  return taskGroup.start()
   .then(function(p) {
     var tasks = p.tasks;
     var failures = p.failures;
@@ -68,7 +77,7 @@ Cluster.prototype.runTask = function runTask(p) {
     if (!!failures) {
       for (i = 0; i < failures.length; i++) {
         failureList.push({
-          arn: this.containerInstanceArn,
+          arn: self.containerInstanceArn,
           reason: failures[i],
         });
       }
@@ -83,51 +92,7 @@ Cluster.prototype.runTask = function runTask(p) {
 
 
 Cluster.prototype.startTask = function startTask(p) {
-  // TODO implement code
-  var ret = {
-    failures: /*S1v*/[ {
-      arn: '',
-      reason: '',
-    }, /* ...*/ ],
-    tasks: /*S27*/[ /*S28*/{
-      clusterArn: '',
-      containerInstanceArn: '',
-      containers: [ {
-        containerArn: '',
-        exitCode: 0,
-        lastStatus: '',
-        name: '',
-        networkBindings: /*S2e*/[ {
-          bindIP: '',
-          containerPort: 0,
-          hostPort: 0,
-          protocol: '',
-        }, /* ...*/ ],
-        reason: '',
-        taskArn: '',
-      }, /* ...*/ ],
-      createdAt: awsCommon.timestamp(),
-      desiredStatus: '',
-      lastStatus: '',
-      overrides: /*S29*/{
-        containerOverrides: [ {
-          command: /*Sv*/[ '', /* ...*/ ],
-          environment: /*S18*/[ {
-            name: '',
-            value: '',
-          }, /* ...*/ ],
-          name: '',
-        }, /* ...*/ ],
-      },
-      startedAt: awsCommon.timestamp(),
-      startedBy: '',
-      stoppedAt: awsCommon.timestamp(),
-      stoppedReason: '',
-      taskArn: '',
-      taskDefinitionArn: '',
-    }, /* ...*/ ],
-  };
-
+  return this.runTask(p);
 };
 
 

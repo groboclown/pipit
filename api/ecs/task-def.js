@@ -86,7 +86,7 @@ function ContainerDef(def) {
     cpu = 2;
   }
   this.environment = {};
-  for (i = 0; !!def.environment && i < def.environment[i]; i++) {
+  for (i = 0; !!def.environment && i < def.environment.length; i++) {
     keyPair = def.environment[i];
     if (!!keyPair && !!keyPair.name && !!keyPair.value) {
       this.environment[keyPair.name] = keyPair.value;

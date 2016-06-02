@@ -67,6 +67,7 @@ function createContainerText(p) {
       }
     }
   }
+  
   if (!!override && Object.keys(override).length <= 0) {
     override = null;
   }
@@ -239,7 +240,16 @@ function mkMountPoints(taskDef, mountPoints) {
     for (var i = 0; i < mountPoints.length; i++) {
       value = mountPoints[i].containerPath;
       if (!!mountPoints[i].sourceVolume) {
-        value += ':' + taskDef.getHostPathForSourceVolume(mountPoints[i].sourceVolume);
+        var hostPath = taskDef.getHostPathForSourceVolume(mountPoints[i].sourceVolume);
+        // Convert the host path to a docker path.
+        if (hostPath[1] === ':') {
+          // Absolute Windows path.  Needs a conversion
+          // TODO see if this is right.
+          hostPath = '/' + hostPath.replace(':', '/');
+        }
+        // Replace all instances of '\\' with '/'
+        hostPath = hostPath.split('\\').join('/');
+        value += ':' + hostPath;
       }
       ret += `      - ${escapeString(value)}\n`;
     }
