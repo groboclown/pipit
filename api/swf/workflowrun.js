@@ -993,7 +993,6 @@ WorkflowRun.prototype.handleDecision = function handleDecision(p) {
           } else if (hasOpenWorkflowId(workflowId)) {
             err = 'WORKFLOW_ALREADY_RUNNING';
           } else {
-            // FIXME include task list checking
             workflowRunObj = workflowTypeObj.createRun({
               workflowId: workflowId,
               tagList: tagList,
@@ -1034,7 +1033,6 @@ WorkflowRun.prototype.handleDecision = function handleDecision(p) {
 
           // Launch the child workflow.
           registerChildWorkflowRun(workflowRunObj);
-          t.addChild(workflowRunObj);
           return [
             {
               workflow: t,
@@ -1050,6 +1048,14 @@ WorkflowRun.prototype.handleDecision = function handleDecision(p) {
                   version: workflowRunObj.workflowType.version,
                 },
               },
+              postEventCreation: function postEventCreation(p) {
+                var childStartedEvent = p.sourceEvent;
+                t.addChild({
+                  childWorkflow: workflowRunObj,
+                  childStartedEvent: childStartedEvent,
+                  childInitiatedEvent: sourceEvent,
+                });
+              }
             },
             workflowRunObj.createWorkflowExecutionStartedEvent(),
           ];

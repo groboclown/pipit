@@ -115,12 +115,13 @@ EventBus.prototype.sendExternalEvents = function sendExternalEvents(eventList) {
 
       // Only send the decision if the workflow execution is still alive.
       if (workflow.isClosed()) {
+        console.log(`[EVENTBUS] ignoring events sent to closed workflow ${workflow.workflowId}`);
         continue;
       }
 
       var taskList = this.domain.getOrCreateDecisionTaskList(workflow.executionConfiguration.taskList);
       var scheduledEvent = this._createEvent(workflow.createDecisionTaskScheduledEvent());
-      console.log(`[EVENTBUS] ${workflow.workflowId} adding decision task scheduled ${JSON.stringify(debugEventsById[runId])} events`);
+      // ` console.log(`[EVENTBUS] ${workflow.workflowId} adding decision task scheduled ${JSON.stringify(debugEventsById[runId])} events`);
       workflow._addEvent(scheduledEvent);
       // ` console.log(`[EVENTBUS] adding decision task for ${workflow.workflowId}`);
       var task = taskList.addDecisionTaskFor({
@@ -166,7 +167,7 @@ EventBus.prototype.sendDecisionEvents = function sendDecisionEvents(p) {
     this.sendExternalEvents(localEvents);
   }
 
-  this.sendExternalEvents(eventList);
+  this.sendExternalEvents(externalEvents);
 };
 
 
@@ -332,12 +333,11 @@ EventBus.prototype.__handleAllEvents = function __handleAllEvents(p) {
         getActivityType: getActivityType,
       });
       if (!!newEvents) {
-        for (var i = 0; i < newEvents.length; i++) {
-          eventList.push(newEvents[i]);
-        }
+        eventList = eventList.concat(newEvents);
       }
     }
     if (!!event) {
+      console.log(`[EVENTLIST] ${event.destination.workflowId} ${JSON.stringify(event.describe())}`);
       ret.push(event);
     }
   }

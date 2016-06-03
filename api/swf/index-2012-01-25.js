@@ -771,7 +771,7 @@ module.exports.SignalWorkflowExecution = function SignalWorkflowExecution(aws) {
     runId: runId,
   });
 
-  if (!workflow) {
+  if (!workflow || workflow.isClosed()) {
     return [400, 'Sender', 'UnknownResourceFault', `Unknown workflow ${workflowId} / ${runId}`];
   }
 
