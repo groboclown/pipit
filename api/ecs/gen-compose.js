@@ -251,6 +251,9 @@ function mkMountPoints(taskDef, mountPoints) {
         }
         value = hostPath + ':' + value;
       }
+      if (mountPoints[i].readOnly) {
+        value += ':ro';
+      }
       ret += `      - ${escapeString(value)}\n`;
     }
   }
